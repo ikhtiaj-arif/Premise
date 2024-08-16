@@ -1,0 +1,196 @@
+.pagination-premise {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+}
+
+.pagination-premise li {
+  display: inline-block;
+  margin: 0 3px;
+  cursor: pointer;
+}
+
+.pagination-premise li a {
+  display: block;
+  padding: 3px 9px;
+  font-size: 14px;
+  height: 28px;
+  width: 27px;
+  text-decoration: none;
+  border-radius: 4px;
+  background-color: #d9d9d9;
+  color: #252525;
+}
+
+.pagination-premise li a:hover {
+  /* background-color: #d9d9d9 ; */
+  color: null;
+}
+
+.pagination-premise .active a {
+  background-color: #fafafa;
+  color: #252525;
+}
+
+.pagination-premise .previous a,
+.pagination-premise .next a {
+  padding: 6px 5px;
+  height: 28px;
+  width: 27px;
+  font-size: 16px;
+  background-color: #33b0ca;
+  color: #fafafa;
+  border-radius: 4px;
+}
+/* 
+.pagination-premise .previous a:hover,
+.pagination-premise .next a:hover {
+  background-color: #33B0CA;
+  color: #ffe2e5;
+} */
+.cursor-disabled-PremisePool {
+  cursor: not-allowed !important;
+}
+.defaultCursor-premisePool {
+  cursor: default !important;
+}
+.logo-sticky {
+  max-width: 70px !important;
+}
+/* Styling the scrollbar */
+.premiseScroll::-webkit-scrollbar,
+select::-webkit-scrollbar {
+  width: 5px; /* Set the width of the scrollbar */
+}
+
+.premiseScroll::-webkit-scrollbar-thumb,
+select::-webkit-scrollbar {
+  background-color: #5357b6; /* Set the color of the scrollbar thumb */
+  border-radius: 4px; /* Round the corners of the scrollbar thumb */
+}
+
+.premiseScroll::-webkit-scrollbar-track,
+select::-webkit-scrollbar {
+  background-color: #000000; /* Set the color of the scrollbar track */
+}
+
+.premiseScroll::-webkit-scrollbar-thumb:hover,
+select::-webkit-scrollbar {
+  background-color: #7e83d1; /* Set the color of the scrollbar thumb on hover */
+}
+
+.premiseBg-loaded {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+#react-select-2-placeholder {
+  font-size: 14px;
+  font-weight: 400;
+  color: #616161;
+  /* border: 1px solid #eaeaea; */
+}
+#react-select-2-input {
+  font-size: 14px;
+  font-weight: 400;
+  color: #616161;
+
+  /* border: 1px solid #eaeaea; */
+}
+.css-1xepz10-control {
+  border: 1px solid #eaeaea !important;
+  background-color: #fafafa !important;
+}
+/* .css-b62m3t-container {
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+}
+.css-b62m3t-container:hover {
+  border: none;
+} */
+
+.hg-layout-default {
+  padding-left: 10px;
+  padding-right: 10px;
+
+  overflow: hidden;
+}
+.hg-theme-default .hg-row .hg-button-container,
+.hg-theme-default .hg-row .hg-button:not(:last-child) {
+  margin-right: 2px;
+  
+}
+@media (min-width: 800px) {
+  .hg-button {
+    margin-right: 5px;
+    margin-bottom: -3px;
+
+   
+  }
+}
+
+.shortM-hidden {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .shortM-hidden {
+    display: none;
+  }
+}
+
+.barSm-hidden {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .barSm-hidden {
+    display: block;
+  }
+}
+
+.shortLg-styles {
+  /* width: 417px;  */
+  width: 617px; /* Equivalent to Tailwind's w-[417px] */
+  display: none; /* Equivalent to Tailwind's hidden */
+  @media (min-width: 768px) {
+    display: block; /* Equivalent to Tailwind's md:block */
+    margin-left: auto; /* Equivalent to Tailwind's ml-auto */
+    margin-top: 29px; /* Equivalent to Tailwind's mt-[29px] */
+  }
+}
+
+.lgVisible {
+  display: none; /* Equivalent to Tailwind's hidden */
+}
+
+@media (min-width: 1024px) {
+  .lgVisible {
+    display: block; /* Equivalent to Tailwind's lg:block */
+  }
+}
+.lgHidden {
+  display: block; /* Equivalent to Tailwind's hidden */
+}
+
+@media (min-width: 1024px) {
+  .lgHidden {
+    display: none; /* Equivalent to Tailwind's lg:block */
+  }
+}
+.mdHidden {
+  display: block; /* Equivalent to Tailwind's hidden */
+}
+
+@media (min-width: 768px) {
+  .mdHidden {
+    display: none; /* Equivalent to Tailwind's lg:block */
+  }
+}
+
+.infinite-scroll-component {
+  min-height: 66vh;
+}
