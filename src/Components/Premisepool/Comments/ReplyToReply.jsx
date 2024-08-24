@@ -120,7 +120,7 @@ const ReplyToReply = ({ childReply, owner, user, replyRefetch }) => {
             </div>
           </a>
         )}
-        <div className="border w-full border-[##EAEAEA] bg-[#f8f8f8] rounded-[8px] p-1 ">
+        <div className="border w-[78%] md:w-[86%] lg:w-[89%] border-[##EAEAEA] bg-[#f8f8f8] rounded-[8px] p-1 ">
           <div className="flex justify-between my-1 relative">
             <div className="text-[#1E1E1E] pl-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center">
               {replyBy?.id === 1 ? (

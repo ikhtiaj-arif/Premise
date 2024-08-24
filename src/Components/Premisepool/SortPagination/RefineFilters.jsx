@@ -44,6 +44,7 @@ const RefineFilters = ({
     setSelectedLanguages(null);
     refetch();
     setRefetching(true);
+    setShowRefine(false);
   };
 
   const handleMe = (e) => {

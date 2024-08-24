@@ -35,6 +35,7 @@ const Premisepool = () => {
     setAddedByMeCondition,
     searchAuthor,
     setSearchAuthor,
+    
   } = useContext(MyContext);
 
   const [isFirstCardBlinking, setIsFirstCardBlinking] = useState(false);
@@ -377,7 +378,7 @@ const Premisepool = () => {
                 {viewData?.map((premise, index) => (
                   <PremiseCard
                     setShowRefine={setShowRefine}
-                    key={premise?._id}
+                    key={premise?.id}
                     index={index}
                     p={premise}
                     refetch={refetch}

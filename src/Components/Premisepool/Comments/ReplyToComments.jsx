@@ -177,7 +177,7 @@ const ReplyToComments = ({
       className="bg-[#fff] lg:bg-[#FAFAFA] w-[90%] ml-auto mr-[17px]  rounded-sm flex items-center gap-1"
     >
       <div className=" w-full">
-        <div className="bg-[#fff] lg:bg-[#Fafafa]  w-full ">
+        <div className="bg-[#fff] lg:bg-[#Fafafa]  w-full relative">
           <div className="flex gap-[8px]">
             {reply?.user?.id === 1 ? (
               <div>
@@ -226,7 +226,7 @@ const ReplyToComments = ({
               </a>
             )}
 
-            <div className="border w-full border-[##EAEAEA] bg-[#fafafa] rounded-[8px] p-1 ">
+            <div className="border w-[78%] md:w-[86%] lg:w-[89%] border-[##EAEAEA] bg-[#fafafa] rounded-[8px] p-1 ">
               <div className="flex justify-between my-1 relative">
                 <div className="text-[#1E1E1E] pl-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center">
                   {reply?.user?.id === 1 ? (
@@ -258,30 +258,33 @@ const ReplyToComments = ({
                 {reply?.text}
               </p>
             </div>
-            {owner === user || reply?.user?.id === user ? (
-              <div className="flex gap-2 items-center pl-[2px]">
-                {/* <button className={` "cursor-pointer"}`}>
+
+            <div className="mt-[20px]">
+              {owner === user || reply?.user?.id === user ? (
+                <div className="flex gap-2 items-center pl-[2px]">
+                  {/* <button className={` "cursor-pointer"}`}>
                 <img src={editIcon} alt=" " className={`h-5 w-7`} />
-              </button> */}
-                <button
-                  // disabled={disableD}
-                  onClick={() => {
-                    setIdToDlt(reply?.id);
-                    setOpenDltPop(true);
-                  }}
-                  // className={` ${disableD ? "cursor-default" : "cursor-pointer"}`}
-                >
-                  <FaRegTrashAlt
-                    disabled={disableBtn}
-                    className="h-5 w-5 text-[#909090]"
-                  />
-                </button>
-              </div>
-            ) : (
-              <div className={`px-3 'cursor-default'}`}>
-                <div className="" />
-              </div>
-            )}
+                </button> */}
+                  <button
+                    // disabled={disableD}
+                    onClick={() => {
+                      setIdToDlt(reply?.id);
+                      setOpenDltPop(true);
+                    }}
+                    // className={` ${disableD ? "cursor-default" : "cursor-pointer"}`}
+                  >
+                    <FaRegTrashAlt
+                      disabled={disableBtn}
+                      className="h-5 w-5 text-[#909090]"
+                    />
+                  </button>
+                </div>
+              ) : (
+                <div className={`px-3 'cursor-default'}`}>
+                  <div className="" />
+                </div>
+              )}
+            </div>
           </div>
 
           <div

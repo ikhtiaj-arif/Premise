@@ -5,18 +5,28 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Premisepool from "./Components/Premisepool/Premisepool";
+import { useGetMyAllProjectQuery } from "./app/EndPoints/ScriptPad/project";
 
 export const MyContext = createContext();
 
 function App() {
+  const {
+    data: allspProjectJSON,
+    isLoading: isProjectLoading,
+    refetch: projectRefetch,
+  } = useGetMyAllProjectQuery();
+
   const [searchAuthor, setSearchAuthor] = useState(null);
   const [isAddNew, setIsAddNew] = useState(false);
   const [activeAddedByMe, setActiveAddedByMe] = useState(false);
   const [addedByMeCondition, setAddedByMeCondition] = useState(false);
+  const [selectedPremiseObj, setSelectedPremiseObj] = useState(null);
   const [searchText, setSearchText] = useState("");
   const user = useSelector((state) => state?.user?.id);
+  const [selectedSpProjectID, setSelectedSpProjectID] = useState("");
+  const [createdSpProjectID, setCreatedSpProjectID] = useState("");
 
-  
+  console.log("selectedPremiseObj",selectedPremiseObj)
 useEffect(()=>{
   if(activeAddedByMe){
     // setSearchAuthor(user)
@@ -32,7 +42,7 @@ useEffect(()=>{
     setIsAddNew,
     addedByMeCondition,
     setAddedByMeCondition,
-    searchText, setSearchText,searchAuthor, setSearchAuthor
+    searchText, setSearchText,searchAuthor, setSearchAuthor,allspProjectJSON,selectedPremiseObj, setSelectedPremiseObj,createdSpProjectID, setCreatedSpProjectID,selectedSpProjectID, setSelectedSpProjectID
   };
 
   return (

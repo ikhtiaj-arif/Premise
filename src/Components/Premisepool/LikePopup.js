@@ -38,7 +38,7 @@ const LikePopup = ({ setLikePopup, id }) => {
         {isLoading ? (
           <p className="text-center pb-6 font-bold">Loading...</p>
         ) : (
-          <div className="max-h-[300px] premiseScroll overflow-y-auto pb-6 gap-5 mx-[30px]">
+          <div className="h-[53vh] md:h-[300px] premiseScroll overflow-y-auto pb-6 gap-5 mx-[30px]">
             {allLikes?.results?.map((like) => (
              <LikeCount like={like} />
             ))}

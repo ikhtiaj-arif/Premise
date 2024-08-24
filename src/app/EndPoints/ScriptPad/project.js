@@ -12,6 +12,16 @@ export const projectEndPoint = apiSlice.injectEndpoints({
         };
       },
     }),
+    updateSpProject: builder.mutation({
+            query: (data) => {
+              const id = data.id
+              return {
+                url: `/scriptpad2/api/spproject/${id}/`,
+                method: "PATCH",
+                body: data,
+              };
+            },
+          }),
     getMyAllProject : builder.query({
         query: () => ({
           url: `/scriptpad2/get_projects/`,
@@ -54,6 +64,7 @@ export const {
     useGetMyAllProjectQuery,
     useGetScreenPlayMutation,
     useUpdateSceneMutation, 
-    useSaveScreenPlayMutation
+    useSaveScreenPlayMutation,
+    useUpdateSpProjectMutation
 
 } = projectEndPoint;

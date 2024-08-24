@@ -1,14 +1,21 @@
 import { motion, useAnimation } from "framer-motion";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaCommentDots } from "react-icons/fa";
 import { MyContext } from "../../App";
 import Popup from "./Popup";
-import { useEffect } from "react";
 
-const CommentPremise = ({  data, setIsLiked, refetch  }) => {
-  const { comments, bg_img, bg_color, dText, id,shouldBlink,setHideDisable,
-    hideDisable } = data;
-  const { isAddNew, setIsAddNew } = useContext(MyContext);
+const CommentPremise = ({ data, setIsLiked, refetch, p }) => {
+  const {
+    comments,
+    bg_img,
+    bg_color,
+    dText,
+    id,
+    shouldBlink,
+    setHideDisable,
+    hideDisable,
+  } = data;
+  const { isAddNew, setIsAddNew, setSelectedPremiseObj } = useContext(MyContext);
   const [cmntPopup, setCmntPopup] = useState(false);
   const controls = useAnimation();
 
@@ -33,15 +40,18 @@ const CommentPremise = ({  data, setIsLiked, refetch  }) => {
   //     };
   //   }
   // }, [cmntPopup, controls, refetch,shouldBlink,setIsAddNew]);
-useEffect(() => {
-  refetch()
-}, [cmntPopup, refetch])
+  useEffect(() => {
+    refetch();
+  }, [cmntPopup, refetch]);
 
   return (
     <div>
       <motion.div
         className="notranslate flex gap-2"
-        onClick={() => setCmntPopup(true)}
+        onClick={() => {
+          setCmntPopup(true);
+          setSelectedPremiseObj(p);
+        }}
         animate={controls}
       >
         <button>
@@ -58,7 +68,12 @@ useEffect(() => {
         </div>
       </motion.div>
       {cmntPopup && (
-         <Popup popClose={() => setCmntPopup(false)} setIsLiked={setIsLiked} data={data} refetch={refetch}/>
+        <Popup
+          popClose={() => setCmntPopup(false)}
+          setIsLiked={setIsLiked}
+          data={data}
+          refetch={refetch}
+        />
       )}
     </div>
   );

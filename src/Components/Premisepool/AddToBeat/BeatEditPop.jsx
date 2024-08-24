@@ -1,9 +1,10 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { toast } from "react-toastify";
+import { MyContext } from "../../../App";
 import {
   useCreateProjectMutation,
   useGetMyAllProjectQuery,
@@ -37,6 +38,10 @@ const BeatEditPop = ({
   const { id, dText, bg_color, bg_img, likes, stylings, source_language } =
     data;
   // console.log("suggestedBeats", isBeatSuggLoading);
+
+  const { selectedPremiseObj, selectedSpProjectID, createdSpProjectID } =
+    useContext(MyContext);
+
   const projectCreateRef = useRef(null);
   const [editedText, setEditedText] = useState(commentText?.text);
   const [modifiedText, setModifiedText] = useState(commentText?.text);
@@ -54,6 +59,12 @@ const BeatEditPop = ({
     isUserNameLoading,
     refetch: userRefetch,
   } = useGetPremiseUserQuery();
+
+  const {
+    data: allspProjectJSON,
+    isLoading: isSpProjectLoading,
+    refetch: projectRefetch,
+  } = useGetMyAllProjectQuery();
 
   const [addButtonDisable, setAddButtonDisable] = useState(false);
   const [isNewProjectVisible, setNewProjectVisible] = useState(false);
@@ -74,6 +85,11 @@ const BeatEditPop = ({
 
   const [firstName, setFirstName] = useState(userFirstName || "");
   const [lastName, setLastName] = useState(userLastName || "");
+
+  console.log("createdSpProjectID", createdSpProjectID);
+  console.log("selectedSpProjectID", selectedSpProjectID);
+  console.log("allspProjectJSON", allspProjectJSON);
+  console.log("selectedProject", selectedProject);
   const {
     data: ProjectsObj,
     isLoading: isProjectLoading,
@@ -83,6 +99,55 @@ const BeatEditPop = ({
   useEffect(() => {
     setOptions(suggestedBeats);
   }, [suggestedBeats]);
+
+  // useEffect(() => {
+
+  //   const allProject = allspProjectJSON?.projects;
+  //   const currentPremiseProject = allspProjectJSON?.projects?.find(
+  //     (p) => p?.pro_uuid === selectedPremiseObj?.project_id
+  //   );
+  //   console.log("xxxx", selectedPremiseObj?.project_id);
+  //   console.log("yyyyy", currentPremiseProject);
+
+  //   setSelectedProject(currentPremiseProject);
+  // }, [allspProjectJSON, selectedPremiseObj]);
+
+  useEffect(() => {
+    const allProject = allspProjectJSON?.projects;
+    if (selectedSpProjectID) {
+      projectRefetch();
+      const currentPremiseProject = allProject?.find(
+        (p) => p?.pro_uuid === selectedSpProjectID
+      );
+      console.log("xxxx", selectedSpProjectID);
+      console.log("yyyyy", currentPremiseProject);
+
+      setSelectedProject(currentPremiseProject);
+    } else if (createdSpProjectID) {
+      projectRefetch();
+      const currentPremiseProject = allProject?.find(
+        (p) => p?.pro_uuid === createdSpProjectID
+      );
+      console.log("xxxx", createdSpProjectID);
+      console.log("yyyyy", currentPremiseProject);
+
+      setSelectedProject(currentPremiseProject);
+    } else if (selectedPremiseObj) {
+      projectRefetch();
+      const currentPremiseProject = allProject?.find(
+        (p) => p?.pro_uuid === selectedPremiseObj?.project_id
+      );
+      console.log("xxxx", selectedPremiseObj?.project_id);
+      console.log("yyyyy", currentPremiseProject);
+
+      setSelectedProject(currentPremiseProject);
+    }
+  }, [
+    allspProjectJSON,
+    selectedPremiseObj,
+    createdSpProjectID,
+    selectedSpProjectID,
+  ]);
 
   // let modifiedText = editedText
   useEffect(() => {
@@ -128,75 +193,76 @@ const BeatEditPop = ({
     }
   }, [userFirstName, userLastName, userRefetch]);
 
-  const handleCreateProject = async () => {
-    const nameExists = ProjectsObj?.projects?.some(
-      (item) => item.name === newProjectName
-    );
-    if (nameExists) {
-      return alert(
-        "A project with the same name already exists. Please choose a different name."
-      );
-    }
-    setButtonDisable(true);
+  // const handleCreateProject = async () => {
+  //   const nameExists = ProjectsObj?.projects?.some(
+  //     (item) => item.name === newProjectName
+  //   );
+  //   if (nameExists) {
+  //     return alert(
+  //       "A project with the same name already exists. Please choose a different name."
+  //     );
+  //   }
+  //   setButtonDisable(true);
 
-    // function to submit new project to script pad
-    // ?.filter(item => !item.locked)
-    const untitledProjects = ProjectsObj?.projects
-      .filter((project) => {
-        const words = project.name.split(" ");
-        return words[0] === "Untitled";
-      })
-      .map((project) => project.name);
-    let counter = 0;
-    // console.log(untitledProjects);
+  //   // function to submit new project to script pad
+  //   // ?.filter(item => !item.locked)
+  //   const untitledProjects = ProjectsObj?.projects
+  //     .filter((project) => {
+  //       const words = project.name.split(" ");
+  //       return words[0] === "Untitled";
+  //     })
+  //     .map((project) => project.name);
+  //   let counter = 0;
+  //   // console.log(untitledProjects);
 
-    for (const item of untitledProjects) {
-      const match = item.match(/^Untitled (\d+)$/);
-      if (match) {
-        const number = parseInt(match[1]);
-        if (number >= counter) {
-          counter = number + 1;
-        }
-      }
-    }
-    const fullName = `${userQuery?.first_name} ${userQuery?.last_name}`;
+  //   for (const item of untitledProjects) {
+  //     const match = item.match(/^Untitled (\d+)$/);
+  //     if (match) {
+  //       const number = parseInt(match[1]);
+  //       if (number >= counter) {
+  //         counter = number + 1;
+  //       }
+  //     }
+  //   }
+  //   const fullName = `${userQuery?.first_name} ${userQuery?.last_name}`;
 
-    let authorName;
+  //   let authorName;
 
-    if (userQuery?.first_name && userQuery?.last_name) {
-      authorName = fullName;
-    } else {
-      const email = userQuery?.email;
-      const modifiedEmail = email.split("@")[0];
+  //   if (userQuery?.first_name && userQuery?.last_name) {
+  //     authorName = fullName;
+  //   } else {
+  //     const email = userQuery?.email;
+  //     const modifiedEmail = email.split("@")[0];
 
-      authorName = modifiedEmail;
-    }
+  //     authorName = modifiedEmail;
+  //   }
 
-    const nextUntitled = `Untitled ${counter}`;
-    const data = {
-      name: newProjectName,
-      ownername: authorName,
-      language: "en",
-      nature_project: premiseData?.nature_of_project,
-      duration: premiseData?.minutes,
-    };
+  //   const nextUntitled = `Untitled ${counter}`;
+  //   const data = {
+  //     name: newProjectName,
+  //     ownername: authorName,
+  //     language: "en",
+  //     nature_project: premiseData?.nature_of_project,
+  //     duration: premiseData?.minutes,
+  //   };
 
-    const response = await createProject(data);
-    if (response) {
-      setSelectedProject(response?.data?.projects);
-      // console.log(response?.data?.projects);
-      refetch();
-      setNewProjectName("");
-      setNewProjectVisible(false);
+  //   const response = await createProject(data);
+  //   if (response) {
+  //     setSelectedProject(response?.data?.projects);
+  //     // console.log(response?.data?.projects);
+  //     refetch();
+  //     setNewProjectName("");
+  //     setNewProjectVisible(false);
 
-      return response.data.projects;
-    }
+  //     return response.data.projects;
+  //   }
 
-    // popClose();
-    // You can access the new project name using the state variable newProjectName
-    // console.log("New project name:", newProjectName);
-    // Reset the input field and hide it
-  };
+  //   // popClose();
+  //   // You can access the new project name using the state variable newProjectName
+  //   // console.log("New project name:", newProjectName);
+  //   // Reset the input field and hide it
+  // };
+
   const [transLoading, setTransLoading] = useState(false);
   const handleOptionChange = async (e) => {
     setTransLoading(true);
@@ -235,26 +301,26 @@ const BeatEditPop = ({
 
   // Function to handle the click on "Add New Project" button
 
-  const handleAddNewProjectClick = () => {
-    setNewProjectVisible(!isNewProjectVisible);
-    setSelectedProject(null);
-  };
+  // const handleAddNewProjectClick = () => {
+  //   setNewProjectVisible(!isNewProjectVisible);
+  //   setSelectedProject(null);
+  // };
 
-  const handleSelectProject = (value) => {
-    setSelectedProject(value);
-    setNewProjectVisible(false);
-  };
+  // const handleSelectProject = (value) => {
+  //   setSelectedProject(value);
+  //   setNewProjectVisible(false);
+  // };
   const [getScreenPlay, resGetScreenPlay] = useGetScreenPlayMutation();
   const [updateScene, updateBeatRes] = useUpdateSceneMutation();
   const [saveScreenPlay, resSaveScreenPlay] = useSaveScreenPlayMutation();
   const [screenPlayData, setScreenPlayData] = useState();
 
   const handleSubmitBeatToProject = async () => {
-    // console.log("resSaveScreenPlay", resSaveScreenPlay.isSuccess);
     const data = {
       name: selectedProject?.name,
       version: selectedProject?.total_versions,
     };
+
     const screenPlayResponse = await getScreenPlay(data);
     const screenPlayJson = screenPlayResponse.data?.screenplay_data_json;
 
@@ -365,8 +431,8 @@ const BeatEditPop = ({
       if (updateBeatRes.isSuccess) {
         // console.log(screenPlayData);
         const data = {
-          name: selectedProject.name,
-          version: selectedProject.total_versions,
+          name: selectedProject?.name,
+          version: selectedProject?.total_versions,
           body: screenPlayData,
         };
         saveScreenPlay(data);
@@ -377,7 +443,8 @@ const BeatEditPop = ({
   useEffect(() => {
     if (resSaveScreenPlay) {
       if (resSaveScreenPlay.isSuccess) {
-        popClose();
+        // popClose();
+        setConfirmBit(true);
       }
     }
   }, [resSaveScreenPlay, popClose]);
@@ -463,10 +530,14 @@ const BeatEditPop = ({
 
   const [resDisable, setresDisable] = useState(false);
 
-  const handleOpenBeatSheet = (id) => {
-    console.log("BEat sheet open", id);
+  const handleOpenBeatSheet = () => {
+    // console.log("BEat sheet open", id);
+
     setConfirmBit(false);
     popClose();
+    window.open(
+      `${URL}/scriptpad2/#/${selectedProject?.pro_uuid}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
+    );
   };
 
   return (
@@ -474,17 +545,19 @@ const BeatEditPop = ({
       <div className="fixed top-0 left-0 w-full h-full flex mt-[71px] xl:mt-[80px] lg:mt-[0px] items-center bg-[#252525b0] justify-center z-[1]  ">
         <div
           className={`${
-            !doNotShowBox ? "h-full md:h-[505px]" : "h-[80%] md:h-[411px]"
+            !doNotShowBox ? "h-full md:h-[525px]" : "h-[80%] md:h-[411px]"
           }
                   h-[100vh] md:mt-[88px] xl:mt-[-40px]  w-full lg:w-[920px] md:mx-auto bg-[#fff]  lg:bg-[#fadda] md:rounded-[8px] relative`}
         >
-          <div className="h-[49vh]  md:h-[505px] ">
+          <div className="h-[49vh]  md:h-[525px] ">
             <div className="z-10 top-26">
               <div
                 className={`rounded-[8px] relative ${
                   isSmallDevice && "overflow-y-scroll"
                 } md:w-[920px] mx-auto ${
-                  !doNotShowBox ? "h-full md:h-[505px]" : "h-[80%] md:h-[411px]"
+                  !doNotShowBox
+                    ? "h-[90vh] md:h-[505px]"
+                    : "h-[80%] md:h-[411px]"
                 } bg-white md:bg-[#FAFAFA]`}
               >
                 <button
@@ -591,7 +664,7 @@ const BeatEditPop = ({
                             type="radio"
                             name=""
                             id=""
-                            className=""
+                            className="cursor-pointer"
                           />
                           {regardingOutput === key ? (
                             <textarea
@@ -599,7 +672,7 @@ const BeatEditPop = ({
                               type="text"
                               value={options[key]}
                               onChange={(e) => handleInputChange(e, key)}
-                              className="focus:resize-none outline-none bg-[#EAEAEA] w-full  text-[14px] leading-[20px]"
+                              className="focus:resize-none outline-none bg-[#EAEAEA] w-full  text-[14px] leading-[20px] resize-none"
                               ref={inputRef}
                             />
                           ) : (
@@ -616,9 +689,9 @@ const BeatEditPop = ({
 
                           {showKeyboard && regardingOutput === key && (
                             <Draggable handle=".movable-handle">
-                              <div className="absolute z-20 w-[650px] top-[400px] right-[30px] bg-white border border-gray-300 shadow-lg rounded">
+                              <div className="absolute z-20 w-[650px] top-[180px] right-[30px] bg-white border border-gray-300 shadow-lg rounded">
                                 <div className="grid grid-cols-12">
-                                  <div className="movable-handle col-span-11 bg-[#EAEAEA] text-[#616161]">
+                                  <div className="movable-handle col-span-11 bg-[#EAEAEA] text-[#616161] cursor-move text-center text-[14px] font-[500]">
                                     Drag me!! {sourcesLanguage} Language
                                     Keyboard Show
                                   </div>
@@ -740,7 +813,7 @@ const BeatEditPop = ({
                     )}
                     <button
                       className="bg-[#33B0CA] text-[#FAFAFA] border border-[#33B0CA] text-[14px] font-[600]  rounded-[8px] min-w-[74px] min-h-[32px] px-[8px] hover:shadow-md shadow-[#252525] hover:bg-[#33B0CA] "
-                      onClick={() => setConfirmBit(true)}
+                      onClick={() => handleSubmitBeatToProject()}
                     >
                       Next
                     </button>
@@ -753,8 +826,13 @@ const BeatEditPop = ({
         {confirmBit && (
           <ConfirmationModal
             isOpen={confirmBit}
-            onClose={() => setConfirmBit(false)}
-            onConfirm={() => handleOpenBeatSheet(1)}
+            onClose={() => {
+              setConfirmBit(false);
+              popClose();
+            }}
+            onConfirm={() =>
+              handleOpenBeatSheet("4d0bc6a8-d52b-462f-b9ea-e640c513ec14")
+            }
             title="Beat added, would you like to open script now ?"
             content="Beat added would you like to open script now "
           />

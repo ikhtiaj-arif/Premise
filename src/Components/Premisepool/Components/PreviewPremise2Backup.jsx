@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FaBold, FaItalic, FaRegTrashAlt, FaUnderline } from "react-icons/fa";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { PiTextAUnderlineBold } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
@@ -23,28 +24,175 @@ const PremisePreview2 = ({
   setOpenPop,
   openPop,
   handleGoBack,
-  refetch
-
+  refetch,
 }) => {
+  // const options = {
+  //   "Short film": [
+  //     "Upto 2 Minutes",
+  //     "2 to 5 Minutes",
+  //     "5 to 15 Minutes",
+  //     "15 to 30 Minutes",
+  //   ],
+  //   "Feature film": ["1 Hour", "2 Hours", "3 Hours"],
+  //   "TV series": [""],
+  //   "Web series": [""],
+  //   Documentary: [
+  //     "Upto 5 Minutes",
+  //     "5 to 15 Minutes",
+  //     "15 to 30 Minutes",
+  //     "30 to 60 Minutes",
+  //     "More then 60 Minutes",
+  //   ],
+  //   "Animated film": [
+  //     "Upto 5 Minutes",
+  //     "5 to 15 Minutes",
+  //     "15 to 30 Minutes",
+  //     "30 to 60 Minutes",
+  //     "More then 60 Minutes",
+  //   ],
+  // };
+  const options = {
+    "Short film": [
+      { text: "Upto 2 Minutes", value: 2 },
+      { text: "2 to 5 Minutes", value: 5 },
+      { text: "5 to 15 Minutes", value: 15 },
+      { text: "15 to 30 Minutes", value: 30 },
+    ],
+    "Feature film": [
+      { text: "1 Hour", value: 60 },
+      { text: "2 Hours", value: 120 },
+      { text: "3 Hours", value: 180 },
+    ],
+    // "TV series": [{ text: "", value: 0 }],
+    // "Web series": [{ text: "", value: 0 }],
+    // Documentary: [
+    //   { text: "Upto 5 Minutes", value: 5 },
+    //   { text: "5 to 15 Minutes", value: 15 },
+    //   { text: "15 to 30 Minutes", value: 30 },
+    //   { text: "30 to 60 Minutes", value: 60 },
+    //   { text: "More than 60 Minutes", value: 90 },
+    // ],
+    // "Animated film": [
+    //   { text: "Upto 5 Minutes", value: 5 },
+    //   { text: "5 to 15 Minutes", value: 15 },
+    //   { text: "15 to 30 Minutes", value: 30 },
+    //   { text: "30 to 60 Minutes", value: 60 },
+    //   { text: "More than 60 Minutes", value: 90 },
+    // ],
+  };
+
+  const genera = [
+    "Action",
+    "Crime",
+    "Comedy",
+    "Drama",
+    "Fantasy",
+    "Horror",
+    "Romantic",
+    "Science_fiction",
+    "Thriller",
+  ];
+
+  const subGenraItems = {
+    Action: ["Superhero", "Martial arts", "Action Comedy"],
+    Adventure: ["Adventure", "Treasure hunt", "War action adventure"],
+    Comedy: [
+      "Black Comedy",
+      "Buddy Comedy",
+      "Comedic Thriller",
+      "Farce",
+      "Mockumentary",
+      "Musical Comedy",
+      "Parody",
+      "Romantic Comedy",
+      "Slapstick",
+      "Sports Comedy",
+    ],
+    Crime: [
+      "Film noir",
+      "Neo-noir",
+      "Mafia",
+      "Military Thriller",
+      "Psychological Thriller",
+    ],
+    Drama: [
+      "Biopic",
+      "Coming of age drama",
+      "Costume drama",
+      "Crime drama",
+      "Romantic drama",
+      "Tragedy",
+      "War movie",
+    ],
+    Fantasy: [
+      "Dark fantasy",
+      "Epic fantasy",
+      "Low fantasy",
+      "Magical realism",
+      "Fables",
+      "Fairy tales",
+      "Superhero fiction",
+    ],
+    Horror: [
+      "B-Movie",
+      "Found footage",
+      "Monster",
+      "Paranormal film",
+      "Slasher",
+      "Vampire",
+      "Zombie",
+    ],
+    Romantic: [
+      "Bromantic Comedy",
+      "Chick flick",
+      "Historical romance",
+      "Gothic romance",
+      "Romantic Comedy",
+    ],
+    Science_fiction: [
+      "Cyberpunk",
+      "Disaster",
+      "Dystopian",
+      "Fairy tale",
+      "Fantasy",
+      "Space opera",
+      "Time travel",
+    ],
+    Thriller: [
+      "Action Thriller",
+      "Crime Thriller",
+      "Legal thriller",
+      "Mystery Thriller",
+      "Romantic Thriller",
+      "Science fiction Thriller",
+      "Political Thriller",
+      "Spy Thriller",
+    ],
+    Other: ["", ""],
+  };
   //console.log("data", data);
   const { isAddNew, setIsAddNew } = useContext(MyContext);
 
-  const { data: userQuery, isUserLoading, refetch:userRefetch } = useGetPremiseUserQuery();
+  const {
+    data: userQuery,
+    isUserLoading,
+    refetch: userRefetch,
+  } = useGetPremiseUserQuery();
   const {
     data: lang,
     isLangLoading,
     refetch: langRefetch,
   } = useGetFilteredLangQuery();
 
-  const [previewPremise, isPremiseLoading,status, isError] = usePostPremiseMutation();
-  
-  
+  const [previewPremise, isPremiseLoading, status, isError] =
+    usePostPremiseMutation();
+
   const [previewEdit] = useEditPremiseMutation();
   // const user = useSelector((state) => state?.user?.id);
   // const userFirstName = useSelector((state) => state?.user?.firstName);
   // const userLastName = useSelector((state) => state?.user?.lastName);
   // console.log("object", userQuery);
-  const user =  userQuery?.id
+  const user = userQuery?.id;
   const userFirstName = userQuery?.first_name;
   const userLastName = userQuery?.last_name;
 
@@ -61,29 +209,37 @@ const PremisePreview2 = ({
   const [isLoading, setIsLoading] = useState(false);
 
   const [isLiked, setIsLiked] = useState(false);
+
+  // const [generaItem, setGeneraItem] = useState(false);
+
   const [premiseData, setPremiseData] = useState(null);
 
-  // useEffect(()=>{
+  const [natureOfProject, setNatureOfProject] = useState("");
+  const [durationOptions, setDurationOptions] = useState([]);
 
-  //    const imageName = data?.bg_img;
-  //    const extension = imageName.split(".").pop();
-  //    const existingFile = new File( imageName + "." + extension, {
+  const handleNatureOfProjectChange = (e) => {
+    const selectedProject = e.target.value;
+    setNatureOfProject(selectedProject);
+    setDurationOptions(options[selectedProject] || []);
+  };
 
-  //   });
-  //   // const imageUrl = URL.createObjectURL(existingImg);
-  //   // setImageUrl(imageUrl);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isProtagonistOpen, setIsProtagonistOpen] = useState(false);
+  const [isNatureProjectOpen, setIsNatureProjectOpen] = useState(false);
+  const [isdurationOpen, setIsdurationOpen] = useState(false);
+  const [isgenreOpen, setIsgenreOpen] = useState(false);
+  const [isSubGenreOpen, setIsSubGenreOpen] = useState(false);
+  const [isSetinPeriodOpen, setSetinPeriodOpen] = useState(false);
+  const [noOfEpi, setNoOfEpi] = useState(null);
+  const [protaAge, setProtaAge] = useState(null);
+  const [generaItem, setGeneraItem] = useState("");
+  const [subGeneraItem, setSubGeneraItem] = useState("");
 
-  //   // const existingImg = new File([file], data?.bg_img + "." + extension, {
-  //   //   type: file.type,
-  //   // });
-  //   // console.log("renamedFile", renamedFile);
-  //   // setFile(renamedFile);
-  //   const imageUrl = URL.createObjectURL(existingFile);
-  //   // console.log("post img nme", imageUrl);
-  //   setImageUrl(imageUrl);
-  //   // event.target.value = null;
-
-  // },[data ])
+  const [duration, setDuration] = useState(null);
+  const [periodSetIn, setPeriodSetIn] = useState();
+  const [protagonist, setProtagonist] = useState(null);
+  const [protagonistName, setProtagonistName] = useState("");
+  const [geographyItem, setGeographyItem] = useState("");
 
   useEffect(() => {
     setBold(data?.stylings?.boldStyle === "font-bold");
@@ -154,251 +310,294 @@ const PremisePreview2 = ({
   const [hideDisable, setHideDisable] = useState(false);
 
   const handleHideUnhidePremise = async (id) => {
-    hideUnhidePremise(id, setHideDisable, userRefetch, setOpenDotMenu)
-  }
+    hideUnhidePremise(id, setHideDisable, userRefetch, setOpenDotMenu);
+  };
 
+  const handleProtagonistNameChange = (e) => {
+    const value = e.target.value;
+    const trimmedValue = value.replace(/^\s+/, ""); // Remove leading spaces
+    const regex = /^[A-Za-z ]*$/;
 
-  // submit
-
-  const submitPremise = async () => {
-    //console.log("inside", imgUrl);
-    setColor(false);
-    setIsLoading(true);
-    const formData = new FormData();
-
-    const text = newText;
-    const styling = JSON.stringify({
-      boldStyle: bold ? "font-bold" : "font-normal",
-      italicStyle: italic ? "italic" : "not-italic",
-      underlineStyle: underline ? "underline" : "no-underline",
-      hexColor,
-    });
-
-    const subText = `${styling} + ${text}`;
-    formData.append("text", subText);
-
-    if (file) {
-      formData.append("bg_img", file);
+    if (regex.test(trimmedValue)) {
+      setProtagonistName(trimmedValue);
+    } else {
+      // alert('Invalid characters detected. Only letters and spaces are allowed.');
     }
-    if (imgUrl === null) {
-      formData.append("bg_img", "");
-    }
-    if (randomColor) {
-      formData.append("bg_color", randomColor);
-    }
+  };
 
-    formData.append("created_by", user);
-    const previewData = {
-      id: data?.id,
-      body: formData,
-    };
+  const handleGeographyChange = (e) => {
+    const value = e.target.value;
+    const trimmedValue = value.replace(/^\s+/, ""); // Remove leading spaces
+    const regex = /^[A-Za-z ]*$/;
 
-    const res = data?.id
-      ? await previewEdit(previewData)
-      : await previewPremise(formData);
-
-    if (res?.data?.id) {
-      // console.log(res?.data?.id)
-      
-      const text = res?.data?.text;
-      const splitText = text.split("+");
-      const dText = splitText[1];
-
-      const stylings = JSON.parse(splitText[0]);
-      const bg_color = res?.data?.bg_color;
-      const bg_img = res?.data?.bg_img;
-      const comments = res?.data?.comments;
-      const created_at = res?.data?.created_at;
-      const created_by = { id: user, first_name:userFirstName, last_name:userLastName,username: user };
-      const likes = res?.data?.likes;
-      const id = res?.data?.id;
-      const source_language = res?.data?.source_language;
-      const updated_at = res?.data?.updated_at;
-
-      const formattedDate = new Date(created_at).toLocaleDateString("en-US", {
-        // timeZone: "GMT",
-        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        // weekday: "short",
-        day: "numeric",
-        month: "short",
-      });
-      const formattedTime = new Date(created_at).toLocaleTimeString("en-US", {
-        // timeZone: "GMT",
-        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        hour: "numeric",
-        minute: "numeric",
-      });
-
-      const data = {
-        stylings,
-        bg_color,
-        bg_img,
-        comments,
-        created_at,
-        created_by,
-        likes,
-        id,
-        source_language,
-        updated_at,
-        dText,
-        formattedDate,
-        formattedTime,
-        user,
-        handleHideUnhidePremise,
-        setHideDisable,
-        hideDisable,
-        openDotMenu
-      };
-      // console.log("status 200", data);
-
-      // setAddPopup(false);
-
-      setPremiseData(data);
-      userRefetch();
-      setIsLoading(false);
-      setIsAddNew(true);
-      toast.success(
-        `Successfully ${data?.id ? "updated" : "added"} your Premise`,
-        {
-          position: toast.POSITION.TOP_CENTER,
-        }
-      );
-
-      langRefetch();
-      setOpenPop(true);
-    } else if(res?.error?.status  === 400) {
-      setAddPopup(false);
-      // console.log("StatusError",res);
-      toast.error(res.error.data.message, {
-        position: toast.POSITION.TOP_CENTER,
-      });
-    }else{
-      setAddPopup(false);
-      // console.log("StatusError",res);
-      toast.error("Something went wrong!", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+    if (regex.test(trimmedValue)) {
+      setGeographyItem(trimmedValue); // Keep original value to retain user's formatting
+    } else {
+      // alert('Invalid characters detected. Only letters and spaces are allowed.');
     }
   };
 
 
+  const submitPremise = async (e) => {
+    e.preventDefault();
   
-  // const submitPremise = async () => {
-  //   try {
-  //     setColor(false);
-  //     setIsLoading(true);
-  //     const formData = new FormData();
-  //     const text = newText;
-  //     const styling = JSON.stringify({
-  //       boldStyle: bold ? "font-bold" : "font-normal",
-  //       italicStyle: italic ? "italic" : "not-italic",
-  //       underlineStyle: underline ? "underline" : "no-underline",
-  //       hexColor,
-  //     });
+    // Disable submit button to prevent multiple clicks
+    setIsLoading(true);
   
-  //     const subText = `${styling} + ${text}`;
-  //     formData.append("text", subText);
+    try {
+      const formData = new FormData();
+      const text = newText;
+      const styling = {
+        boldStyle: bold ? "font-bold" : "font-normal",
+        italicStyle: italic ? "italic" : "not-italic",
+        underlineStyle: underline ? "underline" : "no-underline",
+        hexColor,
+      };
+      const subText = `${JSON.stringify(styling)} + ${text}`;
+      formData.append("text", subText);
   
-  //     if (file) {
-  //       formData.append("bg_img", file);
-  //     } else if (imgUrl === null) {
-  //       formData.append("bg_img", "");
-  //     }
-  //     if (randomColor) {
-  //       formData.append("bg_color", randomColor);
-  //     }
+      if (file) {
+        formData.append("bg_img", file);
+      } else if (imgUrl === null) {
+        formData.append("bg_img", ""); // Ensure bg_img is set to empty string if no file or imgUrl
+      }
   
-  //     formData.append("created_by", user);
-      
-  //     const previewData = {
-  //       id: data?.id,
-  //       body: formData,
+      if (randomColor) {
+        formData.append("bg_color", randomColor);
+      }
+  
+      formData.append("created_by", user);
+  
+      // Add project-specific data
+      formData.append("nature_of_project", natureOfProject);
+      if (["TV series", "Web series"].includes(natureOfProject)) {
+        formData.append("episodes", noOfEpi);
+      } else {
+        formData.append("minutes", duration);
+      }
+      formData.append("genre", generaItem);
+      formData.append("sub_genre", subGeneraItem);
+      formData.append("period", periodSetIn);
+      formData.append("geography", geographyItem);
+      formData.append("protagonist_type", protagonist);
+      formData.append("protagonist_name", protagonistName);
+      formData.append("protagonist_age", protaAge);
+  
+      const previewData = {
+        id: data?.id,
+        body: formData,
+      };
+  
+      // Determine whether to call edit or add API based on data.id existence
+      const res = data?.id ? await previewEdit(previewData) : await previewPremise(formData);
+  
+      if (res?.data?.id) {
+        const { text, bg_color, bg_img, comments, created_at, likes, id, source_language, updated_at } = res.data;
+        const created_by = {
+          id: user,
+          first_name: userFirstName,
+          last_name: userLastName,
+          username: user,
+        };
+        
+        const formattedDate = new Date(created_at).toLocaleDateString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, day: "numeric", month: "short" });
+        const formattedTime = new Date(created_at).toLocaleTimeString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, hour: "numeric", minute: "numeric" });
+  
+        const data = {
+          stylings: JSON.parse(text.split("+")[0]),
+          bg_color,
+          bg_img,
+          comments,
+          created_at,
+          created_by,
+          likes,
+          id,
+          source_language,
+          updated_at,
+          dText: text.split("+")[1],
+          formattedDate,
+          formattedTime,
+          user,
+          handleHideUnhidePremise,
+          setHideDisable,
+          hideDisable,
+          openDotMenu,
+        };
+  
+        // Update state with new premise data
+        setPremiseData(data);
+        userRefetch();
+        setIsAddNew(true);
+        toast.success(`Successfully ${data?.id ? "updated" : "added"} your Premise`, {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 800,
+        });
+        langRefetch();
+        setOpenPop(true);
+      } else {
+        // Handle API errors
+        toast.error(res?.error?.data?.message || "Something went wrong!", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 800,
+        });
+      }
+    } catch (error) {
+      console.error("Error submitting premise:", error);
+      toast.error("Something went wrong!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 800,
+      });
+    } finally {
+      setIsLoading(false); // Enable submit button after API call completes (whether success or error)
+    }
+  };
+  
+
+  // const submitPremise = async (e) => {
+  //   e.preventDefault();
+  //   //console.log("inside", imgUrl);
+  //   setColor(false);
+  //   setIsLoading(true);
+  //   const formData = new FormData();
+
+  //   const text = newText;
+  //   const styling = JSON.stringify({
+  //     boldStyle: bold ? "font-bold" : "font-normal",
+  //     italicStyle: italic ? "italic" : "not-italic",
+  //     underlineStyle: underline ? "underline" : "no-underline",
+  //     hexColor,
+  //   });
+
+  //   const subText = `${styling} + ${text}`;
+  //   formData.append("text", subText);
+
+  //   if (file) {
+  //     formData.append("bg_img", file);
+  //   }
+  //   if (imgUrl === null) {
+  //     formData.append("bg_img", "");
+  //   }
+  //   if (randomColor) {
+  //     formData.append("bg_color", randomColor);
+  //   }
+
+  //   formData.append("created_by", user);
+  //   const previewData = {
+  //     id: data?.id,
+  //     body: formData,
+  //   };
+
+  //   formData.append("nature_of_project", natureOfProject);
+  //   if (["TV series", "Web series"].includes(natureOfProject)) {
+  //     formData.append("episodes", noOfEpi);
+  //   } else {
+  //     formData.append("minutes", duration);
+  //   }
+
+  //   formData.append("genre", generaItem);
+  //   formData.append("sub_genre", subGeneraItem);
+  //   formData.append("period", periodSetIn);
+  //   formData.append("geography", geographyItem);
+  //   formData.append("protagonist_type", protagonist);
+  //   formData.append("protagonist_name", protagonistName);
+  //   formData.append("protagonist_age", protaAge);
+
+  //   const res = data?.id
+  //     ? await previewEdit(previewData)
+  //     : await previewPremise(formData);
+
+  //   if (res?.data?.id) {
+  //     // console.log(res?.data?.id)
+
+  //     const text = res?.data?.text;
+  //     const splitText = text.split("+");
+  //     const dText = splitText[1];
+
+  //     const stylings = JSON.parse(splitText[0]);
+  //     const bg_color = res?.data?.bg_color;
+  //     const bg_img = res?.data?.bg_img;
+  //     const comments = res?.data?.comments;
+  //     const created_at = res?.data?.created_at;
+  //     const created_by = {
+  //       id: user,
+  //       first_name: userFirstName,
+  //       last_name: userLastName,
+  //       username: user,
   //     };
-  
-  //     const res = data?.id ? await previewEdit(previewData) : await previewPremise(formData);
- 
-  // console.log("StatusError", res);
- 
-  //     if (res?.data?.id) {
-  //       const text = res?.data?.text;
-  //       const [stylingString, dText] = text.split(" + ");
-  //       const stylings = JSON.parse(stylingString);
-  
-  //       const {
-  //         bg_color,
-  //         bg_img,
-  //         comments,
-  //         created_at,
-  //         likes,
-  //         id,
-  //         source_language,
-  //         updated_at,
-  //       } = res?.data;
-  
-  //       const created_by = {
-  //         id: user,
-  //         first_name: userFirstName,
-  //         last_name: userLastName,
-  //         username: user,
-  //       };
-  
-  //       const formattedDate = new Date(created_at).toLocaleDateString("en-US", {
-  //         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-  //         day: "numeric",
-  //         month: "short",
-  //       });
-  
-  //       const formattedTime = new Date(created_at).toLocaleTimeString("en-US", {
-  //         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-  //         hour: "numeric",
-  //         minute: "numeric",
-  //       });
-  
-  //       const premiseData = {
-  //         stylings,
-  //         bg_color,
-  //         bg_img,
-  //         comments,
-  //         created_at,
-  //         created_by,
-  //         likes,
-  //         id,
-  //         source_language,
-  //         updated_at,
-  //         dText,
-  //         formattedDate,
-  //         formattedTime,
-  //         user,
-  //         handleHideUnhidePremise,
-  //         setHideDisable,
-  //         hideDisable,
-  //         openDotMenu
-  //       };
-  
-  //       setPremiseData(premiseData);
-  //       userRefetch();
-  //       setIsLoading(false);
-  //       setIsAddNew(true);
-  
-  //       toast.success(`Successfully ${data?.id ? "updated" : "added"} your Premise`, {
-  //         position: toast.POSITION.TOP_CENTER,
-  //       });
-  
-  //       langRefetch();
-  //       setOpenPop(true);
-  //     } else {
-  //       throw new Error("Invalid response data");
-  //     }
-  //   } catch (error) {
+  //     const likes = res?.data?.likes;
+  //     const id = res?.data?.id;
+  //     const source_language = res?.data?.source_language;
+  //     const updated_at = res?.data?.updated_at;
+
+  //     const formattedDate = new Date(created_at).toLocaleDateString("en-US", {
+  //       // timeZone: "GMT",
+  //       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  //       // weekday: "short",
+  //       day: "numeric",
+  //       month: "short",
+  //     });
+  //     const formattedTime = new Date(created_at).toLocaleTimeString("en-US", {
+  //       // timeZone: "GMT",
+  //       timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  //       hour: "numeric",
+  //       minute: "numeric",
+  //     });
+
+  //     const data = {
+  //       stylings,
+  //       bg_color,
+  //       bg_img,
+  //       comments,
+  //       created_at,
+  //       created_by,
+  //       likes,
+  //       id,
+  //       source_language,
+  //       updated_at,
+  //       dText,
+  //       formattedDate,
+  //       formattedTime,
+  //       user,
+  //       handleHideUnhidePremise,
+  //       setHideDisable,
+  //       hideDisable,
+  //       openDotMenu,
+  //     };
+  //     // console.log("status 200", data);
+
+  //     // setAddPopup(false);
+
+  //     setPremiseData(data);
+  //     userRefetch();
   //     setIsLoading(false);
+  //     setIsAddNew(true);
+  //     toast.success(
+  //       `Successfully ${data?.id ? "updated" : "added"} your Premise`,
+  //       {
+  //         position: toast.POSITION.TOP_CENTER,
+  //         autoClose: 800,
+  //       }
+  //     );
+
+  //     langRefetch();
+  //     setOpenPop(true);
+  //   } else if (res?.error?.status === 400) {
   //     setAddPopup(false);
-  //     console.log("error", error);
-  //     toast.error(`Something went wrong: ${error.message}`, {
+  //     // console.log("StatusError",res);
+  //     toast.error(res.error.data.message, {
   //       position: toast.POSITION.TOP_CENTER,
+  //       autoClose: 800,
+  //     });
+  //   } else {
+  //     setAddPopup(false);
+  //     // console.log("StatusError",res);
+  //     toast.error("Something went wrong!", {
+  //       position: toast.POSITION.TOP_CENTER,
+  //       autoClose: 800,
   //     });
   //   }
   // };
-  
+
   useEffect(() => {
     // console.log("openPop", premiseData);
   }, [premiseData]);
@@ -410,13 +609,92 @@ const PremisePreview2 = ({
     userRefetch();
   };
 
+  const subGeneraOptions = subGenraItems[generaItem] || [];
+
+  const dropdownRef = useRef(null);
+  const natureProjectRef = useRef(null);
+  const durationRef = useRef(null);
+  const genreRef = useRef(null);
+  const protagonistRef = useRef(null);
+  const subGenreRef = useRef(null);
+  const setinPeriodRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (
+      natureProjectRef.current &&
+      !natureProjectRef.current.contains(event.target)
+    ) {
+      setIsNatureProjectOpen(false);
+    }
+    if (durationRef.current && !durationRef.current.contains(event.target)) {
+      setIsdurationOpen(false);
+    }
+    if (genreRef.current && !genreRef.current.contains(event.target)) {
+      setIsgenreOpen(false);
+    }
+    if (
+      protagonistRef.current &&
+      !protagonistRef.current.contains(event.target)
+    ) {
+      setIsProtagonistOpen(false);
+    }
+    if (subGenreRef.current && !subGenreRef.current.contains(event.target)) {
+      setIsSubGenreOpen(false);
+    }
+    if (
+      setinPeriodRef.current &&
+      !setinPeriodRef.current.contains(event.target)
+    ) {
+      setSetinPeriodOpen(false);
+    }
+  };
+
+  const handleSelectClick = (event) => {
+    event.stopPropagation(); // Prevent the event from propagating to the document
+    setIsNatureProjectOpen((prev) => !prev);
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const formValid =
+    natureOfProject &&
+    generaItem &&
+    subGeneraItem &&
+    periodSetIn &&
+    geographyItem &&
+    protagonist &&
+    protaAge &&
+    protagonistName &&
+    ((["TV series", "Web series"].includes(natureOfProject) && noOfEpi) ||
+      (!["TV series", "Web series"].includes(natureOfProject) && duration));
+
+  const handleSelectChange = (e) => {
+    setPeriodSetIn(e.target.value);
+  };
+
+  const toggleDropdown = () => {
+    setSetinPeriodOpen(!isSetinPeriodOpen);
+  };
+
   return (
     <div>
-      <div className="bg-[#FAFAFA] flex justify-between items-center p-1 cursor-pointer mx-[28px] my-[18px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-3">
+      <p className=" md:hidden text-center my-[8px] text-[14px] mx-auto font-[500] text-[#252525]">
+        Preview your Imagination
+      </p>
+      <div className="bg-[#FAFAFA] flex justify-between items-center p-1 cursor-pointer mx-[24px] mb-[10px]   rounded-[8px] px-3 border border-[#eaeaea] md:border-none">
         <div className="flex items-center gap-3">
           {/* browsing */}
-          <button data-te-toggle="tooltip" title="Add background image" onClick={() => document.getElementById("file-input").click()}>
-            <img  src={bgIcon} className="w-[28px] h-[28px]" alt="" />
+          <button
+            data-te-toggle="tooltip"
+            title="Add background image"
+            onClick={() => document.getElementById("file-input").click()}
+          >
+            <img src={bgIcon} className="w-[28px] h-[28px]" alt="" />
           </button>
 
           <input
@@ -440,16 +718,25 @@ const PremisePreview2 = ({
             className="pt-[3px]"
           >
             <button onClick={handleColor}>
-              <img src={fillIcon} className="w-[25px] h-[25px] mt-[2px]" alt="" />
+              <img
+                src={fillIcon}
+                className="w-[25px] h-[25px] mt-[2px]"
+                alt=""
+              />
             </button>
           </div>
         </div>
+        <p className="hidden md:block text-[14px] text-center mx-auto font-[500] text-[#252525]">
+          Preview your Imagination
+        </p>
         {/* editor content */}
         <div className="flex gap-3 items-center relative">
           <div data-te-toggle="tooltip" title="Bold">
             <FaBold
               onClick={toggleBold}
-              className={bold ? "text-[#33B0CA]  text-[15.6px]" : " text-[15.6px]"}
+              className={
+                bold ? "text-[#33B0CA]  text-[15.6px]" : " text-[15.6px]"
+              }
             />
           </div>
           <div data-te-toggle="tooltip" title="Underline">
@@ -472,105 +759,124 @@ const PremisePreview2 = ({
             <PiTextAUnderlineBold
               onClick={toggleColorPicker}
               className={
-                hexColor ? "text-[#33B0CA]  text-[18.6px]" : "text-black text-[18.6px]"
+                hexColor
+                  ? "text-[#33B0CA]  text-[18.6px]"
+                  : "text-black text-[18.6px]"
               }
             />
           </div>
           {color && (
             <div className="absolute bg-[#2525258c]  h-24 w-24 top-7 left-4 grid grid-cols-4 gap-[2px] z-10 p-[6px] rounded-[4px]">
               <div
-                onClick={() => {setHexColor("text-[#FF0303]")
-                setColor(false)}}
+                onClick={() => {
+                  setHexColor("text-[#FF0303]");
+                  setColor(false);
+                }}
                 className="bg-[#FF0303] rounded-full"
               />
               <div
-                onClick={() => {setHexColor("text-[#009FBD]")
-                setColor(false)
-                } }
+                onClick={() => {
+                  setHexColor("text-[#009FBD]");
+                  setColor(false);
+                }}
                 className="bg-[#009FBD] rounded-full"
               />
               <div
-                onClick={() => {setHexColor("text-[#FFBF00]")
-              setColor(false)
-              }}
+                onClick={() => {
+                  setHexColor("text-[#FFBF00]");
+                  setColor(false);
+                }}
                 className="bg-[#FFBF00] rounded-full"
               />
               <div
-                onClick={() => {setHexColor("text-[#1C7947]")
-              setColor(false)
-              }}
+                onClick={() => {
+                  setHexColor("text-[#1C7947]");
+                  setColor(false);
+                }}
                 className="bg-[#1C7947] rounded-full"
               />
               <div
-                onClick={() => {setHexColor("text-[#8236CB]")
-              setColor(false)
-              }}
+                onClick={() => {
+                  setHexColor("text-[#8236CB]");
+                  setColor(false);
+                }}
                 className="bg-[#8236CB] rounded-full"
               />
               <div
-                onClick={() => {setHexColor("text-[#FF6701]")
-              setColor(false)
-              }}
+                onClick={() => {
+                  setHexColor("text-[#FF6701]");
+                  setColor(false);
+                }}
                 className="bg-[#FF6701] rounded-full"
               />
               <div
-                onClick={() => {setHexColor("text-[#0D0CB5]")
-              setColor(false)
-              }}
+                onClick={() => {
+                  setHexColor("text-[#0D0CB5]");
+                  setColor(false);
+                }}
                 className="bg-[#0D0CB5] rounded-full"
               />
               <div
-                onClick={() => {setHexColor("text-[#84142D]")
-              setColor(false)
-              }}
+                onClick={() => {
+                  setHexColor("text-[#84142D]");
+                  setColor(false);
+                }}
                 className="bg-[#84142D] rounded-full"
               />
               <div
-                onClick={() => {setHexColor("text-[#6FEDD6]")
-              setColor(false)
-              }}
+                onClick={() => {
+                  setHexColor("text-[#6FEDD6]");
+                  setColor(false);
+                }}
                 className="bg-[#6FEDD6] rounded-full"
               />
               <div
-                onClick={() => {setHexColor("text-[#ffffff]")
-              setColor(false)
-              }}
+                onClick={() => {
+                  setHexColor("text-[#ffffff]");
+                  setColor(false);
+                }}
                 className="bg-[#ffffff] rounded-full"
               />
               <div
-                onClick={() => {setHexColor("text-[#F30CD4]")
-              setColor(false)
-              }}
+                onClick={() => {
+                  setHexColor("text-[#F30CD4]");
+                  setColor(false);
+                }}
                 className="bg-[#F30CD4] rounded-full"
               />
               <div
-                onClick={() => {setHexColor("text-[#3B0944]")
-              setColor(false)
-              }}
+                onClick={() => {
+                  setHexColor("text-[#3B0944]");
+                  setColor(false);
+                }}
                 className="bg-[#3B0944] rounded-full"
               />
               <div
-                onClick={() => {setHexColor("text-[#020205]")
-              setColor(false)
-              }}
+                onClick={() => {
+                  setHexColor("text-[#020205]");
+                  setColor(false);
+                }}
                 className="bg-[#020205] rounded-full"
               />
               <div
-                onClick={() => {setHexColor("text-[#E84545]")
-              setColor(false)
-              }}
+                onClick={() => {
+                  setHexColor("text-[#E84545]");
+                  setColor(false);
+                }}
                 className="bg-[#E84545]  rounded-full"
               />
               <div
-                onClick={() => {setHexColor("text-[#00FFCC]")
-              setColor(false)
-              }}
+                onClick={() => {
+                  setHexColor("text-[#00FFCC]");
+                  setColor(false);
+                }}
                 className="bg-[#00FFCC] rounded-full"
               />
               <div
-                onClick={() => {setHexColor("text-[#FD89DD]")
-              setColor(false)
-              }}
+                onClick={() => {
+                  setHexColor("text-[#FD89DD]");
+                  setColor(false);
+                }}
                 className="bg-[#FD89DD] rounded-full"
               />
             </div>
@@ -579,7 +885,7 @@ const PremisePreview2 = ({
       </div>
       {/* center */}
       <div
-        className="bg-[#FAFAFA] h-[200px] flex justify-center items-center relative mx-[28px] shadow-md border border-[#eaeaea] rounded-[8px]"
+        className="bg-[#FAFAFA] h-[120px] flex justify-center items-center relative mx-[28px] rounded-[8px]"
         style={
           imgUrl
             ? {
@@ -591,13 +897,18 @@ const PremisePreview2 = ({
                 marginLeft: "auto",
                 marginRight: "auto",
               }
-            : { backgroundColor: randomColor }
+            : {
+                backgroundColor: randomColor,
+                boxShadow: `0 0 12px rgba(0, 0, 0, 0.08)`,
+              }
         }
       >
         {/* edited text */}
-        <div 
-        // className="absolute shadow-md inset-0 text-[16px] backdrop-filter backdrop-blur-sm flex p-5 rounded-[8px]">
-        className="absolute inset-0  shadow-md backdrop-blur-sm  text-[14px] rounded-[8px] overflow-hidden break-words px-[20px] py-[12px]">
+        <div
+          style={{ boxShadow: `0 0 12px rgba(0, 0, 0, 0.08)` }}
+          // className="absolute shadow-md inset-0 text-[14px] backdrop-filter backdrop-blur-sm flex p-5 rounded-[8px]">
+          className="absolute inset-0  backdrop-blur-sm  text-[14px] rounded-[8px] overflow-hidden break-words px-[20px] py-[12px]"
+        >
           <p
             className={`${bold ? "font-bold" : ""} ${italic ? "italic" : ""} ${
               underline ? "underline" : ""
@@ -607,34 +918,339 @@ const PremisePreview2 = ({
           </p>
         </div>
       </div>
-      {/* button part */}
-      <div className="lg:bg-[#FAFAFA] flex gap-5 justify-end py-1 text-center   mx-[28px] my-[20px]">
-        <button
-          disabled={isLoading}
-          className={
-            isLoading
-              ? "bg-[#9A9A9A] rounded-[8px] h-[32px] px-[12px] text-[14px] font-[600] text-white hover:bg hidden"
-              : "bg-[#FAFAFA] border h-[32px] !border-[#33B0CA] text-[#33B0CA] rounded-[8px]  px-[12px] text-[14px] font-[600]"
-          }
-          onClick={() => handleGoBack()}
-        >
-          Cancel
-        </button>
-        {isLoading ? (
+      <form onSubmit={submitPremise}>
+        {/* select section */}
+        <div className="flex flex-col md:w-[569px]  mx-auto gap-[12px] mt-[8px]">
+          <div className="md:h-[72px]">
+            <p className=" w-[90%] lg:w-full mx-auto text-[12px] md:text-[14px] text-[#616161] leading-[17px] md:leading-[24px] overflow-hidden break-words">
+              That's an interesting idea ! 
+              Let's work together to develop an exciting Screenplay in this situation.
+              To begin with, Please select your preferences -
+            </p>
+          </div>
+
+          <div className="text-[12px] grid grid-cols-12 gap-[12px] px-[16px] lg:px-0 mt-[8px]">
+            <div className="col-span-5 md:col-span-4">
+              <div
+                ref={natureProjectRef}
+                className={`h-[31px] relative  bg-[#fafafa] rounded-[4px] border-[2px] ${
+                  natureOfProject ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                } `}
+              >
+                <select
+                  className={`block appearance-none bg-[#fafafa] h-[27px] rounded-[4px]   w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
+                  value={natureOfProject}
+                  onChange={handleNatureOfProjectChange}
+                  onClick={handleSelectClick}
+                  required
+                >
+                  <option value="" disabled>
+                    Nature of project
+                  </option>
+                  {Object.keys(options).map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center px-[4px] pointer-events-none">
+                  {isNatureProjectOpen ? (
+                    <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[20px] " />
+                  ) : (
+                    <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[20px] " />
+                  )}
+                </div>
+              </div>
+            </div>
+            {/* <div
+              className={` ${
+                ["TV series", "Web series"].includes(natureOfProject)
+                  ? "col-span-7"
+                  : "col-span-7 md:col-span-4 "
+              }`}
+            > */}
+              {["TV series", "Web series"].includes(natureOfProject) && (
+                <div className="flex h-[31px] col-span-7">
+                  <label
+                    htmlFor="numOfEpisodes"
+                    className="block text-[12px] md:!text-[14px] text-[#616161] mb-1 mr-3"
+                  >
+                    No of episodes
+                  </label>
+                  <input
+                    type="number"
+                    id="numOfEpisodes"
+                    className={`h-[30px] relative  text-[12px] md:!text-[14px] leading-tight px-[8px] w-[102px] md:w-[196px] bg-[#fafafa] rounded-[4px] border-[2px] ${
+                      noOfEpi ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                    } focus:outline-none`}
+                    placeholder="No of episodes"
+                    required
+                    onChange={(e) => setNoOfEpi(e.target.value)}
+                  />
+                </div>
+              )}
+              {[
+                "Animated film",
+                "Documentary",
+                "Feature film",
+                "Short film",
+              ].includes(natureOfProject) && (
+                <div
+                  className={`h-[31px] relative  bg-[#fafafa] rounded-[4px] border-[2px] col-span-7 md:col-span-4  ${
+                    duration ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                  } `}
+                >
+                  <select
+                    ref={durationRef}
+                    className="block appearance-none bg-[#fafafa] h-[27px] rounded-[4px]  w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none"
+                    onClick={() => setIsdurationOpen(!isdurationOpen)}
+                    value={duration}
+                    onChange={(e) => setDuration(e.target.value)}
+                    required
+                  >
+                    <option className="" selected disabled>
+                      Duration
+                    </option>
+
+                    {durationOptions.map((option, index) => (
+                      <option key={option.value} value={option.value}>
+                        {option.text}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center px-[4px] pointer-events-none">
+                    {isdurationOpen ? (
+                      <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[20px] " />
+                    ) : (
+                      <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[20px] " />
+                    )}
+                  </div>
+                </div>
+              )}
+            {/* </div> */}
+            <div className="col-span-12 mb-[12px] md:mb-[0px] md:col-span-4">
+              {" "}
+              <div className="flex h-[31px] gap-[12px] md:w-[185px]">
+                <label className="text-[12px] md:!text-[14px] font-[500]">
+                  Protagonist Age
+                </label>
+                <input
+                  type="number"
+                  id="protaAge"
+                  min="0" // This prevents negative values
+                  className={`h-[30px] relative text-[12px] md:!text-[14px] leading-tight px-[8px] w-[102px] md:w-[56px] bg-[#fafafa] rounded-[4px] border-[2px] ${
+                    protaAge ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                  } focus:outline-none`}
+                  placeholder="23"
+                  required
+                  onChange={(e) => setProtaAge(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="flex gap-[12px] col-span-12 md:col-span-6">
+              <label className="text-[12px] md:!text-[14px] font-[500]">
+                Geography
+              </label>
+              <input
+                className={`block bg-[#fafafa] h-[30px] rounded-[4px] border-[2px] ${
+                  geographyItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                } w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
+                placeholder="Country/Region/City"
+                type="text"
+                onChange={handleGeographyChange}
+                required
+                maxLength={100}
+              />
+            </div>
+            <div
+              className={`h-[31px] relative col-span-6 md:col-span-3  md:w-[141px] bg-[#fafafa] rounded-[4px] border-[2px] ${
+                generaItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+              } `}
+            >
+              <select
+                ref={genreRef}
+                className="block appearance-none bg-[#fafafa] h-[27px] rounded-[4px]  w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none"
+                onClick={() => setIsgenreOpen(!isgenreOpen)}
+                value={generaItem}
+                onChange={(e) => setGeneraItem(e.target.value)}
+                required
+              >
+                <option value="" disabled>
+                  Genre
+                </option>
+
+                {genera.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center px-[4px] pointer-events-none">
+                {isgenreOpen ? (
+                  <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[20px] " />
+                ) : (
+                  <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[20px] " />
+                )}
+              </div>
+            </div>
+            <div
+              className={`h-[31px] relative col-span-6 md:col-span-4 md:w-[185px] bg-[#fafafa] rounded-[4px] border-[2px] ${
+                subGeneraItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+              }`}
+            >
+              <select
+                className="block appearance-none bg-[#fafafa] h-[27px] rounded-[4px]  w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none"
+                value={subGeneraItem}
+                onChange={(e) => setSubGeneraItem(e.target.value)}
+                required
+              >
+                <option value="" disabled>
+                  Sub-Genre
+                </option>
+
+                {subGeneraOptions.map((subGenre) => (
+                  <option
+                    className="text-[12px] md:!text-[14px]"
+                    key={subGenre}
+                    value={subGenre}
+                  >
+                    {subGenre}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center px-[4px] pointer-events-none">
+                {isSubGenreOpen ? (
+                  <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[20px] " />
+                ) : (
+                  <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[20px] " />
+                )}
+              </div>
+            </div>
+            <div
+              className={`h-[31px] relative col-span-4 md:col-span-3 ${
+                periodSetIn ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+              } rounded-[4px] border-[2px]`}
+            >
+              <select
+                ref={setinPeriodRef}
+                className={`block appearance-none bg-[#fafafa] h-[27px] rounded-[4px] w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
+                onClick={() => setSetinPeriodOpen(!isSetinPeriodOpen)}
+                onChange={(e) => setPeriodSetIn(e.target.value)}
+                value={periodSetIn}
+                required
+              >
+                <option className="" selected disabled>
+                  Period set in
+                </option>
+
+                <option className="text-[12px] md:!text-[14px]">Ancient</option>
+                <option className="text-[12px] md:!text-[14px]">Modern</option>
+                <option className="text-[12px] md:!text-[14px]">
+                  Contemporary
+                </option>
+                <option className="text-[12px] md:!text-[14px]">
+                  Last Century
+                </option>
+                <option className="text-[12px] md:!text-[14px]">
+                  Medieval
+                </option>
+                <option className="text-[12px] md:!text-[14px]">
+                  Prehistortic
+                </option>
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center px-[4px] pointer-events-none">
+                {isSetinPeriodOpen ? (
+                  <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[20px] " />
+                ) : (
+                  <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[20px] " />
+                )}
+              </div>
+            </div>
+            <div
+              className={`h-[31px] relative col-span-8 md:col-span-4 md:w-[206px] bg-[#fafafa] ${
+                protagonist ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+              } rounded-[4px] border-[2px]`}
+            >
+              <select
+                ref={protagonistRef}
+                className="block appearance-none bg-[#fafafa]  h-[27px] rounded-[4px]  w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none"
+                onClick={() => setIsProtagonistOpen(!isProtagonistOpen)}
+                value={protagonist}
+                onChange={(e) => setProtagonist(e.target.value)}
+                required
+              >
+                <option className="" selected disabled>
+                  Choose Your Protagonist
+                </option>
+                <option className="text-[12px] md:!text-[14px]">Male</option>
+                <option className="text-[12px] md:!text-[14px]">Female</option>
+                <option className="text-[12px] md:!text-[14px]">Animal</option>
+                <option className="text-[12px] md:!text-[14px]">
+                  Inanimate Object
+                </option>
+              </select>
+              <div className="absolute inset-y-0 right-0 flex items-center px-[4px] pointer-events-none">
+                {isProtagonistOpen ? (
+                  <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[20px] " />
+                ) : (
+                  <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[20px] " />
+                )}
+              </div>
+            </div>
+            <div className={`flex col-span-12 md:col-span-9 gap-[12px]`}>
+              <p className="text-[12px] md:!text-[14px] font-[500]">
+                Name Your Protagonist
+              </p>
+              <input
+                className={`block bg-[#fafafa] w-full h-[30px] rounded-[4px] border-[2px] ${
+                  protagonistName ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                }  px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
+                placeholder="Name"
+                type="text"
+                value={protagonistName}
+                onChange={handleProtagonistNameChange}
+                required
+                maxLength={100}
+              />
+            </div>{" "}
+          </div>
+        </div>
+        {/* button part */}
+        <div className="lg:bg-[#FAFAFA] flex gap-5 justify-end py-1 text-center   mx-[28px] mt-[12px] mb-[20px]">
           <button
-            className={`bg-[#33B0CA] text-white rounded-[8px] h-[32px] px-[10px] text-[14px] font-[600] defaultCursor-premisePool`}
+            disabled={isLoading}
+            className={
+              isLoading
+                ? "bg-[#616161] rounded-[8px] h-[32px] px-[12px] text-[14px] font-[600] text-white hover:bg hidden"
+                : "bg-[#FAFAFA] border h-[32px] !border-[#33B0CA] text-[#33B0CA] rounded-[8px]  px-[12px] text-[14px] font-[600]"
+            }
+            onClick={() => handleGoBack()}
           >
-            Posting...
+            Cancel
           </button>
-        ) : (
-          <button
-            onClick={submitPremise}
-            className={`bg-[#33B0CA] text-white rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600]`}
-          >
-            Post
-          </button>
-        )}
-      </div>
+          {isLoading ? (
+            <button
+            disabled={isLoading}
+              type="submit"
+              className={`bg-[#33B0CA] text-white rounded-[8px] h-[32px] px-[10px] text-[14px] font-[600] defaultCursor-premisePool`}
+            >
+              Posting...
+            </button>
+          ) : (
+            <button
+              // onClick={submitPremise}
+              disabled={!formValid}
+              type="submit"
+              className={` text-white rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] ${
+                !formValid ? "bg-[#616161] " : "bg-[#33B0CA]"
+              }`}
+            >
+              Post
+            </button>
+          )}
+        </div>
+      </form>
+
       {openPop && premiseData && (
         <Popup
           popClose={() => {

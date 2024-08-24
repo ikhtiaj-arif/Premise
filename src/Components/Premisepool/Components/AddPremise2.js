@@ -82,24 +82,24 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
     <div className="fixed top-[80px] md:top-0 left-0 w-full h-full flex items-center mt-80px] lg:mt-[0px] justify-center bg-[#252525b0] z-[1] ">
       <div
         className={`w-full  ${
-          !preview ? "md:w-[480px]" : "md:w-[666px]"
-        }  md:mt-[90px] relative`}
+          !preview ? "md:w-[480px]" : "md:w-[676px]"
+        } mt-[-81px] md:mt-[90px] relative`}
       >
         <div
           className={`bg-[#ffffff] lg:bg-[#FAFAFA] w-full ${
-            !preview ? "md:w-[450px] md:h-[500px] xl:h-auto" : "md:w-[636px] md:h-[524.16px]"
-          } mx-auto pt-[18px] md:rounded-[8px] shadow-lg h-[100vh]  overflow-y-auto premiseScroll overflow-x-hidden`}
+            !preview ? "md:w-[450px] md:h-auto" : "md:w-[646px] h-[91vh] md:h-auto"
+          } mx-auto pt-[18px] md:rounded-[8px] shadow-lg h-[100vh overflow-y-auto premiseScroll overflow-x-hidden`}
         >
           <img
             src={crossIcon}
             alt="cross icon"
-            className=" text-red-500 barSm-hidden z- w-8 h-8 cursor-pointer absolute top-[-12px] right-[0px]"
+            className={`text-red-500 barSm-hidden z- w-8 h-8 cursor-pointer absolute top-[-12px] right-0`}
             onClick={() => setAddPopup(false)}
           />
 
           <div className="">
             <div className="pr-2">
-              <div className="text-center  mx-auto md:mt-[-12px] xl:mt-0">
+              <div className="text-center  mx-auto mt-[-12px] xl:mt-0">
                 <MdKeyboardBackspace
                   src={crossIcon}
                   alt=""

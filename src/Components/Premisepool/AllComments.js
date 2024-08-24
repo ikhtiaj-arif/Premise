@@ -46,9 +46,10 @@ const AllComments = ({
   premiseData,
   replyTextCount,
   setReplyTextCount,
+  project_id,
 }) => {
   const user = useSelector((state) => state?.user?.id);
-
+  console.log("sopproject_id", comments?.suggested);
   const replyRef = useRef(null);
   const latestReplyRef = useRef(null);
 
@@ -74,8 +75,6 @@ const AllComments = ({
   const modifiedEmail = commentOwnerMail?.split("@")[0];
   const owner = data?.created_by?.id;
   const likesId = comments?.likes?.map((e) => e);
-
-
 
   const {
     data: profileImg,
@@ -245,7 +244,7 @@ const AllComments = ({
       // refetch();
       // setOpenReplyField(null);
       replyRef.current.value = ""; // Clear the textarea
-      setReplyTextCount(0)
+      setReplyTextCount(0);
       replyRefetch();
       toast.success("Reply added!", {
         position: toast.POSITION.TOP_CENTER,
@@ -283,14 +282,14 @@ const AllComments = ({
   };
 
   return (
-    <div  className=" flex flex-col  justify-end w-full  ">
+    <div className=" flex flex-col  justify-end w-full  ">
       {/* each comment  */}
       <div>
-        <div className="bg-[#fff] mt-[10px] lg:bg-[#FAFAFA] w-[95%] mx-auto  rounded-sm flex gap-1 ">
+        <div className="bg-[#fff] mt-[10px] w-[97%] lg:bg-[#FAFAFA]  mx-auto  rounded-sm flex gap-1 ">
           {/* comment like */}
-          <div className="lg:bg-[#FAFAFA]  w-full ">
-            <div className="flex flex-row-reverse"></div>
-            <div className="flex gap-[8px]">
+          <div className="lg:bg-[#FAFAFA]  w-full relative">
+            {/* <div className="flex flex-row-reverse"></div> */}
+            <div className="flex  gap-[8px]">
               {comments?.user?.id === 1 ? (
                 <div data-reply>
                   {profileImg?.[0]?.profile_photo ? (
@@ -308,14 +307,16 @@ const AllComments = ({
                   )}
                 </div>
               ) : (
-                <a data-reply
-                 className="h-[31.9px] w-[32px]  mt-[6px]"
-                target="_blank"
-                rel="noreferrer"
-                href={
-                  comments?.user?.id === user
-                    ? `${URL}/memberpage/#/personaldetails`
-                    : `${URL}/memberpage/#/user/${comments?.user?.id}/personaldetails`}
+                <a
+                  data-reply
+                  className="h-[31.9px] w-[32px]  mt-[6px]"
+                  target="_blank"
+                  rel="noreferrer"
+                  href={
+                    comments?.user?.id === user
+                      ? `${URL}/memberpage/#/personaldetails`
+                      : `${URL}/memberpage/#/user/${comments?.user?.id}/personaldetails`
+                  }
                 >
                   {profileImg?.[0]?.profile_photo ? (
                     <img
@@ -326,19 +327,21 @@ const AllComments = ({
                   ) : (
                     <img
                       src={userIcon}
-                      className="h-[31.9px] w-[36px] mt-[6px]"
+                      className="h-[31.9px] w-[36px] "
                       alt=""
                     />
                   )}
                 </a>
               )}
-              <div data-reply className="border w-full bg-[#f8f8f8] border-[#EAEAEA] rounded-[8px] p-1 ">
+              <div
+                data-reply
+                className="border w-[78%] md:w-[86%] lg:w-[89%]  mr-auto bg-[#f8f8f8] border-[#EAEAEA]  rounded-[8px] p-1 "
+              >
                 <div className="flex justify-between my-1 relative">
-                  <div className="text-[#1E1E1E] pl-[4px] pr-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center">
+                  <div className="text-[#1E1E1E]  pl-[4px] pr-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center">
                     {comments?.user?.id === 1 ? (
-                      <p className="text-[14px] font-[500] ">
-                        {comments?.c_value
-                        }. {commenterName}
+                      <p className="text-[14px]  font-[500] ">
+                        {comments?.c_value}. {commenterName}
                       </p>
                     ) : (
                       <a
@@ -350,7 +353,7 @@ const AllComments = ({
                             : `${URL}/memberpage/#/user/${comments?.user?.id}/personaldetails`
                         }
                       >
-                        <p className="text-[14px] font-[500] hover:text-[#33B0CA]">
+                        <p className="text-[14px] leading-[17px] font-[500] hover:text-[#33B0CA]">
                           {comments?.c_value}. {commenterName}
                         </p>
                       </a>
@@ -361,13 +364,17 @@ const AllComments = ({
                     <TimeAgo timestamp={createdTime} />
                   </p>
                 </div>
-                <p className="text-[#252525] text-[12px] lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
+
+                <p className="text-[#252525] text-[12px]  lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
                   {comments?.text}
                 </p>
               </div>
             </div>
 
-            <div data-reply className="flex justify-between items-center">
+            <div
+              data-reply
+              className="flex justify-between items-center w-[87%] md:w-[94%] "
+            >
               <div className=" notranslate flex mb-[4px] items-center gap-[10px] text-sm ml-10 mt-[2px]">
                 {isLiked ? (
                   <button
@@ -486,39 +493,52 @@ const AllComments = ({
                     </div>
                   )}
               </div>
-              {data?.created_by?.id === user && (
+              {(comments?.suggested && data?.created_by?.id === user) ? (
                 <button
-                  onClick={() => handleAddToBeat(comments)}
+                  // onClick={() => handleAddToBeat(comments)}
                   className="w-[25%] text-right"
                 >
                   <p className=" text-[12px] text-[#616161] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
-                    Add to Beat Sheet
+                    Added to Beat Sheet
                   </p>
+                </button>
+              ) : (
+                <button className="w-[25%] text-right">
+                  {data?.created_by?.id === user && (
+                    <p
+                      onClick={() => handleAddToBeat(comments)}
+                      className=" text-[12px] text-[#616161] hover:text-[#33B0CA] font-[400] leading-[14.52px] "
+                    >
+                      Add to Beat Sheet
+                    </p>
+                  )}
                 </button>
               )}
             </div>
+            <div className="absolute right-[7.5px] top-[28%]">
+              {owner === user || comments?.user?.id === user ? (
+                <div className="flex gap-2 items-center pl-[2px]">
+                  <button
+                    data-reply
+                    disabled={disableD}
+                    onClick={() => {
+                      setIdToDlt(comments?.id);
+                      setOpenDltPop(true);
+                    }}
+                    className={` ${
+                      disableD ? "cursor-default" : "cursor-pointer"
+                    }`}
+                  >
+                    <FaRegTrashAlt className="h-5 w-5 text-[#909090]" />
+                  </button>
+                </div>
+              ) : (
+                <div className={`px-3 'cursor-default'}`}>
+                  <div className="" />
+                </div>
+              )}
+            </div>
           </div>
-          <div></div>
-          {owner === user || comments?.user?.id === user ? (
-            <div className="flex gap-2 items-center pl-[2px]">
-              <button
-              data-reply
-                disabled={disableD}
-                onClick={() => {
-                  setIdToDlt(comments?.id);
-                  setOpenDltPop(true);
-                }}
-                className={` ${disableD ? "cursor-default" : "cursor-pointer"}`}
-              >
-                <FaRegTrashAlt className="h-5 w-5 text-[#909090]" />
-              </button>
-            </div>
-          ) : (
-            <div className={`px-3 'cursor-default'}`}>
-              <div className="" />
-            </div>
-          )}
-
           {likePopup && (
             <CommentLikePopup
               setLikePopup={setLikePopup}
@@ -538,7 +558,7 @@ const AllComments = ({
               {replyField && (
                 <div className="w-[81%] mr-[44px] ml-auto mb-[8px]">
                   <form
-                  data-reply
+                    data-reply
                     onSubmit={handlePostReplyToComment}
                     className="relative w-full text-[14px] 
               bg-[#fafafa] border rounded-[8px] border-[#eaeaea] focus:outline-none  flex"

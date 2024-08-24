@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { useDispatch } from "react-redux";
+import { MyContext } from "../../App";
 import { useGetPremiseUserPictureQuery } from "../../app/EndPoints/premisePoolApi";
 import { setUser } from "../../app/Slices/userSlice";
 import backgroundImg from "../../img/Icons/download.jpg";
@@ -60,6 +61,7 @@ const PremiseCard = ({
   const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
 
   // console.log("xcvvdfawsedfdsfgfgd", p);
+  const {allspProjectJSON, setSelectedPremiseObj} = useContext(MyContext)
 
   const splitText = text.split("+");
   const dText = splitText[1];
@@ -346,7 +348,7 @@ const PremiseCard = ({
                   backgroundPosition: "center",
                   width: "92%",
                   borderRadius: "8px",
-                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+                  // boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
                 }
               : { backgroundColor: bg_color }
           }
@@ -357,6 +359,7 @@ const PremiseCard = ({
               setOpenPop(true);
               setShowRefine(false);
               setOpenDotMenu(null)
+              setSelectedPremiseObj(p)
             }}
             // className={`absolute inset-0 w-[100%] mx-auto backdrop-filter flex items-center justify-center backdrop-blur-sm px-[14px] text-[16px] rounded-[8px] text-[#616161] leading-5 font-[400] overflow-hidden `}
             className="absolute cursor-pointer inset-0  backdrop-blur-sm  text-[16px] leading-[19.83px] rounded-[8px] overflow-hidden break-words px-[14px] py-[12px]"
@@ -443,6 +446,7 @@ const PremiseCard = ({
             }}
             refetch={refetch}
             setIsLiked={setIsLiked}
+            p={p}
           />
         </div>
         {/* 2nd div */}
@@ -544,6 +548,7 @@ const PremiseCard = ({
             hiddenCountRefetch
           }}
           refetch={refetch}
+          p={p}
         />
       )}
     </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   FaCommentDots,
   FaEllipsisV,
@@ -33,6 +33,7 @@ import DeletePremise from "./DeletePremise";
 import LikePopup from "./LikePopup";
 import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
+import { MyContext } from "../../App";
 
 const Popup = ({ popClose, data, refetch, transText }) => {
   const {
@@ -52,8 +53,10 @@ const Popup = ({ popClose, data, refetch, transText }) => {
     index,
     setHideDisable,
     hideDisable,
-    hiddenCountRefetch
+    hiddenCountRefetch,
+    project_id
   } = data;
+
 
   const [openDotMenu, setOpenDotMenu] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
@@ -286,7 +289,7 @@ useEffect(()=> {
     return () => document.body.removeEventListener("mousedown", closeMenu);
   }, []);
 
-console.log("commentsData", commentsData);
+// console.log("commentsData", commentsData);
   
 
   if (isPremiseLoading) {
@@ -449,7 +452,7 @@ console.log("commentsData", commentsData);
               </div>
               {/* image */}
               <div
-                className=" mx-auto h-[25.6vh] lg:h-[225px] xl:h-[270px]  w-full lg:w-[88%] lg:my-auto border border-[#fafafa] relative  rounded-[8px] "
+                className=" mx-auto h-[25.6vh] lg:h-[225px] xl:h-[270px]  w-full lg:w-[88%] lg:my-auto border border-[#eaeaea]  relative  rounded-[8px] "
                 style={{
                   background: `${
                     bg_img
@@ -479,7 +482,7 @@ console.log("commentsData", commentsData);
                   className={`${
                     bg_img || bg_color !== "#FAFAFA"
                       ? "p-[12px]"
-                      : "px-[18px] lg:px-0"
+                      : "px-[18px] "
                   } absolute inset-0  backdrop-blur-sm  text-[14px] rounded-[8px] overflow-hidden break-words`}
                 >
                   {/* premise text */}

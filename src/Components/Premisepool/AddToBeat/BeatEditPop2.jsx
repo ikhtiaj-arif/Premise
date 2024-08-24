@@ -128,6 +128,7 @@ const BeatEditPop = ({
   }, [userFirstName, userLastName, userRefetch]);
 
   const handleCreateProject = async () => {
+
     const nameExists = ProjectsObj?.projects?.some(
       (item) => item.name === newProjectName
     );
@@ -136,10 +137,12 @@ const BeatEditPop = ({
         "A project with the same name already exists. Please choose a different name."
       );
     }
+
     setButtonDisable(true);
 
     // function to submit new project to script pad
     // ?.filter(item => !item.locked)
+
     const untitledProjects = ProjectsObj?.projects
       .filter((project) => {
         const words = project.name.split(" ");
@@ -158,6 +161,7 @@ const BeatEditPop = ({
         }
       }
     }
+
     const fullName = `${userQuery?.first_name} ${userQuery?.last_name}`;
 
     let authorName;
@@ -235,6 +239,7 @@ const BeatEditPop = ({
   // Function to handle the click on "Add New Project" button
 
   const handleAddNewProjectClick = () => {
+
     setNewProjectVisible(!isNewProjectVisible);
     setSelectedProject(null);
   };
@@ -248,6 +253,8 @@ const BeatEditPop = ({
   const [saveScreenPlay, resSaveScreenPlay] = useSaveScreenPlayMutation();
   const [screenPlayData, setScreenPlayData] = useState();
 
+
+  
   const handleSubmitBeatToProject = async () => {
     // console.log("resSaveScreenPlay", resSaveScreenPlay.isSuccess);
     const data = {

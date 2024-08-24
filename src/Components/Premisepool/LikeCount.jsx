@@ -4,8 +4,13 @@ import userIcon from "../../img/Icons/userImg.png";
 import { URL } from "../utils";
 
 const LikeCount = ({ like }) => {
-  
+  console.log(like?.user);
   const likedUser = like?.user?.id;
+  const firstName = like?.user?.first_name;
+  const lastName = like?.user?.last_name;
+  const email = like?.user?.email;
+  const username = email.split("@")[0];
+
   const {
     data: profileImg,
     profileImgLoading,
@@ -22,10 +27,13 @@ const LikeCount = ({ like }) => {
         ) : (
           <img src={userIcon} className="w-8 h-8" alt="" />
         )}
-
-        <h4 className="text-[14px] font-[500] text-[#252525]">
-          {like?.user?.first_name} {like?.user?.last_name}
-        </h4>
+        {firstName ? (
+          <h4 className="text-[14px] font-[500] text-[#252525]">
+            {firstName} {lastName}
+          </h4>
+        ) : (
+          <h4 className="text-[14px] font-[500] text-[#252525]">{username}</h4>
+        )}
       </div>
       <div className="h-[1px] bg-[#EAEAEA] w-full " />
     </div>
