@@ -49,7 +49,7 @@ const AllComments = ({
   project_id,
 }) => {
   const user = useSelector((state) => state?.user?.id);
-  console.log("sopproject_id", comments?.suggested);
+
   const replyRef = useRef(null);
   const latestReplyRef = useRef(null);
 
@@ -197,6 +197,7 @@ const AllComments = ({
       });
       setDisableD(false);
       setDisable(false);
+      commentRefetch()
     } else {
       toast.error("Failed to delete comment. Please try again.", {
         position: toast.POSITION.TOP_CENTER,
@@ -204,6 +205,7 @@ const AllComments = ({
       });
       setDisable(false);
       setDisableD(false);
+      commentRefetch()
     }
   };
 
@@ -224,6 +226,7 @@ const AllComments = ({
       setCommentOwner(commentOwnerName);
       setReplyField(!replyField);
       setSuggestDisable(false);
+      commentRefetch()
     }
   };
 
@@ -366,7 +369,7 @@ const AllComments = ({
                 </div>
 
                 <p className="text-[#252525] text-[12px]  lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
-                  {comments?.text}
+                {comments?.text?.replace(/^\s*\d+\.\s*/, '')}
                 </p>
               </div>
             </div>
@@ -473,7 +476,37 @@ const AllComments = ({
                   comments?.text?.includes("?") &&
                   comments?.user?.id === 1 && (
                     <div className=" flex items-center justify-between">
-                      <button
+                      {comments?.suggested ? (
+                        <button
+                          disabled={suggestDisable}
+                          className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[#616161]"
+                        >
+                          <p className="text-[12px] text-[#fafafa]  font-[400] leading-[14.52px] ">
+                            Suggested
+                          </p>
+                        </button>
+                      ) : (
+                        <button
+                          disabled={suggestDisable}
+                          onClick={() => {
+                            handleSuggest(comments?.text);
+                          }}
+                          className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
+                        >
+                          {suggestDisable ? (
+                            <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                              Suggesting...
+                            </p>
+                          ) : (
+                            <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                              Suggest
+                            </p>
+                          )}
+                        </button>
+                      )}
+
+
+                      {/* <button
                         disabled={suggestDisable}
                         onClick={() => {
                           handleSuggest(comments?.text);
@@ -489,11 +522,12 @@ const AllComments = ({
                             Suggest
                           </p>
                         )}
-                      </button>
+                      </button> */}
                     </div>
                   )}
               </div>
-              {(comments?.suggested && data?.created_by?.id === user) ? (
+
+              {/* {(comments?.suggested && data?.created_by?.id === user) ? (
                 <button
                   // onClick={() => handleAddToBeat(comments)}
                   className="w-[25%] text-right"
@@ -503,6 +537,19 @@ const AllComments = ({
                   </p>
                 </button>
               ) : (
+                <button className="w-[25%] text-right">
+                  {data?.created_by?.id === user && (
+                    <p
+                      onClick={() => handleAddToBeat(comments)}
+                      className=" text-[12px] text-[#616161] hover:text-[#33B0CA] font-[400] leading-[14.52px] "
+                    >
+                      Add to Beat Sheet
+                    </p>
+                  )}
+                </button>
+              )} */}
+
+              {data?.created_by?.id === user && (
                 <button className="w-[25%] text-right">
                   {data?.created_by?.id === user && (
                     <p
@@ -664,6 +711,7 @@ const AllComments = ({
                       replyToCommentID={replyToCommentID}
                       user={user}
                       handleAddToBeat={handleAddToBeat}
+                      commentRefetch={commentRefetch}
                     />
                   </motion.div>
                 ))}

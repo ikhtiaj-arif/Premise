@@ -28,6 +28,7 @@ const ReplyToComments = ({
   user,
   replyToCommentID,
   handleAddToBeat,
+  commentRefetch,
 }) => {
   const [isReplyLiked, setIsReplyLiked] = useState(false);
   const [openDltPop, setOpenDltPop] = useState(false);
@@ -50,6 +51,8 @@ const ReplyToComments = ({
   const [deleteReply, deleteReplyRes] = useDeleteLikeOfReplyMutation();
   const [createReplyMutation, isReplyResInfo] = useCreateReplyMutation();
   const [suggestion, suggestionRes] = useCreateSuggestedReplyMutation();
+
+  console.log("reply", reply);
 
   const {
     data: profileImg,
@@ -106,12 +109,14 @@ const ReplyToComments = ({
         autoClose: 800,
       });
       setDisableBtn(false);
+      commentRefetch();
     } else {
       toast.error("Failed to delete comment. Please try again.", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 800,
       });
       setDisableBtn(false);
+      commentRefetch();
     }
   };
   const [replyChildTextCount, setReplyChildTextCount] = useState(0);
@@ -190,7 +195,7 @@ const ReplyToComments = ({
                 ) : (
                   <img
                     src={userIcon}
-                    className="h-[31.9px] w-[36px] mt-[6px]"
+                    className="h-[31.9px] w-[33px] mt-[6px]"
                     alt=""
                   />
                 )}
@@ -375,20 +380,30 @@ const ReplyToComments = ({
               {owner === user &&
                 reply?.text?.includes("?") &&
                 reply?.user?.id === 1 && (
-                  <button
-                    className="px-2  rounded-[4px] py-[2px] bg-[#33B0CA]"
-                    onClick={() => handleSuggest(reply?.text)}
-                  >
-                    {suggestDisable ? (
-                      <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
-                        Suggesting...
-                      </p>
+                  <>
+                    {reply?.suggested ? (
+                      <button className="px-2  rounded-[4px] py-[2px] bg-[#616161]">
+                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                          Suggested
+                        </p>
+                      </button>
                     ) : (
-                      <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
-                        Suggest
-                      </p>
+                      <button
+                        className="px-2  rounded-[4px] py-[2px] bg-[#33B0CA]"
+                        onClick={() => handleSuggest(reply?.text)}
+                      >
+                        {suggestDisable ? (
+                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                            Suggesting...
+                          </p>
+                        ) : (
+                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                            Suggest
+                          </p>
+                        )}
+                      </button>
                     )}
-                  </button>
+                  </>
                 )}
             </div>
 

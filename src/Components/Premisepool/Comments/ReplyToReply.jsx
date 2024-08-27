@@ -67,6 +67,7 @@ const ReplyToReply = ({ childReply, owner, user, replyRefetch }) => {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 800,
       });
+      replyRefetch();
       setDisableBtn(false);
     }
   };

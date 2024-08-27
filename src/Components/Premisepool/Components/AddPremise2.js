@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
 import { MdKeyboardBackspace } from "react-icons/md";
 import arrowRight from "../../../img/Icons/ArrowRicon.png";
@@ -56,11 +57,11 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
     const value = event.target.value;
     const trimmedValue = value.replace(/^\s+/, ""); // Remove leading spaces
     const regex = /^[A-Za-z ]*$/;
-   
+
     // if (regex.test(trimmedValue)) {
-      //   setText(trimmedValue);
-      // }
-      setText(trimmedValue)
+    //   setText(trimmedValue);
+    // }
+    setText(trimmedValue);
   };
 
   const handleGoBack = () => {
@@ -87,7 +88,9 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
       >
         <div
           className={`bg-[#ffffff] lg:bg-[#FAFAFA] w-full ${
-            !preview ? "md:w-[450px] md:h-auto" : "md:w-[646px] h-[91vh] md:h-auto"
+            !preview
+              ? "md:w-[450px] md:h-auto"
+              : "md:w-[646px] h-[91vh] md:h-auto"
           } mx-auto pt-[18px] md:rounded-[8px] shadow-lg h-[100vh overflow-y-auto premiseScroll overflow-x-hidden`}
         >
           <img
@@ -222,11 +225,35 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
                 </div>
                 <div>
                   {selectedLanguage && keyboardVisible && (
-                    <Keyboard
-                      selectedLanguage={selectedLanguage}
-                      setText={setText}
-                      inputRef={inputRef}
-                    />
+                    <Draggable handle=".movable-handle">
+                      <div className="absolute z-20 w-[650px] top-[272px] right-[170px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
+                        <div className="grid grid-cols-12">
+                          <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
+                            Drag me!!{" "}<span className="font-[500]">
+                               {selectedLanguage}
+                              </span>{" "}
+                                
+                            Keyboard
+                          </div>
+                          <div className="flex justify-center items-center w-full h-full cursor-pointer">
+                            <button
+                              onClick={() => setKeyboardVisible(false)}
+                              className="font-bold w-full h-full"
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="p-2">
+                          <Keyboard
+                            selectedLanguage={selectedLanguage}
+                            setText={setText}
+                            inputRef={inputRef}
+                          />
+                        </div>
+                      </div>
+                    </Draggable>
                   )}
                 </div>
               </form>

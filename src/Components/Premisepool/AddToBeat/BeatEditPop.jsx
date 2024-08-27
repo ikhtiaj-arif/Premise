@@ -1,3 +1,4 @@
+// import "./BeatCss.css";
 import axios from "axios";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
@@ -314,8 +315,10 @@ const BeatEditPop = ({
   const [updateScene, updateBeatRes] = useUpdateSceneMutation();
   const [saveScreenPlay, resSaveScreenPlay] = useSaveScreenPlayMutation();
   const [screenPlayData, setScreenPlayData] = useState();
+  const [beatPostLoading, setBeatPostLoading] = useState(false);
 
   const handleSubmitBeatToProject = async () => {
+    setBeatPostLoading(true);
     const data = {
       name: selectedProject?.name,
       version: selectedProject?.total_versions,
@@ -421,9 +424,16 @@ const BeatEditPop = ({
             position: toast.POSITION.TOP_CENTER,
             autoClose: 800,
           });
+          // setBeatPostLoading(false);
         }
       })
-      .catch((err) => {});
+      .catch((err) => {
+        toast.error("Something went wrong!", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 800,
+        });
+        setBeatPostLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -556,7 +566,7 @@ const BeatEditPop = ({
                   isSmallDevice && "overflow-y-scroll"
                 } md:w-[920px] mx-auto ${
                   !doNotShowBox
-                    ? "h-[90vh] md:h-[505px]"
+                    ? "h-[90vh] md:h-[525px]"
                     : "h-[80%] md:h-[411px]"
                 } bg-white md:bg-[#FAFAFA]`}
               >
@@ -574,12 +584,13 @@ const BeatEditPop = ({
                     onClick={() => popClose()}
                   />
                 </div>
-                <div className="pb-[8px] mt-[8px]">
+                <div className="pb-[8px] mt-[12px]">
                   <h1 className="text-[14px] md:text-[18px] font-[500] text-center">
                     Adding a Comment to Beat Sheet
                   </h1>
                 </div>
-                <div className="px-[12px] md:px-[33px] pb-[4p]">
+
+                <div className="px-[12px] md:px-[33px] pb-[4px]">
                   {!doNotShowBox && (
                     <div>
                       {readMore && (
@@ -646,178 +657,173 @@ const BeatEditPop = ({
                       <Loading />
                     </div>
                   ) : (
-                    <div>
-                      {Object?.keys(options).map((key) => (
-                        <div
-                          key={key}
-                          className={`w-full md:w-[853px] mb-[8px] rounded-[6px] px-[16px] py-[10px] ${
-                            regardingOutput === key
-                              ? "bg-[#EAEAEA] h-[65px]"
-                              : "bg-[#F8F8F8]"
-                          } ${
-                            !readMore || doNotShowBox ? "h-[53px]" : "h-[42px]"
-                          }  border flex items-center gap-[10px]`}
-                        >
-                          <input
-                            onClick={() => setRegardingOutput(key)}
-                            checked={regardingOutput === key}
-                            type="radio"
-                            name=""
-                            id=""
-                            className="cursor-pointer"
-                          />
-                          {regardingOutput === key ? (
-                            <textarea
-                              maxLength={400}
-                              type="text"
-                              value={options[key]}
-                              onChange={(e) => handleInputChange(e, key)}
-                              className="focus:resize-none outline-none bg-[#EAEAEA] w-full  text-[14px] leading-[20px] resize-none"
-                              ref={inputRef}
+                    <>
+                      <div>
+                        {Object?.keys(options).map((key) => (
+                          <div
+                            key={key}
+                            className={`w-full md:w-[853px] mb-[8px] rounded-[6px] px-[16px] py-[10px] ${
+                              regardingOutput === key
+                                ? "bg-[#EAEAEA] h-[65px]"
+                                : "bg-[#F8F8F8]"
+                            } ${
+                              !readMore || doNotShowBox
+                                ? "h-[53px]"
+                                : "h-[42px]"
+                            }  border flex items-center gap-[10px]`}
+                          >
+                            <input
+                              onClick={() => setRegardingOutput(key)}
+                              checked={regardingOutput === key}
+                              type="radio"
+                              name=""
+                              id=""
+                              className="cursor-pointer"
                             />
-                          ) : (
-                            <p
-                              className={`w-full  outline-none bg-[#F8F8F8] text-[14px] leading-[18px] ${
-                                !readMore || doNotShowBox
-                                  ? "h-[48px]"
-                                  : "h-[38px]"
-                              } overflow-y-auto`}
+                            {regardingOutput === key ? (
+                              <textarea
+                                maxLength={400}
+                                type="text"
+                                value={options[key]}
+                                onChange={(e) => handleInputChange(e, key)}
+                                className="focus:resize-none outline-none bg-[#EAEAEA] w-full  text-[14px] leading-[20px] resize-none"
+                                ref={inputRef}
+                              />
+                            ) : (
+                              <p
+                                className={`w-full  outline-none bg-[#F8F8F8] text-[14px] leading-[18px] ${
+                                  !readMore || doNotShowBox
+                                    ? "h-[48px]"
+                                    : "h-[38px]"
+                                } overflow-y-auto`}
+                              >
+                                {options[key]}
+                              </p>
+                            )}
+
+                            {showKeyboard && regardingOutput === key && (
+                              <Draggable handle=".movable-handle">
+                                <div className="absolute z-20 w-[650px] top-[180px] right-[30px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
+                                  <div className="grid grid-cols-12">
+                                    <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
+                                      Drag me!!{" "}
+                                      <span className="font-[500]">
+                                        {sourcesLanguage}
+                                      </span>{" "}
+                                      Keyboard
+                                    </div>
+                                    <div className="flex justify-center items-center w-full h-full cursor-pointer">
+                                      <button
+                                        onClick={() => setShowKeyboard(false)}
+                                        className="font-bold w-full h-full"
+                                      >
+                                        ✕
+                                      </button>
+                                    </div>
+                                  </div>
+
+                                  <div className="p-2">
+                                    <KeyboardB
+                                      regardingOutput={regardingOutput}
+                                      setOptions={setOptions}
+                                      inputRef={inputRef}
+                                      sourcesLanguage={sourcesLanguage}
+                                    />
+                                  </div>
+                                </div>
+                              </Draggable>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+
+                      <div
+                        className={`flex justify-end items-center gap-[16px] ${
+                          doNotShowBox
+                            ? "mt-[45px]"
+                            : "mt-[8px] md:mt-[20px] mb-[3px]"
+                        } `}
+                      >
+                        <div>
+                          {!translatedPop && (
+                            <button
+                              className={` cursor-pointer hover:text-[#33B0CA] `}
+                              onClick={() => setTranslatedPop(!translatedPop)}
                             >
-                              {options[key]}
-                            </p>
-                          )}
-
-                          {showKeyboard && regardingOutput === key && (
-                            <Draggable handle=".movable-handle">
-                              <div className="absolute z-20 w-[650px] top-[180px] right-[30px] bg-white border border-gray-300 shadow-lg rounded">
-                                <div className="grid grid-cols-12">
-                                  <div className="movable-handle col-span-11 bg-[#EAEAEA] text-[#616161] cursor-move text-center text-[14px] font-[500]">
-                                    Drag me!! {sourcesLanguage} Language
-                                    Keyboard Show
-                                  </div>
-                                  <div className="flex justify-center items-center w-full h-full cursor-pointer">
-                                    <button
-                                      onClick={() => setShowKeyboard(false)}
-                                      className="font-bold w-full h-full"
-                                    >
-                                      ✕
-                                    </button>
-                                  </div>
-                                </div>
-
-                                <div className="p-2">
-                                  <KeyboardB
-                                    regardingOutput={regardingOutput}
-                                    setOptions={setOptions}
-                                    inputRef={inputRef}
-                                    sourcesLanguage={sourcesLanguage}
-                                  />
-                                </div>
-                              </div>
-                            </Draggable>
+                              <img src={transIcon} alt="" />
+                            </button>
                           )}
                         </div>
-                      ))}
-                    </div>
-                  )}
-                  <div
-                    className={`flex justify-end items-center gap-[16px] ${
-                      doNotShowBox
-                        ? "mt-[45px]"
-                        : "mt-[8px] md:mt-[20px] mb-[3px]"
-                    } `}
-                  >
-                    <div>
-                      {!translatedPop && (
-                        <button
-                          className={` cursor-pointer hover:text-[#33B0CA] `}
-                          onClick={() => setTranslatedPop(!translatedPop)}
-                        >
-                          <img src={transIcon} alt="" />
-                        </button>
-                      )}
-                    </div>
 
-                    {translatedPop && (
-                      <div className="border p-1 rounded-[4px] flex items-center justify-between">
+                        {translatedPop && (
+                          <div className="border p-1 rounded-[4px] flex items-center justify-between">
+                            <button
+                              onClick={() => setTranslatedPop(!translatedPop)}
+                            >
+                              <img
+                                src={transIcon}
+                                alt=""
+                                className="w-[29px] h-[26px]"
+                              />
+                            </button>
+                            <select
+                              value={selectedLanguage}
+                              onChange={handleOptionChange}
+                              className="bg-[#FAFAFA] border-none w-[106px] text-[14px] text-[#616161] font-[400] focus:outline-none h-7"
+                            >
+                              {Object.entries(sortedLanguages).map(
+                                ([key, name]) => (
+                                  <option key={key} value={key}>
+                                    <p className="bg-[#33B0CA]">{name}</p>
+                                  </option>
+                                )
+                              )}
+                            </select>
+                          </div>
+                        )}
+                        {!showKeyboard && (
+                          <button
+                            className="hidden md:block"
+                            onClick={() => setShowKeyboard(!showKeyboard)}
+                          >
+                            <FaKeyboard className="text-[24px]" />
+                          </button>
+                        )}
+                        {showKeyboard && (
+                          <div className="border p-1 rounded-[4px] flex items-center justify-between">
+                            <button
+                              onClick={() => setShowKeyboard(!showKeyboard)}
+                            >
+                              <FaKeyboard />
+                            </button>
+                            <select
+                              value={sourcesLanguage}
+                              onChange={(e) =>
+                                setSourcesLanguage(e.target.value)
+                              }
+                              className="bg-[#FAFAFA] border-none w-full md:w-[110px] text-[14px] text-[#616161] font-[400] focus:outline-none h-7"
+                            >
+                              {Object.entries(keyboardOptions)
+                                .sort(([, a], [, b]) => a.localeCompare(b))
+                                .map(([code, name]) => (
+                                  <option key={code} value={name}>
+                                    {name}
+                                  </option>
+                                ))}
+                            </select>
+                          </div>
+                        )}
+
                         <button
-                          onClick={() => setTranslatedPop(!translatedPop)}
+                          disabled={beatPostLoading}
+                          className="bg-[#33B0CA] text-[#FAFAFA] border border-[#33B0CA] text-[14px] font-[600]  rounded-[8px] min-w-[74px] min-h-[32px] px-[8px] hover:shadow-md shadow-[#252525] hover:bg-[#33B0CA] "
+                          onClick={() => handleSubmitBeatToProject()}
                         >
-                          <img
-                            src={transIcon}
-                            alt=""
-                            className="w-[29px] h-[26px]"
-                          />
+                          Next
                         </button>
-                        <select
-                          value={selectedLanguage}
-                          onChange={handleOptionChange}
-                          className="bg-[#FAFAFA] border-none w-[106px] text-[14px] text-[#616161] font-[400] focus:outline-none h-7"
-                        >
-                          {Object.entries(sortedLanguages).map(
-                            ([key, name]) => (
-                              <option key={key} value={key}>
-                                <p className="bg-[#33B0CA]">{name}</p>
-                              </option>
-                            )
-                          )}
-                        </select>
                       </div>
-                      // <div className="border p-1 rounded-[4px] flex items-center justify-between h-[32px]">
-                      //   <button
-                      //     className={` cursor-pointer hover:text-[#33B0CA] `}
-                      //     onClick={() => setTranslatedPop(!translatedPop)}
-                      //   >
-                      //     <img
-                      //       src={transIcon}
-                      //       alt=""
-                      //       className="w-[32px] h-[30px]"
-                      //     />
-                      //   </button>
-                      //   <TranslateDrop
-                      //     source_language={source_language}
-                      //     selectedOption={selectedOption}
-                      //     setSelectedOption={setSelectedOption}
-                      //     loading={translateInfo.isLoading}
-                      //     handleOptionChange={handleOptionChange}
-                      //   />
-                      // </div>
-                    )}
-                    {!showKeyboard && (
-                      <button
-                        className="hidden md:block"
-                        onClick={() => setShowKeyboard(!showKeyboard)}
-                      >
-                        <FaKeyboard className="text-[24px]" />
-                      </button>
-                    )}
-                    {showKeyboard && (
-                      <div className="border p-1 rounded-[4px] flex items-center justify-between">
-                        <button onClick={() => setShowKeyboard(!showKeyboard)}>
-                          <FaKeyboard />
-                        </button>
-                        <select
-                          value={sourcesLanguage}
-                          onChange={(e) => setSourcesLanguage(e.target.value)}
-                          className="bg-[#FAFAFA] border-none w-full md:w-[110px] text-[14px] text-[#616161] font-[400] focus:outline-none h-7"
-                        >
-                          {Object.entries(keyboardOptions)
-                            .sort(([, a], [, b]) => a.localeCompare(b))
-                            .map(([code, name]) => (
-                              <option key={code} value={name}>
-                                {name}
-                              </option>
-                            ))}
-                        </select>
-                      </div>
-                    )}
-                    <button
-                      className="bg-[#33B0CA] text-[#FAFAFA] border border-[#33B0CA] text-[14px] font-[600]  rounded-[8px] min-w-[74px] min-h-[32px] px-[8px] hover:shadow-md shadow-[#252525] hover:bg-[#33B0CA] "
-                      onClick={() => handleSubmitBeatToProject()}
-                    >
-                      Next
-                    </button>
-                  </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

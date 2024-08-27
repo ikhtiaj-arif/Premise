@@ -26,11 +26,11 @@ function App() {
   const [selectedSpProjectID, setSelectedSpProjectID] = useState("");
   const [createdSpProjectID, setCreatedSpProjectID] = useState("");
 
-  console.log("selectedPremiseObj",selectedPremiseObj)
+  // console.log("selectedPremiseObj",selectedPremiseObj)
 useEffect(()=>{
   if(activeAddedByMe){
     // setSearchAuthor(user)
-    console.log(user);
+    // console.log(user);
   }
 
 },[activeAddedByMe, user])
