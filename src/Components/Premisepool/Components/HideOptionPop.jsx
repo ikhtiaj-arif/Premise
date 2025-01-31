@@ -139,7 +139,7 @@ const HideOptionPop = ({
               {option === "visible_to" ? (
                 <div>
                   <p className="text-[16px] text-center pt-[16px]  px-[12px] font-[500] text-[#252525] ">
-                    Make Private
+                    Visibility Settings
                   </p>
                   <p
                     className=" text-center leading-4 pb-[8px] px-[12px] text-[14px]
@@ -152,12 +152,13 @@ const HideOptionPop = ({
               ) : (
                 <div>
                   <p className="text-[16px] text-center pt-[16px]  px-[12px] font-[500] text-[#252525] ">
-                    Make Private
+                    Visibility Settings
+                  </p>
+
+                  <p className="text-[14px] text-center leading-4 pt-[3px] pb-[5px] px-[8px] font-[400] text-[#616161] ">
+                    Who can see the premise and the comments ?
                   </p>
                   <div className="h-[1px] w-[353px] bg-[#616161] mx-auto" />
-                  <p className="text-[14px] text-center leading-4 pt-[8px] px-[12px] font-[400] text-[#616161] ">
-                    Who can see the premise and comments on it?
-                  </p>
                 </div>
               )}
             </div>

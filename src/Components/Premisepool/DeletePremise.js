@@ -5,7 +5,7 @@ import {
   useGetFilteredLangQuery,
 } from "../../app/EndPoints/premisePoolApi";
 
-const DeletePremise = ({ setIsDelete, isDelete, refetch, popClose }) => {
+const DeletePremise = ({ setIsDelete, isDelete, refetch,hiddenCountRefetch, popClose }) => {
   const [deletePremise, resInfo] = useDeletePremiseMutation();
   const {
     data: lang,
@@ -22,6 +22,7 @@ const DeletePremise = ({ setIsDelete, isDelete, refetch, popClose }) => {
       setLoading(false);
       setIsDelete(false);
       refetch();
+      // hiddenCountRefetch()
       langRefetch();
       if (popClose) {
         popClose(false);

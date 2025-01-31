@@ -22,6 +22,8 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
   const [underlineStyle, setUnderlineStyle] = useState("");
   const inputRef = useRef(null);
   const [openPop, setOpenPop] = useState(false);
+  const [finalEdit, setFinalEdit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setBoldStyle(data?.stylings?.boldStyle);
@@ -30,28 +32,31 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
   }, [data?.stylings]);
   useEffect(() => {
     // console.log(text?.length, "text");
-    const wordCount = text
-      ?.trim()
-      .split(/\s+/)
-      .filter((word) => word !== "").length;
+
     if (text?.length >= 20) {
       setConfirmDisable(false);
     } else {
       setConfirmDisable(true);
     }
   }, [text]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // const text = event.target.text.value;
     let modifiedText = text;
-    modifiedText = modifiedText.replace(/what if/gi, "");
+    modifiedText = modifiedText.replace(
+      new RegExp(getWhatIfPhrase(selectedLanguage), "gi"),
+      ""
+    );
+
     modifiedText = modifiedText.replace(/[!?.]+/g, "");
+
     modifiedText = `${getWhatIfPhrase(
       selectedLanguage
     )} ${modifiedText.trim()}?`;
+
     setNewText(modifiedText);
     setPreview(true);
-    // console.log("data sbmt", selectedLanguage);
   };
   const handleTextChange = (event) => {
     const value = event.target.value;
@@ -76,45 +81,55 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
     }
     setKeyboardVisible(!keyboardVisible);
   };
+
   const handleClear = () => {
     setText("");
   };
+
   return (
-    <div className="fixed top-[80px] md:top-0 left-0 w-full h-full flex items-center mt-80px] lg:mt-[0px] justify-center bg-[#252525b0] z-[1] ">
+    <div className="fixed top-[75px] md:top-0 left-0 w-full h-full flex items-center mt-80px] lg:mt-[0px] justify-center bg-[#252525b0] z-[1] ">
       <div
         className={`w-full  ${
           !preview ? "md:w-[480px]" : "md:w-[676px]"
-        } mt-[-81px] md:mt-[90px] relative`}
+        } mt-[-53px] md:mt-[90px] relative`}
       >
         <div
           className={`bg-[#ffffff] lg:bg-[#FAFAFA] w-full ${
             !preview
               ? "md:w-[450px] md:h-auto"
-              : "md:w-[646px] h-[91vh] md:h-auto"
+              : `md:w-[646px] ${
+                  isLoading
+                    ? "h-[120px]"
+                    : " h-[91vh] md:h-auto md:max-h-[81vh]"
+                }`
           } mx-auto pt-[18px] md:rounded-[8px] shadow-lg h-[100vh overflow-y-auto premiseScroll overflow-x-hidden`}
         >
-          <img
-            src={crossIcon}
-            alt="cross icon"
-            className={`text-red-500 barSm-hidden z- w-8 h-8 cursor-pointer absolute top-[-12px] right-0`}
-            onClick={() => setAddPopup(false)}
-          />
+          {!isLoading && !finalEdit && (
+            <img
+              src={crossIcon}
+              alt="cross icon"
+              className={`text-red-500 barSm-hidden z- w-8 h-8 cursor-pointer absolute top-[-12px] right-0 z-10`}
+              onClick={() => setAddPopup(false)}
+            />
+          )}
 
           <div className="">
             <div className="pr-2">
               <div className="text-center  mx-auto mt-[-12px] xl:mt-0">
-                <MdKeyboardBackspace
-                  src={crossIcon}
-                  alt=""
-                  className="text-[#33B0CA] ml-[20px] text-left text-[38px] z-[1] absolute cursor-pointer mdHidden"
-                  onClick={() => {
-                    setAddPopup(false);
-                    setOpenPop(false);
-                    // setOpenReplyField(null);
-                    // setReplyToCommentID(null);
-                  }}
-                />
-                <p className=" text-[16px] w-[242px] sm:w-full mx-auto font-[500] text-[#252525]">
+                {!isLoading && !finalEdit && (
+                  <MdKeyboardBackspace
+                    src={crossIcon}
+                    alt=""
+                    className="text-[#33B0CA] ml-[20px] text-left text-[38px] z-[1] absolute cursor-pointer mdHidden"
+                    onClick={() => {
+                      setAddPopup(false);
+                      setOpenPop(false);
+                      // setOpenReplyField(null);
+                      // setReplyToCommentID(null);
+                    }}
+                  />
+                )}
+                <p className=" text-[17px] w-[242px] mt-[12px] md:mt-0 sm:w-full mx-auto font-[500] text-[#252525]">
                   {!preview && "Describe your Imagination In Any Language"}
                 </p>
               </div>
@@ -129,6 +144,11 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
                 refetch={refetch}
                 setOpenPop={setOpenPop}
                 openPop={openPop}
+                finalEdit={finalEdit}
+                setFinalEdit={setFinalEdit}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+               
 
                 //setIsAddNew={setIsAddNew}
               />
@@ -139,7 +159,7 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
               >
                 <div>
                   <div className="bg-[#FAFAFA] h-[38px] md:h-[32px] xl:h-[38px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-[8px] hidden lg:flex items-center mx-[28px] ">
-                    <div className="flex gap-3  w-full ">
+                    <div className="flex justify-end gap-3  w-full ">
                       <FaKeyboard
                         data-te-toggle="tooltip"
                         title={`${
@@ -170,22 +190,22 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
                       onChange={handleTextChange}
                       ref={inputRef}
                       name="text"
-                      className={`${boldStyle} ${italicStyle} ${underlineStyle} text-[16px] bg-[#fafafa] border border-[#eaeaea] shadow-md rounded-[8px] w-full md: h-[170px] xl:h-[200px] resize-none text-[#616161]  focus:outline-none px-[20px] py-[12px] overflow-hidden break-words`}
+                      className={`${boldStyle} ${italicStyle} ${underlineStyle} text-[16px] leading-[24px] md:leading-[28px] bg-[#fafafa] border border-[#eaeaea] shadow-md rounded-[8px] w-full md: h-[170px] xl:h-[200px] resize-none text-[#616161]  focus:outline-none px-[20px] py-[12px] overflow-hidden break-words`}
                       maxLength="200"
                       value={text}
                     />
                     <div className="text-[14px] leading-[18px] md:text-[12px] md:leading-[16px]  xl:text-[14px] xl:leading-[18px] font-[400] mt-[-4px]">
                       {/* <p className="text-right">?</p> */}
                       <div className="flex flex-row-reverse  items-center gap-5 mt-[-7px]">
-                        <p className="text-right pt-[1.5px]">
+                        <p className="text-right pt-[10px] md:pt-[1.5px]">
                           {text?.length || 0}/200
                         </p>
                         {text?.length > 20 ? (
-                          <p className="text-right text-[#EE3C4D] pt-[1.5px]">
+                          <p className="text-right text-[#EE3C4D] pt-[10px] md:pt-[1.5px]">
                             Maximum 200 characters
                           </p>
                         ) : (
-                          <p className="text-right text-[#EE3C4D] pt-[1.5px]">
+                          <p className="text-right text-[#EE3C4D] pt-[10px] md:pt-[1.5px]">
                             Minimum 20 characters
                           </p>
                         )}
@@ -196,7 +216,7 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
                     <button
                       type="reset"
                       onClick={handleClear}
-                      className="bg-[#FAFAFA] border h-[32px] !border-[#33B0CA] text-[#33B0CA] rounded-[8px]  px-[12px] text-[14px] font-[600] "
+                      className="clear-m bg-[#FAFAFA] border h-[32px] !border-[#33B0CA] text-[#33B0CA] rounded-[8px]  px-[12px] text-[14px] font-[600] "
                     >
                       Clear
                     </button>
@@ -226,13 +246,13 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
                 <div>
                   {selectedLanguage && keyboardVisible && (
                     <Draggable handle=".movable-handle">
-                      <div className="absolute z-20 w-[650px] top-[272px] right-[170px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
+                      <div className="absolute z-20 w-[650px] top-[194px] right-[-85px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
                         <div className="grid grid-cols-12">
                           <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
-                            Drag me!!{" "}<span className="font-[500]">
-                               {selectedLanguage}
-                              </span>{" "}
-                                
+                            Drag me!!{" "}
+                            <span className="font-[500]">
+                              {selectedLanguage}
+                            </span>{" "}
                             Keyboard
                           </div>
                           <div className="flex justify-center items-center w-full h-full cursor-pointer">

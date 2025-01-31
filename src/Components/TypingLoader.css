@@ -1,0 +1,19 @@
+.blinking-cursor {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 24px; /* Adjust to match the text size */
+  color: #33B0CA; /* Match the color with the text */
+  animation: blinkCursor 0.8s steps(2, start) infinite;
+}
+
+@keyframes blinkCursor {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

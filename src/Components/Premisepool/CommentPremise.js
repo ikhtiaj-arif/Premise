@@ -1,13 +1,17 @@
 import { motion, useAnimation } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
-import { FaCommentDots } from "react-icons/fa";
+import { FaComment } from "react-icons/fa";
 import { MyContext } from "../../App";
 import Popup from "./Popup";
 
 const CommentPremise = ({ data, setIsLiked, refetch, p }) => {
+
+  const {project_id} = p
+  // console.log("project_id",project_id);
   const {
-    comments,
+    // finalCount,
     bg_img,
+    comments,
     bg_color,
     dText,
     id,
@@ -15,9 +19,16 @@ const CommentPremise = ({ data, setIsLiked, refetch, p }) => {
     setHideDisable,
     hideDisable,
   } = data;
-  const { isAddNew, setIsAddNew, setSelectedPremiseObj } = useContext(MyContext);
+  const { isAddNew, setIsAddNew, setSelectedPremiseObj, setSelectedPremiseSpProjectId } = useContext(MyContext);
   const [cmntPopup, setCmntPopup] = useState(false);
   const controls = useAnimation();
+  
+
+
+  useEffect(()=>{
+    setSelectedPremiseSpProjectId(p?.project_id)
+  },[p])
+
 
   //console.log('in comment',shouldBlink);
   // useEffect(() => {
@@ -47,7 +58,7 @@ const CommentPremise = ({ data, setIsLiked, refetch, p }) => {
   return (
     <div>
       <motion.div
-        className="notranslate flex gap-2"
+        className=" flex gap-2"
         onClick={() => {
           setCmntPopup(true);
           setSelectedPremiseObj(p);
@@ -55,7 +66,7 @@ const CommentPremise = ({ data, setIsLiked, refetch, p }) => {
         animate={controls}
       >
         <button>
-          <FaCommentDots
+          <FaComment
             src={`${URL}/media/img/Icons/comment_not_made_owner.png`}
             className="w-8 h-8 ml-4 cursor-pointer"
             alt=""
@@ -64,7 +75,8 @@ const CommentPremise = ({ data, setIsLiked, refetch, p }) => {
 
         <div className="flex items-center cursor-pointer text-[14px] font-[500]">
           <span className="mr-1">{comments}</span>
-          {comments > 1 ? "Comments" : "Comment"}
+          <span className="comments-m">{comments > 1 ? "Comments" : "Comment"}</span>
+          
         </div>
       </motion.div>
       {cmntPopup && (

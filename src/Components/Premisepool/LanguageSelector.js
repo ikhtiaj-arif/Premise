@@ -1,7 +1,11 @@
-import React from 'react';
-import './Premise.css';
+import React from "react";
+import "./Premise.css";
 
-const LanguageSelector = ({setSelectedLanguage,setKeyboardVisible, selectedLanguage}) => {
+const LanguageSelector = ({
+  setSelectedLanguage,
+  setKeyboardVisible,
+  selectedLanguage,
+}) => {
   // console.log(selectedLanguage);
 
   const options = [
@@ -34,27 +38,23 @@ const LanguageSelector = ({setSelectedLanguage,setKeyboardVisible, selectedLangu
 
   const handleLanguageChange = (event) => {
     setSelectedLanguage(event.target.value);
-    setKeyboardVisible(true)
+    setKeyboardVisible(true);
   };
 
-    return (
-        
-            <select onChange={handleLanguageChange}
-                className="notranslate bg-[#FAFAFA] border-none w-full text-[14px] text-[#616161] font-[400] focus:outline-none"
-                // className="border border-[#EAEAEA] p-1 rounded-[4px] w-3/4 text-[12px]"
-                >
-                  {
-                     <option value="">{selectedLanguage}</option> 
-                  }
-               
-                {options?.map((option) => (
-                    <option key={option} value={option}>
-                    {option}
-                    </option>
-                ))}
-            </select>
-       
-    );
+  return (
+    <select
+      onChange={handleLanguageChange}
+      value={selectedLanguage}
+      className="notranslate bg-[#FAFAFA] border-none w-[70px] text-[14px] text-[#616161] font-[400] focus:outline-none"
+      // className="border border-[#EAEAEA] p-1 rounded-[4px] w-3/4 text-[12px]"
+    >
+      {options?.map((option) => (
+        <option key={option} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
+  );
 };
 
 export default LanguageSelector;

@@ -100,9 +100,9 @@ const OwnerMail = ({ setOwnerMail, data }) => {
             {/* left side */}
             <div className="h-[380px] md:!w-[363px] border p-4 border-[#EAEAEA] rounded-[8px] !overflow-y-auto premiseScroll !my-20 ml-[98px] shadow-[#eaeaea] shadow-md">
               {roomIds.map((r) => (
-                <div
+                < div
                   key={r?.id}
-                  className={`flex items-center gap-2 mb-2 rounded-[8px] cursor-pointer p-1  text-[12px] font-[500]  ${
+                  className={`notranslate flex items-center gap-2 mb-2 rounded-[8px] cursor-pointer p-1  text-[12px] font-[500]  ${
                     broadcastId === r.id ? "bg-[#33B0CA] text-white py-[6px] px-2" : ""
                   }`}
                   onClick={() => handleMessageClick(r?.id)}
@@ -140,7 +140,7 @@ const OwnerMail = ({ setOwnerMail, data }) => {
                         <div className="flex gap-2 bg-[#F8F8F8]">
                           <img src={userIcon} alt="" className="6 h-6" />
                           <div className="border border-[#EAEAEA] rounded-[8px] w-full px-2 py-2">
-                            <h4 className=" text-[#252525] font-[500] text-[12px] leading-[18px]">
+                            <h4 className="notranslate text-[#252525] font-[500] text-[12px] leading-[18px]">
                               {m?.sender?.first_name} {m?.sender?.last_name}
                             </h4>
                             <p className="text-[#616161] font-[400] text-[12px] leading-[18px]">{m?.message}</p>

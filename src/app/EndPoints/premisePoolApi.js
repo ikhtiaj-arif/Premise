@@ -14,9 +14,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
         const user = query?.user;
         const language = query?.language;
         const user_id = query?.user_id;
-        const shared = query?.shared
-
-      
+        const shared = query?.shared;
 
         let url = `ideamall/premise?page=${pn}&page_size=${ps}&current_user=${user_id}&shared=${shared}`;
 
@@ -80,6 +78,57 @@ export const premiseSlice = apiSlice.injectEndpoints({
       providesTags: ["premise"],
     }),
 
+    // get hidden premise
+    // getHiddenPremiseCount: builder.query({
+    //   query: () => ({
+    //     url: `ideamall/hidden_premise`,
+    //     method: "GET",
+    //   }), providesTags: ["premise-hidden-count"],
+    // }),
+
+    //hidden count according to filters
+
+    getHiddenPremiseCount: builder.query({
+      query: (query) => {
+        const sort = query?.sort;
+        const text = query?.text;
+        const user = query?.user;
+        const language = query?.language;
+        const user_id = query?.user_id;
+        const shared = query?.shared;
+
+        let url = `ideamall/hidden_premise?current_user=${user_id}&shared=${shared}`;
+
+        if (text) {
+          url = `${url}&text=${text}`;
+        }
+
+        if (user) {
+          // console.log(user);
+          url = `${url}&user=${user}`;
+        }
+
+        if (language) {
+          url = `${url}&language=${language}`;
+        }
+
+        if (sort === "date") {
+          url = `${url}&created=created_at`;
+        } else if (sort === "popularity") {
+          url = `${url}&likes=-likes`;
+        } else if (sort === "date&popularity") {
+          url = `${url}&likes=-likes&created=created_at`;
+        }
+
+        // console.log(url);
+        return {
+          url: url,
+          method: "GET",
+        };
+      },
+      providesTags: ["premise-hidden-count"],
+    }),
+
     //get premise
     getOnePremise: builder.query({
       query: (id) => ({
@@ -116,13 +165,6 @@ export const premiseSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
       providesTags: ["premise"],
-    }),
-    // get hidden premise
-    getHiddenPremiseCount: builder.query({
-      query: () => ({
-        url: `ideamall/hidden_premise`,
-        method: "GET",
-      }), providesTags: ["premise-hidden-count"],
     }),
 
     // get premise like
@@ -339,7 +381,6 @@ export const premiseSlice = apiSlice.injectEndpoints({
     //   invalidatesTags: ["premise"],
     // }),
 
-
     addUserNamePremise: builder.mutation({
       query: (data) => {
         const id = data.id;
@@ -353,7 +394,6 @@ export const premiseSlice = apiSlice.injectEndpoints({
       },
       invalidatesTags: ["premise, premise_user"],
     }),
-
 
     // premise user
     getPremiseUser: builder.query({
@@ -373,7 +413,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     }),
 
     getUserByUserId: builder.query({
-      query: (id) => ({  
+      query: (id) => ({
         url: `/memberpage/centraldatabaseapi/${id}`,
         method: "GET",
       }),
@@ -395,11 +435,111 @@ export const premiseSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["premise"],
     }),
+
+    getUserPrivilegeStatus: builder.query({
+      query: (id) => ({
+        url: `pay/checkuseraccess/${id}/PP_PostPremise`,
+        method: "GET",
+      }),
+    }),
+
+    //get premise
+    getPremiseBeatsData: builder.query({
+      query: (id) => ({
+        url: `ideamall/premise/beats/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["premise"],
+    }),
+    //get premise
+    getPremiseEngagementsData: builder.query({
+      query: (id) => ({
+        url: `ideamall/premise/engagement/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["premise"],
+    }),
+    getPremiseBrainstormsData: builder.query({
+      query: (id) => ({
+        url: `ideamall/premise/brainstorm/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["premise"],
+    }),
+
+    //!V2
+    //request translation/sale
+
+    requestForSaleOrTranslate: builder.mutation({
+      query: (data) => ({
+        url: `ideamall/premise/request`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["premise"],
+    }),
+
+    updateRequestForSaleOrTranslate: builder.mutation({
+      query: (data) => ({
+        url: `ideamall/premise/request`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["premise"],
+    }),
+
+    // translate premise v2
+    //! payload type
+    // const data = {
+    //   user_id: user,
+    //   premise_id: id,
+    //   from_language: source_language,
+    //   project_id,
+    //   target_language: targetLanguage,
+    // };
+    
+    translatePremiseV2: builder.mutation({
+      query: (data) => ({
+        url: `ideamall/premise/translation`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["premise"],
+    }),
+
+    // sale
+    saleForPremise: builder.mutation({
+      query: (data) => {
+        const body = data.body;
+
+        return {
+          url: `ideamall/premise/sale`,
+          method: "PATCH",
+          body: body,
+        };
+      },
+      invalidatesTags: [""],
+    }),
+
+    
+    getPremiseTransaction: builder.query({
+      query: (id) => ({
+        url: `ideamall/premise/translation/${id}`,
+        method: "GET",
+      }),
+    }),
+
+    getSaleTranslationRequest: builder.query({
+      query: (data) => ({
+        url: `ideamall/premise/request/${data.id}/${data.type}`,
+        method: "GET",
+      }),
+    }),
+
   }),
 });
 
 export const {
-  
   useGetPremiseQuery,
   usePostPremiseMutation,
   useGetPremiseUserQuery,
@@ -431,5 +571,15 @@ export const {
   useGetOnePremiseQuery,
   useGetPremiseUserPictureQuery,
   useGetUserByUserIdQuery,
-  useGetHiddenPremiseCountQuery
+  useGetHiddenPremiseCountQuery,
+  useGetUserPrivilegeStatusQuery,
+  useTranslatePremiseV2Mutation,
+  useGetPremiseTransactionQuery,
+  useSaleForPremiseMutation,
+  useGetPremiseBeatsDataQuery,
+  useGetPremiseBrainstormsDataQuery,
+  useGetPremiseEngagementsDataQuery,
+  useRequestForSaleOrTranslateMutation,
+  useGetSaleTranslationRequestQuery,
+  useUpdateRequestForSaleOrTranslateMutation
 } = premiseSlice;

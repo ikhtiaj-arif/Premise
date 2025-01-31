@@ -4,8 +4,11 @@ import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import Premisepool from "./Components/Premisepool/Premisepool";
 import { useGetMyAllProjectQuery } from "./app/EndPoints/ScriptPad/project";
+import PremiseNewTab from "./Components/Premisepool/PremiseNewTab";
+import Premisepool from "./Components/Premisepool/Premisepool";
+import PremiseV2 from "./Components/PremiseV2/Premsie.v2";
+
 
 export const MyContext = createContext();
 
@@ -25,15 +28,32 @@ function App() {
   const user = useSelector((state) => state?.user?.id);
   const [selectedSpProjectID, setSelectedSpProjectID] = useState("");
   const [createdSpProjectID, setCreatedSpProjectID] = useState("");
+  const [selectedPremiseSpProjectId, setSelectedPremiseSpProjectId] =
+    useState("");
+  const [selectedLanguages, setSelectedLanguages] = useState(null);
 
-  // console.log("selectedPremiseObj",selectedPremiseObj)
-useEffect(()=>{
-  if(activeAddedByMe){
-    // setSearchAuthor(user)
-    // console.log(user);
-  }
+  const [lastLevelReplyId, setLastLevelReplyId] = useState("");
 
-},[activeAddedByMe, user])
+  const [transPopup, setTransPopup] = useState(false);
+
+  const [openPop, setOpenPop] = useState(false);
+
+  // const [isFirstCommentSuggested, setIsFirstCommentSuggested] = useState(false);
+
+  const [currentlyOpenedCommentID, setCurrentlyOpenedCommentID] = useState("");
+  // console.log("selectedPremiseObj Lnt",selectedPremiseObj);
+
+  const allProjects = allspProjectJSON?.projects;
+  const filterdAllProjects = allspProjectJSON?.projects?.filter(
+    (item) => !item.locked
+  );
+
+  useEffect(() => {
+    if (activeAddedByMe) {
+      // setSearchAuthor(user)
+      // console.log(user);
+    }
+  }, [activeAddedByMe, user]);
 
   const value = {
     activeAddedByMe,
@@ -42,17 +62,46 @@ useEffect(()=>{
     setIsAddNew,
     addedByMeCondition,
     setAddedByMeCondition,
-    searchText, setSearchText,searchAuthor, setSearchAuthor,allspProjectJSON,selectedPremiseObj, setSelectedPremiseObj,createdSpProjectID, setCreatedSpProjectID,selectedSpProjectID, setSelectedSpProjectID
+    searchText,
+    setSearchText,
+    searchAuthor,
+    setSearchAuthor,
+    allspProjectJSON,
+    filterdAllProjects,
+    selectedPremiseObj,
+    setSelectedPremiseObj,
+    createdSpProjectID,
+    setCreatedSpProjectID,
+    selectedSpProjectID,
+    setSelectedSpProjectID,
+    selectedPremiseSpProjectId,
+    setSelectedPremiseSpProjectId,
+    transPopup,
+    setTransPopup,
+    projectRefetch,
+    allProjects,
+    selectedLanguages,
+    setSelectedLanguages,
+    currentlyOpenedCommentID,
+    setCurrentlyOpenedCommentID,
+    // isFirstCommentSuggested,
+    // setIsFirstCommentSuggested,
+    // openPop, setOpenPop
   };
+
+  // console.log("currentlyOpenedCommentID", currentlyOpenedCommentID);
 
   return (
     <div className=" text-xl overflow-x-hidden">
       <MyContext.Provider value={value}>
+      {/* <TLanguageSelector /> */}
         <Routes>
           <Route path="/" element={<Premisepool />}></Route>
-          <Route path="/premise-pool" element={<Premisepool />}></Route>
-          <Route path="/:__id" element={<Premisepool />}></Route>
-          <Route path="/premise-pool/:__id" element={<Premisepool />}></Route>
+          <Route path="/premise-pool-v2" element={<PremiseV2 />}></Route>
+          <Route path="/new-tab/:id" element={<PremiseNewTab />}></Route>
+          <Route path="/:__id/:service" element={<Premisepool />}></Route> 
+          <Route path="/:__id/:service" element={<Premisepool />}></Route> 
+ 
         </Routes>
       </MyContext.Provider>
 

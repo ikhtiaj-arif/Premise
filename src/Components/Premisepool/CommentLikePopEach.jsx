@@ -1,12 +1,15 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import {
   useGetPremiseUserPictureQuery,
   useGetUserByUserIdQuery,
 } from "../../app/EndPoints/premisePoolApi";
 import userIcon from "../../img/Icons/userImg.png";
 import { URL } from "../utils";
+import UserType from "./UserType";
 const CommentLikePopEach = ({ like }) => {
   const likedUser = like;
+  const user = useSelector((state) => state?.user?.id);
 
   const {
     data: userData,
@@ -20,26 +23,70 @@ const CommentLikePopEach = ({ like }) => {
     refetch: profileRefetch,
   } = useGetPremiseUserPictureQuery(likedUser);
 
+  // console.log(userData);
+  // console.log(like);
+
   const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
+  // const email = userData?.email;
+  // const username = email.split("@")[0];
 
   return (
-    <div>
-      <div className="flex gap-[16px] items-center mb-1">
-        {profileImg?.[0]?.profile_photo ? (
-          <img
-            src={proImgUrl}
-            className="h-[31.9px] w-[32px] mt-[6px] rounded-full object-cover border border-[#eaeaea]"
-            alt=""
-          />
-        ) : (
-          <img src={userIcon} className="h-[31.9px] w-[32px] mt-[6px]" alt="" />
-        )}
-        <h4 className="text-[14px] font-[500] text-[#252525]">
-          {userData?.firstName} {userData?.lastName}
-        </h4>
-      </div>
-      <div className="h-[2px] bg-[#EAEAEA] w-full " />
-    </div>
+    <>
+      {!userLoading && (
+        <div>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            // href={`${URL}/memberpage/#/user/${created_by?.id}`}
+
+            href={
+              likedUser === user
+                ? `${URL}/memberpage/#/personaldetails`
+                : `${URL}/memberpage/#/user/${likedUser}/personaldetails`
+            }
+          >
+            <div className="flex gap-[16px] items-center mb-1">
+              {profileImg?.[0]?.profile_photo ? (
+                <img
+                  src={proImgUrl}
+                  className="h-[31.9px] w-[32px] mt-[6px] rounded-full object-cover border border-[#eaeaea]"
+                  alt=""
+                />
+              ) : (
+                <img
+                  src={userIcon}
+                  className="h-[31.9px] w-[32px] mt-[6px]"
+                  alt=""
+                />
+              )}
+            
+              {userData?.firstName ? (
+                <div className="flex items-center">
+                  <h4 className="text-[14px] font-[500] text-[#252525] hover:text-[#33B0CA]">
+                    {userData?.firstName} {userData?.lastName}
+                  </h4>
+                  <UserType
+                    type={userData?.type}
+                    user_type={userData?.user_type}
+                  />
+                </div>
+              ) : (
+                <div className="flex items-center">
+                  <h4 className="text-[14px] font-[500] text-[#252525]">
+                    {userData?.email?.split("@")[0]}
+                  </h4>
+                  <UserType
+                    type={userData?.type}
+                    user_type={userData?.user_type}
+                  />
+                </div>
+              )}
+            </div>
+            <div className="h-[2px] bg-[#EAEAEA] w-full " />
+          </a>
+        </div>
+      )}
+    </>
   );
 };
 

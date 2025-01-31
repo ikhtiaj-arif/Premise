@@ -1,11 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useGetPremiseUserPictureQuery } from "../../app/EndPoints/premisePoolApi";
 import userIcon from "../../img/Icons/userImg.png";
 import { URL } from "../utils";
-import { useSelector } from "react-redux";
+import UserType from "./UserType";
 const UserMailChat = ({ mail }) => {
   const user = useSelector((state) => state?.user?.id);
- 
+
   const {
     data: profileImg,
     profileImgLoading,
@@ -27,7 +28,7 @@ const UserMailChat = ({ mail }) => {
     minute: "numeric",
   });
 
-
+  // console.log(mail);
   return (
     <div>
       <div key={mail?.id} className="flex gap-2   mb-2">
@@ -41,21 +42,39 @@ const UserMailChat = ({ mail }) => {
         ) : (
           <img src={userIcon} className="h-[31.9px] w-[32px] mt-[6px]" alt="" />
         )}
-        <div className=" w-full md:w-[446px]">
-          <div className="border bg-[#f8f8f8] border-[#EAEAEA] w-full  rounded-[8px] px-2 py-[2px]">
+        <div className=" w-[270px] md:w-[446px]">
+          <div className="border bg-[#f8f8f8] break-words border-[#EAEAEA] w-full  rounded-[8px] px-2 py-[2px]">
             <div className="flex items-center justify-between">
-            <a
-                      target="_blank"
-                      rel="noreferrer"
-                      href={
-                        mail?.sender?.id === user
-                          ? `${URL}/memberpage/#/personaldetails`
-                          : `${URL}/memberpage/#/user/${mail?.sender?.id}/personaldetails`
-                      }
-                    >
-              <h4 className=" text-[#252525] font-[500] text-[14px] leading-[18px]">
-                {mail?.sender?.first_name} {mail?.sender?.last_name}
-              </h4>
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href={
+                  mail?.sender?.id === user
+                    ? `${URL}/memberpage/#/personaldetails`
+                    : `${URL}/memberpage/#/user/${mail?.sender?.id}/personaldetails`
+                }
+              >
+                {mail?.sender?.first_name && mail?.sender?.last_name ? (
+                  <div className="flex items-center">
+                    <h4 className="notranslate text-[#252525] font-[500] text-[14px] leading-[18px]">
+                      {mail?.sender?.first_name} {mail?.sender?.last_name}
+                    </h4>
+                    <UserType
+                      type={mail?.sender?.centraldatabase?.type}
+                      user_type={mail?.sender?.centraldatabase?.user_type}
+                    />
+                  </div>
+                ) : (
+                  <div className="flex items-center">
+                    <h4 className="notranslate text-[#252525] font-[500] text-[14px] leading-[18px]">
+                      {mail?.sender?.email.split("@")[0]}
+                    </h4>
+                    <UserType
+                      type={mail?.sender?.centraldatabase?.type}
+                      user_type={mail?.sender?.centraldatabase?.user_type}
+                    />
+                  </div>
+                )}
               </a>
             </div>
             <p className="font-[400] text-[#616161] text-[12px] leading-[18px] ">
@@ -63,7 +82,7 @@ const UserMailChat = ({ mail }) => {
               {/* {mail?.created_at} */}
             </p>
           </div>
-          <div className=" text-[#616161] font-[400] text-[12px] leading-[18px]">
+          <div className=" text-[#616161] font-[400] text-[10px] leading-[14px] ml-[3px]">
             {formattedDate}, {formattedTime}
           </div>
         </div>

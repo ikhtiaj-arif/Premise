@@ -16,7 +16,7 @@ const TimeAgo = ({ timestamp }) => {
     const years = Math.floor(months / 12);
 
     if (seconds < 60) {
-      setTimeAgo(`one minute ago`);
+      setTimeAgo(`1 minute ago`);
     } else if (minutes < 60) {
       if (minutes === 1) {
         setTimeAgo(`1 minute ago`);
@@ -43,7 +43,7 @@ const TimeAgo = ({ timestamp }) => {
       }
     } else {
       if (years === 1) {
-        setTimeAgo(`one year ago`);
+        setTimeAgo(`1 year ago`);
       } else {
         setTimeAgo(`${years} years ago`);
       }

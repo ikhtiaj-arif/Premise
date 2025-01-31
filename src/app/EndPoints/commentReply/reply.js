@@ -28,13 +28,20 @@ export const projectEndPoint = apiSlice.injectEndpoints({
       }),   
       providesTags: ["reply-comment"],
     }),
+    
     deleteLikeOfReply: builder.mutation({
-      query: (id) => ({
-        url: `/ideamall/premise-Reply/${id}`,
-        method: "DELETE",
-      }),   
+      query: (body) => {
+        // Check if isRejected exists in the body and build the query params accordingly
+        const queryParams = body.isRejected ? `?isRejected=true` : "";
+    
+        return {
+          url: `/ideamall/premise-Reply/${body.id}${queryParams}`,
+          method: "DELETE",
+        };
+      },
       providesTags: ["reply-comment"],
     }),
+    
     createSuggestedReply: builder.mutation({
       query: (data) => {
         return {

@@ -52,15 +52,15 @@ const BeatSheetGenerating = ({setBeatSheetGenPop}) => {
                 </div>
                 <div className="w-[853px] mb-[5px] rounded-[6px] px-[16px] py-[10px] bg-[#F8F8F8] h-[42px] border flex items-center gap-[10px]">
                     <input onClick={()=> setRegardingOutput('two')} checked={regardingOutput === 'two'} type="radio" name="" id="" className="" />
-                    <h3 maxLength={400} type="text" className="w-full  resize-none outline-none bg-[#F8F8F8] text-[14px]" >Option 1 Suggested by MNF</h3>
+                    <h3 maxLength={400} type="text" className="w-full  resize-none outline-none bg-[#F8F8F8] text-[14px]" >Option 1 Suggested by <span className="mnff-m">MNF</span></h3>
                 </div>
                 <div className="w-[853px] mb-[5px] rounded-[6px] px-[16px] py-[10px] bg-[#F8F8F8] h-[42px] border flex items-center gap-[10px]">
                     <input onClick={()=> setRegardingOutput('three')} checked={regardingOutput === 'three'} type="radio" name="" id="" className="" />
-                    <h3 maxLength={400} type="text" className="w-full  resize-none outline-none bg-[#F8F8F8] text-[14px]" >Option 2 Suggested by MNF</h3>
+                    <h3 maxLength={400} type="text" className="w-full  resize-none outline-none bg-[#F8F8F8] text-[14px]" >Option 2 Suggested by <span className="mnff-m">MNF</span></h3>
                 </div>
                 <div className="w-[853px] mb-[5px] rounded-[6px] px-[16px] py-[10px] bg-[#F8F8F8] h-[42px] border flex items-center gap-[10px]">
                     <input onClick={()=> setRegardingOutput('four')} checked={regardingOutput === 'four'} type="radio" name="" id="" className="" />
-                    <h3 maxLength={400} type="text" className="w-full  resize-none outline-none bg-[#F8F8F8] text-[14px]" >Option 3 Suggested by MNF</h3>
+                    <h3 maxLength={400} type="text" className="w-full  resize-none outline-none bg-[#F8F8F8] text-[14px]" >Option 3 Suggested by <span className="mnff-m">MNF</span></h3>
                 </div>
               </div>
               <div className="flex justify-end items-center gap-[16px] mt-[20px]">

@@ -45,6 +45,7 @@ export const projectEndPoint = apiSlice.injectEndpoints({
       query: (data) => {
         const body = data;
         return {
+          // url: `ideamall/beats_recommend/`,
           url: `ideamall/beats_recommend/`,
           method: "POST",
           body: body,

@@ -140,7 +140,7 @@ const PremiseCard = ({
       // Handle the data as needed
       refetch();
     } catch (error) {
-      console.error("Error fetching data:", error);
+      // console.error("Error fetching data:", error);
       setHideDisable(false);
       // Handle errors
     }

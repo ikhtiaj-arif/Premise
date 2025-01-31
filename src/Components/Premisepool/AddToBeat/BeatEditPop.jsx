@@ -11,6 +11,7 @@ import {
   useGetMyAllProjectQuery,
   useGetScreenPlayMutation,
   useSaveScreenPlayMutation,
+  useUpdateAddedToBeatMutation,
   useUpdateSceneMutation,
 } from "../../../app/EndPoints/ScriptPad/project";
 import {
@@ -19,53 +20,63 @@ import {
 } from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import transIcon from "../../../img/Icons/transIcon.png";
-import Loading from "../../../shared/Loading";
 import "../../Premisepool/Premise.css";
+import TypingLoader from "../../TypingLoader";
 import { URL } from "../../utils";
 import ConfirmationModal from "../Comments/ConfirmationModal";
 import KeyboardB from "../KeyboardB";
 import { keyboardOptions } from "../KeyboardOption";
 import { sortedLanguages } from "../Languages";
+import ProjectNotfound from "./ProjectNotfound";
 const BeatEditPop = ({
+  project_id,
   popClose,
   commentText,
+  commentObj,
+  commentRefetch,
+  replyRefetch,
   data,
   setIsLiked,
   premiseData,
   suggestedBeats,
   isBeatSuggLoading,
   beatSuggestLoading,
+  selectedProject,
+  setAddToBeatDisable,
 }) => {
-  const { id, dText, bg_color, bg_img, likes, stylings, source_language } =
-    data;
-  // console.log("suggestedBeats", isBeatSuggLoading);
+  const {
+    selectedPremiseObj,
+    selectedSpProjectID,
+    createdSpProjectID,
+    allspProjectJSON,
+  } = useContext(MyContext);
+  const currentProjectData = allspProjectJSON?.projects?.find(
+    (item) => item.pro_uuid === project_id
+  );
 
-  const { selectedPremiseObj, selectedSpProjectID, createdSpProjectID } =
-    useContext(MyContext);
+  const isProjectLocked = currentProjectData?.locked;
 
   const projectCreateRef = useRef(null);
   const [editedText, setEditedText] = useState(commentText?.text);
   const [modifiedText, setModifiedText] = useState(commentText?.text);
   const [projectData, setProjectData] = useState([]);
   const [confirmBit, setConfirmBit] = useState(false);
-  const [selectedProject, setSelectedProject] = useState(null);
+  // console.log("passed Project", modifiedText);
+  // const [selectedProject, setSelectedProject] = useState(null);
+  // console.log("selectedProject", selectedProject);
   const [selectedOption, setSelectedOption] = useState("");
   const [translatePremise, translateInfo] = useTranslatePremiseMutation();
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [keyboardVisible, setKeyboardVisible] = useState(false);
   const [showSelectBox, setShowSelectBox] = useState(false);
   const [buttonDisable, setButtonDisable] = useState(true);
+  const [textareaValues, setTextareaValues] = useState({});
+
   const {
     data: userQuery,
     isUserNameLoading,
     refetch: userRefetch,
   } = useGetPremiseUserQuery();
-
-  const {
-    data: allspProjectJSON,
-    isLoading: isSpProjectLoading,
-    refetch: projectRefetch,
-  } = useGetMyAllProjectQuery();
 
   const [addButtonDisable, setAddButtonDisable] = useState(false);
   const [isNewProjectVisible, setNewProjectVisible] = useState(false);
@@ -74,6 +85,7 @@ const BeatEditPop = ({
   const userLastName = userQuery?.last_name;
   const [openUserNamePop, setOpenUserNamePop] = useState(false);
   const [isUserName, setIsUserName] = useState(true);
+  // console.log(suggestedBeats)
 
   const [regardingOutput, setRegardingOutput] = useState("one");
   const [options, setOptions] = useState({});
@@ -87,77 +99,29 @@ const BeatEditPop = ({
   const [firstName, setFirstName] = useState(userFirstName || "");
   const [lastName, setLastName] = useState(userLastName || "");
 
-  console.log("createdSpProjectID", createdSpProjectID);
-  console.log("selectedSpProjectID", selectedSpProjectID);
-  console.log("allspProjectJSON", allspProjectJSON);
-  console.log("selectedProject", selectedProject);
   const {
     data: ProjectsObj,
     isLoading: isProjectLoading,
     isError,
     refetch,
   } = useGetMyAllProjectQuery();
+
   useEffect(() => {
-    setOptions(suggestedBeats);
+    const initialValues = Object.keys(suggestedBeats).reduce((acc, key) => {
+      acc[key] = cleanUpInput(suggestedBeats[key]);
+      return acc;
+    }, {});
+    setOptions(initialValues);
   }, [suggestedBeats]);
 
-  // useEffect(() => {
-
-  //   const allProject = allspProjectJSON?.projects;
-  //   const currentPremiseProject = allspProjectJSON?.projects?.find(
-  //     (p) => p?.pro_uuid === selectedPremiseObj?.project_id
-  //   );
-  //   console.log("xxxx", selectedPremiseObj?.project_id);
-  //   console.log("yyyyy", currentPremiseProject);
-
-  //   setSelectedProject(currentPremiseProject);
-  // }, [allspProjectJSON, selectedPremiseObj]);
-
-  useEffect(() => {
-    const allProject = allspProjectJSON?.projects;
-    if (selectedSpProjectID) {
-      projectRefetch();
-      const currentPremiseProject = allProject?.find(
-        (p) => p?.pro_uuid === selectedSpProjectID
-      );
-      console.log("xxxx", selectedSpProjectID);
-      console.log("yyyyy", currentPremiseProject);
-
-      setSelectedProject(currentPremiseProject);
-    } else if (createdSpProjectID) {
-      projectRefetch();
-      const currentPremiseProject = allProject?.find(
-        (p) => p?.pro_uuid === createdSpProjectID
-      );
-      console.log("xxxx", createdSpProjectID);
-      console.log("yyyyy", currentPremiseProject);
-
-      setSelectedProject(currentPremiseProject);
-    } else if (selectedPremiseObj) {
-      projectRefetch();
-      const currentPremiseProject = allProject?.find(
-        (p) => p?.pro_uuid === selectedPremiseObj?.project_id
-      );
-      console.log("xxxx", selectedPremiseObj?.project_id);
-      console.log("yyyyy", currentPremiseProject);
-
-      setSelectedProject(currentPremiseProject);
-    }
-  }, [
-    allspProjectJSON,
-    selectedPremiseObj,
-    createdSpProjectID,
-    selectedSpProjectID,
-  ]);
+  const [addedToBeat, addedToBEatResInfo] = useUpdateAddedToBeatMutation();
 
   // let modifiedText = editedText
   useEffect(() => {
-    let filter1 = editedText?.replace(/^[\d\s]+/, "");
-    let filter2 = filter1?.replace(/[!?.,]+/g, "");
-    setModifiedText(filter2);
-  }, [editedText]);
-
-  // console.log("modifiedText", modifiedText);
+    // let filter1 = editedText?.replace(/^[\d\s]+/, "");
+    // let filter2 = filter1?.replace(/[!?.,]+/g, "");
+    setModifiedText(options[regardingOutput]);
+  }, [options, regardingOutput]);
 
   const [createProject, resInfo] = useCreateProjectMutation();
   // console.log("res", translateInfo.isLoading);
@@ -173,16 +137,6 @@ const BeatEditPop = ({
   }, [ProjectsObj]);
 
   useEffect(() => {
-    if (selectedProject || newProjectName?.length > 0) {
-      setButtonDisable(false);
-      setAddButtonDisable(true);
-    } else {
-      setButtonDisable(true);
-      setAddButtonDisable(false);
-    }
-  }, [selectedProject, newProjectName]);
-
-  useEffect(() => {
     if (isNewProjectVisible) {
       projectCreateRef?.current?.focus();
     }
@@ -193,76 +147,6 @@ const BeatEditPop = ({
       setOpenUserNamePop(false);
     }
   }, [userFirstName, userLastName, userRefetch]);
-
-  // const handleCreateProject = async () => {
-  //   const nameExists = ProjectsObj?.projects?.some(
-  //     (item) => item.name === newProjectName
-  //   );
-  //   if (nameExists) {
-  //     return alert(
-  //       "A project with the same name already exists. Please choose a different name."
-  //     );
-  //   }
-  //   setButtonDisable(true);
-
-  //   // function to submit new project to script pad
-  //   // ?.filter(item => !item.locked)
-  //   const untitledProjects = ProjectsObj?.projects
-  //     .filter((project) => {
-  //       const words = project.name.split(" ");
-  //       return words[0] === "Untitled";
-  //     })
-  //     .map((project) => project.name);
-  //   let counter = 0;
-  //   // console.log(untitledProjects);
-
-  //   for (const item of untitledProjects) {
-  //     const match = item.match(/^Untitled (\d+)$/);
-  //     if (match) {
-  //       const number = parseInt(match[1]);
-  //       if (number >= counter) {
-  //         counter = number + 1;
-  //       }
-  //     }
-  //   }
-  //   const fullName = `${userQuery?.first_name} ${userQuery?.last_name}`;
-
-  //   let authorName;
-
-  //   if (userQuery?.first_name && userQuery?.last_name) {
-  //     authorName = fullName;
-  //   } else {
-  //     const email = userQuery?.email;
-  //     const modifiedEmail = email.split("@")[0];
-
-  //     authorName = modifiedEmail;
-  //   }
-
-  //   const nextUntitled = `Untitled ${counter}`;
-  //   const data = {
-  //     name: newProjectName,
-  //     ownername: authorName,
-  //     language: "en",
-  //     nature_project: premiseData?.nature_of_project,
-  //     duration: premiseData?.minutes,
-  //   };
-
-  //   const response = await createProject(data);
-  //   if (response) {
-  //     setSelectedProject(response?.data?.projects);
-  //     // console.log(response?.data?.projects);
-  //     refetch();
-  //     setNewProjectName("");
-  //     setNewProjectVisible(false);
-
-  //     return response.data.projects;
-  //   }
-
-  //   // popClose();
-  //   // You can access the new project name using the state variable newProjectName
-  //   // console.log("New project name:", newProjectName);
-  //   // Reset the input field and hide it
-  // };
 
   const [transLoading, setTransLoading] = useState(false);
   const handleOptionChange = async (e) => {
@@ -293,6 +177,11 @@ const BeatEditPop = ({
     }
   };
 
+  function cleanUpInput(input) {
+    const result = input.replace(/\s/g, " ");
+    return result.endsWith("?") ? result.slice(0, -1) : result;
+  }
+
   const onClickKeyboard = () => {
     setKeyboardVisible(!keyboardVisible);
     if (selectedLanguage === "") {
@@ -316,18 +205,36 @@ const BeatEditPop = ({
   const [saveScreenPlay, resSaveScreenPlay] = useSaveScreenPlayMutation();
   const [screenPlayData, setScreenPlayData] = useState();
   const [beatPostLoading, setBeatPostLoading] = useState(false);
+  const [projectNotFound, setProjectNotFound] = useState(false);
 
   const handleSubmitBeatToProject = async () => {
     setBeatPostLoading(true);
+    // setAddToBeatDisable(true);
     const data = {
       name: selectedProject?.name,
       version: selectedProject?.total_versions,
     };
+    let screenPlayResponse;
+    // screenPlayResponse = await getScreenPlay(data);
+    try {
+      screenPlayResponse = await getScreenPlay(data);
+      // console.log("screenPlayResponse", screenPlayResponse?.data);
+    } catch (err) {
+      // alert("The screenplay file on the server is deleted or cannot be found.");
+      setBeatPostLoading(false);
+      // setAddToBeatDisable(false);
+      return;
+    }
 
-    const screenPlayResponse = await getScreenPlay(data);
+    if (!screenPlayResponse?.data || isProjectLocked) {
+      setProjectNotFound(true);
+
+      setBeatPostLoading(false);
+      return;
+    }
     const screenPlayJson = screenPlayResponse.data?.screenplay_data_json;
 
-    if (Object.keys(screenPlayJson).length !== 0) {
+    if (screenPlayJson && Object.keys(screenPlayJson).length !== 0) {
       const newBlankParagraph = {
         type: "paragraph",
         attrs: {
@@ -424,6 +331,24 @@ const BeatEditPop = ({
             position: toast.POSITION.TOP_CENTER,
             autoClose: 800,
           });
+
+          if (commentObj?.reply) {
+            // console.log("replyyy");
+            const data = {
+              reply_id: commentObj.id,
+              add_to_beat_text: modifiedText,
+            };
+            addedToBeat(data);
+            replyRefetch();
+          } else {
+            // console.log("cmnttt");
+            const data = {
+              comment_id: commentObj.id,
+              add_to_beat_text: modifiedText,
+            };
+            addedToBeat(data);
+            commentRefetch();
+          }
           // setBeatPostLoading(false);
         }
       })
@@ -486,6 +411,18 @@ const BeatEditPop = ({
   const [addPopup, setAddPopup] = useState(false);
 
   const inputRef = useRef();
+  useEffect(() => {
+    if (regardingOutput !== null && inputRef.current) {
+      autoResize(inputRef.current);
+    }
+  }, [regardingOutput]);
+
+  const autoResize = (textarea) => {
+    if (textarea) {
+      textarea.style.height = "auto"; // Reset the height
+      textarea.style.height = `${textarea.scrollHeight}px`; // Set the height to the scroll height
+    }
+  };
 
   useEffect(() => {
     const preference = localStorage.getItem("doNotShowBox");
@@ -520,6 +457,8 @@ const BeatEditPop = ({
   }, []);
 
   const handleInputChange = (e, key) => {
+    // const trimmedValue = e.target.value.trim();
+    // console.log(trimmedValue)
     setOptions({ ...options, [key]: e.target.value });
   };
 
@@ -551,300 +490,345 @@ const BeatEditPop = ({
   };
 
   return (
+    // <div> {projectNotFound ? (
+    //   <ProjectNotfound setProjectNotFound={setProjectNotFound}/> // Conditionally render ProjectNotFound component
+    // ) :(
     <>
-      <div className="fixed top-0 left-0 w-full h-full flex mt-[71px] xl:mt-[80px] lg:mt-[0px] items-center bg-[#252525b0] justify-center z-[1]  ">
-        <div
-          className={`${
-            !doNotShowBox ? "h-full md:h-[525px]" : "h-[80%] md:h-[411px]"
-          }
-                  h-[100vh] md:mt-[88px] xl:mt-[-40px]  w-full lg:w-[920px] md:mx-auto bg-[#fff]  lg:bg-[#fadda] md:rounded-[8px] relative`}
-        >
-          <div className="h-[49vh]  md:h-[525px] ">
-            <div className="z-10 top-26">
-              <div
-                className={`rounded-[8px] relative ${
-                  isSmallDevice && "overflow-y-scroll"
-                } md:w-[920px] mx-auto ${
-                  !doNotShowBox
-                    ? "h-[90vh] md:h-[525px]"
-                    : "h-[80%] md:h-[411px]"
-                } bg-white md:bg-[#FAFAFA]`}
-              >
-                <button
-                  className="absolute left-0 top-0 md:hidden "
-                  onClick={() => popClose(false)}
+      <div className="fixed top-[17px] md:top-[-50px] left-0 w-full h-full flex mt-[71px] xl:mt-[80px] lg:mt-[0px] items-center bg-[#252525b0] justify-center z-[1]  o ">
+        {beatSuggestLoading ? (
+          <div className="h-auto w-full lg:w-[40%] xl:w-[35%]">
+            <TypingLoader />
+          </div>
+        ) : (
+          <div
+            className={`${
+              !doNotShowBox ? "h-full md:h-[525px]" : "h-[80%] md:h-[411px] "
+            }
+          h-[100vh] md:mt-[88px] xl:mt-[-40px]  w-full lg:w-[920px] md:mx-auto bg-[#fff]  lg:bg-[#fadda] md:rounded-[8px] relative    ${
+            doNotShowBox ? "h-auto pb-[10px]" : "mb-[20px] pb-[20px]"
+          }`}
+          >
+            <div className="h-[49vh]  md:h-[525px] ">
+              <div className="z-10 top-26 ">
+                <div
+                  className={`rounded-[8px] relative ${
+                    isSmallDevice && "overflow-y-scroll"
+                  } md:w-[920px] mx-auto ${
+                    !doNotShowBox
+                      ? "h-[90vh] md:h-[525px]"
+                      : "h-[80%] md:h-[411px]"
+                  } bg-white md:bg-[#FAFAFA]`}
                 >
-                  <IoIosArrowRoundBack className="text-[50px] text-[#33B0CA]" />
-                </button>
-                <div className="text-right hidden md:flex justify-end h-0 ">
-                  <img
-                    src={crossIcon}
-                    alt=""
-                    className="text-red-500 w-8 h-8 top-[22px] sm:top-[-16px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px] absolute z-[1] m-1 cursor-pointer"
-                    onClick={() => popClose()}
-                  />
-                </div>
-                <div className="pb-[8px] mt-[12px]">
-                  <h1 className="text-[14px] md:text-[18px] font-[500] text-center">
-                    Adding a Comment to Beat Sheet
-                  </h1>
-                </div>
-
-                <div className="px-[12px] md:px-[33px] pb-[4px]">
-                  {!doNotShowBox && (
-                    <div>
-                      {readMore && (
-                        <div className="leading-[20px]">
-                          <h5 className="text-[14px] font-[400] pb-[8px]">
-                            <span className="pl-[20px] ">A</span> beat describes
-                            a moment or event which forwards to story or reveals
-                            something significant about the characters or plot.
-                            It clearly brings out who does what and defines the
-                            outcome of the scene in a clear, impactful, and
-                            engaging way to connect the audience with the
-                            characters and maintain engagement and coherence in
-                            the narrative.
-                          </h5>
-                          <h5 className="text-[14px] font-[400]">
-                            <span className="pl-[20px]">The</span> beat
-                            description is in present continuous tense, concise,
-                            in active voice, precisely detailing the trigger,
-                            subject, actions, settings and emotions. To control
-                            the rhythm and pace, Short and long sentences are
-                            used to increase tension or provide details or
-                            reflection.
-                          </h5>
-                        </div>
-                      )}
-                      {!readMore && (
-                        <div className="leading-[20px]">
-                          <h5 className="text-[14px]  font-[400] pb-[8px]">
-                            <span className="pl-[20px]">A</span> beat describes
-                            a moment or event which forwards to story or reveals
-                            something significant about the characters or plot.
-                            It clearly brings out who does what and defines the
-                            outcome of the scene in a clear, impactful, and
-                            engaging way to connect the audience with the
-                            characters and maintain engagement and{" "}
-                            <button
-                              onClick={() => setReadMore(true)}
-                              className="text-[#33B0CA] underline"
-                            >
-                              Read more
-                            </button>
-                          </h5>
-                        </div>
-                      )}
-                      <div className="pt-[4px] text-[12px] font-[600] pb-[6px] pl-[11px] flex gap-[10px]">
-                        <input
-                          type="checkbox"
-                          name=""
-                          id=""
-                          onChange={handleCheckboxChange}
-                        />
-                        <span>Do not show this box again</span>
-                      </div>
-                    </div>
+                  {!beatPostLoading && (
+                    <button
+                      className="absolute left-0 top-0 md:hidden "
+                      onClick={() => {
+                        popClose();
+                        commentRefetch();
+                      }}
+                    >
+                      <IoIosArrowRoundBack className="text-[50px] text-[#33B0CA]" />
+                    </button>
                   )}
-                  <div>
-                    <h3 className="text-[12px] md:text-[14px] leading-[18px] font-[600] pb-[13px]">
-                      Select and Edit one of the following for adding To Beat
-                      Sheet
-                    </h3>
+                  <div className="relative text-right hidden md:flex justify-end h-0 ">
+                    {!beatPostLoading && (
+                      <img
+                        src={crossIcon}
+                        alt="Close"
+                        className="absolute top-[-8px] right-[10px]  md:right-[-10px] w-8 h-8 z-[20] cursor-pointer "
+                        onClick={() => {
+                          popClose();
+                          commentRefetch();
+                        }}
+                      />
+                    )}
                   </div>
-                  {beatSuggestLoading ? (
-                    <div className="h-[59px]">
-                      <Loading />
-                    </div>
-                  ) : (
-                    <>
+                  <div className="pb-[8px] mt-[12px]">
+                    <h1 className="text-[14px] md:text-[18px] font-[500] text-center">
+                      Adding a Comment to Beat Sheet
+                    </h1>
+                  </div>
+
+                  <div className="px-[12px] md:px-[33px] pb-[4px] ">
+                    {!doNotShowBox && (
                       <div>
-                        {Object?.keys(options).map((key) => (
-                          <div
-                            key={key}
-                            className={`w-full md:w-[853px] mb-[8px] rounded-[6px] px-[16px] py-[10px] ${
-                              regardingOutput === key
-                                ? "bg-[#EAEAEA] h-[65px]"
-                                : "bg-[#F8F8F8]"
-                            } ${
-                              !readMore || doNotShowBox
-                                ? "h-[53px]"
-                                : "h-[42px]"
-                            }  border flex items-center gap-[10px]`}
-                          >
-                            <input
-                              onClick={() => setRegardingOutput(key)}
-                              checked={regardingOutput === key}
-                              type="radio"
-                              name=""
-                              id=""
-                              className="cursor-pointer"
-                            />
-                            {regardingOutput === key ? (
-                              <textarea
-                                maxLength={400}
-                                type="text"
-                                value={options[key]}
-                                onChange={(e) => handleInputChange(e, key)}
-                                className="focus:resize-none outline-none bg-[#EAEAEA] w-full  text-[14px] leading-[20px] resize-none"
-                                ref={inputRef}
-                              />
-                            ) : (
-                              <p
-                                className={`w-full  outline-none bg-[#F8F8F8] text-[14px] leading-[18px] ${
-                                  !readMore || doNotShowBox
-                                    ? "h-[48px]"
-                                    : "h-[38px]"
-                                } overflow-y-auto`}
-                              >
-                                {options[key]}
-                              </p>
-                            )}
-
-                            {showKeyboard && regardingOutput === key && (
-                              <Draggable handle=".movable-handle">
-                                <div className="absolute z-20 w-[650px] top-[180px] right-[30px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
-                                  <div className="grid grid-cols-12">
-                                    <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
-                                      Drag me!!{" "}
-                                      <span className="font-[500]">
-                                        {sourcesLanguage}
-                                      </span>{" "}
-                                      Keyboard
-                                    </div>
-                                    <div className="flex justify-center items-center w-full h-full cursor-pointer">
-                                      <button
-                                        onClick={() => setShowKeyboard(false)}
-                                        className="font-bold w-full h-full"
-                                      >
-                                        ✕
-                                      </button>
-                                    </div>
-                                  </div>
-
-                                  <div className="p-2">
-                                    <KeyboardB
-                                      regardingOutput={regardingOutput}
-                                      setOptions={setOptions}
-                                      inputRef={inputRef}
-                                      sourcesLanguage={sourcesLanguage}
-                                    />
-                                  </div>
-                                </div>
-                              </Draggable>
-                            )}
+                        {readMore && (
+                          <div className="leading-[20px]">
+                            <h5 className="text-[14px] font-[400] pb-[8px]">
+                              <span className="pl-[20px] ">A</span> beat
+                              describes a moment or event which forwards to
+                              story or reveals something significant about the
+                              characters or plot. It clearly brings out who does
+                              what and defines the outcome of the scene in a
+                              clear, impactful, and engaging way to connect the
+                              audience with the characters and maintain
+                              engagement and coherence in the narrative.
+                            </h5>
+                            <h5 className="text-[14px] font-[400]">
+                              <span className="pl-[20px]">The</span> beat
+                              description is in present continuous tense,
+                              concise, in active voice, precisely detailing the
+                              trigger, subject, actions, settings and emotions.
+                              To control the rhythm and pace, Short and long
+                              sentences are used to increase tension or provide
+                              details or reflection.
+                            </h5>
                           </div>
-                        ))}
+                        )}
+                        {!readMore && (
+                          <div className="leading-[20px]">
+                            <h5 className="text-[14px]  font-[400] pb-[8px]">
+                              <span className="pl-[20px]">A</span> beat
+                              describes a moment or event which forwards to
+                              story or reveals something significant about the
+                              characters or plot. It clearly brings out who does
+                              what and defines the outcome of the scene in a
+                              clear, impactful, and engaging way to connect the
+                              audience with the characters and maintain
+                              engagement and{" "}
+                              <button
+                                onClick={() => setReadMore(true)}
+                                className="text-[#33B0CA] underline"
+                              >
+                                Read more
+                              </button>
+                            </h5>
+                          </div>
+                        )}
+                        <div className="pt-[4px] text-[12px] font-[600] pb-[6px] pl-[11px] flex gap-[10px]">
+                          <input
+                            type="checkbox"
+                            name=""
+                            id=""
+                            onChange={handleCheckboxChange}
+                          />
+                          <span>Do not show this box again</span>
+                        </div>
                       </div>
+                    )}
+                    <div>
+                      <h3 className="text-[12px] md:text-[14px] leading-[18px] font-[600] pb-[13px]">
+                        Select and Edit one of the following for adding To Beat
+                        Sheet
+                      </h3>
+                    </div>
+                    {!beatSuggestLoading && (
+                      <>
+                        <div
+                          className={`${
+                            readMore ? "max-h-[200px]" : "max-h-[250px]"
+                          } overflow-y-auto`}
+                        >
+                          <div className="grid grid-cols-1 gap-y-[8px]">
+                            {Object.keys(options).map((key) => (
+                              <div
+                                key={key}
+                                className={`w-full rounded-[6px] px-[16px]  py-[10px]  ${
+                                  regardingOutput === key
+                                    ? "bg-[#EAEAEA] h-auto"
+                                    : "bg-[#F8F8F8] h-auto"
+                                } ${
+                                  !readMore || doNotShowBox
+                                    ? "h-auto"
+                                    : "h-auto"
+                                }  border flex flex-row gap-[10px] items-start`}
+                              >
+                                <input
+                                  onClick={() => setRegardingOutput(key)}
+                                  checked={regardingOutput === key}
+                                  type="radio"
+                                  name=""
+                                  id=""
+                                  className="cursor-pointer mt-[7px]"
+                                />
+                                {regardingOutput === key ? (
+                                  <textarea
+                                    maxLength={400}
+                                    type="text"
+                                    // value={cleanUpInput(options[key])}
+                                    value={options[key]}
+                                    onChange={(e) => {
+                                      handleInputChange(e, key);
+                                      autoResize(e.target);
+                                    }}
+                                    className=" outline-none bg-[#EAEAEA] w-full  text-[14px] leading-[25px] h-auto max-h-[90px]  overflow-y-auto  resize-none "
+                                    ref={inputRef}
+                                    style={{ height: "auto" }}
+                                    // onInput={(e) => {
+                                    //   e.target.style.height = 'auto';
+                                    //   e.target.style.height = `${e.target.scrollHeight}px`;
+                                    // }}
+                                  />
+                                ) : (
+                                  <p
+                                    className={`w-full  outline-none bg-[#F8F8F8] text-[14px] leading-[20px] ${
+                                      !readMore || doNotShowBox
+                                        ? "h-auto"
+                                        : "h-auto"
+                                    }  `}
+                                  >
+                                    {options[key]}
+                                  </p>
+                                )}
 
-                      <div
-                        className={`flex justify-end items-center gap-[16px] ${
-                          doNotShowBox
-                            ? "mt-[45px]"
-                            : "mt-[8px] md:mt-[20px] mb-[3px]"
-                        } `}
-                      >
-                        <div>
-                          {!translatedPop && (
-                            <button
-                              className={` cursor-pointer hover:text-[#33B0CA] `}
-                              onClick={() => setTranslatedPop(!translatedPop)}
-                            >
-                              <img src={transIcon} alt="" />
-                            </button>
-                          )}
+                                {/* {console.log(options[key])} */}
+
+                                {showKeyboard && regardingOutput === key && (
+                                  <Draggable handle=".movable-handle">
+                                    <div className="absolute z-20 w-[650px] top-[180px] right-[30px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
+                                      <div className="grid grid-cols-12">
+                                        <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
+                                          Drag me!!{" "}
+                                          <span className="font-[500]">
+                                            {sourcesLanguage}
+                                          </span>{" "}
+                                          Keyboard
+                                        </div>
+                                        <div className="flex justify-center items-center w-full h-full cursor-pointer">
+                                          <button
+                                            onClick={() =>
+                                              setShowKeyboard(false)
+                                            }
+                                            className="font-bold w-full h-full"
+                                          >
+                                            ✕
+                                          </button>
+                                        </div>
+                                      </div>
+
+                                      <div className="p-2">
+                                        <KeyboardB
+                                          regardingOutput={regardingOutput}
+                                          setOptions={setOptions}
+                                          inputRef={inputRef}
+                                          sourcesLanguage={sourcesLanguage}
+                                        />
+                                      </div>
+                                    </div>
+                                  </Draggable>
+                                )}
+                              </div>
+                            ))}
+                          </div>
                         </div>
 
-                        {translatedPop && (
-                          <div className="border p-1 rounded-[4px] flex items-center justify-between">
-                            <button
-                              onClick={() => setTranslatedPop(!translatedPop)}
-                            >
-                              <img
-                                src={transIcon}
-                                alt=""
-                                className="w-[29px] h-[26px]"
-                              />
-                            </button>
-                            <select
-                              value={selectedLanguage}
-                              onChange={handleOptionChange}
-                              className="bg-[#FAFAFA] border-none w-[106px] text-[14px] text-[#616161] font-[400] focus:outline-none h-7"
-                            >
-                              {Object.entries(sortedLanguages).map(
-                                ([key, name]) => (
-                                  <option key={key} value={key}>
-                                    <p className="bg-[#33B0CA]">{name}</p>
-                                  </option>
-                                )
-                              )}
-                            </select>
+                        <div
+                          className={`flex justify-end items-center gap-[16px] ${
+                            doNotShowBox
+                              ? "mt-[20px] mb-[0px] pb-[0px]"
+                              : "mt-[23px] md:mt-[20px] mb-[3px] pb-[4px]"
+                          } `}
+                        >
+                          <div>
+                            {!translatedPop && (
+                              <button
+                                className={` cursor-pointer hover:text-[#33B0CA] `}
+                                onClick={() => setTranslatedPop(!translatedPop)}
+                              >
+                                <img src={transIcon} alt="" />
+                              </button>
+                            )}
                           </div>
-                        )}
-                        {!showKeyboard && (
-                          <button
-                            className="hidden md:block"
-                            onClick={() => setShowKeyboard(!showKeyboard)}
-                          >
-                            <FaKeyboard className="text-[24px]" />
-                          </button>
-                        )}
-                        {showKeyboard && (
-                          <div className="border p-1 rounded-[4px] flex items-center justify-between">
+
+                          {translatedPop && (
+                            <div className="border p-1 rounded-[4px] flex items-center justify-between">
+                              <button
+                                onClick={() => setTranslatedPop(!translatedPop)}
+                              >
+                                <img
+                                  src={transIcon}
+                                  alt=""
+                                  className="w-[29px] h-[26px]"
+                                />
+                              </button>
+                              <select
+                                value={selectedLanguage}
+                                onChange={handleOptionChange}
+                                className="bg-[#FAFAFA] border-none w-[106px] text-[14px] text-[#616161] font-[400] focus:outline-none h-7"
+                              >
+                                {Object.entries(sortedLanguages).map(
+                                  ([key, name]) => (
+                                    <option key={key} value={key}>
+                                      <p className="bg-[#33B0CA]">{name}</p>
+                                    </option>
+                                  )
+                                )}
+                              </select>
+                            </div>
+                          )}
+                          {!showKeyboard && (
                             <button
+                              className="hidden md:block"
                               onClick={() => setShowKeyboard(!showKeyboard)}
                             >
-                              <FaKeyboard />
+                              <FaKeyboard className="text-[24px]" />
                             </button>
-                            <select
-                              value={sourcesLanguage}
-                              onChange={(e) =>
-                                setSourcesLanguage(e.target.value)
-                              }
-                              className="bg-[#FAFAFA] border-none w-full md:w-[110px] text-[14px] text-[#616161] font-[400] focus:outline-none h-7"
-                            >
-                              {Object.entries(keyboardOptions)
-                                .sort(([, a], [, b]) => a.localeCompare(b))
-                                .map(([code, name]) => (
-                                  <option key={code} value={name}>
-                                    {name}
-                                  </option>
-                                ))}
-                            </select>
-                          </div>
-                        )}
+                          )}
+                          {showKeyboard && (
+                            <div className="border p-1 rounded-[4px] flex items-center justify-between">
+                              <button
+                                onClick={() => setShowKeyboard(!showKeyboard)}
+                              >
+                                <FaKeyboard />
+                              </button>
+                              <select
+                                value={sourcesLanguage}
+                                onChange={(e) =>
+                                  setSourcesLanguage(e.target.value)
+                                }
+                                className="bg-[#FAFAFA] border-none w-full md:w-[110px] text-[14px] text-[#616161] font-[400] focus:outline-none h-7"
+                              >
+                                {Object.entries(keyboardOptions)
+                                  .sort(([, a], [, b]) => a.localeCompare(b))
+                                  .map(([code, name]) => (
+                                    <option key={code} value={name}>
+                                      {name}
+                                    </option>
+                                  ))}
+                              </select>
+                            </div>
+                          )}
 
-                        <button
-                          disabled={beatPostLoading}
-                          className="bg-[#33B0CA] text-[#FAFAFA] border border-[#33B0CA] text-[14px] font-[600]  rounded-[8px] min-w-[74px] min-h-[32px] px-[8px] hover:shadow-md shadow-[#252525] hover:bg-[#33B0CA] "
-                          onClick={() => handleSubmitBeatToProject()}
-                        >
-                          Next
-                        </button>
-                      </div>
-                    </>
-                  )}
+                          <button
+                            disabled={beatPostLoading}
+                            className="bg-[#33B0CA] text-[#FAFAFA] border border-[#33B0CA] text-[14px] font-[600]  rounded-[8px] min-w-[74px] min-h-[32px] px-[8px] hover:shadow-md shadow-[#252525] hover:bg-[#33B0CA] "
+                            onClick={() => handleSubmitBeatToProject()}
+                          >
+                            Next
+                          </button>
+                          {projectNotFound && (
+                            <ProjectNotfound
+                              setProjectNotFound={setProjectNotFound}
+                              isProjectLocked={isProjectLocked}
+                            /> // Conditionally render the pop-up
+                          )}
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
+
+            {confirmBit && (
+              <ConfirmationModal
+                isOpen={confirmBit}
+                onClose={() => {
+                  setConfirmBit(false);
+                  popClose();
+                }}
+                onConfirm={() => handleOpenBeatSheet()}
+                title="Beat added, would you like to open script now ?"
+                content="Beat added would you like to open script now "
+              />
+            )}
           </div>
-        </div>
-        {confirmBit && (
-          <ConfirmationModal
-            isOpen={confirmBit}
-            onClose={() => {
-              setConfirmBit(false);
-              popClose();
-            }}
-            onConfirm={() =>
-              handleOpenBeatSheet("4d0bc6a8-d52b-462f-b9ea-e640c513ec14")
-            }
-            title="Beat added, would you like to open script now ?"
-            content="Beat added would you like to open script now "
-          />
         )}
       </div>
     </>
+
+    // )}
+    // </div>
   );
 };
 

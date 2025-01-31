@@ -2,12 +2,17 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { MyContext } from "../../App";
+import {
+  useGetSavedCharactersQuery,
+  useSaveCharactersMutation,
+} from "../../app/EndPoints/Characters/Characters";
 import { useGetPremiseUserPictureQuery } from "../../app/EndPoints/premisePoolApi";
 import { setUser } from "../../app/Slices/userSlice";
 import backgroundImg from "../../img/Icons/download.jpg";
 import msgIcon from "../../img/Icons/msgIcon.png";
 import userImg from "../../img/Icons/userImg.png";
 import { URL } from "../utils";
+import CharacterEditablePop from "./Character/CharacterEditablePop";
 import CommentPremise from "./CommentPremise";
 import AddPremise2 from "./Components/AddPremise2";
 import HideOptionPop from "./Components/HideOptionPop";
@@ -18,6 +23,7 @@ import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
 import TranslatePremise from "./TranslatePremise";
 import UserMail from "./UserMail";
+import UserType from "./UserType";
 
 const PremiseCard = ({
   setShowRefine,
@@ -33,9 +39,8 @@ const PremiseCard = ({
   setTransPopClose,
   isLiked,
   setIsLiked,
-  hiddenCountRefetch
+  hiddenCountRefetch,
 }) => {
-  // console.log('should blink', p);
   const { user, userFirstName, userLastName } = owner;
   const {
     id,
@@ -50,8 +55,34 @@ const PremiseCard = ({
     hidden,
     filter_flag,
     visible_to,
-    comment_filter_flag
+    comment_filter_flag,
+    m_value,
+    project_id,
   } = p;
+  const [actOneThreshold, setActOneThreshold] = useState();
+  const [actTwoEnd, setActTwoEnd] = useState();
+
+  // console.log("card actOneThreshold", actOneThreshold);
+  // console.log("PremiseData", p);
+
+  useEffect(() => {
+    setActOneThreshold(Math.floor(0.25 * m_value));
+
+    setActTwoEnd(Math.floor(0.8 * m_value));
+  }, [m_value]);
+
+  const { data: characters, isCharLoading } =
+    useGetSavedCharactersQuery(project_id);
+  const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
+
+  const [characterArray, setCharacterArray] = useState([]);
+
+  const [onlyAdd, setOnlyAdd] = useState(true);
+  const [characterLoading, setCharacterLoading] = useState(true);
+
+  useEffect(() => {
+    if (characters) setCharacterArray(characters);
+  }, [characters]);
 
   const {
     data: profileImg,
@@ -61,15 +92,30 @@ const PremiseCard = ({
   const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
 
   // console.log("xcvvdfawsedfdsfgfgd", p);
-  const {allspProjectJSON, setSelectedPremiseObj} = useContext(MyContext)
+  const {
+    setSelectedPremiseObj,
+    setSelectedPremiseSpProjectId,
+    setTransPopup,
+    allspProjectJSON,
+  } = useContext(MyContext);
+
+  const currentProjectData = allspProjectJSON?.projects?.find(
+    (item) => item.pro_uuid === project_id
+  );
+  const currentProjectName = currentProjectData?.name;
+  const isProjectLocked = currentProjectData?.locked;
+  // console.log("object", currentProjectData);
 
   const splitText = text.split("+");
   const dText = splitText[1];
-  const stylings = JSON.parse(splitText[0]);
+  const stylings = JSON?.parse(splitText[0]);
+  const [viewText, setViewText] = useState(splitText[1]);
   const { boldStyle, italicStyle, underlineStyle, hexColor } = stylings;
   const [openDotMenu, setOpenDotMenu] = useState(null);
+  const [openCharacterChart, setOpenCharacterChart] = useState(null);
   const [openHidePop, setOpenHidePop] = useState(false);
   const [premiseOwner, setPremiseOwner] = useState(false);
+  const [confirmOpenSp, setConfirmOpenSp] = useState(false);
   // const [isLiked, setIsLiked] = useState(false);
 
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -82,28 +128,6 @@ const PremiseCard = ({
   const [ownerMail, setOwnerMail] = useState(false);
   const dispatch = useDispatch();
   const [openPop, setOpenPop] = useState(false);
-
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     // Close accordion when clicking outside
-  //     if (dotPopupRef.current && !dotPopupRef.current.contains(event.target)) {
-  //       setOpenDotMenu(null);
-  //     }
-  //     // Close other components here if needed
-  //   };
-
-  //   // Add the event listener when the component mounts
-  //   document.addEventListener("click", handleClickOutside);
-
-  //   // Remove the event listener when the component unmounts
-  //   return () => {
-  //     document.removeEventListener("click", handleClickOutside);
-  //   };
-  // }, []);
-
-  // const handleDelete = (id) => {
-
-  // }
 
   useEffect(() => {
     if (created_by?.id === user) {
@@ -143,6 +167,19 @@ const PremiseCard = ({
   // console.log("formattedTime", Intl.DateTimeFormat().resolvedOptions().timeZone);
 
   const [hideDisable, setHideDisable] = useState(false);
+
+  // const {
+  //   data: commentsData,
+  //   isCommentLoading,
+  //   refetch: commentRefetch,
+  // } = useGetCommentByPremiseIdQuery(id);
+
+  // //filter Deleted Comment count
+
+  // const deletedCount = commentsData?.comments?.filter(comment => comment.is_deleted).length;
+
+  // const finalCount = comments - deletedCount
+
   // console.log(hideDisable);
 
   // const handleHideUnhidePremise = async (id) => {
@@ -177,6 +214,7 @@ const PremiseCard = ({
   //     // Handle errors
   //   }
   // };
+
   const handleHideUnhidePremise = async (id) => {
     hideUnhidePremise(id, setHideDisable, refetch, setOpenDotMenu);
   };
@@ -194,6 +232,46 @@ const PremiseCard = ({
 
     return () => document.body.removeEventListener("mousedown", closeMenu);
   }, []);
+
+  const handleOpenSp = () => {
+    // console.log("object", p);
+    if (isProjectLocked) {
+      window.open(`${URL}/scriptpad2/#/myscript`);
+    }
+    window.open(
+      `${URL}/scriptpad2/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
+    );
+  };
+
+  const handleUpdateSavedChar = async () => {
+    setCharacterLoading(true);
+    try {
+      const charArr = JSON.stringify(characterArray);
+      const data = {
+        // id: premiseID,
+        id: project_id,
+        body: { char_data: charArr },
+      };
+
+      const response = await saveCharacter(data);
+
+      if (response) {
+        // setAddNewCharacter(false)
+        // setEditPopupOpen(false)
+        setOpenCharacterChart(false);
+        // setCharSaveDisable(true);
+        setCharacterLoading(false);
+
+        // toast.success("characters updated!")
+      }
+      return response;
+    } catch (error) {
+      setCharacterLoading(false);
+      // console.error("Error updating characters:", error);
+    }
+  };
+
+  // console.log(created_by);
 
   return (
     <div className="w-[358px] lg:w-[100%] mx-auto border border-[#EAEAEA] hover:shadow-lg rounded-[8px]  ">
@@ -215,30 +293,41 @@ const PremiseCard = ({
               {profileImg?.[0]?.profile_photo ? (
                 <img
                   src={proImgUrl}
-                  className="w-[32px] h-[31.9px] border
+                  className="w-[36px] h-[35.9px] border
                 border-[#eaeaea] rounded-full object-cover"
                   alt=""
                 />
               ) : (
                 <img
                   src={userImg}
-                  className="w-[32px] h-[31.9px] rounded-full border
+                  className="w-[36px] h-[35.9px] rounded-full border
                 border-[#eaeaea]"
                   alt=""
                 />
               )}
-
-              <h4 className="text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA]">
-                {created_by?.first_name} {created_by?.last_name}
-              </h4>
+              <div>
+                <div className="flex items-center">
+                  <h4 className="notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA]">
+                    {created_by?.first_name} {created_by?.last_name}
+                  </h4>
+                  <UserType
+                    type={created_by?.centraldatabase?.type}
+                    user_type={created_by?.centraldatabase?.user_type}
+                  />
+                </div>
+                <div className="text-[#616161] text-[10px] flex flex-col gap-[8px] font-[400] leading-[4px] mb-[12px]">
+                  <p>
+                    {formattedDate}, {formattedTime}
+                  </p>
+                  {created_by?.id === user && (
+                    <p className="notranslate text-[#252525] text-[12px]">
+                      {currentProjectName?.slice(0, 20)}
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
           </a>
-
-          <div className="text-[#616161] text-[12px] flex gap-[8px] font-[400]  ml-[36px] leading-[4px] mb-[12px]">
-            <p>
-              {formattedDate}, {formattedTime}
-            </p>
-          </div>
         </div>
         <div>
           {" "}
@@ -261,7 +350,8 @@ const PremiseCard = ({
                 alt=""
               /> */}
               <FaEllipsisV
-                onClick={() => {
+                onMouseDown={(e) => {
+                  e.stopPropagation();
                   setOpenDotMenu((prevIndex) =>
                     prevIndex === index ? null : index
                   );
@@ -271,18 +361,18 @@ const PremiseCard = ({
               {openDotMenu === index && (
                 <div
                   ref={dotPopupRef}
-                  className="absolute w-[186.99px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px] z-10"
+                  className="absolute flex flex-col w-[186.99px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px] z-10"
                 >
                   <button
                     onClick={() => {
                       setOpenHidePop(!openHidePop);
                       setOpenDotMenu(null);
                     }}
-                    className="cursor-pointer"
+                    className="cursor-pointer  w-full"
                   >
                     <p className="text-[14px] w-full font-[500] break-none  hover:text-[#33B0CA] text-[#252525]">
                       {" "}
-                      Make Private
+                      Visibility Settings
                     </p>{" "}
                   </button>
                   <button
@@ -290,11 +380,35 @@ const PremiseCard = ({
                       handleDelete(id);
                       setOpenDotMenu(null);
                     }}
-                    className="cursor-pointer "
+                    className="cursor-pointer  w-full"
                   >
                     <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
                       {" "}
                       Delete Premise
+                    </p>{" "}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setOpenCharacterChart(project_id);
+                      setOpenDotMenu(null);
+                    }}
+                    className="cursor-pointer  w-full"
+                  >
+                    <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
+                      {" "}
+                      Characters and Roles
+                    </p>{" "}
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleOpenSp();
+                      setOpenDotMenu(null);
+                    }}
+                    className="cursor-pointer  w-full"
+                  >
+                    <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
+                      {" "}
+                      Open <span className="scriptpad-m">Script Pad</span>
                     </p>{" "}
                   </button>
 
@@ -358,17 +472,20 @@ const PremiseCard = ({
             onClick={() => {
               setOpenPop(true);
               setShowRefine(false);
-              setOpenDotMenu(null)
-              setSelectedPremiseObj(p)
+              setOpenDotMenu(null);
+              setSelectedPremiseObj(p);
+              setSelectedPremiseSpProjectId(project_id);
+              setTransPopup(false);
             }}
             // className={`absolute inset-0 w-[100%] mx-auto backdrop-filter flex items-center justify-center backdrop-blur-sm px-[14px] text-[16px] rounded-[8px] text-[#616161] leading-5 font-[400] overflow-hidden `}
             className="absolute cursor-pointer inset-0  backdrop-blur-sm  text-[16px] leading-[19.83px] rounded-[8px] overflow-hidden break-words px-[14px] py-[12px]"
           >
             <p
-              className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} `}
+              className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} notranslate`}
               style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
             >
-              {splitText[1]}
+              {viewText}
+              {/* {splitText[1]} */}
             </p>
           </div>
           <div></div>
@@ -414,12 +531,16 @@ const PremiseCard = ({
               openDotMenu,
               setHideDisable,
               hideDisable,
+              project_id,
             }}
             refetch={refetch}
             setIsLiked={setIsLiked}
+            actTwoEnd={actTwoEnd}
+            actOneThreshold={actOneThreshold}
           />
           <CommentPremise
             data={{
+              // finalCount,
               comments,
               bg_color,
               bg_img,
@@ -443,6 +564,7 @@ const PremiseCard = ({
               openDotMenu,
               setHideDisable,
               hideDisable,
+              project_id,
             }}
             refetch={refetch}
             setIsLiked={setIsLiked}
@@ -475,12 +597,14 @@ const PremiseCard = ({
               openDotMenu,
               setHideDisable,
               hideDisable,
+              project_id,
             }}
             refetch={refetch}
             setIsLiked={setIsLiked}
             activeSearch={activeSearch}
             transPopClose={transPopClose}
             setTransPopClose={setTransPopClose}
+            setViewText={setViewText}
           />
         </div>
       </div>
@@ -545,12 +669,37 @@ const PremiseCard = ({
             openDotMenu,
             setHideDisable,
             hideDisable,
-            hiddenCountRefetch
+            hiddenCountRefetch,
+            project_id,
+            m_value: p?.m_value,
           }}
+          viewText={viewText}
           refetch={refetch}
           p={p}
         />
       )}
+      {openCharacterChart && (
+        <CharacterEditablePop
+          setCharacterEditPop={setOpenCharacterChart}
+          characterArray={characterArray}
+          currentProjectData={currentProjectData}
+          setCharacterArray={setCharacterArray}
+          onlyAdd={onlyAdd}
+          handleUpdateSavedChar={handleUpdateSavedChar}
+          characterLoading={isCharLoading}
+          project_id={p?.project_id}
+        />
+      )}
+      {/* {confirmOpenSp && (
+        <ConfirmationModal
+          onClose={() => {
+            setConfirmOpenSp(false);
+          }}
+          onConfirm={() => handleOpenSp()}
+          title="Beat added, would you like to open script now ?"
+          content="Beat added would you like to open script now "
+        />
+      )} */}
     </div>
   );
 };

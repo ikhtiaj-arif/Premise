@@ -10,7 +10,8 @@ export const projectEndPoint = apiSlice.injectEndpoints({
           method: "POST",
           body: data,
         };
-      },
+        
+      },providesTags: ["sp-porject"],
     }),
     updateSpProject: builder.mutation({
             query: (data) => {
@@ -27,6 +28,7 @@ export const projectEndPoint = apiSlice.injectEndpoints({
           url: `/scriptpad2/get_projects/`,
           method: "GET",
         }),
+        
       }),
       getScreenPlay: builder.mutation({
         query: (formData) => {
@@ -46,6 +48,16 @@ export const projectEndPoint = apiSlice.injectEndpoints({
           };
         },
       }),
+      
+      updateAddedToBeat: builder.mutation({
+        query: (data) => {
+          return {
+            url: `/ideamall/beat_added/`,
+            method: "POST",
+            body: data,
+          };
+        },
+      }),
       saveScreenPlay: builder.mutation({
         query: (formData) => {
           return {
@@ -54,6 +66,17 @@ export const projectEndPoint = apiSlice.injectEndpoints({
             body: formData,
           };
         },
+      }),
+
+      deleteProject: builder.mutation({
+        query: (data) => {
+          return {
+            url: `/scriptpad2/delete_project/`,
+            method: "DELETE",
+            body: data
+          };
+        },
+        // invalidatesTags: ["scriptPad"],
       }),
    
   }),
@@ -65,6 +88,8 @@ export const {
     useGetScreenPlayMutation,
     useUpdateSceneMutation, 
     useSaveScreenPlayMutation,
-    useUpdateSpProjectMutation
+    useUpdateSpProjectMutation,
+    useUpdateAddedToBeatMutation,
+    useDeleteProjectMutation
 
 } = projectEndPoint;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaRegThumbsUp, FaThumbsUp } from "react-icons/fa";
+import { FaThumbsUp } from "react-icons/fa";
 import {
   useDeleteLikeMutation,
   useGetLikesByPremiseIdQuery,
@@ -9,9 +9,9 @@ import {
 import LikePopup from "./LikePopup";
 import "./Premise.css";
 
-const LikePremise = ({ data, refetch, }) => {
-  const { likes, id, user} = data;
-  
+const LikePremise = ({ data, refetch }) => {
+  const { likes, id, user } = data;
+
   const [isLiked, setIsLiked] = useState();
   const [postLike, resInfo] = useLikePremiseMutation();
   const [postIsLike, isResInfo] = useIsLikePremiseMutation();
@@ -23,15 +23,15 @@ const LikePremise = ({ data, refetch, }) => {
   } = useGetLikesByPremiseIdQuery(id);
   // console.log("id", id);
 
-
-  useEffect(()=>{
-    likedUserRefetch()
-  },[likes])
+  useEffect(() => {
+    likedUserRefetch();
+  }, [likes]);
 
   useEffect(() => {
     if (likedUsersList?.results) {
-     
-      const likedUsersIds = likedUsersList.results.map(user => user?.user?.id);
+      const likedUsersIds = likedUsersList.results.map(
+        (user) => user?.user?.id
+      );
       if (likedUsersIds.includes(user)) {
         setIsLiked(true);
       } else {
@@ -39,7 +39,6 @@ const LikePremise = ({ data, refetch, }) => {
       }
     }
   }, [likedUsersList, user?.id]);
-
 
   const [likePopup, setLikePopup] = useState(false);
   const [disable, setDisable] = useState(false);
@@ -76,7 +75,7 @@ const LikePremise = ({ data, refetch, }) => {
     if (deleteResponse?.data?.message === true) {
       setDisable(false);
       setIsLiked(!isLiked);
-      refetch()
+      refetch();
     }
   };
 
@@ -86,29 +85,28 @@ const LikePremise = ({ data, refetch, }) => {
     if (postLikeResponse?.data) {
       setDisable(false);
       setIsLiked(!isLiked);
-      refetch()
+      refetch();
     }
   };
 
-
   return (
     <div className="">
-      <div className="notranslate flex gap-2">
+      <div className=" flex gap-2">
         {isLiked ? (
           <button disabled={disable}>
             <FaThumbsUp
               onClick={handleDisLikeClick}
-              className={`w-8 h-8 text-[#33B0CA]   ${
-                disable ? " cursor-default" : " cursor-pointer"
+              className={`w-8 h-8 text-[#33B0CA]  ${
+                disable ? "cursor-default" : "cursor-pointer "
               }`}
             />
           </button>
         ) : (
           <button disabled={disable}>
-            <FaRegThumbsUp
+            <FaThumbsUp
               onClick={handleLikeClick}
-              className={`w-8 h-8 ${
-                disable ? " cursor-default" : " cursor-pointer"
+              className={`w-8 h-8 text-[#252525]  ${
+                disable ? "cursor-default" : "cursor-pointer "
               }`}
             />
           </button>
@@ -122,7 +120,13 @@ const LikePremise = ({ data, refetch, }) => {
           onClick={() => likes > 0 && setLikePopup(true)}
         >
           {likes}
-          <span className="ml-[2px] ">{likes > 1 ? "Likes" : "Like"}</span>
+          <span className="ml-[2px] ">
+            {likes > 1 ? (
+              <span className="like-m">Likes</span>
+            ) : (
+              <span className="like-m">Like</span>
+            )}
+          </span>
         </div>
       </div>
 

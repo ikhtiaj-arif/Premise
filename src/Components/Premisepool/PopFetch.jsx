@@ -238,7 +238,7 @@ const PopFetch = ({ popClose, data, refetch }) => {
                 >
                   <div className="flex-1 flex gap-1 items-center">
                     <img src={userImg} className="w-[32px]" alt="" />
-                    <h4 className="text-[#252525] font-[600] text-[14px] capitalize cursor-pointer">
+                    <h4 className="notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer">
                       {created_by?.first_name} {created_by?.last_name}
                     </h4>
                   </div>

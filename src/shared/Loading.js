@@ -8,7 +8,7 @@ const Loading = () => {
       <h1 className="flex justify-center items-center z-[1]">
         <ReactLoading
           type={"spinningBubbles"}
-          color={"rgb(53, 126, 221)"}
+          color={"#33B0CA"}
           height={100}
           width={100}
         />

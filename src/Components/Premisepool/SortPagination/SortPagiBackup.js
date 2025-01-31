@@ -294,7 +294,7 @@ const SortPagination = ({
 
   return (
     <div className={``}>
-      <div className="flex gap-[16px] w-full xl:justify-end items-center  lg:mt-[-37px] ">
+      <div className="flex gap-[16px] w-[88%] m xl:justify-end items-center  lg:mt-[-37px] ">
         <p className=" hidden md:block w-[204px] text-[14px] text-[#252525] h-[32px] font-[500]">
           {dataCount} Premises, {"("}
           {hiddenCount}
@@ -470,7 +470,7 @@ const SortPagination = ({
               // />
             )}
             <div
-              className={`custom-srch_input border  border-[#B4B4B4] mx-auto px-[14px] h-[32px] my-2 rounded-full`}
+              className={`custom-srch_input border w-[100%]  border-[#B4B4B4] mx-auto px-[14px] h-[32px] my-2 rounded-full`}
             >
               <form className="flex items-center" onSubmit={handleSearchSubmit}>
                 <input

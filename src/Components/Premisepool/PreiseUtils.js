@@ -60,7 +60,7 @@ const hideUnhidePremise = async (
     // console.log(data);
     refetch();
   } catch (error) {
-    console.error("Error fetching data:", error);
+    // console.error("Error fetching data:", error);
     setHideDisable(false);
   }
 };

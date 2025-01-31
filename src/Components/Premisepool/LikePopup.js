@@ -25,7 +25,7 @@ const LikePopup = ({ setLikePopup, id }) => {
             <p className="text-left text-[16px] text-[#252525] mb-[8px]">
               Liked By
             </p>
-            <div className="h-[1px] bg-[#616161] w-full "/>
+            <div className="h-[1px] bg-[#eaeaea] w-full "/>
           </div>
           <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
             <img src={crossIcon} alt=""

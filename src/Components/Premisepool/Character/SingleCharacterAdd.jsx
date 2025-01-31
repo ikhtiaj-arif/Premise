@@ -1,0 +1,494 @@
+import React, { useEffect, useRef, useState } from "react";
+import AutoSizeTextArea from "./AutosizeTextArea";
+
+const SingleCharacterAdd = ({
+  setAddNewCharacter,
+  handleAddNewCharacter,
+  characterArray,
+}) => {
+  const [role, setRole] = useState("");
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [occupation, setOccupation] = useState("");
+  const [gender, setGender] = useState("");
+  const [background, setBackGround] = useState("");
+  const [personality, setPersonality] = useState("");
+  const [individualWant, setIndividualWant] = useState("");
+  const [characterjourney, setCharacterjourney] = useState("");
+  const [bloodrelationship, setBloodrelationship] = useState("");
+  const [familyrelationship, setFamilyrelationship] = useState("");
+  const [professionalrelationship, setProfessionalrelationship] = useState("");
+  const [customRole, setCustomRole] = useState("");
+
+  // New state to track if all fields are filled
+  const [isSaveDisabled, setIsSaveDisabled] = useState(true);
+  const occupationRef = useRef(null);
+  const backgroundRef = useRef(null);
+  const personalityRef = useRef(null);
+  const individualWantRef = useRef(null);
+  const characterJourneyRef = useRef(null);
+  const bloodRelationshipRef = useRef(null);
+  const familyRelationshipRef = useRef(null);
+  const professionalRelationshipRef = useRef(null);
+
+  useEffect(() => {
+    // Check if all fields are filled to enable the "Save" button
+    const isFormComplete =
+      role &&
+      name &&
+      age &&
+      occupation &&
+      gender &&
+      background &&
+      personality &&
+      individualWant &&
+      characterjourney &&
+      bloodrelationship &&
+      familyrelationship &&
+      professionalrelationship &&
+      (role !== "Others" || customRole);
+
+    setIsSaveDisabled(!isFormComplete); // Disable if form is incomplete
+  }, [
+    role,
+    name,
+    age,
+    occupation,
+    gender,
+    background,
+    personality,
+    individualWant,
+    characterjourney,
+    bloodrelationship,
+    familyrelationship,
+    professionalrelationship,
+    customRole,
+  ]);
+
+  const handleAddClick = (e) => {
+    e.preventDefault();
+    const assignedRole = role === "Others" ? customRole : role;
+    const newCharacter = {
+      role: assignedRole,
+      name,
+      age,
+      occupation,
+      gender,
+      background,
+      personality,
+      individual_want: individualWant,
+      character_journey: characterjourney,
+      blood_relationship: bloodrelationship,
+      family_relationship: familyrelationship,
+      professional_relationship: professionalrelationship,
+    };
+
+    handleAddNewCharacter(newCharacter);
+    setRole("");
+    setName("");
+    setAge("");
+    setOccupation("");
+    setGender("");
+    setBackGround("");
+    setPersonality("");
+    setIndividualWant("");
+    setCharacterjourney("");
+    setBloodrelationship("");
+    setFamilyrelationship("");
+    setProfessionalrelationship("");
+    setCustomRole("");
+    setAddNewCharacter(false);
+  };
+
+  const handleAgeChange = (e) => {
+    const value = e.target.value;
+    if (/^\d*$/.test(value)) {
+      setAge(value);
+    }
+  };
+
+  const handleInputChange = (e, setValue) => {
+    let value = e.target.value;
+    if (typeof value !== "string") return;
+
+    if (value.length === 0) {
+      setValue("");
+      return;
+    }
+
+    if (value.length === 1) {
+      const firstChar = value.replace(/[^a-zA-Z0-9]/, "");
+      setValue(firstChar);
+    } else {
+      const firstChar = value[0].replace(/[^a-zA-Z0-9]/, "");
+      const restOfValue = value.slice(1);
+      setValue(firstChar + restOfValue);
+    }
+  };
+
+  useEffect(() => {
+    AutoSizeTextArea(occupationRef.current, background);
+    AutoSizeTextArea(backgroundRef.current, background);
+    AutoSizeTextArea(personalityRef.current, personality);
+    AutoSizeTextArea(individualWantRef.current, individualWant);
+    AutoSizeTextArea(characterJourneyRef.current, characterjourney);
+    AutoSizeTextArea(bloodRelationshipRef.current, bloodrelationship);
+    AutoSizeTextArea(familyRelationshipRef.current, familyrelationship);
+    AutoSizeTextArea(
+      professionalRelationshipRef.current,
+      professionalrelationship
+    );
+  }, [
+    occupation,
+    background,
+    personality,
+    individualWant,
+    characterjourney,
+    bloodrelationship,
+    familyrelationship,
+    professionalrelationship,
+  ]);
+
+  const roleOptions = [
+    "Protagonist",
+    "Antagonist",
+    "Narrator",
+    "Co-Star",
+    "Supporting Character",
+    "Confidant",
+    "Love Interest",
+    "Antagonist's Right Hand",
+    "Foil",
+    "Mentor",
+    "Comic Relief",
+    "Rival",
+    "Sidekick",
+    "Symbolic Character",
+    "Others",
+  ];
+
+  const filteredRoleOptions = roleOptions.filter(
+    (roleOption) => !characterArray.some((char) => char.role === roleOption)
+  );
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center z-50 ">
+      <div className="fixed inset-0 bg-black opacity-50"></div>
+      <div className="relative bg-[#FAFAFA] pt-[20px] px-[8px] rounded-lg shadow-lg w-full lg:w-[479px] h-[73vh] md:h-[450px]">
+        <div className="h-[calc(100%-60px)] w-full overflow-auto">
+          <div>
+            <div>
+              <h3 className="text-center md:mb-[12px] font-[500]">
+                <span className="text-[18px] text-center md:text-[14px]">
+                  Add Character
+                </span>
+              </h3>
+            </div>
+
+            <form
+              onSubmit={handleAddClick}
+              className="w-[90%] md:w-[398px] mx-auto"
+            >
+              <div className="block mb-[10px] md:mb-[20px] md:flex gap-[18px] ">
+                <div className="relative w-full md:w-[171px]">
+                  <label
+                    className={`absolute left-2 top-[1px] lg:top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500]  transition-all z-[2] 
+                     `}
+                  >
+                    Role
+                  </label>
+                  <select
+                    required
+                    onChange={(e) => setRole(e.target.value)}
+                    value={role}
+                    className=" text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA]  rounded-[8px] my-[12px] md:my-0   w-full md:w-[171px] h-[42px]  indent-1 "
+                  >
+                    <option className="text-[14px]" value="" selected disabled>
+                      Role
+                    </option>
+                    {filteredRoleOptions?.map((roleOption) => (
+                      <option
+                        key={roleOption}
+                        value={roleOption}
+                        className="bg-white text-[#252525] text-[14px] "
+                      >
+                        {roleOption}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="relative w-full mt-[4px] md:mt-0  md:w-[171px]">
+                  <label
+                    className={`absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all `}
+                  >
+                    Name
+                  </label>
+
+                  <input
+                    autoComplete="off"
+                    value={name}
+                    required
+                    onChange={(e) => handleInputChange(e, setName)}
+                    type="text"
+                    name="name"
+                    maxLength={50}
+                    translate="no"
+                    placeholder="Name"
+                    className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[42px]   text-[#616161] "
+                  />
+                </div>
+              </div>
+              <div>
+                {role === "Others" && (
+                  <div className="relative w-full mt-[4px] md:mt-0  md:w-[171px]">
+                    <label
+                      className={`absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all `}
+                    >
+                      Others
+                    </label>
+                    <input
+                      autoComplete="off"
+                      value={customRole}
+                      required
+                      onChange={(e) => setCustomRole(e.target.value)}
+                      type="text"
+                      maxLength={50}
+                      placeholder="Describe the role"
+                      className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  mt-[5px] mb-[15px] rounded-[8px] border-2   w-full md:w-[398px] h-[42px]   text-[#616161] "
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="block mb-0 md:mb-[20px] md:flex gap-[14px]">
+                <div className="relative w-full md:w-[92px]">
+                  <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-10">
+                    Gender
+                  </label>
+                  <select
+                    required
+                    value={gender}
+                    onChange={(e) => setGender(e.target.value)}
+                    className=" text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA]  rounded-[8px] mb-[22px] mt-[12px] md:my-0    md:w-[97px] h-[41px]  indent-1 w-full"
+                    
+                  >
+                    <option value="" className="text-[14px] " selected disabled>
+                      Gender
+                    </option>
+                    <option className="text-[14px]">Male</option>
+                    <option className="text-[14px]">Female</option>
+                    <option className="text-[14px]">Animal</option>
+                    <option className="text-[14px]">Inanimate Object</option>
+                  </select>
+                </div>
+                <div className="relative w-full  md:w-[49px] ">
+                  <label className="absolute left-2 top-[-12px] z-[2] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                    Age
+                  </label>
+                  <input
+                    type="text"
+                    value={age}
+                    onChange={handleAgeChange}
+                    id="protaAge"
+                    min="0"
+                    maxLength={5}
+                    className={`h-[41px] w-full  md:ml-0 relative text-[12px] md:!text-[14px] leading-tight  px-[8px] mb-[24px] md:mb-[15px] md:w-[64px] bg-[#fafafa] rounded-[8px] border-[2px] focus:outline-none   text-[#616161] `}
+                    placeholder="age"
+                    required
+                  />
+                </div>
+                <div className="relative w-full md:w-[206px] md:left-5 ">
+                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                    Occupation
+                  </label>
+                  <textarea
+                    autoComplete="off"
+                    required
+                    onChange={(e) => handleInputChange(e, setOccupation)}
+                    value={occupation}
+                    ref={occupationRef}
+                    type="text"
+                    maxLength={50}
+                    name="occupation"
+                    translate="no"
+                    placeholder="occupation"
+                    className="text-[14px] bg-[#FAFAFA] mb-[18px]  leading-[20px] md:mb-0 px-3 pt-[8px] pb-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[42px]     text-[#616161] resize-none overflow-hidden break-words
+                    "
+                  />
+                </div>
+              </div>
+              <div className="mb-[20px]">
+                <div className="relative w-full md:w-[171px]">
+                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                    Background
+                  </label>
+                  <textarea
+                    autoComplete="off"
+                    required
+                    onChange={(e) => handleInputChange(e, setBackGround)}
+                    value={background}
+                    type="text"
+                    ref={backgroundRef}
+                    maxLength={300}
+                    name="background"
+                    translate="no"
+                    placeholder="Background"
+                    className={`text-[14px] bg-[#FAFAFA]   text-[#616161] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] overflow-y-hidden border-2   w-full md:w-[398px] 
+                    h-auto resize-none `}
+                  />
+                </div>
+              </div>
+              <div className="mb-[20px]">
+                <div className="relative w-full md:w-[171px]">
+                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                    Personality
+                  </label>
+                  <textarea
+                    onChange={(e) => handleInputChange(e, setPersonality)}
+                    value={personality}
+                    autoComplete="off"
+                    required
+                    type="text"
+                    maxLength={300}
+                    name="personality"
+                    ref={personalityRef}
+                    translate="no"
+                    placeholder="Personality"
+                    className="text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none   text-[#616161]"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-[20px]">
+                <div className="relative w-full md:w-[171px]">
+                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                    Individual&nbsp;want
+                  </label>
+                  <textarea
+                    onChange={(e) => handleInputChange(e, setIndividualWant)}
+                    value={individualWant}
+                    ref={individualWantRef}
+                    autoComplete="off"
+                    required
+                    type="text"
+                    maxLength={300}
+                    name="individualwant"
+                    translate="no"
+                    placeholder="Individual want"
+                    className="text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none   text-[#616161] "
+                  />
+                </div>
+              </div>
+              <div className="mb-[20px]">
+                <div className="relative w-full md:w-[171px]">
+                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                    Character's&nbsp;journey
+                  </label>
+                  <textarea
+                    onChange={(e) => handleInputChange(e, setCharacterjourney)}
+                    value={characterjourney}
+                    ref={characterJourneyRef}
+                    autoComplete="off"
+                    required
+                    type="text"
+                    maxLength={300}
+                    name="characterjourney"
+                    translate="no"
+                    placeholder="Character's journey"
+                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] border-2 overflow-y-hidden   w-full md:w-[398px] h-auto resize-none    text-[#616161]  "
+                  />
+                </div>
+              </div>
+              <div className="mb-[20px]">
+                <div className="relative w-full md:w-[171px]">
+                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                    Blood&nbsp;relationship
+                  </label>
+                  <textarea
+                    onChange={(e) => handleInputChange(e, setBloodrelationship)}
+                    value={bloodrelationship}
+                    ref={bloodRelationshipRef}
+                    autoComplete="off"
+                    required
+                    type="text"
+                    maxLength={300}
+                    name="Blood_relationship"
+                    translate="no"
+                    placeholder="Blood relationship"
+                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none   text-[#616161] "
+                  />
+                </div>
+              </div>
+              <div className="mb-[20px]">
+                <div className="relative w-full md:w-[171px] mt-6">
+                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                    Family&nbsp;relationship
+                  </label>
+                  <textarea
+                    onChange={(e) =>
+                      handleInputChange(e, setFamilyrelationship)
+                    }
+                    value={familyrelationship}
+                    ref={familyRelationshipRef}
+                    autoComplete="off"
+                    required
+                    type="text"
+                    maxLength={300}
+                    name="Family_relationship"
+                    translate="no"
+                    placeholder="Family relationship"
+                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none   text-[#616161]"
+                  />
+                </div>
+              </div>
+              <div className="mb-[12px]">
+                <div className="relative w-full md:w-[171px]">
+                  <label
+                    htmlFor="professional_relationship_input"
+                    className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all"
+                  >
+                    Professional&nbsp;relationship
+                  </label>
+                  <textarea
+                    onChange={(e) =>
+                      handleInputChange(e, setProfessionalrelationship)
+                    }
+                    value={professionalrelationship}
+                    ref={professionalRelationshipRef}
+                    autoComplete="off"
+                    required
+                    type="text"
+                    maxLength={300}
+                    name="Professional_relationship"
+                    translate="no"
+                    placeholder="Professional relationship"
+                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none      text-[#616161]"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 bg-[#FAFAFA] py-4 px-8 flex justify-end gap-[18px] rounded-[8px]">
+          <button
+            onClick={() => setAddNewCharacter(false)}
+            className="bg-[#fafafa] flex items-center gap-[14px] justify-center text-[14px] text-[#33B0CA] border border-[#33B0CA] w-[69px] h-[32px] rounded-[4px] py-[4px] px-[2px] "
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleAddClick}
+            disabled={isSaveDisabled}
+            className={`${
+              isSaveDisabled ? "bg-[#616161] " : "bg-[#33B0CA] "
+            } text-[14px] font-[600] text-white w-[69px] h-[32px] rounded-[4px]`}
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SingleCharacterAdd;

@@ -41,6 +41,6 @@ const baseApiWithRefresh = async (args, api, extraOptions) => {
 };
 export const apiSlice = createApi({
   baseQuery: baseApiWithRefresh,
-  tagTypes: ["premise", "premise-comment, premise-like, premise_user, premise-msg, reply-comment, premise-hidden-count"],
+  tagTypes: ["premise","premise-post", "premise-comment, premise-like, premise_user, premise-msg, reply-comment, premise-hidden-count, sp-porject"],
   endpoints: (builder) => ({}),
 });

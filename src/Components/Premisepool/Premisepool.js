@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,12 +7,14 @@ import { MyContext } from "../../App";
 import {
   useGetHiddenPremiseCountQuery,
   useGetPremiseQuery,
-  useGetPremiseUserQuery,
+  useGetPremiseUserQuery
 } from "../../app/EndPoints/premisePoolApi";
 import { setUser } from "../../app/Slices/userSlice";
-import Loading from "../../shared/Loading";
+import TypingLoader from "../TypingLoader";
+import { baseURL, URL } from "../utils";
 import AddPremise2 from "./Components/AddPremise2";
 import DeletePremise from "./DeletePremise";
+import Popup from "./Popup";
 import PremiseCard from "./PremiseCard";
 import SortPagination from "./SortPagination/SortPagination";
 import UserNamePopup from "./UserNamePopup";
@@ -24,6 +27,17 @@ const Premisepool = () => {
   const [hasMore, setHasMore] = useState(true);
   const [showRefine, setShowRefine] = useState(false);
 
+  const [userAccess, setUserAccess] = useState("");
+  const [noAccessPopup, setNoAccessPopup] = useState(false);
+
+  const loadingData = [
+    "Initializing..",
+    "Creating Structures...",
+    "Collecting Data...",
+    "Analyzing Data...",
+    "Finishing!...",
+  ];
+
   const [text, setText] = useState("");
   const [language, setLanguage] = useState("");
   const {
@@ -35,7 +49,6 @@ const Premisepool = () => {
     setAddedByMeCondition,
     searchAuthor,
     setSearchAuthor,
-    
   } = useContext(MyContext);
 
   const [isFirstCardBlinking, setIsFirstCardBlinking] = useState(false);
@@ -45,7 +58,7 @@ const Premisepool = () => {
   const [queryUser, setQueryUser] = useState(null);
   const [refetching, setRefetching] = useState(false);
   const [querying, setQuerying] = useState(true);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // const [activeAddedByMe, setActiveAddedByMe] = useState(false);
 
@@ -62,9 +75,7 @@ const Premisepool = () => {
 
   useEffect(() => {}, [sortOrder, sortedData, itemsToShow, currentPage]);
 
-  const __id = useParams();
-  
-
+  const id = useParams();
 
   useEffect(() => {
     if (activeAddedByMe && user) {
@@ -76,16 +87,122 @@ const Premisepool = () => {
 
   const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
 
+  // const {data:privilegeQuery} = useGetUserPrivilegeStatusQuery(5)
+
+  // console.log("privilegeQuery", privilegeQuery);
+ 
+
+  async function checkUserAccess() {
+    try {
+      const response = await fetch(`${URL}/pay/checkuseraccess/${user}/PP_PostPremise`, {
+        method: "GET",
+      });
+  
+   
+  
+      const data = await response.json();
+      console.log("Response data:", data);
+  
+      setUserAccess(data?.msg || ""); // Handle cases where msg might be undefined
+  
+      if (data?.access === "No") {
+        setNoAccessPopup(true);
+      }
+    } catch (error) {
+      console.error("Error in checkUserAccess:", error);
+    }
+  }
+console.log("userAccess", userAccess);
+  // setTimeout(() => {
+  //   checkUserAccess();
+  // }, 300);
+
   const res = useGetPremiseQuery(query);
 
   const { data: premiseData, isLoading, refetch } = res;
 
+  const {
+    data: hiddenCountRes,
+    countLoading,
+    refetch: hiddenCountRefetch,
+  } = useGetHiddenPremiseCountQuery(query);
+
+  const [openPopBySp, setOpenPopBySp] = useState(false);
+  const [premiseDataForUser, setPremiseDataForUser] = useState([]);
+  const [matchingPremiseData, setMatchingPremiseData] = useState({});
+  const [formattedDate, setFormattedDate] = useState({});
+  const [formattedTime, setFormattedTime] = useState({});
+  const [stylings, setStylings] = useState();
+  const [dText, setdText] = useState();
+  // console.log(stylings);
+
+  // console.log(matchingPremiseData);
+
+  const token = localStorage.getItem("accessToken");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+
+  const xyz = async () => {
+    try {
+      const response = await axios.get(
+        `${baseURL}/ideamall/premise?current_user=${user}&user=${user}`,
+        {
+          headers: headers,
+        }
+      );
+      const data = response?.data;
+
+      setPremiseDataForUser(data?.results);
+      return data;
+    } catch (err) {}
+  };
+
   useEffect(() => {
-    if (__id && __id.__id === "scriptpad") {
-      setActiveAddedByMe(true);
-      if(premiseData) navigate("/")
+    if (id && id.service === "scriptpad") {
+      xyz();
+      const matchingPremiseData = premiseDataForUser.find(
+        (item) => item.id === id.__id
+      );
+
+      if (matchingPremiseData) {
+        setOpenPopBySp(true);
+        setMatchingPremiseData(matchingPremiseData);
+        const splitText = matchingPremiseData?.text?.split("+");
+        const dText = splitText[1];
+        const stylings = JSON?.parse(splitText[0]);
+
+        // Format the created_date
+        const formattedDate = new Date(
+          matchingPremiseData?.created_at
+        ).toLocaleDateString("en-US", {
+          // timeZone: "GMT",
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          // weekday: "short",
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        });
+        setFormattedDate(formattedDate);
+
+        const formattedTime = new Date(
+          matchingPremiseData?.created_at
+        ).toLocaleTimeString("en-US", {
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          hour: "numeric",
+          minute: "numeric",
+        });
+        setFormattedTime(formattedTime);
+
+        setdText(dText);
+        setStylings(stylings);
+        navigate("/");
+      }
+      // setActiveAddedByMe(true);
     }
-  }, [__id, premiseData]);
+  }, [id, premiseData]);
 
   // const userFirstName = useSelector((state) => state?.user?.firstName);
   // const userLastName = useSelector((state) => state?.user?.lastName);
@@ -101,6 +218,8 @@ const Premisepool = () => {
 
   const [addPopup, setAddPopup] = useState();
   const [isUserName, setIsUserName] = useState(true);
+
+ 
 
   useEffect(() => {
     setQuery({
@@ -150,9 +269,13 @@ const Premisepool = () => {
   // }, [premiseData, dataCount, totalPages, itemsToShow, refetch]);
   useEffect(() => {
     if (premiseData) {
-      setDataCount(premiseData.count);
-      setViewData(premiseData.results);
-      setTotalPages(Math.ceil(premiseData.count / itemsToShow));
+      let filterPremiseData = premiseData?.results?.filter(
+        (items) => items.ai_comments_generated
+      );
+      // console.log("filterPremiseData",filterPremiseData);
+      setDataCount(filterPremiseData?.length);
+      setViewData(filterPremiseData);
+      setTotalPages(Math.ceil(premiseData?.count / itemsToShow));
 
       // Determine if there's more data to load
       if (itemsToShow >= premiseData.count) {
@@ -185,8 +308,8 @@ const Premisepool = () => {
     let newItemsToShow = itemsToShow + 12;
 
     // Ensure newItemsToShow does not exceed the total count
-    if (newItemsToShow >= premiseData.count) {
-      newItemsToShow = premiseData.count;
+    if (newItemsToShow >= premiseData?.count) {
+      newItemsToShow = premiseData?.count;
       setHasMore(false);
     } else {
       setHasMore(true);
@@ -205,20 +328,11 @@ const Premisepool = () => {
   const [ttt, setTtt] = useState(false);
   // console.log(userFirstName)
 
-  const [hiddenCount, setHiddenCount] = useState();
+  const handleAddPremise = async () => {
+    checkUserAccess();
 
-  const {
-    data: hiddenCountRes,
-    countLoading,
-    refetch: hiddenCountRefetch,
-  } = useGetHiddenPremiseCountQuery();
-
-  useEffect(() => {
-    if (hiddenCountRes) {
-      setHiddenCount(hiddenCountRes?.hidden_count);
-      hiddenCountRefetch();
-    }
-  }, [hiddenCountRes]);
+    setAddPopup(true);
+  };
 
   return (
     //   <div
@@ -242,11 +356,14 @@ const Premisepool = () => {
             />
             <div className="mr-[20px] md:mr-[0px] md:w-[50%] mt-[19px] xl:mt-[42px]">
               <button
-                onClick={() => setAddPopup(true)}
+                onClick={handleAddPremise}
                 // className="btn btn"
                 className="bg-[#33B0CA] flex items-center justify-center gap-[8px] text-[#FAFAFA] text-[14px] font-[600] rounded-[8px] min-w-[196px] min-h-[34px] md:ml-[-98px] px-[12px]"
               >
-                <span className=" text-2xl ">+</span> Add A New Premise
+                <p>
+                  <span className=" text-2xl ">+</span>{" "}
+                  <span className="addNewPremise-m">Add A New Premise</span>
+                </p>
               </button>
               <div className="shortLg-styles">
                 <SortPagination
@@ -272,9 +389,9 @@ const Premisepool = () => {
                   sortedData={sortedData}
                   language={language}
                   activeSearch={activeSearch}
-                  dataCount={dataCount}
+                  dataCount={premiseData?.count}
                   setActiveSearch={setActiveSearch}
-                  hiddenCount={hiddenCount}
+                  hiddenCountRes={hiddenCountRes}
                   // activeAddedByMe={activeAddedByMe}
                   // setActiveAddedByMe={setActiveAddedByMe}
                 />
@@ -322,9 +439,9 @@ const Premisepool = () => {
               sortedData={sortedData}
               language={language}
               activeSearch={activeSearch}
-              dataCount={dataCount}
+              dataCount={premiseData?.count}
               setActiveSearch={setActiveSearch}
-              hiddenCount={hiddenCount}
+              hiddenCountRes={hiddenCountRes}
               // activeAddedByMe={activeAddedByMe}
               // setActiveAddedByMe={setActiveAddedByMe}
             />
@@ -360,7 +477,13 @@ const Premisepool = () => {
           onScroll={handleScroll}
         >
           {querying || refetching ? (
-            <Loading />
+            // <TypingLoader data={loadingData} />
+            <div className="fixed inset-0 flex items-center justify-center mx-auto z-50">
+              <div className="fixed inset-0 bg-black opacity-50"></div>
+              <div className="relative rounded-[8px] h-[100px] bg-[#fafafa] w-[90%] lg:w-[35%] flex items-center">
+                <TypingLoader data={loadingData} />
+              </div>
+            </div>
           ) : viewData?.length > 0 ? (
             <InfiniteScroll
               // dataLength={premiseData?.count}
@@ -396,8 +519,72 @@ const Premisepool = () => {
                   <DeletePremise
                     setIsDelete={setIsDelete}
                     refetch={refetch}
+                    hiddenCountRefetch={hiddenCountRefetch}
                     isDelete={isDelete}
                   />
+                )}
+                {openPopBySp && (
+                  <Popup
+                    popClose={() => setOpenPopBySp(false)}
+                    // setIsLiked={setIsLiked}
+                    data={{
+                      id: matchingPremiseData?.id,
+                      dText: dText,
+                      bg_color: matchingPremiseData?.bg_color,
+                      bg_img: matchingPremiseData?.bg_img,
+                      likes: matchingPremiseData?.likes,
+                      stylings: stylings,
+                      created_by: matchingPremiseData?.created_by,
+                      isLiked: matchingPremiseData?.isLiked,
+                      source_language: matchingPremiseData?.source_language,
+                      user: matchingPremiseData?.user,
+                      setOpenDotMenu: matchingPremiseData?.setOpenDotMenu,
+                      setUserMail: matchingPremiseData?.setUserMail,
+                      handleHideUnhidePremise:
+                        matchingPremiseData?.handleHideUnhidePremise,
+                      setOwnerMail: matchingPremiseData?.setOwnerMail,
+                      formattedTime: formattedTime,
+                      formattedDate: formattedDate,
+                      hidden: matchingPremiseData?.hidden,
+                      index: matchingPremiseData?.index,
+                      openDotMenu: matchingPremiseData?.openDotMenu,
+                      setHideDisable: matchingPremiseData?.setHideDisable,
+                      hideDisable: matchingPremiseData?.hideDisable,
+                      hiddenCountRefetch:
+                        matchingPremiseData?.hiddenCountRefetch,
+                      project_id: matchingPremiseData?.project_id,
+                      m_value: matchingPremiseData?.m_value,
+                    }}
+                    refetch={refetch}
+                    p={matchingPremiseData}
+                  />
+                )}
+                {noAccessPopup && addPopup && (
+                  <div className="bg-[rgba(0,0,0,0.75)] h-screen w-full fixed top-0 left-0 z-20 flex justify-center items-center">
+                    <div className="bg-[#fafafa] w-[600px] h-[200px] rounded-sm relative flex flex-col justify-center items-center">
+                      <button
+                        className="absolute top-[-10px] right-[-10px] bg-red-600 w-7 h-7 rounded-full text-white"
+                        onClick={() => {
+                          setNoAccessPopup(false);
+                          setAddPopup(false);
+                        }}
+                      >
+                        X
+                      </button>
+                      {userAccess === "LB" && (
+                        <h1 className="text-2xl">Limit Breach</h1>
+                      )}
+
+                      <button className="bg-[#33b0ca] text-[#fafafa] font-semibold text-[16px] rounded-[4px] mt-5 py-3 px-4">
+                        <a
+                          href="https://taj4o.mynextfilm.in/pay/payment/"
+                          target="blank"
+                        >
+                          Become Privilege
+                        </a>
+                      </button>
+                    </div>
+                  </div>
                 )}
                 {/* {srcData.map((item, idx) => {
                 return (
@@ -409,9 +596,11 @@ const Premisepool = () => {
               </div>
             </InfiniteScroll>
           ) : (
-            <p className="text-center text-2xl mt-10 text-red-700 font-semibold">
-              No premise available
-            </p>
+            <div className="flex items-center justify-center h-full">
+              <p className="text-center text-2xl  text-red-600 font-semibold">
+                No premise available
+              </p>
+            </div>
           )}
         </div>
       </div>

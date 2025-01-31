@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   FaCommentDots,
   FaEllipsisV,
   FaRegThumbsUp,
   FaThumbsUp,
 } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import {
   useCommentPremiseMutation,
   useDeleteLikeMutation,
@@ -20,14 +21,18 @@ import msgIcon from "../../img/Icons/msgIcon.png";
 // import backgroundImg from "../../img/Icons/download.jpg";
 import { motion } from "framer-motion";
 import { MdKeyboardBackspace } from "react-icons/md";
+import { MyContext } from "../../App";
 import { useCreateReplyMutation } from "../../app/EndPoints/commentReply/reply";
 import crossIcon from "../../img/Icons/crossIcon.png";
 import forwardIcon from "../../img/Icons/forwardIcon.png";
 import userImg from "../../img/Icons/userImg.png";
+import BtnLoading from "../../shared/BtnLoading";
 import Loading from "../../shared/Loading";
-import { URL } from "../utils";
+import { baseURL, URL } from "../utils";
 import AllComments from "./AllComments";
+import ViewCharacters from "./Comments/ViewCharacters";
 import HideOptionPop from "./Components/HideOptionPop";
+import DeletePremise from "./DeletePremise";
 import LikePopup from "./LikePopup";
 import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
@@ -39,7 +44,6 @@ const Popup = ({ popClose, data, refetch, transText }) => {
     comments,
     stylings,
     dText,
-
     id,
     user,
     created_by,
@@ -51,10 +55,14 @@ const Popup = ({ popClose, data, refetch, transText }) => {
     index,
     setHideDisable,
     hideDisable,
+    hiddenCountRefetch,
+    projectRefetch,
+    project_id,
+    m_value,
   } = data;
-  // console.log("dataaaaaaaa", transText);
-
+  const { allspProjectJSON } = useContext(MyContext);
   const [openDotMenu, setOpenDotMenu] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
   const [postLike, resInfo] = useLikePremiseMutation();
@@ -68,10 +76,23 @@ const Popup = ({ popClose, data, refetch, transText }) => {
   const [commentField, setCommentField] = useState(false);
   const [replyField, setReplyField] = useState(false);
   const [openHidePop, setOpenHidePop] = useState(false);
+  const [isCommentQuestion, setIsCommentQuestion] = useState(false);
+  const [cValue, setCvalue] = useState(null);
 
   const [newComment, setNewComment] = useState("");
   const commentRef = useRef(null);
   const replyRef = useRef(null);
+
+  const token = localStorage.getItem("accessToken");
+  const header = {
+    Authorization: `Bearer ${token}`,
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+  const currentProjectData = allspProjectJSON?.projects?.find(
+    (item) => item.pro_uuid === project_id
+  );
+  const currentProjectName = currentProjectData?.name;
 
   useEffect(() => {
     if (commentField && commentRef?.current) {
@@ -89,8 +110,8 @@ const Popup = ({ popClose, data, refetch, transText }) => {
     profileImgLoading,
     refetch: profileRefetch,
   } = useGetPremiseUserPictureQuery(created_by?.id);
+
   const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
-  // console.log("object",proImgUrl);
 
   const { boldStyle, italicStyle, underlineStyle, hexColor } = stylings;
   const premiseId = data?.id;
@@ -106,36 +127,18 @@ const Popup = ({ popClose, data, refetch, transText }) => {
     refetch: commentRefetch,
   } = useGetCommentByPremiseIdQuery(premiseId);
 
-  // useEffect(()=>{
-  //   if(premiseData){
-  //     const text = premiseData?.text;
-  //     const splitText = text?.split("+");
-  //     setDText(splitText?.[1]);
-  //     setStylings(JSON.parse(splitText?.[0]));
-  //     setBg_color(premiseData?.bg_color)
-  //     setBg_img(premiseData?.bg_img)
-  //     setCreated_at(premiseData?.created_at)
+  // console.log("commentsData",commentsData);
 
-  //   }
-  // },[premiseData])
+  //filter Deleted Comment count
+  const deletedCount = commentsData?.comments?.filter(
+    (comment) => comment.is_deleted
+  ).length;
+  // const finalCount = commentsData?.counts - deletedCount;
+  const finalCount = commentsData?.counts;
 
-  // console.log("transText")
-
-  // const formattedDate = new Date(created_at).toLocaleDateString("en-US", {
-  //   timeZone: "GMT",
-  //   // weekday: "short",
-  //   day: "numeric",
-  //   month: "short",
-  // });
-  // const formattedTime = new Date(created_at).toLocaleTimeString("en-US", {
-  //   timeZone: "GMT",
-  //   hour: "numeric",
-  //   minute: "numeric",
-  // });
-
-  // const { boldStyle, italicStyle, underlineStyle, hexColor } = stylings;
-
-  // console.log("premiseData", premiseData)
+  const handleDelete = (id) => {
+    setIsDelete(id);
+  };
 
   const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
 
@@ -156,6 +159,10 @@ const Popup = ({ popClose, data, refetch, transText }) => {
       fetchData();
     }
   }, [user, id, postIsLike, setIsLiked]);
+
+  // useEffect(() => {
+  //   setCvalue(parseInt(commentsData?.comments?.length) + 1);
+  // }, [commentsData]);
 
   const body = {
     premise: id,
@@ -183,47 +190,158 @@ const Popup = ({ popClose, data, refetch, transText }) => {
   };
 
   useEffect(() => {
+    if (newComment.endsWith("?")) {
+      setIsCommentQuestion(true);
+    } else {
+      setIsCommentQuestion(false);
+    }
+
     if (newComment?.length > 0) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
     }
   }, [newComment]);
+
   useEffect(() => {
     if (commentsData) {
       setLoading(false);
     }
   }, [commentsData]);
+  const [textCount, setTextCount] = useState(0);
 
   const handleTextareaChange = (event) => {
     const comment = event.target.value;
+    setTextCount(comment.length);
     setNewComment(comment);
   };
 
+  useEffect(() => {
+    // console.log(commentsData.comments.length);
+    commentRefetch();
+    const commentArray = commentsData?.comments?.length + 1;
+
+    setCvalue(commentArray);
+  }, [commentsData, commentRefetch]);
+
+  // const handleButtonClick = async () => {
+  //   if (newComment.length === 0) {
+  //     alert("You can't send an empty comment!");
+  //     return;
+  //   }
+  //   setIsLoading(true);
+
+  //   axios
+  //     .get(`${baseURL}/ideamall/GetCommentAPI/${premiseId}`, {
+  //       headers: header,
+  //     })
+  //     .then((response) => {
+  //       if (response) {
+
+  //         const body = {
+  //           premise: premiseId,
+  //           text: newComment,
+  //           user: user,
+  //           // C: cValue,
+  //           C: response?.data?.counts + 1,
+  //           is_question: isCommentQuestion,
+  //         };
+
+  //         try {
+  //           const res = await postComment(body);
+
+  //           if (res?.error) {
+  //             toast.error("Failed to add comment. Please try again.", {
+  //               position: toast.POSITION.TOP_CENTER,
+  //               autoClose: 800,
+  //             });
+  //             setIsLoading(false);
+  //           } else {
+  //             // refetch();
+  //             setNewComment("");
+  //             setIsLoading(false);
+  //             setTextCount(0);
+  //             toast.success("Comment added!", {
+  //               position: toast.POSITION.TOP_CENTER,
+  //               autoClose: 1600,
+  //             });
+  //             commentRefetch();
+  //           }
+  //         } catch (error) {
+  //           toast.error("Failed to add comment. Please try again.", {
+  //             position: toast.POSITION.TOP_CENTER,
+  //             autoClose: 800,
+  //           });
+  //           setIsLoading(false);
+  //         }
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       toast.error("Failed to add comment. Please try again.", {
+  //         position: toast.POSITION.TOP_CENTER,
+  //         autoClose: 1600,
+  //       });
+  //     });
+
+  // };
+
   const handleButtonClick = async () => {
+    if (newComment.length === 0) {
+      alert("You can't send an empty comment!");
+      return;
+    }
+
     setIsLoading(true);
-    const body = {
-      premise: premiseId,
-      text: newComment,
-      user: user,
-    };
 
-    const res = await postComment(body);
+    try {
+      // Fetch the existing comment data
+      const response = await axios.get(
+        `${baseURL}/ideamall/GetCommentAPI/${premiseId}`,
+        {
+          headers: header,
+        }
+      );
 
-    if (res?.data) {
-      // refetch();
-      setNewComment("");
-      toast.success("Comment added!", {
+      if (response) {
+        const body = {
+          premise: premiseId,
+          text: newComment,
+          user: user,
+          C: response?.data?.counts + 1, // Update the comment count
+          is_question: isCommentQuestion,
+        };
+
+        // Post the new comment
+        const res = await postComment(body);
+
+        if (res?.error) {
+          toast.error("Failed to add comment. Please try again.", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 800,
+          });
+        } else {
+          setNewComment("");
+          setIsLoading(false);
+          setTextCount(0);
+          toast.success("Comment added!", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 1600,
+          });
+          commentRefetch(); // Refetch the comments after adding the new one
+        }
+      }
+    } catch (error) {
+      toast.error("Failed to add comment. Please try again.", {
         position: toast.POSITION.TOP_CENTER,
+        autoClose: 1600,
       });
-      commentRefetch();
       setIsLoading(false);
     }
   };
 
   const [openReplyField, setOpenReplyField] = useState(null);
-  const [replyLoading, setReplyLoading]= useState(false)
-   const [replyToCommentID, setReplyToCommentID] = useState(null);
+  const [replyLoading, setReplyLoading] = useState(false);
+  const [replyToCommentID, setReplyToCommentID] = useState(null);
   const [commentOwner, setCommentOwner] = useState("");
 
   const [openAllReplies, setOpenAllReplies] = useState(false);
@@ -231,15 +349,19 @@ const Popup = ({ popClose, data, refetch, transText }) => {
 
   const [createReplyMutation, isReplyResInfo] = useCreateReplyMutation();
   const replyResStat = isReplyResInfo?.status;
+  const [openCharacterChart, setOpenCharacterChart] = useState(null);
+
+  const [replyTextCount, setReplyTextCount] = useState(0);
   const handleReplyTextChange = (event) => {
     const reply = event.target.value;
-     setReplyText(reply);
- 
+    setReplyTextCount(reply.length);
+    setReplyText(reply);
   };
 
   //submit reply
-  const handlePostReplyToComment = async () => {
-    setReplyLoading(true)
+  const handlePostReplyToComment = async (e) => {
+    e.preventDefault();
+    setReplyLoading(true);
     const data = {
       reply: replyToCommentID,
       text: replyText,
@@ -247,13 +369,15 @@ const Popup = ({ popClose, data, refetch, transText }) => {
     const response = await createReplyMutation(data);
     if (response) {
       // refetch();
-      setOpenReplyField(null);
+      // setOpenReplyField(null);
+      e.target.reset();
       setReplyText("");
       commentRefetch();
       toast.success("Reply added!", {
         position: toast.POSITION.TOP_CENTER,
+        autoClose: 800,
       });
-      setReplyLoading(false)
+      setReplyLoading(false);
     }
   };
   useEffect(() => {}, [openDotMenu]);
@@ -276,13 +400,21 @@ const Popup = ({ popClose, data, refetch, transText }) => {
     return () => document.body.removeEventListener("mousedown", closeMenu);
   }, []);
 
+  // console.log("commentsData", commentsData);
+  const handleOpenSp = () => {
+    // console.log("object", data);
+    window.open(
+      `${URL}/scriptpad2/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
+    );
+  };
+
   if (isPremiseLoading) {
     return <>Loading...</>;
   } else
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
         <ToastContainer />
-        <div className=" h-[100vh] lg:h-[475px] mb-[20px]  lg:mb-0 xl:h-[521px] lg:mt-[35px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1119px] xl:w-[1185px] md:mx-auto relative lg:rounded-[8px]">
+        <div className=" h-[100vh] lg:h-[490px] mb-[20px]  lg:mb-0 xl:h-[621px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1119px] xl:w-[1185px] md:mx-auto relative lg:rounded-[8px]">
           {/* close popup */}
           <img
             src={crossIcon}
@@ -305,14 +437,11 @@ const Popup = ({ popClose, data, refetch, transText }) => {
             }}
           />
 
-       
-          <div className="flex flex-col gap-[21px] md:gap-[30px] my-auto  lg:flex-row lg:gap-[47px] lg:justify-center ">
+          <div className="flex flex-col gap-[21px] lg:gap-[32px] lg my-auto lg:flex-row lg:justify-center ">
             {/* left div */}
-            <div className="border border-[#eaeaea] bg-[#FAFAFA] shadow-lg w-[86%] sm:w-[80%] md:w-[33%] max-w-[383px] h-[33vh] lg:h-[380px] xl:h-[421px] lg:mt-[47px]  mx-auto lg:mx-0 lg:ml-[47px] rounded-[8px]">
+            <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[86%] sm:w-[80%] md:w-[33%] max-w-[336px] h-[33vh] lg:h-[460px] xl:h-[563px] lg:mt-[18px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[32px] xl:ml-[32px] rounded-[8px]">
               {/* header */}
-              <div
-                   className="flex w-full max-w-[383px] mx-auto justify-between items-center bg-[#FAFAFA] rounded-t-[8px]  p-[8px] md:p-[20px]"
-              >
+              <div className="flex w-full max-w-[383px] mx-auto justify-between items-center bg-[#FAFAFA] rounded-t-[8px]  p-[8px] md:py-[20px] md:px-[16px]">
                 <div className="block ml-[8px] mt-[4px]">
                   <a
                     target="_blank"
@@ -327,13 +456,13 @@ const Popup = ({ popClose, data, refetch, transText }) => {
                       {profileImg?.[0]?.profile_photo ? (
                         <img
                           src={proImgUrl}
-                          className="h-[31.9px] w-[32px] rounded-full object-cover border border-[#eaeaea]"
+                          className="h-[35.9px] w-[36px] rounded-full object-cover border border-[#eaeaea]"
                           alt=""
                         />
                       ) : (
                         <img
                           src={userImg}
-                          className="w-[32px] h-[31.9px] rounded-full border border-[#eaeaea]"
+                          className="w-[36px] h-[35.9px] rounded-full border border-[#eaeaea]"
                           alt=""
                         />
                       )}
@@ -341,7 +470,10 @@ const Popup = ({ popClose, data, refetch, transText }) => {
                         <h4 className="text-[#252525] font-[600] text-[14px] capitalize cursor-pointer leading-[21px]  hover:text-[#33B0CA]">
                           {created_by?.first_name} {created_by?.last_name}
                         </h4>
-                        <p className="text-[#616161] text-[12px] flex gap-[8px] font-[400] leading-[18px]">
+                        <p className="text-[#616161] text-[10px] flex flex-col font-[400] leading-[12px]">
+                          {created_by?.id === user && (
+                            <p>{currentProjectName?.slice(0, 20)}</p>
+                          )}
                           {formattedDate}, {formattedTime}
                         </p>
                       </div>
@@ -375,9 +507,67 @@ const Popup = ({ popClose, data, refetch, transText }) => {
                 alt=""
               /> */}
                       <FaEllipsisV
-                        onClick={() => setOpenHidePop(!openHidePop)}
+                        onClick={() => setOpenDotMenu(!openHidePop)}
                         className="w-5 h-5 cursor-pointer"
                       />
+
+                      {openDotMenu && (
+                        <div
+                          ref={dotPopupRef}
+                          className="absolute w-[186.99px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px] z-10"
+                        >
+                          <button
+                            onClick={() => {
+                              setOpenHidePop(!openHidePop);
+                              setOpenDotMenu(null);
+                            }}
+                            className="cursor-pointer"
+                          >
+                            <p className="text-[14px] w-full font-[500] break-none hover:text-[#33B0CA] text-[#252525]">
+                              {" "}
+                              Visibility Settings
+                            </p>{" "}
+                          </button>
+                          <button
+                            onClick={() => {
+                              handleDelete(id);
+                              setOpenDotMenu(null);
+                            }}
+                            className="cursor-pointer "
+                          >
+                            <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
+                              {" "}
+                              Delete Premise
+                            </p>{" "}
+                          </button>
+                          <button
+                            onClick={() => {
+                              setOpenCharacterChart(id);
+                              setOpenDotMenu(null);
+                            }}
+                            className="cursor-pointer "
+                          >
+                            <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
+                              {" "}
+                              Characters and Roles
+                            </p>{" "}
+                          </button>
+                          <button
+                            onClick={() => {
+                              handleOpenSp();
+                              setOpenDotMenu(null);
+                            }}
+                            className="cursor-pointer "
+                          >
+                            <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
+                              {" "}
+                              Open Script
+                            </p>{" "}
+                          </button>
+
+                          {/* */}
+                        </div>
+                      )}
                       {openHidePop && (
                         <HideOptionPop
                           setOpenHidePop={setOpenHidePop}
@@ -385,7 +575,9 @@ const Popup = ({ popClose, data, refetch, transText }) => {
                           refetch={premiseRefetch}
                           user={user}
                           filter_flag={premiseData?.filter_flag}
+                          comment_filter_flag={premiseData?.comment_filter_flag}
                           visible_to={premiseData?.visible_to}
+                          hiddenCountRefetch={hiddenCountRefetch}
                         />
                       )}
                     </div>
@@ -398,13 +590,12 @@ const Popup = ({ popClose, data, refetch, transText }) => {
                       alt=""
                       onClick={() => setUserMail(true)}
                     />
-
                   )}
                 </div>
               </div>
               {/* image */}
               <div
-                className=" mx-auto h-[25.6vh] lg:h-[270px]  w-full lg:w-[83%] lg:my-auto border border-[#fafafa] relative  rounded-[8px] "
+                className=" mx-auto h-[25.6vh] lg:h-[225px] xl:h-[270px]  w-full lg:w-[88%] lg:my-auto border border-[#eaeaea]  relative  rounded-[8px] "
                 style={{
                   background: `${
                     bg_img
@@ -432,9 +623,7 @@ const Popup = ({ popClose, data, refetch, transText }) => {
                 <div
                   // className="absolute inset-0 flex items-center justify-center backdrop-blur-sm px-2 md:text-xl lg:text-xl border border-[#EAEAEA] bg-[#FAFAFA] rounded-[8px] max-w-[383px]"
                   className={`${
-                    bg_img || bg_color !== "#FAFAFA"
-                      ? "p-[12px]"
-                      : "px-[18px] lg:px-0"
+                    bg_img || bg_color !== "#FAFAFA" ? "p-[12px]" : "px-[18px] "
                   } absolute inset-0  backdrop-blur-sm  text-[14px] rounded-[8px] overflow-hidden break-words`}
                 >
                   {/* premise text */}
@@ -453,74 +642,26 @@ const Popup = ({ popClose, data, refetch, transText }) => {
                   )}
                 </div>
               </div>
-            </div>
-
-            {/* right div */}
-            <div className=" lg:border lg:mt-[47px]  bg-[#fff] lg:bg-[#fafafa] lg:shadow-lg border-[#eaeaea] w-[90%] sm:w-[68%] md:w-[70%] max-w-[653px] mx-auto lg:ml-0 h-[40vh] lg:h-[380px] xl:h-[420px] rounded-[8px] flex flex-col gap-[5px]">
-              <div className="w-full h-[35vh] lg:h-[298px] !overflow-y-auto lg:premiseScroll">
-                {loading ? (
-                  <div className="z-[1]">
-                    <Loading />
-                  </div>
-                ) : commentsData?.length > 0 ? (
-                  commentsData?.map((comments) => (
-                    <motion.div
-                      initial={{ opacity: 0, y: 70 }} // Start from slightly below the final position
-                      animate={{ opacity: 1, y: 0 }} // Move to the final position
-                      exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
-                      transition={{ duration: 0.5 }} // Adjust the duration as needed
-                    >
-                      <AllComments
-                        comments={comments}
-                        data={data}
-                        refetch={refetch}
-                        openReplyField={openReplyField}
-                        setOpenReplyField={setOpenReplyField}
-                        replyToCommentID={replyToCommentID}
-                        setReplyToCommentID={setReplyToCommentID}
-                        replyResStat={replyResStat}
-                        setCommentOwner={setCommentOwner}
-                        setOpenAllReplies={setOpenAllReplies}
-                        openAllReplies={openAllReplies}
-                        commentRefetch={commentRefetch}
-                        proImgUrl={proImgUrl}
-                        setReplyField={setReplyField}
-                        replyField={replyField}
-                        replyRef={replyRef}
-                        handleReplyTextChange={handleReplyTextChange}
-                        handlePostReplyToComment={handlePostReplyToComment}
-                        replyLoading={replyLoading}
-                      />
-                    </motion.div>
-                  ))
-                ) : (
-                  <p className=" text-center my-4">No comments </p>
-                )}
-              </div>
-
-              {/* comment and reply div */}
-              <div className="h-[10vh] md:h-[116px] flex flex-col justify-between">
-                <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" />
+              <div className="hidden md:flex h-[10vh] md:h-[116px] mt-[8px]  flex-col justify-between">
+                {/* <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" /> */}
                 {/* icons */}
                 <div className="lg:ml-3 hidden lg:block py-[2px] ">
                   <div className="notranslate flex gap-1 space-x-4 items-center px-3 ">
                     <div className=" flex gap-2 ml-[3px]">
                       {isLiked ? (
-                        <button disabled={disable}>
+                        <button>
                           <FaThumbsUp
                             onClick={handleDisLikeClick}
-                            className={`w-5 h-5 text-[#33B0CA]   ${
-                              disable ? " cursor-default" : " cursor-pointer"
-                            }`}
+                            className={`w-6 h-6 text-[#33B0CA]   
+                              `}
                           />
                         </button>
                       ) : (
-                        <button disabled={disable}>
+                        <button>
                           <FaRegThumbsUp
                             onClick={handleLikeClick}
-                            className={`w-5 h-5 ${
-                              disable ? " cursor-default" : " cursor-pointer"
-                            }`}
+                            className={`w-6 h-6 
+                              `}
                           />
                         </button>
                       )}
@@ -545,16 +686,151 @@ const Popup = ({ popClose, data, refetch, transText }) => {
                           setCommentField(!commentField);
                         }}
                       >
-                        <FaCommentDots className=" text-lg  " />
+                        <FaCommentDots className=" text-[24px]  " />
                       </button>
                       <p className=" text-[14px] font-[500]">
-                        {commentsData?.length}{" "}
-                        {commentsData?.length > 1 ? "Comments" : "Comment"}
+                        {finalCount} {finalCount > 1 ? "Comments" : "Comment"}
                       </p>
                     </div>
                   </div>
                 </div>{" "}
-                <div className="bg-[#F8F8F8] relative flex justify-between items-stretch md:mb-[12px] pl-3 md:flex-row w-[90%] mx-auto border border-[#EAEAEA] rounded-[8px]">
+                <div>
+                  <div className="bg-[#F8F8F8] relative flex justify-between items-stretch md:mb-[16px] pl-3 md:flex-row w-[90%] mx-auto border border-[#EAEAEA] rounded-[8px] mt-[8px]">
+                    {created_by?.id === user ? (
+                      <textarea
+                        ref={commentRef}
+                        type="text"
+                        name=""
+                        maxLength={250}
+                        id=""
+                        className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[83px] xl:h-[134px]  focus:border-none focus:outline-none text-[14px] py-[2px] pr-[55px] font-[400]"
+                        placeholder="Add a comment..."
+                        value={newComment}
+                        required
+                        onChange={handleTextareaChange}
+                        onKeyDown={(event) => {
+                          if (event.key === "Enter") {
+                            handleButtonClick();
+                            event.currentTarget.blur();
+                          }
+                        }}
+                      />
+                    ) : (
+                      <textarea
+                        ref={commentRef}
+                        type="text"
+                        name=""
+                        maxLength={150}
+                        id=""
+                        className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[83px] xl:h-[134px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[55px] font-[400]"
+                        placeholder="Add a comment..."
+                        value={newComment}
+                        required
+                        onChange={handleTextareaChange}
+                        onKeyDown={(event) => {
+                          // console.log('Key pressed:', event.key);
+                          if (event.key === "Enter") {
+                            handleButtonClick();
+                            event.currentTarget.blur();
+                          }
+                        }}
+                      />
+                    )}
+                    <div className="">
+                      {isLoading ? (
+                        <div className=" absolute top-[29%]  lg:top-[20px] xl:top-[104px] right-[20px]">
+                          <BtnLoading />
+                        </div>
+                      ) : (
+                        <button
+                          className="absolute top-[29%] lg:top-[20px] xl:top-[74px] right-[20px] md:w-[21px]"
+                          onClick={handleButtonClick}
+                        >
+                          <img
+                            src={forwardIcon}
+                            alt=""
+                            className=" w-full my-auto cursor-pointer lg:!mt-[32px]"
+                          />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="hidden md:block absolute bottom-[8px] md:bottom-[2px] xl:bottom-[8px] right-[16px]">
+                {created_by?.id === user ? (
+                  <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
+                    {textCount}/250
+                  </p>
+                ) : (
+                  <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
+                    {textCount}/150
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* right div */}
+            <div
+              data-reply
+              className=" lg:border lg:mt-[18px] xl:mt-[32px]  bg-[#fff] lg:bg-[#fafafa] lg:shadow-lg border-[#eaeaea] w-[90%] sm:w-[68%] md:w-[70%] lg:w-[686px] xl:w-[753px] mx-auto lg:ml-0 h-[40vh] lg:h-[460px] xl:h-[563px] rounded-[8px] flex flex-col gap-[5px]"
+            >
+              <div className="w-full h-[35vh] lg:h-[auto] py-[12px] !overflow-y-auto lg:premiseScroll">
+                {loading ? (
+                  <div className="z-[1]">
+                    <Loading />
+                  </div>
+                ) : commentsData?.comments?.length > 0 ? (
+                  <>
+                    {commentsData?.comments?.map((comments, commentIdx) => (
+                      <motion.div
+                        initial={{ opacity: 0, y: 70 }} // Start from slightly below the final position
+                        animate={{ opacity: 1, y: 0 }} // Move to the final position
+                        exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
+                        transition={{ duration: 0.5 }} // Adjust the duration as needed
+                      >
+                        <AllComments
+                          commentIdx={commentIdx + 1}
+                          comments={comments}
+                          data={data}
+                          refetch={refetch}
+                          openReplyField={openReplyField}
+                          setOpenReplyField={setOpenReplyField}
+                          replyToCommentID={replyToCommentID}
+                          setReplyToCommentID={setReplyToCommentID}
+                          replyResStat={replyResStat}
+                          setCommentOwner={setCommentOwner}
+                          setOpenAllReplies={setOpenAllReplies}
+                          openAllReplies={openAllReplies}
+                          commentRefetch={commentRefetch}
+                          proImgUrl={proImgUrl}
+                          setReplyField={setReplyField}
+                          replyField={replyField}
+                          replyRef={replyRef}
+                          handleReplyTextChange={handleReplyTextChange}
+                          handlePostReplyToComment={handlePostReplyToComment}
+                          replyLoading={replyLoading}
+                          premiseData={premiseData}
+                          replyTextCount={replyTextCount}
+                          setReplyTextCount={setReplyTextCount}
+                          m_value={m_value}
+                        />
+                      </motion.div>
+                    ))}
+                  </>
+                ) : commentsData?.counts > 0 &&
+                  commentsData?.comments?.length === 0 ? (
+                  <p className=" text-center my-4">Comments Are Private. </p>
+                ) : (
+                  <p className=" text-center my-4">No Comments Available </p>
+                )}
+              </div>
+
+              {/* comment and reply div */}
+              <div className="md:hidden h-[10vh] md:h-[116px] flex flex-col justify-between">
+                <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" />
+
+                <div className="  bg-[#F8F8F8] relative flex justify-between items-stretch md:mb-[12px] pl-3 md:flex-row w-[90%] mx-auto border border-[#EAEAEA] rounded-[8px]">
                   {created_by?.id === user ? (
                     <textarea
                       ref={commentRef}
@@ -562,7 +838,7 @@ const Popup = ({ popClose, data, refetch, transText }) => {
                       name=""
                       maxLength={250}
                       id=""
-                      className="bg-[#F8F8F8] leading-[21px] w-[100%] h-[49.27px]  lg:h-[65px]  focus:border-none focus:outline-none text-[14px] py-[2px] pr-[55px] font-[400]"
+                      className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] w-[85%] md:w-[100%]  h-[49.27px]  lg:h-[65px]  focus:border-none focus:outline-none text-[14px] py-[2px] md:pr-[55px] font-[400]"
                       placeholder="Add a comment..."
                       value={newComment}
                       required
@@ -581,7 +857,7 @@ const Popup = ({ popClose, data, refetch, transText }) => {
                       name=""
                       maxLength={150}
                       id=""
-                      className="bg-[#F8F8F8] leading-[21px] w-[100%] h-[49.27px]  lg:h-[65px]  focus:border-none focus:outline-none text-[14px] py-[2px] pr-[55px] font-[400]"
+                      className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] w-[85%] md:w-[100%] h-[49.27px]  lg:h-[65px]  focus:border-none focus:outline-none text-[14px] py-[2px] md:pr-[55px] font-[400]"
                       placeholder="Add a comment..."
                       value={newComment}
                       required
@@ -594,18 +870,14 @@ const Popup = ({ popClose, data, refetch, transText }) => {
                       }}
                     />
                   )}
-                  <div className="absolute top-[29%] lg:top-[6px] right-[20px]">
+                  <div className="">
                     {isLoading ? (
-                      <button className=" md:w-[21px] cursor-auto" disabled>
-                        <img
-                          src={forwardIcon}
-                          alt=""
-                          className=" w-full my-auto cursor-pointer lg:!mt-[32px]"
-                        />
-                      </button>
+                      <div className="md:w-[40px] absolute right-[16px] bottom-[50%] md:bottom-[20%] ">
+                        <BtnLoading />
+                      </div>
                     ) : (
                       <button
-                        className=" md:w-[21px]"
+                        className=" md:w-[21px] absolute right-[8px] md:right-[16px] bottom-[50%]"
                         onClick={handleButtonClick}
                         disabled={isDisabled}
                       >
@@ -617,107 +889,37 @@ const Popup = ({ popClose, data, refetch, transText }) => {
                       </button>
                     )}
                   </div>
-                </div>
-                {/* {openReplyField ? (
-                  //  add reply
-                  <div className="bg-[#F8F8F8] flex justify-between items-stretch mb-[18px] pl-3 md:flex-row w-[90%] mx-auto border border-[#EAEAEA] rounded-[8px]">
-                    <div className="relative w-[100%]">
-                      <p className=" text-[#252525] text-[12px] font-[500]">
-                        {commentOwner} :
+                  <div className=" md:hidden absolute bottom-[4px] right-[2px]">
+                    {created_by?.id === user ? (
+                      <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
+                        {textCount}/250
                       </p>
-                      <textarea
-                        ref={replyRef}
-                        type="text"
-                        name=""
-                        maxLength={190}
-                        id=""
-                        className="bg-[#F8F8F8] leading-[21px] w-[100%] h-[44.27px]  lg:h-[37px]  focus:border-none focus:outline-none text-[14px] pr-[45px] font-[400]"
-                        placeholder="Enter your reply..."
-                        required
-                        onChange={handleReplyTextChange}
-                        onKeyDown={(event) => {
-                          // console.log('Key pressed:', event.key);
-                          if (event.key === "Enter") {
-                            handlePostReplyToComment();
-                          }
-                        }}
-                      />
-                      <div className="absolute right-[20px] top-[7px] w-[21px]">
-                        {isReplyResInfo?.isLoading ? (
-                          <button className="md:w-[21px] cursor-auto " disabled>
-                            <img
-                              src={forwardIcon}
-                              alt=""
-                              className=" w-full my-auto cursor-pointer !mt-[37px]"
-                            />
-                          </button>
-                        ) : (
-                          <button
-                            className="md:w-[21px] "
-                            onClick={handlePostReplyToComment}
-                          >
-                            <img
-                              src={forwardIcon}
-                              alt=""
-                              className=" w-full my-auto cursor-pointer !mt-[37px]"
-                            />
-                          </button>
-                        )}
-                      </div>
-                    </div>
+                    ) : (
+                      <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
+                        {textCount}/150
+                      </p>
+                    )}
                   </div>
-                ) : (
-                  // add comment
-                  <div className="bg-[#F8F8F8] relative flex justify-between items-stretch md:mb-[12px] pl-3 md:flex-row w-[90%] mx-auto border border-[#EAEAEA] rounded-[8px]">
-                    <textarea
-                      ref={commentRef}
-                      type="text"
-                      name=""
-                      maxLength={190}
-                      id=""
-                      className="bg-[#F8F8F8] leading-[21px] w-[100%] h-[49.27px]  lg:h-[65px]  focus:border-none focus:outline-none text-[14px] py-[2px] pr-[55px] font-[400]"
-                      placeholder="Add a comment..."
-                      value={newComment}
-                      required
-                      onChange={handleTextareaChange}
-                      onKeyDown={(event) => {
-                        // console.log('Key pressed:', event.key);
-                        if (event.key === "Enter") {
-                          handleButtonClick();
-                        }
-                      }}
-                    />
-                    <div className="absolute top-[29%] lg:top-[6px] right-[20px]">
-                      {isLoading ? (
-                        <button className=" md:w-[21px] cursor-auto" disabled>
-                          <img
-                            src={forwardIcon}
-                            alt=""
-                            className=" w-full my-auto cursor-pointer lg:!mt-[32px]"
-                          />
-                        </button>
-                      ) : (
-                        <button
-                          className=" md:w-[21px]"
-                          onClick={handleButtonClick}
-                          disabled={isDisabled}
-                        >
-                          <img
-                            src={forwardIcon}
-                            alt=""
-                            className=" w-full my-auto cursor-pointer lg:!mt-[32px]"
-                          />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                )} */}
+                </div>
               </div>
             </div>
           </div>
-
+          {isDelete && (
+            <DeletePremise
+              setIsDelete={setIsDelete}
+              refetch={refetch}
+              isDelete={isDelete}
+              popClose={popClose}
+            />
+          )}
           {likePopup && (
             <LikePopup setLikePopup={setLikePopup} id={premiseData?.id} />
+          )}
+          {openCharacterChart && (
+            <ViewCharacters
+              id={project_id}
+              setOpenCharacterChart={setOpenCharacterChart}
+            />
           )}
         </div>
       </div>

@@ -1,0 +1,154 @@
+0000000000000000000000000000000000000000 5bcf8c496c879cde1bafa11c615752f86e178564 AnGon777 <ikhtiaj.arif@gmail.com> 1709357479 +0600	commit (initial): first commit
+5bcf8c496c879cde1bafa11c615752f86e178564 4a725e370d589b031109780d6201369a796505f9 AnGon777 <ikhtiaj.arif@gmail.com> 1709365768 +0600	commit: Reverted UI Changes to normal
+4a725e370d589b031109780d6201369a796505f9 76aa5056059bce907fca2686d45049faf61481bf AnGon777 <ikhtiaj.arif@gmail.com> 1709633404 +0600	commit: changes after UI review
+76aa5056059bce907fca2686d45049faf61481bf 330ea085e2a606244372547e721b7b4dac910c92 AnGon777 <ikhtiaj.arif@gmail.com> 1709641965 +0600	commit: UI changes after review
+330ea085e2a606244372547e721b7b4dac910c92 31b91468943abb8c794deecc454f75f709e983a3 AnGon777 <ikhtiaj.arif@gmail.com> 1709711357 +0600	commit: filter function change
+31b91468943abb8c794deecc454f75f709e983a3 ef98f7691317b68e899cb81b4115132c93e66274 AnGon777 <ikhtiaj.arif@gmail.com> 1709814953 +0600	commit: sync of multiple filter together
+ef98f7691317b68e899cb81b4115132c93e66274 d2c3d23ae11b63c98dcd912cc5b13eba4f1ca8e5 AnGon777 <ikhtiaj.arif@gmail.com> 1709887918 +0600	commit: scroll issue resolved
+d2c3d23ae11b63c98dcd912cc5b13eba4f1ca8e5 03bd552dadfd80ba13ea60f50249b632ca091313 AnGon777 <ikhtiaj.arif@gmail.com> 1710237405 +0600	commit: search filter, tooltips for filters, like unlike of popup, likes count popup bugs resolved and get single premise api integrated
+03bd552dadfd80ba13ea60f50249b632ca091313 70de7d629d916f359f136be8b32f8b163bc13cc7 AnGon777 <ikhtiaj.arif@gmail.com> 1710240190 +0600	commit: build created for beta
+70de7d629d916f359f136be8b32f8b163bc13cc7 71920db7982cbe95ee3da54f7a0810682bf017a2 AnGon777 <ikhtiaj.arif@gmail.com> 1710300757 +0600	commit: liked user popup added for comments, resolved hide unhide of popup, card like pop issue and liked user loading issue resolved
+71920db7982cbe95ee3da54f7a0810682bf017a2 35b02220a4bd470760c1975ed61f5ea2a68d78a2 AnGon777 <ikhtiaj.arif@gmail.com> 1710326725 +0600	commit: time calculation funciton creation and integration + translation popup custom component create and integrated
+35b02220a4bd470760c1975ed61f5ea2a68d78a2 2b51e4f23a66a79fbff7df980df3845da99301ed AnGon777 <ikhtiaj.arif@gmail.com> 1710397528 +0600	commit: like relation with create premise popup fixed
+2b51e4f23a66a79fbff7df980df3845da99301ed 8f2fe131662ee27a8e5ba208a0f46eb21b3a267c AnGon777 <ikhtiaj.arif@gmail.com> 1710400163 +0600	commit: comment update issue fixed
+8f2fe131662ee27a8e5ba208a0f46eb21b3a267c ddc9759145643cb7989d86908c04147f58a44e8d AnGon777 <ikhtiaj.arif@gmail.com> 1710415277 +0600	commit: qa build
+ddc9759145643cb7989d86908c04147f58a44e8d 05ac12e47327903051b5d9dcd1e129c746f40fe0 AnGon777 <ikhtiaj.arif@gmail.com> 1710496824 +0600	commit: comment like fix
+05ac12e47327903051b5d9dcd1e129c746f40fe0 0970e87c2242c34bdf046b1a0f6e3ac56aefe202 AnGon777 <ikhtiaj.arif@gmail.com> 1710499783 +0600	commit: all known bugs resolved
+0970e87c2242c34bdf046b1a0f6e3ac56aefe202 9b5c6144fd0f31f4eb17e274579f285a30b50c01 AnGon777 <ikhtiaj.arif@gmail.com> 1711003080 +0600	commit: conversion code updated
+9b5c6144fd0f31f4eb17e274579f285a30b50c01 919875f0b9b7728372d4984276db23018072ad8f AnGon777 <ikhtiaj.arif@gmail.com> 1713182035 +0600	commit: aws bugs update
+919875f0b9b7728372d4984276db23018072ad8f 7fe1402b0333e50888985cae5eb31d8bac816d2d AnGon777 <ikhtiaj.arif@gmail.com> 1713266477 +0600	commit: popup user name member page integrated
+7fe1402b0333e50888985cae5eb31d8bac816d2d 5a03365524d8a18f166ede4cf23ea2b38bb3902c AnGon777 <ikhtiaj.arif@gmail.com> 1713266493 +0600	commit: popup user name member page integrated
+5a03365524d8a18f166ede4cf23ea2b38bb3902c a905f4f92081a0ecd86854e4328c6866efe465cd AnGon777 <ikhtiaj.arif@gmail.com> 1713411530 +0600	commit: premise changing issue fix
+a905f4f92081a0ecd86854e4328c6866efe465cd bd69c74462961d4f43e3ce12c3c38e90e4c2d8b6 AnGon777 <ikhtiaj.arif@gmail.com> 1713431638 +0600	commit: like count issue fix
+bd69c74462961d4f43e3ce12c3c38e90e4c2d8b6 2d466e3d8cfd77d6ec78772aeef0f5d9f7d55d80 AnGon777 <ikhtiaj.arif@gmail.com> 1713439997 +0600	commit: all bugs resolved
+2d466e3d8cfd77d6ec78772aeef0f5d9f7d55d80 d7263f87765c77977bf17a82ddad41765fb736f8 AnGon777 <ikhtiaj.arif@gmail.com> 1713779291 +0600	commit: message integratiuon like issue fix
+d7263f87765c77977bf17a82ddad41765fb736f8 39751354cbe490ecf62dae7a548aaea3287896a5 AnGon777 <ikhtiaj.arif@gmail.com> 1713858034 +0600	commit: 22 apr bugs resolved
+39751354cbe490ecf62dae7a548aaea3287896a5 99431a7df56871b5e336ae93379dfb38288880d9 AnGon777 <ikhtiaj.arif@gmail.com> 1713858787 +0600	commit: translate icon issue fix
+99431a7df56871b5e336ae93379dfb38288880d9 a5e76e45c209d2cd33016a4e3e097dc683dde945 AnGon777 <ikhtiaj.arif@gmail.com> 1713961713 +0600	commit: latest changes
+a5e76e45c209d2cd33016a4e3e097dc683dde945 34a2a20ef768e46c688b70723e69670d0769c5b6 AnGon777 <ikhtiaj.arif@gmail.com> 1714110528 +0600	commit: latest ui updates
+34a2a20ef768e46c688b70723e69670d0769c5b6 41cbe1a83b34c2f6f9c1e3f04444c460beab2400 AnGon777 <ikhtiaj.arif@gmail.com> 1714136018 +0600	commit: translate issue fix
+41cbe1a83b34c2f6f9c1e3f04444c460beab2400 323bb02741289f2853d7a0343497133ba8d209b8 AnGon777 <ikhtiaj.arif@gmail.com> 1714218402 +0600	commit: lang filter fix
+323bb02741289f2853d7a0343497133ba8d209b8 4e479dc95b75aa5b5d64d5e2a31443d6a95090d4 AnGon777 <ikhtiaj.arif@gmail.com> 1714382641 +0600	commit: afs
+4e479dc95b75aa5b5d64d5e2a31443d6a95090d4 778725087260e707eb82e6520c3a0784352d4cff AnGon777 <ikhtiaj.arif@gmail.com> 1714719049 +0600	commit: changes of language
+778725087260e707eb82e6520c3a0784352d4cff 06c2fdf6f4da7bc487342d92b29ffdc6f13e7227 AnGon777 <ikhtiaj.arif@gmail.com> 1715598300 +0600	commit: production issues resolved
+06c2fdf6f4da7bc487342d92b29ffdc6f13e7227 d7aea1eb8c432a28cc5396692835a4a8a8a41768 AnGon777 <ikhtiaj.arif@gmail.com> 1716372319 +0600	commit: latest changes
+d7aea1eb8c432a28cc5396692835a4a8a8a41768 4337eea27de3f876a11a5ddb452032867f9ab486 AnGon777 <ikhtiaj.arif@gmail.com> 1717750852 +0600	commit: v1 final
+4337eea27de3f876a11a5ddb452032867f9ab486 e3176ac5819ca3b8dc60e3a29ae4f6e0fefdeefd ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1721972011 +0600	commit: latest 25th june
+e3176ac5819ca3b8dc60e3a29ae4f6e0fefdeefd 086938677b995fe63bf1b6939c93f3537ef48c07 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1722057943 +0600	commit: update 27th
+086938677b995fe63bf1b6939c93f3537ef48c07 ed730a9d8c88e2efbef3828722ad6941897607a5 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1722249807 +0600	commit: 29-7
+ed730a9d8c88e2efbef3828722ad6941897607a5 4d1b6981b58b2c0cb2d8d792a077c9fc545e4824 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1722315463 +0600	commit: 30th july
+4d1b6981b58b2c0cb2d8d792a077c9fc545e4824 c0f27c37d64556b2a09ccbcf3b6bf03cebc297db ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1722422720 +0600	commit: 31-7
+c0f27c37d64556b2a09ccbcf3b6bf03cebc297db 2140a5a8dfa5e3377c1ae1d43dfa78db0e7376f3 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1722497707 +0600	commit: 1-8
+2140a5a8dfa5e3377c1ae1d43dfa78db0e7376f3 9a6c1881ed9156193e7592a9684ed40f0011068e ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1722656997 +0600	commit: 3-8
+9a6c1881ed9156193e7592a9684ed40f0011068e 798a4d597f0738df1ae233bc0bbf61a66f4868e4 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1722925378 +0600	commit: 6-8
+798a4d597f0738df1ae233bc0bbf61a66f4868e4 23c8976fd253d35e7e84efb993937dc5fd5a4b60 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1723011021 +0600	commit: 7-8
+23c8976fd253d35e7e84efb993937dc5fd5a4b60 f98739f8e88b3fa90b4e724791c6b263d43536d7 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1723016301 +0600	commit: 7-8
+f98739f8e88b3fa90b4e724791c6b263d43536d7 003c82554a5b229db5e99b89a416766afd4ee5ba ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1723106348 +0600	commit: 8-8
+003c82554a5b229db5e99b89a416766afd4ee5ba 97f62c1d3dbd19a41998b63632b2a5ff87a12b6e ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1723185426 +0600	commit: 9-8
+97f62c1d3dbd19a41998b63632b2a5ff87a12b6e 0f64c76ffdea7ff88eda8c269312e8e75cc254b9 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1723272704 +0600	commit: 10-8
+0f64c76ffdea7ff88eda8c269312e8e75cc254b9 f0c536faca57d916c081742c749cb7dbc337be0a ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1723798863 +0600	commit: update 16-8
+f0c536faca57d916c081742c749cb7dbc337be0a 3d838128c60b7f61324dbf1481a00a136c9484f2 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1723799513 +0600	commit: test
+3d838128c60b7f61324dbf1481a00a136c9484f2 f399dcdeb4f195387d6c2ce2fb6409d3783ee0fb ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1724734374 +0600	commit: 27 aug
+f399dcdeb4f195387d6c2ce2fb6409d3783ee0fb 77cc75186613b26f7a1b0e18fb21335715949b45 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1724829605 +0600	commit: 28th aug
+77cc75186613b26f7a1b0e18fb21335715949b45 bd2e13fc966b9586febf289037fc680259f22827 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1725340595 +0600	commit: 3 sep
+bd2e13fc966b9586febf289037fc680259f22827 a8cdac8b23aa282e44c429f9915bb5daf188368e ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1725595914 +0600	commit: 6th sep
+a8cdac8b23aa282e44c429f9915bb5daf188368e e249d54c86c3c4c7bcb78423b342b9dfd90ec4d1 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1725622042 +0600	commit: 6th sep
+e249d54c86c3c4c7bcb78423b342b9dfd90ec4d1 c7bbd54c4ccce2af19390f16ba963045c47e709c ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1725708652 +0600	commit: 7th sep
+c7bbd54c4ccce2af19390f16ba963045c47e709c eba6edbffcda11d7788e9db95317ba83d266b809 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726037761 +0600	commit: 11-9
+eba6edbffcda11d7788e9db95317ba83d266b809 4bccd27e249f08ab4ff17831b2df802f50d166ff ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726049733 +0600	commit: 11 9
+4bccd27e249f08ab4ff17831b2df802f50d166ff 453731f8f13b574ad5ac4076fa5d267e518b7901 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726049979 +0600	pull origin harsh: Merge made by the 'ort' strategy.
+453731f8f13b574ad5ac4076fa5d267e518b7901 a98c1c0f16aa7ac5129ee7093d328bffa41e3b90 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726123809 +0600	commit: 12-9
+a98c1c0f16aa7ac5129ee7093d328bffa41e3b90 339e93b680a33a798ba9be24f679bdd24c7e2ddd ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726129377 +0600	pull origin harsh: Merge made by the 'ort' strategy.
+339e93b680a33a798ba9be24f679bdd24c7e2ddd 0893a98965e4117b8034dbaf596cd057b0d09fa2 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726132309 +0600	commit: 12-9'
+0893a98965e4117b8034dbaf596cd057b0d09fa2 81893177469eca22c864562ec197524074f266c8 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726137234 +0600	commit: 12-9'
+81893177469eca22c864562ec197524074f266c8 d48b54ad66e88205b223d71746aa02a91cd57f9d ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726204325 +0600	commit: 13th sep
+d48b54ad66e88205b223d71746aa02a91cd57f9d 7dea2ae74a97245aa4c5a2e85721fa1e83564a06 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726204341 +0600	pull origin harsh: Merge made by the 'ort' strategy.
+7dea2ae74a97245aa4c5a2e85721fa1e83564a06 263f06f3ae1fcc8c437f98343bf8d7db2f01d32f ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726290799 +0600	commit: 14-9
+263f06f3ae1fcc8c437f98343bf8d7db2f01d32f 98545e5498b8219d9fc7000bdb4b61521cda8462 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726291013 +0600	commit: 14-9
+98545e5498b8219d9fc7000bdb4b61521cda8462 b03d7087a651550afc27da700f7d856485c03fa3 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726635966 +0600	commit: 18-9
+b03d7087a651550afc27da700f7d856485c03fa3 38005f3fafc518bba6af5e3b788a2de397d19d15 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726652270 +0600	commit (merge): 18-9
+38005f3fafc518bba6af5e3b788a2de397d19d15 4c905c6e3b95f91626b2642b5c6aa0e34a6be93a ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726730813 +0600	commit: 19-9
+4c905c6e3b95f91626b2642b5c6aa0e34a6be93a 4e1ca7400f0ea663f175df97e1d8a501bf7a5a03 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726733792 +0600	commit: 19-9 latest
+4e1ca7400f0ea663f175df97e1d8a501bf7a5a03 1fab789e81aa5103f1399d18528c31baa99c3298 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726741214 +0600	commit: mergingh
+1fab789e81aa5103f1399d18528c31baa99c3298 a980f95d3572e6e24d4a5f0540d6e5cea9ea8326 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726741302 +0600	pull origin harsh: Merge made by the 'ort' strategy.
+a980f95d3572e6e24d4a5f0540d6e5cea9ea8326 f19219a121ca9afe7fbe939f0d5dc2b5e75fa2d3 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726826971 +0600	commit: 20-9
+f19219a121ca9afe7fbe939f0d5dc2b5e75fa2d3 2a4615a2c6f54b19e4900dc03351f1a2b3f69402 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1726904631 +0600	pull origin harsh: Fast-forward
+2a4615a2c6f54b19e4900dc03351f1a2b3f69402 6f117b7b0cb9d0a7810086f92393bc876047c03d ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1727088079 +0600	commit: 23-9
+6f117b7b0cb9d0a7810086f92393bc876047c03d aadd34ab629f1fbde6894451864d3c51718df8bd ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1727170793 +0600	commit: latest 24th sep
+aadd34ab629f1fbde6894451864d3c51718df8bd 18e0a6d156b437a918990ab6c33ab6e70115f737 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1727331759 +0600	pull origin harsh: Fast-forward
+18e0a6d156b437a918990ab6c33ab6e70115f737 112e1c4ac273569651262e6d1ecc6b1069d7265c ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1727344794 +0600	pull origin harsh: Fast-forward
+112e1c4ac273569651262e6d1ecc6b1069d7265c 9b10b84d59622685685e262eec60e29c57827ea5 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1727416361 +0600	commit: 27th sep
+9b10b84d59622685685e262eec60e29c57827ea5 93363b5464364952617fb89d41a1bbedbb698397 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1727957251 +0600	commit: 3-10
+93363b5464364952617fb89d41a1bbedbb698397 0d9612648c723d68705d02cc447572e66dc1e523 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1727957764 +0600	pull origin harsh: Fast-forward
+0d9612648c723d68705d02cc447572e66dc1e523 f2f4a5c1ca206f2ad354a270c2349c9e077b52d1 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1728380776 +0600	commit: 8th oct
+f2f4a5c1ca206f2ad354a270c2349c9e077b52d1 b3d12d7785c0f065942178ec0f23ce25b7376754 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1728452611 +0600	commit: 9th oct
+b3d12d7785c0f065942178ec0f23ce25b7376754 f5ea7fb61d4b0de564ef6ce7b4e87ff63ff8b943 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1728972155 +0600	commit: 10-15
+f5ea7fb61d4b0de564ef6ce7b4e87ff63ff8b943 d09f977b05c1f6e790f4f8b5a75b7b3f669f8525 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1728972662 +0600	commit: 15-10
+d09f977b05c1f6e790f4f8b5a75b7b3f669f8525 d22ce13e320556b2b06bd0fb6b0d31ed7c4ddf5e ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1728973183 +0600	commit (merge): 15th oct latest
+d22ce13e320556b2b06bd0fb6b0d31ed7c4ddf5e 86633555fb92733b197a4c31046e6dc5c2c9d0dc ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1728973685 +0600	commit: latest 15th oct
+86633555fb92733b197a4c31046e6dc5c2c9d0dc 321aedec3b7023dcf432b0d028b818a82bcd87aa ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1728985076 +0600	commit: latest 15th
+321aedec3b7023dcf432b0d028b818a82bcd87aa 17cae865acf31b98a7579058b06b87c3074b3057 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1728995389 +0600	pull origin harsh: Fast-forward
+17cae865acf31b98a7579058b06b87c3074b3057 bc994599e23353c7f4f85911e38dd82bec1bd0d3 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729144879 +0600	commit: 17-10
+bc994599e23353c7f4f85911e38dd82bec1bd0d3 255f18b2f36075c92620bb483e903ef540e8bb36 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729144895 +0600	pull origin harsh: Merge made by the 'ort' strategy.
+255f18b2f36075c92620bb483e903ef540e8bb36 139925ac56c6c5f46b23d68f9255fd1683d65539 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729148923 +0600	commit: 17-10
+139925ac56c6c5f46b23d68f9255fd1683d65539 4d0450459d55197c482108342badd54a77d6addc ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729156920 +0600	pull origin harsh: Fast-forward
+4d0450459d55197c482108342badd54a77d6addc 5a57947f1eb5f72a16eb285d38f5a8bdb5408e97 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729240435 +0600	commit: 18-10
+5a57947f1eb5f72a16eb285d38f5a8bdb5408e97 4bae35b95f53aac05870e35a1eef07da072d3870 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729240632 +0600	commit (merge): 181-0
+4bae35b95f53aac05870e35a1eef07da072d3870 455e44a71dff25087c62e5716b8a19bc285d7ee8 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729241032 +0600	commit: 18
+455e44a71dff25087c62e5716b8a19bc285d7ee8 ce73b2bb993893014c52d0faeda2ecf74041bb35 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729249856 +0600	commit: 18th
+ce73b2bb993893014c52d0faeda2ecf74041bb35 4695a1a573da5eaa444ec2faa8aeee02f3da5969 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729249897 +0600	pull origin harsh: Merge made by the 'ort' strategy.
+4695a1a573da5eaa444ec2faa8aeee02f3da5969 7e4d451490924063def3b3fdac4e4eb6dcd1e1fa ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729319279 +0600	commit (merge): 19th latest
+7e4d451490924063def3b3fdac4e4eb6dcd1e1fa e564da947e8e6bb8e247b205c8cc02c2f12640cf ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729331512 +0600	commit: 19th
+e564da947e8e6bb8e247b205c8cc02c2f12640cf 35411533047eb10900aefcc18db75580b6cedb81 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729331530 +0600	pull origin harsh: Merge made by the 'ort' strategy.
+35411533047eb10900aefcc18db75580b6cedb81 2d46b0fd787b252547440183e3329179cc819acb ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729569261 +0600	commit: 22th latest
+2d46b0fd787b252547440183e3329179cc819acb a22fc81f31b4241c90d01487202cb4aa0d3b1cdd ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729586811 +0600	commit: latest 22
+a22fc81f31b4241c90d01487202cb4aa0d3b1cdd ee1e5e6323c472790a97358863053bcc40a019b3 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729586940 +0600	pull origin harsh: Merge made by the 'ort' strategy.
+ee1e5e6323c472790a97358863053bcc40a019b3 8ce9e4f28ca16d665e0cd69c77a3d634e5590532 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729589170 +0600	commit: latest
+8ce9e4f28ca16d665e0cd69c77a3d634e5590532 4d0ad74dbe8f184530fb760c720be4951f3096d7 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729589179 +0600	pull origin harsh: Merge made by the 'ort' strategy.
+4d0ad74dbe8f184530fb760c720be4951f3096d7 91ef87dac1194dd444abb1ebf1ca4a70db2ec947 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729592724 +0600	commit: latest
+91ef87dac1194dd444abb1ebf1ca4a70db2ec947 a431c20d55338d4a40e8c5ea25d03339a93ac9b4 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729592958 +0600	commit: latest
+a431c20d55338d4a40e8c5ea25d03339a93ac9b4 74d97b9c46dea34a1ba9d95e76e3fd505f0d8ba2 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729593018 +0600	commit: latest
+74d97b9c46dea34a1ba9d95e76e3fd505f0d8ba2 2809a8c6dbe0a6c673c5ff8301bc8825779d420a ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729593130 +0600	commit: latest
+2809a8c6dbe0a6c673c5ff8301bc8825779d420a d3c5052e85b97281be1c0d2abac0f16e50b19084 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729593441 +0600	commit: latest
+d3c5052e85b97281be1c0d2abac0f16e50b19084 08698f71caaf10b63d6f198212744f93ce395024 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729598974 +0600	pull origin harsh: Fast-forward
+08698f71caaf10b63d6f198212744f93ce395024 e0c21c1b643ba12872b3a5cce5b01790eb054dda ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729664288 +0600	commit: 23th oct
+e0c21c1b643ba12872b3a5cce5b01790eb054dda 9aae63ceffc79bdf1ed52babc06f7bdaf3f8ea84 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729666330 +0600	pull origin harsh: Fast-forward
+9aae63ceffc79bdf1ed52babc06f7bdaf3f8ea84 b1747ba81eee0e717e3fda416966303cf268e6a6 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729673414 +0600	pull origin harsh: Fast-forward
+b1747ba81eee0e717e3fda416966303cf268e6a6 3f1c2ef2b543bef3217340c89ad1ab74cad5d3ff ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729834222 +0600	commit: 25th octy
+3f1c2ef2b543bef3217340c89ad1ab74cad5d3ff 29559faee9db73659a65c41a863f695c66c63fd2 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729843750 +0600	commit: 25 update
+29559faee9db73659a65c41a863f695c66c63fd2 14a8983b09575b74dad50fd3efea5e8ab0e555d8 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729843862 +0600	pull origin harsh: Merge made by the 'ort' strategy.
+14a8983b09575b74dad50fd3efea5e8ab0e555d8 b6cc3d3ccdd846277d7b5fbc19e28351b7d44484 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729844181 +0600	commit (merge): latest
+b6cc3d3ccdd846277d7b5fbc19e28351b7d44484 caf24f4247601a07d89f4e065e0d89cb4c6c67de ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729847738 +0600	commit: latest
+caf24f4247601a07d89f4e065e0d89cb4c6c67de 610a1884c0558468fc77e1af9881100d234ab419 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729848582 +0600	commit: latest 25
+610a1884c0558468fc77e1af9881100d234ab419 81d67c7752420514bd0e9b4c3f3516c4db18245e ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729854738 +0600	pull origin harsh: Fast-forward
+81d67c7752420514bd0e9b4c3f3516c4db18245e 006d32fecbece1dd8abce0574e7bc676e8d9ca70 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729916048 +0600	commit: 26th
+006d32fecbece1dd8abce0574e7bc676e8d9ca70 ca4917317834bf7bb2c729268d3777ca5741d317 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729927157 +0600	commit: latest 26th
+ca4917317834bf7bb2c729268d3777ca5741d317 11f76d9bc293797207da3361756bef826a44badf ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1729927186 +0600	commit: latest 26th
+11f76d9bc293797207da3361756bef826a44badf 847778ab464868f60204bc0ef83ec88bdfe6915e ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730091312 +0600	commit: 28th
+847778ab464868f60204bc0ef83ec88bdfe6915e e1c64969d909713b698e26314fd818ccdd625562 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730091327 +0600	pull origin harsh: Merge made by the 'ort' strategy.
+e1c64969d909713b698e26314fd818ccdd625562 a8636c0c74632b2659a7f0c6419012dd937cf652 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730091713 +0600	commit: delete bug resolved
+a8636c0c74632b2659a7f0c6419012dd937cf652 f7e72afb183a9f3d560e22f94ce3524a2b7df7e4 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730092550 +0600	commit: latest bugs
+f7e72afb183a9f3d560e22f94ce3524a2b7df7e4 30969b69b088e070964bea60969f7896a8fbdf1c ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730113856 +0600	commit: 28th
+30969b69b088e070964bea60969f7896a8fbdf1c 42f6284cd4937452416b3c1fcc43af58955cbb79 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730114853 +0600	commit: 28th
+42f6284cd4937452416b3c1fcc43af58955cbb79 4d36694016d9e0605c0a1d18e44ba542a6ccaccd ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730123920 +0600	commit (merge): 28th
+4d36694016d9e0605c0a1d18e44ba542a6ccaccd 812ec5d36d9113a2d239ec041b27975bb8090222 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730193907 +0600	commit: latest
+812ec5d36d9113a2d239ec041b27975bb8090222 864744d8d777e3a08eabbecf352b97bfd1390b34 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730193915 +0600	pull origin harsh: Merge made by the 'ort' strategy.
+864744d8d777e3a08eabbecf352b97bfd1390b34 69dec89fb6218c16931913e06bcf9260a25a2ebd ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730530860 +0600	commit: latest
+69dec89fb6218c16931913e06bcf9260a25a2ebd 6b3e94c39d4561a8a40ce15187d8b3c7dfd38b8d ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730532011 +0600	commit: latest
+6b3e94c39d4561a8a40ce15187d8b3c7dfd38b8d d0102cbbea0e7f5a5eb4712b4a84abf399bdcb52 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730540484 +0600	commit: latest 2nd nov
+d0102cbbea0e7f5a5eb4712b4a84abf399bdcb52 4c101b9a9584ed6d9df0b7a4011cc4eb65ebdb4d ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730540510 +0600	pull origin harsh: Merge made by the 'ort' strategy.
+4c101b9a9584ed6d9df0b7a4011cc4eb65ebdb4d 59904f95598445f4ea39b7af02d492e4dcfcc765 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730541715 +0600	commit: characters
+59904f95598445f4ea39b7af02d492e4dcfcc765 94c4a4427d79c6797c1ecc94e384a5943301ac20 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730543911 +0600	commit: latest 2nd nov
+94c4a4427d79c6797c1ecc94e384a5943301ac20 23a763c94f31ead8576a0ee3cb3cb3fea250b752 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730798795 +0600	commit: latest 5th nov
+23a763c94f31ead8576a0ee3cb3cb3fea250b752 ca0a54f798d19b40133017f3311744ebc9f423b0 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730802067 +0600	commit: latest
+ca0a54f798d19b40133017f3311744ebc9f423b0 60ddc8547a8914d25a2073856c3ddcc3902df2e1 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1730802084 +0600	pull origin harsh: Merge made by the 'ort' strategy.
+60ddc8547a8914d25a2073856c3ddcc3902df2e1 cbe8378b022a8adcfb5a8d3f2f9bd6ec68c7971c ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1731048431 +0600	commit: latest of 11-8
+cbe8378b022a8adcfb5a8d3f2f9bd6ec68c7971c 130a2dc03f957723fb7a19464360721cac95e970 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1731059068 +0600	commit: 8th nov
+130a2dc03f957723fb7a19464360721cac95e970 dc599995511f5ad890f0b5ca15f7ca3f74d42e0c ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1731059086 +0600	pull origin harsh: Merge made by the 'ort' strategy.
+dc599995511f5ad890f0b5ca15f7ca3f74d42e0c 2d875facb9be86f14b74e498d6fe7905829b0ffb ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1731404393 +0600	commit: 12th nov
+2d875facb9be86f14b74e498d6fe7905829b0ffb d095a0f05fac70e5e334c11afbeccc681863bb76 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1731580376 +0600	commit: latest 14th nov
+d095a0f05fac70e5e334c11afbeccc681863bb76 49bc08653f13034557ef0a405a0fd9bc832626c1 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1732010419 +0600	commit: latest
+49bc08653f13034557ef0a405a0fd9bc832626c1 84e5477aad5035052f41aa75cc4a896dc16507d8 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1732015432 +0600	pull origin harsh: Fast-forward
+84e5477aad5035052f41aa75cc4a896dc16507d8 700256857d291499e33b2eacc5ad2477cbf83e39 ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1732125221 +0600	commit: v1 latest
+700256857d291499e33b2eacc5ad2477cbf83e39 cbd51724340f06118826a58a0a068e8a68e9efdd ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1735212523 +0600	commit: premise card v2
+cbd51724340f06118826a58a0a068e8a68e9efdd bebeb4c08d1ca5c09cd01a54f526aab65d2a4b9e ikhtiaj-arif <ikhtiaj.arif@gmail.com> 1736935485 +0600	commit: v2 latest

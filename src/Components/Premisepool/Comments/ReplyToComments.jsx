@@ -1,6 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import { FaRegThumbsUp, FaRegTrashAlt, FaThumbsUp } from "react-icons/fa";
+import { motion } from "framer-motion";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
+import { FaRegTrashAlt, FaThumbsUp } from "react-icons/fa";
+import { IoIosUndo, IoMdSend } from "react-icons/io";
 import { toast } from "react-toastify";
+import { MyContext } from "../../../App";
 import {
   useCreateReplyMutation,
   useCreateSuggestedReplyMutation,
@@ -9,11 +13,11 @@ import {
 } from "../../../app/EndPoints/commentReply/reply";
 import { useGetPremiseUserPictureQuery } from "../../../app/EndPoints/premisePoolApi";
 import TimeAgo from "../../../features/TimeAgo";
-import forwardIcon from "../../../img/Icons/forwardIcon.png";
 import userIcon from "../../../img/Icons/userImg.png";
 import BtnLoading from "../../../shared/BtnLoading";
 import { URL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
+import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply from "./ReplyToReply";
 
@@ -30,6 +34,15 @@ const ReplyToComments = ({
   handleAddToBeat,
   commentRefetch,
 }) => {
+  // console.log(" comments", reply);
+
+  const {
+    selectedPremiseObj,
+    selectedSpProjectID,
+    createdSpProjectID,
+    currentlyOpenedCommentID,
+    setCurrentlyOpenedCommentID,
+  } = useContext(MyContext);
   const [isReplyLiked, setIsReplyLiked] = useState(false);
   const [openDltPop, setOpenDltPop] = useState(false);
   const [replySubmitDisable, setReplySubmitDisable] = useState(false);
@@ -37,12 +50,14 @@ const ReplyToComments = ({
   const [disableBtn, setDisableBtn] = useState(false);
   const [likePopup, setLikePopup] = useState(false);
   const [childReplyField, setChildReplyField] = useState(false);
+  const [openReplyField, setOpenReplyField] = useState(false);
   const [suggestDisable, setSuggestDisable] = useState(false);
   const [replyText, setReplyText] = useState("");
   const [childReplyText, setChildReplyText] = useState("");
   const [isTextareaDisabled, setIsTextareaDisabled] = useState(false);
 
   const latestReplyRef = useRef(null);
+  const replyToReplyRef = useRef(null);
   const replyLikes = reply?.likes;
   const replyRef = useRef(null);
   const createdTime = reply?.created_at;
@@ -52,7 +67,7 @@ const ReplyToComments = ({
   const [createReplyMutation, isReplyResInfo] = useCreateReplyMutation();
   const [suggestion, suggestionRes] = useCreateSuggestedReplyMutation();
 
-  console.log("reply", reply);
+  // console.log("reply", reply.add_to_beat);
 
   const {
     data: profileImg,
@@ -65,7 +80,8 @@ const ReplyToComments = ({
     if (childReplyField && replyRef.current) {
       replyRef.current.focus();
     }
-  }, [childReplyField, replyToCommentID]);
+    // }, [childReplyField, replyToCommentID]);
+  }, [childReplyField, currentlyOpenedCommentID]);
 
   // for reply
   useEffect(() => {
@@ -98,10 +114,14 @@ const ReplyToComments = ({
       replyRefetch();
     }
   };
+  const [isFullDelete, setIsFullDelete] = useState(false);
 
   const handleDeleteReply = async (id) => {
     setDisableBtn(true);
-    const res = await deleteReply(id);
+    const deleteData = {
+      id,
+    };
+    const res = await deleteReply(deleteData);
     if (res?.data) {
       replyRefetch();
       toast.success("Comment Deleted!", {
@@ -119,30 +139,67 @@ const ReplyToComments = ({
       commentRefetch();
     }
   };
+
+  const handleReject = async (id) => {
+    setDisableBtn(true);
+    setIsFullDelete(true);
+    const deleteData = {
+      id,
+      isRejected: true,
+    };
+    const res = await deleteReply(deleteData);
+    if (res?.data) {
+      replyRefetch();
+      toast.success("Comment Rejected!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 800,
+      });
+      setDisableBtn(false);
+      commentRefetch();
+    } else {
+      toast.error("Failed to reject comment. Please try again.", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 800,
+      });
+      setDisableBtn(false);
+      commentRefetch();
+    }
+  };
+
   const [replyChildTextCount, setReplyChildTextCount] = useState(0);
+
   const handleReplyTextChange = (event) => {
     const childReply = event.target.value;
-    setReplyChildTextCount(childReply.length);
+    setReplyChildTextCount(childReply?.length);
     setChildReplyText(childReply);
   };
 
   const handlePostReplyToReply = async (e, isEnterKey = false) => {
-    setDisableBtn(true);
+    const childReplyText = replyRef.current.value;
     if (e) {
       e.preventDefault();
     }
-    const childReplyText = replyRef.current.value;
+    if (childReplyText?.length === 0) {
+      alert("You can't send an empty reply!");
+      return;
+    }
+
+    setDisableBtn(true);
     const data = {
-      reply: replyToCommentID,
+      // reply: replyToCommentID,
+      reply: currentlyOpenedCommentID,
       text: childReplyText,
       parent: reply?.id,
       C: commentIdx,
     };
+
     const response = await createReplyMutation(data);
     if (response) {
       replyRef.current.value = "";
       setReplyChildTextCount(0);
       replyRefetch();
+      setOpenReplyField(false);
+      setChildReplyField(true);
       toast.success("Reply added!", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 800,
@@ -163,7 +220,8 @@ const ReplyToComments = ({
     setSuggestDisable(true);
 
     const data = {
-      reply: replyToCommentID,
+      // reply: replyToCommentID,
+      reply: currentlyOpenedCommentID,
       ques_text: text,
       parent: reply?.id,
       C: commentIdx,
@@ -175,15 +233,41 @@ const ReplyToComments = ({
       setChildReplyField(true);
     }
   };
+  const hasManyReplies = reply?.child_replies?.length >= 3;
+
+  const phrasesToBold = ["Do Think About:", "OR May be", "May be"];
+
+  const formatText = (text) => {
+    // Find a matching prefix
+    const matchingPrefix = phrasesToBold.find((prefix) =>
+      text.startsWith(prefix)
+    );
+
+    if (matchingPrefix) {
+      // Split the text into the bold prefix and the rest
+      const restOfText = text.slice(matchingPrefix.length);
+      return (
+        <>
+          <span style={{ color: "#252525", fontWeight: 500 }}>
+            {matchingPrefix}
+          </span>
+          {restOfText}
+        </>
+      );
+    }
+
+    // Return the text as is if no prefix matches
+    return text;
+  };
 
   return (
     <div
       data-reply
-      className="bg-[#fff] lg:bg-[#FAFAFA] w-[90%] ml-auto mr-[17px]  rounded-sm flex items-center gap-1"
+      className="bg-[#fff] lg:bg-[#FAFAFA] w-[93%] lg:w-[666px]  ml-[5px] md:ml-[50px]  rounded-sm flex items-center gap-1"
     >
-      <div className=" w-full">
-        <div className="bg-[#fff] lg:bg-[#Fafafa]  w-full relative">
-          <div className="flex gap-[8px]">
+      <div className=" w-[98%] ">
+        <div className="bg-[#fff] lg:bg-[#Fafafa]  w-full relative ml-[16px] md:ml-[21px]">
+          <div className="flex gap-[8px] max-w-[627px]">
             {reply?.user?.id === 1 ? (
               <div>
                 {profileImg?.[0]?.profile_photo ? (
@@ -231,11 +315,11 @@ const ReplyToComments = ({
               </a>
             )}
 
-            <div className="border w-[78%] md:w-[86%] lg:w-[89%] border-[##EAEAEA] bg-[#fafafa] rounded-[8px] p-1 ">
+            <div className="border w-[78%] md:w-[86%] lg:w-[94%] border-[##EAEAEA] bg-[#fafafa] rounded-[8px] p-1 ">
               <div className="flex justify-between my-1 relative">
                 <div className="text-[#1E1E1E] pl-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center">
                   {reply?.user?.id === 1 ? (
-                    <p className="text-[14px] font-[500] ">
+                    <p className="notranslate text-[14px] font-[500] ">
                       {reply?.user?.first_name} {reply?.user?.last_name}
                     </p>
                   ) : (
@@ -247,60 +331,249 @@ const ReplyToComments = ({
                           ? `${URL}/memberpage/#/personaldetails`
                           : `${URL}/memberpage/#/user/${reply?.user?.id}/personaldetails`
                       }
+                      className="flex items-center"
                     >
-                      <p className="text-[14px] font-[500] hover:text-[#33b0ca] ">
-                        {reply?.user?.first_name} {reply?.user?.last_name}
-                      </p>
+                      {reply?.user?.first_name && reply?.user?.last_name ? (
+                        <p className="notranslate text-[14px] font-[500] hover:text-[#33b0ca] ">
+                          {reply?.user?.first_name} {reply?.user?.last_name}
+                        </p>
+                      ) : (
+                        <p className="text-[14px] font-[500] hover:text-[#33b0ca] ">
+                          {reply?.user?.email.split("@")[0]}
+                        </p>
+                      )}
+                      <UserType
+                        type={reply?.user?.centraldatabase?.type}
+                        user_type={reply?.user?.centraldatabase?.user_type}
+                      />
                     </a>
                   )}
                 </div>
+
                 <p className="text-[12px]  h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
                   {" "}
                   <TimeAgo timestamp={createdTime} />
                 </p>
               </div>
-              <p className="text-[#252525] text-[12px] lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
-                {reply?.text}
+
+              <p className="notranslate text-[#252525] text-[12px] lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
+                {/* {reply?.text} */}
+                {reply?.user?.id === 1 && reply?.text
+                  ? formatText(reply?.text)
+                  : reply?.text}
               </p>
             </div>
 
-            <div className="mt-[20px]">
-              {owner === user || reply?.user?.id === user ? (
-                <div className="flex gap-2 items-center pl-[2px]">
-                  {/* <button className={` "cursor-pointer"}`}>
+            {(owner === user || reply?.user?.id === user) &&
+            !reply?.reject_button &&
+            commentIdx !== 1 ? (
+              <div className="flex gap-2  items-center pl-[2px]">
+                {/* <button className={` "cursor-pointer"}`}>
                 <img src={editIcon} alt=" " className={`h-5 w-7`} />
                 </button> */}
-                  <button
-                    // disabled={disableD}
-                    onClick={() => {
-                      setIdToDlt(reply?.id);
-                      setOpenDltPop(true);
-                    }}
-                    // className={` ${disableD ? "cursor-default" : "cursor-pointer"}`}
-                  >
-                    <FaRegTrashAlt
-                      disabled={disableBtn}
-                      className="h-5 w-5 text-[#909090]"
-                    />
-                  </button>
-                </div>
-              ) : (
-                <div className={`px-3 'cursor-default'}`}>
-                  <div className="" />
-                </div>
-              )}
-            </div>
+                <button
+                  // disabled={disableD}
+                  onClick={() => {
+                    setIdToDlt(reply?.id);
+                    setOpenDltPop(true);
+                  }}
+                  // className={` ${disableD ? "cursor-default" : "cursor-pointer"}`}
+                >
+                  <FaRegTrashAlt
+                    disabled={disableBtn}
+                    className="h-5 w-5 text-[#909090]"
+                  />
+                </button>
+              </div>
+            ) : (
+              <div className={`px-3 'cursor-default'}`}>
+                <div className="" />
+              </div>
+            )}
           </div>
 
           <div
             data-nest-reply
-            className="flex justify-between items-center mb-[4px] ml-[44px] mr-[10px]"
+            className="flex justify-between  max-w-[87%] md:max-w-[585px] items-center my-[2px] ml-[39px] mr-[32px] md:mr-[58px] mt-[2px]"
           >
-            <div className=" flex items-center gap-2 text-sm ">
+            <div className=" flex items-center gap-3 text-sm leading-[16px] mt-[2px] mb-[4px]">
+              {reply?.child_replies?.length > 0 && (
+                <>
+                  {!childReplyField ? (
+                    <button
+                      onClick={() => {
+                        setChildReplyField(!childReplyField);
+                      }}
+                      className="flex items-center  md:gap-[2px]"
+                    >
+                      <BiPlusCircle
+                        // onClick={() => setChildReplies(!childReplies)}
+                        className="text-[16px] font-[500] cursor-pointer text-[#252525]"
+                      />
+                      <p
+                        className={`  text-[12px] text-[#616161] font-[400] leading-[14.52px]`}
+                      >
+                        <span className=" md:hidden">
+                          {reply?.child_replies?.length}
+                        </span>
+                        <span className="hidden md:inline">
+                          {reply?.child_replies?.length}{" "}
+                          {reply?.child_replies?.length === 1
+                            ? "Reply"
+                            : "Replies"}
+                        </span>
+                      </p>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setChildReplyField(!childReplyField);
+                      }}
+                      className="flex items-center  gap-[2px]"
+                    >
+                      <BiMinusCircle className="  text-[16px] font-[500] cursor-pointer text-[#252525]" />
+                      <p className=" text-[12px] text-[#33B0CA] font-[400]  leading-[14.52px] ">
+                        <span className="md:hidden">
+                          {reply?.child_replies?.length}
+                        </span>
+                        <span className="hidden md:inline">
+                          {reply?.child_replies?.length}{" "}
+                          {reply?.child_replies?.length === 1
+                            ? "Reply"
+                            : "Replies"}
+                        </span>
+                      </p>
+                    </button>
+                  )}
+                </>
+              )}
+              <button
+                className="flex items-center gap-1"
+                // data-reply
+                onClick={() => {
+                  setOpenReplyField(!openReplyField);
+                }}
+              >
+                <IoIosUndo
+                  className={`${
+                    openReplyField ? "text-[#33B0CA]" : "text-[#252525]"
+                  }`}
+                />
+                <p
+                  className={`${
+                    openReplyField ? "text-[#33B0CA]" : "text-[#252525]"
+                  } text-[12px] hidden md:block font-[400] leading-[14.52px]`}
+                >
+                  Reply
+                </p>
+              </button>
+              <div className="hidden md:block">
+                {owner === user &&
+                  reply?.text?.includes("?") &&
+                  reply?.user?.id === 1 && (
+                    <>
+                      {reply?.suggested ? (
+                        <button className="px-2  rounded-[4px] pb-[4px] pt-[2px] bg-[#616161] cursor-auto">
+                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                            Suggested
+                          </p>
+                        </button>
+                      ) : (
+                        <>
+                          {suggestDisable ? (
+                            <button className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-auto">
+                              <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                                Suggesting...
+                              </p>
+                            </button>
+                          ) : (
+                            <button
+                              className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-pointer"
+                              onClick={() => handleSuggest(reply?.text)}
+                            >
+                              <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                                Suggestion
+                              </p>
+                            </button>
+                          )}
+                        </>
+                      )}
+                    </>
+                  )}
+              </div>
+              <div className="hidden md:block ">
+                {isReplyLiked ? (
+                  <div
+                    //   disabled={disable}
+                    className="flex gap-[4px] items-center text-[12px] leading-[14.52px]"
+                  >
+                    <button>
+                      <FaThumbsUp
+                        onClick={() => handleLikeUnlikeReply(reply?.id)}
+                        className={`w-3 h-3 text-[#33B0CA]  `}
+                      />
+                    </button>
+                    <p
+                      data-te-toggle="tooltip"
+                      title="Who Liked?"
+                      onClick={() =>
+                        reply?.likes?.length > 0 && setLikePopup(true)
+                      }
+                      className={`text-[#616161] font-[400] mt-[0.8px] ${
+                        reply?.likes?.length > 0
+                          ? "cursor-pointer"
+                          : "cursor-default"
+                      }`}
+                    >
+                      {reply?.likes?.length}{" "}
+                      {/* {reply?.likes?.length === 1 ? "Like" : "Likes"} */}
+                    </p>
+                  </div>
+                ) : (
+                  <div
+                    //   disabled={disable}
+                    className="flex gap-[1.2px] items-center text-[12px]"
+                  >
+                    <button>
+                      <FaThumbsUp
+                        onClick={() => handleLikeUnlikeReply(reply?.id)}
+                        className={` w-3 h-3 text-[#252525]  `}
+                        // className={` w-3 h-3 ${
+                        // //   disable ? " cursor-default" : "cursor-pointer"
+                        // } `}
+                      />
+                    </button>
+                    {reply?.likes?.length !== 0 ? (
+                      <p
+                        data-te-toggle="tooltip"
+                        title="Who Liked?"
+                        onClick={() =>
+                          reply?.likes?.length > 0 && setLikePopup(true)
+                        }
+                        className={`${
+                          reply?.likes?.length > 0
+                            ? "cursor-pointer"
+                            : "cursor-default"
+                        } text-[#616161] font-[400] mt-[0.8px] ml-[1.2px]`}
+                      >
+                        {reply?.likes?.length}{" "}
+                        {/* {reply?.likes?.length === 1 ? "Like" : "Likes"} */}
+                      </p>
+                    ) : (
+                      <p className=" text-[#616161] font-[400] mt-[0.8px]   ml-[1.2px] ">
+                        {/* {reply?.likes?.length > 1 ? "Likes" : "Like"} */}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-[14px] leading-[16px] md:w-[28%] ">
               {isReplyLiked ? (
                 <div
                   //   disabled={disable}
-                  className="flex gap-[4px] items-center text-[12px]"
+                  className="flex md:hidden gap-[4px] items-center text-[12px] leading-[14.52px]"
                 >
                   <button>
                     <FaThumbsUp
@@ -309,6 +582,8 @@ const ReplyToComments = ({
                     />
                   </button>
                   <p
+                    data-te-toggle="tooltip"
+                    title="Who Liked?"
                     onClick={() =>
                       reply?.likes?.length > 0 && setLikePopup(true)
                     }
@@ -319,18 +594,18 @@ const ReplyToComments = ({
                     }`}
                   >
                     {reply?.likes?.length}{" "}
-                    {reply?.likes?.length === 1 ? "Like" : "Likes"}
+                    {/* {reply?.likes?.length === 1 ? "Like" : "Likes"} */}
                   </p>
                 </div>
               ) : (
                 <div
                   //   disabled={disable}
-                  className="flex gap-[1.2px] items-center text-[12px]"
+                  className="flex md:hidden gap-[1.2px] items-center text-[12px]"
                 >
                   <button>
-                    <FaRegThumbsUp
+                    <FaThumbsUp
                       onClick={() => handleLikeUnlikeReply(reply?.id)}
-                      className={` w-3 h-3 `}
+                      className={` w-3 h-3 text-[#252525]  `}
                       // className={` w-3 h-3 ${
                       // //   disable ? " cursor-default" : "cursor-pointer"
                       // } `}
@@ -338,6 +613,8 @@ const ReplyToComments = ({
                   </button>
                   {reply?.likes?.length !== 0 ? (
                     <p
+                      data-te-toggle="tooltip"
+                      title="Who Liked?"
                       onClick={() =>
                         reply?.likes?.length > 0 && setLikePopup(true)
                       }
@@ -348,48 +625,29 @@ const ReplyToComments = ({
                       } text-[#616161] font-[400] mt-[0.8px] ml-[1.2px]`}
                     >
                       {reply?.likes?.length}{" "}
-                      {reply?.likes?.length === 1 ? "Like" : "Likes"}
+                      {/* {reply?.likes?.length === 1 ? "Like" : "Likes"} */}
                     </p>
                   ) : (
                     <p className=" text-[#616161] font-[400] mt-[0.8px]   ml-[1.2px] ">
-                      {reply?.likes?.length > 1 ? "Likes" : "Like"}
+                      {/* {reply?.likes?.length > 1 ? "Likes" : "Like"} */}
                     </p>
                   )}
                 </div>
               )}
 
-              <div>
-                <button
-                  // data-reply
-                  onClick={() => {
-                    setChildReplyField(!childReplyField);
-                  }}
-                >
-                  {reply?.child_replies.length > 0 ? (
-                    <p className="text-[12px] text-[#616161] font-[400] leading-[14.52px]">
-                      {reply?.child_replies?.length}{" "}
-                      {reply?.child_replies?.length > 1 ? "Replies" : "Reply"}
-                    </p>
-                  ) : (
-                    <p className="text-[12px] text-[#616161] font-[400] leading-[14.52px]">
-                      Reply
-                    </p>
-                  )}
-                </button>
-              </div>
               {owner === user &&
                 reply?.text?.includes("?") &&
                 reply?.user?.id === 1 && (
                   <>
                     {reply?.suggested ? (
-                      <button className="px-2  rounded-[4px] py-[2px] bg-[#616161]">
+                      <button className="px-2 md:hidden  rounded-[4px] py-[2px] bg-[#616161]">
                         <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
                           Suggested
                         </p>
                       </button>
                     ) : (
                       <button
-                        className="px-2  rounded-[4px] py-[2px] bg-[#33B0CA]"
+                        className="px-2 md:hidden rounded-[4px] py-[2px] bg-[#33B0CA]"
                         onClick={() => handleSuggest(reply?.text)}
                       >
                         {suggestDisable ? (
@@ -398,85 +656,154 @@ const ReplyToComments = ({
                           </p>
                         ) : (
                           <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
-                            Suggest
+                            Suggestion
                           </p>
                         )}
                       </button>
                     )}
                   </>
                 )}
-            </div>
 
-            {(owner === user || reply?.user?.id === user) && (
-              <button
-                onClick={() => {
-                  handleAddToBeat(reply);
-                  setCommentText(reply);
-                }}
-                className="w-[48%] md:w-[24%]"
-              >
-                <p className="text-[12px] text-[#616161] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
-                  Add to Beat Sheet
-                </p>
-              </button>
-            )}
+              <>
+                {reply?.reject_button &&
+                  (owner === user || reply?.user?.id === user) && (
+                    <button className=" cursor-auto w-[60px]">
+                      <p
+                        onClick={() => handleReject(reply?.id)}
+                        className="text-[12px] bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400] leading-[14.52px] "
+                      >
+                        Reject
+                      </p>
+                    </button>
+                  )}
+              </>
+
+              <>
+                {reply?.add_to_beat ? (
+                  <>
+                    {(owner === user || reply?.user?.id === user) && (
+                      <button className=" cursor-auto w-[89px]">
+                        <p className="text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] ">
+                          Added as Beat
+                        </p>
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {(owner === user || reply?.user?.id === user) && (
+                      <button
+                        onClick={() => {
+                          handleAddToBeat(reply);
+                          setCommentText(reply);
+                        }}
+                        className="w-[74px]"
+                      >
+                        <p className="text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
+                          Add as Beat
+                        </p>
+                      </button>
+                    )}
+                  </>
+                )}
+              </>
+            </div>
           </div>
           {/* nested replies */}
-          {childReplyField && (
-            <div data-nest-reply className=" w-[90%]  mb-[8px] ml-auto">
-              <form
-                onSubmit={handlePostReplyToReply}
-                className="relative w-[88.2%] mr-[33px] ml-auto text-[14px] 
-              bg-[#fafafa] border rounded-[8px] border-[#eaeaea] focus:outline-none flex"
+
+          {openReplyField && (
+            <div data-nest-reply className=" w-[89%]  mb-[8px] ml-[46px]">
+              <motion.div
+                // data-reply
+                // ref={replyRef}
+                initial={{ opacity: 0, x: -70 }} // Start from slightly below the final position
+                animate={{ opacity: 1, x: 0 }} // Move to the final position
+                exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
+                transition={{ duration: 0.5 }} // Adjust the duration as needed
               >
-                <textarea
-                  // data-reply-reply
-                  ref={replyRef}
-                  type="text"
-                  name="reply"
-                  maxLength={150}
-                  id=""
-                  className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] px-[8px] w-[100%] h-[44.27px]  lg:h-[37px] focus:border-none focus:outline-none text-[14px] pr-[45px] font-[400]"
-                  placeholder="Enter your reply..."
-                  required
-                  onChange={handleReplyTextChange}
-                  onKeyDown={handleKeyDown}
-                />
-                {disableBtn ? (
-                  <div className=" absolute right-[16px] bottom-[20%] ">
-                    <BtnLoading />
-                  </div>
-                ) : (
-                  <button
+                <form
+                  onSubmit={handlePostReplyToReply}
+                  className="relative w-[84%] mr-[42px] md:w-[88.2%] md:mr-[37px] ml-auto text-[14px] 
+            bg-[#fafafa] border rounded-[8px] border-[#eaeaea] focus:outline-none flex"
+                >
+                  <textarea
                     // data-reply-reply
-                    className="md:w-[21px] absolute right-[16px] bottom-[20%]"
-                    disabled={disableBtn}
-                    type="submit"
-                    // onClick={handlePostReplyToReply}
-                  >
-                    <img
-                      src={forwardIcon}
-                      alt=""
-                      className="w-full my-auto cursor-pointer"
-                    />
-                  </button>
-                )}
-              </form>
-              <div className=" text-right">
-                <p className="text-[12px] font-[400] leading-[14px]  text-[#616161] mr-[33px]">
-                  {replyChildTextCount}/150
-                </p>
-              </div>
-              {reply?.child_replies &&
-                reply?.child_replies?.map((childReply, idx) => (
-                  <ReplyToReply
-                    // data-reply-reply
-                    childReply={childReply}
-                    owner={owner}
-                    user={user}
-                    replyRefetch={replyRefetch}
+                    ref={replyRef}
+                    type="text"
+                    name="reply"
+                    maxLength={150}
+                    id=""
+                    className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] px-[8px] w-[100%] h-[44.27px]  lg:h-[37px] focus:border-none focus:outline-none text-[14px] pr-[45px] font-[400]"
+                    placeholder="Enter your reply..."
+                    // required
+                    onChange={handleReplyTextChange}
+                    onKeyDown={handleKeyDown}
                   />
-                ))}
+                  {disableBtn ? (
+                    <div className=" absolute right-[16px] bottom-[20%] ">
+                      <BtnLoading />
+                    </div>
+                  ) : (
+                    <button
+                      // data-reply-reply
+                      className="md:w-[21px] absolute right-[16px] bottom-[20%]"
+                      disabled={disableBtn}
+                      type="submit"
+                      // onClick={handlePostReplyToReply}
+                    >
+                      <IoMdSend className="text-[#33B0CA] w-6 h-6" />
+                    </button>
+                  )}
+                </form>
+                <div className=" text-right">
+                  <p className="text-[12px] font-[400] w-[86%] md:w-[94%] leading-[14px]  text-[#616161] md:mr-[13px]">
+                    {replyChildTextCount}/150
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+          )}
+          {childReplyField && (
+            <div
+              data-nest-reply
+              className="w-[96%] md:w-[94%]  md:mr-[4px] mb-[8px] ml-auto"
+            >
+              <div
+                className={`${
+                  hasManyReplies
+                    ? "w-full max-h-[300px] overflow-y-auto pr-2"
+                    : ""
+                }`}
+              >
+                {reply?.child_replies &&
+                  reply?.child_replies?.map((childReply, idx) => (
+                    <motion.div
+                      // data-reply
+                      ref={latestReplyRef}
+                      initial={{ opacity: 0, y: 70 }} // Start from slightly below the final position
+                      animate={{ opacity: 1, y: 0 }} // Move to the final position
+                      exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
+                      transition={{ duration: 0.5 }} // Adjust the duration as needed
+                    >
+                      <div ref={latestReplyRef}>
+                        <ReplyToReply
+                          // data-reply-reply
+                          handleAddToBeat={handleAddToBeat}
+                          key={idx}
+                          setCommentText={setCommentText}
+                          childReplyIDNext={childReply?.id}
+                          childReply={childReply}
+                          owner={owner}
+                          user={user}
+                          replyRefetch={replyRefetch}
+                          reply={reply}
+                          replyToCommentID={replyToCommentID}
+                          commentIdx={commentIdx}
+                        />
+                      </div>
+                    </motion.div>
+                  ))}
+              </div>
             </div>
           )}
         </div>

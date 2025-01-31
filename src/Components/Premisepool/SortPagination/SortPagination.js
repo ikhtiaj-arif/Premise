@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { BsFire } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
-import { ImUserCheck } from "react-icons/im";
+import { ImCross, ImUserCheck } from "react-icons/im";
 import { useSelector } from "react-redux";
 import { useGetFilteredLangQuery } from "../../../app/EndPoints/premisePoolApi";
 // import activeLangIcon from "../../../img/Icons/activeLangIcon.png";
@@ -34,7 +34,8 @@ const SortPagination = ({
   showRefine,
   setShowRefine,
   dataCount,
-  hiddenCount,
+  hiddenCountRes,
+
   // activeAddedByMe, setActiveAddedByMe
 }) => {
   const { totalPages, currentPage, next, pre } = data;
@@ -63,9 +64,9 @@ const SortPagination = ({
   const [byDateSort, setByDateSort] = useState(false);
   const [clearDate, setClearDate] = useState(false);
   const [byPopuSort, setByPopuSort] = useState(false);
-  // const [searchText, setSearchText] = useState("");
   const [clearPopu, setClearPopu] = useState(false);
-
+  const [addByMe, setAddByMe] = useState(false);
+  const { selectedLanguages, setSelectedLanguages } = useContext(MyContext);
   const [filter, setFilter] = useState("");
 
   const sortBy = () => {
@@ -102,24 +103,22 @@ const SortPagination = ({
   // console.log("languages", lang);
   const user = useSelector((state) => state?.user?.id);
 
-  const [addByMe, setAddByMe] = useState(false);
-
-  // const [checkDisable, setCheckDisabled] = useState(false);
-  const [selectedLanguages, setSelectedLanguages] = useState();
-
   const handleFilterSubmit = () => {
     // console.log("xxxxxxx",searchText, searchAuthor, addByMe);
     applyFilter(searchText, searchAuthor, selectedLanguages?.value);
     // addByMe && searchText?.length === 0 && setCheckDisabled(true);
   };
 
+  const [notifyText, setNotifyText] = useState("");
   const handleSearchSubmit = (e) => {
     // Ensure e is defined before calling preventDefault
     if (e) {
       e.preventDefault();
     }
+    if (searchText.length < 3) {
+      return;
+    }
     applyFilter(searchText, searchAuthor, selectedLanguages?.value);
-   
   };
 
   const handleKeyDown = (e) => {
@@ -135,7 +134,18 @@ const SortPagination = ({
   //     handleFilterSubmit();
   //   }
   // };
+  const [textLen, setTextLen] = useState(null);
+
+  useEffect(() => {
+    if (textLen > 0 && textLen < 3) {
+      setNotifyText("Minimum 3 characters");
+    } else {
+      setNotifyText("");
+    }
+  }, [textLen]);
+
   const handleSearchChange = (value) => {
+    setTextLen(value.length);
     setSearchText(value);
     if (value === "") {
       handleSearchClear();
@@ -153,19 +163,6 @@ const SortPagination = ({
     refetch();
     setRefetching(true);
   };
-
-  // const handleFilterClear = () => {
-  //   setAddByMe(false);
-  //   setText("");
-  //   setSearchAuthor(null);
-  //   setSearchText("");
-  //   setLanguage("");
-  //   setSelectedLanguages(null);
-  //   setQueryUser(null);
-  //   setCheckDisabled(false);
-  //   refetch();
-  //   setRefetching(true);
-  // };
 
   const handleOwnerClear = () => {
     setSearchAuthor(null);
@@ -191,10 +188,6 @@ const SortPagination = ({
       label: value,
     };
   });
-
-  const handleLanguageChange = (selectedOptions) => {
-    setSelectedLanguages(selectedOptions);
-  };
 
   // const [activeAddedByMe, setActiveAddedByMe] = useState(false);
   const [clearActiveMe, setClearActiveMe] = useState(false);
@@ -299,16 +292,28 @@ const SortPagination = ({
 
   return (
     <div className={``}>
-      <div className="flex gap-[16px] w-full xl:justify-end items-center  lg:mt-[-37px] ">
-        <p className=" hidden md:block w-[204px] text-[14px] text-[#252525] h-[32px] font-[500]">
-          {dataCount} Premises, {"("}
-          {hiddenCount}
-          {")"} Private{" "}
-        </p>
+      <div className="flex gap-[16px] w-full lg:w-[94%] xl:w-full xl:justify-end items-center  lg:mt-[-37px] ">
+        {
+          <p className=" hidden md:flex w-[233px]  items-center text-[14px] text-[#252525] h-[32px] font-[500]">
+            {hiddenCountRes?.total_premises === 1 ? (
+              <p>
+                {hiddenCountRes?.total_premises}{" "}
+                <span className="premise-m">Premise</span>
+              </p>
+            ) : (
+              <p>
+                {hiddenCountRes?.total_premises}{" "}
+                <span className="premises-m">Premises</span>
+              </p>
+            )}
+            ,{" ("}
+            {hiddenCountRes?.hidden_count} Private{")"}
+          </p>
+        }
 
         {/* <img src={premiseImage} alt="premise image" className="w-[103.07px] md:w-[115.07px]"/> */}
         <div
-          className={`flex items-center gap-[16px] w-full md:w-[72%] justify-end py-2 md:bg-none  ${
+          className={`flex relative items-center gap-[16px] w-full md:w-[72%] justify-end py-2 md:bg-none  ${
             activeSearch ? "bg-none" : "bg-[#EAEAEA] md:bg-[#fff]"
           }`}
         >
@@ -322,11 +327,20 @@ const SortPagination = ({
             </p> */}
 
             <div className="md:hidden text-[14px] text-[#252525] h-[32px] font-[500]">
-              <p className="leading-[18px]">{dataCount} Premises</p>
-              <p className="leading-[18px]">
-                {"("}
-                {hiddenCount}
-                {")"} Private
+              <p>
+                {hiddenCountRes?.total_premises === 1 ? (
+                  <p>
+                    {hiddenCountRes?.total_premises}{" "}
+                    <span className="premise-m">Premise</span>
+                  </p>
+                ) : (
+                  <p>
+                    {hiddenCountRes?.total_premises}{" "}
+                    <span className="premises-m">Premises</span>
+                  </p>
+                )}
+                ,{" ("}
+                {hiddenCountRes?.hidden_count} Private{")"}
               </p>
             </div>
             <button
@@ -394,7 +408,10 @@ const SortPagination = ({
             <div
               data-te-toggle="tooltip"
               title="Sort by date"
-              onClick={() => setByDateSort(!byDateSort)}
+              onClick={() => {
+                setShowRefine(null);
+                setByDateSort(!byDateSort);
+              }}
               className={`h-[32px] w-[32px] rounded-full cursor-pointer relative ${
                 !byDateSort ? "bg-[#252525]" : "bg-[#33B0CA]"
               }`}
@@ -420,7 +437,9 @@ const SortPagination = ({
               className={`h-[32px] w-[32px] rounded-full ${
                 !byPopuSort ? "bg-[#252525]" : "bg-[#33B0CA]"
               }`}
-              onClick={() => setByPopuSort(!byPopuSort)}
+              onClick={() => {
+                setByPopuSort(!byPopuSort);
+              }}
             >
               <BsFire className="text-[#fafafa] mx-auto" />
             </button>
@@ -447,14 +466,23 @@ const SortPagination = ({
                 >
                   <input
                     ref={searchInputRef}
-                    type="search"
+                    type="text"
                     className="w-full flex-1 px-2 h-[40px] text-[14px] focus:outline-none"
                     name="search"
-                    placeholder="Premise contains"
+                    placeholder="Search"
                     value={searchText}
                     onChange={(e) => handleSearchChange(e.target.value)}
                     onKeyDown={handleKeyDown} // Handle Enter key press
                   />
+                  {searchText.length >= 1 && (
+                    <ImCross
+                      className="text-[10px] cursor-pointer"
+                      onClick={() => {
+                        setSearchText("");
+                        handleSearchClear();
+                      }}
+                    />
+                  )}
                   <button type="submit" className="ml-2">
                     <FiSearch className="h-[20px] w-[20px]" />
                   </button>
@@ -477,11 +505,12 @@ const SortPagination = ({
               <form className="flex items-center" onSubmit={handleSearchSubmit}>
                 <input
                   ref={searchInputRef}
-                  type="search"
-                  className="w-full flex-1 px-2 h-[28px] text-[14px] focus:outline-none"
+                  type="text"
+                  className="w-full flex-1 px-2  h-[28px] text-[14px] focus:outline-none"
                   name="search"
                   id=""
-                  placeholder="Premise contains"
+                  maxLength="30"
+                  placeholder="Search"
                   value={searchText}
                   onChange={(e) => handleSearchChange(e.target.value)}
                   onKeyDown={(e) => {
@@ -492,11 +521,23 @@ const SortPagination = ({
                   }}
                   onBlur={() => setActiveSearch(false)} // You can handle onBlur as needed
                 />
+                {searchText.length >= 1 && (
+                  <ImCross
+                    className="text-[10px] cursor-pointer"
+                    onClick={() => {
+                      setSearchText("");
+                      handleSearchClear();
+                    }}
+                  />
+                )}
                 <button type="submit" className="ml-2">
                   <FiSearch className="h-[20px] w-[20px]" />
                 </button>
               </form>
             </div>
+            <p className="absolute top-[58px] md:top-[48px] right-[46px] lg:right-0 text-[12px] leading-[14px] text-red-500">
+              {notifyText}
+            </p>
           </div>
         </div>
 

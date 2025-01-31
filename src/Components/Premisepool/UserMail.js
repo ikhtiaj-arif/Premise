@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { IoMdSend } from "react-icons/io";
 import { MdKeyboardBackspace } from "react-icons/md";
 import {
   useBroadcastPremiseMutation,
@@ -7,9 +8,10 @@ import {
 } from "../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../img/Icons/crossIcon.png";
 import forwardIcon from "../../img/Icons/forwardIcon.png";
-import Loading from "../../shared/Loading";
+import TypingLoader from "../TypingLoader";
 import "./Premise.css";
 import UserMailChat from "./UserMailChat";
+import UserType from "./UserType";
 
 const UserMail = ({ setUserMail, data, recipient }) => {
   const { user, id, userFirstName, userLastName } = data;
@@ -87,6 +89,8 @@ const UserMail = ({ setUserMail, data, recipient }) => {
     }
   };
 
+  // console.log("recipient", recipient);
+
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault(); // Prevents adding new line
@@ -96,7 +100,7 @@ const UserMail = ({ setUserMail, data, recipient }) => {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full mt-[80px] lg:mt-[0px] flex items-center justify-center bg-[#252525b0] z-[10]">
-      <div className="bg-[#FAFAFA] w-full  lg:w-[563px] rounded-[8px] h-[100vh] lg:h-[380px] relative">
+      <div className="bg-[#fff] lg:bg-[#FAFAFA] w-full  lg:w-[563px] rounded-[8px] h-[100vh] lg:h-[380px] relative">
         <img
           src={crossIcon}
           alt=""
@@ -115,18 +119,34 @@ const UserMail = ({ setUserMail, data, recipient }) => {
           <div className="flex items-center ">
             <p className="d text-[#252525] pr-3 py-1">Direct Message</p>
             <div>
-              <h4 className=" text-[#33B0CA] ">
-                {recipient?.first_name} {recipient?.last_name}
-              </h4>
+              {recipient?.first_name && recipient?.last_name ? (
+                <div className="flex items-center">
+
+                <h4 className="notranslate text-[#33B0CA] ">
+                  {recipient?.first_name} {recipient?.last_name}
+                </h4>
+                <UserType type={recipient?.centraldatabase?.type} user_type={recipient?.centraldatabase?.user_type} />
+                </div>
+              ) : (
+                <div className="flex items-center">
+
+                <h4 className="notranslate text-[#33B0CA] ">
+                  {recipient?.email.split("@")[0]}
+                </h4>
+                <UserType type={recipient?.centraldatabase?.type} user_type={recipient?.centraldatabase?.user_type} />
+                </div>
+              )}
             </div>
           </div>
         </div>
         <div className="h-[2px] bg-[#EAEAEA] w-[90%] mx-auto my-1" />
         <div className="flex flex-col  items-end h-[66vh] lg:h-[310px] justify-between">
           {/* upper part */}
-          <div className=" pt-1 h-[60vh] lg:h-[230px] w-[90%] mx-auto overflow-y-auto premiseScroll px-3">
+          <div className=" pt-1 h-[60vh] lg:h-[230px] w-[90%] mx-auto overflow-y-auto overflow-x-hidden premiseScroll px-3">
             {isLoadingMessages ? (
-              <Loading />
+              <div className="z-[1] mt-[170px] lg:mt-[70px]">
+                <TypingLoader />
+              </div>
             ) : messages?.count > 0 ? (
               <div>
                 {messages?.results?.map((mail) => (
@@ -134,14 +154,18 @@ const UserMail = ({ setUserMail, data, recipient }) => {
                 ))}
               </div>
             ) : (
-              <p></p>
+              <div className="flex items-center justify-center h-full">
+                <p className=" mt-30 md:mt-0 text-[16px] font-[500] text-[#616161] text-center">
+                  No messages!
+                </p>
+              </div>
             )}
           </div>
           {/* post part */}
           <form
             ref={formRef}
             onSubmit={handlePost}
-            className="flex justify-between w-[90%] max-w-[513px] gap-2 my-1 px-3 bg-[#F8F8F8]  mx-auto h-[73px] border border-[#EAEAEA] rounded-[8px]"
+            className="flex justify-between w-[90%] max-w-[513px] gap-2 my-1 px-3 bg-[#F8F8F8]  mx-auto h-[73px] border border-[#eaeaea] shadow-md rounded-[8px]"
           >
             <textarea
               onChange={(e) => setMessage(e.target.value)}
@@ -151,7 +175,7 @@ const UserMail = ({ setUserMail, data, recipient }) => {
               maxLength="170"
               id=""
               className="w-full resize-none max-w-[513px] bg-[#F8F8F8] py-[4px] text-[14px] leading-[18px] text-[#616161] font-[400] focus:border-none focus:outline-none"
-              placeholder="Reply..."
+              placeholder="Type here"
             />
             <div className="flex md:items-end mb-1">
               {isLoading ? (
@@ -164,11 +188,7 @@ const UserMail = ({ setUserMail, data, recipient }) => {
                 </button>
               ) : (
                 <button type="submit" disabled={isDisabled}>
-                  <img
-                    src={forwardIcon}
-                    alt=""
-                    className=" w-[22px]  my-auto cursor-pointer"
-                  />
+                  <IoMdSend className="  text-[#33B0CA] w-6 h-6 my-auto cursor-pointer" />
                 </button>
               )}
             </div>
