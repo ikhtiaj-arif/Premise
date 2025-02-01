@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { useGetMyAllProjectQuery } from "./app/EndPoints/ScriptPad/project";
-import PremiseNewTab from "./Components/Premisepool/PremiseNewTab";
+import PremiseNewTab from "./Components/PremiseV2/premiseNewTab/PremiseNewTab";
 import Premisepool from "./Components/Premisepool/Premisepool";
 import PremiseV2 from "./Components/PremiseV2/Premsie.v2";
 

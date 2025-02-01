@@ -11,7 +11,8 @@ import transIcon from "../../../img/Icons/transIcon.png";
 import translateCart from "../../../img/Icons/translateCart.png";
 
 const LeftSideBar = ({ premiseData, setBeatsPopup, setCommonPopup }) => {
-  const { bg_img, bg_color, text, premiseCreator } = premiseData;
+  const { bg_img, bg_color, text, premiseCreator, last_worked_on, created_at } =
+    premiseData;
   const splitText = text.split("+");
   const dText = splitText[1];
   const stylings = JSON?.parse(splitText[0]);
@@ -20,6 +21,14 @@ const LeftSideBar = ({ premiseData, setBeatsPopup, setCommonPopup }) => {
 
   // const [commonPopup, setCommonPopup] = useState(""); // For "Brainstorms" and "Engagements"
   // const [beatsPopup, setBeatsPopup] = useState(false); // For "Beats"
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, '0'); 
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = String(d.getFullYear()).slice(-2);
+    return `${day}-${month}-${year}`;
+  };
 
   return (
     <div className="w-full pr-3">
@@ -217,13 +226,11 @@ const LeftSideBar = ({ premiseData, setBeatsPopup, setCommonPopup }) => {
               :
             </span>
             <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
-              {" "}
-              Janhvi
+              {formatDate(created_at)}
             </p>
           </div>
         </div>
         <div className="flex items-center  justify-between">
-          {" "}
           <h2 className="text-[#616161] text-[16px] leading-[24px] font-[700]">
             Last Worked On
           </h2>
@@ -232,8 +239,7 @@ const LeftSideBar = ({ premiseData, setBeatsPopup, setCommonPopup }) => {
               :
             </span>
             <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
-              {" "}
-              Janhvi
+              {formatDate(last_worked_on)}
             </p>
           </div>
         </div>

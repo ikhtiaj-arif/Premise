@@ -600,7 +600,7 @@ const PremiseCardV2 = ({
           <div></div>
         </div>
          <PremiseBadge stamp={p?.stamp} />
-      </div>
+      </div>      
       {/* lower div */}
       <div className="flex justify-between items-center bg-[#FAFAFA] rounded-b-[8px] px-[15px] pb-[15px] pt-[25px] ">
         {/* 1st div */}
