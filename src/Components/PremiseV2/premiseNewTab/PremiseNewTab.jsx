@@ -5,13 +5,13 @@ import {
   useGetOnePremiseQuery,
   useGetPremiseBrainstormsDataQuery,
   useGetPremiseEngagementsDataQuery,
-} from "../../app/EndPoints/premisePoolApi";
+} from "../../../app/EndPoints/premisePoolApi";
 
-import BeatsPop from "../PremiseV2/Popups/newTab/BeatsPop";
-import BrainstormEngagementsPop from "../PremiseV2/Popups/newTab/BrainstormEngagementsPop";
-import LeftSideBar from "./premiseNewTab/LeftSideBar";
-import MainComment from "./premiseNewTab/MainComment";
-import VerticalBar from "./premiseNewTab/VerticalBar";
+import BeatsPop from "../Popups/newTab/BeatsPop";
+import BrainstormEngagementsPop from "../Popups/newTab/BrainstormEngagementsPop";
+import LeftSideBar from "./LeftSideBar";
+import VerticalBar from "./VerticalBar";
+import MainComment from "./MainComment";
 
 const PremiseNewTab = () => {
   const { id } = useParams(); // Extract the ID from the route
@@ -52,8 +52,6 @@ const PremiseNewTab = () => {
 
   const [beatsPopup, setBeatsPopup] = useState(false);
   const [commonPopup, setCommonPopup] = useState(""); // For "Brainstorms" and "Engagements"
-
- 
 
   return (
     <div className="lg:w-[90%] xl:w-3/4 mx-auto h-screen overflow-hidden">
