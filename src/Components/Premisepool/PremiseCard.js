@@ -428,7 +428,6 @@ const PremiseCard = ({
                   filter_flag={filter_flag}
                   comment_filter_flag={comment_filter_flag}
                   visible_to={visible_to}
-                  hiddenCountRefetch={hiddenCountRefetch}
                 />
               )}
             </div>
@@ -575,36 +574,13 @@ const PremiseCard = ({
 
         <div className="ml-[15px] flex gap-2 items-center">
           <TranslatePremise
+            {...{transPopClose,setTransPopClose,setViewText}}
             data={{
               id,
               dText,
-              bg_color,
-              bg_img,
-              created_by,
-              likes,
-              stylings,
-              isLiked,
               source_language,
-              user,
-              setOpenDotMenu,
-              setUserMail,
-              handleHideUnhidePremise,
-              setOwnerMail,
-              formattedTime,
-              formattedDate,
-              hidden,
-              index,
-              openDotMenu,
-              setHideDisable,
-              hideDisable,
               project_id,
-            }}
-            refetch={refetch}
-            setIsLiked={setIsLiked}
-            activeSearch={activeSearch}
-            transPopClose={transPopClose}
-            setTransPopClose={setTransPopClose}
-            setViewText={setViewText}
+            }} 
           />
         </div>
       </div>

@@ -577,7 +577,6 @@ const Popup = ({ popClose, data, refetch, transText }) => {
                           filter_flag={premiseData?.filter_flag}
                           comment_filter_flag={premiseData?.comment_filter_flag}
                           visible_to={premiseData?.visible_to}
-                          hiddenCountRefetch={hiddenCountRefetch}
                         />
                       )}
                     </div>

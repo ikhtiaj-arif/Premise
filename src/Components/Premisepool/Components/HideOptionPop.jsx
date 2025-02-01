@@ -23,7 +23,6 @@ const HideOptionPop = ({
   filter_flag,
   visible_to,
   comment_filter_flag,
-  // hiddenCountRefetch,
 }) => {
   // const user = useSelector((state) => state?.user?.id)
   const {

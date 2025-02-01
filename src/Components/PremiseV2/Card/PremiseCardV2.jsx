@@ -66,6 +66,7 @@ const PremiseCardV2 = ({
     bg_img,
     bg_color,
     created_by,
+    premiseOwner,
     hidden,
     filter_flag,
     visible_to,
@@ -102,7 +103,7 @@ const PremiseCardV2 = ({
     data: profileImg,
     profileImgLoading,
     refetch: profileRefetch,
-  } = useGetPremiseUserPictureQuery(created_by?.id);
+  } = useGetPremiseUserPictureQuery(premiseOwner?.id);
   const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
 
   // console.log("xcvvdfawsedfdsfgfgd", p);
@@ -128,7 +129,7 @@ const PremiseCardV2 = ({
   const [openDotMenu, setOpenDotMenu] = useState(null);
   const [openCharacterChart, setOpenCharacterChart] = useState(null);
   const [openHidePop, setOpenHidePop] = useState(false);
-  const [premiseOwner, setPremiseOwner] = useState(false);
+  // const [premiseOwner, setPremiseOwner] = useState(false);
   const [confirmOpenSp, setConfirmOpenSp] = useState(false);
   // const [isLiked, setIsLiked] = useState(false);
 
@@ -147,12 +148,12 @@ const PremiseCardV2 = ({
     useState(false);
   const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);
 
-  useEffect(() => {
-    if (created_by?.id === user) {
-      setPremiseOwner(true);
-    }
-    refetch();
-  }, [created_by, user, refetch, p]);
+  // useEffect(() => {
+  //   if (created_by?.id === user) {
+  //     setPremiseOwner(true);
+  //   }
+  //   refetch();
+  // }, [created_by, user, refetch, p]);
 
   useEffect(() => {
     if (!user) {
@@ -291,7 +292,7 @@ const PremiseCardV2 = ({
 
   // console.log(created_by);
   const [translationRequestPop, setTranslationRequestPop] = useState("");
-  
+
   const [viewTrnRequests, setViewTrnRequests] = useState("");
   const [viewSaleRequests, setViewSaleRequests] = useState("");
 
@@ -326,9 +327,9 @@ const PremiseCardV2 = ({
             // href={`${URL}/memberpage/#/user/${created_by?.id}`}
 
             href={
-              created_by?.id === user
+              premiseOwner?.id === user
                 ? `${URL}/memberpage/#/personaldetails`
-                : `${URL}/memberpage/#/user/${created_by?.id}/personaldetails`
+                : `${URL}/memberpage/#/user/${premiseOwner?.id}/personaldetails`
             }
           >
             <div className="flex-1 flex gap-1 items-center">
@@ -350,18 +351,18 @@ const PremiseCardV2 = ({
               <div>
                 <div className="flex items-center">
                   <h4 className="notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA]">
-                    {created_by?.first_name} {created_by?.last_name}
+                    {premiseOwner?.first_name} {premiseOwner?.last_name}
                   </h4>
                   <UserType
-                    type={created_by?.centraldatabase?.type}
-                    user_type={created_by?.centraldatabase?.user_type}
+                    type={premiseOwner?.centraldatabase?.type}
+                    user_type={premiseOwner?.centraldatabase?.user_type}
                   />
                 </div>
                 <div className="text-[#616161] text-[10px] flex flex-col gap-[8px] font-[400] leading-[4px] mb-[12px]">
                   <p>
                     {formattedDate}, {formattedTime}
                   </p>
-                  {created_by?.id === user && (
+                  {premiseOwner?.id === user && (
                     <p className="notranslate text-[#252525] text-[12px]">
                       {currentProjectName?.slice(0, 20)}
                     </p>
@@ -373,7 +374,7 @@ const PremiseCardV2 = ({
         </div>
         <div>
           {" "}
-          {created_by?.id === user ? (
+          {premiseOwner?.id === user ? (
             <div className="flex gap-[3px] items-center mt-[-13px] mr-[2px] relative ">
               <img
                 data-te-toggle="tooltip"
@@ -519,7 +520,6 @@ const PremiseCardV2 = ({
                   filter_flag={filter_flag}
                   comment_filter_flag={comment_filter_flag}
                   visible_to={visible_to}
-                  hiddenCountRefetch={hiddenCountRefetch}
                 />
               )}
             </div>
@@ -599,8 +599,8 @@ const PremiseCardV2 = ({
           </div>
           <div></div>
         </div>
-         <PremiseBadge stamp={p?.stamp} />
-      </div>      
+        <PremiseBadge stamp={p?.stamp} />
+      </div>
       {/* lower div */}
       <div className="flex justify-between items-center bg-[#FAFAFA] rounded-b-[8px] px-[15px] pb-[15px] pt-[25px] ">
         {/* 1st div */}
@@ -641,7 +641,7 @@ const PremiseCardV2 = ({
               bg_color,
               bg_img,
               dText,
-              created_by,
+              premiseOwner,
               id,
               stylings,
               likes,
@@ -671,36 +671,13 @@ const PremiseCardV2 = ({
 
         <div className="ml-[15px] flex gap-2 items-center">
           <TranslatePremise
+            {...{ transPopClose, setTransPopClose, setViewText }}
             data={{
               id,
               dText,
-              bg_color,
-              bg_img,
-              created_by,
-              likes,
-              stylings,
-              isLiked,
               source_language,
-              user,
-              setOpenDotMenu,
-              setUserMail,
-              handleHideUnhidePremise,
-              setOwnerMail,
-              formattedTime,
-              formattedDate,
-              hidden,
-              index,
-              openDotMenu,
-              setHideDisable,
-              hideDisable,
               project_id,
             }}
-            refetch={refetch}
-            setIsLiked={setIsLiked}
-            activeSearch={activeSearch}
-            transPopClose={transPopClose}
-            setTransPopClose={setTransPopClose}
-            setViewText={setViewText}
           />
         </div>
       </div>
@@ -731,7 +708,7 @@ const PremiseCardV2 = ({
       )}
       {userMail && (
         <UserMail
-          recipient={created_by}
+          recipient={premiseOwner}
           data={{ user, id, userFirstName, userLastName }}
           setUserMail={setUserMail}
         />
@@ -750,7 +727,7 @@ const PremiseCardV2 = ({
             bg_img,
             likes,
             stylings,
-            created_by,
+            premiseOwner,
             isLiked,
             source_language,
             user,
@@ -827,10 +804,7 @@ const PremiseCardV2 = ({
         />
       )}
       {viewSaleRequests && (
-        <MonetizePreferencePop
-          popClose={setViewSaleRequests}
-          premiseId={id}
-        />
+        <MonetizePreferencePop popClose={setViewSaleRequests} premiseId={id} />
       )}
     </div>
   );

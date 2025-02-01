@@ -41,6 +41,8 @@ import LikePopup from "./LikePopup";
 import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
 import UserType from "./UserType";
+import PopupLike from "../SharedVersion/PopupLike";
+import PopupPremiseText from "../SharedVersion/PopupPremiseText";
 
 const Popup = ({ popClose, data, refetch, transText, viewText }) => {
   const {
@@ -51,7 +53,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
     dText,
     id,
     user,
-    created_by,
+    premiseOwner,
     setUserMail,
     setOwnerMail,
     formattedTime,
@@ -119,13 +121,10 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
   const [openDotMenu, setOpenDotMenu] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [isLiked, setIsLiked] = useState(false);
-  const [postLike, resInfo] = useLikePremiseMutation();
-  const [postIsLike, isResInfo] = useIsLikePremiseMutation();
-  const [deletePremise, deleteInfo] = useDeleteLikeMutation();
-  const [likePopup, setLikePopup] = useState(false);
+  
+  
   const [isDisabled, setIsDisabled] = useState(true);
-  const [disable, setDisable] = useState(false);
+  
   const [isLoading, setIsLoading] = useState(false);
 
   const [commentField, setCommentField] = useState(false);
@@ -217,7 +216,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
     data: profileImg,
     profileImgLoading,
     refetch: profileRefetch,
-  } = useGetPremiseUserPictureQuery(created_by?.id);
+  } = useGetPremiseUserPictureQuery(premiseOwner?.id);
 
   const proImgUrl = baseURL.concat(profileImg?.[0]?.profile_photo);
   // console.log(stylings);
@@ -277,48 +276,15 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
 
   const userName = `${userQuery?.first_name} ${userQuery?.last_name}`;
 
-  useEffect(() => {
-    async function fetchData() {
-      const body = {
-        premise: id,
-        user: user,
-      };
-      const isLikeRes = await postIsLike(body);
-      setIsLiked(isLikeRes?.data?.message);
-    }
-    if (user && id) {
-      fetchData();
-    }
-  }, [user, id, postIsLike, setIsLiked]);
+  
 
   // useEffect(() => {
   //   setCvalue(parseInt(commentsData?.comments?.length) + 1);
   // }, [commentsData]);
 
-  const body = {
-    premise: id,
-    user: user,
-  };
+  
 
-  const handleDisLikeClick = async () => {
-    setDisable(true);
-    const deleteResponse = await deletePremise(body);
-    if (deleteResponse?.data?.message === true) {
-      setDisable(false);
-      setIsLiked(!isLiked);
-      premiseRefetch();
-    }
-  };
-
-  const handleLikeClick = async () => {
-    setDisable(true);
-    const postLikeResponse = await postLike(body);
-    if (postLikeResponse?.data) {
-      setDisable(false);
-      setIsLiked(!isLiked);
-      premiseRefetch();
-    }
-  };
+  
 
   useEffect(() => {
     if (newComment.endsWith("?")) {
@@ -553,9 +519,9 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                     target="_blank"
                     rel="noreferrer"
                     href={
-                      created_by?.id === user
+                      premiseOwner?.id === user
                         ? `${URL}/memberpage/#/personaldetails`
-                        : `${URL}/memberpage/#/user/${created_by?.id}/personaldetails`
+                        : `${URL}/memberpage/#/user/${premiseOwner?.id}/personaldetails`
                     }
                   >
                     <div className="flex-1 flex gap-1 items-center">
@@ -575,16 +541,16 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                       <div>
                         <div className="flex items-center">
                           <h4 className="notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer leading-[21px]  hover:text-[#33B0CA]">
-                            {created_by?.first_name} {created_by?.last_name}
+                            {premiseOwner?.first_name} {premiseOwner?.last_name}
                           </h4>
                           <UserType
-                            type={created_by?.centraldatabase?.type}
-                            user_type={created_by?.centraldatabase?.user_type}
+                            type={premiseOwner?.centraldatabase?.type}
+                            user_type={premiseOwner?.centraldatabase?.user_type}
                           />
                         </div>
                         <p className="text-[#616161] text-[10px] flex flex-col font-[400] leading-[12px]">
-                          {(created_by?.id === user ||
-                            created_by?.id === currentProjectOwner) && (
+                          {(premiseOwner?.id === user ||
+                            premiseOwner?.id === currentProjectOwner) && (
                             <p className="notranslate">
                               {currentProjectName?.slice(0, 20)}
                             </p>
@@ -612,8 +578,8 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                     alt=""
                     onClick={() => handlePremiseOpenNewTab(premiseId)}
                   />{" "}
-                  {created_by?.id === user ||
-                  created_by?.id === currentProjectOwner ? (
+                  {premiseOwner?.id === user ||
+                  premiseOwner?.id === currentProjectOwner ? (
                     <div className="flex gap-[3px] items-center mr-[2px] relative ">
                       {/* <img
                       data-te-toggle="tooltip"
@@ -726,7 +692,6 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                           filter_flag={premiseData?.filter_flag}
                           comment_filter_flag={premiseData?.comment_filter_flag}
                           visible_to={premiseData?.visible_to}
-                          hiddenCountRefetch={hiddenCountRefetch}
                         />
                       )}
                     </div>
@@ -743,95 +708,16 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                 </div>
               </div>
               {/* image */}
-              <div
-                className=" mx-auto h-[25.6vh] lg:h-[225px] xl:h-[270px]  w-full lg:w-[88%] lg:my-auto border border-[#eaeaea]  relative  rounded-[8px] "
-                style={{
-                  background: `${
-                    bg_img
-                      ? `url(${bg_img})`
-                      : bg_color
-                      ? bg_color
-                      : `url(${data?.backgroundImage})`
-                  }`,
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                  borderRadius: "8px",
-                  backgroundPosition: "center",
-                }}
-                //   style={{
-                //     background: `${
-                //       bg_color && bg_color
-
-                //     }`,
-
-                //     borderRadius: "8px",
-
-                //   }}
-              >
-                {/* {bg_img &&  <img src={bg_img} alt="" className="rounded-[8px] bg-cover bg-no-repeat h-[25.6vh] lg:h-[270px]  w-full " />} */}
-                <div
-                  // className="absolute inset-0 flex items-center justify-center backdrop-blur-sm px-2 md:text-xl lg:text-xl border border-[#EAEAEA] bg-[#FAFAFA] rounded-[8px] max-w-[383px]"
-                  className={`${
-                    bg_img || bg_color !== "#FAFAFA" ? "p-[12px]" : "px-[18px] "
-                  } absolute inset-0  backdrop-blur-sm  text-[14px] rounded-[8px] overflow-hidden break-words`}
-                >
-                  {/* premise text */}
-                  {viewText ? (
-                    <p
-                      className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} notranslate `}
-                    >
-                      {viewText}
-                    </p>
-                  ) : (
-                    <p
-                      className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} notranslate`}
-                    >
-                      {dText}
-                    </p>
-                  )}
-                </div>
-              </div>
+              <PopupPremiseText {...{data,bg_img,bg_color,stylings,viewText,dText,}}/>
+              
               <div className="hidden md:flex h-[10vh] md:h-[116px] mt-[8px]  flex-col justify-between">
                 {/* <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" /> */}
                 {/* icons */}
                 <div className="lg:ml-3 hidden lg:block py-[2px] ">
                   <div className=" flex gap-1 space-x-4 items-center px-3 ">
-                    <div className=" flex gap-2 ml-[3px] ">
-                      {isLiked ? (
-                        <button>
-                          <FaThumbsUp
-                            onClick={handleDisLikeClick}
-                            className={`w-6 h-6 text-[#33B0CA]   
-                              `}
-                          />
-                        </button>
-                      ) : (
-                        <button>
-                          <FaThumbsUp
-                            onClick={handleLikeClick}
-                            className={`w-6 h-6 text-[#252525] 
-                              `}
-                          />
-                        </button>
-                      )}
-                      <p
-                        className={
-                          premiseData?.likes > 0
-                            ? "cursor-pointer  text-[14px] font-[500]"
-                            : "defaultCursor  text-[14px] font-[500]"
-                        }
-                        onClick={() =>
-                          premiseData?.likes > 0 && setLikePopup(true)
-                        }
-                      >
-                        {premiseData?.likes}{" "}
-                        {premiseData?.likes > 1 ? (
-                          <span className="like-m">Likes</span>
-                        ) : (
-                          <span className="like-m">Like</span>
-                        )}
-                      </p>
-                    </div>
+                    {/* like */}
+                    <PopupLike {...{user,id,premiseRefetch,premiseData}}/>
+                    {/* comment */}
                     <div className=" defaultCursor flex gap-2">
                       <button
                         onClick={() => {
@@ -854,7 +740,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                 </div>{" "}
                 <div>
                   <div className="bg-[#F8F8F8] relative  md:mb-[16px] pl-3 md:flex-row w-[90%] mx-auto border border-[#EAEAEA] rounded-[8px] mt-[8px]">
-                    {created_by?.id === user ? (
+                    {premiseOwner?.id === user ? (
                       <textarea
                         ref={inputRef}
                         type="text"
@@ -933,7 +819,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                     </div>
                   </div>
                   <div className="hidden md:block absolute bottom-[8px] md:bottom-[2px] xl:bottom-[4px] right-[16px]">
-                    {created_by?.id === user ? (
+                    {premiseOwner?.id === user ? (
                       <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
                         {textCount}/250
                       </p>
@@ -1024,7 +910,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                 <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" />
 
                 <div className="  bg-[#F8F8F8] relative flex justify-between items-stretch md:mb-[12px] pl-3 md:flex-row w-[90%] mx-auto border border-[#EAEAEA] rounded-[8px] shadow-md ">
-                  {created_by?.id === user ? (
+                  {premiseOwner?.id === user ? (
                     <textarea
                       ref={commentRef}
                       type="text"
@@ -1078,7 +964,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                       </button>
                     )}
                     <div className=" md:hidden absolute bottom-[4px] right-[2px]">
-                      {created_by?.id === user ? (
+                      {premiseOwner?.id === user ? (
                         <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
                           {textCount}/250
                         </p>
@@ -1133,9 +1019,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
               popClose={popClose}
             />
           )}
-          {likePopup && (
-            <LikePopup setLikePopup={setLikePopup} id={premiseData?.id} />
-          )}
+          
           {openCharacterChart && (
             <CharacterEditablePop
               setCharacterEditPop={setOpenCharacterChart}

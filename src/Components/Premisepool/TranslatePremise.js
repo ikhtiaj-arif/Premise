@@ -8,9 +8,6 @@ import Popup from "./Popup";
 
 const TranslatePremise = ({
   data,
-  setIsLiked,
-  refetch,
-  activeSearch,
   transPopClose,
   setTransPopClose,
   setViewText,
