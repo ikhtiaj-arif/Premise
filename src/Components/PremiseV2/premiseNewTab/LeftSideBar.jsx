@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaComment, FaThumbsUp } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { PiShareFat } from "react-icons/pi";
@@ -9,14 +9,57 @@ import mailCartQ from "../../../img/Icons/mailCartQ.png";
 import transCartQ from "../../../img/Icons/transCartQ.png";
 import transIcon from "../../../img/Icons/transIcon.png";
 import translateCart from "../../../img/Icons/translateCart.png";
+import PopupLike from "../../SharedVersion/PopupLike";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../../app/Slices/userSlice";
+import { useGetPremiseUserQuery } from "../../../app/EndPoints/premisePoolApi";
+import PopupPremiseText from "../../SharedVersion/PopupPremiseText";
+import { MdOutlineEdit } from "react-icons/md";
+import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
+import ReqTranslationPop from "../Popups/ReqTranslationPop";
+import TranslatePremise from "../../Premisepool/TranslatePremise";
 
-const LeftSideBar = ({ premiseData, setBeatsPopup, setCommonPopup }) => {
-  const { bg_img, bg_color, text, premiseCreator, last_worked_on, created_at } =
-    premiseData;
+const LeftSideBar = ({
+  premiseData,
+  setBeatsPopup,
+  setCommonPopup,
+  premiseRefetch,
+}) => {
+  const {
+    bg_img,
+    bg_color,
+    text,
+    last_worked_on,
+    created_at,
+    id,
+    created_by,
+    premiseOwner,
+    stamp,
+    filter_flag,
+    visible_to,
+    comments,
+    comment_filter_flag,
+    source_language,
+    project_id,
+  } = premiseData;
+  const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
+  const [openHidePop, setOpenHidePop] = useState(false);
+  const [transPopClose, setTransPopClose] = useState({});
+
+  const user = useSelector((state) => state?.user?.id);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(setUser(userQuery));
+    }
+  }, [userQuery, dispatch, user]);
+
   const splitText = text.split("+");
   const dText = splitText[1];
   const stylings = JSON?.parse(splitText[0]);
   const { boldStyle, italicStyle, underlineStyle, hexColor } = stylings;
+  const [viewText, setViewText] = useState(splitText[1]);
   // console.log(premiseData);
 
   // const [commonPopup, setCommonPopup] = useState(""); // For "Brainstorms" and "Engagements"
@@ -24,8 +67,8 @@ const LeftSideBar = ({ premiseData, setBeatsPopup, setCommonPopup }) => {
 
   const formatDate = (date) => {
     const d = new Date(date);
-    const day = String(d.getDate()).padStart(2, '0'); 
-    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
     const year = String(d.getFullYear()).slice(-2);
     return `${day}-${month}-${year}`;
   };
@@ -139,61 +182,35 @@ const LeftSideBar = ({ premiseData, setBeatsPopup, setCommonPopup }) => {
           />
         </div>
         {/* center */}
-        <div
-          className=" mx-auto h-[24.6vh]   w-full lg:my-auto border border-[#eaeaea]  relative  rounded-[8px] "
-          style={{
-            background: `${bg_img ? `url(${bg_img})` : bg_color}`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            borderRadius: "8px",
-            backgroundPosition: "center",
-          }}
-        >
-          {/* {bg_img &&  <img src={bg_img} alt="" className="rounded-[8px] bg-cover bg-no-repeat h-[25.6vh] lg:h-[270px]  w-full " />} */}
-          <div
-            // className="absolute inset-0 flex items-center justify-center backdrop-blur-sm px-2 md:text-xl lg:text-xl border border-[#EAEAEA] bg-[#FAFAFA] rounded-[8px] max-w-[383px]"
-            className={`${
-              bg_img || bg_color !== "#FAFAFA" ? "p-[12px]" : "px-[18px] "
-            } absolute inset-0  backdrop-blur-sm  text-[14px] rounded-[8px] overflow-hidden break-words`}
-          >
-            {/* premise text */}
-
-            <p
-              className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} notranslate`}
-            >
-              {dText}
-            </p>
-          </div>
-        </div>
+        <PopupPremiseText {...{ bg_img, bg_color, stylings, dText ,viewText}} />
         {/* bottom */}
         <div className="flex justify-between items-center  rounded-b-[8px] px-[4px] pb-[8px] pt-[4px] ">
           {/* 1st div */}
           <div className="flex items-center">
+            {/* like */}
+            <PopupLike {...{ user, id, premiseRefetch, premiseData }} />
+            {/* comment */}
             <div className="flex items-center gap-1">
-              <FaThumbsUp className={`w-7 h-7 text-[#33B0CA]  `} />
+              <FaComment className="w-7 h-7 ml-4 cursor-pointer" alt="" />
               <p className="text-[12px] leading-4 font-normal text-[#616161]">
-                2 Likes
-              </p>
-            </div>
-            <div className="flex items-center gap-1">
-              <FaComment
-                src={`${URL}/media/img/Icons/comment_not_made_owner.png`}
-                className="w-7 h-7 ml-4 cursor-pointer"
-                alt=""
-              />
-              <p className="text-[12px] leading-4 font-normal text-[#616161]">
-                2 Brainstorms
+                {comments}{" "}
+                {comments > 1 ? (
+                  <span>Brainstorms</span>
+                ) : (
+                  <span> Brainstorm</span>
+                )}
               </p>
             </div>
           </div>
 
           <div className="ml-[15px] flex gap-2 items-center">
-            <img
-              data-te-toggle="tooltip"
-              title="Translate"
-              src={transIcon}
-              className="w-7 h-7 ml-auto  cursor-pointer"
-              alt=""
+            <TranslatePremise {...{transPopClose,setTransPopClose,setViewText}}
+              data={{
+                id,
+                dText,
+                source_language,
+                project_id,
+              }} 
             />
           </div>
         </div>
@@ -211,8 +228,7 @@ const LeftSideBar = ({ premiseData, setBeatsPopup, setCommonPopup }) => {
               :
             </span>
             <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
-              {" "}
-              Janhvi
+              {created_by?.first_name} {created_by?.last_name}
             </p>
           </div>
         </div>
@@ -249,11 +265,24 @@ const LeftSideBar = ({ premiseData, setBeatsPopup, setCommonPopup }) => {
       <div className="mt-4">
         <div className="heading w-full  flex justify-between items-center">
           <p className="text-[#616161] font-[600] text-[16pxS]">Visible to</p>
-          <div>/</div>
+          {premiseOwner?.id == user && (
+            <MdOutlineEdit
+              onClick={() => setOpenHidePop(!openHidePop)}
+              className="text-[#33B0CA]"
+            />
+          )}
         </div>
         <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
         <p className="text-[#33B0CA] text-[16px] font-[500]">
-          Everyone/All Buddies/Names/Only Me
+          {filter_flag == 0
+            ? "All Buddies"
+            : filter_flag == 1
+            ? "Only Me"
+            : filter_flag == 2
+            ? "Names"
+              ? filter_flag == 3
+              : "Everyone"
+            : "Everyone/All Buddies/Names/Only Me"}
         </p>
       </div>
 
@@ -283,6 +312,20 @@ const LeftSideBar = ({ premiseData, setBeatsPopup, setCommonPopup }) => {
         </p>
       </div>
       <div className="h-[100px]" />
+
+      {openHidePop && (
+        <HideOptionPop
+          {...{
+            setOpenHidePop,
+            id,
+            user,
+            filter_flag,
+            comment_filter_flag,
+            visible_to,
+          }}
+          refetch={premiseRefetch}
+        />
+      )}
     </div>
   );
 };

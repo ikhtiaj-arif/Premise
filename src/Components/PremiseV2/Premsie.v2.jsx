@@ -22,6 +22,14 @@ import { baseURL } from "../utils";
 import FilterSearchSort from "./Header/FiltersSearchSort/FilterSearchSort";
 import PremiseCardV2 from "./Card/PremiseCardV2";
 
+export const loadingData = [
+  "Initializing..",
+  "Creating Structures...",
+  "Collecting Data...",
+  "Analyzing Data...",
+  "Finishing!...",
+];
+
 const PremiseV2 = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsToShow, setItemsToShow] = useState(12);
@@ -29,14 +37,6 @@ const PremiseV2 = () => {
   const [sortOrder, setSortOrder] = useState("");
   const [hasMore, setHasMore] = useState(true);
   const [showRefine, setShowRefine] = useState(false);
-
-  const loadingData = [
-    "Initializing..",
-    "Creating Structures...",
-    "Collecting Data...",
-    "Analyzing Data...",
-    "Finishing!...",
-  ];
 
   const [text, setText] = useState("");
   const [language, setLanguage] = useState("");
