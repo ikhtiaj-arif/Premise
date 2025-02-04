@@ -37,6 +37,7 @@ import ReqTranslationPop from "../Popups/ReqTranslationPop";
 import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
 import PremiseBadge from "./PremiseBadge";
+import SaleRequestedOwner from "../Popups/SaleRequested_Owner";
 
 const PremiseCardV2 = ({
   setShowRefine,
@@ -804,7 +805,7 @@ const PremiseCardV2 = ({
         />
       )}
       {viewSaleRequests && (
-        <MonetizePreferencePop popClose={setViewSaleRequests} premiseId={id} />
+        <SaleRequestedOwner popClose={setViewSaleRequests} premiseId={id} />
       )}
     </div>
   );

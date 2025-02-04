@@ -18,6 +18,7 @@ import Popup from "./Popup";
 import PremiseCard from "./PremiseCard";
 import SortPagination from "./SortPagination/SortPagination";
 import UserNamePopup from "./UserNamePopup";
+import PremiseCardV2 from "../PremiseV2/Card/PremiseCardV2";
 
 const Premisepool = () => {
   const [currentPage, setCurrentPage] = useState(1);
