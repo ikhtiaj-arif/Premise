@@ -34,7 +34,7 @@ const ProjectInfo = ({ premiseData }) => {
       {project_name} of {}
       {premiseOwner?.first_name} {premiseOwner?.last_name}: A {sub_genre} (
       {genre}) of {duration} {}
-      in {source_language} language set in {period} on the premise ‘What if......’
+      in {source_language} language set in {period} {geography} on the premise ‘What if......’
     </div>
   );
 };

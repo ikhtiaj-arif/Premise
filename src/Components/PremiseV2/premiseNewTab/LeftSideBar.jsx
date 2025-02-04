@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaComment, FaThumbsUp } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { PiShareFat } from "react-icons/pi";
@@ -12,18 +12,31 @@ import translateCart from "../../../img/Icons/translateCart.png";
 import PopupLike from "../../SharedVersion/PopupLike";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../../app/Slices/userSlice";
-import { useGetPremiseUserQuery } from "../../../app/EndPoints/premisePoolApi";
+import {
+  useGetCommentByPremiseIdQuery,
+  useGetPremiseUserQuery,
+} from "../../../app/EndPoints/premisePoolApi";
 import PopupPremiseText from "../../SharedVersion/PopupPremiseText";
 import { MdOutlineEdit } from "react-icons/md";
 import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
 import ReqTranslationPop from "../Popups/ReqTranslationPop";
 import TranslatePremise from "../../Premisepool/TranslatePremise";
+import PremiseBadge from "../Card/PremiseBadge";
+import PopupTextarea from "../../SharedVersion/PopupTextarea";
+import PopupComment from "../../SharedVersion/PopupComment";
 
 const LeftSideBar = ({
   premiseData,
   setBeatsPopup,
   setCommonPopup,
   premiseRefetch,
+  commentRefetch,
+  commentsData,
+  setOpenReplyField,
+  replyField,
+  setReplyField,
+  setOpenReplyFieldID,
+  setOpenAllReplies,replyRef
 }) => {
   const {
     bg_img,
@@ -40,14 +53,22 @@ const LeftSideBar = ({
     comments,
     comment_filter_flag,
     source_language,
-    project_id,
+    project_id,created_by_name
   } = premiseData;
+
   const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
+
   const [openHidePop, setOpenHidePop] = useState(false);
   const [transPopClose, setTransPopClose] = useState({});
 
+  const [commentField, setCommentField] = useState(false);
+
+  const finalCount = commentsData?.counts;
+
   const user = useSelector((state) => state?.user?.id);
   const dispatch = useDispatch();
+
+  const lastCommentRef = useRef(null);
 
   useEffect(() => {
     if (!user) {
@@ -182,35 +203,36 @@ const LeftSideBar = ({
           />
         </div>
         {/* center */}
-        <PopupPremiseText {...{ bg_img, bg_color, stylings, dText ,viewText}} />
+        <PopupPremiseText
+          {...{ bg_img, bg_color, stylings, dText, viewText }}
+        />
+        <PremiseBadge stamp={stamp} />
         {/* bottom */}
         <div className="flex justify-between items-center  rounded-b-[8px] px-[4px] pb-[8px] pt-[4px] ">
           {/* 1st div */}
-          <div className="flex items-center">
+          <div className="flex gap-1 space-x-4 items-center">
             {/* like */}
             <PopupLike {...{ user, id, premiseRefetch, premiseData }} />
             {/* comment */}
-            <div className="flex items-center gap-1">
-              <FaComment className="w-7 h-7 ml-4 cursor-pointer" alt="" />
-              <p className="text-[12px] leading-4 font-normal text-[#616161]">
-                {comments}{" "}
-                {comments > 1 ? (
-                  <span>Brainstorms</span>
-                ) : (
-                  <span> Brainstorm</span>
-                )}
-              </p>
-            </div>
+            <PopupComment
+              {...{
+                setOpenReplyField,
+                setCommentField,
+                commentField,
+                finalCount,
+              }}
+            />
           </div>
 
           <div className="ml-[15px] flex gap-2 items-center">
-            <TranslatePremise {...{transPopClose,setTransPopClose,setViewText}}
+            <TranslatePremise
+              {...{ transPopClose, setTransPopClose, setViewText }}
               data={{
                 id,
                 dText,
                 source_language,
                 project_id,
-              }} 
+              }}
             />
           </div>
         </div>
@@ -228,7 +250,7 @@ const LeftSideBar = ({
               :
             </span>
             <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
-              {created_by?.first_name} {created_by?.last_name}
+              {created_by_name}
             </p>
           </div>
         </div>
@@ -282,7 +304,7 @@ const LeftSideBar = ({
             ? "Names"
               ? filter_flag == 3
               : "Everyone"
-            : "Everyone/All Buddies/Names/Only Me"}
+            : "Everyone"}
         </p>
       </div>
 
@@ -297,20 +319,21 @@ const LeftSideBar = ({
         </div>
       </div>
 
-      <div className=" relative mt-5  ">
-        <textarea
-          // ref={inputRef}
-          type="text"
-          name=""
-          maxLength={150}
-          id=""
-          className="bg-[#fafafa] border border-[#eaeaea] resize-none leading-[21px] px-3 rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[140px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400]"
-          placeholder="Add a comment..."
-        />
-        <p className="text-[12px] font-[400] leading-[14px] absolute bottom-[-12px] right-0  text-[#616161]">
-          2/150
-        </p>
-      </div>
+      <PopupTextarea premiseId={id}
+        {...{
+          premiseOwner,
+          user,
+          commentRefetch,
+          setOpenAllReplies,
+          setOpenReplyFieldID,
+          lastCommentRef,
+          commentField,
+          setCommentField,
+          setReplyField,
+          replyField,
+          replyRef,
+        }}
+      />
       <div className="h-[100px]" />
 
       {openHidePop && (
