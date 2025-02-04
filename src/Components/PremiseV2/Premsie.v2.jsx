@@ -14,13 +14,12 @@ import walletDoodle from "../../img/wallet_doodle.png";
 import AddPremise2 from "../Premisepool/Components/AddPremise2";
 import DeletePremise from "../Premisepool/DeletePremise";
 import Popup from "../Premisepool/Popup";
-import PremiseCard from "../Premisepool/PremiseCard";
 import SortPagination from "../Premisepool/SortPagination/SortPagination";
 import UserNamePopup from "../Premisepool/UserNamePopup";
 import TypingLoader from "../TypingLoader";
 import { baseURL } from "../utils";
-import FilterSearchSort from "./Header/FiltersSearchSort/FilterSearchSort";
 import PremiseCardV2 from "./Card/PremiseCardV2";
+import FilterSearchSort from "./Header/FiltersSearchSort/FilterSearchSort";
 
 export const loadingData = [
   "Initializing..",
@@ -58,7 +57,12 @@ const PremiseV2 = () => {
   const [queryUser, setQueryUser] = useState(null);
   const [refetching, setRefetching] = useState(false);
   const [querying, setQuerying] = useState(true);
+  const [skip, setSkip] = useState(true);
   const navigate = useNavigate();
+  useEffect(() => {
+    if (user) setSkip(false);
+    else setSkip(true);
+  }, [user]);
 
   // const [activeAddedByMe, setActiveAddedByMe] = useState(false);
 
@@ -87,7 +91,9 @@ const PremiseV2 = () => {
 
   const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
 
-  const res = useGetPremiseQuery(query);
+  const res = useGetPremiseQuery(query, {
+    skip,
+  });
 
   const { data: premiseData, isLoading, refetch } = res;
 
@@ -95,7 +101,9 @@ const PremiseV2 = () => {
     data: hiddenCountRes,
     countLoading,
     refetch: hiddenCountRefetch,
-  } = useGetHiddenPremiseCountQuery(query);
+  } = useGetHiddenPremiseCountQuery(query, {
+    skip,
+  });
 
   const [openPopBySp, setOpenPopBySp] = useState(false);
   const [premiseDataForUser, setPremiseDataForUser] = useState([]);
