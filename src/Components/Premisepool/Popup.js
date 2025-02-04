@@ -43,27 +43,22 @@ import "./Premise.css";
 import UserType from "./UserType";
 import PopupLike from "../SharedVersion/PopupLike";
 import PopupPremiseText from "../SharedVersion/PopupPremiseText";
+import PopupTextarea from "../SharedVersion/PopupTextarea";
+import PopupComment from "../SharedVersion/PopupComment";
 
 const Popup = ({ popClose, data, refetch, transText, viewText }) => {
   const {
     bg_img,
     bg_color,
-    comments,
     stylings,
     dText,
     id,
     user,
     premiseOwner,
     setUserMail,
-    setOwnerMail,
     formattedTime,
     formattedDate,
-    hidden,
-    index,
     setHideDisable,
-    hideDisable,
-    hiddenCountRefetch,
-    projectRefetch,
     project_id,
   } = data;
 
@@ -109,8 +104,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
     }
   };
   const lastCommentRef = useRef(null);
-  const commentRef = useRef(null);
-  const inputRef = useRef(null);
+  
   const replyRef = useRef(null);
 
   const {
@@ -122,17 +116,12 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
   const [isDelete, setIsDelete] = useState(false);
   const [loading, setLoading] = useState(true);
   
-  
-  const [isDisabled, setIsDisabled] = useState(true);
-  
-  const [isLoading, setIsLoading] = useState(false);
-
   const [commentField, setCommentField] = useState(false);
   const [replyField, setReplyField] = useState(false);
   const [openHidePop, setOpenHidePop] = useState(false);
-  const [isCommentQuestion, setIsCommentQuestion] = useState(false);
+  
   const [cValue, setCvalue] = useState(null);
-  const [newComment, setNewComment] = useState("");
+  
   // console.log(project_id)
 
   const [openReplyField, setOpenReplyField] = useState(null);
@@ -149,20 +138,6 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
   const [openCharacterChart, setOpenCharacterChart] = useState(null);
 
   const [replyTextCount, setReplyTextCount] = useState(0);
-
-  //keyboard
-  const [showKeyboard, setShowKeyboard] = useState(false);
-  const [regardingOutput, setRegardingOutput] = useState("one");
-  const [sourcesLanguage, setSourcesLanguage] = useState("English");
-  const [keyboardVisible, setKeyboardVisible] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
-
-  const token = localStorage.getItem("accessToken");
-  const header = {
-    Authorization: `Bearer ${token}`,
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  };
 
   // const getChar = async () => {
   //   try {
@@ -183,12 +158,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
   //   }, [project_id]);
 
   // keyboard clicked
-  const onClickKeyboard = () => {
-    if (selectedLanguage === "") {
-      setSelectedLanguage("English");
-    }
-    setKeyboardVisible(!keyboardVisible);
-  };
+  
   const handleClear = () => {
     // setText("");
   };
@@ -201,16 +171,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
   const isProjectLocked = currentProjectData?.locked;
   const currentProjectOwner = currentProjectData?.owner;
 
-  useEffect(() => {
-    if (commentField && inputRef?.current) {
-      inputRef?.current?.focus();
-      setReplyField(false);
-    }
-    if (replyField && replyRef?.current) {
-      replyRef?.current?.focus();
-      setCommentField(false);
-    }
-  }, [replyField, commentField]);
+  
 
   const {
     data: profileImg,
@@ -272,8 +233,6 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
 
   const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
 
-  const [postComment, isCommentResInfo] = useCommentPremiseMutation();
-
   const userName = `${userQuery?.first_name} ${userQuery?.last_name}`;
 
   
@@ -282,36 +241,11 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
   //   setCvalue(parseInt(commentsData?.comments?.length) + 1);
   // }, [commentsData]);
 
-  
-
-  
-
-  useEffect(() => {
-    if (newComment.endsWith("?")) {
-      setIsCommentQuestion(true);
-    } else {
-      setIsCommentQuestion(false);
-    }
-
-    if (newComment?.length > 0) {
-      setIsDisabled(false);
-    } else {
-      setIsDisabled(true);
-    }
-  }, [newComment]);
-
   useEffect(() => {
     if (commentsData) {
       setLoading(false);
     }
   }, [commentsData]);
-  const [textCount, setTextCount] = useState(0);
-
-  const handleTextareaChange = (event) => {
-    const comment = event.target.value;
-    setTextCount(comment.length);
-    setNewComment(comment);
-  };
 
   useEffect(() => {
     // console.log(commentsData.comments.length);
@@ -321,82 +255,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
     setCvalue(commentArray);
   }, [commentsData, commentRefetch]);
 
-  const handleButtonClick = async () => {
-    if (newComment.length === 0) {
-      alert("You can't send an empty comment!");
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      // Fetch the existing comment data
-      const response = await axios.get(
-        `${baseURL}/ideamall/GetCommentAPI/${premiseId}`,
-        {
-          headers: header,
-        }
-      );
-
-      if (response) {
-        const body = {
-          premise: premiseId,
-          text: newComment,
-          user: user,
-          C: response?.data?.counts + 1, // Update the comment count
-          is_question: isCommentQuestion,
-        };
-
-        // Post the new comment
-        const res = await postComment(body);
-
-        if (res?.error) {
-          toast.error("Failed to add comment. Please try again.", {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 800,
-          });
-          setNewComment("");
-
-          setIsLoading(false);
-          setTextCount(0);
-        } else {
-          setNewComment("");
-
-          setIsLoading(false);
-          setTextCount(0);
-
-          // here scroll all the way down to a div using ref
-          setTimeout(() => {
-            commentRefetch(); // Refetch the comments after adding the new one
-            setOpenAllReplies(true);
-            setOpenReplyFieldID(res?.data?.id);
-          }, 1000);
-
-          setTimeout(() => {
-            if (lastCommentRef.current) {
-              lastCommentRef.current.scrollTo({
-                top: lastCommentRef.current.scrollHeight,
-                behavior: "smooth",
-              });
-            }
-            toast.success("Comment added!", {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: 1600,
-            });
-          }, 1100);
-        }
-      }
-    } catch (error) {
-      toast.error("Failed to add comment. Please try again.", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 1600,
-      });
-      setNewComment("");
-
-      setIsLoading(false);
-      setTextCount(0);
-    }
-  };
+  
 
   const handleReplyTextChange = (event) => {
     const reply = event.target.value;
@@ -718,118 +577,12 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                     {/* like */}
                     <PopupLike {...{user,id,premiseRefetch,premiseData}}/>
                     {/* comment */}
-                    <div className=" defaultCursor flex gap-2">
-                      <button
-                        onClick={() => {
-                          setOpenReplyField(null);
-                          setCommentField(!commentField);
-                        }}
-                      >
-                        <FaComment className=" text-[24px]" />
-                      </button>
-                      <p className=" text-[14px] font-[500]">
-                        {finalCount}{" "}
-                        {finalCount > 1 ? (
-                          <span className="comments-m">Comments</span>
-                        ) : (
-                          <span className="comments-m"> Comment</span>
-                        )}
-                      </p>
-                    </div>
+                    <PopupComment {...{setOpenReplyField,setCommentField,commentField,finalCount,}}/>
                   </div>
                 </div>{" "}
-                <div>
-                  <div className="bg-[#F8F8F8] relative  md:mb-[16px] pl-3 md:flex-row w-[90%] mx-auto border border-[#EAEAEA] rounded-[8px] mt-[8px]">
-                    {premiseOwner?.id === user ? (
-                      <textarea
-                        ref={inputRef}
-                        type="text"
-                        name=""
-                        maxLength={250}
-                        id=""
-                        className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px]  focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400]"
-                        placeholder="Brainstorm here with MNF"
-                        value={newComment}
-                        required
-                        onChange={handleTextareaChange}
-                        onKeyDown={(event) => {
-                          if (event.key === "Enter") {
-                            handleButtonClick();
-                            event.currentTarget.blur();
-                          }
-                        }}
-                      />
-                    ) : (
-                      <textarea
-                        ref={inputRef}
-                        type="text"
-                        name=""
-                        maxLength={150}
-                        id=""
-                        className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400]"
-                        placeholder="Brainstorm here with MNF"
-                        value={newComment}
-                        required
-                        onChange={handleTextareaChange}
-                        onKeyDown={(event) => {
-                          // console.log('Key pressed:', event.key);
-                          if (event.key === "Enter") {
-                            handleButtonClick();
-                            event.currentTarget.blur();
-                          }
-                        }}
-                      />
-                    )}
-                    <div className="flex gap-3 items-center justify-end pr-2 pb-1">
-                      <div className="flex   ">
-                        <FaKeyboard
-                          data-te-toggle="tooltip"
-                          title={`${
-                            !keyboardVisible ? "View Keyboard" : "Hide Keyboard"
-                          }`}
-                          className={`w-6 h-6 ${
-                            keyboardVisible && "text-[#33B0CA]"
-                          } cursor-pointer hover:text-[#33B0CA]`}
-                          onClick={onClickKeyboard}
-                        />
-                        <LanguageSelector
-                          setSelectedLanguage={setSelectedLanguage}
-                          selectedLanguage={selectedLanguage}
-                          setKeyboardVisible={setKeyboardVisible}
-                        />
-                      </div>
-
-                      {isLoading ? (
-                        <div className=" ">
-                          <BtnLoading />
-                        </div>
-                      ) : (
-                        <button
-                          className="md:w-[21px]"
-                          onClick={handleButtonClick}
-                        >
-                          <IoMdSend className="text-[#33B0CA] w-6 h-6" />
-                          {/* <img
-                            src={forwardIcon}
-                            alt=""
-                            className=" w-full my-auto cursor-pointer lg:!mt-[32px]"
-                          /> */}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                  <div className="hidden md:block absolute bottom-[8px] md:bottom-[2px] xl:bottom-[4px] right-[16px]">
-                    {premiseOwner?.id === user ? (
-                      <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
-                        {textCount}/250
-                      </p>
-                    ) : (
-                      <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
-                        {textCount}/150
-                      </p>
-                    )}
-                  </div>
-                </div>
+                {/* textarea */}
+                <PopupTextarea  {...{premiseOwner,user,premiseId,commentRefetch,setOpenAllReplies,setOpenReplyFieldID,
+                  lastCommentRef,commentField,setCommentField,setReplyField,replyField,replyRef,}}/>
               </div>
             </div>
 
@@ -908,8 +661,10 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
               {/* comment and reply div mobile */}
               <div className="md:hidden h-[10vh] md:h-[116px] flex flex-col justify-between">
                 <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" />
+                <PopupTextarea  {...{premiseOwner,user,premiseId,commentRefetch,setOpenAllReplies,setOpenReplyFieldID,
+                  lastCommentRef,commentField,setCommentField,setReplyField,replyField,replyRef,}}/>
 
-                <div className="  bg-[#F8F8F8] relative flex justify-between items-stretch md:mb-[12px] pl-3 md:flex-row w-[90%] mx-auto border border-[#EAEAEA] rounded-[8px] shadow-md ">
+                {/* <div className="  bg-[#F8F8F8] relative flex justify-between items-stretch md:mb-[12px] pl-3 md:flex-row w-[90%] mx-auto border border-[#EAEAEA] rounded-[8px] shadow-md ">
                   {premiseOwner?.id === user ? (
                     <textarea
                       ref={commentRef}
@@ -975,41 +730,11 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                       )}
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
-          <>
-            {selectedLanguage && keyboardVisible && (
-              <Draggable handle=".movable-handle">
-                <div className="absolute z-20 w-[650px] top-[194px] right-[-85px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
-                  <div className="grid grid-cols-12">
-                    <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
-                      Drag me!!{" "}
-                      <span className="font-[500]">{selectedLanguage}</span>{" "}
-                      Keyboard
-                    </div>
-                    <div className="flex justify-center items-center w-full h-full cursor-pointer">
-                      <button
-                        onClick={() => setKeyboardVisible(false)}
-                        className="font-bold w-full h-full"
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="p-2">
-                    <Keyboard
-                      selectedLanguage={selectedLanguage}
-                      setText={setNewComment}
-                      inputRef={inputRef}
-                    />
-                  </div>
-                </div>
-              </Draggable>
-            )}
-          </>
+          
 
           {isDelete && (
             <DeletePremise
