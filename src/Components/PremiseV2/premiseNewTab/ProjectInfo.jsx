@@ -31,10 +31,14 @@ const ProjectInfo = ({ premiseData }) => {
           />
         </div>
       </div>
-      {project_name} of {}
-      {premiseOwner?.first_name} {premiseOwner?.last_name}: A {sub_genre} (
-      {genre}) of {duration} {}
-      in {source_language} language set in {period} {geography} on the premise ‘What if......’
+      <h3 className="text-5 text-[#252525] font-normal">
+        <span className="text-5 text-[#252525] font-bold">{project_name} </span>
+        of {}
+        <span className="text-5 text-[#252525] font-bold"> {premiseOwner?.first_name} {premiseOwner?.last_name}:</span> A {sub_genre} (
+        {genre}) of {duration} {}
+        in {source_language} language set in {period} {geography} on the premise
+        ‘What if......’
+      </h3>
     </div>
   );
 };

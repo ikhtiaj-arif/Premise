@@ -1,29 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FaComment, FaThumbsUp } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
+import { MdOutlineEdit } from "react-icons/md";
 import { PiShareFat } from "react-icons/pi";
+import { useDispatch, useSelector } from "react-redux";
+import { useGetPremiseUserQuery } from "../../../app/EndPoints/premisePoolApi";
+import { setUser } from "../../../app/Slices/userSlice";
 import engagementImg from "../../../img/Icons/Engagements.png";
 import beatsImg from "../../../img/Icons/beats.png";
 import brainImg from "../../../img/Icons/brainstorme.png";
 import mailCartQ from "../../../img/Icons/mailCartQ.png";
 import transCartQ from "../../../img/Icons/transCartQ.png";
-import transIcon from "../../../img/Icons/transIcon.png";
 import translateCart from "../../../img/Icons/translateCart.png";
-import PopupLike from "../../SharedVersion/PopupLike";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../../app/Slices/userSlice";
-import {
-  useGetCommentByPremiseIdQuery,
-  useGetPremiseUserQuery,
-} from "../../../app/EndPoints/premisePoolApi";
-import PopupPremiseText from "../../SharedVersion/PopupPremiseText";
-import { MdOutlineEdit } from "react-icons/md";
 import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
-import ReqTranslationPop from "../Popups/ReqTranslationPop";
 import TranslatePremise from "../../Premisepool/TranslatePremise";
-import PremiseBadge from "../Card/PremiseBadge";
-import PopupTextarea from "../../SharedVersion/PopupTextarea";
 import PopupComment from "../../SharedVersion/PopupComment";
+import PopupLike from "../../SharedVersion/PopupLike";
+import PopupPremiseText from "../../SharedVersion/PopupPremiseText";
+import PopupTextarea from "../../SharedVersion/PopupTextarea";
+import PremiseBadge from "../Card/PremiseBadge";
 
 const LeftSideBar = ({
   premiseData,
@@ -36,7 +30,9 @@ const LeftSideBar = ({
   replyField,
   setReplyField,
   setOpenReplyFieldID,
-  setOpenAllReplies,replyRef
+  setOpenAllReplies,
+  replyRef,
+  handleSubmit,
 }) => {
   const {
     bg_img,
@@ -53,7 +49,8 @@ const LeftSideBar = ({
     comments,
     comment_filter_flag,
     source_language,
-    project_id,created_by_name
+    project_id,
+    created_by_name,
   } = premiseData;
 
   const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
@@ -158,7 +155,7 @@ const LeftSideBar = ({
         <div
           className={` border w-[146px] border-[#B4B4B4] mx-auto px-[14px] h-[32px] my-2 rounded-full`}
         >
-          <form className="flex items-center">
+          <form className="flex items-center" onSubmit={handleSubmit}>
             <input
               type="text"
               className="w-full flex-1 px-2  h-[28px] text-[14px] focus:outline-none"
@@ -319,7 +316,8 @@ const LeftSideBar = ({
         </div>
       </div>
 
-      <PopupTextarea premiseId={id}
+      <PopupTextarea
+        premiseId={id}
         {...{
           premiseOwner,
           user,

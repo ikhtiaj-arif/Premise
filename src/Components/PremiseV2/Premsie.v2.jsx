@@ -59,6 +59,7 @@ const PremiseV2 = () => {
   const [querying, setQuerying] = useState(true);
   const [skip, setSkip] = useState(true);
   const navigate = useNavigate();
+  
   useEffect(() => {
     if (user) setSkip(false);
     else setSkip(true);

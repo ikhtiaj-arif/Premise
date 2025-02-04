@@ -8,19 +8,19 @@ import {
   useGetPremiseUserPictureQuery,
 } from "../../../app/EndPoints/premisePoolApi";
 
-import BeatsPop from "../Popups/newTab/BeatsPop";
-import BrainstormEngagementsPop from "../Popups/newTab/BrainstormEngagementsPop";
-import LeftSideBar from "./LeftSideBar";
-import VerticalBar from "./VerticalBar";
-import MainComment from "./MainComment";
-import ProjectInfo from "./ProjectInfo";
-import TypingLoader from "../../TypingLoader";
-import { loadingData } from "../Premsie.v2";
 import { motion } from "framer-motion";
-import AllComments from "../../Premisepool/AllComments";
 import { toast } from "react-toastify";
 import { useCreateReplyMutation } from "../../../app/EndPoints/commentReply/reply";
+import { useFindCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
+import AllComments from "../../Premisepool/AllComments";
+import TypingLoader from "../../TypingLoader";
 import { baseURL } from "../../utils";
+import BeatsPop from "../Popups/newTab/BeatsPop";
+import BrainstormEngagementsPop from "../Popups/newTab/BrainstormEngagementsPop";
+import { loadingData } from "../Premsie.v2";
+import LeftSideBar from "./LeftSideBar";
+import ProjectInfo from "./ProjectInfo";
+import VerticalBar from "./VerticalBar";
 
 const PremiseNewTab = () => {
   const { id } = useParams(); // Extract the ID from the route
@@ -135,12 +135,30 @@ const PremiseNewTab = () => {
     setReplyText(reply);
   };
 
+  const [findComments] = useFindCommentMutation();
+  const [filteredCommentsData, setFilteredCommentsData] = useState(null);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const searchTerm = e.target.search.value;
+    const data = {
+      search_text: searchTerm,
+      premise_id: id,
+    };
+
+    const res = await findComments(data);
+    setFilteredCommentsData(res?.data?.data);
+
+    e.target.reset();
+  };
+
+  console.log(filteredCommentsData);
+
   return (
     <div className="lg:w-[90%] mx-auto h-screen overflow-hidden">
       {!isPremiseLoading && !isCommentLoading && premiseData && commentsData ? (
         <>
           <ProjectInfo {...{ premiseData }} />
-          <div className="w-full flex items-start gap-4 mt-2 h-[calc(100vh-78px)]">
+          <div className="w-full flex items-start justify-center mx-auto gap-4 mt-2 h-[calc(100vh-78px)]">
             {/* Left Sidebar */}
             <div className="leftSection bg-[#fff] w-[30%] p-2 pr-0 flex justify-end h-full  overflow-y-auto">
               <LeftSideBar
@@ -156,6 +174,7 @@ const PremiseNewTab = () => {
                   setReplyField,
                   setOpenReplyFieldID,
                   setOpenAllReplies,
+                  handleSubmit,
                 }}
               />
               <VerticalBar />
