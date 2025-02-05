@@ -22,7 +22,7 @@ const PopupTextarea = ({
   setCommentField,
   setReplyField,
   replyField,
-  replyRef,
+  replyRef, fromNew
 }) => {
   const [textCount, setTextCount] = useState(0);
   const [newComment, setNewComment] = useState("");
@@ -157,8 +157,8 @@ const PopupTextarea = ({
     setKeyboardVisible(!keyboardVisible);
   };
   return (
-    <div>
-      <div className="bg-[#F8F8F8] relative  md:mb-[16px] pl-3 md:flex-row w-[90%] mx-auto border border-[#EAEAEA] rounded-[8px] mt-[8px]">
+    <div className="relative">
+      <div className={`bg-[#F8F8F8] relative  md:mb-[16px] pl-3 md:flex-row ${fromNew ? 'w-full' :'w-[90%]'}  mx-auto border border-[#EAEAEA] rounded-[8px] mt-[8px]`}>
         {premiseOwner?.id === user ? (
           <textarea
             ref={inputRef}
@@ -232,7 +232,7 @@ const PopupTextarea = ({
           )}
         </div>
       </div>
-      <div className="hidden md:block absolute bottom-[8px] md:bottom-[2px] xl:bottom-[4px] right-[16px]">
+      <div className={`hidden md:block absolute bottom-[8px] md:bottom-[2px] ${fromNew ? 'xl:bottom-[-12px]' :'xl:bottom-[4px]'} right-[16px]`}>
         {premiseOwner?.id === user ? (
           <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
             {textCount}/250
