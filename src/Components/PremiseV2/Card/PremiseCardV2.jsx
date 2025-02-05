@@ -374,10 +374,7 @@ const PremiseCardV2 = ({
     useGetSaleTranslationRequestQuery(data);
 
 
-    if (!isTransLoading){
-      console.log(SaleRequest.data[0]
-      ); 
-    }
+   
 
     
 
