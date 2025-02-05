@@ -21,6 +21,7 @@ import { loadingData } from "../Premsie.v2";
 import LeftSideBar from "./LeftSideBar";
 import ProjectInfo from "./ProjectInfo";
 import VerticalBar from "./VerticalBar";
+import { useGetSavedCharactersQuery } from "../../../app/EndPoints/Characters/Characters";
 
 const PremiseNewTab = () => {
   const { id } = useParams(); // Extract the ID from the route
@@ -52,6 +53,13 @@ const PremiseNewTab = () => {
     isCommentLoading,
     refetch: commentRefetch,
   } = useGetCommentByPremiseIdQuery(id);
+
+  const {
+      data: characterArray,
+      isCharLoading,
+      isError,
+      refetch: characterRefetch,
+    } = useGetSavedCharactersQuery(premiseData?.project_id);
 
   const [createReplyMutation, isReplyResInfo] = useCreateReplyMutation();
   const replyResStat = isReplyResInfo?.status;
@@ -160,7 +168,7 @@ const PremiseNewTab = () => {
           <ProjectInfo {...{ premiseData }} />
           <div className="w-full flex items-start justify-center mx-auto gap-4 mt-2 h-[calc(100vh-78px)]">
             {/* Left Sidebar */}
-            <div className="leftSection bg-[#fff] w-[30%] p-2 pr-0 flex justify-end h-full  overflow-y-auto">
+            <div className="leftSection bg-[#fff] w-[30%]  p-2 pr-0 flex justify-end h-full  overflow-y-auto">
               <LeftSideBar
                 {...{
                   premiseData,
@@ -174,7 +182,7 @@ const PremiseNewTab = () => {
                   setReplyField,
                   setOpenReplyFieldID,
                   setOpenAllReplies,
-                  handleSubmit,
+                  handleSubmit,characterArray,characterRefetch
                 }}
               />
               <VerticalBar />
@@ -192,58 +200,60 @@ const PremiseNewTab = () => {
                   <MainComment comment={comment} />
                 ))}
             </div> */}
-            {commentsData?.comments?.length > 0 ? (
-              <div>
-                {[...(commentsData?.comments || [])] // Create a shallow copy of the array to avoid modifying the original
-                  .sort((a, b) => a.c_value - b.c_value) // Sort comments by c_value in ascending order
-                  .map((comment, index) => (
-                    <motion.div
-                      key={index + 1}
-                      initial={{ opacity: 0, y: 70 }} // Start from slightly below the final position
-                      animate={{ opacity: 1, y: 0 }} // Move to the final position
-                      exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
-                      transition={{ duration: 0.5 }} // Adjust the duration as needed
-                    >
-                      <AllComments
-                        commentIdx={index + 1}
-                        comments={comment}
-                        data={premiseData}
-                        refetch={premiseRefetch}
-                        openReplyField={openReplyField}
-                        setOpenReplyField={setOpenReplyField}
-                        replyToCommentID={replyToCommentID}
-                        setReplyToCommentID={setReplyToCommentID}
-                        replyResStat={replyResStat}
-                        setCommentOwner={setCommentOwner}
-                        setOpenAllReplies={setOpenAllReplies}
-                        openAllReplies={openAllReplies}
-                        commentRefetch={commentRefetch}
-                        proImgUrl={proImgUrl}
-                        setReplyField={setReplyField}
-                        replyField={replyField}
-                        replyRef={replyRef}
-                        handleReplyTextChange={handleReplyTextChange}
-                        handlePostReplyToComment={handlePostReplyToComment}
-                        replyLoading={replyLoading}
-                        premiseData={premiseData}
-                        replyTextCount={replyTextCount}
-                        setReplyTextCount={setReplyTextCount}
-                        // m_value={m_value}
-                        actTwoEnd={actTwoEnd}
-                        actOneThreshold={actOneThreshold}
-                        openReplyFieldID={openReplyFieldID}
-                        setOpenReplyFieldID={setOpenReplyFieldID}
-                        project_id={project_id}
-                      />
-                    </motion.div>
-                  ))}
-              </div>
-            ) : commentsData?.counts > 0 &&
-              commentsData?.comments?.length === 0 ? (
-              <p className=" text-center my-4">Comments Are Private. </p>
-            ) : (
-              <p className=" text-center my-4">No Comments Available </p>
-            )}
+            <div className="w-full h-full overflow-y-auto lg:premiseScroll">
+              {commentsData?.comments?.length > 0 ? (
+                <div>
+                  {[...(commentsData?.comments || [])]
+                    .sort((a, b) => a.c_value - b.c_value)
+                    .map((comment, index) => (
+                      <motion.div
+                        key={index + 1}
+                        initial={{ opacity: 0, y: 70 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -50 }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        <AllComments
+                          commentIdx={index + 1}
+                          comments={comment}
+                          data={premiseData}
+                          refetch={premiseRefetch}
+                          openReplyField={openReplyField}
+                          setOpenReplyField={setOpenReplyField}
+                          replyToCommentID={replyToCommentID}
+                          setReplyToCommentID={setReplyToCommentID}
+                          replyResStat={replyResStat}
+                          setCommentOwner={setCommentOwner}
+                          setOpenAllReplies={setOpenAllReplies}
+                          openAllReplies={openAllReplies}
+                          commentRefetch={commentRefetch}
+                          proImgUrl={proImgUrl}
+                          setReplyField={setReplyField}
+                          replyField={replyField}
+                          replyRef={replyRef}
+                          handleReplyTextChange={handleReplyTextChange}
+                          handlePostReplyToComment={handlePostReplyToComment}
+                          replyLoading={replyLoading}
+                          premiseData={premiseData}
+                          replyTextCount={replyTextCount}
+                          setReplyTextCount={setReplyTextCount}
+                          // m_value={m_value}
+                          actTwoEnd={actTwoEnd}
+                          actOneThreshold={actOneThreshold}
+                          openReplyFieldID={openReplyFieldID}
+                          setOpenReplyFieldID={setOpenReplyFieldID}
+                          project_id={project_id}
+                        />
+                      </motion.div>
+                    ))}
+                </div>
+              ) : commentsData?.counts > 0 &&
+                commentsData?.comments?.length === 0 ? (
+                <p className=" text-center my-4">Comments Are Private. </p>
+              ) : (
+                <p className=" text-center my-4">No Comments Available </p>
+              )}
+            </div>
           </div>
         </>
       ) : (
