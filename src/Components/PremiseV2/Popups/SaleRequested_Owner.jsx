@@ -36,7 +36,8 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
     }));
   };
 
-  const requestId = Names[0]?.data?.data[0]?.id;
+  // const requestId = Names[0]?.data?.data[0]?.id;
+  const requestId="2"
 
   const token = localStorage.getItem("accessToken");
 
@@ -71,14 +72,14 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
   const [updatePremise] = useEditPremiseMutation();
   const { data: premiseData, isPremiseLoading, refetch: premiseRefetch } = useGetOnePremiseQuery(premiseId);
 
-  const [sellingPrice, setSellingPrice] = useState('');
+  const [sellingPr, setSellingPr] = useState('');
 
   const handleInputChangePrice = (e) => {
-    setSellingPrice(e.target.value);
+    setSellingPr(e.target.value);
   };
 
   const handleSubmit = () => {
-    updatePremise({ id:parseInt(premiseId), body: { sellingPrice:parseInt(sellingPrice) } })
+    updatePremise({ id:parseInt(premiseId), body: { sellingPrice:parseInt(sellingPr) } })
       .then(response => {
         console.log(response);
         setShowBankDetails(true);
@@ -115,7 +116,7 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
         {!showBankDetails ? (
           <div className="pr-[12px] mt-[17px] w-[542px] ml-[40px]">
             <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
-              {Names[0].data.data[0].fromUser.first_name + " " + Names[0].data.data[0].fromUser.last_name} is interested in buying this Premise Project. If you choose to sell this Premise Project
+              is interested in buying this Premise Project. If you choose to sell this Premise Project
             </p>
             <ul className="ml-[24px]">
               <li className="text-left text-[14px] leading-[21px] font-[400] text-[#616161] list-disc">
