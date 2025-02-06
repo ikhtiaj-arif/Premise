@@ -39,6 +39,7 @@ import ViewTranslationPop from "../Popups/ViewTranslation.pop";
 import PremiseBadge from "./PremiseBadge";
 import SaleRequestedOwner from "../Popups/SaleRequested_Owner";
 import axios from "axios";
+import PaySalePopup from "../Popups/PaySalePopup";
 
 const PremiseCardV2 = ({
   setShowRefine,
@@ -75,7 +76,9 @@ const PremiseCardV2 = ({
     comment_filter_flag,
     m_value,
     project_id,
+    sellingPrice
   } = p;
+  console.log(p)
 
   const [actOneThreshold, setActOneThreshold] = useState();
   const [actTwoEnd, setActTwoEnd] = useState();
@@ -313,7 +316,7 @@ const PremiseCardV2 = ({
 
   const [saleRequestPop, setSaleRequestPop] = useState("");
 
-  const [forSale, setForSale] = useState(false);
+  const [forSale, setForSale] = useState(true);
 
   const handleSaleRequest = (id) => {
     setSaleRequestPop(id);
@@ -372,6 +375,35 @@ const PremiseCardV2 = ({
   };
   const { data: SaleRequest, isTransLoading } =
     useGetSaleTranslationRequestQuery(data);
+
+
+  console.log(SaleRequest?.data[0]?.requestApproved
+  )
+
+
+  if (SaleRequest?.data[0]?.requestApproved === true) {
+    setForSale(true)
+    setSaleRequestedOwner(false)
+
+  }
+
+
+
+  const [saleId, setSaleId] = useState("");
+  const [viewSale, setViewSale] = useState(false);
+
+
+
+
+  const handleSale = async (id) => {
+    setSaleId(id);
+    setViewSale(true);
+
+    
+
+  }
+
+
 
 
    
@@ -472,6 +504,7 @@ const PremiseCardV2 = ({
                   onClick={() => setViewSaleRequests(true)}
                 />
               )}
+            
 
               <FaEllipsisV
                 onMouseDown={(e) => {
@@ -605,14 +638,25 @@ const PremiseCardV2 = ({
                 alt=""
                 onClick={() => handleTranslationRequest(id)}
               />
+
+              { forSale ? (
+                <img
+                data-te-toggle="tooltip"
+                title="Available for Sale"
+                src={mailCart}
+                className="w-8 h-8 mt-[-13px] cursor-pointer"
+                onClick={() => handleSale(id)}
+                alt="for sale"
+              />
+              ):(
               <img
                 data-te-toggle="tooltip"
                 title="Send Sale Request"
-                src={mailCart}
+                src={mailCartQ}
                 className="w-8 h-8 mt-[-13px] cursor-pointer"
                 onClick={() => handleSaleRequest(id)}
-                alt=""
-              />
+                alt="send sale request"
+              />)}
               <img
                 data-te-toggle="tooltip"
                 title="Send Message"
@@ -881,6 +925,17 @@ const PremiseCardV2 = ({
         Names={names}
         />
       )}
+      {
+        viewSale && (
+          <PaySalePopup
+          premiseId={saleId}
+          popClose={setViewSale}
+          sellingValue={sellingPrice}
+          Userid={user}
+          
+          />
+        )
+      }
     </div>
   );
 };
