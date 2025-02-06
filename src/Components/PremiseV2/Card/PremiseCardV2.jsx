@@ -923,7 +923,7 @@ const PremiseCardV2 = ({
       )}
       {viewSaleRequests && names.length>0 && (
         <SaleRequestedOwner popClose={setViewSaleRequests} setSaleIcon={setSaleRequestedOwner} premiseId={id} 
-        
+          Names={names}
         />
       )}
       {

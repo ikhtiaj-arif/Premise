@@ -35,6 +35,8 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
       [name]: value,
     }));
   };
+  console.log(Names[0]?.data?.data[0]?.fromUser,"Names")
+
 
   // const requestId = Names[0]?.data?.data[0]?.id;
   const requestId="2"
@@ -116,7 +118,7 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
         {!showBankDetails ? (
           <div className="pr-[12px] mt-[17px] w-[542px] ml-[40px]">
             <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
-              is interested in buying this Premise Project. If you choose to sell this Premise Project
+           {" "+ Names[0]?.data?.data[0]?.fromUser?.first_name + " "+ Names[0]?.data?.data[0]?.fromUser?.last_name }   is interested in buying this Premise Project. If you choose to sell this Premise Project
             </p>
             <ul className="ml-[24px]">
               <li className="text-left text-[14px] leading-[21px] font-[400] text-[#616161] list-disc">

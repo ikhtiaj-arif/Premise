@@ -38,7 +38,7 @@ const CongratsPop = ({ popClose,Sale ,Names }) => {
           <div>
             <p className="ml-[40px] text-left text-[14px] leading-[21px] my-[2px] font-[400]  text-[#252525] ">
           The monetizing preferences of the Premise Project are updated and 
-           has been informed
+          {" "+ Names[0]?.data?.data[0]?.fromUser?.first_name + " "+ Names[0]?.data?.data[0]?.fromUser?.last_name }    has been informed
         </p>
         <p className="ml-[40px] text-left text-[14px] leading-[21px] my-[2px] font-[400]  text-[#252525] ">
           Your share of the sale proceeds will be transferred to your
