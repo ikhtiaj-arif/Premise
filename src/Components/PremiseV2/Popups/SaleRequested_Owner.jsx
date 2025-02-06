@@ -160,7 +160,7 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
                   type="text"
                   placeholder="Please Quote"
                   className="flex-1 h-[22px] border rounded-[4px] px-[12px] text-[11px] font-[400]"
-                  value={sellingPrice}
+                  value={sellingPr}
                   onChange={handleInputChangePrice}
                 />
               </div>
