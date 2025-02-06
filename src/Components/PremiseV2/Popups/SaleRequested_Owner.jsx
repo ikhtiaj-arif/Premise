@@ -36,7 +36,7 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
     }));
   };
 
-  const requestId = Names[0].data.data[0].id;
+  const requestId = Names[0]?.data?.data[0]?.id;
 
   const token = localStorage.getItem("accessToken");
 

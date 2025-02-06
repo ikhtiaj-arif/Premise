@@ -78,7 +78,7 @@ const PremiseCardV2 = ({
     project_id,
     sellingPrice
   } = p;
-  console.log(p)
+  // console.log(p)
 
   const [actOneThreshold, setActOneThreshold] = useState();
   const [actTwoEnd, setActTwoEnd] = useState();
@@ -323,7 +323,7 @@ const PremiseCardV2 = ({
     // console.log("trans id", id);
   };
 
-  const [saleRequestedOwner, setSaleRequestedOwner] = useState(false);
+  const [saleRequestedOwner, setSaleRequestedOwner] = useState(true);
 
   const token = localStorage.getItem("accessToken");
 
@@ -346,7 +346,7 @@ const PremiseCardV2 = ({
 
     
     try {
-      console.log(id);
+      // console.log(id);
       const data = await axios.get(
         `${URL}/ideamall/premise/request/${id}/Sale`,
         {
@@ -354,7 +354,7 @@ const PremiseCardV2 = ({
         }
       );
 
-      if (data.data.data.length > 0){
+      if (data?.data?.data?.length > 0){
         setSaleRequestedOwner(true)
       }
 
@@ -376,16 +376,17 @@ const PremiseCardV2 = ({
   const { data: SaleRequest, isTransLoading } =
     useGetSaleTranslationRequestQuery(data);
 
-
-  console.log(SaleRequest?.data[0]?.requestApproved
-  )
+    console.log(SaleRequest)
 
 
-  if (SaleRequest?.data[0]?.requestApproved === true) {
-    setForSale(true)
-    setSaleRequestedOwner(false)
+  
 
-  }
+
+  // if (SaleRequest?.data[0]?.requestApproved === true) {
+  //   setForSale(true)
+  //   setSaleRequestedOwner(false)
+
+  // }
 
 
 
@@ -920,9 +921,9 @@ const PremiseCardV2 = ({
           premiseId={viewTrnRequests}
         />
       )}
-      {viewSaleRequests && (
+      {viewSaleRequests && names.length>0 && (
         <SaleRequestedOwner popClose={setViewSaleRequests} setSaleIcon={setSaleRequestedOwner} premiseId={id} 
-        Names={names}
+        
         />
       )}
       {
