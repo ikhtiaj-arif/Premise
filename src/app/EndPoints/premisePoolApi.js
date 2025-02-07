@@ -514,7 +514,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
 
         return {
           url: `ideamall/premise/sale`,
-          method: "PATCH",
+          method: "POST",
           body: body,
         };
       },
