@@ -1,12 +1,10 @@
 import React from "react";
 import { ToastContainer } from "react-toastify";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
+import BrainstromTable from "../../premiseNewTab/BrainstromTable";
+import EngagementTable from "../../premiseNewTab/EngagementTable";
 
-const BrainstormEngagementsPop = ({ popClose, id, data, commonPopup }) => {
-  console.log(data);
-  const headerText =
-    commonPopup === "brainstorms" ? "Brainstorm" : "Engagements";
-
+const BrainstormEngagementsPop = ({ popClose, id, commonPopup }) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1]">
       <ToastContainer />
@@ -24,134 +22,9 @@ const BrainstormEngagementsPop = ({ popClose, id, data, commonPopup }) => {
         {/* Table */}
         <div className="overflow-x-auto mt-10 px-8">
           {commonPopup === "brainstorms" ? (
-            <table className="table-auto border-collapse border border-[#616161] w-full text-center">
-              <thead>
-                <tr>
-                  <th className="border border-[#616161] text-left border-t-[#fafafa] border-l-[#fafafa] px-2 py-[6px] text-[14px] font-bold">
-                    {headerText.toUpperCase()}
-                  </th>
-                  <th className="border border-[#616161] px-2 py-[6px] text-[14px] font-medium">
-                    Set up
-                  </th>
-                  <th className="border border-[#616161] px-2 py-[6px] text-[14px] font-medium">
-                    Conflict
-                  </th>
-                  <th className="border border-[#616161] px-2 py-[6px] text-[14px] font-medium">
-                    Resolution
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border border-[#616161] text-left px-2 py-[6px] text-[14px]">
-                    Generated
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                    {data?.setup?.generated || 0}
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                    {data?.conflict?.generated || 0}
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                    {data?.resolution?.generated || 0}
-                  </td>
-                </tr>
-
-                {/* <tr>
-                  <td className="border border-[#616161] text-left px-2 py-[6px] text-[14px]">
-                    Rejected
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                  
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                 
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                  
-                  </td>
-                </tr>
-                 */}
-
-                <tr>
-                  <td className="border border-[#616161] text-left px-2 py-[6px] text-[14px]">
-                    Added as Beat
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                    {data?.setup?.added_to_beat || 0}
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                    {data?.conflict?.added_to_beat || 0}
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                    {data?.resolution?.added_to_beat || 0}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <BrainstromTable {...{ id }} headerText="Brainstorm" />
           ) : (
-            <table className="table-auto border-collapse border border-[#616161] w-full text-center">
-              <thead>
-                <tr>
-                  <th className="border border-[#616161] text-left border-t-[#fafafa] border-l-[#fafafa] px-2 py-[6px] text-[14px] font-bold">
-                    {headerText.toUpperCase()}
-                  </th>
-                  <th className="border border-[#616161] px-2 py-[6px] text-[14px] font-medium">
-                    Owner
-                  </th>
-                  <th className="border border-[#616161] px-2 py-[6px] text-[14px] font-medium">
-                    Buddies*
-                  </th>
-                  <th className="border border-[#616161] px-2 py-[6px] text-[14px] font-medium">
-                    Viewers
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border border-[#616161] text-left px-2 py-[6px] text-[14px]">
-                    Comments
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                    {data?.owner?.comments || 0}
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                    {data?.buddies?.comments || 0}
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                    {data?.viewers?.comments || 0}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border border-[#616161] text-left px-2 py-[6px] text-[14px]">
-                    Likes
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                    {data?.owner?.likes || 0}
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                    {data?.buddies?.likes || 0}
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                    {data?.viewers?.likes || 0}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border border-[#616161] text-left px-2 py-[6px] text-[14px]">
-                    Replies
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                    {data?.owner?.replies || 0}
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                    {data?.buddies?.replies || 0}
-                  </td>
-                  <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                    {data?.viewers?.replies || 0}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <EngagementTable {...{ id }} headerText="Engagements" />
           )}
         </div>
 

@@ -147,9 +147,7 @@ const CharacterEditablePop = ({
 
   const handleClosePopup = () => {
     if (characterArray > duplicateCharacterArray) {
-      const confirm = window.confirm(
-        "Your changes may not be saved!"
-      );
+      const confirm = window.confirm("Your changes may not be saved!");
       if (confirm) {
         setCharacterEditPop(false);
       } else {
@@ -202,15 +200,17 @@ const CharacterEditablePop = ({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[54px] gap-y-[8px] justify-center max-h-[68vh] overflow-auto md:h-auto">
           {finalCharacters?.map((character, index) => (
             <CharacterShowCard
-              character={character}
-              index={index}
-              setEditData={setEditData}
-              setEditIdx={setEditIdx}
-              setDeleteIdx={setDeleteIdx}
-              setEditPopupOpen={setEditPopupOpen}
-              setDeleteChar={setDeleteChar}
-              onlyAdd={onlyAdd}
-              deleteCharacterFun={deleteCharacterFun}
+              {...{
+                character,
+                index,
+                setEditData,
+                setEditIdx,
+                setDeleteIdx,
+                setEditPopupOpen,
+                setDeleteChar,
+                onlyAdd,
+                deleteCharacterFun,
+              }}
             />
           ))}
         </div>

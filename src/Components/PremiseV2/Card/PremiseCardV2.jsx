@@ -15,7 +15,7 @@ import {
   useGetSavedCharactersQuery,
   useSaveCharactersMutation,
 } from "../../../app/EndPoints/Characters/Characters";
-import { useGetPremiseUserPictureQuery } from "../../../app/EndPoints/premisePoolApi";
+import { useGetPremiseUserPictureQuery, useGetSaleTranslationRequestQuery } from "../../../app/EndPoints/premisePoolApi";
 import { setPremise } from "../../../app/Slices/premiseSlice";
 import { setUser } from "../../../app/Slices/userSlice";
 import CharacterEditablePop from "../../Premisepool/Character/CharacterEditablePop";
@@ -37,6 +37,9 @@ import ReqTranslationPop from "../Popups/ReqTranslationPop";
 import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
 import PremiseBadge from "./PremiseBadge";
+import SaleRequestedOwner from "../Popups/SaleRequested_Owner";
+import axios from "axios";
+import PaySalePopup from "../Popups/PaySalePopup";
 
 const PremiseCardV2 = ({
   setShowRefine,
@@ -73,7 +76,9 @@ const PremiseCardV2 = ({
     comment_filter_flag,
     m_value,
     project_id,
+    sellingPrice
   } = p;
+  // console.log(p)
 
   const [actOneThreshold, setActOneThreshold] = useState();
   const [actTwoEnd, setActTwoEnd] = useState();
@@ -311,10 +316,108 @@ const PremiseCardV2 = ({
 
   const [saleRequestPop, setSaleRequestPop] = useState("");
 
+  const [forSale, setForSale] = useState(true);
+
   const handleSaleRequest = (id) => {
     setSaleRequestPop(id);
     // console.log("trans id", id);
   };
+
+  const [saleRequestedOwner, setSaleRequestedOwner] = useState(true);
+
+  const token = localStorage.getItem("accessToken");
+
+  const header = {
+    Authorization: `Bearer ${token}`,
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+
+
+  useEffect(() => {
+    handleSaleRequestedOwner();
+  },[])
+
+  const [names, setNames] = useState([]);
+
+  
+
+  const handleSaleRequestedOwner = async () => {
+
+    
+    try {
+      // console.log(id);
+      const data = await axios.get(
+        `${URL}/ideamall/premise/request/${id}/Sale`,
+        {
+          headers: header,
+        }
+      );
+
+      if (data?.data?.data?.length > 0){
+        setSaleRequestedOwner(true)
+      }
+
+      
+      console.log(data)
+      setNames((prevNames) => [data]);
+      
+      
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+
+  const data = {
+    id,
+    type: "Sale",
+  };
+  const { data: SaleRequest, isTransLoading } =
+    useGetSaleTranslationRequestQuery(data);
+
+    console.log(SaleRequest)
+
+
+  
+
+
+  // if (SaleRequest?.data[0]?.requestApproved === true) {
+  //   setForSale(true)
+  //   setSaleRequestedOwner(false)
+
+  // }
+
+
+
+  const [saleId, setSaleId] = useState("");
+  const [viewSale, setViewSale] = useState(false);
+
+
+
+
+  const handleSale = async (id) => {
+    setSaleId(id);
+    setViewSale(true);
+
+    
+
+  }
+
+
+
+
+   
+
+    
+
+
+
+    // useEffect(() => {
+    //   if (translationRequest) {
+    //     setForSale(true);
+    //   }
+    // }, []);
 
   return (
     <div className="w-[358px] lg:w-[100%] mx-auto border border-[#EAEAEA] hover:shadow-lg rounded-[8px]  ">
@@ -392,14 +495,17 @@ const PremiseCardV2 = ({
                 alt=""
                 // onClick={() => setOwnerMail(true)}
               />
-              <img
-                data-te-toggle="tooltip"
-                title="Sale Requested"
-                src={mailCartQ}
-                className="w-9 h-9 cursor-pointer"
-                alt=""
-                onClick={() => setViewSaleRequests(true)}
-              />
+              {saleRequestedOwner && (
+                <img
+                  data-te-toggle="tooltip"
+                  title="Sale Requested"
+                  src={mailCartQ}
+                  className="w-9 h-9 cursor-pointer"
+                  alt=""
+                  onClick={() => setViewSaleRequests(true)}
+                />
+              )}
+            
 
               <FaEllipsisV
                 onMouseDown={(e) => {
@@ -533,14 +639,25 @@ const PremiseCardV2 = ({
                 alt=""
                 onClick={() => handleTranslationRequest(id)}
               />
+
+              { forSale ? (
+                <img
+                data-te-toggle="tooltip"
+                title="Available for Sale"
+                src={mailCart}
+                className="w-8 h-8 mt-[-13px] cursor-pointer"
+                onClick={() => handleSale(id)}
+                alt="for sale"
+              />
+              ):(
               <img
                 data-te-toggle="tooltip"
                 title="Send Sale Request"
-                src={mailCart}
+                src={mailCartQ}
                 className="w-8 h-8 mt-[-13px] cursor-pointer"
                 onClick={() => handleSaleRequest(id)}
-                alt=""
-              />
+                alt="send sale request"
+              />)}
               <img
                 data-te-toggle="tooltip"
                 title="Send Message"
@@ -681,6 +798,7 @@ const PremiseCardV2 = ({
           />
         </div>
       </div>
+      
       {/* Background image selection */}
       <input
         type="file"
@@ -803,9 +921,22 @@ const PremiseCardV2 = ({
           premiseId={viewTrnRequests}
         />
       )}
-      {viewSaleRequests && (
-        <MonetizePreferencePop popClose={setViewSaleRequests} premiseId={id} />
+      {viewSaleRequests && names.length>0 && (
+        <SaleRequestedOwner popClose={setViewSaleRequests} setSaleIcon={setSaleRequestedOwner} premiseId={id} 
+          Names={names}
+        />
       )}
+      {
+        viewSale && (
+          <PaySalePopup
+          premiseId={saleId}
+          popClose={setViewSale}
+          sellingValue={sellingPrice}
+          Userid={user}
+          
+          />
+        )
+      }
     </div>
   );
 };
