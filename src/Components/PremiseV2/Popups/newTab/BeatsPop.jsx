@@ -11,7 +11,7 @@ const BeatsPop = ({ popClose, id }) => {
   } = useGetPremiseBeatsDataQuery(id);
 
   const beatsData = beatsDataJson?.data;
-  // console.log("beatsData");
+   console.log("beatsData");
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
@@ -27,7 +27,6 @@ const BeatsPop = ({ popClose, id }) => {
           }}
         />
         {/* header */}
-        {/* Header */}
         <div className="flex justify-between items-center mb-6 mt-8">
           <h2 className="text-[24] font-semibold">
             Content added to Beat sheet :
