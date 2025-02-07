@@ -37,25 +37,13 @@ const PremiseNewTab = () => {
   } = useGetOnePremiseQuery(id);
 
   const {
-    data: brainstormData,
-    isBrainstormDataLoading,
-    // refetch: premiseRefetch,
-  } = useGetPremiseBrainstormsDataQuery(id);
-
-  const {
-    data: engagementsData,
-    isEngagementsDataLoading,
-    // refetch: premiseRefetch,
-  } = useGetPremiseEngagementsDataQuery(id);
-
-  const {
     data: commentsData,
     isCommentLoading,
     refetch: commentRefetch,
   } = useGetCommentByPremiseIdQuery(id);
 
   const {
-      data: characterArray,
+      data: characters,
       isCharLoading,
       isError,
       refetch: characterRefetch,
@@ -76,9 +64,7 @@ const PremiseNewTab = () => {
   } = useGetPremiseUserPictureQuery(premiseData?.premiseOwner?.id);
 
   const proImgUrl = baseURL.concat(profileImg?.[0]?.profile_photo);
-
-  const [beatsPopup, setBeatsPopup] = useState(false);
-  const [commonPopup, setCommonPopup] = useState(""); // For "Brainstorms" and "Engagements"
+   // For "Brainstorms" and "Engagements"
 
   const [openAllReplies, setOpenAllReplies] = useState(false);
   const [openReplyFieldID, setOpenReplyFieldID] = useState(null);
@@ -172,8 +158,6 @@ const PremiseNewTab = () => {
               <LeftSideBar
                 {...{
                   premiseData,
-                  setBeatsPopup,
-                  setCommonPopup,
                   premiseRefetch,
                   commentRefetch,
                   commentsData,
@@ -182,7 +166,7 @@ const PremiseNewTab = () => {
                   setReplyField,
                   setOpenReplyFieldID,
                   setOpenAllReplies,
-                  handleSubmit,characterArray,characterRefetch
+                  handleSubmit,characters,characterRefetch,isCharLoading
                 }}
               />
               <VerticalBar />
@@ -200,7 +184,7 @@ const PremiseNewTab = () => {
                   <MainComment comment={comment} />
                 ))}
             </div> */}
-            <div className="w-full h-full overflow-y-auto lg:premiseScroll">
+            <div className="w-full h-full overflow-y-auto lg:premiseScroll mb-10">
               {commentsData?.comments?.length > 0 ? (
                 <div>
                   {[...(commentsData?.comments || [])]
@@ -265,23 +249,7 @@ const PremiseNewTab = () => {
         </div>
       )}
 
-      {beatsPopup && id && <BeatsPop popClose={setBeatsPopup} id={id} />}
-      {commonPopup === "brainstorms" && !isBrainstormDataLoading && id && (
-        <BrainstormEngagementsPop
-          popClose={setCommonPopup}
-          id={id}
-          data={brainstormData?.data}
-          commonPopup={commonPopup}
-        />
-      )}
-      {commonPopup === "engagements" && !isEngagementsDataLoading && id && (
-        <BrainstormEngagementsPop
-          popClose={setCommonPopup}
-          id={id}
-          data={engagementsData}
-          commonPopup={commonPopup}
-        />
-      )}
+      
     </div>
   );
 };

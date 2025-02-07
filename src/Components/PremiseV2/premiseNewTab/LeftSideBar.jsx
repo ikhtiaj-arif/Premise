@@ -5,12 +5,6 @@ import { PiShareFat } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetPremiseUserQuery } from "../../../app/EndPoints/premisePoolApi";
 import { setUser } from "../../../app/Slices/userSlice";
-import engagementImg from "../../../img/Icons/Engagements.png";
-import beatsImg from "../../../img/Icons/beats.png";
-import brainImg from "../../../img/Icons/brainstorme.png";
-import mailCartQ from "../../../img/Icons/mailCartQ.png";
-import transCartQ from "../../../img/Icons/transCartQ.png";
-import translateCart from "../../../img/Icons/translateCart.png";
 import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
 import TranslatePremise from "../../Premisepool/TranslatePremise";
 import PopupComment from "../../SharedVersion/PopupComment";
@@ -19,17 +13,20 @@ import PopupPremiseText from "../../SharedVersion/PopupPremiseText";
 import PopupTextarea from "../../SharedVersion/PopupTextarea";
 import PremiseBadge from "../Card/PremiseBadge";
 import CharacterShowCard from "../../Premisepool/Character/Card";
-import { useDeleteCharacterMutation } from "../../../app/EndPoints/Characters/Characters";
+import {
+  useDeleteCharacterMutation,
+  useSaveCharactersMutation,
+} from "../../../app/EndPoints/Characters/Characters";
 import SingleCharacterAdd from "../../Premisepool/Character/SingleCharacterAdd";
 import SingleCharacterEdit from "../../Premisepool/Character/SingleCharacterEdit";
 import ConfirmationModal from "../../Premisepool/Comments/ConfirmationModal";
 import { FaPlus } from "react-icons/fa";
 import CharacterEditablePop from "../../Premisepool/Character/CharacterEditablePop";
+import PremiseTopAccess from "./PremiseTopAccess";
+import PremiseTopHeader from "./PremiseTopHeader";
 
 const LeftSideBar = ({
   premiseData,
-  setBeatsPopup,
-  setCommonPopup,
   premiseRefetch,
   commentRefetch,
   commentsData,
@@ -40,7 +37,8 @@ const LeftSideBar = ({
   setOpenAllReplies,
   replyRef,
   handleSubmit,
-  characterArray,
+  characters,
+  isCharLoading,
   characterRefetch,
 }) => {
   const {
@@ -64,6 +62,7 @@ const LeftSideBar = ({
 
   const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
   const [deleteCharacter] = useDeleteCharacterMutation();
+  const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
 
   const [openHidePop, setOpenHidePop] = useState(false);
   const [transPopClose, setTransPopClose] = useState({});
@@ -76,6 +75,7 @@ const LeftSideBar = ({
   const dispatch = useDispatch();
 
   // for characters
+  const [characterArray, setCharacterArray] = useState(characters || []);
   const [editData, setEditData] = useState({});
   const [editIdx, setEditIdx] = useState(null);
   const [deleteIdx, setDeleteIdx] = useState(null);
@@ -83,8 +83,13 @@ const LeftSideBar = ({
   const [editPopupOpen, setEditPopupOpen] = useState(false);
   const [onlyAdd, setOnlyAdd] = useState(true);
   const [addNewCharacter, setAddNewCharacter] = useState(false);
+  const [openCharacterChart, setOpenCharacterChart] = useState(null);
 
   const lastCommentRef = useRef(null);
+
+  useEffect(() => {
+    if (characters) setCharacterArray(characters);
+  }, [characters]);
 
   const characterOrder = [
     "Protagonist",
@@ -152,131 +157,48 @@ const LeftSideBar = ({
 
   const handleDeleteCharacter = (idx) => {
     const updatedCharacters = characterArray.filter((char, i) => i !== idx);
+    setCharacterArray(updatedCharacters);
     characterRefetch();
   };
   const handleSaveEditedCharacter = (updatedCharacter, index) => {
     const updatedCharacters = characterArray.map((char, i) =>
       i === index ? updatedCharacter : char
     );
-    //setCharacterArray(updatedCharacters);
+    setCharacterArray(updatedCharacters);
     characterRefetch();
     setEditPopupOpen(false);
   };
   const handleAddNewCharacter = (newCharacter) => {
     const updatedCharacters = [...characterArray, newCharacter];
     // console.log("After Adding New Character:", updatedCharacters);
-    //setCharacterArray(updatedCharacters);
+    setCharacterArray(updatedCharacters);
     characterRefetch();
+  };
+  const handleUpdateSavedChar = async () => {
+    try {
+      const charArr = JSON.stringify(characterArray);
+      const data = {
+        // id: premiseID,
+        id: project_id,
+        body: { char_data: charArr },
+      };
+
+      const response = await saveCharacter(data);
+
+      if (response) {
+        setOpenCharacterChart(false);
+      }
+      return response;
+    } catch (error) {}
   };
 
   return (
     <div className="w-full pr-3">
       {/* header */}
-      <div className="flex items-center gap-2">
-        <div className="w-1/2 flex items-center gap-2">
-          <div
-            data-te-toggle="tooltip"
-            title="Share"
-            onClick={() => {}}
-            className={`h-[32px] w-[32px] rounded-full cursor-pointer relative  border border-[#eaeaea] 
-              `}
-          >
-            <PiShareFat className="h-[26px] w-[21px] pt-1 mx-auto " />
-          </div>
-          <div
-            data-te-toggle="tooltip"
-            title="Engagements"
-            onClick={() => {
-              setCommonPopup("engagements");
-            }}
-            className={`h-[32px] w-[32px] rounded-full cursor-pointer relative  border border-[#eaeaea] 
-              `}
-          >
-            <img
-              src={engagementImg}
-              alt=""
-              className="h-[26px] w-[26px] mx-auto mt-[2px]"
-            />
-          </div>
-          <div
-            data-te-toggle="tooltip"
-            title="Brainstorms"
-            onClick={() => {
-              setCommonPopup("brainstorms");
-            }}
-            className={`h-[32px] w-[32px] rounded-full cursor-pointer relative  border border-[#eaeaea]  
-              `}
-          >
-            <img
-              src={brainImg}
-              alt=""
-              className="h-[31px] w-[31px] mx-auto  "
-            />
-          </div>
-          <div
-            data-te-toggle="tooltip"
-            title="Beats"
-            onClick={() => {
-              // console.log("sdfadf");
-              setBeatsPopup(true);
-            }}
-            className={`h-[32px] w-[32px] rounded-full cursor-pointer relative  border border-[#eaeaea]  
-              `}
-          >
-            <img
-              src={beatsImg}
-              alt=""
-              className="h-[21px] w-[21px] mx-auto  mt-[6px] ml-[7px]"
-            />
-          </div>
-        </div>
-        <div
-          className={` border w-[146px] border-[#B4B4B4] mx-auto px-[14px] h-[32px] my-2 rounded-full`}
-        >
-          <form className="flex items-center" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              className="w-full flex-1 px-2  h-[28px] text-[14px] focus:outline-none"
-              name="search"
-              id=""
-              maxLength="30"
-              placeholder="Search"
-            />
-
-            <button type="submit" className="ml-2">
-              <FiSearch className="h-[20px] w-[20px]" />
-            </button>
-          </form>
-        </div>
-      </div>
-      {/* premise card */}
+      <PremiseTopHeader {...{ handleSubmit,id }} />
       <div>
-        <div className="flex gap-[3px] items-center mt-[12px]  relative justify-end pb-1">
-          <img
-            data-te-toggle="tooltip"
-            title="Check Mails"
-            src={transCartQ}
-            className="w-8 h-8 cursor-pointer"
-            alt=""
-            // onClick={() => setOwnerMail(true)}
-          />
-          <img
-            data-te-toggle="tooltip"
-            title="Check Mails"
-            src={translateCart}
-            className="w-8 h-8 cursor-pointer"
-            alt=""
-            // onClick={() => setOwnerMail(true)}
-          />
-          <img
-            data-te-toggle="tooltip"
-            title="Check Mails"
-            src={mailCartQ}
-            className="w-9 h-9 cursor-pointer"
-            alt=""
-            // onClick={() => setOwnerMail(true)}
-          />
-        </div>
+        {/* premise card top */}
+        <PremiseTopAccess {...{ premiseOwner, user, id, project_id }} />
         {/* center */}
         <div className=" relative">
           <PopupPremiseText
@@ -397,7 +319,9 @@ const LeftSideBar = ({
                 onClick={(e) => setAddNewCharacter(true)}
               />
               <MdOutlineEdit
-                onClick={() => setOpenHidePop(!openHidePop)}
+                onClick={() => {
+                  setOpenCharacterChart(project_id);
+                }}
                 className="text-[#33B0CA] cursor-pointer"
               />
             </div>
@@ -486,6 +410,19 @@ const LeftSideBar = ({
           onClose={setDeleteChar}
           onConfirm={() => handleDeleteCharacter(deleteIdx)}
           title={`Are you sure you want to Delete this Character?`}
+        />
+      )}
+
+      {openCharacterChart && (
+        <CharacterEditablePop
+          setCharacterEditPop={setOpenCharacterChart}
+          characterArray={characterArray}
+          currentProjectData={premiseData}
+          setCharacterArray={setCharacterArray}
+          onlyAdd={onlyAdd}
+          handleUpdateSavedChar={handleUpdateSavedChar}
+          characterLoading={isCharLoading}
+          project_id={project_id}
         />
       )}
     </div>
