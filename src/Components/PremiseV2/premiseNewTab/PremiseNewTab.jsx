@@ -43,19 +43,19 @@ const PremiseNewTab = () => {
   } = useGetCommentByPremiseIdQuery(id);
 
   const {
-      data: characters,
-      isCharLoading,
-      isError,
-      refetch: characterRefetch,
-    } = useGetSavedCharactersQuery(premiseData?.project_id);
+    data: characters,
+    isCharLoading,
+    isError,
+    refetch: characterRefetch,
+  } = useGetSavedCharactersQuery(premiseData?.project_id);
+
+  // for search
+  const [findComments, { isLoading: isSearchLoading }] =
+    useFindCommentMutation();
+  const [filteredCommentsData, setFilteredCommentsData] = useState(null);
 
   const [createReplyMutation, isReplyResInfo] = useCreateReplyMutation();
   const replyResStat = isReplyResInfo?.status;
-  // const {
-  //   data: profileImg,
-  //   profileImgLoading,
-  //   refetch: profileRefetch,
-  // } = useGetPremiseUserPictureQuery(created_by?.id);
 
   const {
     data: profileImg,
@@ -64,7 +64,7 @@ const PremiseNewTab = () => {
   } = useGetPremiseUserPictureQuery(premiseData?.premiseOwner?.id);
 
   const proImgUrl = baseURL.concat(profileImg?.[0]?.profile_photo);
-   // For "Brainstorms" and "Engagements"
+  // For "Brainstorms" and "Engagements"
 
   const [openAllReplies, setOpenAllReplies] = useState(false);
   const [openReplyFieldID, setOpenReplyFieldID] = useState(null);
@@ -79,6 +79,12 @@ const PremiseNewTab = () => {
 
   const [actOneThreshold, setActOneThreshold] = useState(null);
   const [actTwoEnd, setActTwoEnd] = useState(null);
+
+  useEffect(() => {
+    if (commentsData) {
+      setFilteredCommentsData(commentsData);
+    }
+  }, [commentsData]);
 
   useEffect(() => {
     if (!isPremiseLoading && premiseData?.setC) {
@@ -129,9 +135,7 @@ const PremiseNewTab = () => {
     setReplyText(reply);
   };
 
-  const [findComments] = useFindCommentMutation();
-  const [filteredCommentsData, setFilteredCommentsData] = useState(null);
-  const handleSubmit = async (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
     const searchTerm = e.target.search.value;
     const data = {
@@ -140,12 +144,13 @@ const PremiseNewTab = () => {
     };
 
     const res = await findComments(data);
-    setFilteredCommentsData(res?.data?.data);
+    setFilteredCommentsData(res?.data?.data[0]);
 
     e.target.reset();
   };
 
-  console.log(filteredCommentsData);
+  console.log("filteredCommentsData", filteredCommentsData);
+  console.log("commentsData", commentsData);
 
   return (
     <div className="lg:w-[90%] mx-auto h-screen overflow-hidden">
@@ -166,7 +171,10 @@ const PremiseNewTab = () => {
                   setReplyField,
                   setOpenReplyFieldID,
                   setOpenAllReplies,
-                  handleSubmit,characters,characterRefetch,isCharLoading
+                  characters,
+                  characterRefetch,
+                  isCharLoading,
+                  handleSearch,
                 }}
               />
               <VerticalBar />
@@ -184,60 +192,64 @@ const PremiseNewTab = () => {
                   <MainComment comment={comment} />
                 ))}
             </div> */}
-            <div className="w-full h-full overflow-y-auto lg:premiseScroll mb-10">
-              {commentsData?.comments?.length > 0 ? (
-                <div>
-                  {[...(commentsData?.comments || [])]
-                    .sort((a, b) => a.c_value - b.c_value)
-                    .map((comment, index) => (
-                      <motion.div
-                        key={index + 1}
-                        initial={{ opacity: 0, y: 70 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -50 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <AllComments
-                          commentIdx={index + 1}
-                          comments={comment}
-                          data={premiseData}
-                          refetch={premiseRefetch}
-                          openReplyField={openReplyField}
-                          setOpenReplyField={setOpenReplyField}
-                          replyToCommentID={replyToCommentID}
-                          setReplyToCommentID={setReplyToCommentID}
-                          replyResStat={replyResStat}
-                          setCommentOwner={setCommentOwner}
-                          setOpenAllReplies={setOpenAllReplies}
-                          openAllReplies={openAllReplies}
-                          commentRefetch={commentRefetch}
-                          proImgUrl={proImgUrl}
-                          setReplyField={setReplyField}
-                          replyField={replyField}
-                          replyRef={replyRef}
-                          handleReplyTextChange={handleReplyTextChange}
-                          handlePostReplyToComment={handlePostReplyToComment}
-                          replyLoading={replyLoading}
-                          premiseData={premiseData}
-                          replyTextCount={replyTextCount}
-                          setReplyTextCount={setReplyTextCount}
-                          // m_value={m_value}
-                          actTwoEnd={actTwoEnd}
-                          actOneThreshold={actOneThreshold}
-                          openReplyFieldID={openReplyFieldID}
-                          setOpenReplyFieldID={setOpenReplyFieldID}
-                          project_id={project_id}
-                        />
-                      </motion.div>
-                    ))}
-                </div>
-              ) : commentsData?.counts > 0 &&
-                commentsData?.comments?.length === 0 ? (
-                <p className=" text-center my-4">Comments Are Private. </p>
-              ) : (
-                <p className=" text-center my-4">No Comments Available </p>
-              )}
-            </div>
+            {isSearchLoading || isCommentLoading ? (
+              <div>Loading ....</div>
+            ) : (
+              <div className="w-full h-full overflow-y-auto lg:premiseScroll mb-10">
+                {filteredCommentsData?.comments?.length > 0 ? (
+                  <div>
+                    {[...(filteredCommentsData?.comments || [])]
+                      .sort((a, b) => a.c_value - b.c_value)
+                      .map((comment, index) => (
+                        <motion.div
+                          key={index + 1}
+                          initial={{ opacity: 0, y: 70 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -50 }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          <AllComments
+                            commentIdx={index + 1}
+                            comments={comment}
+                            data={premiseData}
+                            refetch={premiseRefetch}
+                            openReplyField={openReplyField}
+                            setOpenReplyField={setOpenReplyField}
+                            replyToCommentID={replyToCommentID}
+                            setReplyToCommentID={setReplyToCommentID}
+                            replyResStat={replyResStat}
+                            setCommentOwner={setCommentOwner}
+                            setOpenAllReplies={setOpenAllReplies}
+                            openAllReplies={openAllReplies}
+                            commentRefetch={commentRefetch}
+                            proImgUrl={proImgUrl}
+                            setReplyField={setReplyField}
+                            replyField={replyField}
+                            replyRef={replyRef}
+                            handleReplyTextChange={handleReplyTextChange}
+                            handlePostReplyToComment={handlePostReplyToComment}
+                            replyLoading={replyLoading}
+                            premiseData={premiseData}
+                            replyTextCount={replyTextCount}
+                            setReplyTextCount={setReplyTextCount}
+                            // m_value={m_value}
+                            actTwoEnd={actTwoEnd}
+                            actOneThreshold={actOneThreshold}
+                            openReplyFieldID={openReplyFieldID}
+                            setOpenReplyFieldID={setOpenReplyFieldID}
+                            project_id={project_id}
+                          />
+                        </motion.div>
+                      ))}
+                  </div>
+                ) : filteredCommentsData?.counts > 0 &&
+                  filteredCommentsData?.comments?.length === 0 ? (
+                  <p className=" text-center my-4">Comments Are Private.</p>
+                ) : (
+                  <p className=" text-center my-4">No Comments Available</p>
+                )}
+              </div>
+            )}
           </div>
         </>
       ) : (
@@ -248,8 +260,6 @@ const PremiseNewTab = () => {
           </div>
         </div>
       )}
-
-      
     </div>
   );
 };
