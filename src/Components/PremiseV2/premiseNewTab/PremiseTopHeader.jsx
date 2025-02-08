@@ -7,7 +7,7 @@ import brainImg from "../../../img/Icons/brainstorme.png";
 import BeatsPop from "../Popups/newTab/BeatsPop";
 import BrainstormEngagementsPop from "../Popups/newTab/BrainstormEngagementsPop";
 
-const PremiseTopHeader = ({ handleSubmit, id }) => {
+const PremiseTopHeader = ({ handleSearch, id }) => {
   const [beatsPopup, setBeatsPopup] = useState(false);
   const [commonPopup, setCommonPopup] = useState("");
   return (
@@ -17,10 +17,10 @@ const PremiseTopHeader = ({ handleSubmit, id }) => {
           data-te-toggle="tooltip"
           title="Share"
           onClick={() => {}}
-          className={`h-[32px] w-[32px] rounded-full cursor-pointer relative  border border-[#eaeaea] 
+          className={`h-[32px] w-[32px] rounded-full cursor-pointer relative border border-[#33b0ca] 
               `}
         >
-          <PiShareFat className="h-[26px] w-[21px] pt-1 mx-auto " />
+          <PiShareFat className="h-[26px] w-[21px] pt-1 mx-auto text-[#33b0ca]" />
         </div>
         <div
           data-te-toggle="tooltip"
@@ -54,7 +54,7 @@ const PremiseTopHeader = ({ handleSubmit, id }) => {
           onClick={() => {
             setBeatsPopup(true);
           }}
-          className={`h-[32px] w-[32px] rounded-full cursor-pointer relative  border border-[#eaeaea]  
+          className={`h-[32px] w-[32px] rounded-full cursor-pointer relative  border border-[#eaeaea]
               `}
         >
           <img
@@ -67,7 +67,7 @@ const PremiseTopHeader = ({ handleSubmit, id }) => {
       <div
         className={` border w-[146px] border-[#B4B4B4] mx-auto px-[14px] h-[32px] my-2 rounded-full`}
       >
-        <form className="flex items-center" onSubmit={handleSubmit}>
+        <form className="flex items-center" onSubmit={handleSearch}>
           <input
             type="text"
             className="w-full flex-1 px-2  h-[28px] text-[14px] focus:outline-none"

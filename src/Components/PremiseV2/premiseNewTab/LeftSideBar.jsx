@@ -24,6 +24,7 @@ import { FaPlus } from "react-icons/fa";
 import CharacterEditablePop from "../../Premisepool/Character/CharacterEditablePop";
 import PremiseTopAccess from "./PremiseTopAccess";
 import PremiseTopHeader from "./PremiseTopHeader";
+import { useFindCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
 
 const LeftSideBar = ({
   premiseData,
@@ -36,10 +37,9 @@ const LeftSideBar = ({
   setOpenReplyFieldID,
   setOpenAllReplies,
   replyRef,
-  handleSubmit,
   characters,
   isCharLoading,
-  characterRefetch,
+  characterRefetch,handleSearch
 }) => {
   const {
     bg_img,
@@ -84,6 +84,8 @@ const LeftSideBar = ({
   const [onlyAdd, setOnlyAdd] = useState(true);
   const [addNewCharacter, setAddNewCharacter] = useState(false);
   const [openCharacterChart, setOpenCharacterChart] = useState(null);
+
+  
 
   const lastCommentRef = useRef(null);
 
@@ -192,10 +194,12 @@ const LeftSideBar = ({
     } catch (error) {}
   };
 
+  
+
   return (
     <div className="w-full pr-3">
       {/* header */}
-      <PremiseTopHeader {...{ handleSubmit,id }} />
+      <PremiseTopHeader {...{ handleSearch, id }} />
       <div>
         {/* premise card top */}
         <PremiseTopAccess {...{ premiseOwner, user, id, project_id }} />
