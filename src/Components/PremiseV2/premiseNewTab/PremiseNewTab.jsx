@@ -144,7 +144,7 @@ const PremiseNewTab = () => {
     };
 
     const res = await findComments(data);
-    setFilteredCommentsData(res?.data?.data[0]);
+    setFilteredCommentsData(res?.data);
 
     e.target.reset();
   };
