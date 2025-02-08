@@ -72,6 +72,7 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
   let Sale = true;
 
   const [updatePremise] = useEditPremiseMutation();
+  console.log(premiseId)
   const { data: premiseData, isPremiseLoading, refetch: premiseRefetch } = useGetOnePremiseQuery(premiseId);
 
   const [sellingPr, setSellingPr] = useState('');
@@ -81,7 +82,7 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
   };
 
   const handleSubmit = () => {
-    updatePremise({ id:parseInt(premiseId), body: { sellingPrice:parseInt(sellingPr) } })
+    updatePremise({ id:premiseId, body: { sellingPrice:parseInt(sellingPr) } })
       .then(response => {
         console.log(response);
         setShowBankDetails(true);
