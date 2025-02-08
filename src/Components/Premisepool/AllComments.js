@@ -84,6 +84,7 @@ const AllComments = ({
   // console.log("selectedSpProjectID", selectedSpProjectID);
   // console.log("allspProjectJSON", allspProjectJSON);
   // console.log("selectedProject", selectedProject);
+  
 
   useEffect(() => {
     const allProject = allspProjectJSON?.projects?.filter(
@@ -118,6 +119,7 @@ const AllComments = ({
       );
       setSelectedProject(currentPremiseProject);
     }
+ 
   }, [
     allspProjectJSON,
     selectedPremiseObj,
@@ -447,7 +449,6 @@ const AllComments = ({
       setCommentOwner(commentOwnerName);
     }
   };
-
 
   return (
     <div className=" flex flex-col  justify-end w-full relative ">
