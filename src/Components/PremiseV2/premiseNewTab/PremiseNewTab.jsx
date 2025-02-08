@@ -3,32 +3,29 @@ import { useLocation, useParams } from "react-router-dom";
 import {
   useGetCommentByPremiseIdQuery,
   useGetOnePremiseQuery,
-  useGetPremiseBrainstormsDataQuery,
-  useGetPremiseEngagementsDataQuery,
   useGetPremiseUserPictureQuery,
 } from "../../../app/EndPoints/premisePoolApi";
 
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
+import { useGetSavedCharactersQuery } from "../../../app/EndPoints/Characters/Characters";
 import { useCreateReplyMutation } from "../../../app/EndPoints/commentReply/reply";
 import { useFindCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
 import AllComments from "../../Premisepool/AllComments";
 import TypingLoader from "../../TypingLoader";
 import { baseURL } from "../../utils";
-import BeatsPop from "../Popups/newTab/BeatsPop";
-import BrainstormEngagementsPop from "../Popups/newTab/BrainstormEngagementsPop";
 import { loadingData } from "../Premsie.v2";
 import LeftSideBar from "./LeftSideBar";
 import ProjectInfo from "./ProjectInfo";
 import VerticalBar from "./VerticalBar";
-import { useGetSavedCharactersQuery } from "../../../app/EndPoints/Characters/Characters";
 
 const PremiseNewTab = () => {
   const { id } = useParams(); // Extract the ID from the route
   const { state } = useLocation();
 
-  const params = state || {};
-  const { project_id } = params;
+  // const params = state || {};
+  // const { project_id } = params;
+  // console.log("project_id", project_id);
 
   const {
     data: premiseData,
@@ -237,7 +234,7 @@ const PremiseNewTab = () => {
                             actOneThreshold={actOneThreshold}
                             openReplyFieldID={openReplyFieldID}
                             setOpenReplyFieldID={setOpenReplyFieldID}
-                            project_id={project_id}
+                            project_id={premiseData?.project_id}
                           />
                         </motion.div>
                       ))}
