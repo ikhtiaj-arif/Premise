@@ -45,6 +45,7 @@ import PopupLike from "../SharedVersion/PopupLike";
 import PopupPremiseText from "../SharedVersion/PopupPremiseText";
 import PopupTextarea from "../SharedVersion/PopupTextarea";
 import PopupComment from "../SharedVersion/PopupComment";
+import AskIda from "../SharedVersion/AskIda";
 
 const Popup = ({ popClose, data, refetch, transText, viewText }) => {
   const {
@@ -580,6 +581,15 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                     <PopupComment {...{setOpenReplyField,setCommentField,commentField,finalCount,}}/>
                   </div>
                 </div>{" "}
+                <AskIda id={premiseId}
+                  {...{
+                    user,
+                    commentRefetch,
+                    setOpenAllReplies,
+                    setOpenReplyFieldID,
+                    lastCommentRef,
+                  }}
+                />
                 {/* textarea */}
                 <PopupTextarea  {...{premiseOwner,user,premiseId,commentRefetch,setOpenAllReplies,setOpenReplyFieldID,
                   lastCommentRef,commentField,setCommentField,setReplyField,replyField,replyRef,}}/>

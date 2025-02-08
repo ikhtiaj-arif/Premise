@@ -25,6 +25,7 @@ import CharacterEditablePop from "../../Premisepool/Character/CharacterEditableP
 import PremiseTopAccess from "./PremiseTopAccess";
 import PremiseTopHeader from "./PremiseTopHeader";
 import { useFindCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
+import AskIda from "../../SharedVersion/AskIda";
 
 const LeftSideBar = ({
   premiseData,
@@ -39,7 +40,8 @@ const LeftSideBar = ({
   replyRef,
   characters,
   isCharLoading,
-  characterRefetch,handleSearch
+  characterRefetch,
+  handleSearch,
 }) => {
   const {
     bg_img,
@@ -84,8 +86,6 @@ const LeftSideBar = ({
   const [onlyAdd, setOnlyAdd] = useState(true);
   const [addNewCharacter, setAddNewCharacter] = useState(false);
   const [openCharacterChart, setOpenCharacterChart] = useState(null);
-
-  
 
   const lastCommentRef = useRef(null);
 
@@ -194,8 +194,6 @@ const LeftSideBar = ({
     } catch (error) {}
   };
 
-  
-
   return (
     <div className="w-full pr-3">
       {/* header */}
@@ -241,7 +239,6 @@ const LeftSideBar = ({
         </div>
       </div>
       {/* Details */}
-
       <div className="mt-[17px] w-[75%] ">
         <div className="flex items-center justify-between">
           {" "}
@@ -349,6 +346,17 @@ const LeftSideBar = ({
           </div>
         </div>
       )}
+
+      <AskIda
+        {...{
+          id,
+          user,
+          commentRefetch,
+          setOpenAllReplies,
+          setOpenReplyFieldID,
+          lastCommentRef,
+        }}
+      />
 
       <div className=" mb-10">
         <PopupTextarea
