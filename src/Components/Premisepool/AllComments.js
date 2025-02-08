@@ -148,7 +148,7 @@ const AllComments = ({
   const createdTime = comments?.created_at;
   const commentOwnerMail = comments?.user?.email;
   const modifiedEmail = commentOwnerMail?.split("@")[0];
-  const owner = data?.created_by?.id;
+  const owner = data?.premiseOwner?.id;
   const likesId = comments?.likes?.map((e) => e);
 
   const {
@@ -448,6 +448,7 @@ const AllComments = ({
     }
   };
 
+
   return (
     <div className=" flex flex-col  justify-end w-full relative ">
       <div className="">
@@ -673,7 +674,7 @@ const AllComments = ({
                             </p>
                           </button>
                         }
-                        {data?.created_by?.id === user &&
+                        {data?.premiseOwner?.id === user &&
                           comments?.text?.includes("?") &&
                           comments?.user?.id === 1 && (
                             // <div className=" flex items-center justify-between">
@@ -849,7 +850,7 @@ const AllComments = ({
                             </p>
                           </button>
                         }
-                        {data?.created_by?.id === user &&
+                        {data?.premiseOwner?.id === user &&
                           comments?.text?.includes("?") &&
                           comments?.user?.id === 1 && (
                             <div className=" flex items-center justify-between">
@@ -1064,7 +1065,7 @@ const AllComments = ({
                     </div>
 
                     <>
-                      {data?.created_by?.id === user &&
+                      {data?.premiseOwner?.id === user &&
                       comments?.add_to_beat ? (
                         <>
                           <button className="cursor-auto text-right">
@@ -1082,7 +1083,7 @@ const AllComments = ({
                             disabled={addToBeatDisable}
                             className="text-right"
                           >
-                            {data?.created_by?.id === user && (
+                            {data?.premiseOwner?.id === user && (
                               <p
                                 onClick={() => handleAddToBeat(comments)}
                                 className={` text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] `}
