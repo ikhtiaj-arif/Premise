@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { useGetPremiseBeatsDataQuery } from "../../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
@@ -7,13 +7,18 @@ import ShowBeats from "./ShowBeats";
 const BeatsPop = ({ popClose, id }) => {
   const {
     data: beatsDataJson,
-    isPremiseLoading,
+    isLoading: isPremiseLoading,
     refetch: premiseRefetch,
   } = useGetPremiseBeatsDataQuery(id);
 
-  const beatsData = beatsDataJson?.data;
-
+  const [beatsData, setBeatsData] = useState(null);
   const [activeTab, setActiveTab] = useState("all");
+
+  useEffect(() => {
+    if (beatsDataJson) {
+      setBeatsData(beatsDataJson.data);
+    }
+  }, [beatsDataJson]);
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
@@ -86,89 +91,106 @@ const BeatsPop = ({ popClose, id }) => {
             </div>
 
             {/* Table */}
-            <table className="table-auto h-[65vh] overflow-y-auto border-collapse border border-gray-300 w-full text-left">
-              <thead>
-                <tr className="bg-[#fafafa]">
-                  <th className="border text-[16px] font-medium border-[#616161] px-2 py-2 w-[50px] text-center">
-                    S.No
-                  </th>
-                  <th className="border text-[16px] font-medium border-[#616161] px-2 py-2 text-center">
-                    Comment/Reply/Brainstorm
-                  </th>
-                  <th className="border text-[16px] font-medium border-[#616161] px-2 py-2 text-center">
-                    Beat Text
-                  </th>
-                </tr>
-              </thead>
-              {activeTab === "all" && (
-                <tbody>
-                  {/* Map over Setup */}
-                  {beatsData?.setup?.map((item, index) => (
-                    <ShowBeats title="Setup" length={index + 1} {...{ item }} />
-                  ))}
+            <div className="w-[97%] mx-auto mt-3 overflow-auto">
+              <table className="border-collapse border border-gray-300 w-full ">
+                <thead className="">
+                  <tr className="bg-[#fafafa]">
+                    <th className="border text-[16px] font-medium border-[#616161] px-2 py-2 w-[50px] text-center">
+                      S.No
+                    </th>
+                    <th className="border text-[16px] font-medium border-[#616161] px-2 py-2 text-center">
+                      Comment/Reply/Brainstorm
+                    </th>
+                    <th className="border text-[16px] font-medium border-[#616161] px-2 py-2 text-center">
+                      Beat Text
+                    </th>
+                  </tr>
+                </thead>
+                {activeTab === "all" && (
+                  <tbody className="">
+                    {/* Map over Setup */}
+                    {beatsData?.setup?.length > 0 && (
+                      <ShowBeats title="Setup:" />
+                    )}
+                    {beatsData?.setup?.map((item, index) => (
+                      <ShowBeats length={index + 1} {...{ item }} />
+                    ))}
 
-                  {/* Map over Conflict */}
-                  {beatsData?.conflict?.map((item, index) => (
-                    <ShowBeats
-                      title="Conflict"
-                      length={beatsData?.setup?.length + index + 1}
-                      {...{ item }}
-                    />
-                  ))}
+                    {/* Map over Conflict */}
+                    {beatsData?.conflict?.length > 0 && (
+                      <ShowBeats title="Conflict:" />
+                    )}
+                    {beatsData?.conflict?.map((item, index) => (
+                      <ShowBeats
+                        length={beatsData?.setup?.length + index + 1}
+                        {...{ item }}
+                      />
+                    ))}
 
-                  {/* Map over Resolution */}
-                  {beatsData?.resolution?.map((item, index) => (
-                    <ShowBeats
-                      title="Resolution"
-                      length={
-                        beatsData?.setup?.length +
-                        beatsData?.conflict?.length +
-                        index +
-                        1
-                      }
-                      {...{ item }}
-                    />
-                  ))}
-                </tbody>
-              )}
-              {activeTab === "setup" && (
-                <tbody>
-                  {/* Map over Setup */}
-                  {beatsData?.setup?.map((item, index) => (
-                    <ShowBeats title="Setup" length={index + 1} {...{ item }} />
-                  ))}
-                </tbody>
-              )}
-              {activeTab === "conflict" && (
-                <tbody>
-                  {/* Map over Conflict */}
-                  {beatsData?.conflict?.map((item, index) => (
-                    <ShowBeats
-                      title="Conflict"
-                      length={beatsData?.setup?.length + index + 1}
-                      {...{ item }}
-                    />
-                  ))}
-                </tbody>
-              )}
-              {activeTab === "resolution" && (
-                <tbody>
-                  {/* Map over Resolution */}
-                  {beatsData?.resolution?.map((item, index) => (
-                    <ShowBeats
-                      title="Resolution"
-                      length={
-                        beatsData?.setup?.length +
-                        beatsData?.conflict?.length +
-                        index +
-                        1
-                      }
-                      {...{ item }}
-                    />
-                  ))}
-                </tbody>
-              )}
-            </table>
+                    {/* Map over Resolution */}
+                    {beatsData?.resolution?.length > 0 && (
+                      <ShowBeats title="Resolution:" />
+                    )}
+
+                    {beatsData?.resolution?.map((item, index) => (
+                      <ShowBeats
+                        length={
+                          beatsData?.setup?.length +
+                          beatsData?.conflict?.length +
+                          index +
+                          1
+                        }
+                        {...{ item }}
+                      />
+                    ))}
+                  </tbody>
+                )}
+                {activeTab === "setup" && (
+                  <tbody>
+                    {/* Map over Setup */}
+                    {beatsData?.setup?.length > 0 && (
+                      <ShowBeats title="Setup:" />
+                    )}
+                    {beatsData?.setup?.map((item, index) => (
+                      <ShowBeats length={index + 1} {...{ item }} />
+                    ))}
+                  </tbody>
+                )}
+                {activeTab === "conflict" && (
+                  <tbody>
+                    {/* Map over Conflict */}
+                    {beatsData?.conflict?.length > 0 && (
+                      <ShowBeats title="Conflict:" />
+                    )}
+                    {beatsData?.conflict?.map((item, index) => (
+                      <ShowBeats
+                        length={beatsData?.setup?.length + index + 1}
+                        {...{ item }}
+                      />
+                    ))}
+                  </tbody>
+                )}
+                {activeTab === "resolution" && (
+                  <tbody>
+                    {/* Map over Resolution */}
+                    {beatsData?.resolution?.length > 0 && (
+                      <ShowBeats title="Resolution:" />
+                    )}
+                    {beatsData?.resolution?.map((item, index) => (
+                      <ShowBeats
+                        length={
+                          beatsData?.setup?.length +
+                          beatsData?.conflict?.length +
+                          index +
+                          1
+                        }
+                        {...{ item }}
+                      />
+                    ))}
+                  </tbody>
+                )}
+              </table>
+            </div>
           </div>
         )}
       </div>

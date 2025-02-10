@@ -23,7 +23,7 @@ import ReplyToReply from "./ReplyToReply";
 
 const ReplyToComments = ({
   // handleSuggest,
-  commentIdx,
+  commentIdx,fromNew,
   reply,
   owner,
   setProjectBeatOpen,
@@ -263,11 +263,11 @@ const ReplyToComments = ({
   return (
     <div
       data-reply
-      className="bg-[#fff] lg:bg-[#FAFAFA] w-[93%] lg:w-[666px]  ml-[5px] md:ml-[50px]  rounded-sm flex items-center gap-1"
+      className={`w-[93%] ${fromNew ? 'w-[93%]':'lg:w-[666px]'}  ml-[5px] md:ml-[50px]  rounded-sm flex items-center gap-1`}
     >
       <div className=" w-[98%] ">
-        <div className="bg-[#fff] lg:bg-[#Fafafa]  w-full relative ml-[16px] md:ml-[21px]">
-          <div className="flex gap-[8px] max-w-[627px]">
+        <div className=" w-full relative ml-[16px] md:ml-[21px]">
+          <div className={`flex gap-[8px] ${fromNew ? 'w-[93%]':'max-w-[627px]'}  `}>
             {reply?.user?.id === 1 ? (
               <div>
                 {profileImg?.[0]?.profile_photo ? (
@@ -394,7 +394,7 @@ const ReplyToComments = ({
 
           <div
             data-nest-reply
-            className="flex justify-between  max-w-[87%] md:max-w-[585px] items-center my-[2px] ml-[39px] mr-[32px] md:mr-[58px] mt-[2px]"
+            className={`flex justify-between  max-w-[87%] ${fromNew ? 'md:max-w-[86%]':'md:max-w-[585px]'}   items-center my-[2px] ml-[39px] mr-[32px] md:mr-[58px] mt-[2px]`}
           >
             <div className=" flex items-center gap-3 text-sm leading-[16px] mt-[2px] mb-[4px]">
               {reply?.child_replies?.length > 0 && (
@@ -786,7 +786,7 @@ const ReplyToComments = ({
                       transition={{ duration: 0.5 }} // Adjust the duration as needed
                     >
                       <div ref={latestReplyRef}>
-                        <ReplyToReply
+                        <ReplyToReply fromNew={fromNew}
                           // data-reply-reply
                           handleAddToBeat={handleAddToBeat}
                           key={idx}
