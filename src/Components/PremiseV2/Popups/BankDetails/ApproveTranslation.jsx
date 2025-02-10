@@ -26,8 +26,8 @@ const ApproveTranslationPop = ({
   const handleProceed = async () => {
     const data = {
       premise_id: premiseId,
-      bank_details: bankDetails,
-      request_ids: JSON.stringify(selectedRequests),
+      bank_details: JSON.stringify(bankDetails),
+      request_ids: JSON.stringify(selectedRequests)
     };
     try {
       const res = await updateTranslationSale(data);

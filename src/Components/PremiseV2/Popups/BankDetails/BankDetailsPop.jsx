@@ -17,6 +17,7 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
 
   const { data: translationRequest, isTransLoading } =
     useGetSaleTranslationRequestQuery(data);
+
   console.log(translationRequest);
 
   const [bankDetails, setBankDetails] = useState({
@@ -40,6 +41,8 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
   const handleProceed = () => {
     setShowTransRequests(true);
   };
+
+  if(isTransLoading) return <p>Loading...</p>
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">

@@ -1,9 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import { useTranslatePremiseV2Mutation } from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
+import { sortedLanguages } from "../../Premisepool/Languages";
 
-const TransInOtherLang = ({ popClose }) => {
+const TransInOtherLang = ({
+  popClose,
+  id,
+  user,
+  source_language,
+  project_id,
+}) => {
+  const [targetLanguage, setTargetLanguage] = useState("");
+  const [translatePremise] = useTranslatePremiseV2Mutation();
+
+  const handleOptionChange = (e) => {
+    setTargetLanguage(e.target.value);
+  };
+
+  const handleTranslationSubmit = async () => {
+    try {
+      const data = {
+        premise_id: id,
+        // request_type: "Translation",
+        target_language: targetLanguage,
+        user_id: user,
+      };
+
+      const response = await translatePremise(data);
+
+      if (response) {
+        toast.success("Translation successful!");
+        popClose(null); // Close the modal or pop-up
+      } else {
+        toast.error("Failed to translate. Please try again.");
+      }
+    } catch (error) {
+      toast.error("An error occurred while submitting.");
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
       <ToastContainer />
@@ -92,13 +130,21 @@ const TransInOtherLang = ({ popClose }) => {
           className={`h-[31px] mt-[18px] relative col-span-6 md:col-span-4  bg-[#fafafa]  rounded-[8px] border-[2px] w-[76%] mx-auto`}
         >
           <select
-            className="block appearance-none bg-[#fafafa] pl-[21px] h-[27px] rounded-[8px]  w-full px-[8px] text-[10px] text-[#616161] leading-tight focus:outline-none"
+            className="block appearance-none bg-[#fafafa] pl-[21px] h-[27px] rounded-[8px]  w-full px-[8px] text-[12px] text-[#616161] leading-[18px] focus:outline-none"
             required
+            value={targetLanguage}
+            onChange={handleOptionChange}
           >
             <option className="" value="" selected disabled>
               Choose the language for translation.
             </option>
-            <option className="text-[12px] md:!text-[14px]"></option>
+            {Object.entries(sortedLanguages)?.map(([key, name]) =>
+              key !== source_language ? (
+                <option key={key} value={key}>
+                  {name}
+                </option>
+              ) : null
+            )}
           </select>
           <div className="absolute inset-y-0 right-[30px] bg-[#fafafa] flex items-center pointer-events-none">
             <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
@@ -106,6 +152,7 @@ const TransInOtherLang = ({ popClose }) => {
         </div>
         <div className="w-[100px] mx-auto mt-[12px]">
           <button
+            onClick={handleTranslationSubmit}
             className={`${"bg-[#33B0CA]"} mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700] `}
           >
             Pay now
