@@ -7,6 +7,7 @@ import mailCart from "../../../img/Icons/mailCart.png";
 import mailCartQ from "../../../img/Icons/mailCartQ.png";
 // import transCartQ from "../../../img/Icons/transCartQ.png";
 import msgIcon from "../../../img/Icons/msgIcon.png";
+import sourceIcn from "../../../img/Icons/sourceIcn.png";
 import transCartQ from "../../../img/Icons/transCartQ.png";
 import translateCart from "../../../img/Icons/translateCart.png";
 import userImg from "../../../img/Icons/userImg.png";
@@ -83,6 +84,7 @@ const PremiseCardV2 = ({
     sellingPrice,
     available_for_sale,
     available_for_translation,
+    premise_source_id,
   } = p;
   // console.log(p);
 
@@ -392,6 +394,15 @@ const PremiseCardV2 = ({
   //   }
   // }, []);
 
+  const handlePremiseOpenNewTab = (id) => {
+    console.log(id);
+    // const url = `${baseURL}/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
+    const url = `${window.location.origin}/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
+
+    // Open the URL in a new tab
+    window.open(url);
+  };
+
   return (
     <div className="w-[358px] lg:w-[100%] mx-auto border border-[#EAEAEA] hover:shadow-lg rounded-[8px]  ">
       {/* upper div */}
@@ -468,6 +479,16 @@ const PremiseCardV2 = ({
                 alt=""
                 // onClick={() => setOwnerMail(true)}
               />
+              {premise_source_id && (
+                <img
+                  data-te-toggle="tooltip"
+                  title="View Source"
+                  src={sourceIcn}
+                  className="w-8 h-8 cursor-pointer"
+                  alt=""
+                  onClick={() => handlePremiseOpenNewTab(id)}
+                />
+              )}
               {saleRequestedOwner && (
                 <img
                   data-te-toggle="tooltip"
@@ -640,9 +661,19 @@ const PremiseCardV2 = ({
                   data-te-toggle="tooltip"
                   title="Send Sale Request"
                   src={mailCartQ}
-                  className="w-8 h-8 mt-[-13px] cursor-pointer"
+                  className="w-9 h-9 mt-[-13px] cursor-pointer"
                   onClick={() => handleSaleRequest(id)}
                   alt="send sale request"
+                />
+              )}
+              {premise_source_id && (
+                <img
+                  data-te-toggle="tooltip"
+                  title="View Source"
+                  src={sourceIcn}
+                  className="w-8 h-8 mt-[-13px] cursor-pointer"
+                  alt=""
+                  onClick={() => handlePremiseOpenNewTab(id)}
                 />
               )}
               <img
