@@ -5,17 +5,22 @@ import { useDispatch } from "react-redux";
 import backgroundImg from "../../../img/Icons/download.jpg";
 import mailCart from "../../../img/Icons/mailCart.png";
 import mailCartQ from "../../../img/Icons/mailCartQ.png";
+// import transCartQ from "../../../img/Icons/transCartQ.png";
 import msgIcon from "../../../img/Icons/msgIcon.png";
 import transCartQ from "../../../img/Icons/transCartQ.png";
 import translateCart from "../../../img/Icons/translateCart.png";
 import userImg from "../../../img/Icons/userImg.png";
 
+import axios from "axios";
 import { MyContext } from "../../../App";
 import {
   useGetSavedCharactersQuery,
   useSaveCharactersMutation,
 } from "../../../app/EndPoints/Characters/Characters";
-import { useGetPremiseUserPictureQuery, useGetSaleTranslationRequestQuery } from "../../../app/EndPoints/premisePoolApi";
+import {
+  useGetPremiseUserPictureQuery,
+  useGetSaleTranslationRequestQuery,
+} from "../../../app/EndPoints/premisePoolApi";
 import { setPremise } from "../../../app/Slices/premiseSlice";
 import { setUser } from "../../../app/Slices/userSlice";
 import CharacterEditablePop from "../../Premisepool/Character/CharacterEditablePop";
@@ -32,14 +37,13 @@ import UserType from "../../Premisepool/UserType";
 import { URL } from "../../utils";
 import BankDetailsPop from "../Popups/BankDetails/BankDetailsPop";
 import MonetizePreferencePop from "../Popups/MonetizePreferencePop";
+import PaySalePopup from "../Popups/PaySalePopup";
 import ReqSalePop from "../Popups/ReqSalePop";
 import ReqTranslationPop from "../Popups/ReqTranslationPop";
+import SaleRequestedOwner from "../Popups/SaleRequested_Owner";
 import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
 import PremiseBadge from "./PremiseBadge";
-import SaleRequestedOwner from "../Popups/SaleRequested_Owner";
-import axios from "axios";
-import PaySalePopup from "../Popups/PaySalePopup";
 
 const PremiseCardV2 = ({
   setShowRefine,
@@ -76,9 +80,11 @@ const PremiseCardV2 = ({
     comment_filter_flag,
     m_value,
     project_id,
-    sellingPrice
+    sellingPrice,
+    available_for_sale,
+    available_for_translation,
   } = p;
-  // console.log(p)
+  // console.log(p);
 
   const [actOneThreshold, setActOneThreshold] = useState();
   const [actTwoEnd, setActTwoEnd] = useState();
@@ -316,8 +322,6 @@ const PremiseCardV2 = ({
 
   const [saleRequestPop, setSaleRequestPop] = useState("");
 
-  const [forSale, setForSale] = useState(true);
-
   const handleSaleRequest = (id) => {
     setSaleRequestPop(id);
     // console.log("trans id", id);
@@ -333,18 +337,13 @@ const PremiseCardV2 = ({
     "Content-Type": "application/json",
   };
 
-
   useEffect(() => {
     handleSaleRequestedOwner();
-  },[])
+  }, []);
 
   const [names, setNames] = useState([]);
 
-  
-
   const handleSaleRequestedOwner = async () => {
-
-    
     try {
       // console.log(id);
       const data = await axios.get(
@@ -354,20 +353,15 @@ const PremiseCardV2 = ({
         }
       );
 
-      if (data?.data?.data?.length > 0){
-        setSaleRequestedOwner(true)
+      if (data?.data?.data?.length > 0) {
+        setSaleRequestedOwner(true);
       }
 
-      
-      console.log(data)
       setNames((prevNames) => [data]);
-      
-      
     } catch (error) {
       console.log(error);
     }
   };
-  
 
   const data = {
     id,
@@ -376,11 +370,7 @@ const PremiseCardV2 = ({
   const { data: SaleRequest, isTransLoading } =
     useGetSaleTranslationRequestQuery(data);
 
-    console.log(SaleRequest)
-
-
-  
-
+  // console.log(SaleRequest)
 
   // if (SaleRequest?.data[0]?.requestApproved === true) {
   //   setForSale(true)
@@ -388,36 +378,19 @@ const PremiseCardV2 = ({
 
   // }
 
-
-
   const [saleId, setSaleId] = useState("");
   const [viewSale, setViewSale] = useState(false);
-
-
-
 
   const handleSale = async (id) => {
     setSaleId(id);
     setViewSale(true);
+  };
 
-    
-
-  }
-
-
-
-
-   
-
-    
-
-
-
-    // useEffect(() => {
-    //   if (translationRequest) {
-    //     setForSale(true);
-    //   }
-    // }, []);
+  // useEffect(() => {
+  //   if (translationRequest) {
+  //     setForSale(true);
+  //   }
+  // }, []);
 
   return (
     <div className="w-[358px] lg:w-[100%] mx-auto border border-[#EAEAEA] hover:shadow-lg rounded-[8px]  ">
@@ -505,7 +478,6 @@ const PremiseCardV2 = ({
                   onClick={() => setViewSaleRequests(true)}
                 />
               )}
-            
 
               <FaEllipsisV
                 onMouseDown={(e) => {
@@ -631,33 +603,48 @@ const PremiseCardV2 = ({
             </div>
           ) : (
             <div className="flex gap-[3px] items-center  mr-[2px] relative ">
-              <img
-                data-te-toggle="tooltip"
-                title="Send Translation Request"
-                src={translateCart}
-                className="w-8 h-8 mt-[-13px] cursor-pointer"
-                alt=""
-                onClick={() => handleTranslationRequest(id)}
-              />
-
-              { forSale ? (
+              {available_for_translation ? (
                 <img
-                data-te-toggle="tooltip"
-                title="Available for Sale"
-                src={mailCart}
-                className="w-8 h-8 mt-[-13px] cursor-pointer"
-                onClick={() => handleSale(id)}
-                alt="for sale"
-              />
-              ):(
-              <img
-                data-te-toggle="tooltip"
-                title="Send Sale Request"
-                src={mailCartQ}
-                className="w-8 h-8 mt-[-13px] cursor-pointer"
-                onClick={() => handleSaleRequest(id)}
-                alt="send sale request"
-              />)}
+                  data-te-toggle="tooltip"
+                  title="Available for Translation"
+                  src={translateCart}
+                  className="w-8 h-8 mt-[-13px] cursor-pointer"
+                  alt=""
+                  onClick={() => {
+                    setOpenTransOtherPop(!openTransOtherPop);
+                    setOpenDotMenu(null);
+                  }}
+                />
+              ) : (
+                <img
+                  data-te-toggle="tooltip"
+                  title="Send Translation Request"
+                  src={transCartQ}
+                  className="w-8 h-8 mt-[-13px] cursor-pointer"
+                  alt=""
+                  onClick={() => handleTranslationRequest(id)}
+                />
+              )}
+
+              {available_for_sale ? (
+                <img
+                  data-te-toggle="tooltip"
+                  title="Available for Sale"
+                  src={mailCart}
+                  className="w-8 h-8 mt-[-13px] cursor-pointer"
+                  onClick={() => handleSale(id)}
+                  alt="for sale"
+                />
+              ) : (
+                <img
+                  data-te-toggle="tooltip"
+                  title="Send Sale Request"
+                  src={mailCartQ}
+                  className="w-8 h-8 mt-[-13px] cursor-pointer"
+                  onClick={() => handleSaleRequest(id)}
+                  alt="send sale request"
+                />
+              )}
               <img
                 data-te-toggle="tooltip"
                 title="Send Message"
@@ -798,7 +785,7 @@ const PremiseCardV2 = ({
           />
         </div>
       </div>
-      
+
       {/* Background image selection */}
       <input
         type="file"
@@ -882,7 +869,13 @@ const PremiseCardV2 = ({
         />
       )}
       {openTransOtherPop && (
-        <TransInOtherLang popClose={setOpenTransOtherPop} />
+        <TransInOtherLang
+          popClose={setOpenTransOtherPop}
+          id={id}
+          user={user}
+          source_language={source_language}
+          project_id={project_id}
+        />
       )}
       {openViewTranslationsPop && (
         <ViewTranslationPop
@@ -921,22 +914,22 @@ const PremiseCardV2 = ({
           premiseId={viewTrnRequests}
         />
       )}
-      {viewSaleRequests && names.length>0 && (
-        <SaleRequestedOwner popClose={setViewSaleRequests} setSaleIcon={setSaleRequestedOwner} premiseId={id} 
+      {viewSaleRequests && names.length > 0 && (
+        <SaleRequestedOwner
+          popClose={setViewSaleRequests}
+          setSaleIcon={setSaleRequestedOwner}
+          premiseId={id}
           Names={names}
         />
       )}
-      {
-        viewSale && (
-          <PaySalePopup
+      {viewSale && (
+        <PaySalePopup
           premiseId={saleId}
           popClose={setViewSale}
           sellingValue={sellingPrice}
           Userid={user}
-          
-          />
-        )
-      }
+        />
+      )}
     </div>
   );
 };
