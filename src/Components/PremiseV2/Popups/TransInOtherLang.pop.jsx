@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useTranslatePremiseV2Mutation } from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import { sortedLanguages } from "../../Premisepool/Languages";
+import PaymentInvoicePopup from "../../Payment/PaymentInvoicePopup";
 
 const TransInOtherLang = ({
   popClose,
@@ -14,9 +15,13 @@ const TransInOtherLang = ({
 }) => {
   const [targetLanguage, setTargetLanguage] = useState("");
   const [translatePremise] = useTranslatePremiseV2Mutation();
+  const [isPayment, setPayment] = useState(false);
 
   const handleOptionChange = (e) => {
     setTargetLanguage(e.target.value);
+  };
+  const handlePayNow = () => {
+    setPayment(true);
   };
 
   const handleTranslationSubmit = async () => {
@@ -152,13 +157,23 @@ const TransInOtherLang = ({
         </div>
         <div className="w-[100px] mx-auto mt-[12px]">
           <button
-            onClick={handleTranslationSubmit}
+            onClick={handlePayNow}
             className={`${"bg-[#33B0CA]"} mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700] `}
           >
             Pay now
           </button>
         </div>
       </div>
+
+      {isPayment && (
+        <PaymentInvoicePopup
+          typeOfRequest="translate"
+          premise_id={id}
+          user={user}
+          setPayment={setPayment}
+          submit={handleTranslationSubmit}
+        />
+      )}
     </div>
   );
 };
