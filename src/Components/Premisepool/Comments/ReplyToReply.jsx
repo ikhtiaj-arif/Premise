@@ -22,7 +22,7 @@ import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply2 from "./ReplyToReply2";
 
 const ReplyToReply = ({
-  handleAddToBeat,
+  handleAddToBeat,fromNew,
   setCommentText,
   childReply,
   childReplyIDNext,
@@ -237,7 +237,7 @@ const ReplyToReply = ({
 
   return (
     <>
-      <div className="w-full max-w-[592px] ml-[0px]">
+      <div className={`w-full ${fromNew ? 'max-w-[95%]':'max-w-[592px]'} ml-[0px]`}>
         <div className="flex gap-[8px]">
           <div className="flex flex-col items-center gap-1">
             {replyBy?.id === 1 ? (

@@ -195,7 +195,7 @@ const LeftSideBar = ({
   };
 
   return (
-    <div className="w-full pr-3">
+    <div className="lg:w-[350px] w-full pr-3">
       {/* header */}
       <PremiseTopHeader {...{ handleSearch, id }} />
       <div>
@@ -239,7 +239,7 @@ const LeftSideBar = ({
         </div>
       </div>
       {/* Details */}
-      <div className="mt-[17px] w-[75%] ">
+      <div className="mt-[17px]">
         <div className="flex items-center justify-between">
           {" "}
           <h2 className="text-[#616161] text-[16px] leading-[24px] font-[700]">
@@ -358,7 +358,7 @@ const LeftSideBar = ({
         }}
       />
 
-      <div className=" mb-10">
+      <div className="">
         <PopupTextarea
           fromNew
           premiseId={id}

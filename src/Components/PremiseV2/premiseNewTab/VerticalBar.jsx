@@ -2,7 +2,7 @@ import React from 'react';
 
 const VerticalBar = () => {
     return (
-        <div className='h-screen bg-[#eaeaea] w-[37px]'>
+        <div className='h-screen bg-[#eaeaea] w-[37px] hidden lg:block'>
             
         </div>
     );
