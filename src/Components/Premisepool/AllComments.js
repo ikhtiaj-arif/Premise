@@ -55,8 +55,10 @@ const AllComments = ({
   setOpenReplyFieldID,
   actOneThreshold,
   actTwoEnd,
+  focusedCValue
   // isFirstCommentSuggested,
 }) => {
+  console.log(focusedCValue, 'ssdf');
   // const actTwoStart = Math.floor(0.25 * m_value);
 
   // const resolutionStart = Math.floor(0.8 * m_value);
