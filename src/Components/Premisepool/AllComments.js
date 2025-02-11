@@ -33,7 +33,7 @@ const AllComments = ({
   commentIdx,
   comments,
   data,
-  refetch,
+  refetch,fromNew,
   openReplyField,
   setOpenReplyField,
   replyToCommentID,
@@ -451,7 +451,7 @@ const AllComments = ({
   };
 
   return (
-    <div className=" flex flex-col  justify-end w-full relative ">
+    <div className=" flex flex-col justify-end w-full relative ">
       <div className="">
         {commentIdx === 1 && (
           <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] setup-m">
@@ -471,10 +471,10 @@ const AllComments = ({
 
         {/* each comment  */}
         <div>
-          <div className="bg-[#fff] mt-[10px] w-[97%] lg:w-[704px] lg:bg-[#FAFAFA]  mx-auto  rounded-sm flex gap-1 ">
+          <div className={` mt-[10px] w-[97%] ${fromNew ? 'lg:w-[97%]':'lg:w-[704px]'}  mx-auto  rounded-sm flex gap-1`}>
             {/* comment like */}
 
-            <div className="lg:bg-[#FAFAFA]  w-full relative">
+            <div className=" w-full relative">
               {/* <div className="flex flex-row-reverse"></div> */}
               <div className="flex  gap-[8px]">
                 {comments?.user?.id === 1 ? (
@@ -1259,7 +1259,7 @@ const AllComments = ({
                     exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
                     transition={{ duration: 0.5 }} // Adjust the duration as needed
                   >
-                    <ReplyToComments
+                    <ReplyToComments fromNew={fromNew}
                       commentIdx={comments?.c_value}
                       handleSuggest={handleSuggest}
                       key={index} // Make sure to provide a unique key when mapping over an array
