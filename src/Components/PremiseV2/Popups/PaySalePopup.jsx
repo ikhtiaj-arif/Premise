@@ -1,50 +1,33 @@
-import React from "react";
-import { ToastContainer } from "react-toastify";
+import React, { useState } from "react";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import { useSaleForPremiseMutation } from "../../../app/EndPoints/premisePoolApi";
+import PaymentInvoicePopup from "../../Payment/PaymentInvoicePopup";
 
+const PaySalePopup = ({ popClose, premiseId, sellingValue, Userid }) => {
+  const [saleForPremise] = useSaleForPremiseMutation();
+  const [isPayment, setPayment] = useState(false);
 
-
-    
-
-
-
-const PaySalePopup = ({ popClose, premiseId,sellingValue  ,Userid}) => {
-
-
-    const [saleForPremise] = useSaleForPremiseMutation();
-
-    const handlePayNow = async () => {
-      try {
-        const response = await saleForPremise({
-          body: {
-            premise_id: premiseId,
-            user_id: Userid,
-          },
-        }).unwrap();
-
-        
-
-
-        // console.log(response);
-       
-        console.log("Success")
-        popClose(false);
-      } catch (error) {
-        console.error(error);
-        // Handle error (e.g., show an error message)
-      }
-    };
-
-
-
-    
-
-
+  const handlePayNow = () => {
+    setPayment(true);
+  };
+  const handleSubmit = async () => {
+    try {
+      const response = await saleForPremise({
+        body: {
+          premise_id: premiseId,
+          user_id: Userid,
+        },
+      }).unwrap();
+      console.log("Success", response);
+      popClose(false);
+    } catch (error) {
+      console.error(error);
+      // Handle error (e.g., show an error message)
+    }
+  };
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1]">
-      <ToastContainer />
       <div className="h-[100vh] lg:h-[350px] mb-[20px] px-[22px] lg:mb-0 lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA] lg:w-[430px] md:mx-auto relative lg:rounded-[8px]">
         {/* Close Button */}
         <img
@@ -110,13 +93,24 @@ const PaySalePopup = ({ popClose, premiseId,sellingValue  ,Userid}) => {
 
         {/* Pay Button */}
         <div className="w-[100px] mx-auto mt-[30px]">
-          <button className="bg-[#33B0CA] mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700]"
-          onClick={handlePayNow}
+          <button
+            className="bg-[#33B0CA] mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700]"
+            onClick={handlePayNow}
           >
             Pay now
           </button>
         </div>
       </div>
+
+      {isPayment && (
+        <PaymentInvoicePopup
+          typeOfRequest="sale"
+          premise_id={premiseId}
+          user={Userid}
+          setPayment={setPayment}
+          submit={handleSubmit}
+        />
+      )}
     </div>
   );
 };

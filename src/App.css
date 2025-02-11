@@ -2,3 +2,30 @@
   color: #fff;
   background-color: #33b0ca;
 }
+
+.no_access_input input[type="radio"] {
+  appearance: none;
+  width: 16px; 
+  height: 16px;
+  border: 1px solid #616161;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.no_access_input input[type="radio"]:checked {
+  background-color: #33B0CA; 
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
+  appearance: none; 
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

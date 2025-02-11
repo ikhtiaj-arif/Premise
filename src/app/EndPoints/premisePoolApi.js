@@ -536,6 +536,38 @@ export const premiseSlice = apiSlice.injectEndpoints({
       }),
     }),
 
+    //payment
+    paymentData: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/ideamall/paymentinvoice/`,
+          method: "POST",
+          body: data,
+        };
+      },
+      invalidatesTags: ["pitching-elements"],
+    }),
+    paymentSend: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/ideamall/paymentview/`,
+          method: "POST",
+          body: data,
+        };
+      },
+      invalidatesTags: ["pitching-elements"],
+    }),
+    paymentSucess: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/ideamall/callbackview/`,
+          method: "POST",
+          body: data,
+        };
+      },
+      invalidatesTags: ["pitching-elements"],
+    }),
+
   }),
 });
 
@@ -581,5 +613,8 @@ export const {
   useGetPremiseEngagementsDataQuery,
   useRequestForSaleOrTranslateMutation,
   useGetSaleTranslationRequestQuery,
-  useUpdateRequestForSaleOrTranslateMutation
+  useUpdateRequestForSaleOrTranslateMutation,
+  usePaymentDataMutation,
+  usePaymentSendMutation,
+  usePaymentSucessMutation,
 } = premiseSlice;

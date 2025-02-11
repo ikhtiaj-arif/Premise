@@ -25,7 +25,7 @@ function App() {
   const [addedByMeCondition, setAddedByMeCondition] = useState(false);
   const [selectedPremiseObj, setSelectedPremiseObj] = useState(null);
   const [searchText, setSearchText] = useState("");
-  const user = useSelector((state) => state?.user?.id);
+  const user = useSelector((state) => state?.user);
   const [selectedSpProjectID, setSelectedSpProjectID] = useState("");
   const [createdSpProjectID, setCreatedSpProjectID] = useState("");
   const [selectedPremiseSpProjectId, setSelectedPremiseSpProjectId] =
@@ -50,10 +50,10 @@ function App() {
 
   useEffect(() => {
     if (activeAddedByMe) {
-      // setSearchAuthor(user)
-      // console.log(user);
+      // setSearchAuthor(user?.id)
+      // console.log(user?.id);
     }
-  }, [activeAddedByMe, user]);
+  }, [activeAddedByMe, user?.id]);
 
   const value = {
     activeAddedByMe,
@@ -83,7 +83,7 @@ function App() {
     selectedLanguages,
     setSelectedLanguages,
     currentlyOpenedCommentID,
-    setCurrentlyOpenedCommentID,
+    setCurrentlyOpenedCommentID,user,
     // isFirstCommentSuggested,
     // setIsFirstCommentSuggested,
     // openPop, setOpenPop
@@ -98,6 +98,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Premisepool />}></Route>
           <Route path="/premise-pool-v2" element={<PremiseV2 />}></Route>
+          <Route path="/premise-pool-v2/payment" element={<PremiseV2 />}></Route>
           <Route path="/new-tab/:id" element={<PremiseNewTab />}></Route>
           <Route path="/:__id/:service" element={<Premisepool />}></Route> 
           <Route path="/:__id/:service" element={<Premisepool />}></Route> 
