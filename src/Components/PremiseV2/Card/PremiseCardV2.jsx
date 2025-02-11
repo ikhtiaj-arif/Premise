@@ -486,7 +486,7 @@ const PremiseCardV2 = ({
                   src={sourceIcn}
                   className="w-8 h-8 cursor-pointer"
                   alt=""
-                  onClick={() => handlePremiseOpenNewTab(id)}
+                  onClick={() => handlePremiseOpenNewTab(premise_source_id)}
                 />
               )}
               {saleRequestedOwner && (
@@ -673,7 +673,7 @@ const PremiseCardV2 = ({
                   src={sourceIcn}
                   className="w-8 h-8 mt-[-13px] cursor-pointer"
                   alt=""
-                  onClick={() => handlePremiseOpenNewTab(id)}
+                  onClick={() => handlePremiseOpenNewTab(premise_source_id)}
                 />
               )}
               <img

@@ -296,13 +296,13 @@ const LeftSideBar = ({
           </div>
           <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
           <p className="text-[#33B0CA] text-[16px] font-[500]">
-            {filter_flag == 0
+            {filter_flag === 0
               ? "All Buddies"
-              : filter_flag == 1
+              : filter_flag === 1
               ? "Only Me"
-              : filter_flag == 2
+              : filter_flag === 2
               ? "Names"
-                ? filter_flag == 3
+                ? filter_flag === 3
                 : "Everyone"
               : "Everyone"}
           </p>
