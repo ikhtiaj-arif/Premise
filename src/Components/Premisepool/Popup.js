@@ -334,7 +334,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
   const handlePremiseOpenNewTab = (id) => {
     console.log(id);
     // const url = `${baseURL}/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
-    const url = `http://localhost:3000/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
+    const url = `${window.location.origin}/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
 
     // Open the URL in a new tab
     window.open(url);
