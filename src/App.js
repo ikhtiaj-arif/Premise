@@ -8,6 +8,7 @@ import { useGetMyAllProjectQuery } from "./app/EndPoints/ScriptPad/project";
 import PremiseNewTab from "./Components/PremiseV2/premiseNewTab/PremiseNewTab";
 import Premisepool from "./Components/Premisepool/Premisepool";
 import PremiseV2 from "./Components/PremiseV2/Premsie.v2";
+import { URL } from "./Components/utils";
 
 
 export const MyContext = createContext();
@@ -112,3 +113,25 @@ function App() {
 }
 
 export default App;
+
+export const  fetchUserAccess = (flag, state, userId,api)=> {
+  try { //pay/checkuseraccess/${userId}/${flag}
+    fetch(`${URL}/${api}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(`userAccess ${flag}`, data);
+        if (data) {
+          //sessionStorage.setItem(flag, data?.access);
+          state(data);
+        }
+      });
+  } catch (error) {
+    console.log("userAccess error", error);
+  }
+}
