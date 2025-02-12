@@ -8,14 +8,19 @@ import Valid from "../../img/valid_upto.png";
 import { HeaderOptions } from "./HeaderOptions";
 import { Package } from "./Package";
 import { Amount } from "./Amount";
+import {
+  useCallbackPackageMutation,
+  usePaymentUintDetailsMutation,
+  usePayNowPackageMutation,
+} from "../../app/EndPoints/premisePoolApi";
 
 const LimitPaymentPage = () => {
   const { counts, setCounts, user, scriptId } = useContext(MyContext);
-  //   const [paymentUintDetails, { isLoading: isPLoading }] =
-  //     usePaymentUintDetailsMutation();
-  //   const [payNow, { isLoading: isPayLoading }] = usePayNowPackageMutation();
-  //   const [successFulPayment, { isLoading: isSPayLoading }] =
-  //     useCallbackPackageMutation();
+  const [paymentUintDetails, { isLoading: isPLoading }] =
+    usePaymentUintDetailsMutation();
+  const [payNow, { isLoading: isPayLoading }] = usePayNowPackageMutation();
+  const [successFulPayment, { isLoading: isSPayLoading }] =
+    useCallbackPackageMutation();
 
   const [paymentData, setPaymentData] = useState();
 
@@ -44,7 +49,7 @@ const LimitPaymentPage = () => {
       }
     }
     if (Object.keys(counts).length > 0) {
-      fetchData();
+      fetchDataForLimit();
     } else {
       navigate(`/`);
     }
@@ -240,10 +245,7 @@ const LimitPaymentPage = () => {
                 >
                   {getFormattedDate()}
                 </p>
-                <HeaderOptions
-                  currentUser={user}
-                  data={paymentData}
-                />
+                <HeaderOptions currentUser={user} data={paymentData} />
               </section>
               <div className=" ">
                 <img src={Valid} className="w-[107px]" alt="" />

@@ -568,6 +568,46 @@ export const premiseSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["pitching-elements"],
     }),
 
+    // limit bridge calculations
+    getCalculateProductPrice: builder.query({
+      query: () => {
+          return {
+              url: `/pay/product_uint_details/?product_code=PD`,
+              method: "GET",
+          };
+      },
+    }),
+
+    paymentUintDetails: builder.mutation({
+      query: (data) => {
+        return {
+          url: `pay/buy_uints_payment_details/`,
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
+
+    payNowPackage: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/pay/make_payment/`,
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
+
+    callbackPackage: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/pay/custom_callback/`,
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
+
   }),
 });
 
@@ -617,4 +657,8 @@ export const {
   usePaymentDataMutation,
   usePaymentSendMutation,
   usePaymentSucessMutation,
+  useCallbackPackageMutation,
+  usePaymentUintDetailsMutation,
+  useGetCalculateProductPriceQuery,
+  usePayNowPackageMutation
 } = premiseSlice;
