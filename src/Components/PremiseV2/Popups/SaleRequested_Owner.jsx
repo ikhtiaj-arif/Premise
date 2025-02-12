@@ -1,11 +1,15 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
-import { useUpdateRequestForSaleOrTranslateMutation, useGetOnePremiseQuery, useGetSaleTranslationRequestQuery, useEditPremiseMutation } from "../../../app/EndPoints/premisePoolApi";
+import {
+  useEditPremiseMutation,
+  useGetOnePremiseQuery,
+  useGetSaleTranslationRequestQuery,
+} from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
-import axios from "axios";
 import SaleDoodle from "../../../img/Icons/OwnerSaleDoodle.svg";
-import CongratsPop from "./CongratsPop";
 import { URL } from "../../utils";
+import CongratsPop from "./CongratsPop";
 
 const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
   const [showBankDetails, setShowBankDetails] = useState(false);
@@ -13,10 +17,11 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
 
   const data = {
     id: premiseId,
-    type: "Translation",
+    type: "Sale",
   };
 
-  const { data: translationRequest, isTransLoading } = useGetSaleTranslationRequestQuery(data);
+  const { data: translationRequest, isTransLoading } =
+    useGetSaleTranslationRequestQuery(data);
   console.log(translationRequest);
 
   const [bankDetails, setBankDetails] = useState({
@@ -35,11 +40,10 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
       [name]: value,
     }));
   };
-  console.log(Names[0]?.data?.data[0]?.fromUser,"Names")
-
+  console.log(Names[0]?.data?.data[0]?.fromUser, "Names");
 
   // const requestId = Names[0]?.data?.data[0]?.id;
-  const requestId="2"
+  const requestId = "2";
 
   const token = localStorage.getItem("accessToken");
 
@@ -51,43 +55,55 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
 
   // Handle form submission
   const handleProceed = () => {
-    axios.post(`${URL}/ideamall/premise/request`, {
-      premise_id: premiseId,
-      request_ids: requestId,
-      bank_details: bankDetails,
-    }, {
-      headers: header
-    })
-    .then(response => {
-      console.log(response.data);
-      console.log("Success");
-      // setSaleIcon(false)
-    })
-    .catch(error => {
-      console.log(error);
-    });
+    axios
+      .patch(
+        `${URL}/ideamall/premise/request`,
+        {
+          premise_id: premiseId,
+          request_ids: requestId,
+          bank_details: JSON.stringify(bankDetails),
+        },
+        {
+          headers: header,
+        }
+      )
+      .then((response) => {
+        console.log(response.data);
+        console.log("Success");
+        // setSaleIcon(false)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     setShowTransRequests(true);
   };
 
   let Sale = true;
 
   const [updatePremise] = useEditPremiseMutation();
-  console.log(premiseId)
-  const { data: premiseData, isPremiseLoading, refetch: premiseRefetch } = useGetOnePremiseQuery(premiseId);
+  console.log(premiseId);
+  const {
+    data: premiseData,
+    isPremiseLoading,
+    refetch: premiseRefetch,
+  } = useGetOnePremiseQuery(premiseId);
 
-  const [sellingPr, setSellingPr] = useState('');
+  const [sellingPr, setSellingPr] = useState("");
 
   const handleInputChangePrice = (e) => {
     setSellingPr(e.target.value);
   };
 
   const handleSubmit = () => {
-    updatePremise({ id:premiseId, body: { sellingPrice:parseInt(sellingPr) } })
-      .then(response => {
+    updatePremise({
+      id: premiseId,
+      body: { sellingPrice: parseInt(sellingPr) },
+    })
+      .then((response) => {
         console.log(response);
         setShowBankDetails(true);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -95,8 +111,12 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
       <ToastContainer />
-      {console.log(premiseId,"premiseId")}
-      <div className={`h-[100vh] ${showBankDetails ? "lg:h-[497px]" : "lg:h-[670px]"} mb-[20px] px-[22px] lg:mb-0 pt-[32px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:w-[625px] md:mx-auto relative lg:rounded-[8px]`}>
+      {console.log(premiseId, "premiseId")}
+      <div
+        className={`h-[100vh] ${
+          showBankDetails ? "lg:h-[497px]" : "lg:h-[670px]"
+        } mb-[20px] px-[22px] lg:mb-0 pt-[32px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:w-[625px] md:mx-auto relative lg:rounded-[8px]`}
+      >
         <img
           src={crossIcon}
           alt=""
@@ -119,14 +139,21 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
         {!showBankDetails ? (
           <div className="pr-[12px] mt-[17px] w-[542px] ml-[40px]">
             <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
-           {" "+ Names[0]?.data?.data[0]?.fromUser?.first_name + " "+ Names[0]?.data?.data[0]?.fromUser?.last_name }   is interested in buying this Premise Project. If you choose to sell this Premise Project
+              {" " +
+                Names[0]?.data?.data[0]?.fromUser?.first_name +
+                " " +
+                Names[0]?.data?.data[0]?.fromUser?.last_name}{" "}
+              is interested in buying this Premise Project. If you choose to
+              sell this Premise Project
             </p>
             <ul className="ml-[24px]">
               <li className="text-left text-[14px] leading-[21px] font-[400] text-[#616161] list-disc">
-                The ownership of the Premise Project will be transferred to the buyer.
+                The ownership of the Premise Project will be transferred to the
+                buyer.
               </li>
               <li className="text-left text-[14px] leading-[21px] font-[400] text-[#616161] list-disc">
-                The Premise Project will be visible in Premise Pool as buyer’s Premise instead of you.
+                The Premise Project will be visible in Premise Pool as buyer’s
+                Premise instead of you.
               </li>
               <li className="text-left text-[14px] leading-[21px] font-[400] text-[#616161] list-disc">
                 The buyer will be able to
@@ -135,7 +162,8 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
                     Reset the visibility settings
                   </li>
                   <li className="text-left text-[14px] leading-[21px] font-[400] text-[#616161] list-disc">
-                    Brainstorm further on the Premise and add comment etc to the Beat Sheet.
+                    Brainstorm further on the Premise and add comment etc to the
+                    Beat Sheet.
                   </li>
                   <li className="text-left text-[14px] leading-[21px] font-[400] text-[#616161] list-disc">
                     Delete it,
@@ -152,7 +180,9 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
             <div className="mt-[10px]">
               <div className="flex items-center mt-[20px]">
                 <p className="text-[14px] leading-[21px] font-[400] text-[#616161]">
-                  If you are willing to transfer the ownership of the Premise Project to the interested buyer, please set a price for the transaction below.
+                  If you are willing to transfer the ownership of the Premise
+                  Project to the interested buyer, please set a price for the
+                  transaction below.
                 </p>
               </div>
               <div className="flex items-center gap-[5px] w-[150px] ml-[150px] mt-[22px]">
@@ -169,7 +199,8 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
               </div>
               <p className="text-[#616161] text-[13px] italic">
                 <span className="text-[17px] text-[#616161] italic">(</span>
-                Please Note that the price shown to the prospective buyer will be 1.5 times the price quoted by you.
+                Please Note that the price shown to the prospective buyer will
+                be 1.5 times the price quoted by you.
                 <span className="text-[17px] text-[#616161] italic">)</span>
               </p>
               <div className="flex items-center gap-[18px] w-[320px] mx-auto mt-[20px]">
@@ -183,12 +214,18 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
             </div>
           </div>
         ) : (
-          <div id="bank_details" className="flex flex-col gap-[6px] mt-[8px] w-[386px] md:ml-[76px]">
+          <div
+            id="bank_details"
+            className="flex flex-col gap-[6px] mt-[8px] w-[386px] md:ml-[76px]"
+          >
             <p className="text-[14px] leading-[16.8px] text-[#252525] font-[600] py-[12px]">
               Please provide your bank details below:
             </p>
             <div className="flex justify-between items-center">
-              <label className="text-[14px] leading-[16.8px] text-[#252525] font-[500]" htmlFor="bank_name">
+              <label
+                className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
+                htmlFor="bank_name"
+              >
                 Bank Name:
               </label>
               <input
@@ -201,7 +238,10 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
               />
             </div>
             <div className="flex justify-between items-center">
-              <label className="text-[14px] leading-[16.8px] text-[#252525] font-[500]" htmlFor="account_holder">
+              <label
+                className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
+                htmlFor="account_holder"
+              >
                 Account Holder:
               </label>
               <input
@@ -214,7 +254,10 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
               />
             </div>
             <div className="flex justify-between items-center">
-              <label className="text-[14px] leading-[16.8px] text-[#252525] font-[500]" htmlFor="account_number">
+              <label
+                className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
+                htmlFor="account_number"
+              >
                 Account Number:
               </label>
               <input
@@ -227,7 +270,10 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
               />
             </div>
             <div className="flex justify-between items-center">
-              <label className="text-[14px] leading-[16.8px] text-[#252525] font-[500]" htmlFor="ifsc_code">
+              <label
+                className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
+                htmlFor="ifsc_code"
+              >
                 IFSC Code:
               </label>
               <input
@@ -240,7 +286,10 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
               />
             </div>
             <div className="flex justify-between items-center">
-              <label className="text-[14px] leading-[16.8px] text-[#252525] font-[500]" htmlFor="swift_code">
+              <label
+                className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
+                htmlFor="swift_code"
+              >
                 SWIFT Code:
               </label>
               <input
