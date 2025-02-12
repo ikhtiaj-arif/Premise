@@ -3,7 +3,13 @@ import crossIcon from "../../../img/Icons/crossIcon.png";
 import { useSaleForPremiseMutation } from "../../../app/EndPoints/premisePoolApi";
 import PaymentInvoicePopup from "../../Payment/PaymentInvoicePopup";
 
-const PaySalePopup = ({ popClose, premiseId, sellingValue, Userid }) => {
+const PaySalePopup = ({
+  popClose,
+  premiseId,
+  sellingValue,
+  Userid,
+  refetch,
+}) => {
   const [saleForPremise] = useSaleForPremiseMutation();
   const [isPayment, setPayment] = useState(false);
 
@@ -19,7 +25,10 @@ const PaySalePopup = ({ popClose, premiseId, sellingValue, Userid }) => {
         },
       }).unwrap();
       console.log("Success", response);
-      popClose(false);
+      if (response) {
+        popClose(false);
+        refetch();
+      }
     } catch (error) {
       console.error(error);
       // Handle error (e.g., show an error message)

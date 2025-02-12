@@ -12,6 +12,7 @@ const TransInOtherLang = ({
   user,
   source_language,
   project_id,
+  refetch,
 }) => {
   const [targetLanguage, setTargetLanguage] = useState("");
   const [translatePremise] = useTranslatePremiseV2Mutation();
@@ -37,7 +38,10 @@ const TransInOtherLang = ({
 
       if (response) {
         toast.success("Translation successful!");
-        popClose(null); // Close the modal or pop-up
+        if (response) {
+          popClose(null);
+          refetch();
+        }
       } else {
         toast.error("Failed to translate. Please try again.");
       }

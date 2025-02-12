@@ -900,7 +900,7 @@ const PremiseCardV2 = ({
         />
       )}
       {openTransOtherPop && (
-        <TransInOtherLang
+        <TransInOtherLang refetch={refetch}
           popClose={setOpenTransOtherPop}
           id={id}
           user={user}
@@ -954,7 +954,7 @@ const PremiseCardV2 = ({
         />
       )}
       {viewSale && (
-        <PaySalePopup
+        <PaySalePopup refetch={refetch}
           premiseId={saleId}
           popClose={setViewSale}
           sellingValue={sellingPrice}
