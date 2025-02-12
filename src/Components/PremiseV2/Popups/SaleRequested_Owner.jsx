@@ -1,28 +1,29 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import {
   useEditPremiseMutation,
   useGetOnePremiseQuery,
   useGetSaleTranslationRequestQuery,
+  useUpdateRequestForSaleOrTranslateMutation,
 } from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import SaleDoodle from "../../../img/Icons/OwnerSaleDoodle.svg";
-import { URL } from "../../utils";
 import CongratsPop from "./CongratsPop";
 
 const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
   const [showBankDetails, setShowBankDetails] = useState(false);
   const [showTransRequests, setShowTransRequests] = useState(false);
+  const [sale, setSale] = useState(false);
+
+  const [updateSaleRequests] = useUpdateRequestForSaleOrTranslateMutation();
 
   const data = {
     id: premiseId,
     type: "Sale",
   };
 
-  const { data: translationRequest, isTransLoading } =
+  const { data: saleRequest, isTransLoading } =
     useGetSaleTranslationRequestQuery(data);
-  console.log(translationRequest);
 
   const [bankDetails, setBankDetails] = useState({
     bank_name: "",
@@ -40,10 +41,9 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
       [name]: value,
     }));
   };
-  console.log(Names[0]?.data?.data[0]?.fromUser, "Names");
 
   // const requestId = Names[0]?.data?.data[0]?.id;
-  const requestId = "2";
+  const requestId = saleRequest?.data?.[0]?.id;
 
   const token = localStorage.getItem("accessToken");
 
@@ -53,35 +53,51 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
     "Content-Type": "application/json",
   };
 
-  // Handle form submission
-  const handleProceed = () => {
-    axios
-      .patch(
-        `${URL}/ideamall/premise/request`,
-        {
-          premise_id: premiseId,
-          request_ids: requestId,
-          bank_details: JSON.stringify(bankDetails),
-        },
-        {
-          headers: header,
-        }
-      )
-      .then((response) => {
-        console.log(response.data);
-        console.log("Success");
-        // setSaleIcon(false)
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    setShowTransRequests(true);
+  const handleProceed = async () => {
+    const data = {
+      premise_id: premiseId,
+      bank_details: JSON.stringify(bankDetails),
+      request_ids: JSON.stringify([requestId]),
+    };
+    try {
+      const res = await updateSaleRequests(data);
+      setSale(true);
+      console.log("Selected Requests:", res);
+      popClose();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  let Sale = true;
+  // Handle form submission
+  // const handleProceed = () => {
+  //   axios
+  //     .patch(
+  //       `${URL}/ideamall/premise/request`,
+  //       {
+  //         premise_id: premiseId,
+  //         request_ids: requestId,
+  //         bank_details: JSON.stringify(bankDetails),
+  //       },
+  //       {
+  //         headers: header,
+  //       }
+  //     )
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       console.log("Success");
+  //       // setSaleIcon(false)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  //   setShowTransRequests(true);
+  // };
+
+  // let Sale = true;
 
   const [updatePremise] = useEditPremiseMutation();
-  console.log(premiseId);
+
   const {
     data: premiseData,
     isPremiseLoading,
@@ -111,7 +127,7 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
       <ToastContainer />
-      {console.log(premiseId, "premiseId")}
+
       <div
         className={`h-[100vh] ${
           showBankDetails ? "lg:h-[497px]" : "lg:h-[670px]"
@@ -310,7 +326,7 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
           </div>
         )}
         {showTransRequests && !isTransLoading && (
-          <CongratsPop popClose={popClose} Sale={Sale} Names={Names} />
+          <CongratsPop popClose={popClose} Sale={sale} Names={Names} />
         )}
       </div>
     </div>
