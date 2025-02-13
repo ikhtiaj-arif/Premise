@@ -1,24 +1,22 @@
-import axios from "axios";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { FaComment, FaEllipsisV, FaKeyboard, FaThumbsUp } from "react-icons/fa";
+import { FaEllipsisV } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 // import { IoMdSend } from "react-icons/io";
 import {
-  useCommentPremiseMutation,
-  useDeleteLikeMutation,
   useGetCommentByPremiseIdQuery,
   useGetOnePremiseQuery,
   useGetPremiseUserPictureQuery,
   useGetPremiseUserQuery,
-  useIsLikePremiseMutation,
-  useLikePremiseMutation,
 } from "../../app/EndPoints/premisePoolApi";
+import crossIcon from "../../img/Icons/crossIcon.png";
 import msgIcon from "../../img/Icons/msgIcon.png";
 import newTabIcn from "../../img/Icons/newTabIcn.png";
+import userImg from "../../img/Icons/userImg.png";
+// import transCartQ from "../../../img/Icons/transCartQ.png";
+
+
 // import backgroundImg from "../../img/Icons/download.jpg";
 import { motion } from "framer-motion";
-import Draggable from "react-draggable";
-import { IoMdSend } from "react-icons/io";
 import { MdKeyboardBackspace } from "react-icons/md";
 import { MyContext } from "../../App";
 import {
@@ -26,26 +24,21 @@ import {
   useSaveCharactersMutation,
 } from "../../app/EndPoints/Characters/Characters";
 import { useCreateReplyMutation } from "../../app/EndPoints/commentReply/reply";
-import crossIcon from "../../img/Icons/crossIcon.png";
-import userImg from "../../img/Icons/userImg.png";
-import BtnLoading from "../../shared/BtnLoading";
+
+import AskIda from "../SharedVersion/AskIda";
+import PopupComment from "../SharedVersion/PopupComment";
+import PopupLike from "../SharedVersion/PopupLike";
+import PopupPremiseText from "../SharedVersion/PopupPremiseText";
+import PopupTextarea from "../SharedVersion/PopupTextarea";
 import TypingLoader from "../TypingLoader";
 import { baseURL, URL } from "../utils";
 import AllComments from "./AllComments";
 import CharacterEditablePop from "./Character/CharacterEditablePop";
 import HideOptionPop from "./Components/HideOptionPop";
 import DeletePremise from "./DeletePremise";
-import Keyboard from "./Keyboard";
-import LanguageSelector from "./LanguageSelector";
-import LikePopup from "./LikePopup";
 import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
 import UserType from "./UserType";
-import PopupLike from "../SharedVersion/PopupLike";
-import PopupPremiseText from "../SharedVersion/PopupPremiseText";
-import PopupTextarea from "../SharedVersion/PopupTextarea";
-import PopupComment from "../SharedVersion/PopupComment";
-import AskIda from "../SharedVersion/AskIda";
 
 const Popup = ({ popClose, data, refetch, transText, viewText }) => {
   const {
@@ -105,7 +98,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
     }
   };
   const lastCommentRef = useRef(null);
-  
+
   const replyRef = useRef(null);
 
   const {
@@ -116,13 +109,13 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
   const [openDotMenu, setOpenDotMenu] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [loading, setLoading] = useState(true);
-  
+
   const [commentField, setCommentField] = useState(false);
   const [replyField, setReplyField] = useState(false);
   const [openHidePop, setOpenHidePop] = useState(false);
-  
+
   const [cValue, setCvalue] = useState(null);
-  
+
   // console.log(project_id)
 
   const [openReplyField, setOpenReplyField] = useState(null);
@@ -159,7 +152,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
   //   }, [project_id]);
 
   // keyboard clicked
-  
+
   const handleClear = () => {
     // setText("");
   };
@@ -171,8 +164,6 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
   const currentProjectName = currentProjectData?.name;
   const isProjectLocked = currentProjectData?.locked;
   const currentProjectOwner = currentProjectData?.owner;
-
-  
 
   const {
     data: profileImg,
@@ -218,8 +209,6 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
     console.log("Act Two End:", actTwoEnd);
   }, [actOneThreshold, actTwoEnd]);
 
-
-  
   const {
     data: commentsData,
     isCommentLoading,
@@ -235,8 +224,6 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
   const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
 
   const userName = `${userQuery?.first_name} ${userQuery?.last_name}`;
-
-  
 
   // useEffect(() => {
   //   setCvalue(parseInt(commentsData?.comments?.length) + 1);
@@ -255,8 +242,6 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
 
     setCvalue(commentArray);
   }, [commentsData, commentRefetch]);
-
-  
 
   const handleReplyTextChange = (event) => {
     const reply = event.target.value;
@@ -340,13 +325,37 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
     window.open(url);
   };
 
+  const [openMonetizingPreferencesPop, setOpenMonetizingPreferencesPop] =
+    useState(false);
+  const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);
+
+  const [openTransOtherPop, setOpenTransOtherPop] = useState(false);
+
+  const [translationRequestPop, setTranslationRequestPop] = useState("");
+
+  const [viewTrnRequests, setViewTrnRequests] = useState("");
+  const [viewSaleRequests, setViewSaleRequests] = useState("");
+
+  const handleTranslationRequest = (id) => {
+    setTranslationRequestPop(id);
+    // console.log("trans id", id);
+  };
+
+  const [viewTransactionPId, setViewTransactionPId] = useState("");
+  const handleViewTransaction = (id) => {
+    // console.log(id);
+    setViewTransactionPId(id);
+    setOpenViewTranslationsPop(!openViewTranslationsPop);
+    setOpenDotMenu(null);
+  };
+
   if (isPremiseLoading) {
     return <>Loading...</>;
   } else
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
         <ToastContainer />
-        <div className=" h-[100vh] lg:h-[520px] mb-[20px]  lg:mb-0 xl:h-[633px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1200px] xl:w-[1200px] md:mx-auto relative lg:rounded-[8px]">
+        <div className=" h-[100vh] lg:h-[560px] mb-[20px]  lg:mb-0 xl:h-[673px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1200px] xl:w-[1200px] md:mx-auto relative lg:rounded-[8px]">
           {/* close popup */}
           <img
             src={crossIcon}
@@ -371,7 +380,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
 
           <div className="flex flex-col gap-[21px] lg:gap-[32px] lg my-auto lg:flex-row lg:justify-center ">
             {/* left div */}
-            <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[86%] sm:w-[80%] md:w-[33%] max-w-[336px] h-[33vh] lg:h-[470px] xl:h-[563px] lg:mt-[26px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[32px] xl:ml-[32px] rounded-[8px]">
+            <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[86%] sm:w-[80%] md:w-[33%] max-w-[336px] h-[33vh] lg:h-[510px] xl:h-[603px] lg:mt-[26px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[32px] xl:ml-[32px] rounded-[8px]">
               {/* header */}
               <div className="flex w-full max-w-[383px] mx-auto justify-between items-center bg-[#FAFAFA] rounded-t-[8px]  p-[8px] md:py-[20px] md:px-[16px]">
                 <div className="block ml-[8px] mt-[4px]">
@@ -476,19 +485,60 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                               setOpenHidePop(!openHidePop);
                               setOpenDotMenu(false);
                             }}
-                            className="cursor-pointer w-full"
+                            className="cursor-pointer  text-left w-full"
                           >
-                            <p className="text-[14px] w-full font-[500] break-none hover:text-[#33B0CA] text-[#252525]">
+                            <p className="text-[14px] w-full  font-[500] break-none hover:text-[#33B0CA] text-[#252525]">
                               {" "}
                               Visibility Settings
                             </p>{" "}
                           </button>
+
+                          <button
+                            onClick={() => {
+                              setOpenTransOtherPop(!openTransOtherPop);
+                              setOpenDotMenu(null);
+                            }}
+                            className="cursor-pointer  text-left w-full"
+                          >
+                            <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
+                              {" "}
+                              Copy in new Language
+                            </p>{" "}
+                          </button>
+
+                          <button
+                            onClick={() => {
+                              setOpenMonetizingPreferencesPop(
+                                !openMonetizingPreferencesPop
+                              );
+                              setOpenDotMenu(null);
+                            }}
+                            className="cursor-pointer  w-full"
+                          >
+                            <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
+                              {" "}
+                              Monetizing Preferences
+                            </p>{" "}
+                          </button>
+
+                          <button
+                            onClick={() => {
+                              handleViewTransaction(id);
+                            }}
+                            className="cursor-pointer  w-full"
+                          >
+                            <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
+                              {" "}
+                              View Translations
+                            </p>{" "}
+                          </button>
+
                           <button
                             onClick={() => {
                               handleDelete(id);
                               setOpenDotMenu(false);
                             }}
-                            className="cursor-pointer w-full"
+                            className="cursor-pointer  text-left w-full"
                           >
                             <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
                               {" "}
@@ -500,7 +550,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                               setOpenCharacterChart(id);
                               setOpenDotMenu(null);
                             }}
-                            className="cursor-pointer w-full"
+                            className="cursor-pointer  text-left w-full"
                           >
                             <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
                               {" "}
@@ -512,7 +562,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                               handleOpenSp();
                               setOpenDotMenu(false);
                             }}
-                            className="cursor-pointer w-full "
+                            className="cursor-pointer  text-left w-full "
                           >
                             <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
                               {" "}
@@ -556,32 +606,67 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                       )}
                     </div>
                   ) : (
-                    <img
-                      data-te-toggle="tooltip"
-                      title="Send Message"
-                      src={msgIcon}
-                      className="w-8 h-8 cursor-pointer"
-                      alt=""
-                      onClick={() => setUserMail(true)}
-                    />
+                    <div className="flex gap-[3px] items-center  mr-[2px] relative ">
+                      {/* {available_for_translation ? (
+                        <img
+                          data-te-toggle="tooltip"
+                          title="Available for Translation"
+                          src={translateCart}
+                          className="w-8 h-8 mt-[-13px] cursor-pointer"
+                          alt=""
+                          onClick={() => {
+                            setOpenTransOtherPop(!openTransOtherPop);
+                            setOpenDotMenu(null);
+                          }}
+                        />
+                      ) : (
+                        <img
+                          data-te-toggle="tooltip"
+                          title="Send Translation Request"
+                          src={transCartQ}
+                          className="w-8 h-8 mt-[-13px] cursor-pointer"
+                          alt=""
+                          onClick={() => handleTranslationRequest(id)}
+                        />
+                      )} */}
+
+                      <img
+                        data-te-toggle="tooltip"
+                        title="Send Message"
+                        src={msgIcon}
+                        className="w-8 h-8 cursor-pointer"
+                        alt=""
+                        onClick={() => setUserMail(true)}
+                      />
+                    </div>
                   )}
                 </div>
               </div>
               {/* image */}
-              <PopupPremiseText {...{data,bg_img,bg_color,stylings,viewText,dText,}}/>
-              
+              <PopupPremiseText
+                {...{ data, bg_img, bg_color, stylings, viewText, dText }}
+              />
+
               <div className="hidden md:flex h-[10vh] md:h-[116px] mt-[8px]  flex-col justify-between">
                 {/* <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" /> */}
                 {/* icons */}
                 <div className="lg:ml-3 hidden lg:block py-[2px] ">
                   <div className=" flex gap-1 space-x-4 items-center px-3 ">
                     {/* like */}
-                    <PopupLike {...{user,id,premiseRefetch,premiseData}}/>
+                    <PopupLike {...{ user, id, premiseRefetch, premiseData }} />
                     {/* comment */}
-                    <PopupComment {...{setOpenReplyField,setCommentField,commentField,finalCount,}}/>
+                    <PopupComment
+                      {...{
+                        setOpenReplyField,
+                        setCommentField,
+                        commentField,
+                        finalCount,
+                      }}
+                    />
                   </div>
                 </div>{" "}
-                <AskIda id={premiseId}
+                <AskIda
+                  id={premiseId}
                   {...{
                     user,
                     commentRefetch,
@@ -591,15 +676,29 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                   }}
                 />
                 {/* textarea */}
-                <PopupTextarea  {...{premiseOwner,user,premiseId,commentRefetch,setOpenAllReplies,setOpenReplyFieldID,
-                  lastCommentRef,commentField,setCommentField,setReplyField,replyField,replyRef,}}/>
+                <PopupTextarea
+                  {...{
+                    premiseOwner,
+                    user,
+                    premiseId,
+                    commentRefetch,
+                    setOpenAllReplies,
+                    setOpenReplyFieldID,
+                    lastCommentRef,
+                    commentField,
+                    setCommentField,
+                    setReplyField,
+                    replyField,
+                    replyRef,
+                  }}
+                />
               </div>
             </div>
 
             {/* right div */}
             <div
               data-reply
-              className=" lg:border lg:mt-[26px] xl:mt-[32px]  bg-[#fff] lg:bg-[#fafafa] lg:shadow-lg border-[#eaeaea] w-[90%] sm:w-[68%] md:w-[70%] lg:w-[769px]  mx-auto lg:ml-0 h-[46vh] lg:h-[470px] xl:h-[563px] rounded-[8px] flex flex-col gap-[5px] relative"
+              className=" lg:border lg:mt-[26px] xl:mt-[32px]  bg-[#fff] lg:bg-[#fafafa] lg:shadow-lg border-[#eaeaea] w-[90%] sm:w-[68%] md:w-[70%] lg:w-[769px]  mx-auto lg:ml-0 h-[46vh] lg:h-[510px] xl:h-[603px] rounded-[8px] flex flex-col gap-[5px] relative"
             >
               {/* Fixed dynamic heading */}
               {/* <div className="fixed w-[90%] sm:w-[68%] md:w-[70%] lg:w-[769px] z-50 rounded-t-[8px] bg-[#33B0CA] py-1 text-center text-white font-bold text-[20px]">
@@ -671,8 +770,22 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
               {/* comment and reply div mobile */}
               <div className="md:hidden h-[10vh] md:h-[116px] flex flex-col justify-between">
                 <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" />
-                <PopupTextarea  {...{premiseOwner,user,premiseId,commentRefetch,setOpenAllReplies,setOpenReplyFieldID,
-                  lastCommentRef,commentField,setCommentField,setReplyField,replyField,replyRef,}}/>
+                <PopupTextarea
+                  {...{
+                    premiseOwner,
+                    user,
+                    premiseId,
+                    commentRefetch,
+                    setOpenAllReplies,
+                    setOpenReplyFieldID,
+                    lastCommentRef,
+                    commentField,
+                    setCommentField,
+                    setReplyField,
+                    replyField,
+                    replyRef,
+                  }}
+                />
 
                 {/* <div className="  bg-[#F8F8F8] relative flex justify-between items-stretch md:mb-[12px] pl-3 md:flex-row w-[90%] mx-auto border border-[#EAEAEA] rounded-[8px] shadow-md ">
                   {premiseOwner?.id === user ? (
@@ -744,7 +857,6 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
               </div>
             </div>
           </div>
-          
 
           {isDelete && (
             <DeletePremise
@@ -754,7 +866,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
               popClose={popClose}
             />
           )}
-          
+
           {openCharacterChart && (
             <CharacterEditablePop
               setCharacterEditPop={setOpenCharacterChart}

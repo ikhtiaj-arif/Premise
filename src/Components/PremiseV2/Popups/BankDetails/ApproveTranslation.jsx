@@ -9,9 +9,11 @@ const ApproveTranslationPop = ({
   bankDetails,
   premiseId,
 }) => {
-  // console.log(translationRequests, bankDetails);
+  console.log(translationRequests, "bankDetails");
   const [selectedRequests, setSelectedRequests] = useState([]);
+  const [loading, setLoading] = useState(false); // State to track loading
   const [updateTranslationSale] = useUpdateRequestForSaleOrTranslateMutation();
+
   // Handle checkbox selection
   const handleCheckboxChange = (id) => {
     setSelectedRequests(
@@ -24,17 +26,24 @@ const ApproveTranslationPop = ({
 
   // Handle Proceed button click
   const handleProceed = async () => {
+    if (loading || selectedRequests.length === 0) return; // Prevent multiple clicks or if no requests are selected
+
+    setLoading(true); // Set loading to true when the request starts
+
     const data = {
       premise_id: premiseId,
       bank_details: JSON.stringify(bankDetails),
-      request_ids: JSON.stringify(selectedRequests)
+      request_ids: JSON.stringify(selectedRequests),
     };
+
     try {
       const res = await updateTranslationSale(data);
       console.log("Selected Requests:", res);
-      popClose()
+      popClose();
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false); // Set loading to false when the request completes
     }
   };
 
@@ -89,7 +98,10 @@ const ApproveTranslationPop = ({
 
             {/* Dynamic Rows */}
             {translationRequests?.map((request, index) => (
-              <div className="grid grid-cols-12 gap-[18px] w-[100%] mx-auto mt-[4px]">
+              <div
+                className="grid grid-cols-12 gap-[18px] w-[100%] mx-auto mt-[4px]"
+                key={request.id}
+              >
                 <div className="col-span-2 flex justify-center items-center">
                   <input
                     type="checkbox"
@@ -100,7 +112,7 @@ const ApproveTranslationPop = ({
                 </div>
                 <div className="col-span-4 flex items-center justify-center">
                   <p className="text-center text-[14px] leading-[21px] font-[400] text-[#616161]">
-                    {request.user}
+                    {request.fromUser.first_name} {request.fromUser.last_name}
                   </p>
                 </div>
                 <div className="col-span-6 flex items-center justify-center">
@@ -115,9 +127,14 @@ const ApproveTranslationPop = ({
         <div className=" w-[88px] mx-auto mt-[72px]">
           <button
             onClick={handleProceed}
-            className={`${"bg-[#33B0CA]"}  text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] py-[2px] text-[13px] font-[600] `}
+            disabled={selectedRequests.length === 0 || loading} // Disable if no requests are selected or if loading
+            className={`${
+              selectedRequests.length === 0 || loading
+                ? "bg-[#33B0CA] opacity-50 cursor-not-allowed"
+                : "bg-[#33B0CA]"
+            }  text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] py-[2px] text-[13px] font-[600] `}
           >
-            Proceed
+            {loading ? "Processing..." : "Proceed"}
           </button>{" "}
         </div>
       </div>
