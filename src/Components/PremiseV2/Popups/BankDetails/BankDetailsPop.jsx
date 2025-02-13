@@ -18,7 +18,7 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
   const { data: translationRequest, isTransLoading } =
     useGetSaleTranslationRequestQuery(data);
 
-  console.log(translationRequest);
+  console.log(translationRequest?.data);
 
   const [bankDetails, setBankDetails] = useState({
     bank_name: "",
@@ -42,7 +42,7 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
     setShowTransRequests(true);
   };
 
-  if(isTransLoading) return <p>Loading...</p>
+  if (isTransLoading) return <p>Loading...</p>;
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
@@ -81,9 +81,24 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
         <div className="h-[1px] mt-[8px] w-[52%] mx-auto bg-[#a1a1a1]" />
         {!showBankDetails ? (
           <div className="pr-[12px] mt-[17px] w-[542px]  ml-[40px]">
-            <p className="text-left text-[14px] leading-[21px]  font-[400]  text-[#616161] ">
-              User name 1, 2, 3 is/are interested in copying this Premise
-              Project in Language 1, 2, 3.
+            <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
+              User name{" "}
+              <span>
+                {translationRequest?.data
+                  ?.map(
+                    (request) =>
+                      `${request.fromUser.first_name} ${request.fromUser.last_name}`
+                  )
+                  .join(", ")}
+              </span>{" "}
+              {translationRequest?.data?.length === 1 ? "is" : "are"} interested
+              in copying this Premise Project in{" "}
+              <span>
+                {translationRequest?.data
+                  ?.map((request) => request.requestToLang)
+                  .join(", ")}
+              </span>
+              .
             </p>
             <p className="text-left text-[14px] leading-[21px]  font-[400] my-[2px] text-[#616161] ">
               If you allow translation of this Premise Project,

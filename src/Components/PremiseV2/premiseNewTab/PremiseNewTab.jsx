@@ -33,6 +33,8 @@ const PremiseNewTab = () => {
     refetch: premiseRefetch,
   } = useGetOnePremiseQuery(id);
 
+  // console.log("premiseData", premiseData.available_for_sale);
+
   const {
     data: commentsData,
     isCommentLoading,
@@ -158,11 +160,11 @@ const PremiseNewTab = () => {
   };
 
   return (
-    <div className="w-[90%] mx-auto h-screen lg:overflow-hidden">
+    <div className="w-[95%] max-w-[1445px] mx-auto h-screen lg:overflow-hidden">
       {!isPremiseLoading && !isCommentLoading && premiseData && commentsData ? (
         <>
           <ProjectInfo {...{ premiseData }} />
-          <div className="w-full lg:flex items-start gap-4 mt-2 h-full ">
+          <div className="w-full lg:flex items-start mt-2 h-full ">
             {/* Left Sidebar */}
             <div className="leftSection bg-[#fff] lg:w-[500px] w-full  p-2 pr-0 flex justify-end h-[80%]  lg:overflow-y-auto">
               <LeftSideBar

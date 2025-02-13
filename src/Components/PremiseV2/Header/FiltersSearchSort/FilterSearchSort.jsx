@@ -370,7 +370,7 @@ const FilterSearchSort = ({
               />
             </div>
 
-            <button
+            {/* <button
               data-te-toggle="tooltip"
               title="Added by me"
               className={`h-[32px] w-[32px] rounded-full ${
@@ -387,7 +387,7 @@ const FilterSearchSort = ({
               }`}
             >
               <img src={mailCart} className="text-[#fafafa] mx-auto" />
-            </button>
+            </button> */}
 
             <button
               data-te-toggle="tooltip"
