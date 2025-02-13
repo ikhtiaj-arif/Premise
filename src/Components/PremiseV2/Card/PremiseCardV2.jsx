@@ -475,7 +475,7 @@ const PremiseCardV2 = ({
                 src={translateCart}
                 className="w-8 h-8 cursor-pointer"
                 alt=""
-                // onClick={() => setOwnerMail(true)}
+                onClick={() => handleViewTransaction(id)}
               />
               {premise_source_id && (
                 <img
@@ -920,6 +920,7 @@ const PremiseCardV2 = ({
       )}
       {viewTrnRequests && (
         <BankDetailsPop
+          // translationRequest={translationRequest}
           popClose={setViewTrnRequests}
           premiseId={viewTrnRequests}
         />

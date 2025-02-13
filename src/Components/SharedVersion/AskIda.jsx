@@ -1,9 +1,8 @@
-import React from "react";
-import { baseURL } from "../utils";
 import axios from "axios";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useCommentPremiseMutation } from "../../app/EndPoints/premisePoolApi";
-import { useState } from "react";
+import { baseURL } from "../utils";
 
 const AskIda = ({
   id,
@@ -87,7 +86,7 @@ const AskIda = ({
     }
   };
   return (
-    <div className="my-2 text-center">
+    <div className="my-1 text-center">
       <button
         disabled={isLoading}
         onClick={handleButtonClick}
