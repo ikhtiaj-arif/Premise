@@ -26,7 +26,7 @@ function App() {
   const [addedByMeCondition, setAddedByMeCondition] = useState(false);
   const [selectedPremiseObj, setSelectedPremiseObj] = useState(null);
   const [searchText, setSearchText] = useState("");
-  const user = useSelector((state) => state?.user);
+  const currentUser = useSelector((state) => state?.user);
   const [selectedSpProjectID, setSelectedSpProjectID] = useState("");
   const [createdSpProjectID, setCreatedSpProjectID] = useState("");
   const [selectedPremiseSpProjectId, setSelectedPremiseSpProjectId] =
@@ -54,7 +54,7 @@ function App() {
       // setSearchAuthor(user?.id)
       // console.log(user?.id);
     }
-  }, [activeAddedByMe, user?.id]);
+  }, [activeAddedByMe, currentUser?.id]);
 
   const value = {
     activeAddedByMe,
@@ -84,7 +84,7 @@ function App() {
     selectedLanguages,
     setSelectedLanguages,
     currentlyOpenedCommentID,
-    setCurrentlyOpenedCommentID,user,
+    setCurrentlyOpenedCommentID,currentUser,
     // isFirstCommentSuggested,
     // setIsFirstCommentSuggested,
     // openPop, setOpenPop
@@ -114,24 +114,21 @@ function App() {
 
 export default App;
 
-export const  fetchUserAccess = (flag, state, userId,api)=> {
-  try { //pay/checkuseraccess/${userId}/${flag}
-    fetch(`${URL}/${api}`, {
+export const fetchUserAccess = async (flag) => {
+  try {
+    const response = await fetch(`${URL}/pay/checkuseraccess/${flag}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         "Content-Type": "application/json",
       },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(`userAccess ${flag}`, data);
-        if (data) {
-          //sessionStorage.setItem(flag, data?.access);
-          state(data);
-        }
-      });
+    });
+
+    const data = await response.json();
+    console.log(`userAccess`, data);
+    return data; 
   } catch (error) {
-    console.log("userAccess error", error);
+    return null; 
   }
-}
+};
+

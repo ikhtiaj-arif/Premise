@@ -25,13 +25,14 @@ const TransInOtherLang = ({
     setPayment(true);
   };
 
-  const handleTranslationSubmit = async () => {
+  const handleTranslationSubmit = async (transaction_id) => {
     try {
       const data = {
         premise_id: id,
         // request_type: "Translation",
         target_language: targetLanguage,
         user_id: user,
+        transaction_id: transaction_id,
       };
 
       const response = await translatePremise(data);

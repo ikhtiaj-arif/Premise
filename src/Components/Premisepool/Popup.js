@@ -56,7 +56,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
     id,
     user,
     premiseOwner,
-    setUserMail,
+    handleUserMail,
     formattedTime,
     formattedDate,
     setHideDisable,
@@ -562,7 +562,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                       src={msgIcon}
                       className="w-8 h-8 cursor-pointer"
                       alt=""
-                      onClick={() => setUserMail(true)}
+                      onClick={handleUserMail}
                     />
                   )}
                 </div>

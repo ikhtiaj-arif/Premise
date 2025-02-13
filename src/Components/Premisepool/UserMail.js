@@ -105,14 +105,14 @@ const UserMail = ({ setUserMail, data, recipient }) => {
           src={crossIcon}
           alt=""
           className="  top-[-10px] right-[-10px] w-8 h-8 cursor-pointer absolute lgVisible"
-          onClick={() => setUserMail(false)}
+          onClick={() => setUserMail(null)}
         />
 
         <MdKeyboardBackspace
           src={crossIcon}
           alt=""
           className="text-[#33B0CA] text-left text-[38px] ml-[24px] mb-[8px] mt-[20px] z-[1] cursor-pointer lgHidden"
-          onClick={() => setUserMail(false)}
+          onClick={() => setUserMail(null)}
         />
         {/* close popup */}
         <div className="text-right flex justify-between p-1 text-[16px] font-[500] w-[90%] max-w-[513px] mx-auto">

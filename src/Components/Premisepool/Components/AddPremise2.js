@@ -109,7 +109,7 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
               src={crossIcon}
               alt="cross icon"
               className={`text-red-500 barSm-hidden z- w-8 h-8 cursor-pointer absolute top-[-12px] right-0 z-10`}
-              onClick={() => setAddPopup(false)}
+              onClick={() => setAddPopup(null)}
             />
           )}
 
@@ -122,7 +122,7 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
                     alt=""
                     className="text-[#33B0CA] ml-[20px] text-left text-[38px] z-[1] absolute cursor-pointer mdHidden"
                     onClick={() => {
-                      setAddPopup(false);
+                      setAddPopup(null);
                       setOpenPop(false);
                       // setOpenReplyField(null);
                       // setReplyToCommentID(null);
