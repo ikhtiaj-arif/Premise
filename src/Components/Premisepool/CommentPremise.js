@@ -7,19 +7,10 @@ import Popup from "./Popup";
 const CommentPremise = ({ data, setIsLiked, refetch, p }) => {
 
   const {project_id} = p
-  // console.log("project_id",project_id);
   const {
-    // finalCount,
-    bg_img,
     comments,
-    bg_color,
-    dText,
-    id,
-    shouldBlink,
-    setHideDisable,
-    hideDisable,
   } = data;
-  const { isAddNew, setIsAddNew, setSelectedPremiseObj, setSelectedPremiseSpProjectId } = useContext(MyContext);
+  const { setSelectedPremiseObj, setSelectedPremiseSpProjectId } = useContext(MyContext);
   const [cmntPopup, setCmntPopup] = useState(false);
   const controls = useAnimation();
   

@@ -29,7 +29,7 @@ const hideUnhidePremiseCustom = async (
         }
       );
       setBtnDisable(false);
-      setOpenHidePop(false);
+      setOpenHidePop(null);
       toast.success("Your premise is hidden from everyone!", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 800,
@@ -46,7 +46,7 @@ const hideUnhidePremiseCustom = async (
         }
       );
       setBtnDisable(false);
-      setOpenHidePop(false);
+      setOpenHidePop(null);
       if (commentHide === 0) {
         toast.success("Your buddies can see your premise & comments!", {
           position: toast.POSITION.TOP_CENTER,
@@ -70,7 +70,7 @@ const hideUnhidePremiseCustom = async (
         }
       );
       setBtnDisable(false);
-      setOpenHidePop(false);
+      setOpenHidePop(null);
       if (commentHide === 0) {
         toast.success("Selected buddies can see your premise & comments!", {
           position: toast.POSITION.TOP_CENTER,
@@ -94,7 +94,7 @@ const hideUnhidePremiseCustom = async (
         }
       );
       setBtnDisable(false);
-      setOpenHidePop(false);
+      setOpenHidePop(null);
       if (commentHide === 0) {
         toast.success("Everyone can see your premise & comments!", {
           position: toast.POSITION.TOP_CENTER,

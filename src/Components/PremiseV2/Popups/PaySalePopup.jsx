@@ -16,12 +16,13 @@ const PaySalePopup = ({
   const handlePayNow = () => {
     setPayment(true);
   };
-  const handleSubmit = async () => {
+  const handleSubmit = async (transaction_id) => {
     try {
       const response = await saleForPremise({
         body: {
           premise_id: premiseId,
           user_id: Userid,
+          transaction_id: transaction_id,
         },
       }).unwrap();
       console.log("Success", response);
