@@ -40,7 +40,7 @@ import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
 import UserType from "./UserType";
 
-const Popup = ({ popClose, data, refetch, transText, viewText }) => {
+const Popup = ({ popClose, data, refetch, transText, viewText ,handleVisibility}) => {
   const {
     bg_img,
     bg_color,
@@ -112,7 +112,6 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
 
   const [commentField, setCommentField] = useState(false);
   const [replyField, setReplyField] = useState(false);
-  const [openHidePop, setOpenHidePop] = useState(false);
 
   const [cValue, setCvalue] = useState(null);
 
@@ -481,9 +480,9 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
                           className="absolute w-[186.99px] flex flex-col font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px] z-10"
                         >
                           <button
-                            onClick={() => {
-                              setOpenHidePop(!openHidePop);
-                              setOpenDotMenu(false);
+                            onClick={()=>{
+                              handleVisibility();
+                              setOpenDotMenu(null);
                             }}
                             className="cursor-pointer  text-left w-full"
                           >
@@ -592,17 +591,6 @@ const Popup = ({ popClose, data, refetch, transText, viewText }) => {
 
                           {/* */}
                         </div>
-                      )}
-                      {openHidePop && (
-                        <HideOptionPop
-                          setOpenHidePop={setOpenHidePop}
-                          id={premiseId}
-                          refetch={premiseRefetch}
-                          user={user}
-                          filter_flag={premiseData?.filter_flag}
-                          comment_filter_flag={premiseData?.comment_filter_flag}
-                          visible_to={premiseData?.visible_to}
-                        />
                       )}
                     </div>
                   ) : (

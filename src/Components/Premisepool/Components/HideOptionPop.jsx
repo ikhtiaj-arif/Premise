@@ -122,7 +122,7 @@ const HideOptionPop = ({
               src={crossIcon}
               alt=""
               className="text-red-500 w-8 h-8 top-[22px] sm:top-[31px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px] absolute z-[1] m-1 cursor-pointer"
-              onClick={() => setOpenHidePop(false)}
+              onClick={() => setOpenHidePop(null)}
             />
           </div>
           <div
@@ -457,7 +457,7 @@ const HideOptionPop = ({
               ) : (
                 <button
                   onClick={() => {
-                    setOpenHidePop(false);
+                    setOpenHidePop(null);
                   }}
                   className="font-[500] border !border-[#33B0CA] text-[#33B0CA] h-[34px] w-[99px] text-[14px] rounded-[8px] hover:text-white hover:bg-[#33B0CA]"
                 >

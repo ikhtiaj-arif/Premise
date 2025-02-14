@@ -46,6 +46,7 @@ import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
 import PremiseBadge from "./PremiseBadge";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
+import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 
 const PremiseCardV2 = ({
   setShowRefine,
@@ -143,7 +144,7 @@ const PremiseCardV2 = ({
   const { boldStyle, italicStyle, underlineStyle, hexColor } = stylings;
   const [openDotMenu, setOpenDotMenu] = useState(null);
   const [openCharacterChart, setOpenCharacterChart] = useState(null);
-  const [openHidePop, setOpenHidePop] = useState(false);
+  const [openHidePop, setOpenHidePop] = useState(null);
   // const [premiseOwner, setPremiseOwner] = useState(false);
   const [confirmOpenSp, setConfirmOpenSp] = useState(false);
   // const [isLiked, setIsLiked] = useState(false);
@@ -400,6 +401,16 @@ const PremiseCardV2 = ({
       setUserMail("Yes");
     }
   };
+  const handleVisibility = async () => {
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_Privacy`);
+    console.log("visibility res", res);
+    if (res?.access == "No" && res?.msg == "LB") {
+      setOpenHidePop("No");
+    } else {
+      setOpenHidePop("Yes");
+    }
+    setOpenDotMenu(null);
+  };
 
   return (
     <div className="w-[358px] lg:w-[100%] mx-auto border border-[#EAEAEA] hover:shadow-lg rounded-[8px]  ">
@@ -513,10 +524,7 @@ const PremiseCardV2 = ({
                   className="absolute flex flex-col w-[186.99px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px]  z-10"
                 >
                   <button
-                    onClick={() => {
-                      setOpenHidePop(!openHidePop);
-                      setOpenDotMenu(null);
-                    }}
+                    onClick={handleVisibility}
                     className="cursor-pointer  w-full"
                   >
                     <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
@@ -608,7 +616,13 @@ const PremiseCardV2 = ({
                 onClick={() => setOpenHidePop(!openHidePop)}
                 className="w-5 h-5 cursor-pointer"
               /> */}
-              {openHidePop && (
+              {openHidePop == "No" && (
+                <NoAccessLbPopUp
+                  setNoAccessPopup={setOpenHidePop}
+                  service="PP_Private"
+                />
+              )}
+              {openHidePop == "Yes" && (
                 <HideOptionPop
                   setOpenHidePop={setOpenHidePop}
                   id={id}
@@ -833,7 +847,7 @@ const PremiseCardV2 = ({
       {openPop && (
         <Popup
           popClose={() => setOpenPop(false)}
-          setIsLiked={setIsLiked}
+          {...{ handleVisibility, setIsLiked, refetch, viewText }}
           data={{
             id,
             dText,
@@ -860,8 +874,6 @@ const PremiseCardV2 = ({
             project_id,
             m_value: p?.m_value,
           }}
-          viewText={viewText}
-          refetch={refetch}
           p={p}
         />
       )}

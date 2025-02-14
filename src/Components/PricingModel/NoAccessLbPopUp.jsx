@@ -30,11 +30,14 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, brainstorming, service }) => {
       );
       console.log("Updated Product Price:", updatedProductPrice);
       setPdData(updatedProductPrice);
-      if (service !== "PP_Brainstrom") {
-        setSelectedOption("nextPackage");
-      }
     }
   }, [productPrice, service]);
+
+  useEffect(() => {
+    if (service !== "PP_Brainstrom") {
+      setSelectedOption("nextPackage");
+    }
+  }, [service]);
 
   const handleRadioChange = (event) => {
     setSelectedOption(event.target.value);
@@ -86,8 +89,11 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, brainstorming, service }) => {
             <h1 className=" text-[#252525] text-[16px] font-[600] leading-6">
               You have
               {service == "PP_Brainstrom" ? " Completed " : " Generated "}
-              {PdData?.current_usage} Premises in {PdData?.day_passed} days!
-              That’s commendable!!
+              {PdData?.current_usage}{" "}
+              {service == "PP_Brainstrom"
+                ? " Brainstormings with Ida "
+                : " Premises "}{" "}
+              in {PdData?.day_passed} days! That’s commendable!!
             </h1>
             <p className=" text-[#252525] text-[16px] font-[500] leading-6 mx-2 my-3">
               To carry on further :-
@@ -112,7 +118,7 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, brainstorming, service }) => {
                       className="mt-1"
                     />
                     <span className=" flex-1">
-                      {"Create Elevator Pitch of "}
+                      {"Commit to "}
                       <input
                         type="text"
                         placeholder="0"
@@ -133,7 +139,7 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, brainstorming, service }) => {
                         className="w-[58px] h-[26px] border border-[#EAEAEA] rounded-[4px] p-1 mx-2 text-center focus:outline-none"
                         disabled={selectedOption !== "generate"}
                       />{" "}
-                      {" Projects "} for USD{" "}
+                      {" more Brainstormings "} for USD{" "}
                       {(sceneCount * PdData?.uint_value).toFixed(2)}
                     </span>
                   </label>
