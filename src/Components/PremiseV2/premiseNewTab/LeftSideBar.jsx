@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { MdOutlineEdit } from "react-icons/md";
 import { PiShareFat } from "react-icons/pi";
@@ -26,6 +26,9 @@ import PremiseTopAccess from "./PremiseTopAccess";
 import PremiseTopHeader from "./PremiseTopHeader";
 import { useFindCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
 import AskIda from "../../SharedVersion/AskIda";
+import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
+import { fetchUserAccess, MyContext } from "../../../App";
+import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 
 const LeftSideBar = ({
   premiseData,
@@ -62,11 +65,13 @@ const LeftSideBar = ({
     created_by_name,
   } = premiseData;
 
+  const { currentUser } = useContext(MyContext);
+
   const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
   const [deleteCharacter] = useDeleteCharacterMutation();
   const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
 
-  const [openHidePop, setOpenHidePop] = useState(false);
+  const [openHidePop, setOpenHidePop] = useState(null);
   const [transPopClose, setTransPopClose] = useState({});
 
   const [commentField, setCommentField] = useState(false);
@@ -84,7 +89,7 @@ const LeftSideBar = ({
   const [deleteChar, setDeleteChar] = useState(null);
   const [editPopupOpen, setEditPopupOpen] = useState(false);
   const [onlyAdd, setOnlyAdd] = useState(true);
-  const [addNewCharacter, setAddNewCharacter] = useState(false);
+  const [addNewCharacter, setAddNewCharacter] = useState(null);
   const [openCharacterChart, setOpenCharacterChart] = useState(null);
 
   const lastCommentRef = useRef(null);
@@ -194,6 +199,26 @@ const LeftSideBar = ({
     } catch (error) {}
   };
 
+  const handleAddNewChar = async () => {
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_AddCharacters`);
+    console.log("add char res", res);
+    if (res?.access == "No") {
+      setAddNewCharacter("No");
+    } else {
+      setAddNewCharacter("Yes");
+    }
+  };
+
+  const handleVisibility = async () => {
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_Privacy`);
+    console.log("visibility res", res);
+    if (res?.access == "No" && res?.msg == "LB") {
+      setOpenHidePop("No");
+    } else {
+      setOpenHidePop("Yes");
+    }
+  };
+
   return (
     <div className="lg:w-[350px] w-full pr-3">
       {/* header */}
@@ -290,7 +315,7 @@ const LeftSideBar = ({
             <p className="text-[#616161] font-[600] text-[16pxS]">Visible to</p>
 
             <MdOutlineEdit
-              onClick={() => setOpenHidePop(!openHidePop)}
+              onClick={handleVisibility}
               className="text-[#33B0CA] cursor-pointer"
             />
           </div>
@@ -317,7 +342,7 @@ const LeftSideBar = ({
             <div className=" flex gap-2 items-center ">
               <FaPlus
                 className="text-[14px] cursor-pointer"
-                onClick={(e) => setAddNewCharacter(true)}
+                onClick={handleAddNewChar}
               />
               <MdOutlineEdit
                 onClick={() => {
@@ -351,6 +376,7 @@ const LeftSideBar = ({
         {...{
           id,
           user,
+          premiseOwner,
           commentRefetch,
           setOpenAllReplies,
           setOpenReplyFieldID,
@@ -379,7 +405,7 @@ const LeftSideBar = ({
       </div>
       <div className="h-[100px]" />
 
-      {openHidePop && (
+      {openHidePop == "Yes" && (
         <HideOptionPop
           {...{
             setOpenHidePop,
@@ -390,6 +416,12 @@ const LeftSideBar = ({
             visible_to,
           }}
           refetch={premiseRefetch}
+        />
+      )}
+      {openHidePop == "No" && (
+        <NoAccessLbPopUp
+          setNoAccessPopup={setOpenHidePop}
+          service="PP_Private"
         />
       )}
 
@@ -406,14 +438,15 @@ const LeftSideBar = ({
           }}
         />
       )}
-      {addNewCharacter && (
+      {addNewCharacter == "No" && (
+        <NoAccessPopUp setNoAccessPopup={setAddNewCharacter} />
+      )}
+      {addNewCharacter == "Yes" && (
         <SingleCharacterAdd
-          {...{
-            setAddNewCharacter,
-            editData,
-            handleAddNewCharacter,
-            characterArray,
-          }}
+          setAddNewCharacter={setAddNewCharacter}
+          editData={editData}
+          handleAddNewCharacter={handleAddNewCharacter}
+          characterArray={characterArray}
         />
       )}
       {deleteChar && (

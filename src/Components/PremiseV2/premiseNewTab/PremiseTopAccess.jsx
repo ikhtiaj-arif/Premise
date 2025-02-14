@@ -12,7 +12,8 @@ import { useDeletePremiseMutation } from "../../../app/EndPoints/premisePoolApi"
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { baseURL } from "../../utils";
-import { MyContext } from "../../../App";
+import { fetchUserAccess, MyContext } from "../../../App";
+import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 
 const PremiseTopAccess = ({ user, premiseOwner, id, project_id }) => {
   const [openDotMenu, setOpenDotMenu] = useState(false);
@@ -23,6 +24,8 @@ const PremiseTopAccess = ({ user, premiseOwner, id, project_id }) => {
   const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);
   const [viewTransactionPId, setViewTransactionPId] = useState("");
   const [isDelete, setIsDelete] = useState(false);
+
+  const { currentUser } = useContext(MyContext);
 
   const [deletePremise, { isLoading }] = useDeletePremiseMutation();
 
@@ -85,6 +88,16 @@ const PremiseTopAccess = ({ user, premiseOwner, id, project_id }) => {
     window.open(
       `${baseURL}/scriptpad2/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
     );
+  };
+
+  const handleUserMail = async () => {
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_MessageOwner`);
+    console.log("message res", res);
+    if (res?.access == "No") {
+      setUserMail("No");
+    } else {
+      setUserMail("Yes");
+    }
   };
 
   return (
@@ -206,14 +219,17 @@ const PremiseTopAccess = ({ user, premiseOwner, id, project_id }) => {
               src={msgIcon}
               className="w-8 h-8 cursor-pointer"
               alt=""
-              onClick={() => setUserMail(true)}
+              onClick={handleUserMail}
             />
-            {userMail && (
+            {userMail == "Yes" && (
               <UserMail
                 recipient={premiseOwner}
                 data={{ user, id }}
                 setUserMail={setUserMail}
               />
+            )}
+            {userMail == "No" && (
+              <NoAccessPopUp setNoAccessPopup={setUserMail} />
             )}
           </div>
         )}

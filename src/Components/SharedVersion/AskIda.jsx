@@ -1,8 +1,10 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { useCommentPremiseMutation } from "../../app/EndPoints/premisePoolApi";
 import { baseURL } from "../utils";
+import { fetchUserAccess, MyContext } from "../../App";
+import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 
 const AskIda = ({
   id,
@@ -11,9 +13,13 @@ const AskIda = ({
   setOpenAllReplies,
   setOpenReplyFieldID,
   lastCommentRef,
+  premiseOwner,
 }) => {
+  const { currentUser } = useContext(MyContext);
   const [postComment, isCommentResInfo] = useCommentPremiseMutation();
   const [isLoading, setIsLoading] = useState(false);
+  const [noAccessPopup, setNoAccessPopup] = useState(false);
+
   const token = localStorage.getItem("accessToken");
   const header = {
     Authorization: `Bearer ${token}`,
@@ -22,6 +28,24 @@ const AskIda = ({
   };
 
   const handleButtonClick = async () => {
+    if (premiseOwner?.id == currentUser?.id) {
+      setIsLoading(true);
+      const res = await fetchUserAccess(
+        `${currentUser?.id}/PP_AllowBrainstoming`
+      );
+      console.log("owner brainstorming res", res);
+      if (res?.access == "No" && res?.msg == "LB") {
+        setNoAccessPopup(true);
+      } else {
+        handleSubmitComment();
+      }
+      setIsLoading(false);
+    } else {
+      handleSubmitComment();
+    }
+  };
+
+  const handleSubmitComment = async () => {
     setIsLoading(true);
 
     try {
@@ -85,15 +109,24 @@ const AskIda = ({
       setIsLoading(false);
     }
   };
+
   return (
-    <div className="my-1 text-center">
-      <button
-        disabled={isLoading}
-        onClick={handleButtonClick}
-        className=" bg-[#33B0CA] border-none rounded-[6px] px-4 py-1 text-white text-[14px] font-[600] leading-[21px]"
-      >
-        Ask Ida for more!
-      </button>
+    <div>
+      <div className="my-1 text-center">
+        <button
+          disabled={isLoading}
+          onClick={handleButtonClick}
+          className=" bg-[#33B0CA] border-none rounded-[6px] px-4 py-1 text-white text-[14px] font-[600] leading-[21px]"
+        >
+          Ask Ida for more!
+        </button>
+      </div>
+      {noAccessPopup && (
+        <NoAccessLbPopUp
+          setNoAccessPopup={setNoAccessPopup}
+          service="PP_Brainstrom"
+        />
+      )}
     </div>
   );
 };

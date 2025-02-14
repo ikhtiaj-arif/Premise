@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import {
@@ -9,6 +9,8 @@ import ConfirmationModal from "../Comments/ConfirmationModal";
 import CharacterShowCard from "./Card";
 import SingleCharacterAdd from "./SingleCharacterAdd";
 import SingleCharacterEdit from "./SingleCharacterEdit";
+import { fetchUserAccess, MyContext } from "../../../App";
+import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 
 const CharacterEditablePop = ({
   setCharacterEditPop,
@@ -24,8 +26,10 @@ const CharacterEditablePop = ({
 }) => {
   const [modifiedCharacters, setModifiedCharacters] = useState([]);
 
+  const { currentUser } = useContext(MyContext);
+
   const [editPopupOpen, setEditPopupOpen] = useState(false);
-  const [addNewCharacter, setAddNewCharacter] = useState(false);
+  const [addNewCharacter, setAddNewCharacter] = useState(null);
   const [editData, setEditData] = useState({});
   const [editIdx, setEditIdx] = useState(null);
   const [deleteIdx, setDeleteIdx] = useState(null);
@@ -166,6 +170,16 @@ const CharacterEditablePop = ({
     }
   };
 
+  const handleAddNewChar = async () => {
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_AddCharacters`);
+    console.log("add char res", res);
+    if (res?.access == "No") {
+      setAddNewCharacter("No");
+    } else {
+      setAddNewCharacter("Yes");
+    }
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="fixed inset-0 bg-black opacity-50"></div>
@@ -220,7 +234,7 @@ const CharacterEditablePop = ({
         <div className="absolute right-[30px] bottom-[30px] flex justify-end gap-[16px] mt-[38px]">
           {finalCharacters?.length <= 17 && (
             <button
-              onClick={(e) => setAddNewCharacter(true)}
+              onClick={handleAddNewChar}
               className="bg-[#fafafa] flex items-center gap-[10px] justify-center text-[14px] text-[#33B0CA] border border-[#33B0CA] w-[145px] h-[32px] rounded-[8px] "
             >
               <FaPlus /> <span>Add Character</span>
@@ -251,7 +265,10 @@ const CharacterEditablePop = ({
         )}
       </div>
       <div>
-        {addNewCharacter && (
+        {addNewCharacter == "No" && (
+          <NoAccessPopUp setNoAccessPopup={setAddNewCharacter} />
+        )}
+        {addNewCharacter == "Yes" && (
           <SingleCharacterAdd
             setAddNewCharacter={setAddNewCharacter}
             editData={editData}

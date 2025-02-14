@@ -5,7 +5,7 @@ import { FaRegTrashAlt, FaThumbsUp } from "react-icons/fa";
 import { IoIosUndo, IoMdSend } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { MyContext } from "../../App";
+import { fetchUserAccess, MyContext } from "../../App";
 import {
   useCreateReplyMutation,
   useCreateSuggestedReplyMutation,
@@ -28,6 +28,7 @@ import BeatEditPop from "./AddToBeat/BeatEditPop";
 import CommentLikePopup from "./CommentLikePopup";
 import ReplyToComments from "./Comments/ReplyToComments";
 import UserType from "./UserType";
+import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 
 const AllComments = ({
   commentIdx,
@@ -67,12 +68,13 @@ const AllComments = ({
   const user = useSelector((state) => state?.user?.id);
 
   const [selectedProject, setSelectedProject] = useState(null);
+  const [noAccessLbPopup, setNoAccessLbPopup] = useState(null);
 
   const {
     selectedPremiseObj,
     selectedSpProjectID,
     createdSpProjectID,
-    currentlyOpenedCommentID,
+    currentlyOpenedCommentID,currentUser,
     setCurrentlyOpenedCommentID,
   } = useContext(MyContext);
 
@@ -360,7 +362,16 @@ const AllComments = ({
   const [beatSuggestLoading, setBeatSuggLoading] = useState(false);
   const [addToBeatDisable, setAddToBeatDisable] = useState(false);
   // console.log("comments",comments);
-  const handleAddToBeat = async (comment) => {
+  const handleAddToBeat=async(comment)=>{
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_BeatSheet`);
+      console.log("add to beat res", res);
+      if (res?.access == "No") {
+        setNoAccessLbPopup(true);
+      } else {
+        submitAddToBeat(comment);
+      }
+  }
+  const submitAddToBeat = async (comment) => {
     // console.log("comment",comment);
 
     setCommentObj(comment);
@@ -1302,6 +1313,12 @@ const AllComments = ({
           selectedProject={selectedProject}
           setAddToBeatDisable={setAddToBeatDisable}
           // currentPremiseProject={currentPremiseProject}
+        />
+      )}
+      { noAccessLbPopup && (
+        <NoAccessLbPopUp
+          setNoAccessPopup={setNoAccessLbPopup}
+          service="PP_Beats"
         />
       )}
       <div className="h-[1px] w-[88%] mx-auto bg-[#eaeaea] mb-[4px]" />
