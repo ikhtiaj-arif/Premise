@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import LanguageSelector from "../Premisepool/LanguageSelector";
 import { FaKeyboard } from "react-icons/fa";
 import BtnLoading from "../../shared/BtnLoading";
@@ -9,6 +9,8 @@ import { baseURL } from "../utils";
 import { useCommentPremiseMutation } from "../../app/EndPoints/premisePoolApi";
 import Keyboard from "../Premisepool/Keyboard";
 import Draggable from "react-draggable";
+import { fetchUserAccess, MyContext } from "../../App";
+import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 
 const PopupTextarea = ({
   premiseOwner,
@@ -22,7 +24,8 @@ const PopupTextarea = ({
   setCommentField,
   setReplyField,
   replyField,
-  replyRef, fromNew
+  replyRef,
+  fromNew,
 }) => {
   const [textCount, setTextCount] = useState(0);
   const [newComment, setNewComment] = useState("");
@@ -31,9 +34,15 @@ const PopupTextarea = ({
   const [isCommentQuestion, setIsCommentQuestion] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [noAccessPopup, setNoAccessPopup] = useState(false);
 
   const [postComment, isCommentResInfo] = useCommentPremiseMutation();
   const inputRef = useRef(null);
+
+  const { currentUser } = useContext(MyContext);
+
+  // console.log('user from textarea',user);
+  // console.log('user from textarea premise owner',premiseOwner);
 
   useEffect(() => {
     if (newComment.endsWith("?")) {
@@ -74,6 +83,23 @@ const PopupTextarea = ({
   };
 
   const handleButtonClick = async () => {
+    if (premiseOwner?.id == currentUser?.id) {
+      setIsLoading(true);
+      const res = await fetchUserAccess(
+        `${currentUser?.id}/PP_AllowBrainstoming`
+      );
+      console.log("owner brainstorming res", res);
+      if (res?.access == "No" && res?.msg == "LB") {
+        setNoAccessPopup(true);
+      } else {
+        handleSubmitComment();
+      }
+      setIsLoading(false);
+    } else {
+      handleSubmitComment();
+    }
+  };
+  const handleSubmitComment = async () => {
     if (newComment.length === 0) {
       alert("You can't send an empty comment!");
       return;
@@ -158,7 +184,11 @@ const PopupTextarea = ({
   };
   return (
     <div className="relative">
-      <div className={`bg-[#F8F8F8] relative  md:mb-[16px] pl-3 md:flex-row ${fromNew ? 'w-full' :'w-[90%]'}  mx-auto border border-[#EAEAEA] rounded-[8px] mt-[8px]`}>
+      <div
+        className={`bg-[#F8F8F8] relative  md:mb-[16px] pl-3 md:flex-row ${
+          fromNew ? "w-full" : "w-[90%]"
+        }  mx-auto border border-[#EAEAEA] rounded-[8px] mt-[8px]`}
+      >
         {premiseOwner?.id === user ? (
           <textarea
             ref={inputRef}
@@ -232,7 +262,11 @@ const PopupTextarea = ({
           )}
         </div>
       </div>
-      <div className={`hidden md:block absolute bottom-[8px] md:bottom-[2px] ${fromNew ? 'xl:bottom-[-12px]' :'xl:bottom-[4px]'} right-[16px]`}>
+      <div
+        className={`hidden md:block absolute bottom-[8px] md:bottom-[2px] ${
+          fromNew ? "xl:bottom-[-12px]" : "xl:bottom-[4px]"
+        } right-[16px]`}
+      >
         {premiseOwner?.id === user ? (
           <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
             {textCount}/250
@@ -275,6 +309,13 @@ const PopupTextarea = ({
           </Draggable>
         )}
       </>
+
+      {noAccessPopup && (
+        <NoAccessLbPopUp
+          setNoAccessPopup={setNoAccessPopup}
+          service="PP_Brainstrom"
+        />
+      )}
     </div>
   );
 };

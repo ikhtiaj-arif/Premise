@@ -10,7 +10,6 @@ import PremiseNewTab from "./Components/PremiseV2/premiseNewTab/PremiseNewTab";
 import PremiseV2 from "./Components/PremiseV2/Premsie.v2";
 import { URL } from "./Components/utils";
 
-
 export const MyContext = createContext();
 
 function App() {
@@ -44,21 +43,19 @@ function App() {
   // const [isFirstCommentSuggested, setIsFirstCommentSuggested] = useState(false);
 
   const [currentlyOpenedCommentID, setCurrentlyOpenedCommentID] = useState("");
-  // console.log("selectedPremiseObj Lnt",availableForTranslation);
+  // console.log("selectedPremiseObj Lnt",selectedPremiseObj);
 
   const allProjects = allspProjectJSON?.projects;
   const filterdAllProjects = allspProjectJSON?.projects?.filter(
     (item) => !item.locked
   );
 
-
-
   useEffect(() => {
     if (activeAddedByMe) {
       // setSearchAuthor(user?.id)
       // console.log(user?.id);
     }
-  }, [activeAddedByMe,availableForTranslation, user?.id]);
+  }, [activeAddedByMe, user?.id]);
 
   const value = {
     activeAddedByMe,
@@ -88,9 +85,13 @@ function App() {
     selectedLanguages,
     setSelectedLanguages,
     currentlyOpenedCommentID,
-    setCurrentlyOpenedCommentID,user,
-    setAvailableForSale,setAvailableForTranslation,
-    availableForTranslation,availableForSale
+    setCurrentlyOpenedCommentID,
+    user,
+    setAvailableForSale,
+    availableForSale,
+    availableForTranslation,
+    setAvailableForTranslation,
+
     // isFirstCommentSuggested,
     // setIsFirstCommentSuggested,
     // openPop, setOpenPop
@@ -101,15 +102,17 @@ function App() {
   return (
     <div className=" text-xl overflow-x-hidden">
       <MyContext.Provider value={value}>
-      {/* <TLanguageSelector /> */}
+        {/* <TLanguageSelector /> */}
         <Routes>
           <Route path="/" element={<Premisepool />}></Route>
           <Route path="/premise-pool-v2" element={<PremiseV2 />}></Route>
-          <Route path="/premise-pool-v2/payment" element={<PremiseV2 />}></Route>
+          <Route
+            path="/premise-pool-v2/payment"
+            element={<PremiseV2 />}
+          ></Route>
           <Route path="/new-tab/:id" element={<PremiseNewTab />}></Route>
-          <Route path="/:__id/:service" element={<Premisepool />}></Route> 
-          <Route path="/:__id/:service" element={<Premisepool />}></Route> 
- 
+          <Route path="/:__id/:service" element={<Premisepool />}></Route>
+          <Route path="/:__id/:service" element={<Premisepool />}></Route>
         </Routes>
       </MyContext.Provider>
 
@@ -120,8 +123,9 @@ function App() {
 
 export default App;
 
-export const  fetchUserAccess = (flag, state, userId,api)=> {
-  try { //pay/checkuseraccess/${userId}/${flag}
+export const fetchUserAccess = (flag, state, userId, api) => {
+  try {
+    //pay/checkuseraccess/${userId}/${flag}
     fetch(`${URL}/${api}`, {
       method: "GET",
       headers: {
@@ -140,4 +144,4 @@ export const  fetchUserAccess = (flag, state, userId,api)=> {
   } catch (error) {
     console.log("userAccess error", error);
   }
-}
+};

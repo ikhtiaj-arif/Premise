@@ -565,7 +565,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     getCalculateProductPrice: builder.query({
       query: () => {
           return {
-              url: `/pay/product_uint_details/?product_code=PD`,
+              url: `/pay/product_uint_details/?product_code=PP`,
               method: "GET",
           };
       },

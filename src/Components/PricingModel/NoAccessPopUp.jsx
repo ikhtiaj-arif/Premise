@@ -1,13 +1,13 @@
 import React from "react";
 import crossIcon from "../../img/croos_icon.png";
-import { Url } from "../utils";
 import { useNavigate } from "react-router-dom";
+import { URL } from "../utils";
 
 const NoAccessPopUp = ({ setNoAccessPopup }) => {
   const navigate = useNavigate();
 
   const redirectToPrivileges = () => {
-    window.location.href = Url + "/pay/pricing";
+    window.location.href = URL + "/pay/pricing";
   };
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
@@ -19,7 +19,7 @@ const NoAccessPopUp = ({ setNoAccessPopup }) => {
               alt=""
               className="w-[40px] h-[40px] z-[99999999] cursor-pointer"
               onClick={() => {
-                setNoAccessPopup(false);
+                setNoAccessPopup(null);
               }}
             />
           </div>

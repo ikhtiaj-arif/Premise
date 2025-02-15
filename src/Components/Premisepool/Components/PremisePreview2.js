@@ -793,7 +793,7 @@ const PremisePreview2 = ({
                   position: toast.POSITION.TOP_CENTER,
                   autoClose: 1600,
                 });
-                setAddPopup(false);
+                setAddPopup(null);
               });
           } else {
             // Handle API errors
@@ -808,7 +808,7 @@ const PremisePreview2 = ({
               position: toast.POSITION.TOP_CENTER,
               autoClose: 1600,
             });
-            setAddPopup(false);
+            setAddPopup(null);
           }
         }
       } else {
@@ -958,7 +958,7 @@ const PremisePreview2 = ({
   const deletePremiseWhenFailed = async (id) => {
     const response = await deletePremise(id);
     if (response) {
-      setAddPopup(false);
+      setAddPopup(null);
     }
   };
 
@@ -2183,7 +2183,7 @@ const PremisePreview2 = ({
           <Popup
             popClose={() => {
               setOpenPop(false);
-              setAddPopup(false);
+              setAddPopup(null);
             }}
             setIsLiked={setIsLiked}
             data={premiseData}

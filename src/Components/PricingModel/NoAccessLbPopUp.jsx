@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { URL } from "../utils";
 import { useGetCalculateProductPriceQuery } from "../../app/EndPoints/premisePoolApi";
 
-const NoAccessLbPopUp = ({ setNoAccessPopup, service, scriptId }) => {
+const NoAccessLbPopUp = ({ setNoAccessPopup, brainstorming, service }) => {
   const { counts, setCounts } = useContext(MyContext);
 
   const {
@@ -32,6 +32,12 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, service, scriptId }) => {
       setPdData(updatedProductPrice);
     }
   }, [productPrice, service]);
+
+  useEffect(() => {
+    if (service !== "PP_Brainstrom") {
+      setSelectedOption("nextPackage");
+    }
+  }, [service]);
 
   const handleRadioChange = (event) => {
     setSelectedOption(event.target.value);
@@ -68,10 +74,7 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, service, scriptId }) => {
               alt=""
               className="w-[40px] h-[40px] z-[99999999] cursor-pointer"
               onClick={() => {
-                setNoAccessPopup(false);
-                if (scriptId) {
-                  navigate(`/${scriptId}`);
-                }
+                setNoAccessPopup(null);
               }}
             />
           </div>
@@ -85,18 +88,18 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, service, scriptId }) => {
 
             <h1 className=" text-[#252525] text-[16px] font-[600] leading-6">
               You have
-              {service == "PD_OnePagers"
-                ? " Generated One Pager for "
-                : service == "PD_Pitches"
-                ? " Created Elevator Pitch for "
-                : " Generated Logline for "}
-              {PdData?.current_usage} Projects in {PdData?.day_passed} days!
-              That’s commendable!!
+              {service == "PP_Brainstrom" ? " Completed " : " Generated "}
+              {PdData?.current_usage}{" "}
+              {service == "PP_Brainstrom"
+                ? " Brainstormings with Ida "
+                : " Premises "}{" "}
+              in {PdData?.day_passed} days! That’s commendable!!
             </h1>
             <p className=" text-[#252525] text-[16px] font-[500] leading-6 mx-2 my-3">
               To carry on further :-
             </p>
-            {service === "PD_loglines" ? (
+
+            {service !== "PP_Brainstrom" ? (
               <p className=" text-center text-[#616161] text-[16px] leading-6 font-[400]">
                 Buy next Juggernaut Package (Please note that the unused
                 facilities of the existing Juggernaut package will be carried
@@ -115,9 +118,7 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, service, scriptId }) => {
                       className="mt-1"
                     />
                     <span className=" flex-1">
-                      {service == "PD_OnePagers"
-                        ? "Generate One Pager of "
-                        : "Create Elevator Pitch of "}
+                      {"Commit to "}
                       <input
                         type="text"
                         placeholder="0"
@@ -138,7 +139,7 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, service, scriptId }) => {
                         className="w-[58px] h-[26px] border border-[#EAEAEA] rounded-[4px] p-1 mx-2 text-center focus:outline-none"
                         disabled={selectedOption !== "generate"}
                       />{" "}
-                      {" Projects "} for USD{" "}
+                      {" more Brainstormings "} for USD{" "}
                       {(sceneCount * PdData?.uint_value).toFixed(2)}
                     </span>
                   </label>

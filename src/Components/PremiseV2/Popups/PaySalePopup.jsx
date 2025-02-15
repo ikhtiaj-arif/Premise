@@ -3,23 +3,33 @@ import crossIcon from "../../../img/Icons/crossIcon.png";
 import { useSaleForPremiseMutation } from "../../../app/EndPoints/premisePoolApi";
 import PaymentInvoicePopup from "../../Payment/PaymentInvoicePopup";
 
-const PaySalePopup = ({ popClose, premiseId, sellingValue, Userid }) => {
+const PaySalePopup = ({
+  popClose,
+  premiseId,
+  sellingValue,
+  Userid,
+  refetch,
+}) => {
   const [saleForPremise] = useSaleForPremiseMutation();
   const [isPayment, setPayment] = useState(false);
 
   const handlePayNow = () => {
     setPayment(true);
   };
-  const handleSubmit = async () => {
+  const handleSubmit = async (transaction_id) => {
     try {
       const response = await saleForPremise({
         body: {
           premise_id: premiseId,
           user_id: Userid,
+          transaction_id: transaction_id,
         },
       }).unwrap();
       console.log("Success", response);
-      popClose(false);
+      if (response) {
+        popClose(false);
+        refetch();
+      }
     } catch (error) {
       console.error(error);
       // Handle error (e.g., show an error message)

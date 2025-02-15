@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { MyContext } from "../../App";
+import { fetchUserAccess, MyContext } from "../../App";
 import {
   useGetHiddenPremiseCountQuery,
   useGetPremiseQuery,
@@ -20,6 +20,7 @@ import TypingLoader from "../TypingLoader";
 import { baseURL } from "../utils";
 import PremiseCardV2 from "./Card/PremiseCardV2";
 import FilterSearchSort from "./Header/FiltersSearchSort/FilterSearchSort";
+import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 
 export const loadingData = [
   "Initializing..",
@@ -41,15 +42,14 @@ const PremiseV2 = () => {
   const [language, setLanguage] = useState("");
   const {
     isAddNew,
-    setIsAddNew,
     activeAddedByMe,
-    setActiveAddedByMe,
     addedByMeCondition,
     setAddedByMeCondition,
     searchAuthor,
     setSearchAuthor,
     availableForSale,
     availableForTranslation,
+    currentUser,
   } = useContext(MyContext);
 
   const [isFirstCardBlinking, setIsFirstCardBlinking] = useState(false);
@@ -187,20 +187,16 @@ const PremiseV2 = () => {
     }
   }, [id, premiseData]);
 
-  // const userFirstName = useSelector((state) => state?.user?.firstName);
-  // const userLastName = useSelector((state) => state?.user?.lastName);
   const userFirstName = userQuery?.first_name;
   const userLastName = userQuery?.last_name;
 
   const [isDelete, setIsDelete] = useState(false);
   const [viewData, setViewData] = useState(null);
-  const [userNamePop, setUserPop] = useState(false);
 
   const [dataCount, setDataCount] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
-  const [addPopup, setAddPopup] = useState();
-  const [isUserName, setIsUserName] = useState(true);
+  const [addPopup, setAddPopup] = useState(null);
 
   useEffect(() => {
     setQuery({
@@ -310,8 +306,20 @@ const PremiseV2 = () => {
     setActiveSearch(false);
     setTransPopClose(null);
   };
-  const [ttt, setTtt] = useState(false);
-  // console.log(userFirstName)
+
+  const handleAddPopup = async () => {
+    if (userFirstName && userLastName) {
+      const res = await fetchUserAccess(`${currentUser?.id}/PP_PostPremise`);
+      console.log("add premise res", res);
+      if (res?.access == "No") {
+        setAddPopup("No");
+      } else {
+        setAddPopup("Yes");
+      }
+    } else {
+      setAddPopup("noUserName");
+    }
+  };
 
   return (
     //   <div
@@ -366,7 +374,7 @@ const PremiseV2 = () => {
                   Monetize Your Creativity!
                 </h2>
                 <button
-                  onClick={() => setAddPopup(true)}
+                  onClick={handleAddPopup}
                   // className="btn btn"
                   className="bg-[#33B0CA] flex items-center justify-center gap-[8px] text-[#FAFAFA] text-[14px] font-[600] rounded-[8px] min-w-[196px] min-h-[34px] mt-[14px] px-[12px] mx-auto"
                 >
@@ -409,20 +417,14 @@ const PremiseV2 = () => {
             </div>
           </div>
           <div className="w-full mx-auto h-[1px] bg-[#eaeaea] mt-[4px] barSm-hidden" />
-          {addPopup && (
-            <>
-              {!userFirstName && !userLastName ? (
-                <UserNamePopup
-                  setIsUserName={setIsUserName}
-                  setAddPopup={setAddPopup}
-                  refetch={refetch}
-                />
-              ) : (
-                <AddPremise2 setAddPopup={setAddPopup} refetch={refetch} />
-                // <AddPremise2 setAddPopup={setAddPopup} refetch={refetch}
-                //  setIsAddNew={setIsAddNew}/>
-              )}
-            </>
+          {addPopup == "noUserName" && (
+            <UserNamePopup {...{refetch, setAddPopup }} />
+          )}
+          {addPopup == "No" && (
+            <NoAccessLbPopUp setNoAccessPopup={setAddPopup} service='PP_Premises'/>
+          )}
+          {addPopup == "Yes" && (
+            <AddPremise2 setAddPopup={setAddPopup} refetch={refetch} />
           )}
 
           <div className="shortM-hidden ">

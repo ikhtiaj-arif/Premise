@@ -23,7 +23,7 @@ const PaymentInvoicePopup = ({
   setPayment,
   premise_id,
 }) => {
-  const { user } = useContext(MyContext);
+  const { currentUser } = useContext(MyContext);
   const [paymentData, { isLoading: isPLoading }] = usePaymentDataMutation();
   const [paymentSend] = usePaymentSendMutation();
   const [successFulPayment] = usePaymentSucessMutation();
@@ -35,8 +35,8 @@ const PaymentInvoicePopup = ({
 
   const navigate = useNavigate();
 
-//   console.log("payment", user);
-//   console.log("payInfo", payInfo);
+  //   console.log("payment", user);
+  //   console.log("payInfo", payInfo);
 
   useEffect(() => {
     async function fetchData() {
@@ -60,19 +60,19 @@ const PaymentInvoicePopup = ({
   }, [premise_id, paymentData]);
 
   const handlePaymentSuccess = async (response, isPayU = false) => {
+    //console.log("payment success", response);
     if (response) {
       const data = {
-        services_data: paymentData?.services,
+        services_data: payInfo?.services,
       };
       if (isPayU) {
-        // PayU-specific data mapping
         data.payu_payment_id = response?.tnxid;
         data.payu_hash = response?.hash;
       } else {
-        // Razorpay-specific data mapping
         data.razorpay_order_id = response?.razorpay_order_id;
         data.razorpay_payment_id = response?.razorpay_payment_id;
         data.razorpay_signature = response?.razorpay_signature;
+        data.transaction_id = payInfo?.transaction_id;
       }
       const creditToDebit = sessionStorage.getItem("creditToDebit");
       if (creditToDebit) {
@@ -84,7 +84,7 @@ const PaymentInvoicePopup = ({
         setPayment(true);
         toast("Payment Successful");
         if (submit) {
-          submit();
+          submit(payInfo?.transaction_id);
         }
       }
     }
@@ -265,7 +265,7 @@ const PaymentInvoicePopup = ({
                       >
                         {getFormattedDate()}
                       </p>
-                      <HeaderOptions currentUser={user} data={payInfo} />
+                      <HeaderOptions currentUser={currentUser} data={payInfo} />
                     </section>
                     <div className=" ">
                       {/* <img src={Valid} className="w-[107px]" alt="" /> */}
