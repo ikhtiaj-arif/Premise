@@ -45,6 +45,10 @@ const PremiseV2 = () => {
     activeAddedByMe,
     addedByMeCondition,
     setAddedByMeCondition,
+    searchAuthor,
+    setSearchAuthor,
+    availableForSale,
+    availableForTranslation,
     currentUser,
   } = useContext(MyContext);
 
@@ -74,6 +78,8 @@ const PremiseV2 = () => {
     user: queryUser,
     language: language,
     shared: addedByMeCondition,
+    sale: availableForSale,
+    translation: availableForTranslation,
   });
 
   useEffect(() => {}, [sortOrder, sortedData, itemsToShow, currentPage]);
@@ -203,6 +209,8 @@ const PremiseV2 = () => {
       user: queryUser,
       user_id: user,
       shared: addedByMeCondition,
+      sale: availableForSale,
+      translation: availableForTranslation,
     });
     setTotalPages(Math.ceil(dataCount / itemsToShow));
   }, [
@@ -216,6 +224,8 @@ const PremiseV2 = () => {
     queryUser,
     user,
     addedByMeCondition,
+    availableForSale,
+    availableForTranslation,
   ]);
 
   useEffect(() => {
