@@ -423,7 +423,7 @@ const PremiseV2 = () => {
           {addPopup == "No" && (
             <NoAccessLbPopUp setNoAccessPopup={setAddPopup} service='PP_Premises'/>
           )}
-          {addPopup !== "Yes" && (
+          {addPopup == "Yes" && (
             <AddPremise2 setAddPopup={setAddPopup} refetch={refetch} />
           )}
 

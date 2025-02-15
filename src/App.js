@@ -5,10 +5,11 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { useGetMyAllProjectQuery } from "./app/EndPoints/ScriptPad/project";
-import Premisepool from "./Components/Premisepool/Premisepool";
 import PremiseNewTab from "./Components/PremiseV2/premiseNewTab/PremiseNewTab";
+import Premisepool from "./Components/Premisepool/Premisepool";
 import PremiseV2 from "./Components/PremiseV2/Premsie.v2";
 import { URL } from "./Components/utils";
+
 
 export const MyContext = createContext();
 
@@ -23,14 +24,11 @@ function App() {
   const [isAddNew, setIsAddNew] = useState(false);
   const [activeAddedByMe, setActiveAddedByMe] = useState(false);
   const [addedByMeCondition, setAddedByMeCondition] = useState(false);
-  const [availableForTranslation, setAvailableForTranslation] = useState(false);
-  const [availableForSale, setAvailableForSale] = useState(false);
   const [selectedPremiseObj, setSelectedPremiseObj] = useState(null);
   const [searchText, setSearchText] = useState("");
-  const user = useSelector((state) => state?.user);
+  const currentUser = useSelector((state) => state?.user);
   const [selectedSpProjectID, setSelectedSpProjectID] = useState("");
   const [createdSpProjectID, setCreatedSpProjectID] = useState("");
-  const currentUser = useSelector((state) => state?.user);
   const [selectedPremiseSpProjectId, setSelectedPremiseSpProjectId] =
     useState("");
   const [selectedLanguages, setSelectedLanguages] = useState(null);
@@ -45,7 +43,6 @@ function App() {
 
   const [currentlyOpenedCommentID, setCurrentlyOpenedCommentID] = useState("");
   // console.log("selectedPremiseObj Lnt",selectedPremiseObj);
-  
 
   const allProjects = allspProjectJSON?.projects;
   const filterdAllProjects = allspProjectJSON?.projects?.filter(
@@ -57,7 +54,7 @@ function App() {
       // setSearchAuthor(user?.id)
       // console.log(user?.id);
     }
-  }, [activeAddedByMe,currentUser?.id, user?.id]);
+  }, [activeAddedByMe, currentUser?.id]);
 
   const value = {
     activeAddedByMe,
@@ -87,13 +84,7 @@ function App() {
     selectedLanguages,
     setSelectedLanguages,
     currentlyOpenedCommentID,
-    setCurrentlyOpenedCommentID,
-    user,
-    setAvailableForSale,
-    availableForSale,
-    availableForTranslation,
-    setAvailableForTranslation,currentUser
-
+    setCurrentlyOpenedCommentID,currentUser,
     // isFirstCommentSuggested,
     // setIsFirstCommentSuggested,
     // openPop, setOpenPop
@@ -104,17 +95,15 @@ function App() {
   return (
     <div className=" text-xl overflow-x-hidden">
       <MyContext.Provider value={value}>
-        {/* <TLanguageSelector /> */}
+      {/* <TLanguageSelector /> */}
         <Routes>
           <Route path="/" element={<Premisepool />}></Route>
           <Route path="/premise-pool-v2" element={<PremiseV2 />}></Route>
-          <Route
-            path="/premise-pool-v2/payment"
-            element={<PremiseV2 />}
-          ></Route>
+          <Route path="/premise-pool-v2/payment" element={<PremiseV2 />}></Route>
           <Route path="/new-tab/:id" element={<PremiseNewTab />}></Route>
-          <Route path="/:__id/:service" element={<Premisepool />}></Route>
-          <Route path="/:__id/:service" element={<Premisepool />}></Route>
+          <Route path="/:__id/:service" element={<Premisepool />}></Route> 
+          <Route path="/:__id/:service" element={<Premisepool />}></Route> 
+ 
         </Routes>
       </MyContext.Provider>
 
@@ -125,25 +114,20 @@ function App() {
 
 export default App;
 
-export const fetchUserAccess = (flag, state, userId, api) => {
+export const fetchUserAccess = async (flag) => {
   try {
-    //pay/checkuseraccess/${userId}/${flag}
-    fetch(`${URL}/${api}`, {
+    const response = await fetch(`${URL}/pay/checkuseraccess/${flag}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         "Content-Type": "application/json",
       },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(`userAccess ${flag}`, data);
-        if (data) {
-          //sessionStorage.setItem(flag, data?.access);
-          state(data);
-        }
-      });
+    });
+
+    const data = await response.json();
+    console.log(`userAccess`, data);
+    return data; 
   } catch (error) {
-    console.log("userAccess error", error);
+    return null; 
   }
 };
