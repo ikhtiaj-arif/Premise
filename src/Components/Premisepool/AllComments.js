@@ -11,6 +11,7 @@ import {
   useCreateSuggestedReplyMutation,
   useGetAllReplyOfACommentQuery,
 } from "../../app/EndPoints/commentReply/reply";
+import { useTranslateCommentMutation } from "../../app/EndPoints/comments/commentAPi";
 import { useBeatSuggestionMutation } from "../../app/EndPoints/MemberPage/Buddies";
 import {
   useDeleteCommentMutation,
@@ -29,12 +30,14 @@ import CommentLikePopup from "./CommentLikePopup";
 import ReplyToComments from "./Comments/ReplyToComments";
 import UserType from "./UserType";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
+import CommentTranslator from "../PremiseV2/components/CommentTranslator";
 
 const AllComments = ({
   commentIdx,
   comments,
   data,
-  refetch,fromNew,
+  refetch,
+  fromNew,
   openReplyField,
   setOpenReplyField,
   replyToCommentID,
@@ -56,10 +59,10 @@ const AllComments = ({
   setOpenReplyFieldID,
   actOneThreshold,
   actTwoEnd,
-  focusedCValue
+  focusedCValue,
   // isFirstCommentSuggested,
 }) => {
-  console.log(focusedCValue, 'ssdf');
+  console.log(focusedCValue, "ssdf");
   // const actTwoStart = Math.floor(0.25 * m_value);
 
   // const resolutionStart = Math.floor(0.8 * m_value);
@@ -88,7 +91,6 @@ const AllComments = ({
   // console.log("selectedSpProjectID", selectedSpProjectID);
   // console.log("allspProjectJSON", allspProjectJSON);
   // console.log("selectedProject", selectedProject);
-  
 
   useEffect(() => {
     const allProject = allspProjectJSON?.projects?.filter(
@@ -123,7 +125,6 @@ const AllComments = ({
       );
       setSelectedProject(currentPremiseProject);
     }
- 
   }, [
     allspProjectJSON,
     selectedPremiseObj,
@@ -463,6 +464,24 @@ const AllComments = ({
     }
   };
 
+  const [translateComment, isTranslationCommentLoading] =
+    useTranslateCommentMutation();
+
+  const handleTranslateComment = async (comment) => {
+    const data = {
+      text_id: comment.id,
+      tar_lang: "bn",
+    };
+
+    try {
+      const res = await translateComment(data);
+      console.log(res);
+      commentRefetch();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className=" flex flex-col justify-end w-full relative ">
       <div className="">
@@ -484,7 +503,11 @@ const AllComments = ({
 
         {/* each comment  */}
         <div>
-          <div className={` mt-[10px] w-[97%] ${fromNew ? 'lg:w-[97%]':'lg:w-[704px]'}  mx-auto  rounded-sm flex gap-1`}>
+          <div
+            className={` mt-[10px] w-[97%] ${
+              fromNew ? "lg:w-[97%]" : "lg:w-[704px]"
+            }  mx-auto  rounded-sm flex gap-1`}
+          >
             {/* comment like */}
 
             <div className=" w-full relative">
@@ -1113,35 +1136,44 @@ const AllComments = ({
                 </div>
               )}
 
-              <div className="absolute  right-[6.5px] md:right-[30.5px] top-[28%]">
-                {comments?.is_deleted ? (
-                  <div />
-                ) : (
-                  <>
-                    {(owner === user || comments?.user?.id === user) &&
-                    comments?.user?.id !== 1 ? (
-                      <div className="flex gap-2 items-center pl-[2px]">
-                        <button
-                          data-reply
-                          disabled={disableD}
-                          onClick={() => {
-                            setIdToDlt(comments?.id);
-                            setOpenDltPop(true);
-                          }}
-                          className={` ${
-                            disableD ? "cursor-default" : "cursor-pointer"
-                          }`}
-                        >
-                          <FaRegTrashAlt className="h-5 w-5 text-[#909090] " />
-                        </button>
-                      </div>
-                    ) : (
-                      <div className={`px-3 'cursor-default'}`}>
-                        <div className="" />
-                      </div>
-                    )}
-                  </>
-                )}
+              <div className="absolute flex gap-2 items-center right-[6.5px] md:right-[4.5px] top-[28%]">
+                <CommentTranslator
+                  comment={comments}
+                  translateComment={translateComment}
+                  loading={isTranslationCommentLoading}
+                  commentRefetch={commentRefetch}
+                />
+                <>
+                  {" "}
+                  {comments?.is_deleted ? (
+                    <div />
+                  ) : (
+                    <>
+                      {(owner === user || comments?.user?.id === user) &&
+                      comments?.user?.id !== 1 ? (
+                        <div className="flex gap-2 items-center pl-[2px]">
+                          <button
+                            data-reply
+                            disabled={disableD}
+                            onClick={() => {
+                              setIdToDlt(comments?.id);
+                              setOpenDltPop(true);
+                            }}
+                            className={` ${
+                              disableD ? "cursor-default" : "cursor-pointer"
+                            }`}
+                          >
+                            <FaRegTrashAlt className="h-5 w-5 text-[#909090] " />
+                          </button>
+                        </div>
+                      ) : (
+                        <div className={`px-3 'cursor-default'}`}>
+                          <div className="" />
+                        </div>
+                      )}
+                    </>
+                  )}
+                </>
               </div>
             </div>
             {likePopup && (
@@ -1272,7 +1304,8 @@ const AllComments = ({
                     exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
                     transition={{ duration: 0.5 }} // Adjust the duration as needed
                   >
-                    <ReplyToComments fromNew={fromNew}
+                    <ReplyToComments
+                      fromNew={fromNew}
                       commentIdx={comments?.c_value}
                       handleSuggest={handleSuggest}
                       key={index} // Make sure to provide a unique key when mapping over an array

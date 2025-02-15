@@ -4,7 +4,6 @@ import { MyContext } from "../../App";
 import { useTranslatePremiseMutation } from "../../app/EndPoints/premisePoolApi";
 import transIcon from "../../img/Icons/transIcon.png";
 import { sortedLanguages } from "./Languages";
-import Popup from "./Popup";
 
 const TranslatePremise = ({
   data,
@@ -206,7 +205,7 @@ const TranslatePremise = ({
             />
           )}
           {transPopClose === id && (
-            <div className="absolute top-[32px] left-[-77px] z-20 w-[124px]  h-[27vh] overflow-x-hidden md:h-[40vh] overflow-y-auto border bg-[#fafafa]">
+            <div className="absolute top-[32px] left-0 z-20 w-[124px]  h-[27vh] overflow-x-hidden md:h-[40vh] overflow-y-auto border bg-[#fafafa]">
               {Object.entries(sortedLanguages)?.map(([key, name]) =>
                 key !== source_language ? (
                   <li
