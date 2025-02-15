@@ -30,6 +30,7 @@ function App() {
   const user = useSelector((state) => state?.user);
   const [selectedSpProjectID, setSelectedSpProjectID] = useState("");
   const [createdSpProjectID, setCreatedSpProjectID] = useState("");
+  const currentUser = useSelector((state) => state?.user);
   const [selectedPremiseSpProjectId, setSelectedPremiseSpProjectId] =
     useState("");
   const [selectedLanguages, setSelectedLanguages] = useState(null);
@@ -44,6 +45,7 @@ function App() {
 
   const [currentlyOpenedCommentID, setCurrentlyOpenedCommentID] = useState("");
   // console.log("selectedPremiseObj Lnt",selectedPremiseObj);
+  
 
   const allProjects = allspProjectJSON?.projects;
   const filterdAllProjects = allspProjectJSON?.projects?.filter(
@@ -55,7 +57,7 @@ function App() {
       // setSearchAuthor(user?.id)
       // console.log(user?.id);
     }
-  }, [activeAddedByMe, user?.id]);
+  }, [activeAddedByMe,currentUser?.id, user?.id]);
 
   const value = {
     activeAddedByMe,
@@ -90,7 +92,7 @@ function App() {
     setAvailableForSale,
     availableForSale,
     availableForTranslation,
-    setAvailableForTranslation,
+    setAvailableForTranslation,currentUser
 
     // isFirstCommentSuggested,
     // setIsFirstCommentSuggested,
