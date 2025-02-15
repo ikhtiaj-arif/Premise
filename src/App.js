@@ -9,6 +9,7 @@ import PremiseNewTab from "./Components/PremiseV2/premiseNewTab/PremiseNewTab";
 import Premisepool from "./Components/Premisepool/Premisepool";
 import PremiseV2 from "./Components/PremiseV2/Premsie.v2";
 import { URL } from "./Components/utils";
+import LimitPaymentPage from "./Components/Payment/LimitPaymentPage";
 
 
 export const MyContext = createContext();
@@ -19,6 +20,8 @@ function App() {
     isLoading: isProjectLoading,
     refetch: projectRefetch,
   } = useGetMyAllProjectQuery();
+
+  const [counts, setCounts] = useState({});
 
   const [searchAuthor, setSearchAuthor] = useState(null);
   const [isAddNew, setIsAddNew] = useState(false);
@@ -56,6 +59,13 @@ function App() {
     }
   }, [activeAddedByMe, currentUser?.id]);
 
+  useEffect(() => {
+    const storedCounts = sessionStorage.getItem("pp_limit_counts");
+    if (storedCounts) {
+      setCounts(JSON.parse(storedCounts));
+    }
+  }, []);
+
   const value = {
     activeAddedByMe,
     setActiveAddedByMe,
@@ -84,7 +94,7 @@ function App() {
     selectedLanguages,
     setSelectedLanguages,
     currentlyOpenedCommentID,
-    setCurrentlyOpenedCommentID,currentUser,
+    setCurrentlyOpenedCommentID,currentUser,counts,setCounts
     // isFirstCommentSuggested,
     // setIsFirstCommentSuggested,
     // openPop, setOpenPop
@@ -99,7 +109,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Premisepool />}></Route>
           <Route path="/premise-pool-v2" element={<PremiseV2 />}></Route>
-          <Route path="/premise-pool-v2/payment" element={<PremiseV2 />}></Route>
+          <Route path="/premise-pool-v2/payment" element={<LimitPaymentPage />}></Route>
           <Route path="/new-tab/:id" element={<PremiseNewTab />}></Route>
           <Route path="/:__id/:service" element={<Premisepool />}></Route> 
           <Route path="/:__id/:service" element={<Premisepool />}></Route> 
