@@ -97,7 +97,7 @@ const SingleCharacterAdd = ({
     setFamilyrelationship("");
     setProfessionalrelationship("");
     setCustomRole("");
-    setAddNewCharacter(false);
+    setAddNewCharacter(null);
   };
 
   const handleAgeChange = (e) => {
@@ -471,7 +471,7 @@ const SingleCharacterAdd = ({
         </div>
         <div className="absolute bottom-0 left-0 right-0 bg-[#FAFAFA] py-4 px-8 flex justify-end gap-[18px] rounded-[8px]">
           <button
-            onClick={() => setAddNewCharacter(false)}
+            onClick={() => setAddNewCharacter(null)}
             className="bg-[#fafafa] flex items-center gap-[14px] justify-center text-[14px] text-[#33B0CA] border border-[#33B0CA] w-[69px] h-[32px] rounded-[4px] py-[4px] px-[2px] "
           >
             Cancel

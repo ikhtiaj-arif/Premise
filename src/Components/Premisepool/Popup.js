@@ -631,7 +631,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText ,handleVisibility}
                 <AskIda
                   id={premiseId}
                   {...{
-                    user,
+                    user,premiseOwner,
                     commentRefetch,
                     setOpenAllReplies,
                     setOpenReplyFieldID,
