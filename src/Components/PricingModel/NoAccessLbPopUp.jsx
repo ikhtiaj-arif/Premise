@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { URL } from "../utils";
 import { useGetCalculateProductPriceQuery } from "../../app/EndPoints/premisePoolApi";
 
-const NoAccessLbPopUp = ({ setNoAccessPopup, brainstorming, service }) => {
+const NoAccessLbPopUp = ({ setNoAccessPopup, service }) => {
   const { counts, setCounts } = useContext(MyContext);
 
   const {
@@ -19,17 +19,17 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, brainstorming, service }) => {
 
   const [selectedOption, setSelectedOption] = useState("generate");
   const [sceneCount, setSceneCount] = useState(0);
-  const [PdData, setPdData] = useState(null);
+  const [PpData, setPpData] = useState(null);
 
   const [showMinText, setShowMinText] = useState(false);
 
   useEffect(() => {
     if (productPrice) {
-      const updatedProductPrice = productPrice?.PD?.find(
+      const updatedProductPrice = productPrice?.PP?.find(
         (p) => p?.service_name == service
       );
       console.log("Updated Product Price:", updatedProductPrice);
-      setPdData(updatedProductPrice);
+      setPpData(updatedProductPrice);
     }
   }, [productPrice, service]);
 
@@ -47,15 +47,15 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, brainstorming, service }) => {
     setSceneCount(event.target.value);
     setCounts((prev) => ({
       ...prev,
-      [PdData?.service_name]: event.target.value,
+      [PpData?.service_name]: event.target.value,
     }));
   };
 
   const handleGoClick = () => {
     if (selectedOption === "generate") {
       if (sceneCount > 0) {
-        sessionStorage.setItem("limit_counts", JSON.stringify(counts));
-        navigate(`/payment`);
+        sessionStorage.setItem("pp_limit_counts", JSON.stringify(counts));
+        navigate(`/premise-pool-v2/payment`);
       } else {
         setShowMinText(true);
       }
@@ -89,11 +89,11 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, brainstorming, service }) => {
             <h1 className=" text-[#252525] text-[16px] font-[600] leading-6">
               You have
               {service == "PP_Brainstrom" ? " Completed " : " Generated "}
-              {PdData?.current_usage}{" "}
+              {PpData?.current_usage}{" "}
               {service == "PP_Brainstrom"
                 ? " Brainstormings with Ida "
                 : " Premises "}{" "}
-              in {PdData?.day_passed} days! That’s commendable!!
+              in {PpData?.day_passed} days! That’s commendable!!
             </h1>
             <p className=" text-[#252525] text-[16px] font-[500] leading-6 mx-2 my-3">
               To carry on further :-
@@ -140,7 +140,7 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, brainstorming, service }) => {
                         disabled={selectedOption !== "generate"}
                       />{" "}
                       {" more Brainstormings "} for USD{" "}
-                      {(sceneCount * PdData?.uint_value).toFixed(2)}
+                      {(sceneCount * PpData?.uint_value).toFixed(2)}
                     </span>
                   </label>
                 </div>

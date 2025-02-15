@@ -3,7 +3,7 @@ import { MyContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import TypingLoader from "../TypingLoader";
-import logo from "../../img/MNF_Logo_Final";
+import logo from "../../img/MNF_Logo_Final.png";
 import Valid from "../../img/valid_upto.png";
 import { HeaderOptions } from "./HeaderOptions";
 import { Package } from "./Package";
@@ -15,7 +15,7 @@ import {
 } from "../../app/EndPoints/premisePoolApi";
 
 const LimitPaymentPage = () => {
-  const { counts, setCounts, user, scriptId } = useContext(MyContext);
+  const { counts, setCounts, currentUser, scriptId } = useContext(MyContext);
   const [paymentUintDetails, { isLoading: isPLoading }] =
     usePaymentUintDetailsMutation();
   const [payNow, { isLoading: isPayLoading }] = usePayNowPackageMutation();
@@ -51,7 +51,7 @@ const LimitPaymentPage = () => {
     if (Object.keys(counts).length > 0) {
       fetchDataForLimit();
     } else {
-      navigate(`/`);
+      navigate(`/premise-pool-v2`);
     }
   }, [counts]);
 
@@ -77,8 +77,8 @@ const LimitPaymentPage = () => {
       const res = await successFulPayment(data);
       if (res) {
         console.log("callback success", res);
-        sessionStorage.removeItem("limit_counts");
-        navigate(`/${scriptId}`);
+        sessionStorage.removeItem("pp_limit_counts");
+        navigate(`/premise-pool-v2`);
       }
     }
   };
@@ -245,7 +245,7 @@ const LimitPaymentPage = () => {
                 >
                   {getFormattedDate()}
                 </p>
-                <HeaderOptions currentUser={user} data={paymentData} />
+                <HeaderOptions currentUser={currentUser} data={paymentData} />
               </section>
               <div className=" ">
                 <img src={Valid} className="w-[107px]" alt="" />
@@ -253,7 +253,7 @@ const LimitPaymentPage = () => {
             </div>
 
             <section className="flex flex-col lg:flex-row justify-between lg:gap-[5rem] gap-[20px] h-full">
-              <Package data={paymentData?.services} />
+              <Package data={paymentData?.services} fromLimit/>
 
               <Amount data={paymentData} />
             </section>
