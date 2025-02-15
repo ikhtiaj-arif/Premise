@@ -48,6 +48,8 @@ const PremiseV2 = () => {
     setAddedByMeCondition,
     searchAuthor,
     setSearchAuthor,
+    availableForSale,
+    availableForTranslation,
   } = useContext(MyContext);
 
   const [isFirstCardBlinking, setIsFirstCardBlinking] = useState(false);
@@ -59,7 +61,7 @@ const PremiseV2 = () => {
   const [querying, setQuerying] = useState(true);
   const [skip, setSkip] = useState(true);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (user) setSkip(false);
     else setSkip(true);
@@ -76,6 +78,8 @@ const PremiseV2 = () => {
     user: queryUser,
     language: language,
     shared: addedByMeCondition,
+    sale: availableForSale,
+    translation: availableForTranslation,
   });
 
   useEffect(() => {}, [sortOrder, sortedData, itemsToShow, currentPage]);
@@ -209,6 +213,8 @@ const PremiseV2 = () => {
       user: queryUser,
       user_id: user,
       shared: addedByMeCondition,
+      sale: availableForSale,
+      translation: availableForTranslation,
     });
     setTotalPages(Math.ceil(dataCount / itemsToShow));
   }, [
@@ -222,6 +228,8 @@ const PremiseV2 = () => {
     queryUser,
     user,
     addedByMeCondition,
+    availableForSale,
+    availableForTranslation,
   ]);
 
   useEffect(() => {
@@ -500,7 +508,6 @@ const PremiseV2 = () => {
                 //  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:w-[1400px] 2xl:w-[97%] gap-[22px] xl:gap-[20px] 2xl:gap-[48px] my-[22px] md:my-10 w-full md:w-[720px] lg:w-[1060px]  justify-center mx-auto"
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:w-[1314px] 2xl:w-[97%] gap-[32px] md:gap-x-[30px] xl:gap-[15px] xxl:gap-[30px] 2xl:gap-[38px] my-[22px] md:my-10 w-full md:w-[720px] lg:w-[1060px] justify-center mx-auto"
               >
-                
                 {viewData?.map((premise, index) => (
                   <PremiseCardV2
                     setShowRefine={setShowRefine}

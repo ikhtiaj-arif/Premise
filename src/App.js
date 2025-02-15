@@ -5,8 +5,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { useGetMyAllProjectQuery } from "./app/EndPoints/ScriptPad/project";
-import PremiseNewTab from "./Components/PremiseV2/premiseNewTab/PremiseNewTab";
 import Premisepool from "./Components/Premisepool/Premisepool";
+import PremiseNewTab from "./Components/PremiseV2/premiseNewTab/PremiseNewTab";
 import PremiseV2 from "./Components/PremiseV2/Premsie.v2";
 import { URL } from "./Components/utils";
 
@@ -24,6 +24,8 @@ function App() {
   const [isAddNew, setIsAddNew] = useState(false);
   const [activeAddedByMe, setActiveAddedByMe] = useState(false);
   const [addedByMeCondition, setAddedByMeCondition] = useState(false);
+  const [availableForTranslation, setAvailableForTranslation] = useState(false);
+  const [availableForSale, setAvailableForSale] = useState(false);
   const [selectedPremiseObj, setSelectedPremiseObj] = useState(null);
   const [searchText, setSearchText] = useState("");
   const user = useSelector((state) => state?.user);
@@ -42,19 +44,21 @@ function App() {
   // const [isFirstCommentSuggested, setIsFirstCommentSuggested] = useState(false);
 
   const [currentlyOpenedCommentID, setCurrentlyOpenedCommentID] = useState("");
-  // console.log("selectedPremiseObj Lnt",selectedPremiseObj);
+  // console.log("selectedPremiseObj Lnt",availableForTranslation);
 
   const allProjects = allspProjectJSON?.projects;
   const filterdAllProjects = allspProjectJSON?.projects?.filter(
     (item) => !item.locked
   );
 
+
+
   useEffect(() => {
     if (activeAddedByMe) {
       // setSearchAuthor(user?.id)
       // console.log(user?.id);
     }
-  }, [activeAddedByMe, user?.id]);
+  }, [activeAddedByMe,availableForTranslation, user?.id]);
 
   const value = {
     activeAddedByMe,
@@ -85,6 +89,8 @@ function App() {
     setSelectedLanguages,
     currentlyOpenedCommentID,
     setCurrentlyOpenedCommentID,user,
+    setAvailableForSale,setAvailableForTranslation,
+    availableForTranslation,availableForSale
     // isFirstCommentSuggested,
     // setIsFirstCommentSuggested,
     // openPop, setOpenPop

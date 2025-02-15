@@ -11,10 +11,9 @@ import calB from "../../../../img/Icons/calB.png";
 import calG from "../../../../img/Icons/calG.png";
 import langB from "../../../../img/Icons/langB.png";
 import langG from "../../../../img/Icons/langG.png";
-import mailCart from "../../../../img/Icons/mailCart.png";
-import transCart from "../../../../img/Icons/translateCart.png";
+import cartSale from "../../../../img/Icons/mailCart.png";
+import cartTrans from "../../../../img/Icons/translateCart.png";
 import RefineFilters from "../../../Premisepool/SortPagination/RefineFilters";
-
 
 const FilterSearchSort = ({
   data,
@@ -49,6 +48,10 @@ const FilterSearchSort = ({
     setSearchText,
     searchAuthor,
     setSearchAuthor,
+    setAvailableForTranslation,
+    availableForTranslation,
+    availableForSale,
+    setAvailableForSale,
   } = useContext(MyContext);
 
   const searchInputRef = useRef(null);
@@ -222,11 +225,12 @@ const FilterSearchSort = ({
   }, [activeAddedByMe, clearActiveMe]);
 
   // useEffect(()=>{
-  //   if(searchAuthor){
-  //     handleFilterSubmit();
+  //   if(availableForTranslation){
+  //     // handleFilterSubmit();
+  // console.log("selectedPremiseObj Lnt",availableForTranslation)
 
   //   }
-  // },[searchAuthor])
+  // },[availableForTranslation])
 
   // date
   useEffect(() => {
@@ -290,7 +294,7 @@ const FilterSearchSort = ({
 
     return () => document.body.removeEventListener("mousedown", closeMenu);
   }, []);
-
+  console.log("selectedPremiseObj Lnt", availableForTranslation);
   return (
     <div className={``}>
       <div className="flex gap-[16px] w-full xl:justify-end items-center  ">
@@ -435,6 +439,39 @@ const FilterSearchSort = ({
                 />
               )}
             </div>
+            {/* !translation filter */}
+
+            <button
+              data-te-toggle="tooltip"
+              title="Available for Translation"
+              className={`h-[32px] w-[32px] rounded-full relative ${
+                !availableForTranslation ? "bg-[#252525]" : "bg-[#33B0CA]"
+              }`}
+              onClick={() =>
+                setAvailableForTranslation(!availableForTranslation)
+              }
+            >
+              <img
+                src={cartTrans}
+                alt=""
+                className="h-[17px] w-[21px] mx-auto absolute top-[6px] left-[7px] "
+              />
+            </button>
+            {/* sale filter */}
+            <button
+              data-te-toggle="tooltip"
+              title="Available for Sale"
+              className={`h-[32px] w-[32px] rounded-full relative ${
+                !availableForSale ? "bg-[#252525]" : "bg-[#33B0CA]"
+              }`}
+              onClick={() => setAvailableForSale(!availableForSale)}
+            >
+              <img
+                src={cartSale}
+                alt=""
+                className="h-[17px] w-[21px] mx-auto absolute top-[6px] left-[7px] "
+              />
+            </button>
 
             <button
               data-te-toggle="tooltip"
