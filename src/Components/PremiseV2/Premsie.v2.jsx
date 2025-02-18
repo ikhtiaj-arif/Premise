@@ -10,17 +10,18 @@ import {
   useGetPremiseUserQuery,
 } from "../../app/EndPoints/premisePoolApi";
 import { setUser } from "../../app/Slices/userSlice";
+import headText from "../../img/headText.png";
 import walletDoodle from "../../img/wallet_doodle.png";
 import AddPremise2 from "../Premisepool/Components/AddPremise2";
 import DeletePremise from "../Premisepool/DeletePremise";
 import Popup from "../Premisepool/Popup";
 import SortPagination from "../Premisepool/SortPagination/SortPagination";
 import UserNamePopup from "../Premisepool/UserNamePopup";
+import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 import TypingLoader from "../TypingLoader";
 import { baseURL } from "../utils";
 import PremiseCardV2 from "./Card/PremiseCardV2";
 import FilterSearchSort from "./Header/FiltersSearchSort/FilterSearchSort";
-import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 
 export const loadingData = [
   "Initializing..",
@@ -369,23 +370,45 @@ const PremiseV2 = () => {
               }
             </div>
             <div className="md:w-[50%] flex items-center justify-between h-[124px]">
-              <div className="mr-[20px] md:mr-[0px] text-center w-[360px] ml-[-186px] mb-0">
-                <h2 className="text-[30px] font-figma-hand text-[#33B0CA] leading-[41.37px] font-[700] mt-[0px]">
+              <div className="mr-[20px] md:mr-[0px] text-center w-[360px] md:mt-[-30px] lg:w-[440px] ml-[-186px] mb-0">
+                <img
+                  alt="monetize your creativity"
+                  src={headText}
+                  className="w-[70%] lg:w-[443px] ml-auto lg:mx-auto h-[42px] lg:h-[52px]"
+                />
+                {/* <h2 className="text-[30px] font-figma-hand text-[#33B0CA] leading-[41.37px] font-[700] mt-[0px]">
                   Monetize Your Creativity!
-                </h2>
+                </h2> */}
                 <button
                   onClick={handleAddPopup}
                   // className="btn btn"
-                  className="bg-[#33B0CA] flex items-center justify-center gap-[8px] text-[#FAFAFA] text-[14px] font-[600] rounded-[8px] min-w-[196px] min-h-[34px] mt-[14px] px-[12px] mx-auto"
+                  className="bg-[#33B0CA] flex items-center justify-center gap-[8px] text-[#FAFAFA] text-[14px] font-[600] rounded-[8px] min-w-[196px] min-h-[34px] mt-[14px] px-[12px] ml-auto lg:mx-auto"
                 >
                   <p>
                     <span className=" text-2xl ">+</span>{" "}
                     <span className="addNewPremise-m">Add A New Premise</span>
                   </p>
                 </button>
+                <div className="md:hidden flex justify-end text-[14px] text-[#252525] h-[32px] font-[500]">
+                  <p>
+                    {hiddenCountRes?.total_premises === 1 ? (
+                      <span>
+                        {hiddenCountRes?.total_premises}{" "}
+                        <span className="premise-m">Premise</span>
+                      </span>
+                    ) : (
+                      <span>
+                        {hiddenCountRes?.total_premises}{" "}
+                        <span className="premises-m">Premises</span>
+                      </span>
+                    )}
+                    ,{" ("}
+                    {hiddenCountRes?.hidden_count} Private{")"}
+                  </p>
+                </div>
               </div>
 
-              <div className="mt-[36px]">
+              <div className="mt-[36px] hidden md:block">
                 <FilterSearchSort
                   data={{
                     totalPages,
@@ -418,10 +441,13 @@ const PremiseV2 = () => {
           </div>
           <div className="w-full mx-auto h-[1px] bg-[#eaeaea] mt-[4px] barSm-hidden" />
           {addPopup == "noUserName" && (
-            <UserNamePopup {...{refetch, setAddPopup }} />
+            <UserNamePopup {...{ refetch, setAddPopup }} />
           )}
           {addPopup == "No" && (
-            <NoAccessLbPopUp setNoAccessPopup={setAddPopup} service='PP_Premises'/>
+            <NoAccessLbPopUp
+              setNoAccessPopup={setAddPopup}
+              service="PP_Premises"
+            />
           )}
           {addPopup == "Yes" && (
             <AddPremise2 setAddPopup={setAddPopup} refetch={refetch} />
