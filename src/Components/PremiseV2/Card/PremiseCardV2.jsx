@@ -161,7 +161,7 @@ const PremiseCardV2 = ({
   const [openPop, setOpenPop] = useState(false);
   const [openTransOtherPop, setOpenTransOtherPop] = useState(false);
   const [openMonetizingPreferencesPop, setOpenMonetizingPreferencesPop] =
-    useState(false);
+    useState(null);
   const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);
 
   const handleBackgroundChange = (e) => {
@@ -295,13 +295,19 @@ const PremiseCardV2 = ({
 
   // console.log(created_by);
   const [translationRequestPop, setTranslationRequestPop] = useState("");
+  const [noAccessLbPopUp, setNoAccessLbPopUp] = useState(null);
 
   const [viewTrnRequests, setViewTrnRequests] = useState("");
   const [viewSaleRequests, setViewSaleRequests] = useState("");
 
-  const handleTranslationRequest = (id) => {
-    setTranslationRequestPop(id);
-    // console.log("trans id", id);
+  const checkAllowance = async (state, id) => {
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_AllowInteraction`);
+    console.log("AllowInteraction res", res);
+    if (res?.access == "No" && res?.msg == "LB") {
+      setNoAccessLbPopUp(true);
+    } else {
+      state(id);
+    }
   };
 
   const [viewTransactionPId, setViewTransactionPId] = useState("");
@@ -313,11 +319,6 @@ const PremiseCardV2 = ({
   };
 
   const [saleRequestPop, setSaleRequestPop] = useState("");
-
-  const handleSaleRequest = (id) => {
-    setSaleRequestPop(id);
-    // console.log("trans id", id);
-  };
 
   const [saleRequestedOwner, setSaleRequestedOwner] = useState(true);
 
@@ -408,6 +409,16 @@ const PremiseCardV2 = ({
       setOpenHidePop("No");
     } else {
       setOpenHidePop("Yes");
+    }
+    setOpenDotMenu(null);
+  };
+  const handleMonetizing = async () => {
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_Monitize`);
+    console.log("visibility res", res);
+    if (res?.access == "No" && res?.msg == "LB") {
+      setOpenMonetizingPreferencesPop("No");
+    } else {
+      setOpenMonetizingPreferencesPop("Yes");
     }
     setOpenDotMenu(null);
   };
@@ -547,12 +558,7 @@ const PremiseCardV2 = ({
                   </button>
 
                   <button
-                    onClick={() => {
-                      setOpenMonetizingPreferencesPop(
-                        !openMonetizingPreferencesPop
-                      );
-                      setOpenDotMenu(null);
-                    }}
+                    onClick={handleMonetizing}
                     className="cursor-pointer  w-full"
                   >
                     <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
@@ -655,7 +661,7 @@ const PremiseCardV2 = ({
                   src={transCartQ}
                   className="w-8 h-8 mt-[-13px] cursor-pointer"
                   alt=""
-                  onClick={() => handleTranslationRequest(id)}
+                  onClick={() => checkAllowance(setTranslationRequestPop, id)}
                 />
               )}
 
@@ -674,7 +680,7 @@ const PremiseCardV2 = ({
                   title="Send Sale Request"
                   src={mailCartQ}
                   className="w-9 h-9 mt-[-13px] cursor-pointer"
-                  onClick={() => handleSaleRequest(id)}
+                  onClick={() => checkAllowance(setSaleRequestPop, id)}
                   alt="send sale request"
                 />
               )}
@@ -847,7 +853,13 @@ const PremiseCardV2 = ({
       {openPop && (
         <Popup
           popClose={() => setOpenPop(false)}
-          {...{ handleVisibility, setIsLiked, refetch, viewText }}
+          {...{
+            handleVisibility,
+            handleMonetizing,
+            setIsLiked,
+            refetch,
+            viewText,
+          }}
           data={{
             id,
             dText,
@@ -905,11 +917,23 @@ const PremiseCardV2 = ({
           premiseId={viewTransactionPId}
         />
       )}
-      {openMonetizingPreferencesPop && (
+      {openMonetizingPreferencesPop == "No" && (
+        <NoAccessLbPopUp
+          setNoAccessPopup={setOpenMonetizingPreferencesPop}
+          service="PP_Monitizes"
+        />
+      )}
+      {openMonetizingPreferencesPop == "Yes" && (
         <MonetizePreferencePop
           popClose={setOpenMonetizingPreferencesPop}
           id={id}
           user={user}
+        />
+      )}
+      {noAccessLbPopUp && (
+        <NoAccessLbPopUp
+          setNoAccessPopup={setNoAccessLbPopUp}
+          service="PP_interactions"
         />
       )}
       {translationRequestPop && (

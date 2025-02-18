@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { MyContext } from "../../App";
+import { fetchUserAccess, MyContext } from "../../App";
 import { useTranslatePremiseMutation } from "../../app/EndPoints/premisePoolApi";
 import transIcon from "../../img/Icons/transIcon.png";
 import { sortedLanguages } from "./Languages";
+import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 
 const TranslatePremise = ({
   data,
@@ -18,7 +19,7 @@ const TranslatePremise = ({
     project_id,
   } = data;
 
-  const { setSelectedPremiseObj, setSelectedPremiseSpProjectId } =
+  const { setSelectedPremiseObj, setSelectedPremiseSpProjectId,currentUser } =
     useContext(MyContext);
 
   const [translatePremise, translateInfo] = useTranslatePremiseMutation();
@@ -26,7 +27,7 @@ const TranslatePremise = ({
   const [transPopup, setTransPopup] = useState(false);
   const [transText, setTransText] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showSelectBox, setShowSelectBox] = useState(false);
+  const [noAccessPopup, setNoAccessPopup] = useState(false);
   const btnRef = useRef();
   // console.log("translatePremise", project_id)
 
@@ -87,6 +88,16 @@ const TranslatePremise = ({
 
     return () => document.body.removeEventListener("mousedown", closeMenu);
   }, []);
+
+  const handleTranslate = async (id) => {
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_Translate`);
+    console.log(`PP_Translate res`, res);
+    if (res?.access == "No") {
+      setNoAccessPopup(true);
+    } else {
+      setTransPopClose(id)
+    }
+  };
 
   return (
     // <div className="">
@@ -199,7 +210,7 @@ const TranslatePremise = ({
               title="Translate"
               src={transIcon}
               // onClick={() => setShowSelectBox(!showSelectBox)}
-              onClick={() => setTransPopClose(id)}
+              onClick={() => handleTranslate(id)}
               className="w-8 h-8 ml-auto  cursor-pointer"
               alt=""
             />
@@ -224,6 +235,9 @@ const TranslatePremise = ({
               )}
             </div>
           )}
+          {
+            noAccessPopup && <NoAccessPopUp setNoAccessPopup={setNoAccessPopup}/>
+          }
         </div>
   );
 };

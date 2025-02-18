@@ -223,7 +223,7 @@ const PremiseNewTab = () => {
                               exit={{ opacity: 0, y: -50 }}
                               transition={{ duration: 0.5 }}
                             >
-                              <AllComments
+                              <AllComments 
                                 fromNew
                                 commentIdx={index + 1}
                                 comments={comment}

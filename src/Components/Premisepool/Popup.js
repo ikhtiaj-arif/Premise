@@ -40,7 +40,7 @@ import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
 import UserType from "./UserType";
 
-const Popup = ({ popClose, data, refetch, transText, viewText ,handleVisibility}) => {
+const Popup = ({ popClose, data, refetch, transText, viewText ,handleVisibility,handleMonetizing}) => {
   const {
     bg_img,
     bg_color,
@@ -324,8 +324,6 @@ const Popup = ({ popClose, data, refetch, transText, viewText ,handleVisibility}
     window.open(url);
   };
 
-  const [openMonetizingPreferencesPop, setOpenMonetizingPreferencesPop] =
-    useState(false);
   const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);
 
   const [openTransOtherPop, setOpenTransOtherPop] = useState(false);
@@ -507,9 +505,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText ,handleVisibility}
 
                           <button
                             onClick={() => {
-                              setOpenMonetizingPreferencesPop(
-                                !openMonetizingPreferencesPop
-                              );
+                              handleMonetizing();
                               setOpenDotMenu(null);
                             }}
                             className="cursor-pointer  w-full"
@@ -688,7 +684,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText ,handleVisibility}
                           exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
                           transition={{ duration: 0.5 }} // Adjust the duration as needed
                         >
-                          <AllComments
+                          <AllComments 
                             commentIdx={index + 1}
                             comments={comment}
                             data={data}
