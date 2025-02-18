@@ -18,7 +18,7 @@ const AskIda = ({
   const { currentUser } = useContext(MyContext);
   const [postComment, isCommentResInfo] = useCommentPremiseMutation();
   const [isLoading, setIsLoading] = useState(false);
-  const [noAccessPopup, setNoAccessPopup] = useState(false);
+  const [noAccessPopup, setNoAccessPopup] = useState(null);
 
   const token = localStorage.getItem("accessToken");
   const header = {
@@ -28,18 +28,20 @@ const AskIda = ({
   };
 
   const handleButtonClick = async () => {
+    setIsLoading(true);
     if (premiseOwner?.id == currentUser?.id) {
-      setIsLoading(true);
-      const res = await fetchUserAccess(
-        `${currentUser?.id}/PP_AllowBrainstoming`
-      );
-      console.log("owner brainstorming res", res);
-      if (res?.access == "No" && res?.msg == "LB") {
-        setNoAccessPopup(true);
-      } else {
-        handleSubmitComment();
-      }
-      setIsLoading(false);
+      checkAllowance("PP_AllowBrainstoming");
+    } else {
+      checkAllowance("PP_AllowInteraction");
+    }
+    setIsLoading(false);
+  };
+
+  const checkAllowance = async (flag) => {
+    const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);
+    console.log(`${flag} res`, res);
+    if (res?.access == "No" && res?.msg == "LB") {
+      setNoAccessPopup(flag);
     } else {
       handleSubmitComment();
     }
@@ -124,7 +126,11 @@ const AskIda = ({
       {noAccessPopup && (
         <NoAccessLbPopUp
           setNoAccessPopup={setNoAccessPopup}
-          service="PP_Brainstrom"
+          service={
+            noAccessPopup == "PP_AllowBrainstoming"
+              ? "PP_Brainstrom"
+              : "PP_interactions"
+          }
         />
       )}
     </div>

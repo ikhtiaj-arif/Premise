@@ -34,7 +34,7 @@ const PopupTextarea = ({
   const [isCommentQuestion, setIsCommentQuestion] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [noAccessPopup, setNoAccessPopup] = useState(false);
+  const [noAccessPopup, setNoAccessPopup] = useState(null);
 
   const [postComment, isCommentResInfo] = useCommentPremiseMutation();
   const inputRef = useRef(null);
@@ -83,22 +83,25 @@ const PopupTextarea = ({
   };
 
   const handleButtonClick = async () => {
+    setIsLoading(true);
     if (premiseOwner?.id == currentUser?.id) {
-      setIsLoading(true);
-      const res = await fetchUserAccess(
-        `${currentUser?.id}/PP_AllowBrainstoming`
-      );
-      console.log("owner brainstorming res", res);
-      if (res?.access == "No" && res?.msg == "LB") {
-        setNoAccessPopup(true);
-      } else {
-        handleSubmitComment();
-      }
-      setIsLoading(false);
+      checkAllowance("PP_AllowBrainstoming");
+    } else {
+      checkAllowance("PP_AllowInteraction");
+    }
+    setIsLoading(false);
+  };
+
+  const checkAllowance = async (flag) => {
+    const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);
+    console.log(`${flag} res`, res);
+    if (res?.access == "No" && res?.msg == "LB") {
+      setNoAccessPopup(flag);
     } else {
       handleSubmitComment();
     }
   };
+
   const handleSubmitComment = async () => {
     if (newComment.length === 0) {
       alert("You can't send an empty comment!");
@@ -313,7 +316,11 @@ const PopupTextarea = ({
       {noAccessPopup && (
         <NoAccessLbPopUp
           setNoAccessPopup={setNoAccessPopup}
-          service="PP_Brainstrom"
+          service={
+            noAccessPopup == "PP_AllowBrainstoming"
+              ? "PP_Brainstrom"
+              : "PP_interactions"
+          }
         />
       )}
     </div>
