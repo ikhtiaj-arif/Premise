@@ -133,14 +133,14 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
           showBankDetails ? "lg:h-[497px]" : "lg:h-[670px]"
         } mb-[20px] px-[22px] lg:mb-0 pt-[32px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:w-[625px] md:mx-auto relative lg:rounded-[8px]`}
       >
-        <img
-          src={crossIcon}
-          alt=""
-          className="text-red-500 w-8 h-8 top-[-15px] right-[-15px] absolute z-[1] m-1 cursor-pointer lgVisible"
-          onClick={() => {
-            popClose(false);
-          }}
-        />
+        <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
+          <img
+            src={crossIcon}
+            alt=""
+            className=" text-red-500  w-8 h-8 cursor-pointer"
+            onClick={() => popClose(null)}
+          />
+        </div>
         <div className="relative mx-auto w-[116px]">
           <img
             src={SaleDoodle}

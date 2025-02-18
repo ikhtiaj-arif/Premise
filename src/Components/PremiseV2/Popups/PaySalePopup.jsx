@@ -38,16 +38,15 @@ const PaySalePopup = ({
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1]">
-      <div className="h-[100vh] lg:h-[350px] mb-[20px] px-[22px] lg:mb-0 lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA] lg:w-[430px] md:mx-auto relative lg:rounded-[8px]">
+      <div className="h-[40vh] lg:h-[350px] mb-[20px] px-[22px] lg:mb-0 lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA] lg:w-[430px] md:mx-auto relative lg:rounded-[8px]">
         {/* Close Button */}
-        <img
-          src={crossIcon}
-          alt=""
-          className="text-red-500 w-8 h-8 top-[-15px] right-[-15px] absolute z-[1] m-1 cursor-pointer lgVisible"
-          onClick={() => {
-            popClose(false);
-          }}
-        />
+        <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
+
+<img src={crossIcon} alt=""
+  className=" text-red-500  w-8 h-8 cursor-pointer"
+  onClick={() =>  popClose(null)}
+/>
+</div>
 
         {/* Title */}
         <h2 className="font-[700] text-[14px] leading-[19.9px] text-center mt-[18px]">
