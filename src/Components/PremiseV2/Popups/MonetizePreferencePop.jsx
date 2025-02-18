@@ -64,7 +64,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
           alt=""
           className="text-red-500 w-8 h-8 top-[-15px] right-[-15px] absolute z-[1] m-1 cursor-pointer lgVisible  "
           onClick={() => {
-            popClose(false);
+            popClose(null);
           }}
         />
 

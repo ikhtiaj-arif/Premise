@@ -31,6 +31,7 @@ import ReplyToComments from "./Comments/ReplyToComments";
 import UserType from "./UserType";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 import CommentTranslator from "../PremiseV2/components/CommentTranslator";
+import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 
 const AllComments = ({
   commentIdx,
@@ -367,7 +368,7 @@ const AllComments = ({
     const res = await fetchUserAccess(`${currentUser?.id}/PP_BeatSheet`);
       console.log("add to beat res", res);
       if (res?.access == "No") {
-        setNoAccessLbPopup(true);
+        setNoAccessLbPopup('LB');
       } else {
         submitAddToBeat(comment);
       }
@@ -448,9 +449,25 @@ const AllComments = ({
     setCommentOwner(commenterName);
   };
 
-  const handleReplyToggle = (id, commentOwnerName) => {
+  const handleReplyToggle =async (c, commentOwnerName) => {
+    //console.log('reply comment',c,commentOwnerName,c?.user?.first_name==='Ida',currentUser,data?.premiseOwner);
+
+    if((currentUser?.id !==data?.premiseOwner?.id) && c?.user?.first_name=='Ida'){
+      const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
+      console.log("reply brainstorm res", res);
+      if (res?.access == "No") {
+        setNoAccessLbPopup('No');
+      } else {
+        applyReplyToggle();
+      }
+    }else{
+      applyReplyToggle(c, commentOwnerName);
+    }
+    
+  };
+  const applyReplyToggle = (c, commentOwnerName) => {
     // Check if the current reply ID matches the clicked comment ID
-    if (replyToCommentID === id) {
+    if (replyToCommentID === c?.id) {
       // If they match, hide the reply field
       setReplyField(false);
       setReplyToCommentID(null); // Optional: Clear the reply ID if you want
@@ -458,8 +475,8 @@ const AllComments = ({
     } else {
       // If they don't match, show the reply field and set the new reply ID
       setReplyField(true);
-      setReplyToCommentID(id);
-      setCurrentlyOpenedCommentID(id);
+      setReplyToCommentID(c?.id);
+      setCurrentlyOpenedCommentID(c?.id);
       setCommentOwner(commentOwnerName);
     }
   };
@@ -689,7 +706,7 @@ const AllComments = ({
 
                               // setReplyToCommentID(comments?.id);
                               // setCommentOwner(commentOwnerName);
-                              handleReplyToggle(comments?.id, commentOwnerName);
+                              handleReplyToggle(comments, commentOwnerName);
                             }}
                             className="flex items-center gap-1"
                           >
@@ -865,7 +882,7 @@ const AllComments = ({
 
                               // setReplyToCommentID(comments?.id);
                               // setCommentOwner(commentOwnerName);
-                              handleReplyToggle(comments?.id, commentOwnerName);
+                              handleReplyToggle(comments, commentOwnerName);
                             }}
                             className="flex items-center gap-1"
                           >
@@ -1348,7 +1365,12 @@ const AllComments = ({
           // currentPremiseProject={currentPremiseProject}
         />
       )}
-      { noAccessLbPopup && (
+      { noAccessLbPopup =='No' && (
+        <NoAccessPopUp
+          setNoAccessPopup={setNoAccessLbPopup}
+        />
+      )}
+      { noAccessLbPopup =='LB' && (
         <NoAccessLbPopUp
           setNoAccessPopup={setNoAccessLbPopup}
           service="PP_Beats"
