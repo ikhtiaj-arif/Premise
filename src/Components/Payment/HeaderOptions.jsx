@@ -19,22 +19,20 @@ export const HeaderOptions = ({ currentUser, data }) => {
         </div>
         <div className="flex items-center">
           <p className="text-[13px] w-[130px] md:w-[180px]">Email Id</p>
-          <p className="text-[13px] text-right">{currentUser?.email}</p>
+          <p className="text-[13px] text-right">
+            {currentUser?.email || "N/A"}
+          </p>
         </div>
         <div className="flex items-center">
           <p className="text-[13px] w-[130px] md:w-[180px]">Contact Number</p>
           <div>
-              <p className="text-[13px]">{data?.contact || 'N/A'}</p>
+            <p className="text-[13px]">{data?.contact || "N/A"}</p>
           </div>
         </div>
         <div className="flex items-center">
           <p className="text-[13px] w-[130px] md:w-[180px]">Address</p>
           <div>
-            {data?.address ? (
-              <p className="text-[13px]">{data?.address}</p>
-            ) : (
-              <p>N/A</p>
-            )}
+            <p className="text-[13px]">{data?.address || "N/A"}</p>
           </div>
         </div>
         <div className="flex items-center">

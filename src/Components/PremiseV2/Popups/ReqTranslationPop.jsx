@@ -49,16 +49,16 @@ const ReqTranslationPop = ({
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
       <ToastContainer />
-      <div className=" h-[100vh] lg:h-[374px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[466px]  md:mx-auto relative lg:rounded-[8px]">
+      <div className=" h-[50vh] lg:h-[407px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[466px]  md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
-        <img
-          src={crossIcon}
-          alt=""
-          className="text-red-500 w-8 h-8 top-[-15px] right-[-15px] absolute z-[1] m-1 cursor-pointer lgVisible  "
-          onClick={() => {
-            popClose(null);
-          }}
-        />
+        <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
+
+            <img src={crossIcon} alt=""
+              className=" text-red-500  w-8 h-8 cursor-pointer"
+              onClick={() =>  popClose(null)}
+            />
+          </div>
+     
         <h2 className="font-[700] text-[14px] leading-[19.9px] text-center mt-[18px]">
           Send a request to translate the Premise Project
         </h2>

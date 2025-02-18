@@ -172,7 +172,7 @@ const UserMail = ({ setUserMail, data, recipient }) => {
               onKeyDown={handleKeyDown}
               type="text"
               name="message"
-              maxLength="170"
+              maxLength="1000"
               id=""
               className="w-full resize-none max-w-[513px] bg-[#F8F8F8] py-[4px] text-[14px] leading-[18px] text-[#616161] font-[400] focus:border-none focus:outline-none"
               placeholder="Type here"

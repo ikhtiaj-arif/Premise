@@ -29,7 +29,7 @@ export const Package = ({ data, typeOfRequest, fromLimit }) => {
             </div>
           </div>
         ) : (
-          ["PD_loglines", "PD_OnePagers", "PD_Pitches"]?.map((serviceName) =>
+          ["PP_Brainstrom"]?.map((serviceName) =>
             data
               ?.filter((item) => item?.service_name == serviceName)
               .map((item, index) => (
@@ -38,9 +38,7 @@ export const Package = ({ data, typeOfRequest, fromLimit }) => {
                   className="flex items-center justify-between py-2"
                 >
                   <h3 className="text-[14px]">
-                    {item?.service_name === "PD_loglines" && "Logline "}
-                    {item.service_name === "PD_OnePagers" && "Onepager "}
-                    {item.service_name === "PD_Pitches" && "Elevator Pitch "}
+                    {item?.filedName}
                   </h3>
                   <div className="text-right">
                     <p className="text-[14px] font-medium">

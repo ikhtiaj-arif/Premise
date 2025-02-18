@@ -33,6 +33,14 @@ export const Amount = ({ data }) => {
             </div>
           </div>
           <div className="flex items-center justify-between py-2">
+            <h3 className="text-[14px]">Early Bird Discount(USD)</h3>
+            <div className="text-right">
+              <p className="text-[14px] font-medium">
+                ${data?.early_bird_discount_amount?.toFixed(2)}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center justify-between py-2">
             <h3 className="text-[14px]">Taxes(USD)</h3>
             <div className="text-right">
               <p className="text-[14px] font-medium">

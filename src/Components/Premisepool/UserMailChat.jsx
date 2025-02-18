@@ -4,6 +4,7 @@ import { useGetPremiseUserPictureQuery } from "../../app/EndPoints/premisePoolAp
 import userIcon from "../../img/Icons/userImg.png";
 import { URL } from "../utils";
 import UserType from "./UserType";
+import { FaRegTrashAlt } from "react-icons/fa";
 const UserMailChat = ({ mail }) => {
   const user = useSelector((state) => state?.user?.id);
 
@@ -27,6 +28,10 @@ const UserMailChat = ({ mail }) => {
     hour: "numeric",
     minute: "numeric",
   });
+
+  const handleDeleteMessage = async (id) => {
+console.log(id, "delete");
+  }
 
   // console.log(mail);
   return (
@@ -86,6 +91,20 @@ const UserMailChat = ({ mail }) => {
             {formattedDate}, {formattedTime}
           </div>
         </div>
+        {mail?.sender?.id === user && (
+          <button
+            data-reply
+            // disabled={disableD}
+            onClick={() => {
+              handleDeleteMessage(mail?.id);
+            }}
+            // className={` ${
+            //   disableD ? "cursor-default" : "cursor-pointer"
+            // }`}
+          >
+            <FaRegTrashAlt className="h-5 w-5 text-[#909090] " />
+          </button>
+        )}
       </div>
     </div>
   );

@@ -326,23 +326,7 @@ const SortPagination = ({
               {dataCount} Premises
             </p> */}
 
-            <div className="md:hidden text-[14px] text-[#252525] h-[32px] font-[500]">
-              <p>
-                {hiddenCountRes?.total_premises === 1 ? (
-                  <p>
-                    {hiddenCountRes?.total_premises}{" "}
-                    <span className="premise-m">Premise</span>
-                  </p>
-                ) : (
-                  <p>
-                    {hiddenCountRes?.total_premises}{" "}
-                    <span className="premises-m">Premises</span>
-                  </p>
-                )}
-                ,{" ("}
-                {hiddenCountRes?.hidden_count} Private{")"}
-              </p>
-            </div>
+         
             <button
               data-te-toggle="tooltip"
               title="Added by me"
