@@ -60,13 +60,12 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
       <div className=" h-[70vh] lg:h-[366px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[441px]  md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
         <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
-          <img
-            src={crossIcon}
-            alt=""
-            className=" text-red-500  w-8 h-8 cursor-pointer"
-            onClick={() => popClose(null)}
-          />
-        </div>
+
+<img src={crossIcon} alt=""
+  className=" text-red-500  w-8 h-8 cursor-pointer"
+  onClick={() =>  popClose(null)}
+/>
+</div>
 
         <h2 className="font-[600] text-[14px] leading-[21px] text-center mt-[18px]">
           Monetizing Preferences
