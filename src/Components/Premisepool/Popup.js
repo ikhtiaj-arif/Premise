@@ -327,15 +327,15 @@ const Popup = ({
   useEffect(() => {}, [openDotMenu]);
 
   const handlePremiseOpenNewTab = (id) => {
-    let host = window.location.origin + `/#/new-tab/${id}`;
-    window.open(host, "_blank");
+    // let host = window.location.origin + `/#/new-tab/${id}`;
+    // window.open(host, "_blank");
 
     // console.log(id);
-    // // const url = `${baseURL}/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
+    const url = `${baseURL}/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
     // const url = `${window.location.origin}/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
 
     // // Open the URL in a new tab
-    // window.open(url);
+    window.open(url);
   };
 
   const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);

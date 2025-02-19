@@ -5,6 +5,7 @@ import { useCommentPremiseMutation } from "../../app/EndPoints/premisePoolApi";
 import { baseURL } from "../utils";
 import { fetchUserAccess, MyContext } from "../../App";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
+import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 
 const AskIda = ({
   id,
@@ -19,6 +20,7 @@ const AskIda = ({
   const [postComment, isCommentResInfo] = useCommentPremiseMutation();
   const [isLoading, setIsLoading] = useState(false);
   const [noAccessPopup, setNoAccessPopup] = useState(null);
+  const [service, setService] = useState(null);
 
   const token = localStorage.getItem("accessToken");
   const header = {
@@ -40,8 +42,17 @@ const AskIda = ({
   const checkAllowance = async (flag) => {
     const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);
     console.log(`${flag} res`, res);
-    if (res?.access == "No" && res?.msg == "LB") {
-      setNoAccessPopup(flag);
+    if (res?.access == "No" && res?.msg == "ShowBecomePrivilege") {
+      setNoAccessPopup("No");
+    } else if (
+      res?.access == "No" &&
+      res?.msg == "ShowBuyPackage_and_Allacarte"
+    ) {
+      setNoAccessPopup("ShowBuyPackage_and_Allacarte");
+      setService(flag);
+    } else if (res?.access == "No" && res?.msg == "LB") {
+      setNoAccessPopup("LB");
+      setService(flag);
     } else {
       handleSubmitComment();
     }
@@ -123,15 +134,22 @@ const AskIda = ({
           Ask Ida for more!
         </button>
       </div>
-      {noAccessPopup && (
-        <NoAccessLbPopUp
-          setNoAccessPopup={setNoAccessPopup}
-          service={
-            noAccessPopup == "PP_AllowBrainstoming"
-              ? "PP_Brainstrom"
-              : "PP_interactions"
-          }
-        />
+
+      {noAccessPopup == "No" ? (
+        <NoAccessPopUp setNoAccessPopup={setNoAccessPopup} />
+      ) : (
+        (noAccessPopup == "ShowBuyPackage_and_Allacarte" ||
+          noAccessPopup == "LB") && (
+          <NoAccessLbPopUp
+            noAccessLbPopup={noAccessPopup}
+            setNoAccessPopup={setNoAccessPopup}
+            service={
+              service == "PP_AllowBrainstoming"
+                ? "PP_Brainstrom"
+                : "PP_interactions"
+            }
+          />
+        )
       )}
     </div>
   );

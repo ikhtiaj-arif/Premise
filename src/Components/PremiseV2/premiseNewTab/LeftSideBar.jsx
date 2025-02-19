@@ -212,8 +212,15 @@ const LeftSideBar = ({
   const handleVisibility = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_Privacy`);
     console.log("visibility res", res);
-    if (res?.access == "No" && res?.msg == "LB") {
+    if (res?.access == "No" && res?.msg == "ShowBecomePrivilege") {
       setOpenHidePop("No");
+    } else if (
+      res?.access == "No" &&
+      res?.msg == "ShowBuyPackage_and_Allacarte"
+    ) {
+      setOpenHidePop("ShowBuyPackage_and_Allacarte");
+    } else if (res?.access == "No" && res?.msg == "LB") {
+      setOpenHidePop("LB");
     } else {
       setOpenHidePop("Yes");
     }
@@ -405,24 +412,29 @@ const LeftSideBar = ({
       </div>
       <div className="h-[100px]" />
 
-      {openHidePop == "Yes" && (
-        <HideOptionPop
-          {...{
-            setOpenHidePop,
-            id,
-            user,
-            filter_flag,
-            comment_filter_flag,
-            visible_to,
-          }}
-          refetch={premiseRefetch}
-        />
-      )}
-      {openHidePop == "No" && (
+      {openHidePop == "No" ? (
+        <NoAccessPopUp setNoAccessPopup={setOpenHidePop} />
+      ) : openHidePop == "LB" ||
+        openHidePop == "ShowBuyPackage_and_Allacarte" ? (
         <NoAccessLbPopUp
+          noAccessLbPopup={openHidePop}
           setNoAccessPopup={setOpenHidePop}
           service="PP_Private"
         />
+      ) : (
+        openHidePop == "Yes" && (
+          <HideOptionPop
+            {...{
+              setOpenHidePop,
+              id,
+              user,
+              filter_flag,
+              comment_filter_flag,
+              visible_to,
+            }}
+            refetch={premiseRefetch}
+          />
+        )
       )}
 
       {editPopupOpen && (
