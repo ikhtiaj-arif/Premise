@@ -9,6 +9,7 @@ import crossIcon from "../../img/Icons/crossIcon.png";
 import AddPremise2 from "./Components/AddPremise2";
 import { fetchUserAccess, MyContext } from "../../App";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
+import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 
 const UserNamePopup = ({ setAddPopup,refetch }) => {
   const [userName, userInfo] = useAddUserNamePremiseMutation();
@@ -72,8 +73,13 @@ const UserNamePopup = ({ setAddPopup,refetch }) => {
   const handleAddPopup = async () => {
         const res = await fetchUserAccess(`${currentUser?.id}/PP_PostPremise`);
         console.log("add premise res", res);
-        if (res?.access == "No") {
-          setAddPrePop("No");
+
+        if (res?.access == "No" && res?.msg=='ShowBecomePrivilege') {
+          setAddPrePop('No');
+        } else  if (res?.access == "No" && res?.msg=='ShowBuyPackage_and_Allacarte') {
+          setAddPrePop('ShowBuyPackage_and_Allacarte');
+        } else if (res?.access == "No" && res?.msg=='LB') {
+          setAddPrePop('LB');
         } else {
           setAddPrePop("Yes");
         }
@@ -84,7 +90,9 @@ const UserNamePopup = ({ setAddPopup,refetch }) => {
 
   return (
     <>
-    {addPrePop =='No' ? <NoAccessLbPopUp setNoAccessPopup={setAddPopup} service='PP_Premises'/> 
+    {
+    addPrePop =='No' ? <NoAccessPopUp setNoAccessPopup={setAddPopup}/> 
+    : (addPrePop =='LB' || addPrePop=='ShowBuyPackage_and_Allacarte') ? <NoAccessLbPopUp setNoAccessPopup={setAddPopup} noAccessLbPopup={addPrePop} service='PP_Premises'/> 
     : addPrePop =='Yes' ? <AddPremise2 setAddPopup={setAddPopup} refetch={refetch} /> 
     :
     <div className="fixed top-0 left-0 w-full h-full flex items-center bg-[#252525b0] justify-center z-[1] ">

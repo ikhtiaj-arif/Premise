@@ -367,7 +367,11 @@ const AllComments = ({
   const handleAddToBeat=async(comment)=>{
     const res = await fetchUserAccess(`${currentUser?.id}/PP_BeatSheet`);
       console.log("add to beat res", res);
-      if (res?.access == "No") {
+      if (res?.access == "No" && res?.msg=='ShowBecomePrivilege') {
+        setNoAccessLbPopup('No');
+      } else  if (res?.access == "No" && res?.msg=='ShowBuyPackage_and_Allacarte') {
+        setNoAccessLbPopup('ShowBuyPackage_and_Allacarte');
+      } else if (res?.access == "No" && res?.msg=='LB') {
         setNoAccessLbPopup('LB');
       } else {
         submitAddToBeat(comment);
@@ -1370,8 +1374,8 @@ const AllComments = ({
           setNoAccessPopup={setNoAccessLbPopup}
         />
       )}
-      { noAccessLbPopup =='LB' && (
-        <NoAccessLbPopUp
+      { noAccessLbPopup =='LB' || noAccessLbPopup=='ShowBuyPackage_and_Allacarte' && (
+        <NoAccessLbPopUp noAccessLbPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
           service="PP_Beats"
         />

@@ -303,8 +303,15 @@ const PremiseCardV2 = ({
   const checkAllowance = async (state, id) => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_AllowInteraction`);
     console.log("AllowInteraction res", res);
-    if (res?.access == "No" && res?.msg == "LB") {
-      setNoAccessLbPopUp(true);
+    if (res?.access == "No" && res?.msg == "ShowBecomePrivilege") {
+      setNoAccessLbPopUp("No");
+    } else if (
+      res?.access == "No" &&
+      res?.msg == "ShowBuyPackage_and_Allacarte"
+    ) {
+      setNoAccessLbPopUp("ShowBuyPackage_and_Allacarte");
+    } else if (res?.access == "No" && res?.msg == "LB") {
+      setNoAccessLbPopUp("LB");
     } else {
       state(id);
     }
@@ -405,8 +412,15 @@ const PremiseCardV2 = ({
   const handleVisibility = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_Privacy`);
     console.log("visibility res", res);
-    if (res?.access == "No" && res?.msg == "LB") {
+    if (res?.access == "No" && res?.msg == "ShowBecomePrivilege") {
       setOpenHidePop("No");
+    } else if (
+      res?.access == "No" &&
+      res?.msg == "ShowBuyPackage_and_Allacarte"
+    ) {
+      setOpenHidePop("ShowBuyPackage_and_Allacarte");
+    } else if (res?.access == "No" && res?.msg == "LB") {
+      setOpenHidePop("LB");
     } else {
       setOpenHidePop("Yes");
     }
@@ -415,8 +429,15 @@ const PremiseCardV2 = ({
   const handleMonetizing = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_Monitize`);
     console.log("visibility res", res);
-    if (res?.access == "No" && res?.msg == "LB") {
+    if (res?.access == "No" && res?.msg == "ShowBecomePrivilege") {
       setOpenMonetizingPreferencesPop("No");
+    } else if (
+      res?.access == "No" &&
+      res?.msg == "ShowBuyPackage_and_Allacarte"
+    ) {
+      setOpenMonetizingPreferencesPop("ShowBuyPackage_and_Allacarte");
+    } else if (res?.access == "No" && res?.msg == "LB") {
+      setOpenMonetizingPreferencesPop("LB");
     } else {
       setOpenMonetizingPreferencesPop("Yes");
     }
@@ -622,22 +643,27 @@ const PremiseCardV2 = ({
                 onClick={() => setOpenHidePop(!openHidePop)}
                 className="w-5 h-5 cursor-pointer"
               /> */}
-              {openHidePop == "No" && (
+              {openHidePop == "No" ? (
+                <NoAccessPopUp setNoAccessPopup={setOpenHidePop} />
+              ) : openHidePop == "LB" ||
+                openHidePop == "ShowBuyPackage_and_Allacarte" ? (
                 <NoAccessLbPopUp
+                  noAccessLbPopup={openHidePop}
                   setNoAccessPopup={setOpenHidePop}
                   service="PP_Private"
                 />
-              )}
-              {openHidePop == "Yes" && (
-                <HideOptionPop
-                  setOpenHidePop={setOpenHidePop}
-                  id={id}
-                  refetch={refetch}
-                  user={user}
-                  filter_flag={filter_flag}
-                  comment_filter_flag={comment_filter_flag}
-                  visible_to={visible_to}
-                />
+              ) : (
+                openHidePop == "Yes" && (
+                  <HideOptionPop
+                    setOpenHidePop={setOpenHidePop}
+                    id={id}
+                    refetch={refetch}
+                    user={user}
+                    filter_flag={filter_flag}
+                    comment_filter_flag={comment_filter_flag}
+                    visible_to={visible_to}
+                  />
+                )
               )}
             </div>
           ) : (
@@ -917,24 +943,35 @@ const PremiseCardV2 = ({
           premiseId={viewTransactionPId}
         />
       )}
-      {openMonetizingPreferencesPop == "No" && (
+      {openMonetizingPreferencesPop == "No" ? (
+        <NoAccessPopUp setNoAccessPopup={setOpenMonetizingPreferencesPop} />
+      ) : openMonetizingPreferencesPop == "LB" ||
+        openMonetizingPreferencesPop == "ShowBuyPackage_and_Allacarte" ? (
         <NoAccessLbPopUp
+          noAccessLbPopUp={openMonetizingPreferencesPop}
           setNoAccessPopup={setOpenMonetizingPreferencesPop}
           service="PP_Monitizes"
         />
+      ) : (
+        openMonetizingPreferencesPop == "Yes" && (
+          <MonetizePreferencePop
+            popClose={setOpenMonetizingPreferencesPop}
+            id={id}
+            user={user}
+          />
+        )
       )}
-      {openMonetizingPreferencesPop == "Yes" && (
-        <MonetizePreferencePop
-          popClose={setOpenMonetizingPreferencesPop}
-          id={id}
-          user={user}
-        />
-      )}
-      {noAccessLbPopUp && (
-        <NoAccessLbPopUp
-          setNoAccessPopup={setNoAccessLbPopUp}
-          service="PP_interactions"
-        />
+      {noAccessLbPopUp == "No" ? (
+        <NoAccessPopUp setNoAccessPopup={setNoAccessLbPopUp} />
+      ) : (
+        noAccessLbPopUp == "LB" ||
+        (noAccessLbPopUp == "ShowBuyPackage_and_Allacarte" && (
+          <NoAccessLbPopUp
+            noAccessLbPopup={noAccessLbPopUp}
+            setNoAccessPopup={setNoAccessLbPopUp}
+            service="PP_interactions"
+          />
+        ))
       )}
       {translationRequestPop && (
         <ReqTranslationPop

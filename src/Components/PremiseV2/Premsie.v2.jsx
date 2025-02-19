@@ -22,6 +22,7 @@ import TypingLoader from "../TypingLoader";
 import { baseURL } from "../utils";
 import PremiseCardV2 from "./Card/PremiseCardV2";
 import FilterSearchSort from "./Header/FiltersSearchSort/FilterSearchSort";
+import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 
 export const loadingData = [
   "Initializing..",
@@ -312,8 +313,15 @@ const PremiseV2 = () => {
     if (userFirstName && userLastName) {
       const res = await fetchUserAccess(`${currentUser?.id}/PP_PostPremise`);
       console.log("add premise res", res);
-      if (res?.access == "No" && res?.msg=='LB') {
+      if (res?.access == "No" && res?.msg == "ShowBecomePrivilege") {
         setAddPopup("No");
+      } else if (
+        res?.access == "No" &&
+        res?.msg == "ShowBuyPackage_and_Allacarte"
+      ) {
+        setAddPopup("ShowBuyPackage_and_Allacarte");
+      } else if (res?.access == "No" && res?.msg == "LB") {
+        setAddPopup("LB");
       } else {
         setAddPopup("Yes");
       }
@@ -443,14 +451,18 @@ const PremiseV2 = () => {
           {addPopup == "noUserName" && (
             <UserNamePopup {...{ refetch, setAddPopup }} />
           )}
-          {addPopup == "No" && (
+          {addPopup == "No" ? (
+            <NoAccessPopUp setNoAccessPopup={setAddPopup} />
+          ) : addPopup == "LB" || addPopup == "ShowBuyPackage_and_Allacarte" ? (
             <NoAccessLbPopUp
               setNoAccessPopup={setAddPopup}
+              noAccessLbPopup={addPopup}
               service="PP_Premises"
             />
-          )}
-          {addPopup == "Yes" && (
-            <AddPremise2 setAddPopup={setAddPopup} refetch={refetch} />
+          ) : (
+            addPopup == "Yes" && (
+              <AddPremise2 setAddPopup={setAddPopup} refetch={refetch} />
+            )
           )}
 
           <div className="shortM-hidden ">
