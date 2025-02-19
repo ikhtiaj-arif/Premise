@@ -11,8 +11,8 @@ import calB from "../../../../img/Icons/calB.png";
 import calG from "../../../../img/Icons/calG.png";
 import langB from "../../../../img/Icons/langB.png";
 import langG from "../../../../img/Icons/langG.png";
-import cartSale from "../../../../img/Icons/mailCart.png";
-import cartTrans from "../../../../img/Icons/translateCart.png";
+import cartSale from "../../../../img/Icons/saleBgLess.png";
+import cartTrans from "../../../../img/Icons/tranBgLess.png";
 import RefineFilters from "../../../Premisepool/SortPagination/RefineFilters";
 
 const FilterSearchSort = ({
@@ -454,7 +454,7 @@ const FilterSearchSort = ({
               <img
                 src={cartTrans}
                 alt=""
-                className="h-[17px] w-[21px] mx-auto absolute top-[6px] left-[7px] "
+                className="h-[32px] w-[32px] mx-auto"
               />
             </button>
             {/* sale filter */}
@@ -469,7 +469,7 @@ const FilterSearchSort = ({
               <img
                 src={cartSale}
                 alt=""
-                className="h-[17px] w-[21px] mx-auto absolute top-[6px] left-[7px] "
+                className="h-[32px] w-[32px] mx-auto "
               />
             </button>
 

@@ -29,6 +29,8 @@ import {
 import { useCreateReplyMutation } from "../../app/EndPoints/commentReply/reply";
 
 import axios from "axios";
+import TransInOtherLang from "../PremiseV2/Popups/TransInOtherLang.pop";
+import { handlePremiseOpenNewTab } from "../PremiseV2/utilityFuncitons/functions";
 import AskIda from "../SharedVersion/AskIda";
 import PopupComment from "../SharedVersion/PopupComment";
 import PopupLike from "../SharedVersion/PopupLike";
@@ -42,6 +44,7 @@ import DeletePremise from "./DeletePremise";
 import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
 import UserType from "./UserType";
+import ViewTranslationPop from "../PremiseV2/Popups/ViewTranslation.pop";
 
 const Popup = ({
   popClose,
@@ -326,17 +329,17 @@ const Popup = ({
 
   useEffect(() => {}, [openDotMenu]);
 
-  const handlePremiseOpenNewTab = (id) => {
-    // let host = window.location.origin + `/#/new-tab/${id}`;
-    // window.open(host, "_blank");
+  // const handlePremiseOpenNewTab = (id) => {
+  //   // let host = window.location.origin + `/#/new-tab/${id}`;
+  //   // window.open(host, "_blank");
 
-    // console.log(id);
-    const url = `${baseURL}/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
-    // const url = `${window.location.origin}/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
+  //   // console.log(id);
+  //   // // const url = `${baseURL}/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
+  //   const url = `${window.location.origin}/ideamall/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
 
-    // // Open the URL in a new tab
-    window.open(url);
-  };
+  //   // // Open the URL in a new tab
+  //   window.open(url, "_blank");
+  // };
 
   const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);
 
@@ -546,7 +549,7 @@ const Popup = ({
                       {openDotMenu && (
                         <div
                           ref={dotPopupRef}
-                          className="absolute w-[186.99px] flex flex-col font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px] z-10"
+                          className="absolute w-[197px] flex flex-col font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px] z-10"
                         >
                           <button
                             onClick={() => {
@@ -562,10 +565,10 @@ const Popup = ({
                           </button>
 
                           <button
-                            onClick={() => {
-                              setOpenTransOtherPop(!openTransOtherPop);
-                              setOpenDotMenu(null);
-                            }}
+                           onClick={() => {
+                            setOpenTransOtherPop(!openTransOtherPop);
+                            setOpenDotMenu(null);
+                          }}
                             className="cursor-pointer  text-left w-full"
                           >
                             <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
@@ -897,7 +900,16 @@ const Popup = ({
               popClose={popClose}
             />
           )}
-
+    {openTransOtherPop && (
+        <TransInOtherLang
+          refetch={refetch}
+          popClose={setOpenTransOtherPop}
+          id={id}
+          user={user}
+          source_language={premiseData?.source_language}
+          project_id={project_id}
+        />
+      )}
           {openCharacterChart && (
             <CharacterEditablePop
               setCharacterEditPop={setOpenCharacterChart}
@@ -910,6 +922,12 @@ const Popup = ({
               project_id={project_id}
             />
           )}
+            {openViewTranslationsPop && (
+        <ViewTranslationPop
+          popClose={setOpenViewTranslationsPop}
+          premiseId={viewTransactionPId}
+        />
+      )}
         </div>
       </div>
     );

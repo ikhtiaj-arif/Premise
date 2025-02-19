@@ -143,7 +143,7 @@ const PremiseTopAccess = ({ user, premiseOwner, id, project_id }) => {
             {openDotMenu && (
               <div
                 ref={dotPopupRef}
-                className="absolute w-[186.99px] flex flex-col font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px] z-10"
+                className="absolute w-[197px] flex flex-col font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px] z-10"
               >
                 <button
                   onClick={() => {

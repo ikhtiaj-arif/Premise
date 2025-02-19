@@ -50,7 +50,7 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
       <div
         className={` h-[100vh] ${
           showBankDetails ? " lg:h-[497px]" : " lg:h-[734px]"
-        } mb-[20px] px-[22px] lg:mb-0 pt-[32px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff]   lg:w-[625px]  md:mx-auto relative lg:rounded-[8px]`}
+        } mb-[20px] px-[22px] lg:mb-0 pt-2 lg:mt-[80px] xl:mt-[85px] w-full bg-[#fff]   lg:w-[625px]  md:mx-auto relative lg:rounded-[8px]`}
       >
         {/* close popup */}
         <img

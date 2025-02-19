@@ -131,7 +131,7 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
       <div
         className={`h-[100vh] ${
           showBankDetails ? "lg:h-[497px]" : "lg:h-[670px]"
-        } mb-[20px] px-[22px] lg:mb-0 pt-[32px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:w-[625px] md:mx-auto relative lg:rounded-[8px]`}
+        } mb-[20px] px-[22px] lg:mb-0 pt-2 lg:mt-[80px] xl:mt-[85px] w-full bg-[#fff] lg:w-[625px] md:mx-auto relative lg:rounded-[8px]`}
       >
         <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
           <img
