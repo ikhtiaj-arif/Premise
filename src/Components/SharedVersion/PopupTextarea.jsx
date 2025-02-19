@@ -327,15 +327,18 @@ const PopupTextarea = ({
       {noAccessPopup == "No" ? (
         <NoAccessPopUp setNoAccessPopup={setNoAccessPopup} />
       ) : (
-        <NoAccessLbPopUp
-          noAccessLbPopup={noAccessPopup}
-          setNoAccessPopup={setNoAccessPopup}
-          service={
-            service == "PP_AllowBrainstoming"
-              ? "PP_Brainstrom"
-              : "PP_interactions"
-          }
-        />
+        (noAccessPopup == "ShowBuyPackage_and_Allacarte" ||
+          noAccessPopup == "LB") && (
+          <NoAccessLbPopUp
+            noAccessLbPopup={noAccessPopup}
+            setNoAccessPopup={setNoAccessPopup}
+            service={
+              service == "PP_AllowBrainstoming"
+                ? "PP_Brainstrom"
+                : "PP_interactions"
+            }
+          />
+        )
       )}
     </div>
   );
