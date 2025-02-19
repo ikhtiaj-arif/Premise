@@ -29,7 +29,14 @@ export const Package = ({ data, typeOfRequest, fromLimit }) => {
             </div>
           </div>
         ) : (
-          ["PP_Brainstrom"]?.map((serviceName) =>
+          [
+            "PP_Brainstrom",
+            "PP_Monitizes",
+            "PP_Premises",
+            "PP_interactions",
+            "PP_Private",
+            "PP_Beats",
+          ]?.map((serviceName) =>
             data
               ?.filter((item) => item?.service_name == serviceName)
               .map((item, index) => (
@@ -37,9 +44,7 @@ export const Package = ({ data, typeOfRequest, fromLimit }) => {
                   key={`${item?.service_name}-${index}`}
                   className="flex items-center justify-between py-2"
                 >
-                  <h3 className="text-[14px]">
-                    {item?.filedName}
-                  </h3>
+                  <h3 className="text-[14px]">{item?.filedName}</h3>
                   <div className="text-right">
                     <p className="text-[14px] font-medium">
                       {item?.service_count}
