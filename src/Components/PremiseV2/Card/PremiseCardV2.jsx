@@ -964,14 +964,14 @@ const PremiseCardV2 = ({
       {noAccessLbPopUp == "No" ? (
         <NoAccessPopUp setNoAccessPopup={setNoAccessLbPopUp} />
       ) : (
-        noAccessLbPopUp == "LB" ||
-        (noAccessLbPopUp == "ShowBuyPackage_and_Allacarte" && (
+        (noAccessLbPopUp == "LB" ||
+          noAccessLbPopUp == "ShowBuyPackage_and_Allacarte") && (
           <NoAccessLbPopUp
             noAccessLbPopup={noAccessLbPopUp}
             setNoAccessPopup={setNoAccessLbPopUp}
             service="PP_interactions"
           />
-        ))
+        )
       )}
       {translationRequestPop && (
         <ReqTranslationPop

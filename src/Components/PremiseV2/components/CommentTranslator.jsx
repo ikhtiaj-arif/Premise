@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import transIcon from "../../../img/Icons/transIcon.png";
 import { sortedLanguages } from "../../Premisepool/Languages";
+import { fetchUserAccess, MyContext } from "../../../App";
+import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 
 const CommentTranslator = ({
   comment,
@@ -8,8 +10,10 @@ const CommentTranslator = ({
   loading,
   commentRefetch,
 }) => {
+  const { currentUser } = useContext(MyContext);
   const [selectedLanguage, setSelectedLanguage] = useState("bn");
   const [openDropdownId, setOpenDropdownId] = useState(null); // Track which comment's dropdown is open
+  const [noAccessPopup, setNoAccessPopup] = useState(false);
 
   const handleTranslateComment = async (lang) => {
     const data = {
@@ -32,6 +36,17 @@ const CommentTranslator = ({
     handleTranslateComment(key); // Call the translation function
   };
 
+  const handleTranslate = async () => {
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_Translate`);
+    console.log(`PP_Translate res`, res);
+    if (res?.access == "No" && res?.msg == "ShowBecomePrivilege") {
+      setNoAccessPopup(true);
+    } else {
+      // If another dropdown is open, close it and open the current one
+      setOpenDropdownId(openDropdownId === comment.id ? null : comment.id);
+    }
+  };
+
   return (
     <div className="relative">
       {/* {loading ? (
@@ -41,10 +56,7 @@ const CommentTranslator = ({
         data-te-toggle="tooltip"
         title="Translate"
         src={transIcon}
-        onClick={() => {
-          // If another dropdown is open, close it and open the current one
-          setOpenDropdownId(openDropdownId === comment.id ? null : comment.id);
-        }}
+        onClick={handleTranslate}
         className="w-5 h-5 ml-auto cursor-pointer"
         alt=""
       />
@@ -66,6 +78,7 @@ const CommentTranslator = ({
           ))}
         </div>
       )}
+      {noAccessPopup && <NoAccessPopUp setNoAccessPopup={setNoAccessPopup} />}
     </div>
   );
 };

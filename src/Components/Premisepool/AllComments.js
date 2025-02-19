@@ -459,7 +459,7 @@ const AllComments = ({
     if((currentUser?.id !==data?.premiseOwner?.id) && c?.user?.first_name=='Ida'){
       const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
       console.log("reply brainstorm res", res);
-      if (res?.access == "No") {
+      if (res?.access == "No" && res?.msg=='ShowBecomePrivilege') {
         setNoAccessLbPopup('No');
       } else {
         applyReplyToggle();
@@ -1374,7 +1374,7 @@ const AllComments = ({
           setNoAccessPopup={setNoAccessLbPopup}
         />
       )}
-      { noAccessLbPopup =='LB' || noAccessLbPopup=='ShowBuyPackage_and_Allacarte' && (
+      {( noAccessLbPopup =='LB' || noAccessLbPopup=='ShowBuyPackage_and_Allacarte') && (
         <NoAccessLbPopUp noAccessLbPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
           service="PP_Beats"
