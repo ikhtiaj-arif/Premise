@@ -11,6 +11,7 @@ import Keyboard from "../Premisepool/Keyboard";
 import Draggable from "react-draggable";
 import { fetchUserAccess, MyContext } from "../../App";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
+import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 
 const PopupTextarea = ({
   premiseOwner,
@@ -35,6 +36,7 @@ const PopupTextarea = ({
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [noAccessPopup, setNoAccessPopup] = useState(null);
+  const [service, setService] = useState(null);
 
   const [postComment, isCommentResInfo] = useCommentPremiseMutation();
   const inputRef = useRef(null);
@@ -95,8 +97,17 @@ const PopupTextarea = ({
   const checkAllowance = async (flag) => {
     const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);
     console.log(`${flag} res`, res);
-    if (res?.access == "No" && res?.msg == "LB") {
-      setNoAccessPopup(flag);
+    if (res?.access == "No" && res?.msg == "ShowBecomePrivilege") {
+      setNoAccessPopup("No");
+    } else if (
+      res?.access == "No" &&
+      res?.msg == "ShowBuyPackage_and_Allacarte"
+    ) {
+      setNoAccessPopup("ShowBuyPackage_and_Allacarte");
+      setService(flag);
+    } else if (res?.access == "No" && res?.msg == "LB") {
+      setNoAccessPopup("LB");
+      setService(flag);
     } else {
       handleSubmitComment();
     }
@@ -313,11 +324,14 @@ const PopupTextarea = ({
         )}
       </>
 
-      {noAccessPopup && (
+      {noAccessPopup == "No" ? (
+        <NoAccessPopUp setNoAccessPopup={setNoAccessPopup} />
+      ) : (
         <NoAccessLbPopUp
+          noAccessLbPopup={noAccessPopup}
           setNoAccessPopup={setNoAccessPopup}
           service={
-            noAccessPopup == "PP_AllowBrainstoming"
+            service == "PP_AllowBrainstoming"
               ? "PP_Brainstrom"
               : "PP_interactions"
           }

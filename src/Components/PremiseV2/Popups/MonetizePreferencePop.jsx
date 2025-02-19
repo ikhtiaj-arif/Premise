@@ -49,7 +49,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
     console.log("Form Submitted:", formData);
     const data = {
       id,
-      body: { sellingPrice: price, ...premiseData},
+      body: { sellingPrice: price, ...premiseData },
     };
     updatePremise(data);
     // Add API or other logic here
