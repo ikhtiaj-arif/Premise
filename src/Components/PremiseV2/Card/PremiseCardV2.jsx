@@ -10,6 +10,7 @@ import msgIcon from "../../../img/Icons/msgIcon.png";
 import sourceIcn from "../../../img/Icons/sourceIcn.png";
 import transCartQ from "../../../img/Icons/transCartQ.png";
 import translateCart from "../../../img/Icons/translateCart.png";
+import transReqQ from "../../../img/Icons/transReqQ.png";
 import userImg from "../../../img/Icons/userImg.png";
 
 import axios from "axios";
@@ -486,7 +487,7 @@ const PremiseCardV2 = ({
               <img
                 data-te-toggle="tooltip"
                 title="Translation Requests"
-                src={transCartQ}
+                src={transReqQ}
                 className="w-8 h-8 cursor-pointer"
                 alt=""
                 onClick={() => setViewTrnRequests(id)}
@@ -622,13 +623,13 @@ const PremiseCardV2 = ({
                 onClick={() => setOpenHidePop(!openHidePop)}
                 className="w-5 h-5 cursor-pointer"
               /> */}
-              {openHidePop == "No" && (
+              {openHidePop === "No" && (
                 <NoAccessLbPopUp
                   setNoAccessPopup={setOpenHidePop}
                   service="PP_Private"
                 />
               )}
-              {openHidePop == "Yes" && (
+              {openHidePop === "Yes" && (
                 <HideOptionPop
                   setOpenHidePop={setOpenHidePop}
                   id={id}

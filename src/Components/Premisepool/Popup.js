@@ -9,11 +9,14 @@ import {
   useGetPremiseUserQuery,
 } from "../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../img/Icons/crossIcon.png";
+import mailCartQ from "../../img/Icons/mailCartQ.png";
 import msgIcon from "../../img/Icons/msgIcon.png";
 import newTabIcn from "../../img/Icons/newTabIcn.png";
+import sourceIcn from "../../img/Icons/sourceIcn.png";
+import translateCart from "../../img/Icons/translateCart.png";
+import transReqQ from "../../img/Icons/transReqQ.png";
 import userImg from "../../img/Icons/userImg.png";
 // import transCartQ from "../../../img/Icons/transCartQ.png";
-
 
 // import backgroundImg from "../../img/Icons/download.jpg";
 import { motion } from "framer-motion";
@@ -25,6 +28,7 @@ import {
 } from "../../app/EndPoints/Characters/Characters";
 import { useCreateReplyMutation } from "../../app/EndPoints/commentReply/reply";
 
+import axios from "axios";
 import AskIda from "../SharedVersion/AskIda";
 import PopupComment from "../SharedVersion/PopupComment";
 import PopupLike from "../SharedVersion/PopupLike";
@@ -34,13 +38,20 @@ import TypingLoader from "../TypingLoader";
 import { baseURL, URL } from "../utils";
 import AllComments from "./AllComments";
 import CharacterEditablePop from "./Character/CharacterEditablePop";
-import HideOptionPop from "./Components/HideOptionPop";
 import DeletePremise from "./DeletePremise";
 import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
 import UserType from "./UserType";
 
-const Popup = ({ popClose, data, refetch, transText, viewText ,handleVisibility,handleMonetizing}) => {
+const Popup = ({
+  popClose,
+  data,
+  refetch,
+  transText,
+  viewText,
+  handleVisibility,
+  handleMonetizing,
+}) => {
   const {
     bg_img,
     bg_color,
@@ -316,12 +327,15 @@ const Popup = ({ popClose, data, refetch, transText, viewText ,handleVisibility,
   useEffect(() => {}, [openDotMenu]);
 
   const handlePremiseOpenNewTab = (id) => {
-    console.log(id);
-    // const url = `${baseURL}/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
-    const url = `${window.location.origin}/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
+    let host = window.location.origin + `/#/new-tab/${id}`;
+    window.open(host, "_blank");
 
-    // Open the URL in a new tab
-    window.open(url);
+    // console.log(id);
+    // // const url = `${baseURL}/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
+    // const url = `${window.location.origin}/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
+
+    // // Open the URL in a new tab
+    // window.open(url);
   };
 
   const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);
@@ -345,6 +359,38 @@ const Popup = ({ popClose, data, refetch, transText, viewText ,handleVisibility,
     setOpenViewTranslationsPop(!openViewTranslationsPop);
     setOpenDotMenu(null);
   };
+  const token = localStorage.getItem("accessToken");
+
+  const header = {
+    Authorization: `Bearer ${token}`,
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+    const [saleRequestedOwner, setSaleRequestedOwner] = useState(true);
+      const [names, setNames] = useState([]);
+    const handleSaleRequestedOwner = async () => {
+      try {
+        // console.log(id);
+        const data = await axios.get(
+          `${URL}/ideamall/premise/request/${id}/Sale`,
+          {
+            headers: header,
+          }
+        );
+  
+        if (data?.data?.data?.length > 0) {
+          setSaleRequestedOwner(true);
+        }
+  
+        setNames((prevNames) => [data]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+  console.log(premiseData);
+
+
 
   if (isPremiseLoading) {
     return <>Loading...</>;
@@ -447,22 +493,47 @@ const Popup = ({ popClose, data, refetch, transText, viewText ,handleVisibility,
                   {premiseOwner?.id === user ||
                   premiseOwner?.id === currentProjectOwner ? (
                     <div className="flex gap-[3px] items-center mr-[2px] relative ">
-                      {/* <img
-                      data-te-toggle="tooltip"
-                      title="Check Mails"
-                      src={msgIcon}
-                      className="w-8 h-8 cursor-pointer"
-                      alt=""
-                      onClick={() => setOwnerMail(true)}
-                    /> */}
-                      {/* <FaRegTrashAlt
-                data-te-toggle="tooltip"
-                title="Delete"
-                
-                onClick={() => handleDelete(id)}
-                className="w-5 h-5 cursor-pointer "
-                alt=""
-              /> */}
+
+
+                      <img
+                        data-te-toggle="tooltip"
+                        title="Translation Requests"
+                        src={transReqQ}
+                        className="w-8 h-8 cursor-pointer"
+                        alt=""
+                        onClick={() => setViewTrnRequests(id)}
+                      />
+                      <img
+                        data-te-toggle="tooltip"
+                        title="Translated Languages"
+                        src={translateCart}
+                        className="w-8 h-8 cursor-pointer"
+                        alt=""
+                        onClick={() => handleViewTransaction(id)}
+                      />
+                      {premiseData?.premise_source_id && (
+                        <img
+                          data-te-toggle="tooltip"
+                          title="View Source"
+                          src={sourceIcn}
+                          className="w-8 h-8 cursor-pointer"
+                          alt=""
+                          onClick={() =>
+                            handlePremiseOpenNewTab(premiseData?.premise_source_id)
+                          }
+                        />
+                      )}
+                      {saleRequestedOwner && (
+                        <img
+                          data-te-toggle="tooltip"
+                          title="Sale Requested"
+                          src={mailCartQ}
+                          className="w-9 h-9 cursor-pointer"
+                          alt=""
+                          onClick={() => setViewSaleRequests(true)}
+                        />
+                      )}
+
                       <FaEllipsisV
                         onMouseDown={(e) => {
                           e.stopPropagation();
@@ -478,7 +549,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText ,handleVisibility,
                           className="absolute w-[186.99px] flex flex-col font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px] z-10"
                         >
                           <button
-                            onClick={()=>{
+                            onClick={() => {
                               handleVisibility();
                               setOpenDotMenu(null);
                             }}
@@ -627,7 +698,8 @@ const Popup = ({ popClose, data, refetch, transText, viewText ,handleVisibility,
                 <AskIda
                   id={premiseId}
                   {...{
-                    user,premiseOwner,
+                    user,
+                    premiseOwner,
                     commentRefetch,
                     setOpenAllReplies,
                     setOpenReplyFieldID,
@@ -684,7 +756,7 @@ const Popup = ({ popClose, data, refetch, transText, viewText ,handleVisibility,
                           exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
                           transition={{ duration: 0.5 }} // Adjust the duration as needed
                         >
-                          <AllComments 
+                          <AllComments
                             commentIdx={index + 1}
                             comments={comment}
                             data={data}

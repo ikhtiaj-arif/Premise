@@ -312,7 +312,7 @@ const PremiseV2 = () => {
     if (userFirstName && userLastName) {
       const res = await fetchUserAccess(`${currentUser?.id}/PP_PostPremise`);
       console.log("add premise res", res);
-      if (res?.access == "No" && res?.msg=='LB') {
+      if (res?.access == "No" && res?.msg == "LB") {
         setAddPopup("No");
       } else {
         setAddPopup("Yes");
