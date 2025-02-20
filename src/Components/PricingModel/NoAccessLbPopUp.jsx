@@ -1,19 +1,32 @@
 import React, { useContext, useEffect, useState } from "react";
 import crossIcon from "../../img/croos_icon.png";
 import congratsImg from "../../img/congratulations.png";
+import welcomeImg from "../../img/welcome.png";
 import { MyContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { URL } from "../utils";
-import { useGetCalculateProductPriceQuery } from "../../app/EndPoints/premisePoolApi";
+import {
+  useActivateFreeMutation,
+  useGetCalculateProductPriceQuery,
+} from "../../app/EndPoints/premisePoolApi";
+import { toast } from "react-toastify";
 
-const NoAccessLbPopUp = ({ setNoAccessPopup, service, noAccessLbPopup }) => {
-  const { counts, setCounts } = useContext(MyContext);
+const NoAccessLbPopUp = ({
+  setNoAccessPopup,
+  service,
+  noAccessLbPopup,
+  divId,
+}) => {
+  const { counts, setCounts, currentUser } = useContext(MyContext);
+
+  console.log("noAccessLbPopup", noAccessLbPopup);
 
   const {
     data: productPrice,
     isLoading,
     isError,
   } = useGetCalculateProductPriceQuery();
+  const [activateFree, { isLoading: isALoading }] = useActivateFreeMutation();
 
   const navigate = useNavigate();
 
@@ -30,14 +43,19 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, service, noAccessLbPopup }) => {
       );
       console.log("Updated Product Price:", updatedProductPrice);
       setPpData(updatedProductPrice);
+      setSelectedOption(
+        noAccessLbPopup?.ShowFreeTrialActavation == "Yes"
+          ? "activate"
+          : "generate"
+      );
     }
-  }, [productPrice, service]);
+  }, [productPrice, service, noAccessLbPopup]);
 
-  useEffect(() => {
-    if (service !== "PP_Brainstrom") {
-      setSelectedOption("nextPackage");
-    }
-  }, [service]);
+  // useEffect(() => {
+  //   if (service !== "PP_Brainstrom") {
+  //     setSelectedOption("nextPackage");
+  //   }
+  // }, [service]);
 
   const handleRadioChange = (event) => {
     setSelectedOption(event.target.value);
@@ -51,7 +69,7 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, service, noAccessLbPopup }) => {
     }));
   };
 
-  const handleGoClick = () => {
+  const handleGoClick = async () => {
     if (selectedOption === "generate") {
       if (sceneCount > 0) {
         sessionStorage.setItem("pp_limit_counts", JSON.stringify(counts));
@@ -61,6 +79,17 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, service, noAccessLbPopup }) => {
       }
     } else if (selectedOption === "nextPackage") {
       window.location.href = URL + "/pay/pricing";
+    } else if (selectedOption === "activate") {
+      const data = {
+        user: currentUser?.id,
+      };
+      const res = await activateFree(data);
+      console.log("activateFree success", res);
+      if (res?.data?.status == "success") {
+        toast("Successfully activated Free Trial Package.");
+        setNoAccessPopup(null);
+        document.getElementById(`${divId}`).click();
+      }
     }
   };
 
@@ -81,11 +110,15 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, service, noAccessLbPopup }) => {
 
           <div className="md:p-10 p-2">
             <img
-              src={congratsImg}
+              src={
+                noAccessLbPopup?.ShowFreeTrialActavation == "Yes"
+                  ? welcomeImg
+                  : congratsImg
+              }
               className="w-[192px] h-[280px] mx-auto"
               alt=""
             />
-            {noAccessLbPopup !== "ShowBuyPackage_and_Allacarte" && (
+            {noAccessLbPopup?.msg !== "ShowBuyPackage_and_Allacarte" && (
               <h1 className=" text-[#252525] text-[16px] font-[600] leading-6">
                 You have
                 {service == "PP_Brainstrom" ? " Completed " : " Generated "}
@@ -108,6 +141,21 @@ const NoAccessLbPopUp = ({ setNoAccessPopup, service, noAccessLbPopup }) => {
               </p>
             ) : } */}
             <div className="ml-2 block text-[#616161] text-[16px] leading-6 font-[400] no_access_input">
+              {/* 1st option */}
+              {noAccessLbPopup?.ShowFreeTrialActavation == "Yes" && (
+                <div className="mb-1">
+                  <label className="flex items-start gap-2 ">
+                    <input
+                      type="radio"
+                      value="activate"
+                      checked={selectedOption === "activate"}
+                      onChange={handleRadioChange}
+                      className="mt-1"
+                    />
+                    <span className=" flex-1"> Activate Free Trial</span>
+                  </label>
+                </div>
+              )}
               {/* 1st option */}
               <div className="">
                 <label className="flex items-start gap-2 ">

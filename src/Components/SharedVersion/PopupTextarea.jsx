@@ -97,16 +97,8 @@ const PopupTextarea = ({
   const checkAllowance = async (flag) => {
     const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);
     console.log(`${flag} res`, res);
-    if (res?.access == "No" && res?.msg == "ShowBecomePrivilege") {
-      setNoAccessPopup("No");
-    } else if (
-      res?.access == "No" &&
-      res?.msg == "ShowBuyPackage_and_Allacarte"
-    ) {
-      setNoAccessPopup("ShowBuyPackage_and_Allacarte");
-      setService(flag);
-    } else if (res?.access == "No" && res?.msg == "LB") {
-      setNoAccessPopup("LB");
+    if (res?.access == "No") {
+      setNoAccessPopup(res);
       setService(flag);
     } else {
       handleSubmitComment();
@@ -324,11 +316,11 @@ const PopupTextarea = ({
         )}
       </>
 
-      {noAccessPopup == "No" ? (
+      {noAccessPopup?.msg == "ShowBecomePrivilege" ? (
         <NoAccessPopUp setNoAccessPopup={setNoAccessPopup} />
       ) : (
-        (noAccessPopup == "ShowBuyPackage_and_Allacarte" ||
-          noAccessPopup == "LB") && (
+        (noAccessPopup?.msg == "ShowBuyPackage_and_Allacarte" ||
+          noAccessPopup?.msg == "LB") && (
           <NoAccessLbPopUp
             noAccessLbPopup={noAccessPopup}
             setNoAccessPopup={setNoAccessPopup}

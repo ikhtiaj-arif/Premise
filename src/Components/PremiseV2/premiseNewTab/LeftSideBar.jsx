@@ -212,15 +212,8 @@ const LeftSideBar = ({
   const handleVisibility = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_Privacy`);
     console.log("visibility res", res);
-    if (res?.access == "No" && res?.msg == "ShowBecomePrivilege") {
-      setOpenHidePop("No");
-    } else if (
-      res?.access == "No" &&
-      res?.msg == "ShowBuyPackage_and_Allacarte"
-    ) {
-      setOpenHidePop("ShowBuyPackage_and_Allacarte");
-    } else if (res?.access == "No" && res?.msg == "LB") {
-      setOpenHidePop("LB");
+    if (res?.access == "No") {
+      setOpenHidePop(res);
     } else {
       setOpenHidePop("Yes");
     }
@@ -412,10 +405,10 @@ const LeftSideBar = ({
       </div>
       <div className="h-[100px]" />
 
-      {openHidePop == "No" ? (
+      {openHidePop?.msg == "ShowBecomePrivilege" ? (
         <NoAccessPopUp setNoAccessPopup={setOpenHidePop} />
-      ) : openHidePop == "LB" ||
-        openHidePop == "ShowBuyPackage_and_Allacarte" ? (
+      ) : openHidePop?.msg == "LB" ||
+        openHidePop?.msg == "ShowBuyPackage_and_Allacarte" ? (
         <NoAccessLbPopUp
           noAccessLbPopup={openHidePop}
           setNoAccessPopup={setOpenHidePop}

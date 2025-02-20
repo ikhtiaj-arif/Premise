@@ -306,15 +306,8 @@ const PremiseCardV2 = ({
   const checkAllowance = async (state, id) => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_AllowInteraction`);
     console.log("AllowInteraction res", res);
-    if (res?.access == "No" && res?.msg == "ShowBecomePrivilege") {
-      setNoAccessLbPopUp("No");
-    } else if (
-      res?.access == "No" &&
-      res?.msg == "ShowBuyPackage_and_Allacarte"
-    ) {
-      setNoAccessLbPopUp("ShowBuyPackage_and_Allacarte");
-    } else if (res?.access == "No" && res?.msg == "LB") {
-      setNoAccessLbPopUp("LB");
+    if (res?.access == "No") {
+      setNoAccessLbPopUp(res);
     } else {
       state(id);
     }
@@ -415,15 +408,8 @@ const PremiseCardV2 = ({
   const handleVisibility = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_Privacy`);
     console.log("visibility res", res);
-    if (res?.access == "No" && res?.msg == "ShowBecomePrivilege") {
-      setOpenHidePop("No");
-    } else if (
-      res?.access == "No" &&
-      res?.msg == "ShowBuyPackage_and_Allacarte"
-    ) {
-      setOpenHidePop("ShowBuyPackage_and_Allacarte");
-    } else if (res?.access == "No" && res?.msg == "LB") {
-      setOpenHidePop("LB");
+    if (res?.access == "No") {
+      setOpenHidePop(res);
     } else {
       setOpenHidePop("Yes");
     }
@@ -433,15 +419,8 @@ const PremiseCardV2 = ({
   const handleMonetizing = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_Monitize`);
     console.log("visibility res", res);
-    if (res?.access == "No" && res?.msg == "ShowBecomePrivilege") {
-      setOpenMonetizingPreferencesPop("No");
-    } else if (
-      res?.access == "No" &&
-      res?.msg == "ShowBuyPackage_and_Allacarte"
-    ) {
-      setOpenMonetizingPreferencesPop("ShowBuyPackage_and_Allacarte");
-    } else if (res?.access == "No" && res?.msg == "LB") {
-      setOpenMonetizingPreferencesPop("LB");
+    if (res?.access == "No") {
+      setOpenMonetizingPreferencesPop(res);
     } else {
       setOpenMonetizingPreferencesPop("Yes");
     }
@@ -659,10 +638,10 @@ const PremiseCardV2 = ({
                 onClick={() => setOpenHidePop(!openHidePop)}
                 className="w-5 h-5 cursor-pointer"
               /> */}
-              {openHidePop == "No" ? (
+              {openHidePop?.msg == "ShowBecomePrivilege" ? (
                 <NoAccessPopUp setNoAccessPopup={setOpenHidePop} />
-              ) : openHidePop == "LB" ||
-                openHidePop == "ShowBuyPackage_and_Allacarte" ? (
+              ) : openHidePop?.msg == "LB" ||
+                openHidePop?.msg == "ShowBuyPackage_and_Allacarte" ? (
                 <NoAccessLbPopUp
                   noAccessLbPopup={openHidePop}
                   setNoAccessPopup={setOpenHidePop}
@@ -961,10 +940,10 @@ const PremiseCardV2 = ({
           premiseId={viewTransactionPId}
         />
       )}
-      {openMonetizingPreferencesPop == "No" ? (
+      {openMonetizingPreferencesPop?.msg == "ShowBecomePrivilege" ? (
         <NoAccessPopUp setNoAccessPopup={setOpenMonetizingPreferencesPop} />
-      ) : openMonetizingPreferencesPop == "LB" ||
-        openMonetizingPreferencesPop == "ShowBuyPackage_and_Allacarte" ? (
+      ) : openMonetizingPreferencesPop?.msg == "LB" ||
+        openMonetizingPreferencesPop?.msg == "ShowBuyPackage_and_Allacarte" ? (
         <NoAccessLbPopUp
           noAccessLbPopUp={openMonetizingPreferencesPop}
           setNoAccessPopup={setOpenMonetizingPreferencesPop}
@@ -979,11 +958,11 @@ const PremiseCardV2 = ({
           />
         )
       )}
-      {noAccessLbPopUp == "No" ? (
+      {noAccessLbPopUp?.msg == "ShowBecomePrivilege" ? (
         <NoAccessPopUp setNoAccessPopup={setNoAccessLbPopUp} />
       ) : (
-        (noAccessLbPopUp == "LB" ||
-          noAccessLbPopUp == "ShowBuyPackage_and_Allacarte") && (
+        (noAccessLbPopUp?.msg == "LB" ||
+          noAccessLbPopUp?.msg == "ShowBuyPackage_and_Allacarte") && (
           <NoAccessLbPopUp
             noAccessLbPopup={noAccessLbPopUp}
             setNoAccessPopup={setNoAccessLbPopUp}
