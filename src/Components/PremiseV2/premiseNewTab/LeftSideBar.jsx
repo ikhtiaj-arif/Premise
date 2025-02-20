@@ -29,6 +29,7 @@ import AskIda from "../../SharedVersion/AskIda";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { fetchUserAccess, MyContext } from "../../../App";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
+import { GlobalContext  } from "../../../app/Hooks/Global"
 
 const LeftSideBar = ({
   premiseData,
@@ -64,6 +65,8 @@ const LeftSideBar = ({
     project_id,
     created_by_name,
   } = premiseData;
+
+  const { charactersPopupMobile } = useContext(GlobalContext);
 
   const { currentUser } = useContext(MyContext);
 
@@ -220,14 +223,14 @@ const LeftSideBar = ({
   };
 
   return (
-    <div className="lg:w-[350px] w-full pr-3">
+    <div className="lg:w-[350px] w-full pr-3 relative lg:overflow-y-auto">
       {/* header */}
       <PremiseTopHeader {...{ handleSearch, id }} />
       <div>
         {/* premise card top */}
         <PremiseTopAccess {...{ premiseOwner, user, id, project_id }} />
         {/* center */}
-        <div className=" relative">
+        <div className="relative">
           <PopupPremiseText
             {...{ bg_img, bg_color, stylings, dText, viewText }}
           />
@@ -264,113 +267,234 @@ const LeftSideBar = ({
         </div>
       </div>
       {/* Details */}
-      <div className="mt-[17px]">
-        <div className="flex items-center justify-between">
-          {" "}
-          <h2 className="text-[#616161] text-[16px] leading-[24px] font-[700]">
-            Created By
-          </h2>
-          <div className="flex items-center">
-            <span className="text-[#616161] text-[16px] leading-[24px] font-[700]">
-              :
-            </span>
-            <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
-              {created_by_name}
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center  justify-between">
-          {" "}
-          <h2 className="text-[#616161] text-[16px] leading-[24px] font-[700]">
-            Created On
-          </h2>
-          <div className="flex items-center">
-            <span className="text-[#616161] text-[16px] leading-[24px] font-[700]">
-              :
-            </span>
-            <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
-              {formatDate(created_at)}
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center  justify-between">
-          <h2 className="text-[#616161] text-[16px] leading-[24px] font-[700]">
-            Last Worked On
-          </h2>
-          <div className="flex items-center">
-            <span className="text-[#616161] text-[16px] leading-[24px] font-[700]">
-              :
-            </span>
-            <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
-              {formatDate(last_worked_on)}
-            </p>
-          </div>
-        </div>
-      </div>
 
-      {/* visible to  */}
-      {premiseOwner?.id == user && (
-        <div className="mt-4">
-          <div className="heading w-full  flex justify-between items-center">
-            <p className="text-[#616161] font-[600] text-[16pxS]">Visible to</p>
-
-            <MdOutlineEdit
-              onClick={handleVisibility}
-              className="text-[#33B0CA] cursor-pointer"
-            />
+      {(window.innerWidth < 1150 && charactersPopupMobile) && <div className="bg-[#fff] absolute top-[47px] right-[12px] w-[290px] rounded-[8px] p-[8px] z-30 shadow-[0px_0px_26px_0px_rgba(0,0,0,0.3)]">
+        <div className="mt-[17px]">
+          <div className="flex items-center justify-between">
+            {" "}
+            <h2 className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+              Created By
+            </h2>
+            <div className="flex items-center">
+              <span className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                :
+              </span>
+              <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
+                {created_by_name}
+              </p>
+            </div>
           </div>
-          <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
-          <p className="text-[#33B0CA] text-[16px] font-[500]">
-            {filter_flag === 0
-              ? "All Buddies"
-              : filter_flag === 1
-              ? "Only Me"
-              : filter_flag === 2
-              ? "Names"
-                ? filter_flag === 3
-                : "Everyone"
-              : "Everyone"}
-          </p>
+          <div className="flex items-center  justify-between">
+            {" "}
+            <h2 className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+              Created On
+            </h2>
+            <div className="flex items-center">
+              <span className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                :
+              </span>
+              <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
+                {formatDate(created_at)}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center  justify-between">
+            <h2 className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+              Last Worked On
+            </h2>
+            <div className="flex items-center">
+              <span className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                :
+              </span>
+              <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
+                {formatDate(last_worked_on)}
+              </p>
+            </div>
+          </div>
         </div>
-      )}
 
-      {/* characters */}
-      {premiseOwner?.id == user && (
-        <div className=" mt-4">
-          <div className="heading w-full flex justify-between items-center">
-            <p className="text-[#616161] font-[600] text-[16pxS]">Characters</p>
-            <div className=" flex gap-2 items-center ">
-              <FaPlus
-                className="text-[14px] cursor-pointer"
-                onClick={handleAddNewChar}
-              />
+        {/* visible to  */}
+        {premiseOwner?.id == user && (
+          <div className="mt-4">
+            <div className="heading w-full  flex justify-between items-center">
+              <p className="text-[#616161] font-[600] text-[16pxS]">
+                Visible to
+              </p>
+
               <MdOutlineEdit
-                onClick={() => {
-                  setOpenCharacterChart(project_id);
-                }}
+                onClick={handleVisibility}
                 className="text-[#33B0CA] cursor-pointer"
               />
             </div>
+            <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
+            <p className="text-[#33B0CA] text-[16px] font-[500]">
+              {filter_flag === 0
+                ? "All Buddies"
+                : filter_flag === 1
+                ? "Only Me"
+                : filter_flag === 2
+                ? "Names"
+                  ? filter_flag === 3
+                  : "Everyone"
+                : "Everyone"}
+            </p>
           </div>
-          <div className="bg-[#eaeaea] rounded-[8px] p-3 w-full h-[160px] overflow-auto">
-            {finalCharacters?.map((character, index) => (
-              <CharacterShowCard
-                {...{
-                  character,
-                  index,
-                  setEditData,
-                  setEditIdx,
-                  setDeleteIdx,
-                  setEditPopupOpen,
-                  setDeleteChar,
-                  onlyAdd,
-                  deleteCharacterFun,
-                }}
-              />
-            ))}
+        )}
+
+        {/* characters */}
+        {premiseOwner?.id == user && (
+          <div className=" mt-4">
+            <div className="heading w-full flex justify-between items-center">
+              <p className="text-[#616161] font-[600] text-[16pxS]">
+                Characters
+              </p>
+              <div className=" flex gap-2 items-center ">
+                <FaPlus
+                  className="text-[14px] cursor-pointer"
+                  onClick={handleAddNewChar}
+                />
+                <MdOutlineEdit
+                  onClick={() => {
+                    setOpenCharacterChart(project_id);
+                  }}
+                  className="text-[#33B0CA] cursor-pointer"
+                />
+              </div>
+            </div>
+            <div className="bg-[#eaeaea] rounded-[8px] p-3 w-full h-[160px] overflow-auto">
+              {finalCharacters?.map((character, index) => (
+                <CharacterShowCard
+                  {...{
+                    character,
+                    index,
+                    setEditData,
+                    setEditIdx,
+                    setDeleteIdx,
+                    setEditPopupOpen,
+                    setDeleteChar,
+                    onlyAdd,
+                    deleteCharacterFun,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>}
+
+      {window.innerWidth > 1150 && <div className="bg-[#fff]">
+        <div>
+          <div className="flex items-center justify-between">
+            {" "}
+            <h2 className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+              Created By
+            </h2>
+            <div className="flex items-center">
+              <span className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                :
+              </span>
+              <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
+                {created_by_name}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center  justify-between">
+            {" "}
+            <h2 className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+              Created On
+            </h2>
+            <div className="flex items-center">
+              <span className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                :
+              </span>
+              <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
+                {formatDate(created_at)}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center  justify-between">
+            <h2 className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+              Last Worked On
+            </h2>
+            <div className="flex items-center">
+              <span className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                :
+              </span>
+              <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
+                {formatDate(last_worked_on)}
+              </p>
+            </div>
           </div>
         </div>
-      )}
+
+        {/* visible to  */}
+        {premiseOwner?.id == user && (
+          <div className="mt-4">
+            <div className="heading w-full  flex justify-between items-center">
+              <p className="text-[#616161] font-[600] text-[16pxS]">
+                Visible to
+              </p>
+
+              <MdOutlineEdit
+                onClick={handleVisibility}
+                className="text-[#33B0CA] cursor-pointer"
+              />
+            </div>
+            <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
+            <p className="text-[#33B0CA] text-[16px] font-[500]">
+              {filter_flag === 0
+                ? "All Buddies"
+                : filter_flag === 1
+                ? "Only Me"
+                : filter_flag === 2
+                ? "Names"
+                  ? filter_flag === 3
+                  : "Everyone"
+                : "Everyone"}
+            </p>
+          </div>
+        )}
+
+        {/* characters */}
+        {premiseOwner?.id == user && (
+          <div className=" mt-4">
+            <div className="heading w-full flex justify-between items-center">
+              <p className="text-[#616161] font-[600] text-[16pxS]">
+                Characters
+              </p>
+              <div className=" flex gap-2 items-center ">
+                <FaPlus
+                  className="text-[14px] cursor-pointer"
+                  onClick={handleAddNewChar}
+                />
+                <MdOutlineEdit
+                  onClick={() => {
+                    setOpenCharacterChart(project_id);
+                  }}
+                  className="text-[#33B0CA] cursor-pointer"
+                />
+              </div>
+            </div>
+            <div className="bg-[#eaeaea] rounded-[8px] p-3 w-full h-[160px] overflow-auto">
+              {finalCharacters?.map((character, index) => (
+                <CharacterShowCard
+                  {...{
+                    character,
+                    index,
+                    setEditData,
+                    setEditIdx,
+                    setDeleteIdx,
+                    setEditPopupOpen,
+                    setDeleteChar,
+                    onlyAdd,
+                    deleteCharacterFun,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>}
 
       <AskIda
         {...{
@@ -403,7 +527,6 @@ const LeftSideBar = ({
           }}
         />
       </div>
-      <div className="h-[100px]" />
 
       {openHidePop == "Yes" && (
         <HideOptionPop

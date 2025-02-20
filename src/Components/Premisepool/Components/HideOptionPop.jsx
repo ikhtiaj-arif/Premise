@@ -113,7 +113,7 @@ const HideOptionPop = ({
   );
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex  items-center bg-[#252525b0] justify-center z-[1]  ">
+    <div className="fixed top-0 left-0 w-full h-full flex  items-center bg-[#252525b0] justify-center z-[40]  ">
       <div className="h-[550px] md:h-[620px] w-[439px] md:mx-auto mt-0 md:mt-[108px] xl:mt-0">
         <div className=" w-full max-w-[1165px] max-h-[539px] pt-[63px] sm:pt-[30px]  relative">
           {/* close popup */}
