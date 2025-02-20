@@ -160,13 +160,13 @@ const PremiseNewTab = () => {
   };
 
   return (
-    <div className="w-[95%] max-w-[1445px] mx-auto h-screen lg:overflow-hidden">
+    <div className="w-[95%] max-w-[1445px] mx-auto">
       {!isPremiseLoading && !isCommentLoading && premiseData && commentsData ? (
         <>
           <ProjectInfo {...{ premiseData }} />
-          <div className="w-full lg:flex items-start mt-2 h-full ">
+          <div className="w-full lg:flex items-start mt-2">
             {/* Left Sidebar */}
-            <div className="leftSection bg-[#fff] lg:w-[500px] w-full  p-2 pr-0 flex justify-end h-[80%]  lg:overflow-y-auto">
+            <div className="leftSection bg-[#fff] lg:w-[500px] w-full  p-2 pr-0 flex justify-end lg:max-h-[83vh] lg:sticky lg:top-0">
               <LeftSideBar
                 {...{
                   premiseData,
@@ -198,11 +198,11 @@ const PremiseNewTab = () => {
                   <MainComment comment={comment} />
                 ))}
             </div> */}
-            <div className="w-full relative h-[80%] overflow-y-auto">
+            <div className="w-full relative lg:max-h-[83vh] lg:overflow-y-auto">
               {isSearchLoading || isCommentLoading ? (
                 <div>Loading ....</div>
               ) : (
-                <div>
+                <div className="pb-[150px] lg:pb-[0]">
                   {filteredCommentsData?.comments?.length > 0 ? (
                     <>
                       <VerticalBar
@@ -212,7 +212,7 @@ const PremiseNewTab = () => {
                         replyField={replyField}
                         onFocusComment={handleFocusComment}
                       />
-                      <div className="ml-10">
+                      <div>
                         {[...(filteredCommentsData?.comments || [])]
                           .sort((a, b) => a.c_value - b.c_value)
                           .map((comment, index) => (

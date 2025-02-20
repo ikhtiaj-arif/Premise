@@ -501,7 +501,7 @@ const AllComments = ({
 
   return (
     <div className=" flex flex-col justify-end w-full relative ">
-      <div className="">
+      <div className="md:ml-10">
         {commentIdx === 1 && (
           <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] setup-m">
             Setup:
