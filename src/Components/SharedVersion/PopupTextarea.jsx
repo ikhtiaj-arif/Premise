@@ -189,9 +189,9 @@ const PopupTextarea = ({
     setKeyboardVisible(!keyboardVisible);
   };
   return (
-    <div className="relative">
+    <div className="fixed bottom-[20px] w-[87%] z-20 md:relative md:bottom-0 md:w-auto">
       <div
-        className={`bg-[#F8F8F8] relative  md:mb-[16px] pl-3 md:flex-row ${
+        className={`bg-[#fff] relative  md:mb-[16px] pl-3 md:flex-row ${
           fromNew ? "w-full" : "w-[90%]"
         }  mx-auto border border-[#EAEAEA] rounded-[8px] mt-[8px]`}
       >
@@ -202,8 +202,8 @@ const PopupTextarea = ({
             name=""
             maxLength={250}
             id=""
-            className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px]  focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400]"
-            placeholder="Brainstorm here with MNF"
+            className="bg-[#fff] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px]  focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400]"
+            placeholder="OR Brainstorm with Ida by sharing your thoughts"
             value={newComment}
             required
             onChange={handleTextareaChange}
@@ -269,8 +269,8 @@ const PopupTextarea = ({
         </div>
       </div>
       <div
-        className={`hidden md:block absolute bottom-[8px] md:bottom-[2px] ${
-          fromNew ? "xl:bottom-[-12px]" : "xl:bottom-[4px]"
+        className={`hidden md:block absolute bottom-[-16px] ${
+          fromNew ? "xl:bottom-[-16px]" : "xl:bottom-[-16px]"
         } right-[16px]`}
       >
         {premiseOwner?.id === user ? (

@@ -110,7 +110,8 @@ function App() {
   // console.log("currentlyOpenedCommentID", currentlyOpenedCommentID);
 
   return (
-    <div className=" text-xl overflow-x-hidden">
+    // overflow-x hidden is removed from this div
+    <div className="text-xl">
       <MyContext.Provider value={value}>
         {/* <TLanguageSelector /> */}
         <Routes>
