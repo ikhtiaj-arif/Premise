@@ -1,17 +1,21 @@
 import React, { useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useUpdateRequestForSaleOrTranslateMutation } from "../../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
+import walletDoodle from "../../../../img/wallet_doodle.png";
+import { getLanguageName } from "../../utilityFuncitons/functions";
+import CongratsPopup from "../CongratsPopup";
 
 const ApproveTranslationPop = ({
   popClose,
   translationRequests,
   bankDetails,
   premiseId,
+  parentClose,
 }) => {
-  console.log(translationRequests, "bankDetails");
   const [selectedRequests, setSelectedRequests] = useState([]);
-  const [loading, setLoading] = useState(false); // State to track loading
+  const [congratsPopup, setCongratsPopup] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [updateTranslationSale] = useUpdateRequestForSaleOrTranslateMutation();
 
   // Handle checkbox selection
@@ -24,11 +28,17 @@ const ApproveTranslationPop = ({
     );
   };
 
+  // Close all popups
+  const closeAllPopups = () => {
+    parentClose(false);
+    popClose(false);
+  };
+
   // Handle Proceed button click
   const handleProceed = async () => {
-    if (loading || selectedRequests.length === 0) return; // Prevent multiple clicks or if no requests are selected
+    if (loading || selectedRequests.length === 0) return; // Prevent multiple clicks or empty selection
 
-    setLoading(true); // Set loading to true when the request starts
+    setLoading(true); // Start loading
 
     const data = {
       premise_id: premiseId,
@@ -39,51 +49,65 @@ const ApproveTranslationPop = ({
     try {
       const res = await updateTranslationSale(data);
       console.log("Selected Requests:", res);
-      popClose();
+      if (res?.data) {
+        toast.success("Request Approved!");
+        setCongratsPopup(true);
+        // Close after showing CongratsPopup
+      }
     } catch (err) {
-      console.log(err);
+      console.error("Error:", err);
     } finally {
-      setLoading(false); // Set loading to false when the request completes
+      setLoading(false);
     }
   };
 
-  return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
+  console.log("congratsPopup", congratsPopup);
+
+  return congratsPopup ? (
+    <CongratsPopup popClose={closeAllPopups} requestType="translation" />
+  ) : (
+    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1]">
       <ToastContainer />
-      <div className=" h-[100vh] lg:h-[407px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[605px]  md:mx-auto relative lg:rounded-[8px]">
-        {/* close popup */}
+      <div className="h-[100vh] lg:h-[407px] mb-[20px] px-[22px] lg:mb-0 lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA] lg:w-[605px] md:mx-auto relative lg:rounded-[8px]">
+        {/* Close Popup */}
         <img
           src={crossIcon}
-          alt=""
-          className="text-red-500 w-8 h-8 top-[-15px] right-[-15px] absolute z-[1] m-1 cursor-pointer lgVisible  "
-          onClick={() => {
-            popClose(false);
-          }}
+          alt="Close"
+          className="text-red-500 w-8 h-8 top-[-15px] right-[-15px] absolute z-[1] m-1 cursor-pointer"
+          onClick={() => popClose(false)}
         />
         <div className="h-[96px]">
-          <h2 className="font-[500] text-[36px] pt-[40px]  text-center ">
-            Doodle
-          </h2>
+          <div className="relative w-[100px] mx-auto mt-2">
+            <img
+              // src={premiseImage}
+              src={`https://uidemos.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2023-12-06+at+18.04+10.png`}
+              alt="premise doodle"
+              className="w-[103.07px] h-[103.72px] md:w-[115.07px] ml-[10px] md:ml-[0px]"
+            />
+            <img
+              // src={premiseImage}
+              src={walletDoodle}
+              alt="premise doodle"
+              className="w-[51px] h-[77px] absolute bottom-[3px] right-[-36px]"
+            />
+          </div>
         </div>
         <h2 className="font-[700] text-[14px] leading-[19.9px] text-center mt-[18px]">
           Your Premise Project is Up for Monetizing
         </h2>
         <div className="h-[1px] mt-[8px] w-[65%] mx-auto bg-[#a1a1a1]" />
         <div className="mt-[12px]">
-          <p className="text-center text-[14px] leading-[21px]  font-[400]  text-[#616161] ">
+          <p className="text-center text-[14px] leading-[21px] font-[400] text-[#616161]">
             Tick the following request for allowing translation of this Premise
             Project.
           </p>
 
           <div className="w-[70%] mx-auto mt-[20px]">
             {/* Header */}
-
-            {/* Table-like structure */}
             <div className="grid grid-cols-12 items-center gap-[18px]">
-              {/* Header Row */}
               <div className="col-span-2"></div>
               <div className="col-span-4">
-                <h2 className="font-[500] text-[14px] leading-[19.9px] text-center ">
+                <h2 className="font-[500] text-[14px] leading-[19.9px] text-center">
                   Language
                 </h2>
                 <div className="h-[1px] mt-[4px] mb-[8px] w-[100%] mx-auto bg-[#a1a1a1]" />
@@ -97,7 +121,7 @@ const ApproveTranslationPop = ({
             </div>
 
             {/* Dynamic Rows */}
-            {translationRequests?.map((request, index) => (
+            {translationRequests?.map((request) => (
               <div
                 className="grid grid-cols-12 gap-[18px] w-[100%] mx-auto mt-[4px]"
                 key={request.id}
@@ -107,6 +131,7 @@ const ApproveTranslationPop = ({
                     type="checkbox"
                     className="h-[20px] w-[20px]"
                     value={request.id}
+                    checked={selectedRequests.includes(request.id)}
                     onChange={() => handleCheckboxChange(request.id)}
                   />
                 </div>
@@ -117,25 +142,25 @@ const ApproveTranslationPop = ({
                 </div>
                 <div className="col-span-6 flex items-center justify-center">
                   <p className="text-center text-[14px] leading-[21px] font-[400] text-[#616161]">
-                    {request.requestToLang}
+                    {getLanguageName(request.requestToLang)}
                   </p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-        <div className=" w-[88px] mx-auto mt-[72px]">
+        <div className="w-[88px] mx-auto mt-[72px]">
           <button
             onClick={handleProceed}
-            disabled={selectedRequests.length === 0 || loading} // Disable if no requests are selected or if loading
+            disabled={selectedRequests.length === 0 || loading}
             className={`${
               selectedRequests.length === 0 || loading
                 ? "bg-[#33B0CA] opacity-50 cursor-not-allowed"
                 : "bg-[#33B0CA]"
-            }  text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] py-[2px] text-[13px] font-[600] `}
+            } text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] py-[2px] text-[13px] font-[600]`}
           >
             {loading ? "Processing..." : "Proceed"}
-          </button>{" "}
+          </button>
         </div>
       </div>
     </div>

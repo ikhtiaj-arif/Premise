@@ -82,7 +82,6 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
         {!showBankDetails ? (
           <div className="pr-[12px] mt-[17px] w-[542px]  ml-[40px]">
             <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
-              User name{" "}
               <span>
                 {translationRequest?.data
                   ?.map(
@@ -268,6 +267,7 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
         {showTransRequests && !isTransLoading && (
           <ApproveTranslationPop
             popClose={setShowTransRequests}
+            parentClose={popClose}
             translationRequests={translationRequest?.data}
             bankDetails={bankDetails}
             premiseId={premiseId}

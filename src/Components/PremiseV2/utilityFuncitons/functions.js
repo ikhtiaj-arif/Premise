@@ -1,3 +1,4 @@
+import { Languages } from "../../Premisepool/Languages";
 
 export const handlePremiseOpenNewTab = (id) => {
     // let host = window.location.origin + `/#/new-tab/${id}`;
@@ -9,4 +10,9 @@ export const handlePremiseOpenNewTab = (id) => {
 
     // // Open the URL in a new tab
     window.open(url, "_blank");
+  };
+
+
+  export const getLanguageName = (code) => {
+    return Languages[code] || "Unknown Language";
   };

@@ -1,20 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
-import { MyContext } from "../../App";
-import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
-import TypingLoader from "../TypingLoader";
-import logo from "../../img/MNF_Logo_Final.png";
-import Valid from "../../img/valid_upto.png";
-import crossIcon from "../../img/croos_icon.png";
-import { HeaderOptions } from "./HeaderOptions";
-import { Package } from "./Package";
-import { Amount } from "./Amount";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { MyContext } from "../../App";
 import {
   usePaymentDataMutation,
   usePaymentSendMutation,
   usePaymentSucessMutation,
 } from "../../app/EndPoints/premisePoolApi";
-import { toast } from "react-toastify";
+import crossIcon from "../../img/croos_icon.png";
+import logo from "../../img/MNF_Logo_Final.png";
+import Valid from "../../img/valid_upto.png";
+import TypingLoader from "../TypingLoader";
+import { HeaderOptions } from "./HeaderOptions";
+import { Package } from "./Package";
 import PayableAmount from "./PayableAmount";
 
 const PaymentInvoicePopup = ({
@@ -268,7 +267,7 @@ const PaymentInvoicePopup = ({
                       <HeaderOptions currentUser={currentUser} data={payInfo} />
                     </section>
                     <div className=" ">
-                      {/* <img src={Valid} className="w-[107px]" alt="" /> */}
+                      <img src={Valid} className="w-[107px]" alt="" />
                     </div>
                   </div>
 

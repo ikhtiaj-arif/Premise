@@ -369,31 +369,29 @@ const Popup = ({
     Accept: "application/json",
     "Content-Type": "application/json",
   };
-    const [saleRequestedOwner, setSaleRequestedOwner] = useState(true);
-      const [names, setNames] = useState([]);
-    const handleSaleRequestedOwner = async () => {
-      try {
-        // console.log(id);
-        const data = await axios.get(
-          `${URL}/ideamall/premise/request/${id}/Sale`,
-          {
-            headers: header,
-          }
-        );
-  
-        if (data?.data?.data?.length > 0) {
-          setSaleRequestedOwner(true);
+  const [saleRequestedOwner, setSaleRequestedOwner] = useState(true);
+  const [names, setNames] = useState([]);
+  const handleSaleRequestedOwner = async () => {
+    try {
+      // console.log(id);
+      const data = await axios.get(
+        `${URL}/ideamall/premise/request/${id}/Sale`,
+        {
+          headers: header,
         }
-  
-        setNames((prevNames) => [data]);
-      } catch (error) {
-        console.log(error);
+      );
+
+      if (data?.data?.data?.length > 0) {
+        setSaleRequestedOwner(true);
       }
-    };
+
+      setNames((prevNames) => [data]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   console.log(premiseData);
-
-
 
   if (isPremiseLoading) {
     return <>Loading...</>;
@@ -496,8 +494,6 @@ const Popup = ({
                   {premiseOwner?.id === user ||
                   premiseOwner?.id === currentProjectOwner ? (
                     <div className="flex gap-[3px] items-center mr-[2px] relative ">
-
-
                       <img
                         data-te-toggle="tooltip"
                         title="Translation Requests"
@@ -522,7 +518,9 @@ const Popup = ({
                           className="w-8 h-8 cursor-pointer"
                           alt=""
                           onClick={() =>
-                            handlePremiseOpenNewTab(premiseData?.premise_source_id)
+                            handlePremiseOpenNewTab(
+                              premiseData?.premise_source_id
+                            )
                           }
                         />
                       )}
@@ -565,10 +563,10 @@ const Popup = ({
                           </button>
 
                           <button
-                           onClick={() => {
-                            setOpenTransOtherPop(!openTransOtherPop);
-                            setOpenDotMenu(null);
-                          }}
+                            onClick={() => {
+                              setOpenTransOtherPop(!openTransOtherPop);
+                              setOpenDotMenu(null);
+                            }}
                             className="cursor-pointer  text-left w-full"
                           >
                             <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
@@ -900,16 +898,16 @@ const Popup = ({
               popClose={popClose}
             />
           )}
-    {openTransOtherPop && (
-        <TransInOtherLang
-          refetch={refetch}
-          popClose={setOpenTransOtherPop}
-          id={id}
-          user={user}
-          source_language={premiseData?.source_language}
-          project_id={project_id}
-        />
-      )}
+          {openTransOtherPop && (
+            <TransInOtherLang
+              refetch={refetch}
+              popClose={setOpenTransOtherPop}
+              id={id}
+              user={user}
+              source_language={premiseData?.source_language}
+              project_id={project_id}
+            />
+          )}
           {openCharacterChart && (
             <CharacterEditablePop
               setCharacterEditPop={setOpenCharacterChart}
@@ -922,12 +920,12 @@ const Popup = ({
               project_id={project_id}
             />
           )}
-            {openViewTranslationsPop && (
-        <ViewTranslationPop
-          popClose={setOpenViewTranslationsPop}
-          premiseId={viewTransactionPId}
-        />
-      )}
+          {openViewTranslationsPop && (
+            <ViewTranslationPop
+              popClose={setOpenViewTranslationsPop}
+              premiseId={viewTransactionPId}
+            />
+          )}
         </div>
       </div>
     );

@@ -23,15 +23,15 @@ import { useGetMyAllProjectQuery } from "../../app/EndPoints/ScriptPad/project";
 import TimeAgo from "../../features/TimeAgo";
 import userIcon from "../../img/Icons/userImg.png";
 import BtnLoading from "../../shared/BtnLoading";
-import MonetizePreferencePop from "../PremiseV2/Popups/MonetizePreferencePop";
+import CommentTranslator from "../PremiseV2/components/CommentTranslator";
+import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
+import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 import { URL } from "../utils";
 import BeatEditPop from "./AddToBeat/BeatEditPop";
 import CommentLikePopup from "./CommentLikePopup";
+import ConfirmationModal from "./Comments/ConfirmationModal";
 import ReplyToComments from "./Comments/ReplyToComments";
 import UserType from "./UserType";
-import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
-import CommentTranslator from "../PremiseV2/components/CommentTranslator";
-import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 
 const AllComments = ({
   commentIdx,
@@ -78,7 +78,8 @@ const AllComments = ({
     selectedPremiseObj,
     selectedSpProjectID,
     createdSpProjectID,
-    currentlyOpenedCommentID,currentUser,
+    currentlyOpenedCommentID,
+    currentUser,
     setCurrentlyOpenedCommentID,
   } = useContext(MyContext);
 
@@ -364,19 +365,22 @@ const AllComments = ({
   const [beatSuggestLoading, setBeatSuggLoading] = useState(false);
   const [addToBeatDisable, setAddToBeatDisable] = useState(false);
   // console.log("comments",comments);
-  const handleAddToBeat=async(comment)=>{
+  const handleAddToBeat = async (comment) => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_BeatSheet`);
-      console.log("add to beat res", res);
-      if (res?.access == "No" && res?.msg=='ShowBecomePrivilege') {
-        setNoAccessLbPopup('No');
-      } else  if (res?.access == "No" && res?.msg=='ShowBuyPackage_and_Allacarte') {
-        setNoAccessLbPopup('ShowBuyPackage_and_Allacarte');
-      } else if (res?.access == "No" && res?.msg=='LB') {
-        setNoAccessLbPopup('LB');
-      } else {
-        submitAddToBeat(comment);
-      }
-  }
+    console.log("add to beat res", res);
+    if (res?.access == "No" && res?.msg == "ShowBecomePrivilege") {
+      setNoAccessLbPopup("No");
+    } else if (
+      res?.access == "No" &&
+      res?.msg == "ShowBuyPackage_and_Allacarte"
+    ) {
+      setNoAccessLbPopup("ShowBuyPackage_and_Allacarte");
+    } else if (res?.access == "No" && res?.msg == "LB") {
+      setNoAccessLbPopup("LB");
+    } else {
+      submitAddToBeat(comment);
+    }
+  };
   const submitAddToBeat = async (comment) => {
     // console.log("comment",comment);
 
@@ -453,21 +457,23 @@ const AllComments = ({
     setCommentOwner(commenterName);
   };
 
-  const handleReplyToggle =async (c, commentOwnerName) => {
+  const handleReplyToggle = async (c, commentOwnerName) => {
     //console.log('reply comment',c,commentOwnerName,c?.user?.first_name==='Ida',currentUser,data?.premiseOwner);
 
-    if((currentUser?.id !==data?.premiseOwner?.id) && c?.user?.first_name=='Ida'){
+    if (
+      currentUser?.id !== data?.premiseOwner?.id &&
+      c?.user?.first_name == "Ida"
+    ) {
       const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
       console.log("reply brainstorm res", res);
-      if (res?.access == "No" && res?.msg=='ShowBecomePrivilege') {
-        setNoAccessLbPopup('No');
+      if (res?.access == "No" && res?.msg == "ShowBecomePrivilege") {
+        setNoAccessLbPopup("No");
       } else {
         applyReplyToggle();
       }
-    }else{
+    } else {
       applyReplyToggle(c, commentOwnerName);
     }
-    
   };
   const applyReplyToggle = (c, commentOwnerName) => {
     // Check if the current reply ID matches the clicked comment ID
@@ -502,6 +508,16 @@ const AllComments = ({
       console.log(err);
     }
   };
+
+  // console.log("single Comment", comments);
+  // console.log(
+  //   "Owner:",
+  //   owner,
+  //   "User:",
+  //   user,
+  //   "commentOwner:",
+  //   comments?.user?.id
+  // );
 
   return (
     <div className=" flex flex-col justify-end w-full relative ">
@@ -910,7 +926,7 @@ const AllComments = ({
                         }
                         {data?.premiseOwner?.id === user &&
                           comments?.text?.includes("?") &&
-                          comments?.user?.id === 1 && (
+                          (comments?.user?.id === 1 || comments?.user?.id === 79)  && (
                             <div className=" flex items-center justify-between">
                               {comments?.c_value === 1 ? (
                                 <>
@@ -1171,7 +1187,8 @@ const AllComments = ({
                   ) : (
                     <>
                       {(owner === user || comments?.user?.id === user) &&
-                      comments?.user?.id !== 1 ? (
+                      comments?.user?.id !== 1 &&
+                      comments?.user?.id !== 79 ? (
                         <div className="flex gap-2 items-center pl-[2px]">
                           <button
                             data-reply
@@ -1369,32 +1386,26 @@ const AllComments = ({
           // currentPremiseProject={currentPremiseProject}
         />
       )}
-      { noAccessLbPopup =='No' && (
-        <NoAccessPopUp
-          setNoAccessPopup={setNoAccessLbPopup}
-        />
+      {noAccessLbPopup == "No" && (
+        <NoAccessPopUp setNoAccessPopup={setNoAccessLbPopup} />
       )}
-      {( noAccessLbPopup =='LB' || noAccessLbPopup=='ShowBuyPackage_and_Allacarte') && (
-        <NoAccessLbPopUp noAccessLbPopup={noAccessLbPopup}
+      {(noAccessLbPopup == "LB" ||
+        noAccessLbPopup == "ShowBuyPackage_and_Allacarte") && (
+        <NoAccessLbPopUp
+          noAccessLbPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
           service="PP_Beats"
         />
       )}
       <div className="h-[1px] w-[88%] mx-auto bg-[#eaeaea] mb-[4px]" />
       {openDltPop && (
-        // <ConfirmationModal
-        //   isOpen={openDltPop}
-        //   onClose={() => setOpenDltPop(false)}
-        //   onConfirm={() => handleDeleteComment(idToDlt)}
-        //   title="Are you sure you want to delete this comment?"
-        //   content="Are you sure you want to delete this item?"
-        // />
-        // <ViewTranslationPop popClose={setOpenDltPop} />
-        // <TransInOtherLang popClose={setOpenDltPop} />
-        // <BankDetailsPop popClose={setOpenDltPop} />
-        // <UpForMonetizePop popClose={setOpenDltPop} />
-        // <CongratsPop popClose={setOpenDltPop} />
-        <MonetizePreferencePop popClose={setOpenDltPop} />
+        <ConfirmationModal
+          isOpen={openDltPop}
+          onClose={() => setOpenDltPop(false)}
+          onConfirm={() => handleDeleteComment(idToDlt)}
+          title="Are you sure you want to delete this comment?"
+          content="Are you sure you want to delete this item?"
+        />
       )}
     </div>
   );
