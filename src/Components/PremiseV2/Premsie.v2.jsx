@@ -313,15 +313,8 @@ const PremiseV2 = () => {
     if (userFirstName && userLastName) {
       const res = await fetchUserAccess(`${currentUser?.id}/PP_PostPremise`);
       console.log("add premise res", res);
-      if (res?.access == "No" && res?.msg == "ShowBecomePrivilege") {
-        setAddPopup("No");
-      } else if (
-        res?.access == "No" &&
-        res?.msg == "ShowBuyPackage_and_Allacarte"
-      ) {
-        setAddPopup("ShowBuyPackage_and_Allacarte");
-      } else if (res?.access == "No" && res?.msg == "LB") {
-        setAddPopup("LB");
+      if (res?.access == "No") {
+        setAddPopup(res);
       } else {
         setAddPopup("Yes");
       }
@@ -388,6 +381,7 @@ const PremiseV2 = () => {
                   Monetize Your Creativity!
                 </h2> */}
                 <button
+                  id="addNewPremise"
                   onClick={handleAddPopup}
                   // className="btn btn"
                   className="bg-[#33B0CA] flex items-center justify-center gap-[8px] text-[#FAFAFA] text-[14px] font-[600] rounded-[8px] min-w-[196px] min-h-[34px] mt-[14px] px-[12px] ml-auto lg:mx-auto"
@@ -451,10 +445,12 @@ const PremiseV2 = () => {
           {addPopup == "noUserName" && (
             <UserNamePopup {...{ refetch, setAddPopup }} />
           )}
-          {addPopup == "No" ? (
+          {addPopup?.msg == "ShowBecomePrivilege" ? (
             <NoAccessPopUp setNoAccessPopup={setAddPopup} />
-          ) : addPopup == "LB" || addPopup == "ShowBuyPackage_and_Allacarte" ? (
+          ) : addPopup?.msg == "LB" ||
+            addPopup?.msg == "ShowBuyPackage_and_Allacarte" ? (
             <NoAccessLbPopUp
+              divId="addNewPremise"
               setNoAccessPopup={setAddPopup}
               noAccessLbPopup={addPopup}
               service="PP_Premises"

@@ -600,6 +600,15 @@ export const premiseSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    activateFree: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/pay/activate-free-package/`,
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
 
   }),
 });
@@ -653,5 +662,6 @@ export const {
   useCallbackPackageMutation,
   usePaymentUintDetailsMutation,
   useGetCalculateProductPriceQuery,
-  usePayNowPackageMutation
+  usePayNowPackageMutation,
+  useActivateFreeMutation
 } = premiseSlice;
