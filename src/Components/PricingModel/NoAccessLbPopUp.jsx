@@ -88,7 +88,9 @@ const NoAccessLbPopUp = ({
       if (res?.data?.status == "success") {
         toast("Successfully activated Free Trial Package.");
         setNoAccessPopup(null);
-        document.getElementById(`${divId}`).click();
+        if (divId) {
+          document.getElementById(`${divId}`).click();
+        }
       }
     }
   };
