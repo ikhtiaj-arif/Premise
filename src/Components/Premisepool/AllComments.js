@@ -367,12 +367,8 @@ const AllComments = ({
   const handleAddToBeat=async(comment)=>{
     const res = await fetchUserAccess(`${currentUser?.id}/PP_BeatSheet`);
       console.log("add to beat res", res);
-      if (res?.access == "No" && res?.msg=='ShowBecomePrivilege') {
-        setNoAccessLbPopup('No');
-      } else  if (res?.access == "No" && res?.msg=='ShowBuyPackage_and_Allacarte') {
-        setNoAccessLbPopup('ShowBuyPackage_and_Allacarte');
-      } else if (res?.access == "No" && res?.msg=='LB') {
-        setNoAccessLbPopup('LB');
+      if (res?.access == "No") {
+        setNoAccessLbPopup(res);
       } else {
         submitAddToBeat(comment);
       }
@@ -459,8 +455,8 @@ const AllComments = ({
     if((currentUser?.id !==data?.premiseOwner?.id) && c?.user?.first_name=='Ida'){
       const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
       console.log("reply brainstorm res", res);
-      if (res?.access == "No" && res?.msg=='ShowBecomePrivilege') {
-        setNoAccessLbPopup('No');
+      if (res?.access == "No") {
+        setNoAccessLbPopup(res);
       } else {
         applyReplyToggle();
       }
@@ -1369,12 +1365,12 @@ const AllComments = ({
           // currentPremiseProject={currentPremiseProject}
         />
       )}
-      { noAccessLbPopup =='No' && (
+      { noAccessLbPopup?.msg =='ShowBecomePrivilege' && (
         <NoAccessPopUp
           setNoAccessPopup={setNoAccessLbPopup}
         />
       )}
-      {( noAccessLbPopup =='LB' || noAccessLbPopup=='ShowBuyPackage_and_Allacarte') && (
+      {( noAccessLbPopup?.msg =='LB' || noAccessLbPopup?.msg=='ShowBuyPackage_and_Allacarte') && (
         <NoAccessLbPopUp noAccessLbPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
           service="PP_Beats"
