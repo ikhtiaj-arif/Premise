@@ -13,7 +13,6 @@ import translateCart from "../../../img/Icons/translateCart.png";
 import transReqQ from "../../../img/Icons/transReqQ.png";
 import userImg from "../../../img/Icons/userImg.png";
 
-import axios from "axios";
 import { fetchUserAccess, MyContext } from "../../../App";
 import {
   useGetSavedCharactersQuery,
@@ -90,8 +89,10 @@ const PremiseCardV2 = ({
     premise_source_id,
     translation_request_count,
     sale_request_count,
+    is_requested_for_sale,
+    is_translated_languages,
   } = p;
-  console.log(p);
+
   const { currentUser } = useContext(MyContext);
 
   const [actOneThreshold, setActOneThreshold] = useState();
@@ -193,53 +194,6 @@ const PremiseCardV2 = ({
 
   const [hideDisable, setHideDisable] = useState(false);
 
-  // const {
-  //   data: commentsData,
-  //   isCommentLoading,
-  //   refetch: commentRefetch,
-  // } = useGetCommentByPremiseIdQuery(id);
-
-  // //filter Deleted Comment count
-
-  // const deletedCount = commentsData?.comments?.filter(comment => comment.is_deleted).length;
-
-  // const finalCount = comments - deletedCount
-
-  // console.log(hideDisable);
-
-  // const handleHideUnhidePremise = async (id) => {
-  //   setHideDisable(true);
-  //   const accessToken = localStorage.getItem("accessToken");
-  //   // console.log(accessToken);
-  //   try {
-  //     const response = await fetch(`${URL}/ideamall/hide-premise/${id}`, {
-  //       method: "GET",
-  //       headers: {
-  //         Authorization: `Bearer ${accessToken}`,
-  //         "Content-Type": "application/json",
-
-  //         // Add any other headers if needed
-  //       },
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! Status: ${response.status}`);
-  //     }
-
-  //     const data = await response.json();
-  //     if (data) {
-  //       setHideDisable(false);
-  //     }
-  //     console.log(data);
-  //     // Handle the data as needed
-  //     refetch();
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //     setHideDisable(false);
-  //     // Handle errors
-  //   }
-  // };
-
   const handleHideUnhidePremise = async (id) => {
     hideUnhidePremise(id, setHideDisable, refetch, setOpenDotMenu);
   };
@@ -333,46 +287,14 @@ const PremiseCardV2 = ({
     "Content-Type": "application/json",
   };
 
-  useEffect(() => {
-    handleSaleRequestedOwner();
-  }, []);
-
   const [names, setNames] = useState([]);
-
-  const handleSaleRequestedOwner = async () => {
-    try {
-      // console.log(id);
-      const data = await axios.get(
-        `${URL}/ideamall/premise/request/${id}/Sale`,
-        {
-          headers: header,
-        }
-      );
-
-      if (data?.data?.data?.length > 0) {
-        setSaleRequestedOwner(true);
-      }
-
-      setNames((prevNames) => [data]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const data = {
     id,
     type: "Sale",
   };
-  const { data: SaleRequest, isTransLoading } =
+  const { data: saleRequest, isTransLoading } =
     useGetSaleTranslationRequestQuery(data);
-
-  // console.log(SaleRequest)
-
-  // if (SaleRequest?.data[0]?.requestApproved === true) {
-  //   setForSale(true)
-  //   setSaleRequestedOwner(false)
-
-  // }
 
   const [saleId, setSaleId] = useState("");
   const [viewSale, setViewSale] = useState(false);
@@ -382,20 +304,6 @@ const PremiseCardV2 = ({
     setViewSale(true);
   };
 
-  // useEffect(() => {
-  //   if (translationRequest) {
-  //     setForSale(true);
-  //   }
-  // }, []);
-
-  // const handlePremiseOpenNewTab = (id) => {
-  //   console.log(id);
-  //   // const url = `${baseURL}/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
-  //   const url = `${window.location.origin}/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
-
-  //   // Open the URL in a new tab
-  //   window.open(url);
-  // };
   const handleUserMail = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_MessageOwner`);
     console.log("message rs", res);
@@ -419,7 +327,7 @@ const PremiseCardV2 = ({
   const handleMonetizing = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_Monitize`);
     console.log("visibility res", res);
-    if (res?.access == "No") {
+    if (res?.access === "No") {
       setOpenMonetizingPreferencesPop(res);
     } else {
       setOpenMonetizingPreferencesPop("Yes");
@@ -461,7 +369,10 @@ const PremiseCardV2 = ({
               )}
               <div>
                 <div className="flex items-center">
-                  <h4 className="notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA]">
+                  <h4
+                    className="notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate w-full"
+                    title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
+                  >
                     {premiseOwner?.first_name} {premiseOwner?.last_name}
                   </h4>
                   <UserType
@@ -483,33 +394,39 @@ const PremiseCardV2 = ({
             </div>
           </a>
         </div>
+
         <div>
           {" "}
           {premiseOwner?.id === user ? (
             <div className="flex gap-[3px] items-center mt-[-13px] mr-[2px] relative ">
-              <div className="relative">
-                <span className="absolute top-[-17px] right-0 text-[12px] font-[700] text-[#252525]">
-                  {translation_request_count > 0 && {
-                    translation_request_count,
-                  }}
-                </span>
+              {translation_request_count > 0 && (
+                <div className="relative">
+                  <span className="absolute top-[-17px] right-0 text-[12px] font-[700] text-[#252525]">
+                    {translation_request_count > 1 && (
+                      <>{translation_request_count}</>
+                    )}
+                  </span>
+                  <img
+                    data-te-toggle="tooltip"
+                    title="Translation Requests"
+                    src={transReqQ}
+                    className="w-8 h-8 cursor-pointer"
+                    alt=""
+                    onClick={() => setViewTrnRequests(id)}
+                  />
+                </div>
+              )}
+              {is_translated_languages > 0 && (
                 <img
                   data-te-toggle="tooltip"
-                  title="Translation Requests"
-                  src={transReqQ}
+                  title="Translated Languages"
+                  src={translateCart}
                   className="w-8 h-8 cursor-pointer"
                   alt=""
-                  onClick={() => setViewTrnRequests(id)}
+                  onClick={() => handleViewTransaction(id)}
                 />
-              </div>
-              <img
-                data-te-toggle="tooltip"
-                title="Translated Languages"
-                src={translateCart}
-                className="w-8 h-8 cursor-pointer"
-                alt=""
-                onClick={() => handleViewTransaction(id)}
-              />
+              )}
+
               {premise_source_id && (
                 <img
                   data-te-toggle="tooltip"
@@ -520,11 +437,8 @@ const PremiseCardV2 = ({
                   onClick={() => handlePremiseOpenNewTab(premise_source_id)}
                 />
               )}
-              {saleRequestedOwner && (
-                <div className="relative">
-                  <span className="absolute top-[-17px] right-0 text-[12px] font-[700] text-[#252525]">
-                    {sale_request_count > 0 && sale_request_count}
-                  </span>
+              {sale_request_count > 0 && (
+                <div className="">
                   <img
                     data-te-toggle="tooltip"
                     title="Sale Requested"
@@ -698,14 +612,30 @@ const PremiseCardV2 = ({
                   alt="for sale"
                 />
               ) : (
-                <img
-                  data-te-toggle="tooltip"
-                  title="Send Sale Request"
-                  src={mailCartQ}
-                  className="w-9 h-9 mt-[-13px] cursor-pointer"
-                  onClick={() => checkAllowance(setSaleRequestPop, id)}
-                  alt="send sale request"
-                />
+                <>
+                  {
+                    <button
+                      className={`${
+                        is_requested_for_sale
+                          ? "cursor-default"
+                          : " cursor-pointer"
+                      }`}
+                      data-te-toggle="tooltip"
+                      title="Send Sale Request"
+                      disabled={is_requested_for_sale}
+                      onClick={() => {
+                        checkAllowance(setSaleRequestPop, id);
+                        refetch();
+                      }}
+                    >
+                      <img
+                        src={mailCartQ}
+                        className={`w-9 h-9 mt-[-13px]`}
+                        alt="send sale request"
+                      />
+                    </button>
+                  }
+                </>
               )}
               {premise_source_id && (
                 <img
@@ -995,12 +925,11 @@ const PremiseCardV2 = ({
           premiseId={viewTrnRequests}
         />
       )}
-      {viewSaleRequests && names.length > 0 && (
+      {viewSaleRequests && (
         <SaleRequestedOwner
           popClose={setViewSaleRequests}
           setSaleIcon={setSaleRequestedOwner}
           premiseId={id}
-          Names={names}
         />
       )}
       {viewSale && (

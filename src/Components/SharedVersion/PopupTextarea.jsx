@@ -1,17 +1,17 @@
+import axios from "axios";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import LanguageSelector from "../Premisepool/LanguageSelector";
+import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
-import BtnLoading from "../../shared/BtnLoading";
 import { IoMdSend } from "react-icons/io";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { baseURL } from "../utils";
-import { useCommentPremiseMutation } from "../../app/EndPoints/premisePoolApi";
-import Keyboard from "../Premisepool/Keyboard";
-import Draggable from "react-draggable";
 import { fetchUserAccess, MyContext } from "../../App";
+import { useCommentPremiseMutation } from "../../app/EndPoints/premisePoolApi";
+import BtnLoading from "../../shared/BtnLoading";
+import Keyboard from "../Premisepool/Keyboard";
+import LanguageSelector from "../Premisepool/LanguageSelector";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
+import { baseURL } from "../utils";
 
 const PopupTextarea = ({
   premiseOwner,
@@ -189,7 +189,7 @@ const PopupTextarea = ({
     setKeyboardVisible(!keyboardVisible);
   };
   return (
-    <div className="fixed bottom-[20px] w-[87%] z-20 md:relative md:bottom-0 md:w-auto">
+    <div className="fixed bottom-[20px] w-[87%]  md:relative md:bottom-0 md:w-auto">
       <div
         className={`bg-[#fff] relative  md:mb-[16px] pl-3 md:flex-row ${
           fromNew ? "w-full" : "w-[90%]"
@@ -202,7 +202,7 @@ const PopupTextarea = ({
             name=""
             maxLength={250}
             id=""
-            className="bg-[#fff] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px]  focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400]"
+            className="bg-[#fff] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px]  focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic"
             placeholder="OR Brainstorm with Ida by sharing your thoughts"
             value={newComment}
             required
@@ -221,7 +221,7 @@ const PopupTextarea = ({
             name=""
             maxLength={150}
             id=""
-            className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400]"
+            className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic"
             placeholder="Brainstorm here with MNF"
             value={newComment}
             required
