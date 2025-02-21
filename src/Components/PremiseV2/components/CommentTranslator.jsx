@@ -39,8 +39,8 @@ const CommentTranslator = ({
   const handleTranslate = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_Translate`);
     console.log(`PP_Translate res`, res);
-    if (res?.access == "No" && res?.msg == "ShowBecomePrivilege") {
-      setNoAccessPopup(true);
+    if (res?.access == "No") {
+      setNoAccessPopup(res);
     } else {
       // If another dropdown is open, close it and open the current one
       setOpenDropdownId(openDropdownId === comment.id ? null : comment.id);
@@ -78,7 +78,12 @@ const CommentTranslator = ({
           ))}
         </div>
       )}
-      {noAccessPopup && <NoAccessPopUp setNoAccessPopup={setNoAccessPopup} />}
+      {noAccessPopup?.msg == "ShowBecomePrivilege" && (
+        <NoAccessPopUp
+          noAccessPopup={noAccessPopup}
+          setNoAccessPopup={setNoAccessPopup}
+        />
+      )}
     </div>
   );
 };

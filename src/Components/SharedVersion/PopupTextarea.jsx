@@ -317,7 +317,10 @@ const PopupTextarea = ({
       </>
 
       {noAccessPopup?.msg == "ShowBecomePrivilege" ? (
-        <NoAccessPopUp setNoAccessPopup={setNoAccessPopup} />
+        <NoAccessPopUp
+          noAccessPopup={noAccessPopup}
+          setNoAccessPopup={setNoAccessPopup}
+        />
       ) : (
         (noAccessPopup?.msg == "ShowBuyPackage_and_Allacarte" ||
           noAccessPopup?.msg == "LB") && (

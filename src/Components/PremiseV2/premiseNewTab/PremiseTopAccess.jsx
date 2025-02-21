@@ -94,7 +94,7 @@ const PremiseTopAccess = ({ user, premiseOwner, id, project_id }) => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_MessageOwner`);
     console.log("message res", res);
     if (res?.access == "No") {
-      setUserMail("No");
+      setUserMail(res);
     } else {
       setUserMail("Yes");
     }
@@ -228,8 +228,8 @@ const PremiseTopAccess = ({ user, premiseOwner, id, project_id }) => {
                 setUserMail={setUserMail}
               />
             )}
-            {userMail == "No" && (
-              <NoAccessPopUp setNoAccessPopup={setUserMail} />
+            {userMail?.msg == "ShowBecomePrivilege" && (
+              <NoAccessPopUp noAccessPopup={userMail} setNoAccessPopup={setUserMail} />
             )}
           </div>
         )}
