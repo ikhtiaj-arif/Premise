@@ -206,7 +206,7 @@ const LeftSideBar = ({
     const res = await fetchUserAccess(`${currentUser?.id}/PP_AddCharacters`);
     console.log("add char res", res);
     if (res?.access == "No") {
-      setAddNewCharacter("No");
+      setAddNewCharacter(res);
     } else {
       setAddNewCharacter("Yes");
     }
@@ -529,7 +529,7 @@ const LeftSideBar = ({
       </div>
 
       {openHidePop?.msg == "ShowBecomePrivilege" ? (
-        <NoAccessPopUp setNoAccessPopup={setOpenHidePop} />
+        <NoAccessPopUp noAccessPopup={openHidePop} setNoAccessPopup={setOpenHidePop} />
       ) : openHidePop?.msg == "LB" ||
         openHidePop?.msg == "ShowBuyPackage_and_Allacarte" ? (
         <NoAccessLbPopUp
@@ -566,8 +566,8 @@ const LeftSideBar = ({
           }}
         />
       )}
-      {addNewCharacter == "No" && (
-        <NoAccessPopUp setNoAccessPopup={setAddNewCharacter} />
+      {addNewCharacter?.msg == "ShowBecomePrivilege" && (
+        <NoAccessPopUp noAccessPopup={addNewCharacter} setNoAccessPopup={setAddNewCharacter} />
       )}
       {addNewCharacter == "Yes" && (
         <SingleCharacterAdd

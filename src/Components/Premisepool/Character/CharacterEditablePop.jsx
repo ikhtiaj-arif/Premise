@@ -174,7 +174,7 @@ const CharacterEditablePop = ({
     const res = await fetchUserAccess(`${currentUser?.id}/PP_AddCharacters`);
     console.log("add char res", res);
     if (res?.access == "No") {
-      setAddNewCharacter("No");
+      setAddNewCharacter(res);
     } else {
       setAddNewCharacter("Yes");
     }
@@ -265,8 +265,8 @@ const CharacterEditablePop = ({
         )}
       </div>
       <div>
-        {addNewCharacter == "No" && (
-          <NoAccessPopUp setNoAccessPopup={setAddNewCharacter} />
+        {addNewCharacter?.msg == "ShowBecomePrivilege" && (
+          <NoAccessPopUp noAccessPopup={addNewCharacter} setNoAccessPopup={setAddNewCharacter} />
         )}
         {addNewCharacter == "Yes" && (
           <SingleCharacterAdd

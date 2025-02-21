@@ -92,8 +92,8 @@ const TranslatePremise = ({
   const handleTranslate = async (id) => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_Translate`);
     console.log(`PP_Translate res`, res);
-    if (res?.access == "No"&& res?.msg=='ShowBecomePrivilege') {
-      setNoAccessPopup(true);
+    if (res?.access == "No") {
+      setNoAccessPopup(res);
     } else {
       setTransPopClose(id)
     }
@@ -236,7 +236,7 @@ const TranslatePremise = ({
             </div>
           )}
           {
-            noAccessPopup && <NoAccessPopUp setNoAccessPopup={setNoAccessPopup}/>
+            noAccessPopup?.msg=='ShowBecomePrivilege' && <NoAccessPopUp noAccessPopup={noAccessPopup} setNoAccessPopup={setNoAccessPopup}/>
           }
         </div>
   );
