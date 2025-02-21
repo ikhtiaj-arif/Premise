@@ -374,6 +374,41 @@ const FilterSearchSort = ({
               />
             </div>
 
+               {/* !translation filter */}
+
+               <button
+              data-te-toggle="tooltip"
+              title="Available for Translation"
+              className={`h-[32px] w-[32px] rounded-full relative ${
+                !availableForTranslation ? "bg-[#252525]" : "bg-[#33B0CA]"
+              }`}
+              onClick={() =>
+                setAvailableForTranslation(!availableForTranslation)
+              }
+            >
+              <img
+                src={cartTrans}
+                alt=""
+                className="h-[32px] w-[32px] mx-auto"
+              />
+            </button>
+            {/* sale filter */}
+            <button
+              data-te-toggle="tooltip"
+              title="Available for Sale"
+              className={`h-[32px] w-[32px] rounded-full relative ${
+                !availableForSale ? "bg-[#252525]" : "bg-[#33B0CA]"
+              }`}
+              onClick={() => setAvailableForSale(!availableForSale)}
+            >
+              <img
+                src={cartSale}
+                alt=""
+                className="h-[32px] w-[32px] mx-auto "
+              />
+            </button>
+
+
             {/* <button
               data-te-toggle="tooltip"
               title="Added by me"
@@ -439,40 +474,7 @@ const FilterSearchSort = ({
                 />
               )}
             </div>
-            {/* !translation filter */}
-
-            <button
-              data-te-toggle="tooltip"
-              title="Available for Translation"
-              className={`h-[32px] w-[32px] rounded-full relative ${
-                !availableForTranslation ? "bg-[#252525]" : "bg-[#33B0CA]"
-              }`}
-              onClick={() =>
-                setAvailableForTranslation(!availableForTranslation)
-              }
-            >
-              <img
-                src={cartTrans}
-                alt=""
-                className="h-[32px] w-[32px] mx-auto"
-              />
-            </button>
-            {/* sale filter */}
-            <button
-              data-te-toggle="tooltip"
-              title="Available for Sale"
-              className={`h-[32px] w-[32px] rounded-full relative ${
-                !availableForSale ? "bg-[#252525]" : "bg-[#33B0CA]"
-              }`}
-              onClick={() => setAvailableForSale(!availableForSale)}
-            >
-              <img
-                src={cartSale}
-                alt=""
-                className="h-[32px] w-[32px] mx-auto "
-              />
-            </button>
-
+         
             <button
               data-te-toggle="tooltip"
               title="Added by me"
