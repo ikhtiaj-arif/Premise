@@ -205,13 +205,7 @@ const PremiseNewTab = () => {
                 <div className="pb-[150px] lg:pb-[0]">
                   {filteredCommentsData?.comments?.length > 0 ? (
                     <>
-                      <VerticalBar
-                        replyRef={replyRef}
-                        comments={filteredCommentsData?.comments}
-                        setReplyField={setReplyField}
-                        replyField={replyField}
-                        onFocusComment={handleFocusComment}
-                      />
+                   
                       <div>
                         {[...(filteredCommentsData?.comments || [])]
                           .sort((a, b) => a.c_value - b.c_value)

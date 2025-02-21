@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
-import { useCommentPremiseMutation } from "../../app/EndPoints/premisePoolApi";
-import { baseURL } from "../utils";
 import { fetchUserAccess, MyContext } from "../../App";
+import { useCommentPremiseMutation } from "../../app/EndPoints/premisePoolApi";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
+import { baseURL } from "../utils";
 
 const AskIda = ({
   id,
@@ -121,7 +121,9 @@ const AskIda = ({
         <button
           disabled={isLoading}
           onClick={handleButtonClick}
-          className=" bg-[#33B0CA] border-none rounded-[6px] px-4 py-1 text-white text-[14px] font-[600] leading-[21px]"
+          className={` border-none rounded-[6px] px-4 py-1 text-white text-[14px] font-[600] leading-[21px] ${
+            isLoading ? "bg-[#616161]  cursor-default" : "bg-[#33B0CA]"
+          }`}
         >
           Ask Ida for more!
         </button>

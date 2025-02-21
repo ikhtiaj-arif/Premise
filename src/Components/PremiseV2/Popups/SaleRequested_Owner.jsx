@@ -43,15 +43,9 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
   };
 
   // const requestId = Names[0]?.data?.data[0]?.id;
-  const requestId = saleRequest?.data?.[0]?.id;
-
-  const token = localStorage.getItem("accessToken");
-
-  const header = {
-    Authorization: `Bearer ${token}`,
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  };
+  const request = saleRequest?.data[0];
+  const requestId = request?.id;
+  const fromUser = request?.fromUser;
 
   const handleProceed = async () => {
     const data = {
@@ -155,12 +149,9 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
         {!showBankDetails ? (
           <div className="pr-[12px] mt-[17px] w-[542px] ml-[40px]">
             <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
-              {" " +
-                Names[0]?.data?.data[0]?.fromUser?.first_name +
-                " " +
-                Names[0]?.data?.data[0]?.fromUser?.last_name}{" "}
-              is interested in buying this Premise Project. If you choose to
-              sell this Premise Project
+              {fromUser?.first_name} {fromUser?.last_name} is interested in
+              buying this Premise Project. If you choose to sell this Premise
+              Project
             </p>
             <ul className="ml-[24px]">
               <li className="text-left text-[14px] leading-[21px] font-[400] text-[#616161] list-disc">
