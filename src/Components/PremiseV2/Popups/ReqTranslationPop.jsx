@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { toast, ToastContainer } from "react-toastify";
-import {
-  useRequestForSaleOrTranslateMutation,
-  useTranslatePremiseV2Mutation,
-} from "../../../app/EndPoints/premisePoolApi";
+import { useRequestForSaleOrTranslateMutation } from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import { sortedLanguages } from "../../Premisepool/Languages";
+import SuccessPop from "./SuccessPop";
 
 const ReqTranslationPop = ({
   popClose,
@@ -16,6 +14,7 @@ const ReqTranslationPop = ({
   project_id,
 }) => {
   const [targetLanguage, setTargetLanguage] = useState("");
+  const [successPop, setSuccessPop] = useState(false);
   const [reqTranslation] = useRequestForSaleOrTranslateMutation();
 
   const handleOptionChange = (e) => {
@@ -30,35 +29,44 @@ const ReqTranslationPop = ({
         language: targetLanguage,
         user_id: user,
       };
-  
+
       const response = await reqTranslation(data);
-  
+
       if (response) {
         toast.success("Translation request submitted successfully!");
-        popClose(null); // Close the modal or pop-up
+        setSuccessPop(true);
+        // popClose(null); // Close the modal or pop-up
       } else {
-        toast.error("Failed to submit the translation request. Please try again.");
+        toast.error(
+          "Failed to submit the translation request. Please try again."
+        );
       }
     } catch (error) {
       toast.error("An error occurred while submitting the request.");
       console.error("Error:", error);
     }
   };
-  
 
-  return (
+  return successPop ? (
+    <SuccessPop
+      requestType={"translation"}
+      popClose={setSuccessPop}
+      parentClose={popClose}
+    />
+  ) : (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
       <ToastContainer />
       <div className=" h-[50vh] lg:h-[407px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[466px]  md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
         <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
+          <img
+            src={crossIcon}
+            alt=""
+            className=" text-red-500  w-8 h-8 cursor-pointer"
+            onClick={() => popClose(null)}
+          />
+        </div>
 
-            <img src={crossIcon} alt=""
-              className=" text-red-500  w-8 h-8 cursor-pointer"
-              onClick={() =>  popClose(null)}
-            />
-          </div>
-     
         <h2 className="font-[700] text-[14px] leading-[19.9px] text-center mt-[18px]">
           Send a request to translate the Premise Project
         </h2>

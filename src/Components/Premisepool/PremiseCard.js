@@ -361,7 +361,7 @@ const PremiseCard = ({
               {openDotMenu === index && (
                 <div
                   ref={dotPopupRef}
-                  className="absolute flex flex-col w-[186.99px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px] z-10"
+                  className="absolute flex flex-col w-[197px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px] z-10"
                 >
                   <button
                     onClick={() => {

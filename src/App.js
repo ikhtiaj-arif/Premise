@@ -11,7 +11,6 @@ import PremiseV2 from "./Components/PremiseV2/Premsie.v2";
 import { URL } from "./Components/utils";
 import LimitPaymentPage from "./Components/Payment/LimitPaymentPage";
 
-
 export const MyContext = createContext();
 
 function App() {
@@ -42,7 +41,8 @@ function App() {
 
   const [openPop, setOpenPop] = useState(false);
 
-  // const [isFirstCommentSuggested, setIsFirstCommentSuggested] = useState(false);
+  const [availableForTranslation, setAvailableForTranslation] = useState(false);
+  const [availableForSale, setAvailableForSale] = useState(false);
 
   const [currentlyOpenedCommentID, setCurrentlyOpenedCommentID] = useState("");
   // console.log("selectedPremiseObj Lnt",selectedPremiseObj);
@@ -94,7 +94,14 @@ function App() {
     selectedLanguages,
     setSelectedLanguages,
     currentlyOpenedCommentID,
-    setCurrentlyOpenedCommentID,currentUser,counts,setCounts
+    setCurrentlyOpenedCommentID,
+    currentUser,
+    counts,
+    setCounts,
+    availableForTranslation,
+    availableForSale,
+    setAvailableForSale,
+    setAvailableForTranslation,
     // isFirstCommentSuggested,
     // setIsFirstCommentSuggested,
     // openPop, setOpenPop
@@ -106,15 +113,17 @@ function App() {
     // overflow-x hidden is removed from this div
     <div className="text-xl">
       <MyContext.Provider value={value}>
-      {/* <TLanguageSelector /> */}
+        {/* <TLanguageSelector /> */}
         <Routes>
           <Route path="/" element={<Premisepool />}></Route>
           <Route path="/premise-pool-v2" element={<PremiseV2 />}></Route>
-          <Route path="/premise-pool-v2/payment" element={<LimitPaymentPage />}></Route>
+          <Route
+            path="/premise-pool-v2/payment"
+            element={<LimitPaymentPage />}
+          ></Route>
           <Route path="/new-tab/:id" element={<PremiseNewTab />}></Route>
-          <Route path="/:__id/:service" element={<Premisepool />}></Route> 
-          <Route path="/:__id/:service" element={<Premisepool />}></Route> 
- 
+          <Route path="/:__id/:service" element={<Premisepool />}></Route>
+          <Route path="/:__id/:service" element={<Premisepool />}></Route>
         </Routes>
       </MyContext.Provider>
 
@@ -137,8 +146,8 @@ export const fetchUserAccess = async (flag) => {
 
     const data = await response.json();
     //console.log(`userAccess`, data);
-    return data; 
+    return data;
   } catch (error) {
-    return null; 
+    return null;
   }
 };

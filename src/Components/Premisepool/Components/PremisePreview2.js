@@ -1632,7 +1632,7 @@ const PremisePreview2 = ({
               {!createNewProject && !selectedSpProjectID ? (
                 <div className="col-span-12"></div>
               ) : (
-                <div className="text-[12px] grid grid-cols-12 gap-x-[6px] md:gap-x-[12px] gap-y-[4px] md:gap-y-[8px] px-[16px] md:px-0 lg:px-0 mt-[8px] md:mt-[-5px]">
+                <div className="text-[12px] grid grid-cols-12 gap-x-[6px] md:gap-x-[12px] gap-y-[4px]  px-[16px] md:px-0 lg:px-0 mt-[8px] md:mt-[-5px]">
                   {createNewProject && (
                     <div className="flex h-[31px] col-span-5 md:col-span-4">
                       <input

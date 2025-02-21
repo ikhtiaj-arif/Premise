@@ -24,7 +24,6 @@ import {
   useGetSaleTranslationRequestQuery,
 } from "../../../app/EndPoints/premisePoolApi";
 import { setPremise } from "../../../app/Slices/premiseSlice";
-import { setUser } from "../../../app/Slices/userSlice";
 import CharacterEditablePop from "../../Premisepool/Character/CharacterEditablePop";
 import CommentPremise from "../../Premisepool/CommentPremise";
 import AddPremise2 from "../../Premisepool/Components/AddPremise2";
@@ -36,6 +35,8 @@ import { hideUnhidePremise } from "../../Premisepool/PreiseUtils";
 import TranslatePremise from "../../Premisepool/TranslatePremise";
 import UserMail from "../../Premisepool/UserMail";
 import UserType from "../../Premisepool/UserType";
+import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
+import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
 import BankDetailsPop from "../Popups/BankDetails/BankDetailsPop";
 import MonetizePreferencePop from "../Popups/MonetizePreferencePop";
@@ -45,9 +46,8 @@ import ReqTranslationPop from "../Popups/ReqTranslationPop";
 import SaleRequestedOwner from "../Popups/SaleRequested_Owner";
 import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
+import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
 import PremiseBadge from "./PremiseBadge";
-import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
-import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 
 const PremiseCardV2 = ({
   setShowRefine,
@@ -88,8 +88,10 @@ const PremiseCardV2 = ({
     available_for_sale,
     available_for_translation,
     premise_source_id,
+    translation_request_count,
+    sale_request_count,
   } = p;
-  // console.log(p);
+  console.log(p);
   const { currentUser } = useContext(MyContext);
 
   const [actOneThreshold, setActOneThreshold] = useState();
@@ -386,14 +388,14 @@ const PremiseCardV2 = ({
   //   }
   // }, []);
 
-  const handlePremiseOpenNewTab = (id) => {
-    console.log(id);
-    // const url = `${baseURL}/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
-    const url = `${window.location.origin}/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
+  // const handlePremiseOpenNewTab = (id) => {
+  //   console.log(id);
+  //   // const url = `${baseURL}/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
+  //   const url = `${window.location.origin}/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
 
-    // Open the URL in a new tab
-    window.open(url);
-  };
+  //   // Open the URL in a new tab
+  //   window.open(url);
+  // };
   const handleUserMail = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_MessageOwner`);
     console.log("message rs", res);
@@ -413,6 +415,7 @@ const PremiseCardV2 = ({
     }
     setOpenDotMenu(null);
   };
+
   const handleMonetizing = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_Monitize`);
     console.log("visibility res", res);
@@ -484,14 +487,21 @@ const PremiseCardV2 = ({
           {" "}
           {premiseOwner?.id === user ? (
             <div className="flex gap-[3px] items-center mt-[-13px] mr-[2px] relative ">
-              <img
-                data-te-toggle="tooltip"
-                title="Translation Requests"
-                src={transReqQ}
-                className="w-8 h-8 cursor-pointer"
-                alt=""
-                onClick={() => setViewTrnRequests(id)}
-              />
+              <div className="relative">
+                <span className="absolute top-[-17px] right-0 text-[12px] font-[700] text-[#252525]">
+                  {translation_request_count > 0 && {
+                    translation_request_count,
+                  }}
+                </span>
+                <img
+                  data-te-toggle="tooltip"
+                  title="Translation Requests"
+                  src={transReqQ}
+                  className="w-8 h-8 cursor-pointer"
+                  alt=""
+                  onClick={() => setViewTrnRequests(id)}
+                />
+              </div>
               <img
                 data-te-toggle="tooltip"
                 title="Translated Languages"
@@ -511,14 +521,19 @@ const PremiseCardV2 = ({
                 />
               )}
               {saleRequestedOwner && (
-                <img
-                  data-te-toggle="tooltip"
-                  title="Sale Requested"
-                  src={mailCartQ}
-                  className="w-9 h-9 cursor-pointer"
-                  alt=""
-                  onClick={() => setViewSaleRequests(true)}
-                />
+                <div className="relative">
+                  <span className="absolute top-[-17px] right-0 text-[12px] font-[700] text-[#252525]">
+                    {sale_request_count > 0 && sale_request_count}
+                  </span>
+                  <img
+                    data-te-toggle="tooltip"
+                    title="Sale Requested"
+                    src={mailCartQ}
+                    className="w-9 h-9 cursor-pointer"
+                    alt=""
+                    onClick={() => setViewSaleRequests(true)}
+                  />
+                </div>
               )}
 
               <FaEllipsisV
@@ -533,7 +548,7 @@ const PremiseCardV2 = ({
               {openDotMenu === index && (
                 <div
                   ref={dotPopupRef}
-                  className="absolute flex flex-col w-[186.99px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px]  z-10"
+                  className="absolute flex flex-col w-[197px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px]  z-10"
                 >
                   <button
                     onClick={handleVisibility}
@@ -661,14 +676,16 @@ const PremiseCardV2 = ({
                   }}
                 />
               ) : (
-                <img
-                  data-te-toggle="tooltip"
-                  title="Send Translation Request"
-                  src={transCartQ}
-                  className="w-8 h-8 mt-[-13px] cursor-pointer"
-                  alt=""
-                  onClick={() => checkAllowance(setTranslationRequestPop, id)}
-                />
+                <div className="relative">
+                  <img
+                    data-te-toggle="tooltip"
+                    title="Send Translation Request"
+                    src={transCartQ}
+                    className="w-8 h-8 mt-[-13px] cursor-pointer"
+                    alt=""
+                    onClick={() => checkAllowance(setTranslationRequestPop, id)}
+                  />
+                </div>
               )}
 
               {available_for_sale ? (

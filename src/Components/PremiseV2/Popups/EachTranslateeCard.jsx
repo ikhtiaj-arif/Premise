@@ -1,10 +1,16 @@
 import React from "react";
 import { useGetUserByUserIdQuery } from "../../../app/EndPoints/premisePoolApi";
+import { getLanguageName } from "../utilityFuncitons/functions";
 
 const EachTranslateeCard = ({ transaction }) => {
-    
-    const { data: userData, isLoading } = useGetUserByUserIdQuery(transaction?.translatedFor);
-    console.log(userData);
+  const { data: userData, isLoading } = useGetUserByUserIdQuery(
+    transaction?.translatedFor
+  );
+  const { data: allowedUserData, isAUserLoading } = useGetUserByUserIdQuery(
+    transaction?.translationAllowedBy
+  );
+  
+  const lang = getLanguageName(transaction?.translatedIn);
 
   return (
     <React.Fragment>
@@ -15,7 +21,7 @@ const EachTranslateeCard = ({ transaction }) => {
         </h2>
         <div className="h-[2px] mt-[4px] w-[86%] mx-auto bg-[#a1a1a1]" />
         <div className="font-[400] text-[14px] leading-[21px] text-[#616161] text-center my-[9px]">
-          {transaction?.translatedIn}
+          {lang}
         </div>
       </div>
 
@@ -26,7 +32,9 @@ const EachTranslateeCard = ({ transaction }) => {
         </h2>
         <div className="h-[2px] mt-[4px] w-[86%] mx-auto bg-[#a1a1a1]" />
         <div className="font-[400] text-[14px] leading-[21px] text-[#616161] text-center my-[9px]">
-          {transaction?.translationAllowedBy}
+          {/* {allowedUserData?.firstName} {allowedUserData?.lastName}
+           */}
+          {transaction?.translationAllowedBy?.first_name}{" "}{transaction?.translationAllowedBy?.last_name}
         </div>
       </div>
 
@@ -37,7 +45,8 @@ const EachTranslateeCard = ({ transaction }) => {
         </h2>
         <div className="h-[2px] mt-[4px] w-[86%] mx-auto bg-[#a1a1a1]" />
         <div className="font-[400] text-[14px] leading-[21px] text-[#616161] text-center my-[9px]">
-          {userData?.firstName} {" "}  {userData?.lastName}
+          {/* {userData?.firstName} {userData?.lastName} */}
+          {transaction?.translatedFor?.first_name}{" "}{transaction?.translatedFor?.last_name}
         </div>
       </div>
 

@@ -130,6 +130,14 @@ export const premiseSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["premise"],
     }),
+    //get premise revenue
+    getPremiseRevenue: builder.query({
+      query: (id) => ({
+        url: `ideamall/premise/revenue${id}`,
+        method: "GET",
+      }),
+      providesTags: ["premise"],
+    }),
 
     // delete premise
     //
