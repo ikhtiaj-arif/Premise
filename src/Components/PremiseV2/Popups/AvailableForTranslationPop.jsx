@@ -3,8 +3,8 @@ import { IoIosArrowDown } from "react-icons/io";
 import { toast, ToastContainer } from "react-toastify";
 import { useTranslatePremiseV2Mutation } from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
-import { sortedLanguages } from "../../Premisepool/Languages";
 import PaymentInvoicePopup from "../../Payment/PaymentInvoicePopup";
+import { sortedLanguages } from "../../Premisepool/Languages";
 
 const AvailableForTranslationPop = ({
   popClose,
@@ -40,7 +40,8 @@ const AvailableForTranslationPop = ({
       if (response) {
         toast.success("Translation successful!");
         if (response) {
-          popClose(null);
+          console.log("object-res", response);
+          // popClose(null);
           refetch();
         }
       } else {
@@ -71,10 +72,9 @@ const AvailableForTranslationPop = ({
         <div className="h-[1px] mt-[8px] w-full mx-auto bg-[#a1a1a1]" />
         <div>
           <p className="text-center text-[12px] leading-[14.5px] font-[400] my-[12px] text-[#616161] w-[80%] mx-auto">
-            This Premise Project is available for translation and copying in many languages.
+            This Premise Project is available for translation and copying in
+            many languages.
           </p>
-
- 
         </div>
 
         <div
