@@ -45,6 +45,7 @@ import ReqTranslationPop from "../Popups/ReqTranslationPop";
 import SaleRequestedOwner from "../Popups/SaleRequested_Owner";
 import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
+import AvailableForTranslationPop from "../Popups/AvailableForTranslationPop";
 import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
 import PremiseBadge from "./PremiseBadge";
 
@@ -164,6 +165,8 @@ const PremiseCardV2 = ({
   const dispatch = useDispatch();
   const [openPop, setOpenPop] = useState(false);
   const [openTransOtherPop, setOpenTransOtherPop] = useState(false);
+  const [openAvailableForTranslationPop, setOpenAvailableForTranslationPop] =
+    useState(false);
   const [openMonetizingPreferencesPop, setOpenMonetizingPreferencesPop] =
     useState(null);
   const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);
@@ -588,8 +591,10 @@ const PremiseCardV2 = ({
                   className="w-8 h-8 mt-[-13px] cursor-pointer"
                   alt=""
                   onClick={() => {
-                    setOpenTransOtherPop(!openTransOtherPop);
-                    setOpenDotMenu(null);
+                    setOpenAvailableForTranslationPop(
+                      !openAvailableForTranslationPop
+                    );
+                    // setOpenDotMenu(null);
                   }}
                 />
               ) : (
@@ -870,6 +875,16 @@ const PremiseCardV2 = ({
           user={user}
           source_language={source_language}
           project_id={project_id}
+        />
+      )}
+      {openAvailableForTranslationPop && (
+        <AvailableForTranslationPop
+          popClose={setOpenAvailableForTranslationPop}
+          id={id}
+          user={user}
+          source_language={source_language}
+          project_id={project_id}
+          refetch={refetch}
         />
       )}
       {openViewTranslationsPop && (
