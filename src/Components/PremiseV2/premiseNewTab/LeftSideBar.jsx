@@ -318,7 +318,7 @@ const LeftSideBar = ({
               </div>
 
               {/* visible to  */}
-              {premiseOwner?.id == user && (
+              {premiseOwner?.id === user && (
                 <div className="mt-1">
                   <div className="heading w-full  flex justify-between items-center">
                     <p className="text-[#616161] font-[600] text-[14px]">
@@ -346,7 +346,7 @@ const LeftSideBar = ({
               )}
 
               {/* characters */}
-              {premiseOwner?.id == user && (
+              {premiseOwner?.id === user && (
                 <div className="mt-1">
                   <div className="heading w-full flex justify-between items-center">
                     <p className="text-[#616161] font-[600] text-[14px]">
@@ -462,7 +462,7 @@ const LeftSideBar = ({
               )}
 
               {/* characters */}
-              {premiseOwner?.id == user && (
+              {premiseOwner?.id === user && (
                 <div className="mt-1">
                   <div className="heading w-full flex justify-between items-center">
                     <p className="text-[#616161] font-[600] text-[14px]">

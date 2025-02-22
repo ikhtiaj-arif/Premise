@@ -20,9 +20,9 @@ const PopupComment = ({
       <p className=" text-[14px] font-[500]">
         {finalCount}{" "}
         {finalCount > 1 ? (
-          <span className="comments-m">Comments</span>
+          <span className="comments-m">Brainstorms</span>
         ) : (
-          <span className="comments-m"> Comment</span>
+          <span className="comments-m"> Brainstorm</span>
         )}
       </p>
     </div>
