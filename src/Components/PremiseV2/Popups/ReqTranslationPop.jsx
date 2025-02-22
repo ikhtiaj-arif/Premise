@@ -13,8 +13,9 @@ const ReqTranslationPop = ({
   source_language,
   project_id,
 }) => {
-  const [targetLanguage, setTargetLanguage] = useState("");
+  const [targetLanguage, setTargetLanguage] = useState(null);
   const [successPop, setSuccessPop] = useState(false);
+  const [processing, setProcessing] = useState(false);
   const [reqTranslation] = useRequestForSaleOrTranslateMutation();
 
   const handleOptionChange = (e) => {
@@ -22,6 +23,7 @@ const ReqTranslationPop = ({
   };
 
   const handleTranslationRequestSubmit = async () => {
+    setProcessing(true);
     try {
       const data = {
         premise_id: id,
@@ -35,6 +37,7 @@ const ReqTranslationPop = ({
       if (response) {
         toast.success("Translation request submitted successfully!");
         setSuccessPop(true);
+        setProcessing(false);
         // popClose(null); // Close the modal or pop-up
       } else {
         toast.error(
@@ -44,6 +47,7 @@ const ReqTranslationPop = ({
     } catch (error) {
       toast.error("An error occurred while submitting the request.");
       console.error("Error:", error);
+      setProcessing(false);
     }
   };
 
@@ -153,8 +157,9 @@ const ReqTranslationPop = ({
         </div>
         <div className="w-[134px] mx-auto mt-[12px]">
           <button
+          disabled={!targetLanguage || processing}
             onClick={handleTranslationRequestSubmit}
-            className={`${"bg-[#33B0CA]"} mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700] `}
+            className={`${ !targetLanguage ? "bg-[#616161]" : "bg-[#33B0CA]"} mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700] `}
           >
             Send Request
           </button>

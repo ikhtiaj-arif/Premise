@@ -26,6 +26,7 @@ const AvailableForTranslationPop = ({
   const [translatedPremise, setTranslatedPremise] = useState(null);
   const [isLiked, setIsLiked] = useState(false);
   const [openPop, setOpenPop] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const { projectRefetch } = useContext(MyContext);
 
   const {
@@ -61,7 +62,7 @@ const AvailableForTranslationPop = ({
 
       if (response) {
         refetch();
-        setOpenPop(true);
+
         const {
           text,
           bg_color,
@@ -108,8 +109,9 @@ const AvailableForTranslationPop = ({
         };
 
         setTranslatedPremise(data);
+        setOpenPop(true);
         console.log("object-res", response);
-        popClose(null);
+        setPayment(null);
         toast.success("Translation successful!");
       } else {
         toast.error("Failed to translate. Please try again.");
@@ -171,9 +173,14 @@ const AvailableForTranslationPop = ({
         <div className="w-[100px] mx-auto mt-[12px]">
           <button
             onClick={handlePayNow}
-            className={`${"bg-[#33B0CA]"} mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700] `}
+            disabled={!targetLanguage || isProcessing} // Disable if no language is selected or already processing
+            className={`mx-auto text-center rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700] ${
+              !targetLanguage || isProcessing
+                ? "bg-[#616161] cursor-not-allowed"
+                : "bg-[#33B0CA] text-[#fafafa]"
+            }`}
           >
-            Pay now
+            {isProcessing ? "Processing..." : "Pay now"}
           </button>
         </div>
       </div>
