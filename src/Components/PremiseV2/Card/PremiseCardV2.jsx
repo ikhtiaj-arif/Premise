@@ -37,6 +37,7 @@ import UserType from "../../Premisepool/UserType";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
+import AvailableForTranslationPop from "../Popups/AvailableForTranslationPop";
 import BankDetailsPop from "../Popups/BankDetails/BankDetailsPop";
 import MonetizePreferencePop from "../Popups/MonetizePreferencePop";
 import PaySalePopup from "../Popups/PaySalePopup";
@@ -45,7 +46,6 @@ import ReqTranslationPop from "../Popups/ReqTranslationPop";
 import SaleRequestedOwner from "../Popups/SaleRequested_Owner";
 import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
-import AvailableForTranslationPop from "../Popups/AvailableForTranslationPop";
 import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
 import PremiseBadge from "./PremiseBadge";
 
@@ -336,6 +336,33 @@ const PremiseCardV2 = ({
       setOpenMonetizingPreferencesPop("Yes");
     }
     setOpenDotMenu(null);
+  };
+
+  let popupData = {
+    id,
+    dText,
+    bg_color,
+    bg_img,
+    likes,
+    stylings,
+    premiseOwner,
+    isLiked,
+    source_language,
+    user,
+    setOpenDotMenu,
+    handleUserMail,
+    handleHideUnhidePremise,
+    setOwnerMail,
+    formattedTime,
+    formattedDate,
+    hidden,
+    index,
+    openDotMenu,
+    setHideDisable,
+    hideDisable,
+    hiddenCountRefetch,
+    project_id,
+    m_value: p?.m_value,
   };
 
   return (
@@ -826,32 +853,7 @@ const PremiseCardV2 = ({
             refetch,
             viewText,
           }}
-          data={{
-            id,
-            dText,
-            bg_color,
-            bg_img,
-            likes,
-            stylings,
-            premiseOwner,
-            isLiked,
-            source_language,
-            user,
-            setOpenDotMenu,
-            handleUserMail,
-            handleHideUnhidePremise,
-            setOwnerMail,
-            formattedTime,
-            formattedDate,
-            hidden,
-            index,
-            openDotMenu,
-            setHideDisable,
-            hideDisable,
-            hiddenCountRefetch,
-            project_id,
-            m_value: p?.m_value,
-          }}
+          data={popupData}
           p={p}
         />
       )}
@@ -885,6 +887,7 @@ const PremiseCardV2 = ({
           source_language={source_language}
           project_id={project_id}
           refetch={refetch}
+      
         />
       )}
       {openViewTranslationsPop && (

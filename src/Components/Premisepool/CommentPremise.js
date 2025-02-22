@@ -66,7 +66,7 @@ const CommentPremise = ({ data, setIsLiked, refetch, p }) => {
 
         <div className="flex items-center cursor-pointer text-[14px] font-[500]">
           <span className="mr-1">{comments}</span>
-          <span className="comments-m">{comments > 1 ? "Comments" : "Comment"}</span>
+          <span className="comments-m">{comments > 1 ? "Brainstorms" : "Brainstorm"}</span>
           
         </div>
       </motion.div>
