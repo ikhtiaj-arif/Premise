@@ -101,7 +101,7 @@ const PremiseTopAccess = ({ user, premiseOwner, id, project_id }) => {
   };
 
   return (
-    <div className="flex gap-[3px] items-center mt-[12px] justify-between pb-1">
+    <div className="flex gap-[3px] items-center justify-between pb-1">
       <p className=" text-[16px] font-semibold leading-6 text-[#616161]">
         Premise
       </p>

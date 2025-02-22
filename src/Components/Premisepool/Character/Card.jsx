@@ -30,7 +30,7 @@ const CharacterShowCard = ({
   };
 
   return (
-    <div className="flex text-[#252525]   h-[32px] gap-[3px] justify-between items-center w-full">
+    <div className="flex text-[#252525] h-[22px] gap-[3px] justify-between items-center w-full">
       <div className="">
         <p className="text-[12px] leading-[16.26px] font-[400]">
           {character?.role}:{" "}
