@@ -45,6 +45,7 @@ import ReqTranslationPop from "../Popups/ReqTranslationPop";
 import SaleRequestedOwner from "../Popups/SaleRequested_Owner";
 import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
+import AvailableForTranslationPop from "../Popups/AvailableForTranslationPop";
 import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
 import PremiseBadge from "./PremiseBadge";
 
@@ -164,6 +165,8 @@ const PremiseCardV2 = ({
   const dispatch = useDispatch();
   const [openPop, setOpenPop] = useState(false);
   const [openTransOtherPop, setOpenTransOtherPop] = useState(false);
+  const [openAvailableForTranslationPop, setOpenAvailableForTranslationPop] =
+    useState(false);
   const [openMonetizingPreferencesPop, setOpenMonetizingPreferencesPop] =
     useState(null);
   const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);
@@ -308,7 +311,7 @@ const PremiseCardV2 = ({
     const res = await fetchUserAccess(`${currentUser?.id}/PP_MessageOwner`);
     console.log("message rs", res);
     if (res?.access == "No") {
-      setUserMail("No");
+      setUserMail(res);
     } else {
       setUserMail("Yes");
     }
@@ -553,7 +556,10 @@ const PremiseCardV2 = ({
                 className="w-5 h-5 cursor-pointer"
               /> */}
               {openHidePop?.msg == "ShowBecomePrivilege" ? (
-                <NoAccessPopUp setNoAccessPopup={setOpenHidePop} />
+                <NoAccessPopUp
+                  noAccessPopup={openHidePop}
+                  setNoAccessPopup={setOpenHidePop}
+                />
               ) : openHidePop?.msg == "LB" ||
                 openHidePop?.msg == "ShowBuyPackage_and_Allacarte" ? (
                 <NoAccessLbPopUp
@@ -585,8 +591,10 @@ const PremiseCardV2 = ({
                   className="w-8 h-8 mt-[-13px] cursor-pointer"
                   alt=""
                   onClick={() => {
-                    setOpenTransOtherPop(!openTransOtherPop);
-                    setOpenDotMenu(null);
+                    setOpenAvailableForTranslationPop(
+                      !openAvailableForTranslationPop
+                    );
+                    // setOpenDotMenu(null);
                   }}
                 />
               ) : (
@@ -799,7 +807,12 @@ const PremiseCardV2 = ({
           setUserMail={setUserMail}
         />
       )}
-      {userMail == "No" && <NoAccessPopUp setNoAccessPopup={setUserMail} />}
+      {userMail?.msg == "ShowBecomePrivilege" && (
+        <NoAccessPopUp
+          noAccessPopup={userMail}
+          setNoAccessPopup={setUserMail}
+        />
+      )}
       {ownerMail && (
         <OwnerMail data={{ user, id }} setOwnerMail={setOwnerMail} />
       )}
@@ -864,6 +877,16 @@ const PremiseCardV2 = ({
           project_id={project_id}
         />
       )}
+      {openAvailableForTranslationPop && (
+        <AvailableForTranslationPop
+          popClose={setOpenAvailableForTranslationPop}
+          id={id}
+          user={user}
+          source_language={source_language}
+          project_id={project_id}
+          refetch={refetch}
+        />
+      )}
       {openViewTranslationsPop && (
         <ViewTranslationPop
           popClose={setOpenViewTranslationsPop}
@@ -871,7 +894,10 @@ const PremiseCardV2 = ({
         />
       )}
       {openMonetizingPreferencesPop?.msg == "ShowBecomePrivilege" ? (
-        <NoAccessPopUp setNoAccessPopup={setOpenMonetizingPreferencesPop} />
+        <NoAccessPopUp
+          noAccessPopup={openMonetizingPreferencesPop}
+          setNoAccessPopup={setOpenMonetizingPreferencesPop}
+        />
       ) : openMonetizingPreferencesPop?.msg == "LB" ||
         openMonetizingPreferencesPop?.msg == "ShowBuyPackage_and_Allacarte" ? (
         <NoAccessLbPopUp
@@ -889,7 +915,10 @@ const PremiseCardV2 = ({
         )
       )}
       {noAccessLbPopUp?.msg == "ShowBecomePrivilege" ? (
-        <NoAccessPopUp setNoAccessPopup={setNoAccessLbPopUp} />
+        <NoAccessPopUp
+          noAccessPopup={noAccessLbPopUp}
+          setNoAccessPopup={setNoAccessLbPopUp}
+        />
       ) : (
         (noAccessLbPopUp?.msg == "LB" ||
           noAccessLbPopUp?.msg == "ShowBuyPackage_and_Allacarte") && (

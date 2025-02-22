@@ -27,6 +27,8 @@ const PopupTextarea = ({
   replyField,
   replyRef,
   fromNew,
+  className,
+  className2,
 }) => {
   const [textCount, setTextCount] = useState(0);
   const [newComment, setNewComment] = useState("");
@@ -189,9 +191,9 @@ const PopupTextarea = ({
     setKeyboardVisible(!keyboardVisible);
   };
   return (
-    <div className="fixed bottom-[20px] w-[87%]  md:relative md:bottom-0 md:w-auto">
+    <div className={`fixed bottom-[10px] left-0 w-[100%] md:relative md:bottom-0 md:w-auto px-2 ${className}`}>
       <div
-        className={`bg-[#fff] relative  md:mb-[16px] pl-3 md:flex-row ${
+        className={`${className ? "bg-[#fff]" : "bg-[#f8f8f8]"} relative md:mb-[16px] pl-3 md:flex-row ${
           fromNew ? "w-full" : "w-[90%]"
         }  mx-auto border border-[#EAEAEA] rounded-[8px] mt-[8px]`}
       >
@@ -202,7 +204,7 @@ const PopupTextarea = ({
             name=""
             maxLength={250}
             id=""
-            className="bg-[#fff] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px]  focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic"
+            className={`bg-[#f8f8f8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[113px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic ${className2}`}
             placeholder="OR Brainstorm with Ida by sharing your thoughts"
             value={newComment}
             required
@@ -317,7 +319,10 @@ const PopupTextarea = ({
       </>
 
       {noAccessPopup?.msg == "ShowBecomePrivilege" ? (
-        <NoAccessPopUp setNoAccessPopup={setNoAccessPopup} />
+        <NoAccessPopUp
+          noAccessPopup={noAccessPopup}
+          setNoAccessPopup={setNoAccessPopup}
+        />
       ) : (
         (noAccessPopup?.msg == "ShowBuyPackage_and_Allacarte" ||
           noAccessPopup?.msg == "LB") && (

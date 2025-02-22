@@ -1,0 +1,127 @@
+import React, { useState } from "react";
+import { IoIosArrowDown } from "react-icons/io";
+import { toast, ToastContainer } from "react-toastify";
+import { useTranslatePremiseV2Mutation } from "../../../app/EndPoints/premisePoolApi";
+import crossIcon from "../../../img/Icons/crossIcon.png";
+import PaymentInvoicePopup from "../../Payment/PaymentInvoicePopup";
+import { sortedLanguages } from "../../Premisepool/Languages";
+
+const AvailableForTranslationPop = ({
+  popClose,
+  id,
+  user,
+  source_language,
+  project_id,
+  refetch,
+}) => {
+  const [targetLanguage, setTargetLanguage] = useState("");
+  const [translatePremise] = useTranslatePremiseV2Mutation();
+  const [isPayment, setPayment] = useState(false);
+
+  const handleOptionChange = (e) => {
+    setTargetLanguage(e.target.value);
+  };
+  const handlePayNow = () => {
+    setPayment(true);
+  };
+
+  const handleTranslationSubmit = async (transaction_id) => {
+    try {
+      const data = {
+        premise_id: id,
+        // request_type: "Translation",
+        target_language: targetLanguage,
+        user_id: user,
+        transaction_id: transaction_id,
+      };
+
+      const response = await translatePremise(data);
+
+      if (response) {
+        toast.success("Translation successful!");
+        if (response) {
+          console.log("object-res", response);
+          // popClose(null);
+          refetch();
+        }
+      } else {
+        toast.error("Failed to translate. Please try again.");
+      }
+    } catch (error) {
+      toast.error("An error occurred while submitting.");
+      console.error("Error:", error);
+    }
+  };
+
+  return (
+    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
+      <ToastContainer />
+      <div className=" h-[40vh] lg:h-[204px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[430px]  md:mx-auto relative lg:rounded-[8px]">
+        {/* close popup */}
+        <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
+          <img
+            src={crossIcon}
+            alt=""
+            className=" text-red-500  w-8 h-8 cursor-pointer"
+            onClick={() => popClose(null)}
+          />
+        </div>
+        <h2 className="font-[700] text-[14px] leading-[19.9px] text-center mt-[18px]">
+          Translate the Premise Project in Language of your choice
+        </h2>
+        <div className="h-[1px] mt-[8px] w-full mx-auto bg-[#a1a1a1]" />
+        <div>
+          <p className="text-center text-[12px] leading-[14.5px] font-[400] my-[12px] text-[#616161] w-[80%] mx-auto">
+            This Premise Project is available for translation and copying in
+            many languages.
+          </p>
+        </div>
+
+        <div
+          className={`h-[31px] mt-[18px] relative col-span-6 md:col-span-4  bg-[#fafafa]  rounded-[8px] border-[2px] w-[76%] mx-auto`}
+        >
+          <select
+            className="block appearance-none bg-[#fafafa] pl-[21px] h-[27px] rounded-[8px]  w-full px-[8px] text-[12px] text-[#616161] leading-[18px] focus:outline-none"
+            required
+            value={targetLanguage}
+            onChange={handleOptionChange}
+          >
+            <option className="" value="" selected disabled>
+              Choose the language for translation.
+            </option>
+            {Object.entries(sortedLanguages)?.map(([key, name]) =>
+              key !== source_language ? (
+                <option key={key} value={key}>
+                  {name}
+                </option>
+              ) : null
+            )}
+          </select>
+          <div className="absolute inset-y-0 right-[30px] bg-[#fafafa] flex items-center pointer-events-none">
+            <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
+          </div>
+        </div>
+        <div className="w-[100px] mx-auto mt-[12px]">
+          <button
+            onClick={handlePayNow}
+            className={`${"bg-[#33B0CA]"} mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700] `}
+          >
+            Pay now
+          </button>
+        </div>
+      </div>
+
+      {isPayment && (
+        <PaymentInvoicePopup
+          typeOfRequest="translate"
+          premise_id={id}
+          user={user}
+          setPayment={setPayment}
+          submit={handleTranslationSubmit}
+        />
+      )}
+    </div>
+  );
+};
+
+export default AvailableForTranslationPop;

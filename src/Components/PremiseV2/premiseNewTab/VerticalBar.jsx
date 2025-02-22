@@ -2,7 +2,7 @@ import React from "react";
 
 const VerticalBar = ({ comments, onFocusComment }) => {
   return (
-    <div className="h-full absolute top-0 right-0 bg-[#eaeaea] w-[37px] hidden lg:block pt-[30px]">
+    <div className="absolute top-0 right-0 bg-[#eaeaea] w-[37px] hidden lg:block h-full overflow-y-auto">
       {[...(comments || [])]
         .sort((a, b) => a.c_value - b.c_value)
         .map((comment, index) => (

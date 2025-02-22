@@ -453,7 +453,10 @@ const Popup = ({
                       )}
                       <div>
                         <div className="flex items-center">
-                          <h4 className="notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer leading-[21px]  hover:text-[#33B0CA]">
+                          <h4
+                            className="notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate w-full"
+                            title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
+                          >
                             {premiseOwner?.first_name} {premiseOwner?.last_name}
                           </h4>
                           <UserType

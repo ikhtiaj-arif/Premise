@@ -84,7 +84,7 @@ const UserNamePopup = ({ setAddPopup,refetch }) => {
   return (
     <>
     {
-    addPrePop?.msg =='ShowBecomePrivilege' ? <NoAccessPopUp setNoAccessPopup={setAddPopup}/> 
+    addPrePop?.msg =='ShowBecomePrivilege' ? <NoAccessPopUp noAccessPopup={addPrePop} setNoAccessPopup={setAddPopup}/> 
     : (addPrePop?.msg =='LB' || addPrePop?.msg=='ShowBuyPackage_and_Allacarte') ? <NoAccessLbPopUp setNoAccessPopup={setAddPopup} noAccessLbPopup={addPrePop} service='PP_Premises' divId="addNewPremise"/> 
     : addPrePop =='Yes' ? <AddPremise2  setAddPopup={setAddPopup} refetch={refetch} /> 
     :

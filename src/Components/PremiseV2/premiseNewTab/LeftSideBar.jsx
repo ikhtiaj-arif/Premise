@@ -204,7 +204,7 @@ const LeftSideBar = ({
     const res = await fetchUserAccess(`${currentUser?.id}/PP_AddCharacters`);
     console.log("add char res", res);
     if (res?.access == "No") {
-      setAddNewCharacter("No");
+      setAddNewCharacter(res);
     } else {
       setAddNewCharacter("Yes");
     }
@@ -222,8 +222,8 @@ const LeftSideBar = ({
 
   return (
     <div className="lg:w-[350px] w-full relative ">
-      <div className="relative">
-        <div className="pr-12">
+      <div className="relative h-full">
+        <div className="lg:pr-12">
           {/* header */}
           <PremiseTopHeader {...{ handleSearch, id }} />
           <div>
@@ -233,6 +233,8 @@ const LeftSideBar = ({
             <div className="relative">
               <PopupPremiseText
                 {...{ bg_img, bg_color, stylings, dText, viewText }}
+                className="ls-contentbox"
+                className2="ls-contenttext"
               />
               <PremiseBadge stamp={stamp} />
             </div>
@@ -262,6 +264,7 @@ const LeftSideBar = ({
                     source_language,
                     project_id,
                   }}
+                  className="premise-translate-wh-24"
                 />
               </div>
             </div>
@@ -273,41 +276,41 @@ const LeftSideBar = ({
               <div className="mt-[17px]">
                 <div className="flex items-center justify-between">
                   {" "}
-                  <h2 className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                  <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                     Created By
                   </h2>
                   <div className="flex items-center">
-                    <span className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                    <span className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                       :
                     </span>
-                    <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
+                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
                       {created_by_name}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center  justify-between">
                   {" "}
-                  <h2 className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                  <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                     Created On
                   </h2>
                   <div className="flex items-center">
-                    <span className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                    <span className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                       :
                     </span>
-                    <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
+                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
                       {formatDate(created_at)}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center  justify-between">
-                  <h2 className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                  <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                     Last Worked On
                   </h2>
                   <div className="flex items-center">
-                    <span className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                    <span className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                       :
                     </span>
-                    <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
+                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
                       {formatDate(last_worked_on)}
                     </p>
                   </div>
@@ -316,9 +319,9 @@ const LeftSideBar = ({
 
               {/* visible to  */}
               {premiseOwner?.id == user && (
-                <div className="mt-4">
+                <div className="mt-1">
                   <div className="heading w-full  flex justify-between items-center">
-                    <p className="text-[#616161] font-[600] text-[16pxS]">
+                    <p className="text-[#616161] font-[600] text-[14px]">
                       Visible to
                     </p>
 
@@ -344,9 +347,9 @@ const LeftSideBar = ({
 
               {/* characters */}
               {premiseOwner?.id == user && (
-                <div className=" mt-4">
+                <div className="mt-1">
                   <div className="heading w-full flex justify-between items-center">
-                    <p className="text-[#616161] font-[600] text-[16pxS]">
+                    <p className="text-[#616161] font-[600] text-[14px]">
                       Characters
                     </p>
                     <div className=" flex gap-2 items-center ">
@@ -362,7 +365,7 @@ const LeftSideBar = ({
                       />
                     </div>
                   </div>
-                  <div className="bg-[#eaeaea] rounded-[8px] p-3 w-full h-[160px] overflow-auto">
+                  <div className="bg-[#eaeaea] rounded-[8px] p-3 w-full max-h-[83px] overflow-auto">
                     {finalCharacters?.map((character, index) => (
                       <CharacterShowCard
                         {...{
@@ -389,41 +392,41 @@ const LeftSideBar = ({
               <div>
                 <div className="flex items-center justify-between">
                   {" "}
-                  <h2 className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                  <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                     Created By
                   </h2>
                   <div className="flex items-center">
-                    <span className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                    <span className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                       :
                     </span>
-                    <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
+                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
                       {created_by_name}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center  justify-between">
                   {" "}
-                  <h2 className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                  <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                     Created On
                   </h2>
                   <div className="flex items-center">
-                    <span className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                    <span className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                       :
                     </span>
-                    <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
+                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
                       {formatDate(created_at)}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center  justify-between">
-                  <h2 className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                  <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                     Last Worked On
                   </h2>
                   <div className="flex items-center">
-                    <span className="text-[#616161] text-[16px] leading-[24px] font-[700]">
+                    <span className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                       :
                     </span>
-                    <p className="text-[#616161] text-[16px] leading-[24px] font-[400] pl-1">
+                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
                       {formatDate(last_worked_on)}
                     </p>
                   </div>
@@ -432,9 +435,9 @@ const LeftSideBar = ({
 
               {/* visible to  */}
               {premiseOwner?.id == user && (
-                <div className="mt-4">
+                <div className="mt-1">
                   <div className="heading w-full  flex justify-between items-center">
-                    <p className="text-[#616161] font-[600] text-[16pxS]">
+                    <p className="text-[#616161] font-[600] text-[14px]">
                       Visible to
                     </p>
 
@@ -460,9 +463,9 @@ const LeftSideBar = ({
 
               {/* characters */}
               {premiseOwner?.id == user && (
-                <div className=" mt-4">
+                <div className="mt-1">
                   <div className="heading w-full flex justify-between items-center">
-                    <p className="text-[#616161] font-[600] text-[16pxS]">
+                    <p className="text-[#616161] font-[600] text-[14px]">
                       Characters
                     </p>
                     <div className=" flex gap-2 items-center ">
@@ -478,7 +481,7 @@ const LeftSideBar = ({
                       />
                     </div>
                   </div>
-                  <div className="bg-[#eaeaea] rounded-[8px] p-3 w-full h-[160px] overflow-auto">
+                  <div className="bg-[#eaeaea] rounded-[8px] p-3 w-full max-h-[83px] overflow-auto">
                     {finalCharacters?.map((character, index) => (
                       <CharacterShowCard
                         {...{
@@ -516,6 +519,8 @@ const LeftSideBar = ({
             <PopupTextarea
               fromNew
               premiseId={id}
+              className="ls-textarea"
+              className2="ls-textareainput"
               {...{
                 premiseOwner,
                 user,
@@ -542,7 +547,7 @@ const LeftSideBar = ({
       </div>
 
       {openHidePop?.msg == "ShowBecomePrivilege" ? (
-        <NoAccessPopUp setNoAccessPopup={setOpenHidePop} />
+        <NoAccessPopUp noAccessPopup={openHidePop} setNoAccessPopup={setOpenHidePop} />
       ) : openHidePop?.msg == "LB" ||
         openHidePop?.msg == "ShowBuyPackage_and_Allacarte" ? (
         <NoAccessLbPopUp
@@ -579,8 +584,8 @@ const LeftSideBar = ({
           }}
         />
       )}
-      {addNewCharacter == "No" && (
-        <NoAccessPopUp setNoAccessPopup={setAddNewCharacter} />
+      {addNewCharacter?.msg == "ShowBecomePrivilege" && (
+        <NoAccessPopUp noAccessPopup={addNewCharacter} setNoAccessPopup={setAddNewCharacter} />
       )}
       {addNewCharacter == "Yes" && (
         <SingleCharacterAdd

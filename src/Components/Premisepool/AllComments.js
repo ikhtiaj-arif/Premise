@@ -1380,7 +1380,7 @@ const AllComments = ({
         />
       )}
       { noAccessLbPopup?.msg =='ShowBecomePrivilege' && (
-        <NoAccessPopUp
+        <NoAccessPopUp noAccessPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
         />
       )}

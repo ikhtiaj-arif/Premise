@@ -81,8 +81,8 @@ const PopupLike = ({user,id, premiseRefetch, premiseData }) => {
       <p
         className={
           premiseData?.likes > 0
-            ? "cursor-pointer  text-[14px] font-[500]"
-            : "defaultCursor  text-[14px] font-[500]"
+            ? "cursor-pointer text-[12px] font-[500]"
+            : "defaultCursor text-[12px] font-[500]"
         }
         onClick={() => premiseData?.likes > 0 && setLikePopup(true)}
       >

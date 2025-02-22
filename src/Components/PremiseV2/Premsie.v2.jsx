@@ -446,7 +446,7 @@ const PremiseV2 = () => {
             <UserNamePopup {...{ refetch, setAddPopup }} />
           )}
           {addPopup?.msg == "ShowBecomePrivilege" ? (
-            <NoAccessPopUp setNoAccessPopup={setAddPopup} />
+            <NoAccessPopUp noAccessPopup={addPopup} setNoAccessPopup={setAddPopup} />
           ) : addPopup?.msg == "LB" ||
             addPopup?.msg == "ShowBuyPackage_and_Allacarte" ? (
             <NoAccessLbPopUp
