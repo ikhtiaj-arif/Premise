@@ -194,7 +194,7 @@ const PopFetch = ({ popClose, data, refetch }) => {
     hideUnhidePremise(id, setHideDisable, premiseRefetch, setOpenDotMenu);
   };
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
       <div className=" h-[100vh] lg:h-[539px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1185px] md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}

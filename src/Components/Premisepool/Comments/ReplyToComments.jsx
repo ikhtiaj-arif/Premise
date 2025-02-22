@@ -266,7 +266,7 @@ const ReplyToComments = ({
       className={`w-[93%] ${fromNew ? 'w-[93%]':'lg:w-[666px]'}  ml-[5px] md:ml-[50px]  rounded-sm flex items-center gap-1`}
     >
       <div className=" w-[98%] ">
-        <div className=" w-full relative ml-[16px] md:ml-[21px]">
+        <div className=" w-full relative ml-[16px] md:ml-[45px]">
           <div className={`flex gap-[8px] ${fromNew ? 'w-[93%]':'max-w-[627px]'}  `}>
             {reply?.user?.id === 1 ? (
               <div>

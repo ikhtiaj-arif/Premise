@@ -67,7 +67,7 @@ const UserNamePopBeat = ({
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center bg-[#252525b0] justify-center z-[1] ">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center bg-[#252525b0] justify-center z-[21] ">
       <div className="w-full  max-w-[439px] max-h-[539px] pt-[53px] sm:pt-[30px] relative">
         <div className="text-right flex justify-end h-0">
           <img
