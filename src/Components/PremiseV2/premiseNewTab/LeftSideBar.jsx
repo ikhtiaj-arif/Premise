@@ -431,7 +431,7 @@ const LeftSideBar = ({
               </div>
 
               {/* visible to  */}
-              {premiseOwner?.id == user && (
+              {premiseOwner?.id === user && (
                 <div className="mt-4">
                   <div className="heading w-full  flex justify-between items-center">
                     <p className="text-[#616161] font-[600] text-[16pxS]">
@@ -459,7 +459,7 @@ const LeftSideBar = ({
               )}
 
               {/* characters */}
-              {premiseOwner?.id == user && (
+              {premiseOwner?.id === user && (
                 <div className=" mt-4">
                   <div className="heading w-full flex justify-between items-center">
                     <p className="text-[#616161] font-[600] text-[16pxS]">
