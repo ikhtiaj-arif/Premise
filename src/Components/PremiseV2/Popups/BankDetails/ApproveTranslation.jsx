@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import { useUpdateRequestForSaleOrTranslateMutation } from "../../../../app/EndPoints/premisePoolApi";
+import { ToastContainer } from "react-toastify";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
 import walletDoodle from "../../../../img/wallet_doodle.png";
 import { getLanguageName } from "../../utilityFuncitons/functions";
@@ -12,19 +11,27 @@ const ApproveTranslationPop = ({
   bankDetails,
   premiseId,
   parentClose,
+  setSelectedRequests,
+  selectedRequests,
+  setCongratsPopup,
+  congratsPopup,
+  handleProceed,
+  loading,
 }) => {
-  const [selectedRequests, setSelectedRequests] = useState([]);
-  const [congratsPopup, setCongratsPopup] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [updateTranslationSale] = useUpdateRequestForSaleOrTranslateMutation();
+  const [selectedUserNames, setSelectedUserNames] = useState([]);
 
   // Handle checkbox selection
-  const handleCheckboxChange = (id) => {
+  const handleCheckboxChange = (id, name) => {
     setSelectedRequests(
       (prevSelected) =>
         prevSelected.includes(id)
           ? prevSelected.filter((reqId) => reqId !== id) // Deselect if already selected
           : [...prevSelected, id] // Add to selection
+    );
+    setSelectedUserNames((prevNames) =>
+      prevNames.includes(name)
+        ? prevNames.filter((userName) => userName !== name)
+        : [...prevNames, name]
     );
   };
 
@@ -35,36 +42,14 @@ const ApproveTranslationPop = ({
   };
 
   // Handle Proceed button click
-  const handleProceed = async () => {
-    if (loading || selectedRequests.length === 0) return; // Prevent multiple clicks or empty selection
-
-    setLoading(true); // Start loading
-
-    const data = {
-      premise_id: premiseId,
-      bank_details: JSON.stringify(bankDetails),
-      request_ids: JSON.stringify(selectedRequests),
-    };
-
-    try {
-      const res = await updateTranslationSale(data);
-      console.log("Selected Requests:", res);
-      if (res?.data) {
-        toast.success("Request Approved!");
-        setCongratsPopup(true);
-        // Close after showing CongratsPopup
-      }
-    } catch (err) {
-      console.error("Error:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  console.log("congratsPopup", congratsPopup);
 
   return congratsPopup ? (
-    <CongratsPopup popClose={closeAllPopups} requestType="translation" />
+    <CongratsPopup
+      popClose={closeAllPopups}
+      selectedRequests={selectedRequests}
+      selectedUserNames={selectedUserNames}
+      requestType="translation"
+    />
   ) : (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1]">
       <ToastContainer />
@@ -132,7 +117,12 @@ const ApproveTranslationPop = ({
                     className="h-[20px] w-[20px]"
                     value={request.id}
                     checked={selectedRequests.includes(request.id)}
-                    onChange={() => handleCheckboxChange(request.id)}
+                    onChange={() =>
+                      handleCheckboxChange(
+                        request.id,
+                        `${request.fromUser.first_name} ${request.fromUser.last_name}`
+                      )
+                    }
                   />
                 </div>
                 <div className="col-span-4 flex items-center justify-center">
@@ -155,7 +145,7 @@ const ApproveTranslationPop = ({
             disabled={selectedRequests.length === 0 || loading}
             className={`${
               selectedRequests.length === 0 || loading
-                ? "bg-[#33B0CA] opacity-50 cursor-not-allowed"
+                ? "bg-[#616161]  cursor-not-allowed"
                 : "bg-[#33B0CA]"
             } text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] py-[2px] text-[13px] font-[600]`}
           >

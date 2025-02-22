@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { toast, ToastContainer } from "react-toastify";
-import { useTranslatePremiseV2Mutation } from "../../../app/EndPoints/premisePoolApi";
+import { MyContext } from "../../../App";
+import {
+  useGetPremiseUserQuery,
+  useTranslatePremiseV2Mutation,
+} from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import PaymentInvoicePopup from "../../Payment/PaymentInvoicePopup";
 import { sortedLanguages } from "../../Premisepool/Languages";
+import Popup from "../../Premisepool/Popup";
+import { hideUnhidePremise } from "../../Premisepool/PreiseUtils";
 
 const AvailableForTranslationPop = ({
   popClose,
@@ -17,12 +23,28 @@ const AvailableForTranslationPop = ({
   const [targetLanguage, setTargetLanguage] = useState("");
   const [translatePremise] = useTranslatePremiseV2Mutation();
   const [isPayment, setPayment] = useState(false);
+  const [translatedPremise, setTranslatedPremise] = useState(null);
+  const [isLiked, setIsLiked] = useState(false);
+  const [openPop, setOpenPop] = useState(false);
+  const { projectRefetch } = useContext(MyContext);
+
+  const {
+    data: userQuery,
+    isUserLoading,
+    refetch: userRefetch,
+  } = useGetPremiseUserQuery();
 
   const handleOptionChange = (e) => {
     setTargetLanguage(e.target.value);
   };
   const handlePayNow = () => {
     setPayment(true);
+  };
+  const [openDotMenu, setOpenDotMenu] = useState(null);
+  const [hideDisable, setHideDisable] = useState(false);
+
+  const handleHideUnhidePremise = async (id) => {
+    hideUnhidePremise(id, setHideDisable, userRefetch, setOpenDotMenu);
   };
 
   const handleTranslationSubmit = async (transaction_id) => {
@@ -38,12 +60,57 @@ const AvailableForTranslationPop = ({
       const response = await translatePremise(data);
 
       if (response) {
+        refetch();
+        setOpenPop(true);
+        const {
+          text,
+          bg_color,
+          bg_img,
+          comments,
+          created_at,
+          likes,
+          id,
+          source_language,
+          updated_at,
+          // project_id
+        } = response?.data?.data;
+        const formattedDate = new Date(created_at).toLocaleDateString("en-US", {
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          day: "numeric",
+          month: "short",
+        });
+        const formattedTime = new Date(created_at).toLocaleTimeString("en-US", {
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          hour: "numeric",
+          minute: "numeric",
+        });
+        const data = {
+          stylings: JSON.parse(text?.split("+")[0]),
+          bg_color,
+          bg_img,
+          comments,
+          created_at,
+          // created_by,
+          likes,
+          id,
+          source_language,
+          updated_at,
+          dText: text?.split("+")[1],
+          formattedDate,
+          formattedTime,
+          user,
+          handleHideUnhidePremise,
+          setHideDisable,
+          hideDisable,
+          openDotMenu,
+          project_id: response?.data?.data?.projects?.pro_uuid,
+          m_value: response?.data?.data?.m_value,
+        };
+
+        setTranslatedPremise(data);
+        console.log("object-res", response);
+        popClose(null);
         toast.success("Translation successful!");
-        if (response) {
-          console.log("object-res", response);
-          // popClose(null);
-          refetch();
-        }
       } else {
         toast.error("Failed to translate. Please try again.");
       }
@@ -118,6 +185,20 @@ const AvailableForTranslationPop = ({
           user={user}
           setPayment={setPayment}
           submit={handleTranslationSubmit}
+        />
+      )}
+
+      {openPop && translatedPremise && (
+        <Popup
+          popClose={() => {
+            setOpenPop(null);
+            setTranslatedPremise(null);
+            // setAddPopup(null);
+          }}
+          setIsLiked={setIsLiked}
+          data={translatedPremise}
+          refetch={refetch}
+          projectRefetch={projectRefetch}
         />
       )}
     </div>

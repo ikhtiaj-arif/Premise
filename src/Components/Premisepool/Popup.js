@@ -30,6 +30,7 @@ import { useCreateReplyMutation } from "../../app/EndPoints/commentReply/reply";
 
 import axios from "axios";
 import TransInOtherLang from "../PremiseV2/Popups/TransInOtherLang.pop";
+import ViewTranslationPop from "../PremiseV2/Popups/ViewTranslation.pop";
 import { handlePremiseOpenNewTab } from "../PremiseV2/utilityFuncitons/functions";
 import AskIda from "../SharedVersion/AskIda";
 import PopupComment from "../SharedVersion/PopupComment";
@@ -44,7 +45,6 @@ import DeletePremise from "./DeletePremise";
 import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
 import UserType from "./UserType";
-import ViewTranslationPop from "../PremiseV2/Popups/ViewTranslation.pop";
 
 const Popup = ({
   popClose,
@@ -55,6 +55,7 @@ const Popup = ({
   handleVisibility,
   handleMonetizing,
 }) => {
+  console.log("isnidepoop",data);
   const {
     bg_img,
     bg_color,
@@ -69,6 +70,7 @@ const Popup = ({
     setHideDisable,
     project_id,
   } = data;
+  
 
   const { data: characters, isCharLoading } =
     useGetSavedCharactersQuery(project_id);

@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import { ToastContainer } from "react-toastify";
-import { useGetSaleTranslationRequestQuery } from "../../../../app/EndPoints/premisePoolApi";
+import { toast, ToastContainer } from "react-toastify";
+import { useGetSaleTranslationRequestQuery, useUpdateRequestForSaleOrTranslateMutation } from "../../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
 import walletDoodle from "../../../../img/wallet_doodle.png";
+import { getLanguageName } from "../../utilityFuncitons/functions";
 import ApproveTranslationPop from "./ApproveTranslation";
 
 const BankDetailsPop = ({ popClose, premiseId }) => {
   // console.log(premiseId);
   const [showBankDetails, setShowBankDetails] = useState(false);
   const [showTransRequests, setShowTransRequests] = useState(false);
+    const [congratsPopup, setCongratsPopup] = useState(false);
+  const [selectedRequests, setSelectedRequests] = useState([]);
 
   const data = {
     id: premiseId,
@@ -18,7 +21,7 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
   const { data: translationRequest, isTransLoading } =
     useGetSaleTranslationRequestQuery(data);
 
-  console.log(translationRequest?.data);
+  console.log("selectedRequests", selectedRequests);
 
   const [bankDetails, setBankDetails] = useState({
     bank_name: "",
@@ -27,6 +30,13 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
     ifsc_code: "",
     swift_code: "",
   });
+
+  // Check if all mandatory fields are filled
+  const isFormValid =
+    bankDetails.bank_name &&
+    bankDetails.account_holder &&
+    bankDetails.account_number &&
+    bankDetails.ifsc_code;
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -38,8 +48,38 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
   };
 
   // Handle form submission
-  const handleProceed = () => {
-    setShowTransRequests(true);
+  const [loading, setLoading] = useState(false);
+  const [updateTranslationSale] = useUpdateRequestForSaleOrTranslateMutation();
+
+  const handleProceed = async() => {
+    if (!selectedRequests.length) {
+      setShowTransRequests(true);
+    }else{
+      if (loading || selectedRequests.length === 0) return; // Prevent multiple clicks or empty selection
+
+      setLoading(true); // Start loading
+  
+      const data = {
+        premise_id: premiseId,
+        bank_details: JSON.stringify(bankDetails),
+        request_ids: JSON.stringify(selectedRequests),
+      };
+  
+      try {
+        const res = await updateTranslationSale(data);
+        console.log("Selected Requests:", res);
+        if (res?.data) {
+          toast.success("Request Approved!");
+          setCongratsPopup(true);
+          // Close after showing CongratsPopup
+        }
+      } catch (err) {
+        console.error("Error:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+   
   };
 
   if (isTransLoading) return <p>Loading...</p>;
@@ -94,7 +134,7 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
               in copying this Premise Project in{" "}
               <span>
                 {translationRequest?.data
-                  ?.map((request) => request.requestToLang)
+                  ?.map((request) => getLanguageName(request?.requestToLang))
                   .join(", ")}
               </span>
               .
@@ -161,6 +201,7 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
                   Submit Details of bank account
                 </button>
                 <button
+                  onClick={() => setShowTransRequests(true)}
                   className={`${"text-[#33B0CA]"} border-b border-[#33B0CA]   leading-[24px] px-[20px] py-[2px] text-[13px] font-[600] `}
                 >
                   Select
@@ -176,89 +217,51 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
             <p className="text-[14px] leading-[16.8px] text-[#252525] font-[600] py-[12px]">
               Please provide your bank details below :
             </p>
-            <div className="flex justify-between items-center">
-              <label
-                className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
-                htmlFor="bank_name"
-              >
-                Bank Name:
-              </label>
-              <input
-                name="bank_name"
-                placeholder="bank name"
-                type="text"
-                value={bankDetails.bank_name}
-                onChange={handleInputChange}
-                className="w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
-              />
-            </div>
-            <div className="flex justify-between items-center">
-              <label
-                className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
-                htmlFor="account_holder"
-              >
-                Account Holder:
-              </label>
-              <input
-                name="account_holder"
-                placeholder="account holder"
-                type="text"
-                value={bankDetails.account_holder}
-                onChange={handleInputChange}
-                className="w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
-              />
-            </div>
-            <div className="flex justify-between items-center">
-              <label
-                className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
-                htmlFor="account_number"
-              >
-                Account Number:
-              </label>
-              <input
-                name="account_number"
-                placeholder="account number"
-                type="text"
-                value={bankDetails.account_number}
-                onChange={handleInputChange}
-                className="w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
-              />
-            </div>
-            <div className="flex justify-between items-center">
-              <label
-                className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
-                htmlFor="ifsc_code"
-              >
-                IFSC Code:
-              </label>
-              <input
-                name="ifsc_code"
-                placeholder="ifsc code"
-                type="text"
-                value={bankDetails.ifsc_code}
-                onChange={handleInputChange}
-                className="w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
-              />
-            </div>
-            <div className="flex justify-between items-center">
-              <label
-                className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
-                htmlFor="swift_code"
-              >
-                SWIFT Code:
-              </label>
-              <input
-                name="swift_code"
-                placeholder="swift code"
-                type="text"
-                value={bankDetails.swift_code}
-                onChange={handleInputChange}
-                className="w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
-              />
-            </div>
+            {[
+              { label: "Bank Name", name: "bank_name", required: true },
+              {
+                label: "Account Holder",
+                name: "account_holder",
+                required: true,
+              },
+              {
+                label: "Account Number",
+                name: "account_number",
+                required: true,
+              },
+              { label: "IFSC Code", name: "ifsc_code", required: true },
+              { label: "SWIFT Code", name: "swift_code", required: false },
+            ].map(({ label, name, required }) => (
+              <div className="flex justify-between items-center" key={name}>
+                <label
+                  className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
+                  htmlFor={name}
+                >
+                  {label}
+                  {required && (
+                    <>
+                      :<span className="text-red-500"> *</span>
+                    </>
+                  )}
+                </label>
+                <input
+                  name={name}
+                  placeholder={label.toLowerCase()}
+                  type="text"
+                  value={bankDetails[name] || ""}
+                  onChange={handleInputChange}
+                  className="w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
+                />
+              </div>
+            ))}
             <button
               onClick={handleProceed}
-              className={`${"bg-[#33B0CA]"} w-[88px] mt-[20px] mx-auto text-[#fafafa] rounded-[8px] leading-[24px] px-[12px] py-[2px] text-[13px] font-[600] `}
+              disabled={!isFormValid}
+              className={`${
+                !isFormValid
+                  ? "bg-[#616161] cursor-not-allowed"
+                  : "bg-[#33B0CA]"
+              } w-[88px] mt-[20px] mx-auto text-[#fafafa] rounded-[8px] leading-[24px] px-[12px] py-[2px] text-[13px] font-[600]`}
             >
               Proceed
             </button>
@@ -271,6 +274,10 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
             translationRequests={translationRequest?.data}
             bankDetails={bankDetails}
             premiseId={premiseId}
+            setSelectedRequests={setSelectedRequests}
+            selectedRequests={selectedRequests}
+            setCongratsPopup={setCongratsPopup}
+            congratsPopup={congratsPopup} handleProceed={handleProceed} loading={loading}
           />
         )}
       </div>
