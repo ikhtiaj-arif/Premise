@@ -11,6 +11,7 @@ const TranslatePremise = ({
   transPopClose,
   setTransPopClose,
   setViewText,
+  className
 }) => {
   const {
     id,
@@ -211,7 +212,7 @@ const TranslatePremise = ({
               src={transIcon}
               // onClick={() => setShowSelectBox(!showSelectBox)}
               onClick={() => handleTranslate(id)}
-              className="w-8 h-8 ml-auto  cursor-pointer"
+              className={`w-8 h-8 ml-auto cursor-pointer ${className}`}
               alt=""
             />
           )}

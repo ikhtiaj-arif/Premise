@@ -29,3 +29,26 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+/* New tab styling only */
+.premise-translate-wh-24 {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.ls-textarea {
+  z-index: 20 !important;
+}
+
+.ls-textareainput {
+  height: 55px !important;
+  background-color: #fff !important;
+}
+
+.ls-contentbox {
+  height: 119px !important;
+}
+
+.ls-contenttext {
+  font-size: 12px !important;
+}

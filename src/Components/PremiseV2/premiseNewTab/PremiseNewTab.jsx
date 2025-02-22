@@ -164,9 +164,9 @@ const PremiseNewTab = () => {
       {!isPremiseLoading && !isCommentLoading && premiseData && commentsData ? (
         <>
           <ProjectInfo {...{ premiseData }} />
-          <div className="w-full lg:flex items-start mt-2">
+          <div className="w-full lg:flex items-start">
             {/* Left Sidebar */}
-            <div className="leftSection bg-[#fff] lg:w-[500px] w-full  p-2 pr-0 flex justify-end lg:max-h-[83vh] lg:sticky lg:top-0">
+            <div className="leftSection bg-[#fff] lg:w-[500px] w-full pr-0 flex justify-end lg:h-[calc(100vh-75px)]">
               <LeftSideBar
                 {...{
                   premiseData,
@@ -198,11 +198,12 @@ const PremiseNewTab = () => {
                   <MainComment comment={comment} />
                 ))}
             </div> */}
-            <div className="w-full relative lg:max-h-[83vh] lg:overflow-y-auto">
+
+            <div className="w-full relative lg:h-[calc(100vh-75px)] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl">
               {isSearchLoading || isCommentLoading ? (
                 <div>Loading ....</div>
               ) : (
-                <div className="pb-[150px] lg:pb-[0]">
+                <div className="pb-[120px] pt-[18px] lg:pb-[18px]">
                   {filteredCommentsData?.comments?.length > 0 ? (
                     <>
                    

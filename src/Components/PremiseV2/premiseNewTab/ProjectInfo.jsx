@@ -1,5 +1,5 @@
 import React from "react";
-import walletDoodle from "../../../img/wallet_doodle.png";
+import newTabDoodle from "../../../img/new-tab-doodle.png";
 
 const ProjectInfo = ({ premiseData }) => {
   const {
@@ -15,26 +15,20 @@ const ProjectInfo = ({ premiseData }) => {
     source_language,
   } = premiseData;
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 lg:px-6">
       <div>
-        <div className="relative mr-[43px]">
+        <div className="mr-4">
           <img
-            src={`https://uidemos.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2023-12-06+at+18.04+10.png`}
+            src={newTabDoodle}
             alt="premise doodle"
-            className="w-[110px] h-auto md:h-[103.72px] md:w-[115.07px] ml-[10px] md:ml-[0px]"
-          />
-          <img
-            // src={premiseImage}
-            src={walletDoodle}
-            alt="premise doodle"
-            className="w-[35px] md:w-[51px] md:h-[77px] absolute bottom-[3px] right-[-36px]"
+            className="w-[61px] md:w-[102px]"
           />
         </div>
       </div>
-      <h3 className="text-[14px] md:text-[20px] text-[#252525] font-normal w-[80%] md:w-auto">
-        <span className="text-5 text-[#252525] font-bold">{project_name} </span>
+      <h3 className="text-[14px] md:text-[18px] text-[#252525] font-normal w-[80%] md:w-auto">
+        <span className="text-[#252525] font-bold">{project_name} </span>
         of {}
-        <span className="text-5 text-[#252525] font-bold"> {premiseOwner?.first_name} {premiseOwner?.last_name}:</span> A {sub_genre} (
+        <span className="text-[#252525] font-bold"> {premiseOwner?.first_name} {premiseOwner?.last_name}:</span> A {sub_genre} (
         {genre}) of {duration} {}
         in {source_language} language set in {period} {geography} on the premise
         ‘What if......’
