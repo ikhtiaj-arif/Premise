@@ -12,7 +12,7 @@ const BeatProjectPop = ({ popClose }) => {
     { name: "Silence Of The Lambs" },
   ];
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center bg-[#252525b0] justify-center z-[1] ">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center bg-[#252525b0] justify-center z-[21] ">
       <div className=" h-[520px]  w-[380px] md:mx-auto  ">
         <div className="w-full h-[500px] max-h-[539px] bg-[#fafafa] rounded-[8px] relative">
           {/* close popup */}

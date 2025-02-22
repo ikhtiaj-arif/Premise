@@ -6,14 +6,14 @@ import EngagementTable from "../../premiseNewTab/EngagementTable";
 
 const BrainstormEngagementsPop = ({ popClose, id, commonPopup }) => {
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1]">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
       <ToastContainer />
-      <div className="h-[100vh] lg:h-[253px] mb-[20px] px-[22px] lg:mb-0 lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:w-[498px] md:mx-auto relative lg:rounded-[8px]">
+      <div className="h-[253px] mb-[20px] lg:px-[22px] lg:mb-0 lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:w-[498px] md:mx-auto absolute bottom-[60px] left-0 lg:relative lg:bottom-0 lg:rounded-[8px] rounded-t-[12px]">
         {/* Close Popup */}
         <img
           src={crossIcon}
           alt="Close"
-          className="text-red-500 w-8 h-8 top-[-15px] right-[-15px] absolute z-[1] m-1 cursor-pointer"
+          className="text-red-500 w-8 h-8 top-[-60px] right-[50%] translate-x-[50%] lg:translate-x-0 lg:top-[-15px] lg:right-[-15px] absolute z-[1] m-1 cursor-pointer"
           onClick={() => {
             popClose(false);
           }}

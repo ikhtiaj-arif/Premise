@@ -412,7 +412,7 @@ const Popup = ({ popClose, data, refetch, transText }) => {
     return <>Loading...</>;
   } else
     return (
-      <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
+      <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
         <ToastContainer />
         <div className=" h-[100vh] lg:h-[490px] mb-[20px]  lg:mb-0 xl:h-[621px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1119px] xl:w-[1185px] md:mx-auto relative lg:rounded-[8px]">
           {/* close popup */}

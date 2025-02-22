@@ -119,7 +119,7 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
 
       <div

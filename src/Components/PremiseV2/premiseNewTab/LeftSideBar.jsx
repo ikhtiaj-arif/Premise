@@ -365,7 +365,7 @@ const LeftSideBar = ({
                       />
                     </div>
                   </div>
-                  <div className="bg-[#eaeaea] rounded-[8px] p-3 w-full max-h-[83px] overflow-auto">
+                  <div className="bg-[#eaeaea] rounded-[8px] p-3 w-full lg:max-h-[83px] overflow-auto">
                     {finalCharacters?.map((character, index) => (
                       <CharacterShowCard
                         {...{
@@ -481,7 +481,7 @@ const LeftSideBar = ({
                       />
                     </div>
                   </div>
-                  <div className="bg-[#eaeaea] rounded-[8px] p-3 w-full max-h-[83px] overflow-auto">
+                  <div className="bg-[#eaeaea] rounded-[8px] p-3 w-full lg:max-h-[83px] overflow-auto">
                     {finalCharacters?.map((character, index) => (
                       <CharacterShowCard
                         {...{

@@ -10,7 +10,7 @@ const ViewTranslationPop = ({ popClose, premiseId }) => {
   console.log("transactionData", transactionData);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
       <div className=" h-[100vh] lg:h-[290px] mb-[20px]  lg:mb-0 xl:h-[313px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[617px] xl:w-[617px] md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
