@@ -5,16 +5,26 @@ const EngagementTable = ({ id, headerText }) => {
   const {
     data: engagementsData,
     isEngagementsDataLoading,
-    // refetch: premiseRefetch,
+    refetch: engagementRefetch,
   } = useGetPremiseEngagementsDataQuery(id);
 
   const [data, setData] = useState();
 
   useEffect(() => {
+    if (id) {
+      engagementRefetch();
+    }
+  }, [id]);
+  useEffect(() => {
     if (engagementsData) {
       setData(data);
     }
   }, [engagementsData]);
+
+  // console.log("brainstormData", engagementsData);
+  // console.log("brainstormData", engagementsData?.owner?.comments);
+  // console.log("brainstormData", engagementsData?.viewers?.replies);
+  // console.log("brainstormData", engagementsData?.buddies?.comments);
   return (
     <>
       {isEngagementsDataLoading ? (
@@ -43,13 +53,13 @@ const EngagementTable = ({ id, headerText }) => {
                 Comments
               </td>
               <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                {data?.owner?.comments || 0}
+                {engagementsData?.owner?.comments || 0}
               </td>
               <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                {data?.buddies?.comments || 0}
+                {engagementsData?.buddies?.comments || 0}
               </td>
               <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                {data?.viewers?.comments || 0}
+                {engagementsData?.viewers?.comments || 0}
               </td>
             </tr>
             <tr>
@@ -57,13 +67,13 @@ const EngagementTable = ({ id, headerText }) => {
                 Likes
               </td>
               <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                {data?.owner?.likes || 0}
+                {engagementsData?.owner?.likes || 0}
               </td>
               <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                {data?.buddies?.likes || 0}
+                {engagementsData?.buddies?.likes || 0}
               </td>
               <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                {data?.viewers?.likes || 0}
+                {engagementsData?.viewers?.likes || 0}
               </td>
             </tr>
             <tr>
@@ -71,13 +81,13 @@ const EngagementTable = ({ id, headerText }) => {
                 Replies
               </td>
               <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                {data?.owner?.replies || 0}
+                {engagementsData?.owner?.replies || 0}
               </td>
               <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                {data?.buddies?.replies || 0}
+                {engagementsData?.buddies?.replies || 0}
               </td>
               <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                {data?.viewers?.replies || 0}
+                {engagementsData?.viewers?.replies || 0}
               </td>
             </tr>
           </tbody>
