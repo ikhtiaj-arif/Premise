@@ -3,14 +3,17 @@ import { useGetUserByUserIdQuery } from "../../../app/EndPoints/premisePoolApi";
 import { getLanguageName } from "../utilityFuncitons/functions";
 
 const EachTranslateeCard = ({ transaction }) => {
+  console.log('transaction',transaction);
   const { data: userData, isLoading } = useGetUserByUserIdQuery(
-    transaction?.translatedFor
+    transaction?.translatedFor?.id
   );
   const { data: allowedUserData, isAUserLoading } = useGetUserByUserIdQuery(
-    transaction?.translationAllowedBy
+    transaction?.translationAllowedBy?.id
   );
   
   const lang = getLanguageName(transaction?.translatedIn);
+
+ 
 
   return (
     <React.Fragment>
@@ -55,7 +58,7 @@ const EachTranslateeCard = ({ transaction }) => {
         <div className="h-[21px]" />
         <div className="h-[2px] mt-[4px] w-[86%] mx-auto " />
         <div className="my-[4px] text-center">
-          <button
+          <button 
             className={`bg-[#33B0CA] text-[#fafafa] rounded-[8px] leading-[24px] px-[18px] text-[12px] font-[700]`}
           >
             View

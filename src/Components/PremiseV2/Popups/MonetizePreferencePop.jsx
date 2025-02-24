@@ -51,8 +51,12 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
       id,
       body: { sellingPrice: price, ...premiseData },
     };
-    updatePremise(data);
-    // Add API or other logic here
+    const res=updatePremise(data);
+    if(res){
+      popClose(null);
+      premiseRefetch();
+    }
+
   };
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
