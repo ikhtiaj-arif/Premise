@@ -918,7 +918,7 @@ const PremiseCardV2 = ({
         />
       ) : (
         openMonetizingPreferencesPop == "Yes" && (
-          <MonetizePreferencePop
+          <MonetizePreferencePop 
             popClose={setOpenMonetizingPreferencesPop}
             id={id}
             user={user}

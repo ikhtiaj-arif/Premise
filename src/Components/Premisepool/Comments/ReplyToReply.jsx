@@ -20,6 +20,8 @@ import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply2 from "./ReplyToReply2";
+import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
+import { useTranslateCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
 
 const ReplyToReply = ({
   handleAddToBeat,fromNew,
@@ -60,6 +62,8 @@ const ReplyToReply = ({
   const [likeReply, likeReplyRes] = useUpdateLikeOfReplyMutation();
   const [deleteReply, deleteReplyRes] = useDeleteLikeOfReplyMutation();
   const [createReplyMutation, isReplyResInfo] = useCreateReplyMutation();
+    const [translateComment, isTranslationCommentLoading] =
+      useTranslateCommentMutation();
   const replyToReplyRef = useRef(null);
   const {
     data: profileImg,
@@ -334,6 +338,15 @@ const ReplyToReply = ({
                 : childReply?.text}
             </p>
           </div>{" "}
+
+
+          <div className=" flex gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
+              <CommentTranslator
+                comment={childReply}
+                translateComment={translateComment}
+                loading={isTranslationCommentLoading}
+                commentRefetch={replyRefetch}
+              />
           {(owner === user || replyBy?.id === user) &&
           !childReply?.reject_button ? (
             <div className="flex gap-2 items-center pl-[2px]">
@@ -351,6 +364,7 @@ const ReplyToReply = ({
               <div className="" />
             </div>
           )}
+        </div>
         </div>
 
         <div className="flex justify-between items-center w-[89%] mr-[16px] md:mr-[29px] my-[2px] mt-[2px]  ml-auto mb-[2px] md:mb-[2px]   ">

@@ -7,7 +7,7 @@ import {
 import crossIcon from "../../../img/Icons/crossIcon.png";
 
 const MonetizePreferencePop = ({ popClose, id, user }) => {
-  const [updatePremise] = useEditPremiseMutation();
+  const [updatePremise, { isLoading }] = useEditPremiseMutation();
   const {
     data: premiseData,
     isPremiseLoading,
@@ -37,7 +37,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
     }
   }, [formData.transferOwnership]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { allowTranslation, transferOwnership, price } = formData;
 
@@ -51,8 +51,11 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
       id,
       body: { sellingPrice: price, ...premiseData },
     };
-    updatePremise(data);
-    // Add API or other logic here
+    const res = await updatePremise(data);
+    //console.log("Updatedpremise result:", res);
+    if (res?.data) {
+      popClose(null);
+    }
   };
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
@@ -147,6 +150,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
           </div>
           <div className="w-[88px] mx-auto mt-[12px]">
             <button
+              disabled={isLoading}
               type="submit"
               className="bg-[#33B0CA] text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] py-[2px] text-[13px] font-[600]"
             >

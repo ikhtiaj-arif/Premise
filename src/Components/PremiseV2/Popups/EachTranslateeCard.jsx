@@ -3,18 +3,13 @@ import { useGetOnePremiseQuery, useGetUserByUserIdQuery } from "../../../app/End
 import { getLanguageName } from "../utilityFuncitons/functions";
 import Popup from "../../Premisepool/Popup";
 
-const EachTranslateeCard = ({
-  transaction,
-  popCloseCmnt,
-  handleVisibility,
-  handleMonetizing,
-  refetch,
-  viewText, }) => {
+const EachTranslateeCard = ({ transaction }) => {
+  console.log('transaction',transaction);
   const { data: userData, isLoading } = useGetUserByUserIdQuery(
-    transaction?.translatedFor.id
+    transaction?.translatedFor?.id
   );
   const { data: allowedUserData, isAUserLoading } = useGetUserByUserIdQuery(
-    transaction?.translationAllowedBy.id
+    transaction?.translationAllowedBy?.id
   );
 
   const {
@@ -62,10 +57,12 @@ const EachTranslateeCard = ({
     : {};
 
 
+ 
+
   return (
     <React.Fragment>
 
-      {
+      {/* {
         popup && <Popup
           refetch={premiseRefetch}
 
@@ -78,7 +75,7 @@ const EachTranslateeCard = ({
           data={data}
 
         />
-      }
+      } */}
 
 
       {/* Translated In */}
@@ -122,8 +119,7 @@ const EachTranslateeCard = ({
         <div className="h-[21px]" />
         <div className="h-[2px] mt-[4px] w-[86%] mx-auto " />
         <div className="my-[4px] text-center">
-          <button
-            onClick={() => setPopUp(true)}
+          <button 
             className={`bg-[#33B0CA] text-[#fafafa] rounded-[8px] leading-[24px] px-[18px] text-[12px] font-[700]`}
           >
             View

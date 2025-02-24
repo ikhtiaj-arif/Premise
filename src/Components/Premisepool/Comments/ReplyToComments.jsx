@@ -374,7 +374,7 @@ const ReplyToComments = ({
                   : reply?.text}
               </p>
             </div>
-            <div className="absolute flex gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
+            <div className=" flex gap-1 items-center right-[8.5px] md:right-[6.5px] top-[28%]">
               <CommentTranslator
                 comment={reply}
                 translateComment={translateComment}
