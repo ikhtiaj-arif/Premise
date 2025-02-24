@@ -169,6 +169,7 @@ const PremiseNewTab = () => {
             <div className="leftSection bg-[#fff] lg:w-[500px] w-full pr-0 flex justify-end lg:h-[calc(100vh-75px)]">
               <LeftSideBar
                 {...{
+                  filteredCommentsData,
                   premiseData,
                   premiseRefetch,
                   commentRefetch,
