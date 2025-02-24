@@ -6,10 +6,11 @@ const VerticalBar = ({ comments, onFocusComment }) => {
       {[...(comments || [])]
         .sort((a, b) => a.c_value - b.c_value)
         .map((comment, index) => (
-          <div className="px-3 py-3 text-[#33b0ca] h-[50px]">
+          <div className="px-3 text-[#33b0ca]">
             <button
               key={comment.c_value}
               onClick={() => onFocusComment(comment.id)}
+              className="text-[14px]"
             >
               {comment.c_value}
             </button>

@@ -1,5 +1,6 @@
 import React from "react";
 import newTabDoodle from "../../../img/new-tab-doodle.png";
+import { getLanguageName } from "../utilityFuncitons/functions";
 
 const ProjectInfo = ({ premiseData }) => {
   const {
@@ -30,7 +31,7 @@ const ProjectInfo = ({ premiseData }) => {
         of {}
         <span className="text-[#252525] font-bold"> {premiseOwner?.first_name} {premiseOwner?.last_name}:</span> A {sub_genre} (
         {genre}) of {duration} {}
-        in {source_language} language set in {period} {geography} on the premise
+        in {getLanguageName(source_language)} language set in {period} {geography} on the premise
         ‘What if......’
       </h3>
     </div>
