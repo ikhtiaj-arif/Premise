@@ -542,7 +542,7 @@ const LeftSideBar = ({
         </div>
         <VerticalBar
           replyRef={replyRef}
-          // comments={filteredCommentsData?.comments}
+          comments={filteredCommentsData?.comments}
           // setReplyField={setReplyField}
           // replyField={replyField}
           // onFocusComment={handleFocusComment}

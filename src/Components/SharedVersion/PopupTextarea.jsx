@@ -204,7 +204,7 @@ const PopupTextarea = ({
             name=""
             maxLength={250}
             id=""
-            className={`bg-[#f8f8f8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[113px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic ${className2}`}
+            className={`bg-[#f8f8f8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic ${className2}`}
             placeholder="OR Brainstorm with Ida by sharing your thoughts"
             value={newComment}
             required
@@ -223,7 +223,7 @@ const PopupTextarea = ({
             name=""
             maxLength={150}
             id=""
-            className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic"
+            className={`${className ? "bg-[#fff]" : "bg-[#f8f8f8]"} resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic`}
             placeholder="Brainstorm here with MNF"
             value={newComment}
             required
@@ -271,7 +271,7 @@ const PopupTextarea = ({
         </div>
       </div>
       <div
-        className={`hidden md:block absolute bottom-[-16px] ${
+        className={`hidden md:block absolute bottom-[0px] ${
           fromNew ? "xl:bottom-[-16px]" : "xl:bottom-[0] right-[26px]"
         } right-[12px]`}
       >
