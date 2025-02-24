@@ -827,14 +827,14 @@ const PremiseCardV2 = ({
           refetch={refetch}
         />
       )}
-      {userMail == "Yes" && (
+      {userMail === "Yes" && (
         <UserMail
           recipient={premiseOwner}
           data={{ user, id, userFirstName, userLastName }}
           setUserMail={setUserMail}
         />
       )}
-      {userMail?.msg == "ShowBecomePrivilege" && (
+      {userMail?.msg === "ShowBecomePrivilege" && (
         <NoAccessPopUp
           noAccessPopup={userMail}
           setNoAccessPopup={setUserMail}

@@ -15,6 +15,12 @@ const BeatsPop = ({ popClose, id }) => {
   const [activeTab, setActiveTab] = useState("all");
 
   useEffect(() => {
+    if (id) {
+      premiseRefetch();
+    }
+  }, [id]);
+
+  useEffect(() => {
     if (beatsDataJson) {
       setBeatsData(beatsDataJson.data);
     }

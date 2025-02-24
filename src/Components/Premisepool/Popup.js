@@ -55,7 +55,7 @@ const Popup = ({
   handleVisibility,
   handleMonetizing,
 }) => {
-  console.log("isnidepoop",data);
+
   const {
     bg_img,
     bg_color,
