@@ -178,8 +178,8 @@ const PaymentPage = ({typeOfRequest,submit,setPayment,user,premise_id}) => {
 
       // Dynamically create and submit the form
       const payuForm = document.createElement("form");
-      payuForm.action = "https://secure.payu.in/_payment";
-      //payuForm.action = "https://test.payu.in/_payment";
+      // payuForm.action = "https://secure.payu.in/_payment";
+      payuForm.action = "https://test.payu.in/_payment";
       payuForm.method = "POST";
 
       // Add form fields
