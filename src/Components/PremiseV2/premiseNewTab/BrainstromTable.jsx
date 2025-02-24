@@ -5,16 +5,24 @@ const BrainstromTable = ({ headerText, id }) => {
   const {
     data: brainstormData,
     isBrainstormDataLoading,
-    // refetch: premiseRefetch,
+    refetch: brainstormRefetch,
   } = useGetPremiseBrainstormsDataQuery(id);
 
   const [data, setData] = useState();
+
+  useEffect(() => {
+    if (id) {
+      brainstormRefetch();
+    }
+  }, [id]);
 
   useEffect(() => {
     if (brainstormData) {
       setData(data);
     }
   }, [brainstormData]);
+
+
   return (
     <>
       {isBrainstormDataLoading ? (
@@ -43,13 +51,13 @@ const BrainstromTable = ({ headerText, id }) => {
                 Generated
               </td>
               <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                {data?.setup?.generated || 0}
+                {brainstormData?.data?.setup?.generated || 0}
               </td>
               <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                {data?.conflict?.generated || 0}
+                {brainstormData?.data?.conflict?.generated || 0}
               </td>
               <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                {data?.resolution?.generated || 0}
+                {brainstormData?.data?.resolution?.generated || 0}
               </td>
             </tr>
 
