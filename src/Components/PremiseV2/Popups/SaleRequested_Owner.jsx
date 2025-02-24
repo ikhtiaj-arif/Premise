@@ -98,7 +98,7 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
     refetch: premiseRefetch,
   } = useGetOnePremiseQuery(premiseId);
 
-  const [sellingPr, setSellingPr] = useState("");
+  const [sellingPr, setSellingPr] = useState();
 
   const handleInputChangePrice = (e) => {
     setSellingPr(e.target.value);
@@ -204,6 +204,7 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
                   required
                   type="number"
                   placeholder="Please Quote"
+                  
                   className="flex-1 h-[22px] border rounded-[4px] px-[12px] text-[11px] font-[400]"
                   value={sellingPr}
                   onChange={handleInputChangePrice}
@@ -218,7 +219,8 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
               <div className="flex items-center gap-[18px] w-[320px] mx-auto mt-[20px]">
                 <button
                   type="submit"
-                  className={`${"bg-[#33B0CA]"} text-[#fafafa] rounded-[8px] whitespace-nowrap leading-[24px] px-[20px] ml-[10px] py-[2px] text-[13px] font-[600]`}
+                  disabled={!sellingPr} 
+                  className={`${ sellingPr ? "bg-[#33B0CA]" :'bg-[#616161]'} text-[#fafafa] rounded-[8px] whitespace-nowrap leading-[24px] px-[20px] ml-[10px] py-[2px] text-[13px] font-[600]`}
                 >
                   Submit Details of bank account
                 </button>
