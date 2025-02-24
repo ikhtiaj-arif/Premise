@@ -487,21 +487,6 @@ const AllComments = ({
   const [translateComment, isTranslationCommentLoading] =
     useTranslateCommentMutation();
 
-  const handleTranslateComment = async (comment) => {
-    const data = {
-      text_id: comment.id,
-      tar_lang: "bn",
-    };
-
-    try {
-      const res = await translateComment(data);
-      console.log(res);
-      commentRefetch();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   // console.log("single Comment", comments);
   // console.log(
   //   "Owner:",
@@ -1316,7 +1301,7 @@ const AllComments = ({
           {
             <div
               className={`${
-                hasManyReplies ? "max-h-[40vh] overflow-y-auto pr-2" : ""
+                hasManyReplies ? "max-h-[40vh] overflow-y-auto pr-2 overflow-x-hidden" : ""
               }`}
             >
               {replyData
