@@ -30,6 +30,7 @@ import PremiseTopHeader from "./PremiseTopHeader";
 import VerticalBar from "./VerticalBar";
 
 const LeftSideBar = ({
+  filteredCommentsData,
   premiseData,
   premiseRefetch,
   commentRefetch,
@@ -63,6 +64,8 @@ const LeftSideBar = ({
     project_id,
     created_by_name,
   } = premiseData;
+  
+  console.log("filteredCommentsData", filteredCommentsData);
 
   const { charactersPopupMobile } = useContext(GlobalContext);
 
@@ -547,7 +550,10 @@ const LeftSideBar = ({
       </div>
 
       {openHidePop?.msg == "ShowBecomePrivilege" ? (
-        <NoAccessPopUp noAccessPopup={openHidePop} setNoAccessPopup={setOpenHidePop} />
+        <NoAccessPopUp
+          noAccessPopup={openHidePop}
+          setNoAccessPopup={setOpenHidePop}
+        />
       ) : openHidePop?.msg == "LB" ||
         openHidePop?.msg == "ShowBuyPackage_and_Allacarte" ? (
         <NoAccessLbPopUp
@@ -585,7 +591,10 @@ const LeftSideBar = ({
         />
       )}
       {addNewCharacter?.msg == "ShowBecomePrivilege" && (
-        <NoAccessPopUp noAccessPopup={addNewCharacter} setNoAccessPopup={setAddNewCharacter} />
+        <NoAccessPopUp
+          noAccessPopup={addNewCharacter}
+          setNoAccessPopup={setAddNewCharacter}
+        />
       )}
       {addNewCharacter == "Yes" && (
         <SingleCharacterAdd
