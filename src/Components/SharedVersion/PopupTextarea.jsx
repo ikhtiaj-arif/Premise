@@ -272,8 +272,8 @@ const PopupTextarea = ({
       </div>
       <div
         className={`hidden md:block absolute bottom-[-16px] ${
-          fromNew ? "xl:bottom-[-16px]" : "xl:bottom-[-16px]"
-        } right-[16px]`}
+          fromNew ? "xl:bottom-[-16px]" : "xl:bottom-[0] right-[26px]"
+        } right-[12px]`}
       >
         {premiseOwner?.id === user ? (
           <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
