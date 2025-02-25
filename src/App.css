@@ -30,7 +30,7 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-/* New tab styling only */
+/* New tab styling */
 .premise-translate-wh-24 {
   width: 24px !important;
   height: 24px !important;
@@ -47,6 +47,25 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .ls-contenttext {
   font-size: 12px !important;
+}
+
+/* Modify scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 19px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #33b0ca;
+  border-radius: 19px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2a94a8;
 }
 
 @media screen and (max-width: 768px) {

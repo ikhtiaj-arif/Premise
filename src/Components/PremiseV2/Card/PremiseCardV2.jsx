@@ -404,7 +404,7 @@ const PremiseCardV2 = ({
               <div>
                 <div className="flex items-center">
                   <h4
-                    className="notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate w-full"
+                    className={`notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate ${premise_source_id ? "w-[75px]" : "w-[110px]"}`}
                     title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
                   >
                     {premiseOwner?.first_name} {premiseOwner?.last_name}
