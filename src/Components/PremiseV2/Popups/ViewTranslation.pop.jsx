@@ -13,12 +13,11 @@ const ViewTranslationPop = ({
   transText,
   viewText,
   handleVisibility,
-  handleMonetizing, }) => {
+  handleMonetizing,
+}) => {
   const { data: transactionData, isLoading } =
     useGetPremiseTransactionQuery(premiseId);
   console.log("transactionData", transactionData);
-
-
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
@@ -39,20 +38,46 @@ const ViewTranslationPop = ({
         {isLoading ? (
           <div className="text-center my-4">Loading...</div>
         ) : transactionData?.data?.length > 0 ? (
-          <div className="grid grid-cols-12 mx-[12px] h-[230px] overflow-y-auto">
-            {transactionData.data.map((transaction, index) => (
-              <EachTranslateeCard
-                {...{
-                  popCloseCmnt,
-                  handleVisibility,
-                  handleMonetizing,
-                  refetch,
-                  viewText,
-
-                }}
-                transaction={transaction} key={index} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-12 mx-[12px] gap-2 overflow-y-auto">
+              <div className="flex flex-col col-span-3 h-7">
+                <h2 className="font-[500] text-[14px] leading-[21px] text-center ">
+                  Translated In
+                </h2>
+                <div className="h-[2px] mt-[4px] w-[86%] mx-auto bg-[#a1a1a1]" />
+              </div>
+              <div className="flex flex-col col-span-4 h-7">
+                <h2 className="font-[500] text-[14px] leading-[21px] text-center ">
+                  Translation Allowed By
+                </h2>
+                <div className="h-[2px] mt-[4px] w-[86%] mx-auto bg-[#a1a1a1]" />
+              </div>
+              <div className="flex flex-col col-span-3 h-7">
+                <h2 className="font-[500] text-[14px] leading-[21px] text-center ">
+                  Translated For
+                </h2>
+                <div className="h-[2px] mt-[4px] w-[86%] mx-auto bg-[#a1a1a1]" />
+              </div>
+              <div className="col-span-2 flex flex-col h-7"></div>
+            </div>
+            <div className="h-[220px] overflow-y-auto">
+              <div className="grid grid-cols-12 mx-[12px] gap-2 ">
+                {transactionData?.data?.map((transaction, index) => (
+                  <EachTranslateeCard
+                    {...{
+                      popCloseCmnt,
+                      handleVisibility,
+                      handleMonetizing,
+                      refetch,
+                      viewText,
+                    }}
+                    transaction={transaction}
+                    key={index}
+                  />
+                ))}
+              </div>
+            </div>
+          </>
         ) : (
           <div className="text-center my-4 text-gray-500">
             No translations available.

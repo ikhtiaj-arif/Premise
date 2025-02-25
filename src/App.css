@@ -5,7 +5,7 @@
 
 .no_access_input input[type="radio"] {
   appearance: none;
-  width: 16px; 
+  width: 16px;
   height: 16px;
   border: 1px solid #616161;
   border-radius: 50%;
@@ -15,13 +15,13 @@
 }
 
 .no_access_input input[type="radio"]:checked {
-  background-color: #33B0CA; 
+  background-color: #33b0ca;
 }
 
 input[type="number"] {
   -moz-appearance: textfield;
   -webkit-appearance: none;
-  appearance: none; 
+  appearance: none;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -36,10 +36,6 @@ input[type="number"]::-webkit-outer-spin-button {
   height: 24px !important;
 }
 
-.ls-textarea {
-  z-index: 20 !important;
-}
-
 .ls-textareainput {
   height: 55px !important;
   background-color: #fff !important;
@@ -51,4 +47,10 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .ls-contenttext {
   font-size: 12px !important;
+}
+
+@media screen and (max-width: 768px) {
+  .ls-textarea {
+    z-index: 20 !important;
+  }
 }

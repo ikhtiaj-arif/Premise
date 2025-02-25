@@ -3,6 +3,7 @@ import { ToastContainer } from "react-toastify";
 import { useGetPremiseBeatsDataQuery } from "../../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
 import ShowBeats from "./ShowBeats";
+import { FaArrowLeft } from "react-icons/fa6";
 
 const BeatsPop = ({ popClose, id }) => {
   const {
@@ -27,31 +28,36 @@ const BeatsPop = ({ popClose, id }) => {
   }, [beatsDataJson]);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] md:mt-[0px] bg-[#252525b0] justify-center z-[21]">
       <ToastContainer />
-      <div className=" h-[100vh] lg:h-[80vh] mb-[20px] px-[32px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1052px]  md:mx-auto relative lg:rounded-[8px]">
+      <div className="h-[100vh] md:h-[80vh] mb-[20px] px-[12px] md:px-[32px] md:mb-0 md:mt-[100px] xl:mt-[85px] w-full bg-[#fff] md:bg-[#FAFAFA] md:w-[1052px] md:max-w-[95%] md:mx-auto relative md:rounded-[8px]">
         {/* close popup */}
         <img
           src={crossIcon}
           alt=""
-          className="text-red-500 w-8 h-8 top-[-15px] right-[-15px] absolute z-[1] m-1 cursor-pointer lgVisible  "
+          className="hidden md:inline text-red-500 w-8 h-8 top-[-15px] right-[-15px] absolute z-[1] m-1 cursor-pointer lgVisible  "
           onClick={() => {
             popClose(false);
           }}
         />
+
+          <FaArrowLeft className="inline md:hidden text-[#33b0ca] text-[20px] cursor-pointer" onClick={() => {
+            popClose(false);
+          }}/>
+
         {isPremiseLoading ? (
           <div>Loading...</div>
         ) : (
           <div>
             {/* header */}
-            <div className="flex justify-between items-center mb-6 mt-8">
-              <h2 className="text-[24] font-semibold">
+            <div className="flex flex-col gap-4 md:flex-row justify-between items-center mb-6 mt-8">
+              <h2 className="text-[16px] md:text-[24px] font-semibold">
                 Content added to Beat sheet :
               </h2>
               <div className="space-x-2">
                 <button
                   onClick={() => setActiveTab("all")}
-                  className={`px-[12px] py-[2px] text-[16px] rounded-[8px] ${
+                  className={`px-[12px] py-[2px] text-[12px] md:text-[16px] rounded-[4px] md:rounded-[8px] ${
                     activeTab === "all"
                       ? "border-none bg-[#33b0ca] text-[#fafafa] "
                       : "border border-[#616161] text-[#616161] bg-white"
@@ -65,7 +71,7 @@ const BeatsPop = ({ popClose, id }) => {
                 </button>
                 <button
                   onClick={() => setActiveTab("setup")}
-                  className={`px-[12px] py-[2px] text-[16px] rounded-[8px] ${
+                  className={`px-[12px] py-[2px] text-[12px] md:text-[16px] rounded-[4px] md:rounded-[8px] ${
                     activeTab === "setup"
                       ? "border-none bg-[#33b0ca] text-[#fafafa] "
                       : "border border-[#616161] text-[#616161] bg-white"
@@ -75,7 +81,7 @@ const BeatsPop = ({ popClose, id }) => {
                 </button>
                 <button
                   onClick={() => setActiveTab("conflict")}
-                  className={`px-[12px] py-[2px] text-[16px] rounded-[8px] ${
+                  className={`px-[12px] py-[2px] text-[12px] md:text-[16px] rounded-[4px] md:rounded-[8px] ${
                     activeTab === "conflict"
                       ? "border-none bg-[#33b0ca] text-[#fafafa] "
                       : "border border-[#616161] text-[#616161] bg-white"
@@ -85,7 +91,7 @@ const BeatsPop = ({ popClose, id }) => {
                 </button>
                 <button
                   onClick={() => setActiveTab("resolution")}
-                  className={`px-[12px] py-[2px] text-[16px] rounded-[8px] ${
+                  className={`px-[12px] py-[2px] text-[12px] md:text-[16px] rounded-[4px] md:rounded-[8px] ${
                     activeTab === "resolution"
                       ? "border-none bg-[#33b0ca] text-[#fafafa] "
                       : "border border-[#616161] text-[#616161] bg-white"
@@ -101,13 +107,13 @@ const BeatsPop = ({ popClose, id }) => {
               <table className="border-collapse border border-gray-300 w-full ">
                 <thead className="">
                   <tr className="bg-[#fafafa]">
-                    <th className="border text-[16px] font-medium border-[#616161] px-2 py-2 w-[50px] text-center">
+                    <th className="border text-[12px] md:text-[16px] font-medium border-[#616161] px-2 py-2 w-[50px] text-center">
                       S.No
                     </th>
-                    <th className="border text-[16px] font-medium border-[#616161] px-2 py-2 text-center">
+                    <th className="border text-[12px] md:text-[16px] font-medium border-[#616161] px-2 py-2 text-center">
                       Comment/Reply/Brainstorm
                     </th>
-                    <th className="border text-[16px] font-medium border-[#616161] px-2 py-2 text-center">
+                    <th className="border text-[12px] md:text-[16px] font-medium border-[#616161] px-2 py-2 text-center">
                       Beat Text
                     </th>
                   </tr>
