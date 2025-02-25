@@ -29,6 +29,8 @@ const PopupTextarea = ({
   fromNew,
   className,
   className2,
+  isLoading,
+  setIsLoading,
 }) => {
   const [textCount, setTextCount] = useState(0);
   const [newComment, setNewComment] = useState("");
@@ -36,11 +38,11 @@ const PopupTextarea = ({
   const [selectedLanguage, setSelectedLanguage] = useState("English");
   const [isCommentQuestion, setIsCommentQuestion] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
   const [noAccessPopup, setNoAccessPopup] = useState(null);
   const [service, setService] = useState(null);
 
-  const [postComment, isCommentResInfo] = useCommentPremiseMutation();
+  const [postComment, { isLoading: isPostLoading }] =
+    useCommentPremiseMutation();
   const inputRef = useRef(null);
 
   const { currentUser } = useContext(MyContext);
@@ -191,9 +193,13 @@ const PopupTextarea = ({
     setKeyboardVisible(!keyboardVisible);
   };
   return (
-    <div className={`fixed bottom-[10px] left-0 w-[100%] md:relative md:bottom-0 md:w-auto px-2 ${className}`}>
+    <div
+      className={`fixed bottom-[10px] left-0 w-[100%] md:relative md:bottom-0 md:w-auto px-2 ${className}`}
+    >
       <div
-        className={`${className ? "bg-[#fff]" : "bg-[#f8f8f8]"} relative md:mb-[16px] pl-3 md:flex-row ${
+        className={`${
+          className ? "bg-[#fff]" : "bg-[#f8f8f8]"
+        } relative md:mb-[16px] pl-3 md:flex-row ${
           fromNew ? "w-full" : "w-[90%]"
         }  mx-auto border border-[#EAEAEA] rounded-[8px] mt-[8px]`}
       >

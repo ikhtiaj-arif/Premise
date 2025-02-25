@@ -14,11 +14,12 @@ const AskIda = ({
   setOpenAllReplies,
   setOpenReplyFieldID,
   lastCommentRef,
-  premiseOwner,
+  premiseOwner,isLoading,setIsLoading
 }) => {
   const { currentUser } = useContext(MyContext);
-  const [postComment, isCommentResInfo] = useCommentPremiseMutation();
-  const [isLoading, setIsLoading] = useState(false);
+  const [postComment, { isLoading: isPostLoading }] =
+    useCommentPremiseMutation();
+  
   const [noAccessPopup, setNoAccessPopup] = useState(null);
   const [service, setService] = useState(null);
 
@@ -130,7 +131,10 @@ const AskIda = ({
       </div>
 
       {noAccessPopup?.msg == "ShowBecomePrivilege" ? (
-        <NoAccessPopUp noAccessPopup={noAccessPopup} setNoAccessPopup={setNoAccessPopup} />
+        <NoAccessPopUp
+          noAccessPopup={noAccessPopup}
+          setNoAccessPopup={setNoAccessPopup}
+        />
       ) : (
         (noAccessPopup?.msg == "ShowBuyPackage_and_Allacarte" ||
           noAccessPopup?.msg == "LB") && (

@@ -112,10 +112,13 @@ const PaymentInvoicePopup = ({
     }
     setPaymentCondition(true);
     const data = {
-      amount: payInfo?.gross_payable + payInfo?.total_discount,
-      charges: payInfo?.gross_payable,
+      amount:
+        typeOfRequest !== "sale"
+          ? payInfo?.gross_payable + payInfo?.total_discount
+          : payInfo?.total_amount,
+      charges: payInfo?.gross_payable || 0,
       transaction_id: premise_id,
-      discount: payInfo?.total_discount,
+      discount: payInfo?.total_discount || 0,
     };
     const result = await paymentSend(data);
     const { merchantId, amount, currency, orderId, credit_to_debit } =
@@ -275,7 +278,10 @@ const PaymentInvoicePopup = ({
                     <Package data={payInfo} typeOfRequest={typeOfRequest} />
 
                     {/* <Amount data={payInfo} /> */}
-                    <PayableAmount data={payInfo} />
+                    <PayableAmount
+                      data={payInfo}
+                      typeOfRequest={typeOfRequest}
+                    />
                   </section>
 
                   {/* terms part */}

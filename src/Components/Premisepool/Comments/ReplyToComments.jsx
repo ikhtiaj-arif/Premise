@@ -4,26 +4,30 @@ import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
 import { FaRegTrashAlt, FaThumbsUp } from "react-icons/fa";
 import { IoIosUndo, IoMdSend } from "react-icons/io";
 import { toast } from "react-toastify";
-import { MyContext } from "../../../App";
+import { fetchUserAccess, MyContext } from "../../../App";
 import {
   useCreateReplyMutation,
   useCreateSuggestedReplyMutation,
   useDeleteLikeOfReplyMutation,
   useUpdateLikeOfReplyMutation,
 } from "../../../app/EndPoints/commentReply/reply";
+import { useTranslateCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
 import { useGetPremiseUserPictureQuery } from "../../../app/EndPoints/premisePoolApi";
 import TimeAgo from "../../../features/TimeAgo";
 import userIcon from "../../../img/Icons/userImg.png";
 import BtnLoading from "../../../shared/BtnLoading";
+import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
 import { URL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply from "./ReplyToReply";
+import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 
 const ReplyToComments = ({
   // handleSuggest,
-  commentIdx,fromNew,
+  commentIdx,
+  fromNew,
   reply,
   owner,
   setProjectBeatOpen,
@@ -42,6 +46,7 @@ const ReplyToComments = ({
     createdSpProjectID,
     currentlyOpenedCommentID,
     setCurrentlyOpenedCommentID,
+    currentUser,
   } = useContext(MyContext);
   const [isReplyLiked, setIsReplyLiked] = useState(false);
   const [openDltPop, setOpenDltPop] = useState(false);
@@ -56,6 +61,8 @@ const ReplyToComments = ({
   const [childReplyText, setChildReplyText] = useState("");
   const [isTextareaDisabled, setIsTextareaDisabled] = useState(false);
 
+  const [noAccessLbPopup, setNoAccessLbPopup] = useState(null);
+
   const latestReplyRef = useRef(null);
   const replyToReplyRef = useRef(null);
   const replyLikes = reply?.likes;
@@ -66,6 +73,8 @@ const ReplyToComments = ({
   const [deleteReply, deleteReplyRes] = useDeleteLikeOfReplyMutation();
   const [createReplyMutation, isReplyResInfo] = useCreateReplyMutation();
   const [suggestion, suggestionRes] = useCreateSuggestedReplyMutation();
+  const [translateComment, isTranslationCommentLoading] =
+    useTranslateCommentMutation();
 
   // console.log("reply", reply.add_to_beat);
 
@@ -260,14 +269,35 @@ const ReplyToComments = ({
     return text;
   };
 
+  const handleChildReply = async () => {
+    console.log("reply child1 comment", currentUser?.id, owner, reply);
+    if (currentUser?.id !== owner && reply?.user?.first_name == "Ida") {
+      const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
+      console.log("reply child 1 brainstorm res", res);
+      if (res?.access == "No") {
+        setNoAccessLbPopup(res);
+      } else {
+        setOpenReplyField(!openReplyField);
+      }
+    } else {
+      setOpenReplyField(!openReplyField);
+    }
+  };
+
   return (
     <div
       data-reply
-      className={`w-[93%] ${fromNew ? 'w-[93%]':'lg:w-[666px]'}  ml-[5px] md:ml-[50px]  rounded-sm flex items-center gap-1`}
+      className={`w-[93%] ${
+        fromNew ? "w-[93%]" : "lg:w-[666px]"
+      }  ml-[5px] md:ml-[50px]  rounded-sm flex items-center gap-1`}
     >
       <div className=" w-[98%] ">
         <div className=" w-full relative ml-[16px] md:ml-[45px]">
-          <div className={`flex gap-[8px] ${fromNew ? 'w-[93%]':'max-w-[627px]'}  `}>
+          <div
+            className={`flex gap-[8px] ${
+              fromNew ? "w-[93%]" : "max-w-[627px]"
+            }  `}
+          >
             {reply?.user?.id === 1 ? (
               <div>
                 {profileImg?.[0]?.profile_photo ? (
@@ -315,7 +345,7 @@ const ReplyToComments = ({
               </a>
             )}
 
-            <div className="border w-[78%] md:w-[86%] lg:w-[94%] border-[##EAEAEA] bg-[#fafafa] rounded-[8px] p-1 ">
+            <div className="border w-[78%] md:w-[86%] lg:w-[88%] border-[##EAEAEA] bg-[#fafafa] rounded-[8px] p-1 ">
               <div className="flex justify-between my-1 relative">
                 <div className="text-[#1E1E1E] pl-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center">
                   {reply?.user?.id === 1 ? (
@@ -363,38 +393,48 @@ const ReplyToComments = ({
                   : reply?.text}
               </p>
             </div>
+            <div className=" flex gap-1 items-center right-[8.5px] md:right-[6.5px] top-[28%]">
+              <CommentTranslator
+                comment={reply}
+                translateComment={translateComment}
+                loading={isTranslationCommentLoading}
+                commentRefetch={replyRefetch}
+              />
 
-            {(owner === user || reply?.user?.id === user) &&
-            !reply?.reject_button &&
-            commentIdx !== 1 ? (
-              <div className="flex gap-2  items-center pl-[2px]">
-                {/* <button className={` "cursor-pointer"}`}>
+              {(owner === user || reply?.user?.id === user) &&
+              !reply?.reject_button &&
+              commentIdx !== 1 ? (
+                <div className="flex gap-2  items-center pl-[2px]">
+                  {/* <button className={` "cursor-pointer"}`}>
                 <img src={editIcon} alt=" " className={`h-5 w-7`} />
                 </button> */}
-                <button
-                  // disabled={disableD}
-                  onClick={() => {
-                    setIdToDlt(reply?.id);
-                    setOpenDltPop(true);
-                  }}
-                  // className={` ${disableD ? "cursor-default" : "cursor-pointer"}`}
-                >
-                  <FaRegTrashAlt
-                    disabled={disableBtn}
-                    className="h-5 w-5 text-[#909090]"
-                  />
-                </button>
-              </div>
-            ) : (
-              <div className={`px-3 'cursor-default'}`}>
-                <div className="" />
-              </div>
-            )}
+                  <button
+                    // disabled={disableD}
+                    onClick={() => {
+                      setIdToDlt(reply?.id);
+                      setOpenDltPop(true);
+                    }}
+                    // className={` ${disableD ? "cursor-default" : "cursor-pointer"}`}
+                  >
+                    <FaRegTrashAlt
+                      disabled={disableBtn}
+                      className="h-5 w-5 text-[#909090]"
+                    />
+                  </button>
+                </div>
+              ) : (
+                <div className={`px-3 'cursor-default'}`}>
+                  <div className="" />
+                </div>
+              )}
+            </div>
           </div>
 
           <div
             data-nest-reply
-            className={`flex justify-between  max-w-[87%] ${fromNew ? 'md:max-w-[86%]':'md:max-w-[585px]'}   items-center my-[2px] ml-[39px] mr-[32px] md:mr-[58px] mt-[2px]`}
+            className={`flex justify-between  max-w-[87%] ${
+              fromNew ? "md:max-w-[86%]" : "md:max-w-[585px]"
+            }   items-center my-[2px] ml-[39px] mr-[32px] md:mr-[58px] mt-[2px]`}
           >
             <div className=" flex items-center gap-3 text-sm leading-[16px] mt-[2px] mb-[4px]">
               {reply?.child_replies?.length > 0 && (
@@ -451,7 +491,8 @@ const ReplyToComments = ({
                 className="flex items-center gap-1"
                 // data-reply
                 onClick={() => {
-                  setOpenReplyField(!openReplyField);
+                  handleChildReply();
+                  //setOpenReplyField(!openReplyField);
                 }}
               >
                 <IoIosUndo
@@ -786,7 +827,8 @@ const ReplyToComments = ({
                       transition={{ duration: 0.5 }} // Adjust the duration as needed
                     >
                       <div ref={latestReplyRef}>
-                        <ReplyToReply fromNew={fromNew}
+                        <ReplyToReply
+                          fromNew={fromNew}
                           // data-reply-reply
                           handleAddToBeat={handleAddToBeat}
                           key={idx}
@@ -819,6 +861,13 @@ const ReplyToComments = ({
           onConfirm={() => handleDeleteReply(idToDlt)}
           title="Are you sure you want to delete this comment?"
           content="Are you sure you want to delete this item?"
+        />
+      )}
+
+      {noAccessLbPopup?.msg == "ShowBecomePrivilege" && (
+        <NoAccessPopUp
+          noAccessPopup={noAccessLbPopup}
+          setNoAccessPopup={setNoAccessLbPopup}
         />
       )}
     </div>
