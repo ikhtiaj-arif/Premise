@@ -150,9 +150,17 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
           </div>
           <div className="w-[88px] mx-auto mt-[12px]">
             <button
-              disabled={isLoading}
+              disabled={
+                isLoading ||
+                (!formData.allowTranslation && !formData.transferOwnership)
+              }
               type="submit"
-              className="bg-[#33B0CA] text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] py-[2px] text-[13px] font-[600]"
+              className={`${
+                isLoading ||
+                (!formData.allowTranslation && !formData.transferOwnership)
+                  ? "bg-[#616161] cursor-not-allowed"
+                  : "bg-[#33B0CA]"
+              } text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] py-[2px] text-[13px] font-[600]`}
             >
               Update
             </button>

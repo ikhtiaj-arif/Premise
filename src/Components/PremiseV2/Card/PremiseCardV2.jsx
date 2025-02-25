@@ -43,11 +43,11 @@ import MonetizePreferencePop from "../Popups/MonetizePreferencePop";
 import PaySalePopup from "../Popups/PaySalePopup";
 import ReqSalePop from "../Popups/ReqSalePop";
 import ReqTranslationPop from "../Popups/ReqTranslationPop";
-import SaleRequestedOwner from "../Popups/SaleRequested_Owner";
 import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
 import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
 import PremiseBadge from "./PremiseBadge";
+import SaleRequestedOwner from "../Popups/SaleRequestedOwner";
 
 const PremiseCardV2 = ({
   setShowRefine,
@@ -279,8 +279,6 @@ const PremiseCardV2 = ({
   };
 
   const [saleRequestPop, setSaleRequestPop] = useState("");
-
-  const [saleRequestedOwner, setSaleRequestedOwner] = useState(true);
 
   const token = localStorage.getItem("accessToken");
 
@@ -887,7 +885,6 @@ const PremiseCardV2 = ({
           source_language={source_language}
           project_id={project_id}
           refetch={refetch}
-      
         />
       )}
       {openViewTranslationsPop && (
@@ -910,7 +907,7 @@ const PremiseCardV2 = ({
         />
       ) : (
         openMonetizingPreferencesPop == "Yes" && (
-          <MonetizePreferencePop 
+          <MonetizePreferencePop
             popClose={setOpenMonetizingPreferencesPop}
             id={id}
             user={user}
@@ -960,7 +957,6 @@ const PremiseCardV2 = ({
       {viewSaleRequests && (
         <SaleRequestedOwner
           popClose={setViewSaleRequests}
-          setSaleIcon={setSaleRequestedOwner}
           premiseId={id}
         />
       )}

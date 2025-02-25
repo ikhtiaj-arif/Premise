@@ -174,7 +174,6 @@ const TransInOtherLang = ({
         <PaymentInvoicePopup
           typeOfRequest="translate"
           premise_id={id}
-          user={user}
           setPayment={setPayment}
           submit={handleTranslationSubmit}
         />

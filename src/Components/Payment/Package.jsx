@@ -24,7 +24,7 @@ export const Package = ({ data, typeOfRequest, fromLimit }) => {
             <div className="flex items-center justify-between py-2">
               <h3 className="text-[14px]">Project Name :</h3>
               <div className="text-right">
-                <p className="text-[14px] font-medium">{data?.projet_name}</p>
+                <p className="text-[14px] font-medium">{data?.project_name}</p>
               </div>
             </div>
           </div>
