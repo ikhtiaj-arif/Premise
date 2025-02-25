@@ -4,10 +4,21 @@ import { useGetPremiseTransactionQuery } from "../../../app/EndPoints/premisePoo
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import EachTranslateeCard from "./EachTranslateeCard";
 
-const ViewTranslationPop = ({ popClose, premiseId }) => {
+const ViewTranslationPop = ({
+  popClose,
+  premiseId,
+  popCloseCmnt,
+
+  refetch,
+  transText,
+  viewText,
+  handleVisibility,
+  handleMonetizing, }) => {
   const { data: transactionData, isLoading } =
     useGetPremiseTransactionQuery(premiseId);
   console.log("transactionData", transactionData);
+
+
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
@@ -28,9 +39,18 @@ const ViewTranslationPop = ({ popClose, premiseId }) => {
         {isLoading ? (
           <div className="text-center my-4">Loading...</div>
         ) : transactionData?.data?.length > 0 ? (
-          <div className="grid grid-cols-12 mx-[12px]">
+          <div className="grid grid-cols-12 mx-[12px] h-[230px] overflow-y-auto">
             {transactionData.data.map((transaction, index) => (
-              <EachTranslateeCard transaction={transaction} key={index} />
+              <EachTranslateeCard
+                {...{
+                  popCloseCmnt,
+                  handleVisibility,
+                  handleMonetizing,
+                  refetch,
+                  viewText,
+
+                }}
+                transaction={transaction} key={index} />
             ))}
           </div>
         ) : (
