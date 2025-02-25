@@ -29,7 +29,7 @@ import MonetizePreferencePop from "../PremiseV2/Popups/MonetizePreferencePop";
 import PaySalePopup from "../PremiseV2/Popups/PaySalePopup";
 import ReqSalePop from "../PremiseV2/Popups/ReqSalePop";
 import ReqTranslationPop from "../PremiseV2/Popups/ReqTranslationPop";
-import SaleRequestedOwner from "../PremiseV2/Popups/SaleRequested_Owner";
+
 import TransInOtherLang from "../PremiseV2/Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../PremiseV2/Popups/ViewTranslation.pop";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
@@ -49,6 +49,7 @@ import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
 import UserMail from "./UserMail";
 import UserType from "./UserType";
+import SaleRequestedOwner from "../PremiseV2/Popups/SaleRequestedOwner";
 
 const Popup = ({
   popClose,

@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
+import { fetchUserAccess, MyContext } from "../../../App";
 import transIcon from "../../../img/Icons/transIcon.png";
 import { sortedLanguages } from "../../Premisepool/Languages";
-import { fetchUserAccess, MyContext } from "../../../App";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 
 const CommentTranslator = ({
