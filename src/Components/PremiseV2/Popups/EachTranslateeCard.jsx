@@ -29,18 +29,7 @@ const EachTranslateeCard = ({
   const popClose = () => {
     setPopUp(false)
   }
-  const {
-    text,
-    bg_color,
-    bg_img,
-    comments,
-    created_at,
-    likes,
-    id,
-    source_language,
-    updated_at,
-    // project_id
-  } = premiseData || {};
+ 
 
   const data = premiseData
     ? {
