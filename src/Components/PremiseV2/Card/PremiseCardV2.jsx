@@ -583,20 +583,20 @@ const PremiseCardV2 = ({
                 onClick={() => setOpenHidePop(!openHidePop)}
                 className="w-5 h-5 cursor-pointer"
               /> */}
-              {openHidePop?.msg == "ShowBecomePrivilege" ? (
+              {openHidePop?.msg === "ShowBecomePrivilege" ? (
                 <NoAccessPopUp
                   noAccessPopup={openHidePop}
                   setNoAccessPopup={setOpenHidePop}
                 />
-              ) : openHidePop?.msg == "LB" ||
-                openHidePop?.msg == "ShowBuyPackage_and_Allacarte" ? (
+              ) : openHidePop?.msg === "LB" ||
+                openHidePop?.msg === "ShowBuyPackage_and_Allacarte" ? (
                 <NoAccessLbPopUp
                   noAccessLbPopup={openHidePop}
                   setNoAccessPopup={setOpenHidePop}
                   service="PP_Private"
                 />
               ) : (
-                openHidePop == "Yes" && (
+                openHidePop === "Yes" && (
                   <HideOptionPop
                     setOpenHidePop={setOpenHidePop}
                     id={id}
