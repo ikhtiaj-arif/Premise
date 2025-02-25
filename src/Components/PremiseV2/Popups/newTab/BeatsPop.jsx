@@ -106,8 +106,8 @@ const BeatsPop = ({ popClose, id }) => {
             </div>
 
             {/* Table */}
-            <div className="w-[97%] mx-auto mt-3 overflow-auto">
-              <table className="border-collapse border w-full">
+            <div className="w-[97%] mx-auto mt-3 overflow-auto h-[60vh] md:h-[62vh]">
+              <table className="border-collapse border-[#616161] border w-full">
                 <thead className="">
                   <tr className="bg-[#fafafa] flex flex-wrap justify-between md:table-row border border-[#616161]">
                     <th className="border-r-[1px] md:border text-[12px] md:text-[16px] font-medium border-[#616161] px-2 md:py-2 w-[50px] text-center">
@@ -115,7 +115,7 @@ const BeatsPop = ({ popClose, id }) => {
                     </th>
 
                     <div className="flex flex-col md:flex-row w-[calc(100%-50px)] md:w-[100%] h-full md:h-auto">
-                      <th className="border text-[12px] md:text-[16px] font-medium px-2 md:py-2 text-left md:text-center flex-1">
+                      <th className="border text-[12px] md:text-[16px] font-medium px-[7px] md:py-2 text-left md:text-center flex-1">
                         Comment/Reply/Brainstorm
                       </th>
                       <th className="text-[12px] md:text-[16px] font-medium md:border-l-[1px] border-[#616161] px-2 md:py-2 text-right md:text-center flex-1 bg-[#33b0ca] bg-opacity-20 md:bg-transparent">
