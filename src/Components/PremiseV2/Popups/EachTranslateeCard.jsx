@@ -5,10 +5,17 @@ import {
 } from "../../../app/EndPoints/premisePoolApi";
 import { getLanguageName } from "../utilityFuncitons/functions";
 
-const EachTranslateeCard = ({ transaction }) => {
-  console.log("transaction", transaction);
+
+const EachTranslateeCard = ({
+  transaction,
+  popCloseCmnt,
+  handleVisibility,
+  handleMonetizing,
+  refetch,
+  viewText, }) => {
+  console.log('transaction',transaction);
   const { data: userData, isLoading } = useGetUserByUserIdQuery(
-    transaction?.translatedFor?.id
+    transaction?.translatedFor.id?.id
   );
   const { data: allowedUserData, isAUserLoading } = useGetUserByUserIdQuery(
     transaction?.translationAllowedBy?.id
@@ -24,20 +31,9 @@ const EachTranslateeCard = ({ transaction }) => {
   const [popup, setPopUp] = useState(false);
 
   const popClose = () => {
-    setPopUp(false);
-  };
-  const {
-    text,
-    bg_color,
-    bg_img,
-    comments,
-    created_at,
-    likes,
-    id,
-    source_language,
-    updated_at,
-    // project_id
-  } = premiseData || {};
+    setPopUp(false)
+  }
+ 
 
   const data = premiseData
     ? {
@@ -118,7 +114,7 @@ const EachTranslateeCard = ({ transaction }) => {
         <div className="h-[21px]" />
         <div className="h-[2px] mt-[4px] w-[86%] mx-auto " />
         <div className="my-[4px] text-center">
-          <button
+          <button 
             className={`bg-[#33B0CA] text-[#fafafa] rounded-[8px] leading-[24px] px-[18px] text-[12px] font-[700]`}
           >
             View
