@@ -8,14 +8,17 @@ import {
 } from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import SaleDoodle from "../../../img/Icons/OwnerSaleDoodle.svg";
-import CongratsPop from "./CongratsPop";
+import Congrats from "../../../img/Icons/CongratsSaleDoodle.svg";
 
-const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
+const SaleRequestedOwner = ({ popClose, premiseId }) => {
   const [showBankDetails, setShowBankDetails] = useState(false);
-  const [showTransRequests, setShowTransRequests] = useState(false);
+  const [showCongratsPopup, setShowCongratsPopup] = useState(false);
   const [sale, setSale] = useState(false);
 
-  const [updateSaleRequests] = useUpdateRequestForSaleOrTranslateMutation();
+  console.log("names from Sale");
+
+  const [updateSaleRequests, { isLoading: isSaleLoading }] =
+    useUpdateRequestForSaleOrTranslateMutation();
 
   const data = {
     id: premiseId,
@@ -56,8 +59,8 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
     try {
       const res = await updateSaleRequests(data);
       setSale(true);
-      console.log("Selected Requests:", res);
-      popClose();
+      console.log("Sale Requests:", res);
+      setShowCongratsPopup(true);
     } catch (err) {
       console.log(err);
     }
@@ -90,7 +93,8 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
 
   // let Sale = true;
 
-  const [updatePremise] = useEditPremiseMutation();
+  const [updatePremise, { isLoading: isUpdateLoading }] =
+    useEditPremiseMutation();
 
   const {
     data: premiseData,
@@ -99,6 +103,12 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
   } = useGetOnePremiseQuery(premiseId);
 
   const [sellingPr, setSellingPr] = useState();
+
+  const isFormValid =
+    bankDetails.bank_name &&
+    bankDetails.account_holder &&
+    bankDetails.account_number &&
+    bankDetails.ifsc_code;
 
   const handleInputChangePrice = (e) => {
     setSellingPr(e.target.value);
@@ -128,7 +138,11 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
 
       <div
         className={`h-[100vh] ${
-          showBankDetails ? "lg:h-[497px]" : "lg:h-[670px]"
+          showCongratsPopup
+            ? "lg:h-auto "
+            : showBankDetails
+            ? " lg:h-[497px]"
+            : "lg:h-[670px]"
         } mb-[20px] px-[22px] lg:mb-0 pt-2 lg:mt-[80px] xl:mt-[85px] w-full bg-[#fff] lg:w-[625px] md:mx-auto relative lg:rounded-[8px]`}
       >
         <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
@@ -139,17 +153,21 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
             onClick={() => popClose(null)}
           />
         </div>
-        <div className="relative mx-auto w-[116px]">
-          <img
-            src={SaleDoodle}
-            alt="premise doodle"
-            className="w-[81.71px] h-[77.45px] ml-[10px] md:ml-[0px]"
-          />
-        </div>
-        <h2 className="font-[700] text-[14px] leading-[19.9px] text-center mt-[18px]">
-          Your Premise Project is Up for Monetizing
-        </h2>
-        <div className="h-[1px] mt-[8px] w-[52%] mx-auto bg-[#a1a1a1]" />
+        {!showCongratsPopup && (
+          <>
+            <div className=" mx-auto w-[116px]">
+              <img
+                src={SaleDoodle}
+                alt="premise doodle"
+                className="w-[81.71px] h-[77.45px] ml-[10px] md:ml-[0px]"
+              />
+            </div>
+            <h2 className="font-[700] text-[14px] leading-[19.9px] text-center mt-[18px]">
+              Your Premise Project is Up for Monetizing
+            </h2>
+            <div className="h-[1px] mt-[8px] w-[52%] mx-auto bg-[#a1a1a1]" />
+          </>
+        )}
         {!showBankDetails ? (
           <div className="pr-[12px] mt-[17px] w-[542px] ml-[40px]">
             <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
@@ -204,7 +222,6 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
                   required
                   type="number"
                   placeholder="Please Quote"
-                  
                   className="flex-1 h-[22px] border rounded-[4px] px-[12px] text-[11px] font-[400]"
                   value={sellingPr}
                   onChange={handleInputChangePrice}
@@ -219,15 +236,19 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
               <div className="flex items-center gap-[18px] w-[320px] mx-auto mt-[20px]">
                 <button
                   type="submit"
-                  disabled={!sellingPr} 
-                  className={`${ sellingPr ? "bg-[#33B0CA]" :'bg-[#616161]'} text-[#fafafa] rounded-[8px] whitespace-nowrap leading-[24px] px-[20px] ml-[10px] py-[2px] text-[13px] font-[600]`}
+                  disabled={!sellingPr || isUpdateLoading}
+                  className={`${
+                    !sellingPr || isUpdateLoading
+                      ? "bg-[#616161]"
+                      : "bg-[#33B0CA] "
+                  } text-[#fafafa] rounded-[8px] whitespace-nowrap leading-[24px] px-[20px] ml-[10px] py-[2px] text-[13px] font-[600]`}
                 >
                   Submit Details of bank account
                 </button>
               </div>
             </form>
           </div>
-        ) : (
+        ) : !showCongratsPopup ? (
           <div
             id="bank_details"
             className="flex flex-col gap-[6px] mt-[8px] w-[386px] md:ml-[76px]"
@@ -240,7 +261,7 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
                 className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
                 htmlFor="bank_name"
               >
-                Bank Name:
+                Bank Name:<span className="text-red-500"> *</span>
               </label>
               <input
                 name="bank_name"
@@ -256,7 +277,7 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
                 className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
                 htmlFor="account_holder"
               >
-                Account Holder:
+                Account Holder:<span className="text-red-500"> *</span>
               </label>
               <input
                 name="account_holder"
@@ -272,7 +293,7 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
                 className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
                 htmlFor="account_number"
               >
-                Account Number:
+                Account Number:<span className="text-red-500"> *</span>
               </label>
               <input
                 name="account_number"
@@ -288,7 +309,7 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
                 className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
                 htmlFor="ifsc_code"
               >
-                IFSC Code:
+                IFSC Code:<span className="text-red-500"> *</span>
               </label>
               <input
                 name="ifsc_code"
@@ -316,19 +337,43 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
               />
             </div>
             <button
+              disabled={!isFormValid || isSaleLoading}
               onClick={handleProceed}
-              className={`${"bg-[#33B0CA]"} w-[88px] mt-[20px] mx-auto text-[#fafafa] rounded-[8px] leading-[24px] px-[12px] py-[2px] text-[13px] font-[600]`}
+              className={`${
+                !isFormValid || isSaleLoading
+                  ? "bg-[#616161] cursor-not-allowed"
+                  : "bg-[#33B0CA]"
+              } w-[88px] mt-[20px] mx-auto text-[#fafafa] rounded-[8px] leading-[24px] px-[12px] py-[2px] text-[13px] font-[600]`}
             >
               Proceed
             </button>
           </div>
-        )}
-        {showTransRequests && !isTransLoading && (
-          <CongratsPop popClose={popClose} Sale={sale} Names={Names} />
+        ) : (
+          <div className="text-[#252525]">
+            <div className="flex items-center justify-center">
+              <img className="w-[100px] " src={Congrats} alt="Congrats"></img>
+            </div>
+            <h2 className="font-[600] text-[16px] text-center">
+              Your Premise Project is Up for Monetizing
+            </h2>
+            <div className="h-[1px] mt-[4px] w-[340px] mx-auto bg-[#a1a1a1]" />
+            <div className="text-left text-[14px] leading-[21px] font-[400] px-4 pt-6 pb-20">
+              <p className="  ">
+                The monetizing preferences of the Premise Project are updated
+                and
+                {" " + fromUser?.first_name + " " + fromUser?.last_name} has
+                been informed
+              </p>
+              <p>
+                Your share of the sale proceeds will be transferred to your bank
+                account as soon as the sale is effected.
+              </p>
+            </div>
+          </div>
         )}
       </div>
     </div>
   );
 };
 
-export default BankDetailsPop;
+export default SaleRequestedOwner;

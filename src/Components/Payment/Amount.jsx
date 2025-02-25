@@ -24,14 +24,16 @@ export const Amount = ({ data }) => {
               </p>
             </div>
           </div>
-          <div className="flex items-center justify-between py-2">
-            <h3 className="text-[14px]">Membership Discount(USD)</h3>
-            <div className="text-right">
-              <p className="text-[14px] font-medium">
-                ${data?.discounted_amount?.toFixed(2)}
-              </p>
+          {data?.discounted_amount != 0 && (
+            <div className="flex items-center justify-between py-2">
+              <h3 className="text-[14px]">Membership Discount(USD)</h3>
+              <div className="text-right">
+                <p className="text-[14px] font-medium">
+                  ${data?.discounted_amount?.toFixed(2)}
+                </p>
+              </div>
             </div>
-          </div>
+          )}
           <div className="flex items-center justify-between py-2">
             <h3 className="text-[14px]">Early Bird Discount(USD)</h3>
             <div className="text-right">
@@ -58,13 +60,10 @@ export const Amount = ({ data }) => {
           </div>
         </div>
         <div className="flex items-center text-white px-5 bg-[#33B0CA] justify-between py-2">
-          <h3 className="text-[14px]">
-            Total Payable({data?.currency_code})
-          </h3>
+          <h3 className="text-[14px]">Total Payable({data?.currency_code})</h3>
           <div className="text-right">
             <p className="text-[14px] font-medium">
-              {(data?.net_payable *
-                data?.rate)?.toFixed(2)}
+              {(data?.net_payable * data?.rate)?.toFixed(2)}
             </p>
           </div>
         </div>

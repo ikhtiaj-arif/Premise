@@ -4,7 +4,7 @@ import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
 import { FaRegTrashAlt, FaThumbsUp } from "react-icons/fa";
 import { IoIosUndo, IoMdSend } from "react-icons/io";
 import { toast } from "react-toastify";
-import { MyContext } from "../../../App";
+import { fetchUserAccess, MyContext } from "../../../App";
 import {
   useCreateReplyMutation,
   useCreateSuggestedReplyMutation,
@@ -20,10 +20,12 @@ import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply from "./ReplyToReply";
+import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 
 const ReplyToComments = ({
   // handleSuggest,
-  commentIdx,fromNew,
+  commentIdx,
+  fromNew,
   reply,
   owner,
   setProjectBeatOpen,
@@ -42,6 +44,7 @@ const ReplyToComments = ({
     createdSpProjectID,
     currentlyOpenedCommentID,
     setCurrentlyOpenedCommentID,
+    currentUser,
   } = useContext(MyContext);
   const [isReplyLiked, setIsReplyLiked] = useState(false);
   const [openDltPop, setOpenDltPop] = useState(false);
@@ -55,6 +58,8 @@ const ReplyToComments = ({
   const [replyText, setReplyText] = useState("");
   const [childReplyText, setChildReplyText] = useState("");
   const [isTextareaDisabled, setIsTextareaDisabled] = useState(false);
+
+  const [noAccessLbPopup, setNoAccessLbPopup] = useState(null);
 
   const latestReplyRef = useRef(null);
   const replyToReplyRef = useRef(null);
@@ -260,14 +265,35 @@ const ReplyToComments = ({
     return text;
   };
 
+  const handleChildReply = async () => {
+    console.log("reply child1 comment", currentUser?.id, owner, reply);
+    if (currentUser?.id !== owner && reply?.user?.first_name == "Ida") {
+      const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
+      console.log("reply child 1 brainstorm res", res);
+      if (res?.access == "No") {
+        setNoAccessLbPopup(res);
+      } else {
+        setOpenReplyField(!openReplyField);
+      }
+    } else {
+      setOpenReplyField(!openReplyField);
+    }
+  };
+
   return (
     <div
       data-reply
-      className={`w-[93%] ${fromNew ? 'w-[93%]':'lg:w-[666px]'}  ml-[5px] md:ml-[50px]  rounded-sm flex items-center gap-1`}
+      className={`w-[93%] ${
+        fromNew ? "w-[93%]" : "lg:w-[666px]"
+      }  ml-[5px] md:ml-[50px]  rounded-sm flex items-center gap-1`}
     >
       <div className=" w-[98%] ">
         <div className=" w-full relative ml-[16px] md:ml-[45px]">
-          <div className={`flex gap-[8px] ${fromNew ? 'w-[93%]':'max-w-[627px]'}  `}>
+          <div
+            className={`flex gap-[8px] ${
+              fromNew ? "w-[93%]" : "max-w-[627px]"
+            }  `}
+          >
             {reply?.user?.id === 1 ? (
               <div>
                 {profileImg?.[0]?.profile_photo ? (
@@ -394,7 +420,9 @@ const ReplyToComments = ({
 
           <div
             data-nest-reply
-            className={`flex justify-between  max-w-[87%] ${fromNew ? 'md:max-w-[86%]':'md:max-w-[585px]'}   items-center my-[2px] ml-[39px] mr-[32px] md:mr-[58px] mt-[2px]`}
+            className={`flex justify-between  max-w-[87%] ${
+              fromNew ? "md:max-w-[86%]" : "md:max-w-[585px]"
+            }   items-center my-[2px] ml-[39px] mr-[32px] md:mr-[58px] mt-[2px]`}
           >
             <div className=" flex items-center gap-3 text-sm leading-[16px] mt-[2px] mb-[4px]">
               {reply?.child_replies?.length > 0 && (
@@ -451,7 +479,8 @@ const ReplyToComments = ({
                 className="flex items-center gap-1"
                 // data-reply
                 onClick={() => {
-                  setOpenReplyField(!openReplyField);
+                  handleChildReply();
+                  //setOpenReplyField(!openReplyField);
                 }}
               >
                 <IoIosUndo
@@ -786,7 +815,8 @@ const ReplyToComments = ({
                       transition={{ duration: 0.5 }} // Adjust the duration as needed
                     >
                       <div ref={latestReplyRef}>
-                        <ReplyToReply fromNew={fromNew}
+                        <ReplyToReply
+                          fromNew={fromNew}
                           // data-reply-reply
                           handleAddToBeat={handleAddToBeat}
                           key={idx}
@@ -819,6 +849,13 @@ const ReplyToComments = ({
           onConfirm={() => handleDeleteReply(idToDlt)}
           title="Are you sure you want to delete this comment?"
           content="Are you sure you want to delete this item?"
+        />
+      )}
+
+      {noAccessLbPopup?.msg == "ShowBecomePrivilege" && (
+        <NoAccessPopUp
+          noAccessPopup={noAccessLbPopup}
+          setNoAccessPopup={setNoAccessLbPopup}
         />
       )}
     </div>

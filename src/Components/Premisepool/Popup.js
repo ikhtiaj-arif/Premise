@@ -82,6 +82,8 @@ const Popup = ({
   const [onlyAdd, setOnlyAdd] = useState(true);
   const [characterLoading, setCharacterLoading] = useState(true);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     if (characters) setCharacterArray(characters);
   }, [characters]);
@@ -709,7 +711,7 @@ const Popup = ({
                     commentRefetch,
                     setOpenAllReplies,
                     setOpenReplyFieldID,
-                    lastCommentRef,
+                    lastCommentRef,isLoading,setIsLoading
                   }}
                 />
                 {/* textarea */}
@@ -726,7 +728,7 @@ const Popup = ({
                     setCommentField,
                     setReplyField,
                     replyField,
-                    replyRef,
+                    replyRef,isLoading,setIsLoading
                   }}
                 />
               </div>
