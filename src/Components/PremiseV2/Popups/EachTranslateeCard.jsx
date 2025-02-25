@@ -3,6 +3,7 @@ import { useGetOnePremiseQuery, useGetUserByUserIdQuery } from "../../../app/End
 import { getLanguageName } from "../utilityFuncitons/functions";
 import Popup from "../../Premisepool/Popup";
 
+
 const EachTranslateeCard = ({
   transaction,
   popCloseCmnt,
