@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { FaEllipsisV } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 // import { IoMdSend } from "react-icons/io";
 import {
@@ -9,12 +8,6 @@ import {
   useGetPremiseUserQuery,
 } from "../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../img/Icons/crossIcon.png";
-import mailCartQ from "../../img/Icons/mailCartQ.png";
-import msgIcon from "../../img/Icons/msgIcon.png";
-import newTabIcn from "../../img/Icons/newTabIcn.png";
-import sourceIcn from "../../img/Icons/sourceIcn.png";
-import translateCart from "../../img/Icons/translateCart.png";
-import transReqQ from "../../img/Icons/transReqQ.png";
 import userImg from "../../img/Icons/userImg.png";
 // import transCartQ from "../../../img/Icons/transCartQ.png";
 
@@ -29,9 +22,9 @@ import {
 import { useCreateReplyMutation } from "../../app/EndPoints/commentReply/reply";
 
 import axios from "axios";
+import CardHeadOptions from "../PremiseV2/Card/CardHeadOptions";
 import TransInOtherLang from "../PremiseV2/Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../PremiseV2/Popups/ViewTranslation.pop";
-import { handlePremiseOpenNewTab } from "../PremiseV2/utilityFuncitons/functions";
 import AskIda from "../SharedVersion/AskIda";
 import PopupComment from "../SharedVersion/PopupComment";
 import PopupLike from "../SharedVersion/PopupLike";
@@ -55,7 +48,6 @@ const Popup = ({
   handleVisibility,
   handleMonetizing,
 }) => {
-
   const {
     bg_img,
     bg_color,
@@ -70,7 +62,6 @@ const Popup = ({
     setHideDisable,
     project_id,
   } = data;
-  
 
   const { data: characters, isCharLoading } =
     useGetSavedCharactersQuery(project_id);
@@ -81,6 +72,17 @@ const Popup = ({
 
   const [onlyAdd, setOnlyAdd] = useState(true);
   const [characterLoading, setCharacterLoading] = useState(true);
+
+  const [openTransOtherPop, setOpenTransOtherPop] = useState(false);
+  const [openAvailableForTranslationPop, setOpenAvailableForTranslationPop] =
+    useState(false);
+  const [openMonetizingPreferencesPop, setOpenMonetizingPreferencesPop] =
+    useState(null);
+  const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);
+  const [noAccessLbPopUp, setNoAccessLbPopUp] = useState(null);
+  const [saleId, setSaleId] = useState("");
+  const [viewSale, setViewSale] = useState(false);
+  const [saleRequestPop, setSaleRequestPop] = useState("");
 
   useEffect(() => {
     if (characters) setCharacterArray(characters);
@@ -148,25 +150,7 @@ const Popup = ({
 
   const [replyTextCount, setReplyTextCount] = useState(0);
 
-  // const getChar = async () => {
-  //   try {
-  //     const response =await axios.get(
-  //       `${URL}/ideamall/get_saved_characters/${project_id}`,
-  //       {
-  //         headers: header,
-  //       }
-  //     );
-  //     if (response) {
-  //       console.log("response", response);
-  //     }
-  //   } catch (err) {}
-  // }
 
-  //   useEffect(() => {
-  //     getChar()
-  //   }, [project_id]);
-
-  // keyboard clicked
 
   const handleClear = () => {
     // setText("");
@@ -343,10 +327,6 @@ const Popup = ({
   //   window.open(url, "_blank");
   // };
 
-  const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);
-
-  const [openTransOtherPop, setOpenTransOtherPop] = useState(false);
-
   const [translationRequestPop, setTranslationRequestPop] = useState("");
 
   const [viewTrnRequests, setViewTrnRequests] = useState("");
@@ -364,6 +344,7 @@ const Popup = ({
     setOpenViewTranslationsPop(!openViewTranslationsPop);
     setOpenDotMenu(null);
   };
+
   const token = localStorage.getItem("accessToken");
 
   const header = {
@@ -393,7 +374,8 @@ const Popup = ({
     }
   };
 
-  console.log(premiseData);
+  console.log("premiseData", premiseData);
+  console.log("data", data);
 
   if (isPremiseLoading) {
     return <>Loading...</>;
@@ -487,196 +469,57 @@ const Popup = ({
                   </p>
                 </div> */}
                 </div>
-                <div className="flex gap-2 items-center">
-                  <img
-                    data-te-toggle="tooltip"
-                    title="Send Message"
-                    src={newTabIcn}
-                    className="w-7 h-7 cursor-pointer"
-                    alt=""
-                    onClick={() => handlePremiseOpenNewTab(premiseId)}
-                  />{" "}
-                  {premiseOwner?.id === user ||
-                  premiseOwner?.id === currentProjectOwner ? (
-                    <div className="flex gap-[3px] items-center mr-[2px] relative ">
-                      <img
-                        data-te-toggle="tooltip"
-                        title="Translation Requests"
-                        src={transReqQ}
-                        className="w-8 h-8 cursor-pointer"
-                        alt=""
-                        onClick={() => setViewTrnRequests(id)}
-                      />
-                      <img
-                        data-te-toggle="tooltip"
-                        title="Translated Languages"
-                        src={translateCart}
-                        className="w-8 h-8 cursor-pointer"
-                        alt=""
-                        onClick={() => handleViewTransaction(id)}
-                      />
-                      {premiseData?.premise_source_id && (
-                        <img
-                          data-te-toggle="tooltip"
-                          title="View Source"
-                          src={sourceIcn}
-                          className="w-8 h-8 cursor-pointer"
-                          alt=""
-                          onClick={() =>
-                            handlePremiseOpenNewTab(
-                              premiseData?.premise_source_id
-                            )
-                          }
-                        />
-                      )}
-                      {saleRequestedOwner && (
-                        <img
-                          data-te-toggle="tooltip"
-                          title="Sale Requested"
-                          src={mailCartQ}
-                          className="w-9 h-9 cursor-pointer"
-                          alt=""
-                          onClick={() => setViewSaleRequests(true)}
-                        />
-                      )}
+               
 
-                      <FaEllipsisV
-                        onMouseDown={(e) => {
-                          e.stopPropagation();
-                          setOpenDotMenu((prev) => !prev);
-                        }}
-                        className="w-5 h-5 cursor-pointer"
-                      />
-                      {/* { console.log(openDotMenu)} */}
-
-                      {openDotMenu && (
-                        <div
-                          ref={dotPopupRef}
-                          className="absolute w-[197px] flex flex-col font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px] z-10"
-                        >
-                          <button
-                            onClick={() => {
-                              handleVisibility();
-                              setOpenDotMenu(null);
-                            }}
-                            className="cursor-pointer  text-left w-full"
-                          >
-                            <p className="text-[14px] w-full  font-[500] break-none hover:text-[#33B0CA] text-[#252525]">
-                              {" "}
-                              Visibility Settings
-                            </p>{" "}
-                          </button>
-
-                          <button
-                            onClick={() => {
-                              setOpenTransOtherPop(!openTransOtherPop);
-                              setOpenDotMenu(null);
-                            }}
-                            className="cursor-pointer  text-left w-full"
-                          >
-                            <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
-                              {" "}
-                              Copy in new Language
-                            </p>{" "}
-                          </button>
-
-                          <button
-                            onClick={() => {
-                              handleMonetizing();
-                              setOpenDotMenu(null);
-                            }}
-                            className="cursor-pointer  w-full"
-                          >
-                            <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
-                              {" "}
-                              Monetizing Preferences
-                            </p>{" "}
-                          </button>
-
-                          <button
-                            onClick={() => {
-                              handleViewTransaction(id);
-                            }}
-                            className="cursor-pointer  w-full"
-                          >
-                            <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
-                              {" "}
-                              View Translations
-                            </p>{" "}
-                          </button>
-
-                          <button
-                            onClick={() => {
-                              handleDelete(id);
-                              setOpenDotMenu(false);
-                            }}
-                            className="cursor-pointer  text-left w-full"
-                          >
-                            <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
-                              {" "}
-                              Delete Premise
-                            </p>{" "}
-                          </button>
-                          <button
-                            onClick={() => {
-                              setOpenCharacterChart(id);
-                              setOpenDotMenu(null);
-                            }}
-                            className="cursor-pointer  text-left w-full"
-                          >
-                            <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
-                              {" "}
-                              Characters and Roles
-                            </p>{" "}
-                          </button>
-                          <button
-                            onClick={() => {
-                              handleOpenSp();
-                              setOpenDotMenu(false);
-                            }}
-                            className="cursor-pointer  text-left w-full "
-                          >
-                            <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
-                              {" "}
-                              Open{" "}
-                              <span className="scriptpad-m">Script Pad</span>
-                            </p>{" "}
-                          </button>
-                          {/* <button
-                            onClick={() => {
-                              const additionalData = {
-                                project_id,
-                                news: "dsfadrfg",
-                              };
-                              const url = `/#/new-tab/${id}?state=${encodeURIComponent(
-                                JSON.stringify(additionalData)
-                              )}`;
-                              console.log("Opening URL:", url);
-                              window.open(url, "_blank");
-                            }}
-                            className="cursor-pointer "
-                          >
-                            <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
-                              {" "}
-                              Open In New Tab
-                            </p>{" "}
-                          </button> */}
-
-                          {/* */}
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <img
-                      data-te-toggle="tooltip"
-                      title="Send Message"
-                      src={msgIcon}
-                      className="w-8 h-8 cursor-pointer"
-                      alt=""
-                      onClick={handleUserMail}
-                    />
-                  )}
-                </div>
+                <CardHeadOptions
+                  // owner={owner}
+                  // index={index}
+                  refetch={refetch}
+                  viewTrnRequests={viewTrnRequests}
+                  setViewTrnRequests={setViewTrnRequests}
+                  viewTransactionPId={viewTransactionPId}
+                  setViewTransactionPId={setViewTransactionPId}
+                  setViewSaleRequests={setViewSaleRequests}
+                  openTransOtherPop={openTransOtherPop}
+                  setOpenTransOtherPop={setOpenTransOtherPop}
+                  handleDelete={handleDelete}
+                  setOpenCharacterChart={setOpenCharacterChart}
+                  openViewTranslationsPop={openViewTranslationsPop}
+                  openAvailableForTranslationPop={
+                    openAvailableForTranslationPop
+                  }
+                  setOpenAvailableForTranslationPop={
+                    setOpenAvailableForTranslationPop
+                  }
+                  setOpenViewTranslationsPop={setOpenViewTranslationsPop}
+                  setOpenMonetizingPreferencesPop={
+                    setOpenMonetizingPreferencesPop
+                  }
+                  setNoAccessLbPopUp={setNoAccessLbPopUp}
+                  // setUserMail={setUserMail}
+                  setSaleId={setSaleId}
+                  setViewSale={setViewSale}
+                  setSaleRequestPop={setSaleRequestPop}
+                  setTranslationRequestPop={setTranslationRequestPop}
+                  isProjectLocked={isProjectLocked}
+                  id={id}
+                  premiseOwner={premiseOwner}
+                  filter_flag={premiseData?.filter_flag}
+                  visible_to={premiseData?.visible_to}
+                  comment_filter_flag={premiseData?.comment_filter_flag}
+                  project_id={project_id}
+                  available_for_sale={premiseData?.available_for_sale}
+                  available_for_translation={
+                    premiseData?.available_for_translation
+                  }
+                  premise_source_id={premiseData?.premise_source_id}
+                  translation_request_count={
+                    premiseData?.translation_request_count
+                  }
+                  sale_request_count={premiseData?.sale_request_count}
+                  is_requested_for_sale={premiseData?.is_requested_for_sale}
+                  is_translated_languages={premiseData?.is_translated_languages}
+                />
               </div>
               {/* image */}
               <PopupPremiseText

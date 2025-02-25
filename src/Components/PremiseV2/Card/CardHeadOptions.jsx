@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 
 import mailCart from "../../../img/Icons/mailCart.png";
@@ -10,6 +10,7 @@ import transCartQ from "../../../img/Icons/transCartQ.png";
 import translateCart from "../../../img/Icons/translateCart.png";
 import transReqQ from "../../../img/Icons/transReqQ.png";
 
+import { useSelector } from "react-redux";
 import { fetchUserAccess, MyContext } from "../../../App";
 import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
@@ -18,15 +19,12 @@ import { URL } from "../../utils";
 import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
 
 const CardHeadOptions = ({
-  p,
-  owner,
-  index,
   refetch,
   viewTrnRequests,
   setViewTrnRequests,
   viewTransactionPId,
   setViewTransactionPId,
-  setViewSaleRequests, 
+  setViewSaleRequests,
   openTransOtherPop,
   setOpenTransOtherPop,
   handleDelete,
@@ -43,47 +41,51 @@ const CardHeadOptions = ({
   setSaleRequestPop,
   setTranslationRequestPop,
   isProjectLocked,
+  id,
+  premiseOwner,
+  filter_flag,
+  visible_to,
+  comment_filter_flag,
+  project_id,
+  available_for_sale,
+  available_for_translation,
+  premise_source_id,
+  translation_request_count,
+  sale_request_count,
+  is_requested_for_sale,
+  is_translated_languages,
+  dotPopupRef,
+  setOpenDotMenu,
+  setOpenHidePop,
+  openHidePop,
+  openDotMenu,
 }) => {
+  // const {
 
-
-
-  const {
-    id,
-    premiseOwner,
-    filter_flag,
-    visible_to,
-    comment_filter_flag,
-    project_id,
-    available_for_sale,
-    available_for_translation,
-    premise_source_id,
-    translation_request_count,
-    sale_request_count,
-    is_requested_for_sale,
-    is_translated_languages,
-  } = p;
+  // } = p;
   const { currentUser } = useContext(MyContext);
 
-  const dotPopupRef = useRef();
+  // const dotPopupRef = useRef();
+
+  const user = useSelector((state) => state?.user?.id);
 
   //! states
-  const { user, userFirstName, userLastName } = owner;
-  const [openDotMenu, setOpenDotMenu] = useState(null);
-  const [openHidePop, setOpenHidePop] = useState(null);
+  // const [openDotMenu, setOpenDotMenu] = useState(null);
+  // const [openHidePop, setOpenHidePop] = useState(null);
 
   //! side effects
-  useEffect(() => {
-    const closeMenu = (e) => {
-      if (!dotPopupRef?.current?.contains(e.target)) {
-        if (!e.target.closest(".absolute")) {
-          setOpenDotMenu(null);
-        }
-      }
-    };
-    document.body.addEventListener("mousedown", closeMenu);
+  // useEffect(() => {
+  //   const closeMenu = (e) => {
+  //     if (!dotPopupRef?.current?.contains(e.target)) {
+  //       if (!e.target.closest(".absolute")) {
+  //         setOpenDotMenu(null);
+  //       }
+  //     }
+  //   };
+  //   document.body.addEventListener("mousedown", closeMenu);
 
-    return () => document.body.removeEventListener("mousedown", closeMenu);
-  }, []);
+  //   return () => document.body.removeEventListener("mousedown", closeMenu);
+  // }, []);
 
   //!handler functions
   const handleViewTransaction = (id) => {
@@ -206,7 +208,7 @@ const CardHeadOptions = ({
                 />
               </div>
             )}
-
+            {/* 
             <FaEllipsisV
               onMouseDown={(e) => {
                 e.stopPropagation();
@@ -215,12 +217,17 @@ const CardHeadOptions = ({
                 );
               }}
               className="w-5 h-5 cursor-pointer"
+            /> */}
+            <FaEllipsisV
+              ref={dotPopupRef}
+              onMouseDown={(e) => {
+                e.stopPropagation();
+                setOpenDotMenu((prevId) => (prevId === id ? null : id));
+              }}
+              className="w-5 h-5 cursor-pointer"
             />
-            {openDotMenu === index && (
-              <div
-                ref={dotPopupRef}
-                className="absolute flex flex-col w-[197px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px]  z-10"
-              >
+            {openDotMenu === id && (
+              <div className="absolute flex flex-col w-[197px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px]  z-10">
                 <button
                   onClick={handleVisibility}
                   className="cursor-pointer  w-full"

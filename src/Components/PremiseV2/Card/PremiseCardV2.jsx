@@ -193,18 +193,33 @@ const PremiseCardV2 = ({
   };
 
   const dotPopupRef = useRef();
+  // useEffect(() => {
+  //   const closeMenu = (e) => {
+  //     if (!dotPopupRef?.current?.contains(e.target)) {
+  //       if (!e.target.closest(".absolute")) {
+  //         setOpenDotMenu(null);
+  //       }
+  //     }
+  //   };
+  //   document.body.addEventListener("mousedown", closeMenu);
+
+  //   return () => document.body.removeEventListener("mousedown", closeMenu);
+  // }, []);
+
   useEffect(() => {
     const closeMenu = (e) => {
-      if (!dotPopupRef?.current?.contains(e.target)) {
-        if (!e.target.closest(".absolute")) {
-          setOpenDotMenu(null);
-        }
+      if (
+        openDotMenu !== null && // Only run if a menu is open
+        !dotPopupRef?.current?.contains(e.target) &&
+        !e.target.closest(".ellipsis-container") // Allow clicks inside the button container
+      ) {
+        setOpenDotMenu(null);
       }
     };
-    document.body.addEventListener("mousedown", closeMenu);
 
+    document.body.addEventListener("mousedown", closeMenu);
     return () => document.body.removeEventListener("mousedown", closeMenu);
-  }, []);
+  }, [openDotMenu]);
 
   const handleOpenSp = () => {
     // console.log("object", p);
@@ -254,7 +269,7 @@ const PremiseCardV2 = ({
   const checkAllowance = async (state, id) => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_AllowInteraction`);
     console.log("AllowInteraction res", res);
-    if (res?.access == "No") {
+    if (res?.access === "No") {
       setNoAccessLbPopUp(res);
     } else {
       state(id);
@@ -301,7 +316,7 @@ const PremiseCardV2 = ({
   const handleUserMail = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_MessageOwner`);
     console.log("message rs", res);
-    if (res?.access == "No") {
+    if (res?.access === "No") {
       setUserMail(res);
     } else {
       setUserMail("Yes");
@@ -309,8 +324,8 @@ const PremiseCardV2 = ({
   };
   const handleVisibility = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_Privacy`);
-    console.log("visibility res", res);
-    if (res?.access == "No") {
+
+    if (res?.access === "No") {
       setOpenHidePop(res);
     } else {
       setOpenHidePop("Yes");
@@ -320,7 +335,7 @@ const PremiseCardV2 = ({
 
   const handleMonetizing = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_Monitize`);
-    console.log("visibility res", res);
+
     if (res?.access === "No") {
       setOpenMonetizingPreferencesPop(res);
     } else {
@@ -419,7 +434,6 @@ const PremiseCardV2 = ({
         </div>
 
         <CardHeadOptions
-          p={p}
           owner={owner}
           index={index}
           refetch={refetch}
@@ -444,6 +458,24 @@ const PremiseCardV2 = ({
           setSaleRequestPop={setSaleRequestPop}
           setTranslationRequestPop={setTranslationRequestPop}
           isProjectLocked={isProjectLocked}
+          id={id}
+          premiseOwner={premiseOwner}
+          filter_flag={filter_flag}
+          visible_to={visible_to}
+          comment_filter_flag={comment_filter_flag}
+          project_id={project_id}
+          available_for_sale={available_for_sale}
+          available_for_translation={available_for_translation}
+          premise_source_id={premise_source_id}
+          translation_request_count={translation_request_count}
+          sale_request_count={sale_request_count}
+          is_requested_for_sale={is_requested_for_sale}
+          is_translated_languages={is_translated_languages}
+          dotPopupRef={dotPopupRef}
+          setOpenDotMenu={setOpenDotMenu}
+          setOpenHidePop={setOpenHidePop}
+          openHidePop={openHidePop}
+          openDotMenu={openDotMenu}
         />
       </div>
       {/* middle div */}
