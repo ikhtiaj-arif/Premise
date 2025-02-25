@@ -152,6 +152,8 @@ const CardHeadOptions = ({
     }
   };
 
+  console.log("dotId", openDotMenu);
+
   return (
     <div>
       <div>
@@ -219,7 +221,6 @@ const CardHeadOptions = ({
               className="w-5 h-5 cursor-pointer"
             /> */}
             <FaEllipsisV
-              ref={dotPopupRef}
               onMouseDown={(e) => {
                 e.stopPropagation();
                 setOpenDotMenu((prevId) => (prevId === id ? null : id));
@@ -227,7 +228,10 @@ const CardHeadOptions = ({
               className="w-5 h-5 cursor-pointer"
             />
             {openDotMenu === id && (
-              <div className="absolute flex flex-col w-[197px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px]  z-10">
+              <div
+                ref={dotPopupRef}
+                className="absolute flex flex-col w-[197px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px]  z-10"
+              >
                 <button
                   onClick={handleVisibility}
                   className="cursor-pointer  w-full"

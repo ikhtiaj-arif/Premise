@@ -209,9 +209,9 @@ const PremiseCardV2 = ({
   useEffect(() => {
     const closeMenu = (e) => {
       if (
-        openDotMenu !== null && // Only run if a menu is open
-        !dotPopupRef?.current?.contains(e.target) &&
-        !e.target.closest(".ellipsis-container") // Allow clicks inside the button container
+        openDotMenu !== null && // Only close if a menu is open
+        !dotPopupRef?.current?.contains(e.target) && // Allow clicks inside the dot menu
+        !e.target.closest(".ellipsis-container") // Allow clicks inside the button
       ) {
         setOpenDotMenu(null);
       }

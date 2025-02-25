@@ -23,8 +23,17 @@ import { useCreateReplyMutation } from "../../app/EndPoints/commentReply/reply";
 
 import axios from "axios";
 import CardHeadOptions from "../PremiseV2/Card/CardHeadOptions";
+import AvailableForTranslationPop from "../PremiseV2/Popups/AvailableForTranslationPop";
+import BankDetailsPop from "../PremiseV2/Popups/BankDetails/BankDetailsPop";
+import MonetizePreferencePop from "../PremiseV2/Popups/MonetizePreferencePop";
+import PaySalePopup from "../PremiseV2/Popups/PaySalePopup";
+import ReqSalePop from "../PremiseV2/Popups/ReqSalePop";
+import ReqTranslationPop from "../PremiseV2/Popups/ReqTranslationPop";
+import SaleRequestedOwner from "../PremiseV2/Popups/SaleRequested_Owner";
 import TransInOtherLang from "../PremiseV2/Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../PremiseV2/Popups/ViewTranslation.pop";
+import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
+import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 import AskIda from "../SharedVersion/AskIda";
 import PopupComment from "../SharedVersion/PopupComment";
 import PopupLike from "../SharedVersion/PopupLike";
@@ -35,8 +44,10 @@ import { baseURL, URL } from "../utils";
 import AllComments from "./AllComments";
 import CharacterEditablePop from "./Character/CharacterEditablePop";
 import DeletePremise from "./DeletePremise";
+import OwnerMail from "./OwnerMail";
 import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
+import UserMail from "./UserMail";
 import UserType from "./UserType";
 
 const Popup = ({
@@ -83,6 +94,11 @@ const Popup = ({
   const [saleId, setSaleId] = useState("");
   const [viewSale, setViewSale] = useState(false);
   const [saleRequestPop, setSaleRequestPop] = useState("");
+ const [openPop, setOpenPop] = useState(false);
+  const [userMail, setUserMail] = useState(null);
+    const [ownerMail, setOwnerMail] = useState(false);
+
+
 
   useEffect(() => {
     if (characters) setCharacterArray(characters);
@@ -149,8 +165,6 @@ const Popup = ({
   const [openCharacterChart, setOpenCharacterChart] = useState(null);
 
   const [replyTextCount, setReplyTextCount] = useState(0);
-
-
 
   const handleClear = () => {
     // setText("");
@@ -223,6 +237,8 @@ const Popup = ({
   const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
 
   const userName = `${userQuery?.first_name} ${userQuery?.last_name}`;
+  const userFirstName = userQuery?.first_name;
+  const userLastName = userQuery?.last_name;
 
   // useEffect(() => {
   //   setCvalue(parseInt(commentsData?.comments?.length) + 1);
@@ -279,16 +295,18 @@ const Popup = ({
   const dotPopupRef = useRef();
   useEffect(() => {
     const closeMenu = (e) => {
-      if (!dotPopupRef?.current?.contains(e.target)) {
-        if (!e.target.closest(".absolute")) {
-          setOpenDotMenu(false);
-        }
+      if (
+        openDotMenu !== null && // Only close if a menu is open
+        !dotPopupRef?.current?.contains(e.target) && // Allow clicks inside the dot menu
+        !e.target.closest(".ellipsis-container") // Allow clicks inside the button
+      ) {
+        setOpenDotMenu(null);
       }
     };
+  
     document.body.addEventListener("mousedown", closeMenu);
-
     return () => document.body.removeEventListener("mousedown", closeMenu);
-  }, []);
+  }, [openDotMenu]);
 
   // console.log("commentsData", commentsData);
   const handleOpenSp = () => {
@@ -376,6 +394,8 @@ const Popup = ({
 
   console.log("premiseData", premiseData);
   console.log("data", data);
+
+ 
 
   if (isPremiseLoading) {
     return <>Loading...</>;
@@ -469,7 +489,6 @@ const Popup = ({
                   </p>
                 </div> */}
                 </div>
-               
 
                 <CardHeadOptions
                   // owner={owner}
@@ -519,6 +538,11 @@ const Popup = ({
                   sale_request_count={premiseData?.sale_request_count}
                   is_requested_for_sale={premiseData?.is_requested_for_sale}
                   is_translated_languages={premiseData?.is_translated_languages}
+                  dotPopupRef={dotPopupRef}
+                  setOpenDotMenu={setOpenDotMenu}
+                 
+                  openDotMenu={openDotMenu}
+                  
                 />
               </div>
               {/* image */}
@@ -772,6 +796,160 @@ const Popup = ({
             <ViewTranslationPop
               popClose={setOpenViewTranslationsPop}
               premiseId={viewTransactionPId}
+            />
+          )}
+          {userMail === "Yes" && (
+            <UserMail
+              recipient={premiseOwner}
+              data={{ user, id, userFirstName, userLastName }}
+              setUserMail={setUserMail}
+            />
+          )}
+          {userMail?.msg === "ShowBecomePrivilege" && (
+            <NoAccessPopUp
+              noAccessPopup={userMail}
+              setNoAccessPopup={setUserMail}
+            />
+          )}
+          {ownerMail && (
+            <OwnerMail data={{ user, id }} setOwnerMail={setOwnerMail} />
+          )}
+          {/* {openPop && (
+        <Popup
+          popClose={() => setOpenPop(false)}
+          {...{
+            handleVisibility,
+            handleMonetizing,
+            setIsLiked,
+            refetch,
+            viewText,
+          }}
+          data={popupData}
+          p={p}
+        />
+      )} */}
+          {openCharacterChart && (
+            <CharacterEditablePop
+              setCharacterEditPop={setOpenCharacterChart}
+              characterArray={characterArray}
+              currentProjectData={currentProjectData}
+              setCharacterArray={setCharacterArray}
+              onlyAdd={onlyAdd}
+              handleUpdateSavedChar={handleUpdateSavedChar}
+              characterLoading={isCharLoading}
+              project_id={premiseData?.project_id}
+            />
+          )}
+          {openTransOtherPop && (
+            <TransInOtherLang
+              refetch={refetch}
+              popClose={setOpenTransOtherPop}
+              id={id}
+              user={user}
+              source_language={premiseData?.source_language}
+              project_id={project_id}
+            />
+          )}
+          {openAvailableForTranslationPop && (
+            <AvailableForTranslationPop
+              popClose={setOpenAvailableForTranslationPop}
+              id={id}
+              user={user}
+              source_language={premiseData?.source_language}
+              project_id={project_id}
+              refetch={refetch}
+            />
+          )}
+          {openViewTranslationsPop && (
+            <ViewTranslationPop
+              popClose={setOpenViewTranslationsPop}
+              premiseId={viewTransactionPId}
+              popCloseCmnt={() => setOpenPop(false)}
+              {...{
+                handleVisibility,
+                handleMonetizing,
+                // setIsLiked,
+                refetch,
+                viewText,
+              }}
+            />
+          )}
+          {openMonetizingPreferencesPop?.msg === "ShowBecomePrivilege" ? (
+            <NoAccessPopUp
+              noAccessPopup={openMonetizingPreferencesPop}
+              setNoAccessPopup={setOpenMonetizingPreferencesPop}
+            />
+          ) : openMonetizingPreferencesPop?.msg === "LB" ||
+            openMonetizingPreferencesPop?.msg ===
+              "ShowBuyPackage_and_Allacarte" ? (
+            <NoAccessLbPopUp
+              noAccessLbPopUp={openMonetizingPreferencesPop}
+              setNoAccessPopup={setOpenMonetizingPreferencesPop}
+              service="PP_Monitizes"
+            />
+          ) : (
+            openMonetizingPreferencesPop === "Yes" && (
+              <MonetizePreferencePop
+                popClose={setOpenMonetizingPreferencesPop}
+                id={id}
+                user={user}
+              />
+            )
+          )}
+          {noAccessLbPopUp?.msg === "ShowBecomePrivilege" ? (
+            <NoAccessPopUp
+              noAccessPopup={noAccessLbPopUp}
+              setNoAccessPopup={setNoAccessLbPopUp}
+            />
+          ) : (
+            (noAccessLbPopUp?.msg === "LB" ||
+              noAccessLbPopUp?.msg === "ShowBuyPackage_and_Allacarte") && (
+              <NoAccessLbPopUp
+                noAccessLbPopup={noAccessLbPopUp}
+                setNoAccessPopup={setNoAccessLbPopUp}
+                service="PP_interactions"
+              />
+            )
+          )}
+          {translationRequestPop && (
+            <ReqTranslationPop
+              popClose={setTranslationRequestPop}
+              id={id}
+              user={user}
+              source_language={premiseData?.source_language}
+              project_id={project_id}
+            />
+          )}
+          {saleRequestPop && (
+            <ReqSalePop
+              popClose={setSaleRequestPop}
+              id={id}
+              user={user}
+              source_language={premiseData?.source_language}
+              project_id={project_id}
+            />
+          )}
+          {viewTrnRequests && (
+            <BankDetailsPop
+              // translationRequest={translationRequest}
+              popClose={setViewTrnRequests}
+              premiseId={viewTrnRequests}
+            />
+          )}
+          {viewSaleRequests && (
+            <SaleRequestedOwner
+              popClose={setViewSaleRequests}
+              setSaleIcon={setSaleRequestedOwner}
+              premiseId={id}
+            />
+          )}
+          {viewSale && (
+            <PaySalePopup
+              refetch={refetch}
+              premiseId={saleId}
+              popClose={setViewSale}
+              sellingValue={premiseData?.sellingPrice}
+              Userid={user}
             />
           )}
         </div>

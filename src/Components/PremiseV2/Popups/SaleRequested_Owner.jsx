@@ -10,7 +10,7 @@ import crossIcon from "../../../img/Icons/crossIcon.png";
 import SaleDoodle from "../../../img/Icons/OwnerSaleDoodle.svg";
 import CongratsPop from "./CongratsPop";
 
-const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
+const SaleRequestedOwner = ({ popClose, premiseId, Names, setSaleIcon }) => {
   const [showBankDetails, setShowBankDetails] = useState(false);
   const [showTransRequests, setShowTransRequests] = useState(false);
   const [sale, setSale] = useState(false);
@@ -204,7 +204,6 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
                   required
                   type="number"
                   placeholder="Please Quote"
-                  
                   className="flex-1 h-[22px] border rounded-[4px] px-[12px] text-[11px] font-[400]"
                   value={sellingPr}
                   onChange={handleInputChangePrice}
@@ -219,8 +218,10 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
               <div className="flex items-center gap-[18px] w-[320px] mx-auto mt-[20px]">
                 <button
                   type="submit"
-                  disabled={!sellingPr} 
-                  className={`${ sellingPr ? "bg-[#33B0CA]" :'bg-[#616161]'} text-[#fafafa] rounded-[8px] whitespace-nowrap leading-[24px] px-[20px] ml-[10px] py-[2px] text-[13px] font-[600]`}
+                  disabled={!sellingPr}
+                  className={`${
+                    sellingPr ? "bg-[#33B0CA]" : "bg-[#616161]"
+                  } text-[#fafafa] rounded-[8px] whitespace-nowrap leading-[24px] px-[20px] ml-[10px] py-[2px] text-[13px] font-[600]`}
                 >
                   Submit Details of bank account
                 </button>
@@ -331,4 +332,4 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
   );
 };
 
-export default BankDetailsPop;
+export default SaleRequestedOwner;
