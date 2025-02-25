@@ -41,9 +41,12 @@ const BeatsPop = ({ popClose, id }) => {
           }}
         />
 
-          <FaArrowLeft className="inline md:hidden text-[#33b0ca] text-[20px] cursor-pointer" onClick={() => {
+        <FaArrowLeft
+          className="inline md:hidden text-[#33b0ca] text-[20px] cursor-pointer"
+          onClick={() => {
             popClose(false);
-          }}/>
+          }}
+        />
 
         {isPremiseLoading ? (
           <div>Loading...</div>
@@ -104,18 +107,21 @@ const BeatsPop = ({ popClose, id }) => {
 
             {/* Table */}
             <div className="w-[97%] mx-auto mt-3 overflow-auto">
-              <table className="border-collapse border border-gray-300 w-full ">
+              <table className="border-collapse border w-full">
                 <thead className="">
-                  <tr className="bg-[#fafafa]">
-                    <th className="border text-[12px] md:text-[16px] font-medium border-[#616161] px-2 py-2 w-[50px] text-center">
+                  <tr className="bg-[#fafafa] flex flex-wrap justify-between md:table-row border border-[#616161]">
+                    <th className="border-r-[1px] md:border text-[12px] md:text-[16px] font-medium border-[#616161] px-2 md:py-2 w-[50px] text-center">
                       S.No
                     </th>
-                    <th className="border text-[12px] md:text-[16px] font-medium border-[#616161] px-2 py-2 text-center">
-                      Comment/Reply/Brainstorm
-                    </th>
-                    <th className="border text-[12px] md:text-[16px] font-medium border-[#616161] px-2 py-2 text-center">
-                      Beat Text
-                    </th>
+
+                    <div className="flex flex-col md:flex-row w-[calc(100%-50px)] md:w-[100%] h-full md:h-auto">
+                      <th className="border text-[12px] md:text-[16px] font-medium px-2 md:py-2 text-left md:text-center flex-1">
+                        Comment/Reply/Brainstorm
+                      </th>
+                      <th className="text-[12px] md:text-[16px] font-medium md:border-l-[1px] border-[#616161] px-2 md:py-2 text-right md:text-center flex-1 bg-[#33b0ca] bg-opacity-20 md:bg-transparent">
+                        Beat Text
+                      </th>
+                    </div>
                   </tr>
                 </thead>
                 {activeTab === "all" && (
