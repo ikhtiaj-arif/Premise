@@ -589,6 +589,12 @@ const PremisePreview2 = ({
     setSpProjectName(firstChar + restOfValue);
   };
 
+  useEffect(()=>{
+
+    
+    console.log( 'protagonist',protagonist);
+    
+  },[protagonist])
   // console.log("Header", characterArray);
   const submitPremise = async (e) => {
     e.preventDefault();
@@ -2082,29 +2088,33 @@ const PremisePreview2 = ({
                   <div className="col-span-12 mb-[12px] md:mt-[21px] md:mb-[0px] md:col-span-3">
                     {" "}
                     <div className="flex h-[31px] gap-[12px] md:w-[185px]">
-                      <label className="text-[12px] md:!text-[14px] font-[500]">
-                        Age
-                      </label>
-                      <input
-                        type="text"
-                        id="protaAge"
-                        value={protaAge}
-                        min="0" // This prevents negative values
-                        className={`h-[30px] col-span-4 relative text-[12px] md:!text-[14px] leading-tight px-[8px] w-[57px]  bg-[#fafafa] rounded-[4px] border-[2px] ${
-                          protaAge ? "border-[#33B0CA]" : "border-[#EAEAEA]"
-                        } focus:outline-none`}
-                        placeholder="23"
-                        required
-                        onChange={(e) => {
-                          const value = e.target.value;
+                      {protagonist !== "" && (
+                        <>
+                          <label className="text-[12px] md:!text-[14px] font-[500]">
+                            Age
+                          </label>
+                          <input
+                            type="text"
+                            id="protaAge"
+                            value={protaAge}
+                            min="0" // This prevents negative values
+                            className={`h-[30px] col-span-4 relative text-[12px] md:!text-[14px] leading-tight px-[8px] w-[57px]  bg-[#fafafa] rounded-[4px] border-[2px] ${
+                              protaAge ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                            } focus:outline-none`}
+                            placeholder="23"
+                            required
+                            onChange={(e) => {
+                              const value = e.target.value;
 
-                          if (/^\d*$/.test(value)) {
-                            if (value === "" || value > 0) {
-                              setProtaAge(value);
-                            }
-                          }
-                        }}
-                      />
+                              if (/^\d*$/.test(value)) {
+                                if (value === "" || value > 0) {
+                                  setProtaAge(value);
+                                }
+                              }
+                            }}
+                          />
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>

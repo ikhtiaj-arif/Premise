@@ -13,19 +13,18 @@ import { useGetPremiseUserPictureQuery } from "../../../app/EndPoints/premisePoo
 import TimeAgo from "../../../features/TimeAgo";
 // import forwardIcon from "../../../img/Icons/forwardIcon.png";
 import { fetchUserAccess, MyContext } from "../../../App";
+
 import userIcon from "../../../img/Icons/userImg.png";
 import BtnLoading from "../../../shared/BtnLoading";
+import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
+import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 import UserType from "../UserType";
-import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply2 from "./ReplyToReply2";
-<<<<<<< HEAD
-import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
+
 import { useTranslateCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
-=======
-import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
->>>>>>> 68cf0c7f2bf9b881b376fc537379052a97cfe013
+import ConfirmationModal from "./ConfirmationModal";
 
 const ReplyToReply = ({
   handleAddToBeat,
@@ -69,8 +68,8 @@ const ReplyToReply = ({
   const [likeReply, likeReplyRes] = useUpdateLikeOfReplyMutation();
   const [deleteReply, deleteReplyRes] = useDeleteLikeOfReplyMutation();
   const [createReplyMutation, isReplyResInfo] = useCreateReplyMutation();
-    const [translateComment, isTranslationCommentLoading] =
-      useTranslateCommentMutation();
+  const [translateComment, isTranslationCommentLoading] =
+    useTranslateCommentMutation();
   const replyToReplyRef = useRef(null);
   const {
     data: profileImg,
@@ -204,7 +203,7 @@ const ReplyToReply = ({
 
   const handleSuggest = async (text) => {
     const cleanedText = text.includes(":") ? text.split(":")[1].trim() : text;
-    console.log('suggestion text from reply',cleanedText);
+    console.log("suggestion text from reply", cleanedText);
     setSuggestDisable(true);
 
     const data = {
@@ -365,33 +364,31 @@ const ReplyToReply = ({
                 : childReply?.text}
             </p>
           </div>{" "}
-
-
           <div className=" flex gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
-              <CommentTranslator
-                comment={childReply}
-                translateComment={translateComment}
-                loading={isTranslationCommentLoading}
-                commentRefetch={replyRefetch}
-              />
-          {(owner === user || replyBy?.id === user) &&
-          !childReply?.reject_button ? (
-            <div className="flex gap-2 items-center pl-[2px]">
-              <button
-                onClick={() => {
-                  setIdToDlt(currentReplyId);
-                  setOpenDltPop(true);
-                }}
-              >
-                <FaRegTrashAlt className="h-5 w-5 text-[#909090]" />
-              </button>
-            </div>
-          ) : (
-            <div className={`px-3 'cursor-default'}`}>
-              <div className="" />
-            </div>
-          )}
-        </div>
+            <CommentTranslator
+              comment={childReply}
+              translateComment={translateComment}
+              loading={isTranslationCommentLoading}
+              commentRefetch={replyRefetch}
+            />
+            {(owner === user || replyBy?.id === user) &&
+            !childReply?.reject_button ? (
+              <div className="flex gap-2 items-center pl-[2px]">
+                <button
+                  onClick={() => {
+                    setIdToDlt(currentReplyId);
+                    setOpenDltPop(true);
+                  }}
+                >
+                  <FaRegTrashAlt className="h-5 w-5 text-[#909090]" />
+                </button>
+              </div>
+            ) : (
+              <div className={`px-3 'cursor-default'}`}>
+                <div className="" />
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="flex justify-between items-center w-[89%] mr-[16px] md:mr-[29px] my-[2px] mt-[2px]  ml-auto mb-[2px] md:mb-[2px]   ">

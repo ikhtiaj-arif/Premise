@@ -14,12 +14,12 @@ import { useGetPremiseUserPictureQuery } from "../../../app/EndPoints/premisePoo
 import TimeAgo from "../../../features/TimeAgo";
 import userIcon from "../../../img/Icons/userImg.png";
 import BtnLoading from "../../../shared/BtnLoading";
+import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply3 from "./ReplyToReply3";
-import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 
 const ReplyToReply2 = ({
   handleAddToBeat,
