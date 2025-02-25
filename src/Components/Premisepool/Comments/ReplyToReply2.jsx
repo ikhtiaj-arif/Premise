@@ -3,7 +3,7 @@ import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
 import { FaRegTrashAlt, FaThumbsUp } from "react-icons/fa";
 import { IoIosUndo, IoMdSend } from "react-icons/io";
 import { toast } from "react-toastify";
-import { MyContext } from "../../../App";
+import { fetchUserAccess, MyContext } from "../../../App";
 import {
   useCreateReplyMutation,
   useCreateSuggestedReplyMutation,
@@ -19,6 +19,7 @@ import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply3 from "./ReplyToReply3";
+import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 
 const ReplyToReply2 = ({
   handleAddToBeat,
@@ -44,6 +45,7 @@ const ReplyToReply2 = ({
     createdSpProjectID,
     currentlyOpenedCommentID,
     setCurrentlyOpenedCommentID,
+    currentUser,
   } = useContext(MyContext);
 
   const [openDltPop, setOpenDltPop] = useState(false);
@@ -56,6 +58,8 @@ const ReplyToReply2 = ({
   const [childReplies, setChildReplies] = useState(false);
 
   const [suggestDisable, setSuggestDisable] = useState(false);
+
+  const [noAccessLbPopup, setNoAccessLbPopup] = useState(null);
 
   const [likeReply, likeReplyRes] = useUpdateLikeOfReplyMutation();
   const [deleteReply, deleteReplyRes] = useDeleteLikeOfReplyMutation();
@@ -87,7 +91,6 @@ const ReplyToReply2 = ({
   const handleDeleteReply = async (id) => {
     const deleteData = {
       id,
-     
     };
     setDisableBtn(true);
     // console.log(id);
@@ -189,12 +192,14 @@ const ReplyToReply2 = ({
   const [suggestion, suggestionRes] = useCreateSuggestedReplyMutation();
 
   const handleSuggest = async (text) => {
+    const cleanedText = text.includes(":") ? text.split(":")[1].trim() : text;
+    console.log("suggestion text from reply 2", cleanedText);
     setSuggestDisable(true);
 
     const data = {
       // reply: replyToCommentID,
       reply: currentlyOpenedCommentID,
-      ques_text: childReplyText,
+      ques_text: cleanedText,
       parent: childReply?.id,
       C: commentIdx,
     };
@@ -235,6 +240,21 @@ const ReplyToReply2 = ({
     (childReply) =>
       !(childReply?.text?.includes("?") && childReply?.user?.id === 1) // Exclude replies matching the conditions
   );
+
+  const handleChildReply = async () => {
+    console.log("reply child comment", currentUser?.id, owner, reply);
+    if (currentUser?.id !== owner && reply?.user?.first_name == "Ida") {
+      const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
+      console.log("reply child 1 brainstorm res", res);
+      if (res?.access == "No") {
+        setNoAccessLbPopup(res);
+      } else {
+        setChildReplyField(!childReplyField);
+      }
+    } else {
+      setChildReplyField(!childReplyField);
+    }
+  };
   return (
     <>
       <div className="w-full max-w-[593px] ml-[0px]">
@@ -411,7 +431,7 @@ const ReplyToReply2 = ({
               )}
               <div>
                 <button
-                  onClick={() => setChildReplyField(!childReplyField)}
+                  onClick={() => handleChildReply()}
                   className="flex items-center gap-1 "
                 >
                   <IoIosUndo
@@ -454,7 +474,7 @@ const ReplyToReply2 = ({
                               onClick={() => handleSuggest(reply?.text)}
                             >
                               <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
-                              Suggestion
+                                Suggestion
                               </p>
                             </button>
                           )}
@@ -573,7 +593,7 @@ const ReplyToReply2 = ({
               )}
               <div>
                 <button
-                  onClick={() => setChildReplyField(!childReplyField)}
+                  onClick={() => handleChildReply()}
                   className="flex items-center gap-1 "
                 >
                   <IoIosUndo
@@ -676,7 +696,7 @@ const ReplyToReply2 = ({
                           onClick={() => handleSuggest(reply?.text)}
                         >
                           <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
-                          Suggestion
+                            Suggestion
                           </p>
                         </button>
                       )}
@@ -810,6 +830,12 @@ const ReplyToReply2 = ({
                 )
             )}
         </div>
+      )}
+      {noAccessLbPopup?.msg == "ShowBecomePrivilege" && (
+        <NoAccessPopUp
+          noAccessPopup={noAccessLbPopup}
+          setNoAccessPopup={setNoAccessLbPopup}
+        />
       )}
     </>
   );

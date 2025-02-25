@@ -12,7 +12,7 @@ import {
 import { useGetPremiseUserPictureQuery } from "../../../app/EndPoints/premisePoolApi";
 import TimeAgo from "../../../features/TimeAgo";
 // import forwardIcon from "../../../img/Icons/forwardIcon.png";
-import { MyContext } from "../../../App";
+import { fetchUserAccess, MyContext } from "../../../App";
 import userIcon from "../../../img/Icons/userImg.png";
 import BtnLoading from "../../../shared/BtnLoading";
 import { URL } from "../../utils";
@@ -20,11 +20,16 @@ import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply2 from "./ReplyToReply2";
+<<<<<<< HEAD
 import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
 import { useTranslateCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
+=======
+import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
+>>>>>>> 68cf0c7f2bf9b881b376fc537379052a97cfe013
 
 const ReplyToReply = ({
-  handleAddToBeat,fromNew,
+  handleAddToBeat,
+  fromNew,
   setCommentText,
   childReply,
   childReplyIDNext,
@@ -47,6 +52,7 @@ const ReplyToReply = ({
     createdSpProjectID,
     currentlyOpenedCommentID,
     setCurrentlyOpenedCommentID,
+    currentUser,
   } = useContext(MyContext);
   const [openDltPop, setOpenDltPop] = useState(false);
   const [currentReply2Id, setCurrentReply2Id] = useState(childReply?.id);
@@ -58,6 +64,7 @@ const ReplyToReply = ({
   const [childReplies, setChildReplies] = useState(false);
 
   const [suggestDisable, setSuggestDisable] = useState(false);
+  const [noAccessLbPopup, setNoAccessLbPopup] = useState(null);
 
   const [likeReply, likeReplyRes] = useUpdateLikeOfReplyMutation();
   const [deleteReply, deleteReplyRes] = useDeleteLikeOfReplyMutation();
@@ -93,7 +100,6 @@ const ReplyToReply = ({
     // console.log(id);
     const deleteData = {
       id,
-     
     };
     const res = await deleteReply(deleteData);
     if (res?.data) {
@@ -197,12 +203,14 @@ const ReplyToReply = ({
   const [suggestion, suggestionRes] = useCreateSuggestedReplyMutation();
 
   const handleSuggest = async (text) => {
+    const cleanedText = text.includes(":") ? text.split(":")[1].trim() : text;
+    console.log('suggestion text from reply',cleanedText);
     setSuggestDisable(true);
 
     const data = {
       // reply: replyToCommentID,
       reply: currentlyOpenedCommentID,
-      ques_text: childReplyText,
+      ques_text: cleanedText,
       parent: childReply?.id,
       C: commentIdx,
     };
@@ -239,9 +247,28 @@ const ReplyToReply = ({
     return text;
   };
 
+  const handleChildReply = async () => {
+    console.log("reply child 2 comment", currentUser?.id, owner, reply);
+    if (currentUser?.id !== owner && reply?.user?.first_name == "Ida") {
+      const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
+      console.log("reply child 2 brainstorm res", res);
+      if (res?.access == "No") {
+        setNoAccessLbPopup(res);
+      } else {
+        setChildReplyField(!childReplyField);
+      }
+    } else {
+      setChildReplyField(!childReplyField);
+    }
+  };
+
   return (
     <>
-      <div className={`w-full ${fromNew ? 'max-w-[95%]':'max-w-[592px]'} ml-[0px]`}>
+      <div
+        className={`w-full ${
+          fromNew ? "max-w-[95%]" : "max-w-[592px]"
+        } ml-[0px]`}
+      >
         <div className="flex gap-[8px]">
           <div className="flex flex-col items-center gap-1">
             {replyBy?.id === 1 ? (
@@ -419,7 +446,7 @@ const ReplyToReply = ({
               )}
               <div>
                 <button
-                  onClick={() => setChildReplyField(!childReplyField)}
+                  onClick={() => handleChildReply()}
                   className="flex items-center gap-1 "
                 >
                   <IoIosUndo
@@ -461,7 +488,7 @@ const ReplyToReply = ({
                               onClick={() => handleSuggest(reply?.text)}
                             >
                               <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
-                              Suggestion
+                                Suggestion
                               </p>
                             </button>
                           )}
@@ -580,7 +607,7 @@ const ReplyToReply = ({
               )}
               <div>
                 <button
-                  onClick={() => setChildReplyField(!childReplyField)}
+                  onClick={() => handleChildReply()}
                   className="flex items-center gap-1 "
                 >
                   <IoIosUndo
@@ -815,6 +842,13 @@ const ReplyToReply = ({
                 )
             )}
         </div>
+      )}
+
+      {noAccessLbPopup?.msg == "ShowBecomePrivilege" && (
+        <NoAccessPopUp
+          noAccessPopup={noAccessLbPopup}
+          setNoAccessPopup={setNoAccessLbPopup}
+        />
       )}
     </>
   );

@@ -462,7 +462,7 @@ const AllComments = ({
       if (res?.access == "No") {
         setNoAccessLbPopup(res);
       } else {
-        applyReplyToggle();
+        applyReplyToggle(c, commentOwnerName);
       }
     } else {
       applyReplyToggle(c, commentOwnerName);

@@ -80,6 +80,8 @@ const LeftSideBar = ({
 
   const [commentField, setCommentField] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const finalCount = commentsData?.counts;
 
   const user = useSelector((state) => state?.user?.id);

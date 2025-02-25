@@ -4,7 +4,7 @@ import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
 import { FaRegTrashAlt, FaThumbsUp } from "react-icons/fa";
 import { IoIosUndo, IoMdSend } from "react-icons/io";
 import { toast } from "react-toastify";
-import { MyContext } from "../../../App";
+import { fetchUserAccess, MyContext } from "../../../App";
 import {
   useCreateReplyMutation,
   useCreateSuggestedReplyMutation,
@@ -22,6 +22,7 @@ import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply from "./ReplyToReply";
+import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 
 const ReplyToComments = ({
   // handleSuggest,
@@ -45,6 +46,7 @@ const ReplyToComments = ({
     createdSpProjectID,
     currentlyOpenedCommentID,
     setCurrentlyOpenedCommentID,
+    currentUser,
   } = useContext(MyContext);
   const [isReplyLiked, setIsReplyLiked] = useState(false);
   const [openDltPop, setOpenDltPop] = useState(false);
@@ -58,6 +60,8 @@ const ReplyToComments = ({
   const [replyText, setReplyText] = useState("");
   const [childReplyText, setChildReplyText] = useState("");
   const [isTextareaDisabled, setIsTextareaDisabled] = useState(false);
+
+  const [noAccessLbPopup, setNoAccessLbPopup] = useState(null);
 
   const latestReplyRef = useRef(null);
   const replyToReplyRef = useRef(null);
@@ -263,6 +267,21 @@ const ReplyToComments = ({
 
     // Return the text as is if no prefix matches
     return text;
+  };
+
+  const handleChildReply = async () => {
+    console.log("reply child1 comment", currentUser?.id, owner, reply);
+    if (currentUser?.id !== owner && reply?.user?.first_name == "Ida") {
+      const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
+      console.log("reply child 1 brainstorm res", res);
+      if (res?.access == "No") {
+        setNoAccessLbPopup(res);
+      } else {
+        setOpenReplyField(!openReplyField);
+      }
+    } else {
+      setOpenReplyField(!openReplyField);
+    }
   };
 
   return (
@@ -472,7 +491,8 @@ const ReplyToComments = ({
                 className="flex items-center gap-1"
                 // data-reply
                 onClick={() => {
-                  setOpenReplyField(!openReplyField);
+                  handleChildReply();
+                  //setOpenReplyField(!openReplyField);
                 }}
               >
                 <IoIosUndo
@@ -841,6 +861,13 @@ const ReplyToComments = ({
           onConfirm={() => handleDeleteReply(idToDlt)}
           title="Are you sure you want to delete this comment?"
           content="Are you sure you want to delete this item?"
+        />
+      )}
+
+      {noAccessLbPopup?.msg == "ShowBecomePrivilege" && (
+        <NoAccessPopUp
+          noAccessPopup={noAccessLbPopup}
+          setNoAccessPopup={setNoAccessLbPopup}
         />
       )}
     </div>

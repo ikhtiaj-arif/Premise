@@ -115,7 +115,6 @@ const PaySalePopup = ({
         <PaymentInvoicePopup
           typeOfRequest="sale"
           premise_id={premiseId}
-          user={Userid}
           setPayment={setPayment}
           submit={handleSubmit}
         />
