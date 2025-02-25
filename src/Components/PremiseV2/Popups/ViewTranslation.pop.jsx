@@ -39,7 +39,7 @@ const ViewTranslationPop = ({
         {isLoading ? (
           <div className="text-center my-4">Loading...</div>
         ) : transactionData?.data?.length > 0 ? (
-          <div className="grid grid-cols-12 mx-[12px]">
+          <div className="grid grid-cols-12 mx-[12px] h-[230px] overflow-y-auto">
             {transactionData.data.map((transaction, index) => (
               <EachTranslateeCard
                 {...{

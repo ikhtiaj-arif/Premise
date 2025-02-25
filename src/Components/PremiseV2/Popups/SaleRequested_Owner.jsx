@@ -98,13 +98,17 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
     refetch: premiseRefetch,
   } = useGetOnePremiseQuery(premiseId);
 
-  const [sellingPr, setSellingPr] = useState("");
+  const [sellingPr, setSellingPr] = useState();
 
   const handleInputChangePrice = (e) => {
     setSellingPr(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!sellingPr) {
+      return;
+    }
     updatePremise({
       id: premiseId,
       body: { sellingPrice: parseInt(sellingPr) },
@@ -184,7 +188,7 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
                 </ul>
               </li>
             </ul>
-            <div className="mt-[10px]">
+            <form onSubmit={handleSubmit} className="mt-[10px]">
               <div className="flex items-center mt-[20px]">
                 <p className="text-[14px] leading-[21px] font-[400] text-[#616161]">
                   If you are willing to transfer the ownership of the Premise
@@ -197,8 +201,10 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
                   ${" "}
                 </p>
                 <input
-                  type="text"
+                  required
+                  type="number"
                   placeholder="Please Quote"
+                  
                   className="flex-1 h-[22px] border rounded-[4px] px-[12px] text-[11px] font-[400]"
                   value={sellingPr}
                   onChange={handleInputChangePrice}
@@ -212,13 +218,14 @@ const BankDetailsPop = ({ popClose, premiseId, Names, setSaleIcon }) => {
               </p>
               <div className="flex items-center gap-[18px] w-[320px] mx-auto mt-[20px]">
                 <button
-                  onClick={handleSubmit}
-                  className={`${"bg-[#33B0CA]"} text-[#fafafa] rounded-[8px] whitespace-nowrap leading-[24px] px-[20px] ml-[10px] py-[2px] text-[13px] font-[600]`}
+                  type="submit"
+                  disabled={!sellingPr} 
+                  className={`${ sellingPr ? "bg-[#33B0CA]" :'bg-[#616161]'} text-[#fafafa] rounded-[8px] whitespace-nowrap leading-[24px] px-[20px] ml-[10px] py-[2px] text-[13px] font-[600]`}
                 >
                   Submit Details of bank account
                 </button>
               </div>
-            </div>
+            </form>
           </div>
         ) : (
           <div

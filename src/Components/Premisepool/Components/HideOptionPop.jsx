@@ -7,6 +7,7 @@ import {
   useGetAllUsersQuery,
 } from "../../../app/EndPoints/MemberPage/Buddies";
 import crossIcon from "../../../img/Icons/crossIcon.png";
+import lockImg from "../../../img/lockImg.png";
 
 import { BsGlobeCentralSouthAsia } from "react-icons/bs";
 import { CgSearch } from "react-icons/cg";
@@ -129,28 +130,28 @@ const HideOptionPop = ({
             className={`bg-[#fff] h-[80vh] ${
               option === "visible_to"
                 ? "  md:h-[504px] xl:h-[547px]"
-                : "  md:h-[500px]"
+                : "  md:h-[530px]"
             }
             
               sm:rounded-[8px] `}
           >
-            <div className="mt-[16px] w-[90%] max-w-[374.86px] mx-auto">
+            <div className="mt-[16px] mx-auto w-full  flex justify-center">
+              <img className="w-[35px] h-[40px] mt-2" src={lockImg} alt="" />
+            </div>
+            <div className=" w-[90%] max-w-[374.86px] mx-auto">
               {option === "visible_to" ? (
                 <div>
-                  <p className="text-[16px] text-center pt-[16px]  px-[12px] font-[500] text-[#252525] ">
+                  <p className="text-[16px] text-center pt-[4px]  px-[12px] font-[500] text-[#252525] ">
                     Visibility Settings
                   </p>
-                  <p
-                    className=" text-center leading-4 pb-[8px] px-[12px] text-[14px]
- font-[400] text-[#616161] "
-                  >
+                  <p className=" text-center leading-4 pb-[8px] px-[12px] text-[14px] font-[400] text-[#616161] ">
                     (Visible only to selected buddies)
                   </p>
                   <div className="h-[1px] w-[353px] bg-[#616161] mx-auto" />
                 </div>
               ) : (
                 <div>
-                  <p className="text-[16px] text-center pt-[16px]  px-[12px] font-[500] text-[#252525] ">
+                  <p className="text-[16px] text-center pt-[4px]  px-[12px] font-[500] text-[#252525] ">
                     Visibility Settings
                   </p>
 
@@ -162,7 +163,7 @@ const HideOptionPop = ({
               )}
             </div>
             {option === "visible_to" ? (
-              <div className="overflow-y-scroll h-[40vh] md:h-[260px] xl:h-[310px]">
+              <div className="overflow-y-auto h-[40vh] md:h-[260px] xl:h-[310px]">
                 {
                   <>
                     {" "}
@@ -202,7 +203,7 @@ const HideOptionPop = ({
                 }
               </div>
             ) : (
-              <div className="overflow-y-scroll h-[50vh] md:h-[333px]">
+              <div className="overflow-y-auto h-[50vh] md:h-[333px]">
                 <div
                   onClick={() => handleOptionSelect("visible_all")}
                   className={`flex justify-between items-center cursor-pointer font-[500] w-[90%] max-w-[374.86px] mx-auto px-[12px] my-[6px] py-[10px] rounded-[8px]  hover:bg-[#f8f8f8] `}
@@ -431,7 +432,7 @@ const HideOptionPop = ({
               className={`  w-[90%] gap-[12px] flex flex-row-reverse mt-[10px]  md:absolute ${
                 option === "visible_to"
                   ? "md:bottom-0 xl:bottom-[-38px]"
-                  : "md:bottom-[20px]"
+                  : "md:bottom-[-10px]"
               }    md:right-[21px]  mx-auto`}
             >
               <button
