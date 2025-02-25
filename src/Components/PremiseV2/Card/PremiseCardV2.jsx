@@ -412,11 +412,12 @@ const PremiseCardV2 = ({
                   <p>
                     {formattedDate}, {formattedTime}
                   </p>
-                  {premiseOwner?.id === user && (
+                  {premiseOwner?.id === user ? (
                     <p className="notranslate text-[#252525] text-[12px]">
                       {currentProjectName?.slice(0, 20)}
                     </p>
-                  )}
+                  ) : <br></br>
+                  }
                 </div>
               </div>
             </div>
@@ -648,11 +649,10 @@ const PremiseCardV2 = ({
                 <>
                   {
                     <button
-                      className={`${
-                        is_requested_for_sale
+                      className={`${is_requested_for_sale
                           ? "cursor-default"
                           : " cursor-pointer"
-                      }`}
+                        }`}
                       data-te-toggle="tooltip"
                       title="Send Sale Request"
                       disabled={is_requested_for_sale}
@@ -696,22 +696,21 @@ const PremiseCardV2 = ({
       <div className="bg-[#FAFAFA] h-[189px] border !border-[#f8f8f8] relative">
         <div
           className={` w-[93%] bg-[#FAFAFA]  h-[189px] rounded-[8px]  mx-auto   border border-[#eaeaea] relative
-          ${
-            imageLoaded && bg_img
+          ${imageLoaded && bg_img
               ? "premiseBg-loaded rounded-[8px]"
               : "rounded-[8px]"
-          }`}
+            }`}
           style={
             bg_img
               ? {
-                  backgroundImage: `url(${bg_img})`,
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  width: "92%",
-                  borderRadius: "8px",
-                  // boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-                }
+                backgroundImage: `url(${bg_img})`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                width: "92%",
+                borderRadius: "8px",
+                // boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+              }
               : { backgroundColor: bg_color }
           }
           onLoad={() => setImageLoaded(true)}
@@ -885,12 +884,22 @@ const PremiseCardV2 = ({
           source_language={source_language}
           project_id={project_id}
           refetch={refetch}
+
         />
       )}
       {openViewTranslationsPop && (
         <ViewTranslationPop
           popClose={setOpenViewTranslationsPop}
           premiseId={viewTransactionPId}
+          popCloseCmnt={() => setOpenPop(false)}
+          {...{
+            handleVisibility,
+            handleMonetizing,
+            setIsLiked,
+            refetch,
+            viewText,
+          }}
+
         />
       )}
       {openMonetizingPreferencesPop?.msg == "ShowBecomePrivilege" ? (
