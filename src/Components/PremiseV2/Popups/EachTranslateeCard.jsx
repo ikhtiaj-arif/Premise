@@ -1,22 +1,79 @@
-import React from "react";
-import { useGetUserByUserIdQuery } from "../../../app/EndPoints/premisePoolApi";
+import React, { useState } from "react";
+import { useGetOnePremiseQuery, useGetUserByUserIdQuery } from "../../../app/EndPoints/premisePoolApi";
 import { getLanguageName } from "../utilityFuncitons/functions";
+import Popup from "../../Premisepool/Popup";
 
-const EachTranslateeCard = ({ transaction }) => {
+
+const EachTranslateeCard = ({
+  transaction,
+  popCloseCmnt,
+  handleVisibility,
+  handleMonetizing,
+  refetch,
+  viewText, }) => {
   console.log('transaction',transaction);
   const { data: userData, isLoading } = useGetUserByUserIdQuery(
-    transaction?.translatedFor?.id
+    transaction?.translatedFor.id?.id
   );
   const { data: allowedUserData, isAUserLoading } = useGetUserByUserIdQuery(
     transaction?.translationAllowedBy?.id
   );
-  
+
+  const {
+    data: premiseData,
+    isPremiseLoading,
+    refetch: premiseRefetch,
+  } = useGetOnePremiseQuery(transaction?.translatedToPremiseID);
+
   const lang = getLanguageName(transaction?.translatedIn);
+  const [popup, setPopUp] = useState(false)
+
+  const popClose = () => {
+    setPopUp(false)
+  }
+ 
+
+  const data = premiseData
+    ? {
+      stylings: premiseData?.text?.includes("+")
+        ? JSON.parse(premiseData?.text?.split("+")[0])
+        : {}, // Default to an empty object if `text` is undefined or improperly formatted
+      bg_color: premiseData?.bg_color || "",
+      bg_img: premiseData?.bg_img || "",
+      comments: premiseData?.comments || [],
+      created_at: premiseData?.created_at || "",
+      likes: premiseData?.likes || 0,
+      id: premiseData?.id || "",
+      source_language: premiseData?.source_language || "",
+      updated_at: premiseData?.updated_at || "",
+      dText: premiseData?.text?.includes("+") ? premiseData?.text?.split("+")[1] : "",
+      project_id: premiseData?.pro_uuid || "",
+      m_value: premiseData?.m_value || "",
+    }
+    : {};
+
 
  
 
   return (
     <React.Fragment>
+
+      {
+        popup && <Popup
+          refetch={premiseRefetch}
+
+          {...{
+            popClose,
+            handleVisibility,
+            handleMonetizing,
+            viewText,
+          }}
+          data={data}
+
+        />
+      }
+
+
       {/* Translated In */}
       <div className="flex flex-col col-span-3">
         <h2 className="font-[500] text-[14px] leading-[21px] text-center my-[ px]">

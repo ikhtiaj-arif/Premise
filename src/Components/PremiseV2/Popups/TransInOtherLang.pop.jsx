@@ -55,7 +55,7 @@ const TransInOtherLang = ({
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
       <ToastContainer />
-      <div className=" h-[100vh] lg:h-[484px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[430px]  md:mx-auto relative lg:rounded-[8px]">
+      <div className=" h-[100vh] lg:h-[520px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[430px]  md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
         <img
           src={crossIcon}
@@ -161,12 +161,22 @@ const TransInOtherLang = ({
           </div>
         </div>
         <div className="w-[100px] mx-auto mt-[12px]">
-          <button
-            onClick={handlePayNow}
-            className={`${"bg-[#33B0CA]"} mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700] `}
-          >
-            Pay now
-          </button>
+          {
+            targetLanguage ? <button
+              onClick={handlePayNow}
+              className={`${"bg-[#33B0CA]"} mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700] `}
+            >
+              Pay now
+            </button>
+              :
+              <button
+
+                className={`${"bg-[#616161]"} mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700] cursor-not-allowed `}
+              >
+                Pay now
+              </button>
+          }
+
         </div>
       </div>
 
