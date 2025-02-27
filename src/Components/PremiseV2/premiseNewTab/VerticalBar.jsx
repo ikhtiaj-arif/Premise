@@ -11,7 +11,7 @@ const VerticalBar = ({ comments, currentCommentRef, handleOpenAllReplies }) => {
     if (ref) {
       ref.scrollIntoView({
         behavior: "smooth",
-        block: "center",
+        block: "start",
       });
     }
   };
