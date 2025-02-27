@@ -171,7 +171,7 @@ const TransInOtherLang = ({
               :
               <button
 
-                className={`${"bg-[#616161]"} mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700] cursor-not-allowed `}
+                className={`${"bg-[#616161] text-white"} mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700] cursor-not-allowed `}
               >
                 Pay now
               </button>
