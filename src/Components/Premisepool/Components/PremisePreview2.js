@@ -12,7 +12,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { PiTextAUnderlineBold } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { MyContext } from "../../../App";
+import { fetchUserAccess, MyContext } from "../../../App";
 import {
   usePostPremiseWithCharactersMutation,
   useSaveCharactersMutation,
@@ -208,6 +208,7 @@ const PremisePreview2 = ({
     // ProjectsObj,
     projectRefetch,
     allProjects,
+    currentUser
   } = useContext(MyContext);
 
   const {
@@ -511,6 +512,17 @@ const PremisePreview2 = ({
   const handleHideUnhidePremise = async (id) => {
     hideUnhidePremise(id, setHideDisable, userRefetch, setOpenDotMenu);
   };
+const [userMail, setUserMail] = useState(null);
+const [ownerMail, setOwnerMail] = useState(false);
+    const handleUserMail = async () => {
+      const res = await fetchUserAccess(`${currentUser?.id}/PP_MessageOwner`);
+      console.log("message rs", res);
+      if (res?.access === "No") {
+        setUserMail(res);
+      } else {
+        setUserMail("Yes");
+      }
+    };
 
   const handleProtagonistNameChange = (e, setValue) => {
     let value = e.target.value;
@@ -759,7 +771,13 @@ const PremisePreview2 = ({
               openDotMenu,
               project_id: response?.data?.projects?.pro_uuid,
               m_value: res?.data?.m_value,
+              hidden:res?.data?.hidden,
+              index:0,
+              premiseOwner: userQuery,
+              handleUserMail,
+              setOwnerMail,
             };
+         
 
             // Update state with new premise data
             setPremiseData(data);
@@ -896,6 +914,11 @@ const PremisePreview2 = ({
               openDotMenu,
               project_id: response?.data?.projects?.pro_uuid,
               m_value: res?.data?.m_value,
+              hidden:res?.data?.hidden,
+              index:0,
+              premiseOwner: userQuery,
+              handleUserMail,
+              setOwnerMail,
             };
 
             // Update state with new premise data
