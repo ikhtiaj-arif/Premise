@@ -517,6 +517,7 @@ const LeftSideBar = ({
               setOpenAllReplies,
               setOpenReplyFieldID,
               lastCommentRef,
+              setIsLoading
             }}
           />
 

@@ -14,12 +14,14 @@ const AskIda = ({
   setOpenAllReplies,
   setOpenReplyFieldID,
   lastCommentRef,
-  premiseOwner,isLoading,setIsLoading
+  premiseOwner,
+  isLoading,
+  setIsLoading,
 }) => {
   const { currentUser } = useContext(MyContext);
   const [postComment, { isLoading: isPostLoading }] =
     useCommentPremiseMutation();
-  
+
   const [noAccessPopup, setNoAccessPopup] = useState(null);
   const [service, setService] = useState(null);
 
