@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import {
   useGetCommentByPremiseIdQuery,
@@ -18,15 +18,18 @@ import { loadingData } from "../Premsie.v2";
 import LeftSideBar from "./LeftSideBar";
 import ProjectInfo from "./ProjectInfo";
 import VerticalBar from "./VerticalBar";
+import { MyContext } from "../../../App";
 
 const PremiseNewTab = () => {
   const { id } = useParams(); // Extract the ID from the route
   const { state } = useLocation();
-
+  const currentCommentRef = useRef({});
   // const params = state || {};
   // const { project_id } = params;
   // console.log("project_id", project_id);
-
+ const {
+    setCurrentlyOpenedCommentID,
+  } = useContext(MyContext);
   const {
     data: premiseData,
     isPremiseLoading,
@@ -153,10 +156,14 @@ const PremiseNewTab = () => {
 
   const [focusedCValue, setFocusedCValue] = useState(null);
 
-  const handleFocusComment = (id) => {
-    // setFocusedCValue(c_value);
-    setOpenReplyFieldID(id);
+  const handleOpenAllReplies = (id, commenterName) => {
     setOpenAllReplies(true);
+    setOpenReplyFieldID(id);
+    setReplyToCommentID(id);
+    // setReplyToCommentID(comments?.id);
+    // setCurrentlyOpenedCommentID(comments?.id);
+    setCurrentlyOpenedCommentID(id);
+    setCommentOwner(commenterName);
   };
 
   return (
@@ -183,6 +190,8 @@ const PremiseNewTab = () => {
                   characterRefetch,
                   isCharLoading,
                   handleSearch,
+                  currentCommentRef,
+                  handleOpenAllReplies
                 }}
               />
             </div>
@@ -207,8 +216,8 @@ const PremiseNewTab = () => {
                 <div className="pb-[120px] pt-[18px] lg:pb-[18px]">
                   {filteredCommentsData?.comments?.length > 0 ? (
                     <>
-                   
-                      <div>
+
+                        <div >
                         {[...(filteredCommentsData?.comments || [])]
                           .sort((a, b) => a.c_value - b.c_value)
                           .map((comment, index) => (
@@ -218,8 +227,9 @@ const PremiseNewTab = () => {
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, y: -50 }}
                               transition={{ duration: 0.5 }}
+                              ref={(el) => (currentCommentRef.current[comment.id] = el)}
                             >
-                              <AllComments 
+                              <AllComments
                                 fromNew
                                 commentIdx={index + 1}
                                 comments={comment}
@@ -238,6 +248,7 @@ const PremiseNewTab = () => {
                                 setReplyField={setReplyField}
                                 replyField={replyField}
                                 replyRef={replyRef}
+                                handleOpenAllReplies={handleOpenAllReplies}
                                 handleReplyTextChange={handleReplyTextChange}
                                 handlePostReplyToComment={
                                   handlePostReplyToComment
