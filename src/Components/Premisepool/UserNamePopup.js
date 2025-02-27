@@ -71,15 +71,14 @@ const UserNamePopup = ({ setAddPopup,refetch }) => {
   };
 
   const handleAddPopup = async () => {
-        const res = await fetchUserAccess(`${currentUser?.id}/PP_PostPremise`);
-        console.log("add premise res", res);
-
-        if (res?.access == "No") {
-          setAddPrePop(res);
-        } else {
-          setAddPrePop("Yes");
-        }
-    };
+      const res = await fetchUserAccess(`${currentUser?.id}/PP_PostPremise`);
+      console.log("add premise res", res);
+      if (res?.access == "No") {
+        setAddPrePop(res);
+      } else {
+        setAddPrePop("Yes");
+      }
+  };
 
   return (
     <>
