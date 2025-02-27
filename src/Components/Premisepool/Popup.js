@@ -8,6 +8,7 @@ import {
   useGetPremiseUserQuery,
 } from "../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../img/Icons/crossIcon.png";
+import newTabIcn from "../../img/Icons/newTabIcn.png";
 import userImg from "../../img/Icons/userImg.png";
 // import transCartQ from "../../../img/Icons/transCartQ.png";
 
@@ -30,6 +31,7 @@ import PaySalePopup from "../PremiseV2/Popups/PaySalePopup";
 import ReqSalePop from "../PremiseV2/Popups/ReqSalePop";
 import ReqTranslationPop from "../PremiseV2/Popups/ReqTranslationPop";
 
+import SaleRequestedOwner from "../PremiseV2/Popups/SaleRequestedOwner";
 import TransInOtherLang from "../PremiseV2/Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../PremiseV2/Popups/ViewTranslation.pop";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
@@ -49,7 +51,6 @@ import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
 import UserMail from "./UserMail";
 import UserType from "./UserType";
-import SaleRequestedOwner from "../PremiseV2/Popups/SaleRequestedOwner";
 
 const Popup = ({
   popClose,
@@ -335,17 +336,17 @@ const Popup = ({
 
   useEffect(() => {}, [openDotMenu]);
 
-  // const handlePremiseOpenNewTab = (id) => {
-  //   // let host = window.location.origin + `/#/new-tab/${id}`;
-  //   // window.open(host, "_blank");
+  const handlePremiseOpenNewTab = (id) => {
+    // let host = window.location.origin + `/#/new-tab/${id}`;
+    // window.open(host, "_blank");
 
-  //   // console.log(id);
-  //   // // const url = `${baseURL}/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
-  //   const url = `${window.location.origin}/ideamall/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
+    // console.log(id);
+    // // const url = `${baseURL}/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
+    const url = `${window.location.origin}/ideamall/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
 
-  //   // // Open the URL in a new tab
-  //   window.open(url, "_blank");
-  // };
+    // // Open the URL in a new tab
+    window.open(url, "_blank");
+  };
 
   const [translationRequestPop, setTranslationRequestPop] = useState("");
 
@@ -491,7 +492,15 @@ const Popup = ({
                   </p>
                 </div> */}
                 </div>
-
+                <div className="flex gap-[3px] items-center">
+                <img
+                    data-te-toggle="tooltip"
+                    title="Open In New Tab"
+                    src={newTabIcn}
+                    className="w-7 h-7 cursor-pointer mt-[-8px]"
+                    alt=""
+                    onClick={() => handlePremiseOpenNewTab(premiseId)}
+                  />{" "}
                 <CardHeadOptions
                   // owner={owner}
                   // index={index}
@@ -543,9 +552,10 @@ const Popup = ({
                   dotPopupRef={dotPopupRef}
                   setOpenDotMenu={setOpenDotMenu}
                  
-                  openDotMenu={openDotMenu}
-                  
+                  openDotMenu={openDotMenu}          
                 />
+                </div>
+
               </div>
               {/* image */}
               <PopupPremiseText
