@@ -145,7 +145,6 @@ export const fetchUserAccess = async (flag) => {
     });
 
     const data = await response.json();
-    //console.log(`userAccess`, data);
     return data;
   } catch (error) {
     return null;

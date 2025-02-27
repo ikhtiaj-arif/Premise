@@ -45,6 +45,8 @@ const LeftSideBar = ({
   isCharLoading,
   characterRefetch,
   handleSearch,
+  currentCommentRef,
+  handleOpenAllReplies
 }) => {
   const {
     bg_img,
@@ -64,7 +66,7 @@ const LeftSideBar = ({
     project_id,
     created_by_name,
   } = premiseData;
-  
+
   console.log("filteredCommentsData", filteredCommentsData);
 
   const { charactersPopupMobile } = useContext(GlobalContext);
@@ -546,6 +548,8 @@ const LeftSideBar = ({
         <VerticalBar
           replyRef={replyRef}
           comments={filteredCommentsData?.comments}
+          currentCommentRef={currentCommentRef}
+          handleOpenAllReplies={handleOpenAllReplies}
           // setReplyField={setReplyField}
           // replyField={replyField}
           // onFocusComment={handleFocusComment}
