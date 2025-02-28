@@ -617,6 +617,15 @@ export const premiseSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    deleteMessage: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/ideamall/api/v2/premise-broadcastcontent/${id}/`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["premise-message"],
+    }),
 
   }),
 });
@@ -671,5 +680,5 @@ export const {
   usePaymentUintDetailsMutation,
   useGetCalculateProductPriceQuery,
   usePayNowPackageMutation,
-  useActivateFreeMutation
+  useActivateFreeMutation,useDeleteMessageMutation,
 } = premiseSlice;
