@@ -264,7 +264,7 @@ const PaymentInvoicePopup = ({
                   <div className=" grid grid-cols-2 md:grid-cols-[40%_minmax(40%,_1fr)_20%] text-[#33B0CA] text-[16px] md:text-[28px] font-bold md:mb-6">
                     <h2>
                       Invoice{" "}
-                      <span className="text-[16px] md:text-[24px]">{`{2025/001}`}</span>
+                      <span className="text-[16px] md:text-[24px]">{`2025/001`}</span>
                       <p
                         id="date"
                         className="border-b-2 border-t-2 sm:text-lg border-[#ccc]  px-4 py-2 w-24 hidden md:block mt-1"
