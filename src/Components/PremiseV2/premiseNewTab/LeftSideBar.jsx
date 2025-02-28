@@ -64,7 +64,7 @@ const LeftSideBar = ({
     project_id,
     created_by_name,
   } = premiseData;
-  
+
   console.log("filteredCommentsData", filteredCommentsData);
 
   const { charactersPopupMobile } = useContext(GlobalContext);
@@ -517,7 +517,8 @@ const LeftSideBar = ({
               setOpenAllReplies,
               setOpenReplyFieldID,
               lastCommentRef,
-              setIsLoading
+              isLoading,
+              setIsLoading,
             }}
           />
 

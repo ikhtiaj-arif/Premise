@@ -29,7 +29,7 @@ const LimitPaymentPage = () => {
 
   const navigate = useNavigate();
 
-  //console.log("scriptid from limit payment", scriptId);
+  //console.log("scriptid from limit payment", paymentData);
 
   useEffect(() => {
     async function fetchDataForLimit() {
@@ -110,7 +110,7 @@ const LimitPaymentPage = () => {
       charges: paymentData?.net_payable,
       discount: 0,
       services_data: paymentData?.services,
-      services_id: scriptId,
+      // services_id: scriptId,
     };
     const result = await payNow(data);
     const { merchantId, amount, currency, orderId, credit_to_debit } =

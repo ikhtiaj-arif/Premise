@@ -15,6 +15,7 @@ import TypingLoader from "../TypingLoader";
 import { HeaderOptions } from "./HeaderOptions";
 import { Package } from "./Package";
 import PayableAmount from "./PayableAmount";
+import { Amount } from "./Amount";
 
 const PaymentInvoicePopup = ({
   typeOfRequest,
@@ -112,13 +113,10 @@ const PaymentInvoicePopup = ({
     }
     setPaymentCondition(true);
     const data = {
-      amount:
-        typeOfRequest !== "sale"
-          ? payInfo?.gross_payable + payInfo?.total_discount
-          : payInfo?.total_amount,
-      charges: payInfo?.gross_payable || 0,
       transaction_id: premise_id,
-      discount: payInfo?.total_discount || 0,
+      product_name: "Premisepool",
+      charges: payInfo?.net_payable || 0,
+      discount: 0,
     };
     const result = await paymentSend(data);
     const { merchantId, amount, currency, orderId, credit_to_debit } =
@@ -297,11 +295,11 @@ const PaymentInvoicePopup = ({
                   <section className="flex flex-col lg:flex-row justify-between lg:gap-[5rem] gap-[20px] h-full">
                     <Package data={payInfo} typeOfRequest={typeOfRequest} />
 
-                    {/* <Amount data={payInfo} /> */}
-                    <PayableAmount
+                    <Amount data={payInfo} />
+                    {/* <PayableAmount
                       data={payInfo}
                       typeOfRequest={typeOfRequest}
-                    />
+                    /> */}
                   </section>
 
                   {/* terms part */}

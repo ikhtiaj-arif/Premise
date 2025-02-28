@@ -22,48 +22,62 @@ const PayableAmount = ({ data, typeOfRequest }) => {
           </div>
           {typeOfRequest !== "sale" && (
             <>
-              <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
-                <h3>Early Bird Discount(USD)</h3>
-                <p className="text-right">
-                  {data?.early_bird_calculate?.toFixed(2) || 0}
-                </p>
-              </div>
-              <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
-                <h3>Team Discount(USD)</h3>
-                <p className="text-right">
-                  {data?.staff_discount_calculate?.toFixed(2) || 0}
-                </p>
-              </div>
-              <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
-                <h3>Membership Discount(USD)</h3>
-                <p className="text-right">
-                  {data?.membership_discount_calculate?.toFixed(2) || 0}
-                </p>
-              </div>
-              <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
-                <h3>Student Discount(USD)</h3>
-                <p className="text-right">
-                  {data?.student_discount_calculate?.toFixed(2) || 0}
-                </p>
-              </div>
-              <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
-                <h3>Total Discount(USD)</h3>
-                <p className="text-right">
-                  {data?.total_discount?.toFixed(2) || 0}
-                </p>
-              </div>
-              <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
-                <h3>Net Service Charges(USD)</h3>
-                <p className="text-right">
-                  {data?.net_service_charge?.toFixed(2) || 0}
-                </p>
-              </div>
-              <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
-                <h3>Monthly Subscription(USD)</h3>
-                <p className="text-right">
-                  {data?.membership_amount?.toFixed(2) || 0}
-                </p>
-              </div>
+              {data?.early_bird_calculate && (
+                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+                  <h3>Early Bird Discount(USD)</h3>
+                  <p className="text-right">
+                    {data?.early_bird_calculate?.toFixed(2) || 0}
+                  </p>
+                </div>
+              )}
+              {data?.staff_discount_calculate && (
+                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+                  <h3>Team Discount(USD)</h3>
+                  <p className="text-right">
+                    {data?.staff_discount_calculate?.toFixed(2) || 0}
+                  </p>
+                </div>
+              )}
+              {data?.membership_discount_calculate && (
+                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+                  <h3>Membership Discount(USD)</h3>
+                  <p className="text-right">
+                    {data?.membership_discount_calculate?.toFixed(2) || 0}
+                  </p>
+                </div>
+              )}
+              {data?.student_discount_calculate && (
+                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+                  <h3>Student Discount(USD)</h3>
+                  <p className="text-right">
+                    {data?.student_discount_calculate?.toFixed(2) || 0}
+                  </p>
+                </div>
+              )}
+              {data?.total_discount && (
+                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+                  <h3>Total Discount(USD)</h3>
+                  <p className="text-right">
+                    {data?.total_discount?.toFixed(2) || 0}
+                  </p>
+                </div>
+              )}
+              {data?.net_service_charge && (
+                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+                  <h3>Net Service Charges(USD)</h3>
+                  <p className="text-right">
+                    {data?.net_service_charge?.toFixed(2) || 0}
+                  </p>
+                </div>
+              )}
+              {data?.membership_amount && (
+                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+                  <h3>Monthly Subscription(USD)</h3>
+                  <p className="text-right">
+                    {data?.membership_amount?.toFixed(2) || 0}
+                  </p>
+                </div>
+              )}
 
               <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
                 <h3>Taxes & Charges(USD)</h3>
@@ -104,16 +118,14 @@ const PayableAmount = ({ data, typeOfRequest }) => {
             </>
           )}
         </div>
-        <div className="flex items-center text-white px-5 bg-[#33B0CA] justify-between py-2">
+        <div className="flex items-center text-white px-5 bg-[#33B0CA] lg:text-[16px] text-[14px] font-semibold justify-between py-2">
           <h3>Gross Payable({data?.currency_code || "USD"})</h3>
-          <div className="text-right">
-            <p className="text-right">
-              {/* {(data?.total_payable * data?.rate)?.toFixed(2)} */}
-              {data?.gross_payable?.toFixed(2) ||
-                data?.total_amount?.toFixed(2) ||
-                0}
-            </p>
-          </div>
+          <p className="text-right">
+            {/* {(data?.total_payable * data?.rate)?.toFixed(2)} */}
+            {data?.gross_payable?.toFixed(2) ||
+              data?.total_amount?.toFixed(2) ||
+              0}
+          </p>
         </div>
       </div>
 

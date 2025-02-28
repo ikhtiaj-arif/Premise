@@ -19,30 +19,31 @@ export const Amount = ({ data }) => {
           <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
             <h3 className="">Price(USD)</h3>
             <p className="text-right">
-              {data?.total_price?.toFixed(2) || 0}
+              {data?.total_price?.toFixed(2) || data?.total_amount || 0}
             </p>
           </div>
-          <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
-            <h3 className="">Membership Discount(USD)</h3>
+          {data?.discounted_amount != 0 && (
+            <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+              <h3 className="">Membership Discount(USD)</h3>
 
-            <p className="text-right">
-              {data?.discounted_amount?.toFixed(2) || 0}
-            </p>
-          </div>
-          <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
-            <h3 className="">Early Bird Discount(USD)</h3>
+              <p className="text-right">
+                {data?.discounted_amount?.toFixed(2) || 0}
+              </p>
+            </div>
+          )}
+          {data?.early_bird_discount_amount != 0 && (
+            <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+              <h3 className="">Early Bird Discount(USD)</h3>
 
-            <p className="text-right">
-              {data?.early_bird_discount_amount?.toFixed(2) ||
-                0}
-            </p>
-          </div>
+              <p className="text-right">
+                {data?.early_bird_discount_amount?.toFixed(2) || 0}
+              </p>
+            </div>
+          )}
           <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
             <h3>Taxes & Charges(USD)</h3>
 
-            <p className="text-right">
-              {data?.gst_calculate?.toFixed(2) || 0}
-            </p>
+            <p className="text-right">{data?.gst_calculate?.toFixed(2) || 0}</p>
           </div>
           {data?.state_code == "07" ? (
             <>
@@ -69,20 +70,14 @@ export const Amount = ({ data }) => {
           )}
           <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
             <h3>Total Amount(USD)</h3>
-            <p className="text-right">
-              {data?.net_payable?.toFixed(2) || 0}
-            </p>
+            <p className="text-right">{data?.net_payable?.toFixed(2) || 0}</p>
           </div>
         </div>
-        
+
         <div className="flex items-center text-white px-5 bg-[#33B0CA] lg:text-[16px] text-[14px] font-semibold justify-between py-2">
-          <h3 className="">
-            Total Paid({data?.currency_code})
-          </h3>
+          <h3 className="">Total Paid({data?.currency_code})</h3>
           <p className="text-right">
-            {(
-              data?.net_payable * data?.rate
-            )?.toFixed(2) || 0}
+            {(data?.net_payable * data?.rate)?.toFixed(2) || 0}
           </p>
         </div>
       </div>

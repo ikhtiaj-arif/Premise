@@ -22,8 +22,8 @@ export const HeaderOptions = ({ currentUser, data, mnf }) => {
             <p className="text-[#252525]">
               {mnf
                 ? "My Next Film Private Limited"
-                : `${currentUser?.first_name || data?.first_name} 
-              ${currentUser?.last_name || data?.last_name}`}
+                : `${currentUser?.first_name || data?.first_name || data?.firstName} 
+              ${currentUser?.last_name || data?.last_name || data?.lastName}`}
             </p>
           </div>
         </div>
