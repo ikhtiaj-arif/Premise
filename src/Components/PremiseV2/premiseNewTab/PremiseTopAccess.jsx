@@ -1,40 +1,73 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import mailCartQ from "../../../img/Icons/mailCartQ.png";
-import transCartQ from "../../../img/Icons/transCartQ.png";
-import translateCart from "../../../img/Icons/translateCart.png";
-import msgIcon from "../../../img/Icons/msgIcon.png";
-import { FaEllipsisV } from "react-icons/fa";
-import UserMail from "../../Premisepool/UserMail";
-import TransInOtherLang from "../Popups/TransInOtherLang.pop";
-import MonetizePreferencePop from "../Popups/MonetizePreferencePop";
-import ViewTranslationPop from "../Popups/ViewTranslation.pop";
-import { useDeletePremiseMutation } from "../../../app/EndPoints/premisePoolApi";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { baseURL } from "../../utils";
+import { toast } from "react-toastify";
 import { fetchUserAccess, MyContext } from "../../../App";
+import {
+  useGetSavedCharactersQuery,
+  useSaveCharactersMutation,
+} from "../../../app/EndPoints/Characters/Characters";
+import {
+  useDeletePremiseMutation,
+  useGetPremiseUserQuery,
+} from "../../../app/EndPoints/premisePoolApi";
+import CharacterEditablePop from "../../Premisepool/Character/CharacterEditablePop";
+import DeletePremise from "../../Premisepool/DeletePremise";
+import OwnerMail from "../../Premisepool/OwnerMail";
+import UserMail from "../../Premisepool/UserMail";
+import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
+import { baseURL } from "../../utils";
+import CardHeadOptions from "../Card/CardHeadOptions";
+import AvailableForTranslationPop from "../Popups/AvailableForTranslationPop";
+import BankDetailsPop from "../Popups/BankDetails/BankDetailsPop";
+import MonetizePreferencePop from "../Popups/MonetizePreferencePop";
+import PaySalePopup from "../Popups/PaySalePopup";
+import ReqSalePop from "../Popups/ReqSalePop";
+import ReqTranslationPop from "../Popups/ReqTranslationPop";
+import SaleRequestedOwner from "../Popups/SaleRequestedOwner";
+import TransInOtherLang from "../Popups/TransInOtherLang.pop";
+import ViewTranslationPop from "../Popups/ViewTranslation.pop";
 
-const PremiseTopAccess = ({ user, premiseOwner, id, project_id }) => {
-  const [openDotMenu, setOpenDotMenu] = useState(false);
+const PremiseTopAccess = ({
+  user,
+  premiseOwner,
+  id,
+  project_id,
+  premiseData,
+  premiseRefetch,
+}) => {
+  const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
+
+  const { currentUser } = useContext(MyContext);
+  const userFirstName = userQuery?.first_name;
+  const userLastName = userQuery?.last_name;
+
   const [userMail, setUserMail] = useState(false);
+  const [openDotMenu, setOpenDotMenu] = useState(false);
   const [openTransOtherPop, setOpenTransOtherPop] = useState(false);
   const [openMonetizingPreferencesPop, setOpenMonetizingPreferencesPop] =
     useState(false);
   const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);
   const [viewTransactionPId, setViewTransactionPId] = useState("");
   const [isDelete, setIsDelete] = useState(false);
-
-  const { currentUser } = useContext(MyContext);
-
+  const [openHidePop, setOpenHidePop] = useState(null);
+  const [characterArray, setCharacterArray] = useState([]);
+  const [onlyAdd, setOnlyAdd] = useState(true);
+  const splitText = premiseData?.text?.split("+");
+  const dText = splitText[1];
+  const stylings = JSON?.parse(splitText[0]);
+  const [viewText, setViewText] = useState(splitText[1]);
   const [deletePremise, { isLoading }] = useDeletePremiseMutation();
-
+  const [characterLoading, setCharacterLoading] = useState(true);
   const { allspProjectJSON } = useContext(MyContext);
-
+  const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
   const currentProjectData = allspProjectJSON?.projects?.find(
     (item) => item.pro_uuid === project_id
   );
 
+  const [ownerMail, setOwnerMail] = useState(false);
+  const { data: characters, isCharLoading } =
+    useGetSavedCharactersQuery(project_id);
   const currentProjectName = currentProjectData?.name;
   const isProjectLocked = currentProjectData?.locked;
 
@@ -55,6 +88,34 @@ const PremiseTopAccess = ({ user, premiseOwner, id, project_id }) => {
 
     return () => document.body.removeEventListener("mousedown", closeMenu);
   }, []);
+
+  const handleUpdateSavedChar = async () => {
+    setCharacterLoading(true);
+    try {
+      const charArr = JSON.stringify(characterArray);
+      const data = {
+        // id: premiseID,
+        id: project_id,
+        body: { char_data: charArr },
+      };
+
+      const response = await saveCharacter(data);
+
+      if (response) {
+        // setAddNewCharacter(false)
+        // setEditPopupOpen(false)
+        setOpenCharacterChart(false);
+        // setCharSaveDisable(true);
+        setCharacterLoading(false);
+
+        // toast.success("characters updated!")
+      }
+      return response;
+    } catch (error) {
+      setCharacterLoading(false);
+      // console.error("Error updating characters:", error);
+    }
+  };
 
   const handleViewTransaction = (id) => {
     // console.log(id);
@@ -100,140 +161,93 @@ const PremiseTopAccess = ({ user, premiseOwner, id, project_id }) => {
     }
   };
 
+  const handleMonetizing = async () => {
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_Monitize`);
+
+    if (res?.access === "No") {
+      setOpenMonetizingPreferencesPop(res);
+    } else {
+      setOpenMonetizingPreferencesPop("Yes");
+    }
+    setOpenDotMenu(null);
+  };
+
+  const handleVisibility = async () => {
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_Privacy`);
+
+    if (res?.access === "No") {
+      setOpenHidePop(res);
+    } else {
+      setOpenHidePop("Yes");
+    }
+    setOpenDotMenu(null);
+  };
+
+  const [translationRequestPop, setTranslationRequestPop] = useState("");
+  const [noAccessLbPopUp, setNoAccessLbPopUp] = useState(null);
+
+  const [viewTrnRequests, setViewTrnRequests] = useState("");
+  const [viewSaleRequests, setViewSaleRequests] = useState("");
+  const [saleRequestedOwner, setSaleRequestedOwner] = useState(true);
+  const [openCharacterChart, setOpenCharacterChart] = useState(null);
+  const [openPop, setOpenPop] = useState(false);
+  const [openAvailableForTranslationPop, setOpenAvailableForTranslationPop] =
+    useState(false);
+  const [saleId, setSaleId] = useState("");
+  const [viewSale, setViewSale] = useState(false);
+
+  const [saleRequestPop, setSaleRequestPop] = useState("");
+
   return (
-    <div className="flex gap-[3px] items-center justify-between pb-1">
+    <div className="flex gap-[3px] items-center justify-between pb-1 mt-2">
       <p className=" text-[16px] font-semibold leading-6 text-[#616161]">
         Premise
       </p>
-      <div className="flex gap-[3px] items-center">
-        <img
-          data-te-toggle="tooltip"
-          title="Check Mails"
-          src={transCartQ}
-          className="w-8 h-8 cursor-pointer"
-          alt=""
-          // onClick={() => setOwnerMail(true)}
-        />
-        <img
-          data-te-toggle="tooltip"
-          title="Check Mails"
-          src={translateCart}
-          className="w-8 h-8 cursor-pointer"
-          alt=""
-          // onClick={() => setOwnerMail(true)}
-        />
-        <img
-          data-te-toggle="tooltip"
-          title="Check Mails"
-          src={mailCartQ}
-          className="w-9 h-9 cursor-pointer"
-          alt=""
-          // onClick={() => setOwnerMail(true)}
-        />
 
-        {premiseOwner?.id == user ? (
-          <div className=" relative">
-            <FaEllipsisV
-              onMouseDown={(e) => {
-                e.stopPropagation();
-                setOpenDotMenu((prev) => !prev);
-              }}
-              className="w-5 h-5 cursor-pointer"
-            />
-            {openDotMenu && (
-              <div
-                ref={dotPopupRef}
-                className="absolute w-[197px] flex flex-col font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px] z-10"
-              >
-                <button
-                  onClick={() => {
-                    setOpenTransOtherPop(!openTransOtherPop);
-                    setOpenDotMenu(false);
-                  }}
-                  className="cursor-pointer w-full"
-                >
-                  <p className="text-[14px] w-full font-[500] break-none hover:text-[#33B0CA] text-[#252525]">
-                    {" "}
-                    Copy in new Language
-                  </p>{" "}
-                </button>
-                <button
-                  onClick={() => {
-                    setOpenMonetizingPreferencesPop(
-                      !openMonetizingPreferencesPop
-                    );
-                    setOpenDotMenu(null);
-                  }}
-                  className="cursor-pointer w-full"
-                >
-                  <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
-                    {" "}
-                    Monetizing Preferences
-                  </p>{" "}
-                </button>
-                <button
-                  onClick={() => {
-                    handleViewTransaction(id);
-                    setOpenDotMenu(null);
-                  }}
-                  className="cursor-pointer w-full"
-                >
-                  <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
-                    {" "}
-                    View and Translations
-                  </p>{" "}
-                </button>
-                <button
-                  onClick={() => {
-                    setIsDelete(id);
-                    setOpenDotMenu(false);
-                  }}
-                  className="cursor-pointer w-full"
-                >
-                  <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
-                    {" "}
-                    Delete Premise
-                  </p>{" "}
-                </button>
-
-                <button
-                  onClick={() => {
-                    handleOpenSp();
-                    setOpenDotMenu(false);
-                  }}
-                  className="cursor-pointer w-full "
-                >
-                  <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
-                    {" "}
-                    Open <span className="scriptpad-m">Script Pad</span>
-                  </p>{" "}
-                </button>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div>
-            <img
-              data-te-toggle="tooltip"
-              title="Send Message"
-              src={msgIcon}
-              className="w-8 h-8 cursor-pointer"
-              alt=""
-              onClick={handleUserMail}
-            />
-            {userMail == "Yes" && (
-              <UserMail
-                recipient={premiseOwner}
-                data={{ user, id }}
-                setUserMail={setUserMail}
-              />
-            )}
-            {userMail?.msg == "ShowBecomePrivilege" && (
-              <NoAccessPopUp noAccessPopup={userMail} setNoAccessPopup={setUserMail} />
-            )}
-          </div>
-        )}
-      </div>
+      <CardHeadOptions
+        owner={{ user, userFirstName, userLastName }}
+        // index={index}
+        // refetch={refetch}
+        viewTrnRequests={viewTrnRequests}
+        setViewTrnRequests={setViewTrnRequests}
+        viewTransactionPId={viewTransactionPId}
+        setViewTransactionPId={setViewTransactionPId}
+        setViewSaleRequests={setViewSaleRequests}
+        openTransOtherPop={openTransOtherPop}
+        setOpenTransOtherPop={setOpenTransOtherPop}
+        handleDelete={handleDelete}
+        setOpenCharacterChart={setOpenCharacterChart}
+        openViewTranslationsPop={openViewTranslationsPop}
+        openAvailableForTranslationPop={openAvailableForTranslationPop}
+        setOpenAvailableForTranslationPop={setOpenAvailableForTranslationPop}
+        setOpenViewTranslationsPop={setOpenViewTranslationsPop}
+        setOpenMonetizingPreferencesPop={setOpenMonetizingPreferencesPop}
+        setNoAccessLbPopUp={setNoAccessLbPopUp}
+        setUserMail={setUserMail}
+        setSaleId={setSaleId}
+        setViewSale={setViewSale}
+        setSaleRequestPop={setSaleRequestPop}
+        setTranslationRequestPop={setTranslationRequestPop}
+        isProjectLocked={isProjectLocked}
+        id={id}
+        premiseOwner={premiseOwner}
+        filter_flag={premiseData?.filter_flag}
+        visible_to={premiseData?.visible_to}
+        comment_filter_flag={premiseData?.comment_filter_flag}
+        project_id={project_id}
+        available_for_sale={premiseData?.available_for_sale}
+        available_for_translation={premiseData?.available_for_translation}
+        premise_source_id={premiseData?.premise_source_id}
+        translation_request_count={premiseData?.translation_request_count}
+        sale_request_count={premiseData?.sale_request_count}
+        is_requested_for_sale={premiseData?.is_requested_for_sale}
+        is_translated_languages={premiseData?.is_translated_languages}
+        dotPopupRef={dotPopupRef}
+        setOpenDotMenu={setOpenDotMenu}
+        openDotMenu={openDotMenu}
+        setOpenHidePop={setOpenHidePop}
+        openHidePop={openHidePop}
+      />
 
       {openTransOtherPop && (
         <TransInOtherLang popClose={setOpenTransOtherPop} />
@@ -249,6 +263,187 @@ const PremiseTopAccess = ({ user, premiseOwner, id, project_id }) => {
           popClose={setOpenMonetizingPreferencesPop}
           id={id}
           user={user}
+        />
+      )}
+
+      {isDelete && (
+        <DeletePremise
+          setIsDelete={setIsDelete}
+          refetch={premiseRefetch}
+          isDelete={isDelete}
+          popClose={setIsDelete}
+        />
+      )}
+
+      {openCharacterChart && (
+        <CharacterEditablePop
+          setCharacterEditPop={setOpenCharacterChart}
+          characterArray={characterArray}
+          currentProjectData={currentProjectData}
+          setCharacterArray={setCharacterArray}
+          onlyAdd={onlyAdd}
+          handleUpdateSavedChar={handleUpdateSavedChar}
+          characterLoading={isCharLoading}
+          project_id={project_id}
+        />
+      )}
+      {openViewTranslationsPop && (
+        <ViewTranslationPop
+          popClose={setOpenViewTranslationsPop}
+          premiseId={viewTransactionPId}
+        />
+      )}
+      {userMail === "Yes" && (
+        <UserMail
+          recipient={premiseOwner}
+          data={{ user, id, userFirstName, userLastName }}
+          setUserMail={setUserMail}
+        />
+      )}
+      {userMail?.msg === "ShowBecomePrivilege" && (
+        <NoAccessPopUp
+          noAccessPopup={userMail}
+          setNoAccessPopup={setUserMail}
+        />
+      )}
+      {ownerMail && (
+        <OwnerMail data={{ user, id }} setOwnerMail={setOwnerMail} />
+      )}
+      {/* {openPop && (
+        <Popup
+          popClose={() => setOpenPop(false)}
+          {...{
+            handleVisibility,
+            handleMonetizing,
+            setIsLiked,
+            refetch,
+            viewText,
+          }}
+          data={popupData}
+          p={p}
+        />
+      )} */}
+      {openCharacterChart && (
+        <CharacterEditablePop
+          setCharacterEditPop={setOpenCharacterChart}
+          characterArray={characterArray}
+          currentProjectData={currentProjectData}
+          setCharacterArray={setCharacterArray}
+          onlyAdd={onlyAdd}
+          handleUpdateSavedChar={handleUpdateSavedChar}
+          characterLoading={isCharLoading}
+          project_id={premiseData?.project_id}
+        />
+      )}
+      {openTransOtherPop && (
+        <TransInOtherLang
+          refetch={premiseRefetch}
+          popClose={setOpenTransOtherPop}
+          id={id}
+          user={user}
+          source_language={premiseData?.source_language}
+          project_id={project_id}
+        />
+      )}
+      {openAvailableForTranslationPop && (
+        <AvailableForTranslationPop
+          popClose={setOpenAvailableForTranslationPop}
+          id={id}
+          user={user}
+          source_language={premiseData?.source_language}
+          project_id={project_id}
+          refetch={premiseRefetch}
+        />
+      )}
+      {openViewTranslationsPop && (
+        <ViewTranslationPop
+          popClose={setOpenViewTranslationsPop}
+          premiseId={viewTransactionPId}
+          popCloseCmnt={() => setOpenPop(false)}
+          {...{
+            handleVisibility,
+            handleMonetizing,
+            // setIsLiked,
+            premiseRefetch,
+            viewText,
+          }}
+        />
+      )}
+      {openMonetizingPreferencesPop?.msg === "ShowBecomePrivilege" ? (
+        <NoAccessPopUp
+          noAccessPopup={openMonetizingPreferencesPop}
+          setNoAccessPopup={setOpenMonetizingPreferencesPop}
+        />
+      ) : openMonetizingPreferencesPop?.msg === "LB" ||
+        openMonetizingPreferencesPop?.msg === "ShowBuyPackage_and_Allacarte" ? (
+        <NoAccessLbPopUp
+          noAccessLbPopUp={openMonetizingPreferencesPop}
+          setNoAccessPopup={setOpenMonetizingPreferencesPop}
+          service="PP_Monitizes"
+        />
+      ) : (
+        openMonetizingPreferencesPop === "Yes" && (
+          <MonetizePreferencePop
+            popClose={setOpenMonetizingPreferencesPop}
+            id={id}
+            user={user}
+          />
+        )
+      )}
+      {noAccessLbPopUp?.msg === "ShowBecomePrivilege" ? (
+        <NoAccessPopUp
+          noAccessPopup={noAccessLbPopUp}
+          setNoAccessPopup={setNoAccessLbPopUp}
+        />
+      ) : (
+        (noAccessLbPopUp?.msg === "LB" ||
+          noAccessLbPopUp?.msg === "ShowBuyPackage_and_Allacarte") && (
+          <NoAccessLbPopUp
+            noAccessLbPopup={noAccessLbPopUp}
+            setNoAccessPopup={setNoAccessLbPopUp}
+            service="PP_interactions"
+          />
+        )
+      )}
+      {translationRequestPop && (
+        <ReqTranslationPop
+          popClose={setTranslationRequestPop}
+          id={id}
+          user={user}
+          source_language={premiseData?.source_language}
+          project_id={project_id}
+        />
+      )}
+      {saleRequestPop && (
+        <ReqSalePop
+          popClose={setSaleRequestPop}
+          id={id}
+          user={user}
+          source_language={premiseData?.source_language}
+          project_id={project_id}
+        />
+      )}
+      {viewTrnRequests && (
+        <BankDetailsPop
+          // translationRequest={translationRequest}
+          popClose={setViewTrnRequests}
+          premiseId={viewTrnRequests}
+        />
+      )}
+      {viewSaleRequests && (
+        <SaleRequestedOwner
+          popClose={setViewSaleRequests}
+          setSaleIcon={setSaleRequestedOwner}
+          premiseId={id}
+        />
+      )}
+      {viewSale && (
+        <PaySalePopup
+          refetch={premiseRefetch}
+          premiseId={saleId}
+          popClose={setViewSale}
+          sellingValue={premiseData?.sellingPrice}
+          Userid={user}
         />
       )}
 

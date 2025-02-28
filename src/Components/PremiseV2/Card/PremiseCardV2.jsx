@@ -369,6 +369,12 @@ const PremiseCardV2 = ({
     m_value: p?.m_value,
   };
 
+  // hidden,
+  // index,
+  // premiseOwner,
+  // handleUserMail,
+  // setOwnerMail,
+
   return (
     <div className="w-[358px] lg:w-[100%] mx-auto border border-[#EAEAEA] hover:shadow-lg rounded-[8px]  ">
       {/* upper div */}

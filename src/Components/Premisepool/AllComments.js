@@ -39,7 +39,7 @@ const AllComments = ({
   data,
   refetch,
   fromNew,
-  openReplyField,
+  handleOpenAllReplies,
   setOpenReplyField,
   replyToCommentID,
   setReplyToCommentID,
@@ -61,9 +61,8 @@ const AllComments = ({
   actOneThreshold,
   actTwoEnd,
   focusedCValue,
-  // isFirstCommentSuggested,
 }) => {
-  console.log(focusedCValue, "ssdf");
+
   // const actTwoStart = Math.floor(0.25 * m_value);
 
   // const resolutionStart = Math.floor(0.8 * m_value);
@@ -442,13 +441,7 @@ const AllComments = ({
 
   const hasAReply = replyData?.length >= 1;
 
-  const handleOpenAllReplies = (id, commenterName) => {
-    setOpenAllReplies(true);
-    setOpenReplyFieldID(id);
-    setReplyToCommentID(comments?.id);
-    setCurrentlyOpenedCommentID(comments?.id);
-    setCommentOwner(commenterName);
-  };
+
 
   const handleReplyToggle = async (c, commentOwnerName) => {
     //console.log('reply comment',c,commentOwnerName,c?.user?.first_name==='Ida',currentUser,data?.premiseOwner);
@@ -1218,7 +1211,7 @@ const AllComments = ({
                   <form
                     data-reply
                     onSubmit={handlePostReplyToComment}
-                    className="relative w-full text-[14px] 
+                    className="relative w-full text-[14px]
               bg-[#fafafa] border rounded-[8px] border-[#eaeaea] focus:outline-none  flex"
                   >
                     {owner === user ? (

@@ -24,8 +24,7 @@ const PremiseTopHeader = ({ handleSearch, id }) => {
           data-te-toggle="tooltip"
           title="Share"
           onClick={() => setShowSharePopup(true)}
-          className={`h-[32px] w-[32px] rounded-full cursor-pointer relative border border-[#33b0ca] 
-              `}
+          className={`h-[32px] w-[32px] rounded-full cursor-pointer relative border border-[#33b0ca]`}
         >
           <PiShareFat className="h-[26px] w-[21px] pt-1 mx-auto text-[#33b0ca]" />
         </div>

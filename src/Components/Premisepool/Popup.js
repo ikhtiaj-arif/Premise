@@ -99,7 +99,7 @@ const Popup = ({
  const [openPop, setOpenPop] = useState(false);
   const [userMail, setUserMail] = useState(null);
     const [ownerMail, setOwnerMail] = useState(false);
-
+ const [openHidePop, setOpenHidePop] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -551,8 +551,10 @@ const Popup = ({
                   is_translated_languages={premiseData?.is_translated_languages}
                   dotPopupRef={dotPopupRef}
                   setOpenDotMenu={setOpenDotMenu}
-                 
-                  openDotMenu={openDotMenu}          
+                  openDotMenu={openDotMenu}      
+                  setOpenHidePop={setOpenHidePop}
+                  openHidePop={openHidePop}
+                
                 />
                 </div>
 

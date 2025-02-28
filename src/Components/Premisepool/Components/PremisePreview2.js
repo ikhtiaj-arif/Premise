@@ -12,7 +12,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { PiTextAUnderlineBold } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { MyContext } from "../../../App";
+import { fetchUserAccess, MyContext } from "../../../App";
 import {
   usePostPremiseWithCharactersMutation,
   useSaveCharactersMutation,
@@ -208,6 +208,7 @@ const PremisePreview2 = ({
     // ProjectsObj,
     projectRefetch,
     allProjects,
+    currentUser,
   } = useContext(MyContext);
 
   const {
@@ -511,6 +512,17 @@ const PremisePreview2 = ({
   const handleHideUnhidePremise = async (id) => {
     hideUnhidePremise(id, setHideDisable, userRefetch, setOpenDotMenu);
   };
+  const [userMail, setUserMail] = useState(null);
+  const [ownerMail, setOwnerMail] = useState(false);
+  const handleUserMail = async () => {
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_MessageOwner`);
+    console.log("message rs", res);
+    if (res?.access === "No") {
+      setUserMail(res);
+    } else {
+      setUserMail("Yes");
+    }
+  };
 
   const handleProtagonistNameChange = (e, setValue) => {
     let value = e.target.value;
@@ -589,12 +601,9 @@ const PremisePreview2 = ({
     setSpProjectName(firstChar + restOfValue);
   };
 
-  useEffect(()=>{
-
-    
-    console.log( 'protagonist',protagonist);
-    
-  },[protagonist])
+  useEffect(() => {
+    console.log("protagonist", protagonist);
+  }, [protagonist]);
   // console.log("Header", characterArray);
   const submitPremise = async (e) => {
     e.preventDefault();
@@ -642,7 +651,9 @@ const PremisePreview2 = ({
       formData.append("geography", geographyItem);
       formData.append("protagonist_type", protagonist);
       formData.append("protagonist_name", protagonistName);
-      formData.append("protagonist_age", protaAge);
+      if (protagonist !== "Inanimate Object") {
+        formData.append("protagonist_age", protaAge);
+      }
 
       const previewData = {
         // id: data?.id,
@@ -759,6 +770,11 @@ const PremisePreview2 = ({
               openDotMenu,
               project_id: response?.data?.projects?.pro_uuid,
               m_value: res?.data?.m_value,
+              hidden: res?.data?.hidden,
+              index: 0,
+              premiseOwner: userQuery,
+              handleUserMail,
+              setOwnerMail,
             };
 
             // Update state with new premise data
@@ -896,6 +912,11 @@ const PremisePreview2 = ({
               openDotMenu,
               project_id: response?.data?.projects?.pro_uuid,
               m_value: res?.data?.m_value,
+              hidden: res?.data?.hidden,
+              index: 0,
+              premiseOwner: userQuery,
+              handleUserMail,
+              setOwnerMail,
             };
 
             // Update state with new premise data
@@ -2088,7 +2109,7 @@ const PremisePreview2 = ({
                   <div className="col-span-12 mb-[12px] md:mt-[21px] md:mb-[0px] md:col-span-3">
                     {" "}
                     <div className="flex h-[31px] gap-[12px] md:w-[185px]">
-                      {protagonist !== "" && (
+                      {protagonist !== "Inanimate Object" && (
                         <>
                           <label className="text-[12px] md:!text-[14px] font-[500]">
                             Age
