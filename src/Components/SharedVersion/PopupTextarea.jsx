@@ -90,7 +90,7 @@ const PopupTextarea = ({
 
   const handleButtonClick = async () => {
     setIsLoading(true);
-    if (premiseOwner?.id == currentUser?.id) {
+    if (premiseOwner?.id === currentUser?.id) {
       checkAllowance("PP_AllowBrainstoming");
     } else {
       checkAllowance("PP_AllowInteraction");
@@ -101,7 +101,7 @@ const PopupTextarea = ({
   const checkAllowance = async (flag) => {
     const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);
     console.log(`${flag} res`, res);
-    if (res?.access == "No") {
+    if (res?.access === "No") {
       setNoAccessPopup(res);
       setService(flag);
     } else {
@@ -161,6 +161,7 @@ const PopupTextarea = ({
           }, 1000);
 
           setTimeout(() => {
+            console.log(lastCommentRef.current)
             if (lastCommentRef.current) {
               lastCommentRef.current.scrollTo({
                 top: lastCommentRef.current.scrollHeight,
@@ -229,7 +230,9 @@ const PopupTextarea = ({
             name=""
             maxLength={150}
             id=""
-            className={`${className ? "bg-[#fff]" : "bg-[#f8f8f8]"} resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic`}
+            className={`${
+              className ? "bg-[#fff]" : "bg-[#f8f8f8]"
+            } resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic`}
             placeholder="Brainstorm here with MNF"
             value={newComment}
             required
