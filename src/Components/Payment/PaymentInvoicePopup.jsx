@@ -15,6 +15,7 @@ import TypingLoader from "../TypingLoader";
 import { HeaderOptions } from "./HeaderOptions";
 import { Package } from "./Package";
 import PayableAmount from "./PayableAmount";
+import { Amount } from "./Amount";
 
 const PaymentInvoicePopup = ({
   typeOfRequest,
@@ -112,13 +113,10 @@ const PaymentInvoicePopup = ({
     }
     setPaymentCondition(true);
     const data = {
-      amount:
-        typeOfRequest !== "sale"
-          ? payInfo?.gross_payable + payInfo?.total_discount
-          : payInfo?.total_amount,
-      charges: payInfo?.gross_payable || 0,
       transaction_id: premise_id,
-      discount: payInfo?.total_discount || 0,
+      product_name: "Premisepool",
+      charges: payInfo?.net_payable || 0,
+      discount: 0,
     };
     const result = await paymentSend(data);
     const { merchantId, amount, currency, orderId, credit_to_debit } =
@@ -217,7 +215,7 @@ const PaymentInvoicePopup = ({
 
   return (
     <div className="fixed top-[40px] left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
-      <div className=" lg:static lg:mt-0 absolute bottom-0 bg-white rounded-[12px] w-[100%] lg:w-[950px]">
+      <div className=" lg:static lg:mt-0 absolute bottom-0 bg-white rounded-[12px] w-[100%] lg:w-[1130px]">
         <div className="relative">
           <div className="absolute right-[45%] top-[-60px] md:top-[-62px] md:right-[-12px]">
             <img
@@ -238,50 +236,70 @@ const PaymentInvoicePopup = ({
               </div>
             ) : (
               <section className="border-2 border-[#eaeaea] w-full mx-auto ">
-                <div className=" flex justify-between py-2 px-6 items-center border-b-2">
+                <div className=" flex justify-between py-1 sm:py-2 px-6 items-center md:border-none border-b-2">
                   {/* left */}
                   <img
                     src={logo}
                     alt="brand logo"
-                    className="logo h-[99px] bg-white"
+                    className="logo sm:w-[116px] w-[50px] sm:h-[99px] bg-white"
                   />
                   {/* right */}
-                  <div>
-                    <h2 className="sub-heading text-light-blue font-bold text-sm sm:text-lg md:text-2xl py-2">
+                  <div className=" text-right">
+                    <h2 className="text-[#33B0CA] text-light-blue font-bold text-sm sm:text-lg md:text-2xl py-2">
                       My Next Film Pvt. Ltd.
                     </h2>
-                    <p>CIN - U92419DL2021PTC381570</p>
-                    <a href="https://mynextfilm.ai/">www.mynextfilm.ai</a>
+                    <p className="text-[12px]  sm:text-[14px]">
+                      CIN - U92419DL2021PTC381570
+                    </p>
+                    <a
+                      className="text-[12px]  sm:text-[14px]"
+                      href="https://mynextfilm.ai/"
+                    >
+                      www.mynextfilm.ai
+                    </a>
                   </div>
                 </div>
 
-                <div className="sm:m-12 m-4">
-                  <div className="flex justify-between">
-                    <section className="flex flex-col justify-center w-[90%] mx-auto">
-                      <p className="text-light-blue text-lg sm:text-xl md:text-2xl lg:text-3xl  xl:text-4xl font-semibold pb-3">
-                        Invoice
-                      </p>
+                <div className="md:mx-12 md:my-2 m-4">
+                  <div className=" grid grid-cols-2 md:grid-cols-[40%_minmax(40%,_1fr)_20%] text-[#33B0CA] text-[16px] md:text-[28px] font-bold md:mb-6">
+                    <h2>
+                      Invoice{" "}
+                      <span className="text-[16px] md:text-[24px]">{`{2025/001}`}</span>
                       <p
                         id="date"
-                        className="border-b-2 border-t-2 text-lg border-[#ccc]  px-4 py-2 w-64"
-                      >
-                        {getFormattedDate()}
-                      </p>
-                      <HeaderOptions currentUser={currentUser} data={payInfo} />
-                    </section>
-                    <div className=" ">
-                      <img src={Valid} className="w-[107px]" alt="" />
+                        className="border-b-2 border-t-2 sm:text-lg border-[#ccc]  px-4 py-2 w-24 hidden md:block mt-1"
+                      ></p>
+                    </h2>
+                    <p className=" hidden md:flex">Premisepool</p>
+                    <div className="flex  md:hidden w-[36px] h-[47px] ml-auto ">
+                      <img
+                        src={Valid}
+                        className="w-full h-full ml-auto"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+
+                  <div className=" grid grid-cols-1 md:grid-cols-[40%_minmax(40%,_1fr)_20%] items-start gap-2">
+                    <HeaderOptions mnf />
+                    <HeaderOptions currentUser={currentUser} data={payInfo} />
+                    <div className=" hidden md:flex w-[100px] h-[150px] ml-auto mr-4">
+                      <img
+                        src={Valid}
+                        className="w-full h-full ml-auto"
+                        alt=""
+                      />
                     </div>
                   </div>
 
                   <section className="flex flex-col lg:flex-row justify-between lg:gap-[5rem] gap-[20px] h-full">
                     <Package data={payInfo} typeOfRequest={typeOfRequest} />
 
-                    {/* <Amount data={payInfo} /> */}
-                    <PayableAmount
+                    <Amount data={payInfo} />
+                    {/* <PayableAmount
                       data={payInfo}
                       typeOfRequest={typeOfRequest}
-                    />
+                    /> */}
                   </section>
 
                   {/* terms part */}
@@ -295,7 +313,10 @@ const PaymentInvoicePopup = ({
                         type="checkbox"
                         id="terms"
                       />
-                      <label htmlFor="terms" className="text-[16px]">
+                      <label
+                        htmlFor="terms"
+                        className="text-[12px] md:text-[16px]"
+                      >
                         I agree with the{" "}
                         <a
                           target="_blank"
