@@ -163,7 +163,7 @@ const HideOptionPop = ({
               )}
             </div>
             {option === "visible_to" ? (
-              <div className="overflow-y-auto h-[40vh] md:h-[260px] xl:h-[310px]">
+              <div className="overflow-y-auto h-auto max-h-[232px]">
                 {
                   <>
                     {" "}

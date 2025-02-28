@@ -87,6 +87,7 @@ const Popup = ({
   const [characterLoading, setCharacterLoading] = useState(true);
 
   const [openTransOtherPop, setOpenTransOtherPop] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [openAvailableForTranslationPop, setOpenAvailableForTranslationPop] =
     useState(false);
   const [openMonetizingPreferencesPop, setOpenMonetizingPreferencesPop] =
@@ -101,7 +102,7 @@ const Popup = ({
     const [ownerMail, setOwnerMail] = useState(false);
  const [openHidePop, setOpenHidePop] = useState(null);
 
-  const [isLoading, setIsLoading] = useState(false);
+ 
 
   useEffect(() => {
     if (characters) setCharacterArray(characters);

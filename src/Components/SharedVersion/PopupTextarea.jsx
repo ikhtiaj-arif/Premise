@@ -161,7 +161,7 @@ const PopupTextarea = ({
           }, 1000);
 
           setTimeout(() => {
-            console.log(lastCommentRef.current)
+            console.log(lastCommentRef.current);
             if (lastCommentRef.current) {
               lastCommentRef.current.scrollTo({
                 top: lastCommentRef.current.scrollHeight,
@@ -246,7 +246,7 @@ const PopupTextarea = ({
             }}
           />
         )}
-        <div className="flex gap-3 items-center justify-end pr-2 pb-1">
+        <div className="hidden md:flex  gap-3 items-center justify-end pr-2 pb-1">
           <div className="flex   ">
             <FaKeyboard
               data-te-toggle="tooltip"
