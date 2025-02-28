@@ -39,7 +39,6 @@ const AskIda = ({
     } else {
       checkAllowance("PP_AllowInteraction");
     }
-    setIsLoading(false);
   };
 
   const checkAllowance = async (flag) => {
@@ -48,6 +47,7 @@ const AskIda = ({
     if (res?.access == "No") {
       setNoAccessPopup(res);
       setService(flag);
+      setIsLoading(false);
     } else {
       handleSubmitComment();
     }
