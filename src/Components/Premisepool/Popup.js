@@ -396,8 +396,15 @@ const Popup = ({
     }
   };
 
-  console.log("premiseData", premiseData);
-  console.log("data", data);
+  const handleOpenAllReplies = (id, commenterName) => {
+    setOpenAllReplies(true);
+    setOpenReplyFieldID(id);
+    setReplyToCommentID(id);
+    // setReplyToCommentID(comments?.id);
+    // setCurrentlyOpenedCommentID(comments?.id);
+    setCurrentlyOpenedCommentID(id);
+    setCommentOwner(commenterName);
+  };
 
  
 
@@ -645,6 +652,7 @@ const Popup = ({
                           transition={{ duration: 0.5 }} // Adjust the duration as needed
                         >
                           <AllComments
+                          handleOpenAllReplies={handleOpenAllReplies}
                             commentIdx={index + 1}
                             comments={comment}
                             data={data}
