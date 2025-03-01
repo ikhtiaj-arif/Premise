@@ -22,14 +22,15 @@ const SingleCharacterAdd = ({
 
   // New state to track if all fields are filled
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
+
   const occupationRef = useRef(null);
-  const backgroundRef = useRef(null);
   const personalityRef = useRef(null);
   const individualWantRef = useRef(null);
   const characterJourneyRef = useRef(null);
   const bloodRelationshipRef = useRef(null);
   const familyRelationshipRef = useRef(null);
   const professionalRelationshipRef = useRef(null);
+  const backgroundRef = useRef(null);
 
   useEffect(() => {
     // Check if all fields are filled to enable the "Save" button
@@ -39,13 +40,13 @@ const SingleCharacterAdd = ({
       age &&
       occupation &&
       gender &&
-      background &&
-      personality &&
-      individualWant &&
-      characterjourney &&
-      bloodrelationship &&
-      familyrelationship &&
-      professionalrelationship &&
+      // background &&
+      // personality &&
+      // individualWant &&
+      // characterjourney &&
+      // bloodrelationship &&
+      // familyrelationship &&
+      // professionalrelationship &&
       (role !== "Others" || customRole);
 
     setIsSaveDisabled(!isFormComplete); // Disable if form is incomplete
@@ -270,7 +271,6 @@ const SingleCharacterAdd = ({
                     value={gender}
                     onChange={(e) => setGender(e.target.value)}
                     className=" text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA]  rounded-[8px] mb-[22px] mt-[12px] md:my-0    md:w-[97px] h-[41px]  indent-1 w-full"
-                    
                   >
                     <option value="" className="text-[14px] " selected disabled>
                       Gender
@@ -281,7 +281,8 @@ const SingleCharacterAdd = ({
                     <option className="text-[14px]">Inanimate Object</option>
                   </select>
                 </div>
-                <div className="relative w-full  md:w-[49px] ">
+              {gender !== "Inanimate Object" &&  <div className="relative w-full  md:w-[49px] ">
+
                   <label className="absolute left-2 top-[-12px] z-[2] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Age
                   </label>
@@ -296,7 +297,7 @@ const SingleCharacterAdd = ({
                     placeholder="age"
                     required
                   />
-                </div>
+                </div>}
                 <div className="relative w-full md:w-[206px] md:left-5 ">
                   <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Occupation

@@ -87,6 +87,7 @@ const Popup = ({
   const [characterLoading, setCharacterLoading] = useState(true);
 
   const [openTransOtherPop, setOpenTransOtherPop] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [openAvailableForTranslationPop, setOpenAvailableForTranslationPop] =
     useState(false);
   const [openMonetizingPreferencesPop, setOpenMonetizingPreferencesPop] =
@@ -101,7 +102,7 @@ const Popup = ({
     const [ownerMail, setOwnerMail] = useState(false);
  const [openHidePop, setOpenHidePop] = useState(null);
 
-  const [isLoading, setIsLoading] = useState(false);
+ 
 
   useEffect(() => {
     if (characters) setCharacterArray(characters);
@@ -395,8 +396,15 @@ const Popup = ({
     }
   };
 
-  console.log("premiseData", premiseData);
-  console.log("data", data);
+  const handleOpenAllReplies = (id, commenterName) => {
+    setOpenAllReplies(true);
+    setOpenReplyFieldID(id);
+    setReplyToCommentID(id);
+    // setReplyToCommentID(comments?.id);
+    // setCurrentlyOpenedCommentID(comments?.id);
+    setCurrentlyOpenedCommentID(id);
+    setCommentOwner(commenterName);
+  };
 
  
 
@@ -644,6 +652,7 @@ const Popup = ({
                           transition={{ duration: 0.5 }} // Adjust the duration as needed
                         >
                           <AllComments
+                          handleOpenAllReplies={handleOpenAllReplies}
                             commentIdx={index + 1}
                             comments={comment}
                             data={data}

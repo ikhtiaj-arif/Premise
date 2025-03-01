@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const VerticalBar = ({ comments, currentCommentRef, handleOpenAllReplies }) => {
   const [focusedComment, setFocusedComment] = useState(null);
-  const handleFocusComment = (id) => {
+  const handleFocusComment = (id, index) => {
     const currentCommentId = comments.filter(commit => commit.id === id)
     const commentOwnerName = `${currentCommentId[0]?.user?.first_name} ${currentCommentId[0]?.user?.last_name}`;
     setFocusedComment(id);
@@ -11,7 +11,7 @@ const VerticalBar = ({ comments, currentCommentRef, handleOpenAllReplies }) => {
     if (ref) {
       ref.scrollIntoView({
         behavior: "smooth",
-        block: "start",
+        block: 'center'
       });
     }
   };
@@ -23,7 +23,7 @@ const VerticalBar = ({ comments, currentCommentRef, handleOpenAllReplies }) => {
           <div className={`px-3 ${focusedComment === comment.id ? 'text-[#33b0ca]' : 'text-[#252525]'}`}>
             <button
               key={comment.c_value}
-              onClick={() => handleFocusComment(comment.id)}
+              onClick={() => handleFocusComment(comment.id, index)}
               className="text-[14px]"
             >
               {comment.c_value}

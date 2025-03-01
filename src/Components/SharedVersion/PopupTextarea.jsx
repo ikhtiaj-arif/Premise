@@ -161,7 +161,7 @@ const PopupTextarea = ({
           }, 1000);
 
           setTimeout(() => {
-            console.log(lastCommentRef.current)
+            console.log(lastCommentRef.current);
             if (lastCommentRef.current) {
               lastCommentRef.current.scrollTo({
                 top: lastCommentRef.current.scrollHeight,
