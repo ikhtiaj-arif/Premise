@@ -23,7 +23,7 @@ const SharePopup = ({ popClose }) => {
       console.log("Text copied to clipboard:", link);
     } catch (err) {
       console.error("Error copying text to clipboard:", err);
-      toast("Error copying text to clipboard..!");
+      toast.error("Something went wrong.Please try again..!");
     }
   };
 

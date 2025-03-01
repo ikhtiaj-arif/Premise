@@ -91,7 +91,7 @@ const PremiseTopHeader = ({ handleSearch, id }) => {
 
       <img
         src={GridIcon}
-        alt="image"
+        alt="char_image"
         className="inline md:hidden w-[22px] h-[22px] cursor-pointer"
         onClick={toggleCharactersPopup}
       />

@@ -625,7 +625,7 @@ const Popup = ({
               <div
                 ref={lastCommentRef}
                 // ref={commentsRef}
-                className="w-full h-[35vh] lg:h-[auto] py-[12px] overflow-x-hidden !overflow-y-auto lg:premiseScroll "
+                className="w-full h-[30vh] lg:h-[auto] py-[12px] overflow-x-hidden !overflow-y-auto lg:premiseScroll "
               >
                 {loading ? (
                   <div className="z-[1] lg:mt-[160px] xl:mt-[200px]">

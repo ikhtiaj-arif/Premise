@@ -6,7 +6,7 @@ export const Package = ({ data, typeOfRequest, fromLimit }) => {
       <p
         style={{
           clipPath: "polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%, 0% 50%)",
-          maxWidth: "60%",
+          maxWidth: "70%",
           padding: "0.3rem 25px 0.3rem 0",
         }}
         className="bg-[#33B0CA] text-[#fafafa] text-center lg:text-[22px] text-[16px] font-[600]  relative border-none lg:bottom-[-22px] bottom-[-17px]"

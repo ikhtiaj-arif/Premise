@@ -247,7 +247,7 @@ const PopupTextarea = ({
           />
         )}
         <div className="flex gap-3 items-center justify-end pr-2 pb-1">
-          <div className="flex   ">
+          <div className="md:flex  hidden ">
             <FaKeyboard
               data-te-toggle="tooltip"
               title={`${!keyboardVisible ? "View Keyboard" : "Hide Keyboard"}`}

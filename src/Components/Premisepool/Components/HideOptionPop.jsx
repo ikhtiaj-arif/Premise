@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { HiMiniUserMinus, HiMiniUsers } from "react-icons/hi2";
 import { IoLockClosed } from "react-icons/io5";
 import {
@@ -14,6 +14,7 @@ import { CgSearch } from "react-icons/cg";
 import { useGetHiddenPremiseCountQuery } from "../../../app/EndPoints/premisePoolApi";
 import { hideUnhidePremiseCustom } from "../hideUnhidePremiseCustom";
 import HideUnhideUesr from "./HideUnhideUesr";
+import { MyContext } from "../../../App";
 
 const HideOptionPop = ({
   openHidePop,
@@ -26,11 +27,15 @@ const HideOptionPop = ({
   comment_filter_flag,
 }) => {
   // const user = useSelector((state) => state?.user?.id)
+  const { addedByMeCondition, currentUser } = useContext(MyContext);
   const {
     data: hiddenCountRes,
-    countLoading,
+    isLoading: countLoading,
     refetch: hiddenCountRefetch,
-  } = useGetHiddenPremiseCountQuery();
+  } = useGetHiddenPremiseCountQuery({
+    user_id: currentUser?.id,
+    shared: addedByMeCondition,
+  });
   const [createHideUnhide, ishideUnhide] = useCreateHideUnhideMutation();
   const usersData = useGetAllUsersQuery();
   const buddiesData = useGetAllBuddiesQuery(user);
