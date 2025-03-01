@@ -5,11 +5,11 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { useGetMyAllProjectQuery } from "./app/EndPoints/ScriptPad/project";
-import PremiseNewTab from "./Components/PremiseV2/premiseNewTab/PremiseNewTab";
+import LimitPaymentPage from "./Components/Payment/LimitPaymentPage";
 import Premisepool from "./Components/Premisepool/Premisepool";
+import PremiseNewTab from "./Components/PremiseV2/premiseNewTab/PremiseNewTab";
 import PremiseV2 from "./Components/PremiseV2/Premsie.v2";
 import { URL } from "./Components/utils";
-import LimitPaymentPage from "./Components/Payment/LimitPaymentPage";
 
 export const MyContext = createContext();
 
@@ -115,12 +115,17 @@ function App() {
       <MyContext.Provider value={value}>
         {/* <TLanguageSelector /> */}
         <Routes>
-          <Route path="/" element={<Premisepool />}></Route>
-          <Route path="/premise-pool-v2" element={<PremiseV2 />}></Route>
+          {/* <Route path="/" element={<Premisepool />}></Route> */}
+          <Route path="/" element={<PremiseV2 />}></Route>
+          <Route
+            path="/payment"
+            element={<LimitPaymentPage />}
+          ></Route>
+          {/* <Route path="/premise-pool-v2" element={<PremiseV2 />}></Route>
           <Route
             path="/premise-pool-v2/payment"
             element={<LimitPaymentPage />}
-          ></Route>
+          ></Route> */}
           <Route path="/new-tab/:id" element={<PremiseNewTab />}></Route>
           <Route path="/:__id/:service" element={<Premisepool />}></Route>
           <Route path="/:__id/:service" element={<Premisepool />}></Route>
