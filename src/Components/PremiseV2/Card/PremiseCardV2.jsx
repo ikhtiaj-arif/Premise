@@ -681,6 +681,7 @@ const PremiseCardV2 = ({
         <ViewTranslationPop
           popClose={setOpenViewTranslationsPop}
           premiseId={viewTransactionPId}
+          popupData
           popCloseCmnt={() => setOpenPop(false)}
           {...{
             handleVisibility,
@@ -712,14 +713,14 @@ const PremiseCardV2 = ({
           />
         )
       )}
-      {noAccessLbPopUp?.msg == "ShowBecomePrivilege" ? (
+      {noAccessLbPopUp?.msg === "ShowBecomePrivilege" ? (
         <NoAccessPopUp
           noAccessPopup={noAccessLbPopUp}
           setNoAccessPopup={setNoAccessLbPopUp}
         />
       ) : (
-        (noAccessLbPopUp?.msg == "LB" ||
-          noAccessLbPopUp?.msg == "ShowBuyPackage_and_Allacarte") && (
+        (noAccessLbPopUp?.msg === "LB" ||
+          noAccessLbPopUp?.msg === "ShowBuyPackage_and_Allacarte") && (
           <NoAccessLbPopUp
             noAccessLbPopup={noAccessLbPopUp}
             setNoAccessPopup={setNoAccessLbPopUp}

@@ -10,10 +10,13 @@ const PopupPremiseText = ({
   className,
   className2,
 }) => {
+  console.log("viewText", viewText, dText);
   const { boldStyle, italicStyle, underlineStyle, hexColor } = stylings;
   return (
     <div
-      className={`mx-auto h-[200px]  w-full ${data && 'lg:w-[88%]'} lg:my-auto border border-[#eaeaea]  relative  rounded-[8px] ${className}`}
+      className={`mx-auto h-[200px]  w-full ${
+        data && "lg:w-[88%]"
+      } lg:my-auto border border-[#eaeaea]  relative  rounded-[8px] ${className}`}
       style={{
         background: `${
           bg_img
@@ -45,17 +48,17 @@ const PopupPremiseText = ({
         } absolute inset-0  backdrop-blur-sm  text-[14px] rounded-[8px] overflow-hidden break-words`}
       >
         {/* premise text */}
-        {viewText ? (
+        {dText ? (
           <p
             className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} text-[14px] ${className2} notranslate `}
           >
-            {viewText}
+            {dText}
           </p>
         ) : (
           <p
             className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} text-[14px] ${className2} notranslate`}
           >
-            {dText}
+            {viewText}
           </p>
         )}
       </div>

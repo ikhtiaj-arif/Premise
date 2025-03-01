@@ -41,6 +41,7 @@ const EachTranslateeCard = ({
           ? JSON.parse(premiseData?.text?.split("+")[0])
           : {}, // Default to an empty object if `text` is undefined or improperly formatted
         bg_color: premiseData?.bg_color || "",
+        premiseOwner: transaction?.translatedFor,
         bg_img: premiseData?.bg_img || "",
         comments: premiseData?.comments || [],
         created_at: premiseData?.created_at || "",
@@ -51,11 +52,14 @@ const EachTranslateeCard = ({
         dText: premiseData?.text?.includes("+")
           ? premiseData?.text?.split("+")[1]
           : "",
+        viewText: premiseData?.text?.includes("+")
+          ? premiseData?.text?.split("+")[1]
+          : "",
         project_id: premiseData?.pro_uuid || "",
         m_value: premiseData?.m_value || "",
       }
     : {};
-
+  console.log(data);
   return (
     <React.Fragment>
       {popup && (

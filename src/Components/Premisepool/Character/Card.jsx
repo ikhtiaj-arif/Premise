@@ -30,7 +30,7 @@ const CharacterShowCard = ({
   };
 
   return (
-    <div className="flex text-[#252525] h-[22px] gap-[3px] justify-between items-center w-full">
+    <div className="flex text-[#252525] h-auto max-h-[36px] gap-[3px] justify-between items-center w-full">
       <div className="">
         <p className="text-[12px] leading-[16.26px] font-[400]">
           {character?.role}:{" "}
@@ -94,7 +94,7 @@ const CharacterShowCard = ({
           isOpen={confirmDelete}
           onClose={() => setConfirmDelete(false)}
           onConfirm={() => deleteCharacterFun(character)}
-          title="Are you sure you want to delete this comment?"
+          title="Are you sure you want to delete this Character?"
           content="Are you sure you want to delete this item?"
         />
       )}

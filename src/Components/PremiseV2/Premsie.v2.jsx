@@ -371,7 +371,7 @@ const PremiseV2 = () => {
               }
             </div>
             <div className="md:w-[50%] flex items-center justify-between h-[124px]">
-              <div className="mr-[20px] md:mr-[0px] text-center w-[360px] md:mt-[-30px] lg:w-[440px] ml-[-186px] mb-0">
+              <div className="mr-[20px] md:mr-[0px] text-center w-[360px] md:mt-[-30px] lg:w-[440px] ml-[-186px] mb-0 lg:ml-[-171px] xl:ml-[-229px">
                 <img
                   alt="monetize your creativity"
                   src={headText}

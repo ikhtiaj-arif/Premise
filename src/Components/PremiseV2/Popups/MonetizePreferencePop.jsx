@@ -47,12 +47,15 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
     }
 
     console.log("Form Submitted:", formData);
+
     const data = {
       id,
-      body: { sellingPrice: price, ...premiseData },
+      body: { ...premiseData, sellingPrice: price },
     };
+
+    console.log("Updatedpremise result:", data);
+
     const res = await updatePremise(data);
-    //console.log("Updatedpremise result:", res);
     if (res?.data) {
       popClose(null);
     }
