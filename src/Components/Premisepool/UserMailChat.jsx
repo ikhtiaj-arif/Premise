@@ -1,12 +1,16 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useGetPremiseUserPictureQuery } from "../../app/EndPoints/premisePoolApi";
+import {
+  useDeleteMessageMutation,
+  useGetPremiseUserPictureQuery,
+} from "../../app/EndPoints/premisePoolApi";
 import userIcon from "../../img/Icons/userImg.png";
 import { URL } from "../utils";
 import UserType from "./UserType";
 import { FaRegTrashAlt } from "react-icons/fa";
-const UserMailChat = ({ mail }) => {
+const UserMailChat = ({ mail, msgRefetch }) => {
   const user = useSelector((state) => state?.user?.id);
+  const [msgDelete, { isLoading: isMLoading }] = useDeleteMessageMutation();
 
   const {
     data: profileImg,
@@ -30,8 +34,10 @@ const UserMailChat = ({ mail }) => {
   });
 
   const handleDeleteMessage = async (id) => {
-console.log(id, "delete");
-  }
+    const res = await msgDelete(id);
+    //console.log("delete message", res);
+    msgRefetch()
+  };
 
   // console.log(mail);
   return (
@@ -82,7 +88,7 @@ console.log(id, "delete");
                 )}
               </a>
             </div>
-            <p className="font-[400] text-[#616161] text-[12px] leading-[18px] ">
+            <p className="font-[400] text-[#616161] text-[12px] leading-[18px] text_format">
               {mail?.message}
               {/* {mail?.created_at} */}
             </p>

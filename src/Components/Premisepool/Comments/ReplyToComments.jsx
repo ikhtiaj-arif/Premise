@@ -291,7 +291,7 @@ const ReplyToComments = ({
         fromNew ? "w-[93%]" : "lg:w-[666px]"
       }  ml-[5px] md:ml-[50px]  rounded-sm flex items-center gap-1`}
     >
-      <div className=" w-[98%] ">
+      <div className=" w-[97%] ">
         <div className=" w-full relative ml-[16px] md:ml-[45px]">
           <div
             className={`flex gap-[8px] ${
@@ -764,7 +764,7 @@ const ReplyToComments = ({
               >
                 <form
                   onSubmit={handlePostReplyToReply}
-                  className="relative w-[84%] mr-[42px] md:w-[88.2%] md:mr-[37px] ml-auto text-[14px] 
+                  className="relative w-[84%] mr-[42px] md:w-[88.2%] md:mr-[37px] ml-auto text-[14px]
             bg-[#fafafa] border rounded-[8px] border-[#eaeaea] focus:outline-none flex"
                 >
                   <textarea

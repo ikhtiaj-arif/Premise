@@ -4,6 +4,8 @@ import { useGetPremiseBeatsDataQuery } from "../../../../app/EndPoints/premisePo
 import crossIcon from "../../../../img/Icons/crossIcon.png";
 import ShowBeats from "./ShowBeats";
 import { FaArrowLeft } from "react-icons/fa6";
+import Loading from "../../../../shared/Loading";
+import TypingLoader from "../../../TypingLoader";
 
 const BeatsPop = ({ popClose, id }) => {
   const {
@@ -49,7 +51,7 @@ const BeatsPop = ({ popClose, id }) => {
         />
 
         {isPremiseLoading ? (
-          <div>Loading...</div>
+          <div><TypingLoader /></div>
         ) : (
           <div>
             {/* header */}

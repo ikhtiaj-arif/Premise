@@ -24,6 +24,7 @@ const PremiseNewTab = () => {
   const { id } = useParams(); // Extract the ID from the route
   const { state } = useLocation();
   const currentCommentRef = useRef({});
+  
   // const params = state || {};
   // const { project_id } = params;
   // console.log("project_id", project_id);

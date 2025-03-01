@@ -3,6 +3,7 @@ import { FaEllipsisV } from "react-icons/fa";
 
 import mailCart from "../../../img/Icons/mailCart.png";
 import mailCartQ from "../../../img/Icons/mailCartQ.png";
+import sendSaleReq from "../../../img/Icons/sendSaleReq.png";
 // import transCartQ from "../../../img/Icons/transCartQ.png";
 import msgIcon from "../../../img/Icons/msgIcon.png";
 import sourceIcn from "../../../img/Icons/sourceIcn.png";
@@ -402,8 +403,8 @@ const CardHeadOptions = ({
                     }}
                   >
                     <img
-                      src={mailCartQ}
-                      className={`w-9 h-9 mt-[-13px]`}
+                      src={sendSaleReq}
+                      className={`w-8 h-8 mt-[-13px]`}
                       alt="send sale request"
                     />
                   </button>

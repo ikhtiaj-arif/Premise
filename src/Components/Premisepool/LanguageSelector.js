@@ -45,7 +45,7 @@ const LanguageSelector = ({
     <select
       onChange={handleLanguageChange}
       value={selectedLanguage}
-      className="notranslate bg-[#FAFAFA] border-none w-[70px] text-[14px] text-[#616161] font-[400] focus:outline-none"
+      className="notranslate bg-[#FAFAFA] border-none w-auto max-w-[89px] text-[14px] text-[#616161] font-[400] focus:outline-none"
       // className="border border-[#EAEAEA] p-1 rounded-[4px] w-3/4 text-[12px]"
     >
       {options?.map((option) => (

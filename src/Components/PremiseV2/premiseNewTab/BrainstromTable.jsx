@@ -4,7 +4,7 @@ import { useGetPremiseBrainstormsDataQuery } from "../../../app/EndPoints/premis
 const BrainstromTable = ({ headerText, id }) => {
   const {
     data: brainstormData,
-    isBrainstormDataLoading,
+    isLoading: isBrainstormDataLoading,
     refetch: brainstormRefetch,
   } = useGetPremiseBrainstormsDataQuery(id);
 
@@ -18,10 +18,10 @@ const BrainstromTable = ({ headerText, id }) => {
 
   useEffect(() => {
     if (brainstormData) {
-      setData(data);
+      // console.log(brainstormData);
+      setData(brainstormData?.data);
     }
   }, [brainstormData]);
-
 
   return (
     <>
@@ -51,13 +51,13 @@ const BrainstromTable = ({ headerText, id }) => {
                 Generated
               </td>
               <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                {brainstormData?.data?.setup?.generated || 0}
+                {data?.setup?.generated || 0}
               </td>
               <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                {brainstormData?.data?.conflict?.generated || 0}
+                {data?.conflict?.generated || 0}
               </td>
               <td className="border border-[#616161] px-2 py-[6px] text-[14px]">
-                {brainstormData?.data?.resolution?.generated || 0}
+                {data?.resolution?.generated || 0}
               </td>
             </tr>
 

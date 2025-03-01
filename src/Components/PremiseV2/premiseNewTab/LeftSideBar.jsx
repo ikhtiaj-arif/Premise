@@ -46,7 +46,7 @@ const LeftSideBar = ({
   characterRefetch,
   handleSearch,
   currentCommentRef,
-  handleOpenAllReplies
+  handleOpenAllReplies,
 }) => {
   const {
     bg_img,
@@ -235,7 +235,16 @@ const LeftSideBar = ({
           <PremiseTopHeader {...{ handleSearch, id }} />
           <div>
             {/* premise card top */}
-            <PremiseTopAccess {...{ premiseOwner, user, id, project_id,premiseData,premiseRefetch }} />
+            <PremiseTopAccess
+              {...{
+                premiseOwner,
+                user,
+                id,
+                project_id,
+                premiseData,
+                premiseRefetch,
+              }}
+            />
             {/* center */}
             <div className="relative">
               <PopupPremiseText
@@ -542,6 +551,8 @@ const LeftSideBar = ({
                 setReplyField,
                 replyField,
                 replyRef,
+                isLoading,
+                setIsLoading,
               }}
             />
           </div>
