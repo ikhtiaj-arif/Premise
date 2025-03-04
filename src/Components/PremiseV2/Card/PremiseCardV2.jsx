@@ -420,7 +420,7 @@ const PremiseCardV2 = ({
                     user_type={premiseOwner?.centraldatabase?.user_type}
                   />
                 </div>
-                <div className="text-[#616161] text-[10px] flex flex-col gap-[8px] font-[400] leading-[4px] mb-[12px]">
+                <div className="text-[#616161] text-[10px] flex flex-col gap-[8px] font-[400] leading-[4px] ">
                   <p>
                     {formattedDate}, {formattedTime}
                   </p>

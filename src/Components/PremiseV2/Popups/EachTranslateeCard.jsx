@@ -14,13 +14,13 @@ const EachTranslateeCard = ({
   refetch,
   viewText,
 }) => {
-  console.log("transaction", transaction);
-  const { data: userData, isLoading } = useGetUserByUserIdQuery(
-    transaction?.translatedFor.id?.id
-  );
-  const { data: allowedUserData, isAUserLoading } = useGetUserByUserIdQuery(
-    transaction?.translationAllowedBy?.id
-  );
+  // console.log("transaction", transaction);
+  // const { data: userData, isLoading } = useGetUserByUserIdQuery(
+  //   transaction?.translatedFor.id?.id
+  // );
+  // const { data: allowedUserData, isAUserLoading } = useGetUserByUserIdQuery(
+  //   transaction?.translationAllowedBy?.id
+  // );
 
   const {
     data: premiseData,

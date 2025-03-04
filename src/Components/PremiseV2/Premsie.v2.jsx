@@ -386,10 +386,10 @@ const PremiseV2 = () => {
                   // className="btn btn"
                   className="bg-[#33B0CA] flex items-center justify-center gap-[8px] text-[#FAFAFA] text-[14px] font-[600] rounded-[8px] min-w-[196px] min-h-[34px] mt-[14px] px-[12px] ml-auto lg:mx-auto"
                 >
-                  <p>
-                    <span className=" text-2xl ">+</span>{" "}
+                  <div className="flex gap-[6px] min-h-[34px] items-center">
+                    <span className=" text-[24px] mt-[-6px]">+</span>{" "}
                     <span className="addNewPremise-m">Add A New Premise</span>
-                  </p>
+                  </div>
                 </button>
                 <div className="md:hidden flex justify-end text-[14px] text-[#252525] h-[32px] font-[500]">
                   <p>
