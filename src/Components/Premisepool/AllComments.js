@@ -32,6 +32,7 @@ import CommentLikePopup from "./CommentLikePopup";
 import ConfirmationModal from "./Comments/ConfirmationModal";
 import ReplyToComments from "./Comments/ReplyToComments";
 import UserType from "./UserType";
+import CommentLike from "../SharedVersion/CommentLike";
 
 const AllComments = ({
   commentIdx,
@@ -136,7 +137,6 @@ const AllComments = ({
   const replyRef = useRef(null);
   const latestReplyRef = useRef(null);
 
-  const [isLiked, setIsLiked] = useState(false);
   const [totalCommentLikes, setTotalCommentLikes] = useState([]);
   const [suggestedBeats, setSuggestedBeats] = useState({});
 
@@ -157,7 +157,7 @@ const AllComments = ({
   const commentOwnerMail = comments?.user?.email;
   const modifiedEmail = commentOwnerMail?.split("@")[0];
   const owner = data?.premiseOwner?.id;
-  const likesId = comments?.likes?.map((e) => e);
+  
 
   const {
     data: profileImg,
@@ -166,11 +166,6 @@ const AllComments = ({
   } = useGetPremiseUserPictureQuery(comments?.user?.id);
 
   const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
-
-  const [likeComment, likeCommentRes] = useLikeCommentMutation();
-
-  const [removeLikeComment, removeLikeCommentRes] =
-    useRemoveLikeCommentMutation();
 
   const [deleteComment, deleteCommentRes] = useDeleteCommentMutation();
 
@@ -204,14 +199,7 @@ const AllComments = ({
   }, [comments]);
 
   //for comment
-  useEffect(() => {
-    setTotalCommentLikes(comments?.likes);
-    if (likesId?.includes(user)) {
-      setIsLiked(true);
-    } else {
-      setIsLiked(false);
-    }
-  }, [comments, user, likesId]);
+  
 
   useEffect(() => {
     if (commentOwnerName?.length > 1) {
@@ -220,44 +208,6 @@ const AllComments = ({
       setCommenterName(modifiedEmail);
     }
   }, [commentOwnerName, modifiedEmail]);
-
-  const handleLikeComment = async (id) => {
-    setDisable(true);
-    const body = {
-      user: user,
-      comment: id,
-    };
-    const postLikeResponse = await likeComment(body);
-    if (postLikeResponse?.data?.message === "Like Added") {
-      setIsLiked(true);
-      commentRefetch();
-      setDisable(false);
-      // setLikeCount((pre) => (pre === null ? likes : pre + 1));
-    } else {
-      setIsLiked(false);
-      commentRefetch();
-      setDisable(false);
-      // setLikeCount((pre) => (pre === null ? likes : pre - 1));
-    }
-  };
-
-  const handleRemoveLikeComment = async (id) => {
-    setDisable(true);
-    const body = {
-      user: user,
-      comment: id,
-    };
-    const postLikeResponse = await removeLikeComment(body);
-    if (postLikeResponse?.data?.message === "Like Removed") {
-      setIsLiked(true);
-      commentRefetch();
-      setDisable(false);
-    } else {
-      setIsLiked(false);
-      commentRefetch();
-      setDisable(false);
-    }
-  };
 
   const handleDeleteComment = async (id) => {
     setDisableD(true);
@@ -957,156 +907,13 @@ const AllComments = ({
                           )}
                       </div>
                     )}
-
                     <div className="hidden lg:block">
-                      {isLiked ? (
-                        <button
-                          disabled={disable}
-                          className="flex gap-[4px] items-center text-[12px] leading-[14.52px]"
-                        >
-                          <FaThumbsUp
-                            onClick={() =>
-                              handleRemoveLikeComment(comments?.id)
-                            }
-                            className={`w-3 h-3 text-[#33B0CA] ${
-                              disable ? " cursor-default" : "cursor-pointer"
-                            } `}
-                          />
-                          <p
-                            data-te-toggle="tooltip"
-                            title="Who Liked?"
-                            className={` text-[#616161] font-[400] mt-[0.8px]  ${
-                              commentLikes > 0
-                                ? "cursor-pointer  "
-                                : "defaultCursor "
-                            }`}
-                            onClick={() =>
-                              commentLikes > 0 && setLikePopup(true)
-                            }
-                          >
-                            {commentLikes}
-                            {/* {commentLikes === 1 ? "Like" : "Likes"} */}
-                          </p>
-                        </button>
-                      ) : (
-                        <div className="flex gap-[4px] items-center text-[12px] leading-[14.52px]">
-                          <button>
-                            <FaThumbsUp
-                              onClick={() => handleLikeComment(comments?.id)}
-                              className={` w-3 h-3  text-[#252525]  ${
-                                disable ? " cursor-default" : "cursor-pointer"
-                              } `}
-                            />
-                          </button>
-
-                          {commentLikes !== 0 ? (
-                            <p
-                              data-te-toggle="tooltip"
-                              title="Who Liked?"
-                              className={`"text-[12px] text-[#616161] font-[400] mt-[0.8px]"  ${
-                                commentLikes > 0
-                                  ? "cursor-pointer  "
-                                  : "defaultCursor "
-                              }`}
-                              onClick={() =>
-                                commentLikes > 0 && setLikePopup(true)
-                              }
-                            >
-                              {commentLikes}
-                              {/* {commentLikes > 1 ? "Likes" : "Like"} */}
-                            </p>
-                          ) : (
-                            <p
-                              className={`"text-[12px] text-[#616161] font-[400] mt-[0.8px]"  ${
-                                commentLikes > 0
-                                  ? "cursor-pointer "
-                                  : "defaultCursor "
-                              }`}
-                              onClick={() =>
-                                commentLikes > 0 && setLikePopup(true)
-                              }
-                            >
-                              {/* {commentLikes > 1 ? "Likes" : "Like"} */}
-                            </p>
-                          )}
-                        </div>
-                      )}
+                      <CommentLike {...{disable,comments,setLikePopup,commentLikes,commentRefetch,setDisable}}/>
                     </div>
                   </div>
                   <div className="flex gap-[12px] items-center ">
                     <div className="lg:hidden">
-                      {isLiked ? (
-                        <button
-                          disabled={disable}
-                          className="flex gap-[4px] items-center text-[12px] leading-[14.52px]"
-                        >
-                          <FaThumbsUp
-                            onClick={() =>
-                              handleRemoveLikeComment(comments?.id)
-                            }
-                            className={`w-3 h-3 text-[#33B0CA] ${
-                              disable ? " cursor-default" : "cursor-pointer"
-                            } `}
-                          />
-                          <p
-                            data-te-toggle="tooltip"
-                            title="Who Liked?"
-                            className={` text-[#616161] font-[400] mt-[0.8px]  ${
-                              commentLikes > 0
-                                ? "cursor-pointer  "
-                                : "defaultCursor "
-                            }`}
-                            onClick={() =>
-                              commentLikes > 0 && setLikePopup(true)
-                            }
-                          >
-                            {commentLikes}
-                            {/* {commentLikes === 1 ? "Like" : "Likes"} */}
-                          </p>
-                        </button>
-                      ) : (
-                        <div className="flex gap-[4px] items-center text-[12px] leading-[14.52px]">
-                          <button>
-                            <FaThumbsUp
-                              onClick={() => handleLikeComment(comments?.id)}
-                              className={` w-3 h-3  text-[#252525]  ${
-                                disable ? " cursor-default" : "cursor-pointer"
-                              } `}
-                            />
-                          </button>
-
-                          {commentLikes !== 0 ? (
-                            <p
-                              data-te-toggle="tooltip"
-                              title="Who Liked?"
-                              className={`"text-[12px] text-[#616161] font-[400] mt-[0.8px]"  ${
-                                commentLikes > 0
-                                  ? "cursor-pointer  "
-                                  : "defaultCursor "
-                              }`}
-                              onClick={() =>
-                                commentLikes > 0 && setLikePopup(true)
-                              }
-                            >
-                              {commentLikes}
-                              {/* {commentLikes > 1 ? "Likes" : "Like"} */}
-                            </p>
-                          ) : (
-                            <p
-                              className={`"text-[12px] text-[#616161] font-[400] mt-[0.8px]"  ${
-                                commentLikes > 0
-                                  ? "cursor-pointer "
-                                  : "defaultCursor "
-                              }`}
-                              onClick={() =>
-                                commentLikes > 0 && setLikePopup(true)
-                              }
-                            >
-                              {/* {commentLikes > 1 ? "Likes" : "Like"} */}
-                            </p>
-                          )}
-                        </div>
-                      )}
+                      <CommentLike {...{disable,comments,setLikePopup,commentLikes,commentRefetch,setDisable}}/>
                     </div>
 
                     <>
@@ -1346,7 +1153,6 @@ const AllComments = ({
           commentRefetch={commentRefetch}
           replyRefetch={replyRefetch}
           data={data}
-          setIsLiked={setIsLiked}
           refetch={refetch}
           premiseData={premiseData}
           suggestedBeats={suggestedBeats}

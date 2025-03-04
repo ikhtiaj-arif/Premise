@@ -270,7 +270,7 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
                 disabled={!isFormValid}
                 className={`${
                   !isFormValid
-                    ? "bg-[#616161] cursor-not-allowed"
+                    ? "bg-[#ACDDE7]  cursor-not-allowed"
                     : "bg-[#33B0CA]"
                 } w-[88px] mt-[20px] mx-auto text-[#fafafa] rounded-[8px] leading-[24px] px-[12px] py-[2px] text-[13px] font-[600]`}
               >

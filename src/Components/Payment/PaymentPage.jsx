@@ -16,8 +16,13 @@ import {
 } from "../../app/EndPoints/premisePoolApi";
 import { toast } from "react-toastify";
 
-const PaymentPage = ({typeOfRequest,submit,setPayment,user,premise_id}) => {
-
+const PaymentPage = ({
+  typeOfRequest,
+  submit,
+  setPayment,
+  user,
+  premise_id,
+}) => {
   const [paymentData, { isLoading: isPLoading }] = usePaymentDataMutation();
   const [paymentSend] = usePaymentSendMutation();
   const [successFulPayment] = usePaymentSucessMutation();
@@ -289,7 +294,9 @@ const PaymentPage = ({typeOfRequest,submit,setPayment,user,premise_id}) => {
               <button
                 disabled={paymentCondition}
                 onClick={handleClick}
-                className="w-32 my-8 h-[40px] bg-[#33b0ca] text-white rounded-lg font-semibold"
+                className={`${
+                  paymentCondition ? "bg-[#ACDDE7]" : "bg-[#33b0ca]"
+                } w-32 my-8 h-[40px] text-white rounded-lg font-semibold`}
               >
                 Pay Now
               </button>

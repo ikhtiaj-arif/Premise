@@ -63,13 +63,25 @@ const NoAccessLbPopUp = ({
 
   const handleSceneCountChange = (event) => {
     setSceneCount(event.target.value);
-    setCounts((prev) => ({
-      ...prev,
-      [PpData?.service_name]: event.target.value,
-    }));
+    if (
+      service === "PP_Premises" &&
+      noAccessLbPopup?.LimitStatus?.ScriptPad == "No"
+    ) {
+      setCounts((prev) => ({
+        ...prev,
+        [PpData?.service_name]: event.target.value,
+        SP_Projects: event.target.value,
+      }));
+    } else {
+      setCounts((prev) => ({
+        ...prev,
+        [PpData?.service_name]: event.target.value,
+      }));
+    }
   };
 
   const handleGoClick = async () => {
+    console.log('counts',counts);
     if (selectedOption === "generate") {
       if (sceneCount > 0) {
         sessionStorage.setItem("pp_limit_counts", JSON.stringify(counts));

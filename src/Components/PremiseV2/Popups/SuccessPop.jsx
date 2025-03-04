@@ -11,7 +11,7 @@ const SuccessPop = ({ popClose, requestType,parentClose }) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
-      <div className=" h-[50vh] lg:h-[300px] pt-10 mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:w-[605px]  md:mx-auto relative lg:rounded-[8px]">
+      <div className=" h-[50vh] lg:h-[300px] p-5 mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:w-[605px]  md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
         <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
           <img
@@ -22,14 +22,14 @@ const SuccessPop = ({ popClose, requestType,parentClose }) => {
           />
         </div>
 
-        <div className="h-[50px] flex flex-col  items-center justify-start">
-          <img className="w-[100px] " src={Congrats} alt="Congrats"></img>
+        <div className="flex flex-col  items-center justify-start">
+          <img className="w-[140px] " src={Congrats} alt="Congrats"></img>
           {requestType === "translation" ? (
-            <h2 className="font-[500] text-[20px] pt-[40px]  text-center ">
+            <h2 className="font-[500] text-[20px]  text-center ">
               Translation Request Sent.
             </h2>
           ) : (
-            <h2 className="font-[500] text-[20px] pt-[40px]  text-center ">
+            <h2 className="font-[500] text-[20px]  text-center ">
               Sale Request Sent.
             </h2>
           )}

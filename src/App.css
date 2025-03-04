@@ -2,8 +2,8 @@
   color: #fff;
   background-color: #33b0ca;
 }
-
-.no_access_input input[type="radio"] {
+/* .no_access_input  */
+ input[type="radio"] {
   appearance: none;
   width: 16px;
   height: 16px;
@@ -14,7 +14,7 @@
   position: relative;
 }
 
-.no_access_input input[type="radio"]:checked {
+input[type="radio"]:checked {
   background-color: #33b0ca;
 }
 
