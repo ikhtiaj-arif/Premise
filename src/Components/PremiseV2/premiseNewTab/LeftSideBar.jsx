@@ -290,46 +290,31 @@ const LeftSideBar = ({
           {window.innerWidth < 1150 && charactersPopupMobile && (
             <div className="bg-[#fff] absolute top-[47px] right-[12px] w-[290px] rounded-[8px] p-[8px] z-30 shadow-[0px_0px_26px_0px_rgba(0,0,0,0.3)]">
               <div className="mt-[17px]">
-                <div className="flex items-center justify-between">
+                <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
                   {" "}
                   <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                     Created By
                   </h2>
-                  <div className="flex items-center">
-                    <span className="text-[#616161] text-[14px] leading-[20px] font-[700]">
-                      :
-                    </span>
-                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
-                      {created_by_name}
-                    </p>
-                  </div>
+                  <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
+                    : {created_by_name}
+                  </p>
                 </div>
-                <div className="flex items-center  justify-between">
+                <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
                   {" "}
                   <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                     Created On
                   </h2>
-                  <div className="flex items-center">
-                    <span className="text-[#616161] text-[14px] leading-[20px] font-[700]">
-                      :
-                    </span>
-                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
-                      {formatDate(created_at)}
-                    </p>
-                  </div>
+                  <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
+                    : {formatDate(created_at)}
+                  </p>
                 </div>
-                <div className="flex items-center  justify-between">
+                <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
                   <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                     Last Worked On
                   </h2>
-                  <div className="flex items-center">
-                    <span className="text-[#616161] text-[14px] leading-[20px] font-[700]">
-                      :
-                    </span>
-                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
-                      {formatDate(last_worked_on)}
-                    </p>
-                  </div>
+                  <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
+                    : {formatDate(last_worked_on)}
+                  </p>
                 </div>
               </div>
 
@@ -337,7 +322,7 @@ const LeftSideBar = ({
               {premiseOwner?.id === user && (
                 <div className="mt-1">
                   <div className="heading w-full  flex justify-between items-center">
-                    <p className="text-[#616161] font-[600] text-[14px]">
+                    <p className="text-[#616161] font-[700] text-[16px] leading-6">
                       Visible to
                     </p>
 
@@ -347,7 +332,7 @@ const LeftSideBar = ({
                     />
                   </div>
                   <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
-                  <p className="text-[#33B0CA] text-[16px] font-[500]">
+                  <p className="text-[#33B0CA] text-[16px] font-[500] leading-6">
                     {filter_flag === 0
                       ? "All Buddies"
                       : filter_flag === 1
@@ -365,7 +350,7 @@ const LeftSideBar = ({
               {premiseOwner?.id === user && (
                 <div className="mt-1">
                   <div className="heading w-full flex justify-between items-center">
-                    <p className="text-[#616161] font-[600] text-[14px]">
+                    <p className="text-[#616161] font-[700] text-[16px] leading-6">
                       Characters
                     </p>
                     <div className=" flex gap-2 items-center ">
@@ -381,7 +366,7 @@ const LeftSideBar = ({
                       />
                     </div>
                   </div>
-                  <div className="bg-[#eaeaea] rounded-[8px] p-3 w-full lg:max-h-[83px] overflow-auto">
+                  <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full lg:max-h-[83px] overflow-auto">
                     {finalCharacters?.map((character, index) => (
                       <CharacterShowCard
                         {...{
@@ -406,46 +391,31 @@ const LeftSideBar = ({
           {window.innerWidth > 1150 && (
             <div className="bg-[#fff]">
               <div>
-                <div className="flex items-center justify-between">
+                <div className="grid grid-cols-[40%_minmax(60%,_1fr)] items-center ">
                   {" "}
                   <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                     Created By
                   </h2>
-                  <div className="flex items-center">
-                    <span className="text-[#616161] text-[14px] leading-[20px] font-[700]">
-                      :
-                    </span>
-                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
-                      {created_by_name}
-                    </p>
-                  </div>
+                  <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
+                    : {created_by_name}
+                  </p>
                 </div>
-                <div className="flex items-center  justify-between">
+                <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center ">
                   {" "}
                   <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                     Created On
                   </h2>
-                  <div className="flex items-center">
-                    <span className="text-[#616161] text-[14px] leading-[20px] font-[700]">
-                      :
-                    </span>
-                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
-                      {formatDate(created_at)}
-                    </p>
-                  </div>
+                  <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
+                    : {formatDate(created_at)}
+                  </p>
                 </div>
-                <div className="flex items-center  justify-between">
+                <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center ">
                   <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                     Last Worked On
                   </h2>
-                  <div className="flex items-center">
-                    <span className="text-[#616161] text-[14px] leading-[20px] font-[700]">
-                      :
-                    </span>
-                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
-                      {formatDate(last_worked_on)}
-                    </p>
-                  </div>
+                  <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
+                    : {formatDate(last_worked_on)}
+                  </p>
                 </div>
               </div>
 
@@ -453,7 +423,7 @@ const LeftSideBar = ({
               {premiseOwner?.id == user && (
                 <div className="mt-1">
                   <div className="heading w-full  flex justify-between items-center">
-                    <p className="text-[#616161] font-[600] text-[14px]">
+                    <p className="text-[#616161] font-[700] text-[16px] leading-6">
                       Visible to
                     </p>
 
@@ -463,7 +433,7 @@ const LeftSideBar = ({
                     />
                   </div>
                   <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
-                  <p className="text-[#33B0CA] text-[16px] font-[500]">
+                  <p className="text-[#33B0CA] text-[16px] font-[500] leading-6">
                     {filter_flag === 0
                       ? "All Buddies"
                       : filter_flag === 1
@@ -481,7 +451,7 @@ const LeftSideBar = ({
               {premiseOwner?.id === user && (
                 <div className="mt-1">
                   <div className="heading w-full flex justify-between items-center">
-                    <p className="text-[#616161] font-[600] text-[14px]">
+                    <p className="text-[#616161] font-[700] text-[16px] leading-6">
                       Characters
                     </p>
                     <div className=" flex gap-2 items-center ">
@@ -497,7 +467,7 @@ const LeftSideBar = ({
                       />
                     </div>
                   </div>
-                  <div className="bg-[#eaeaea] rounded-[8px] p-3 w-full lg:max-h-[83px] overflow-auto">
+                  <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full lg:max-h-[83px] overflow-auto">
                     {finalCharacters?.map((character, index) => (
                       <CharacterShowCard
                         {...{

@@ -174,10 +174,10 @@ const AvailableForTranslationPop = ({
           <button
             onClick={handlePayNow}
             disabled={!targetLanguage || isProcessing} // Disable if no language is selected or already processing
-            className={`mx-auto text-center rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700] ${
+            className={`mx-auto text-center rounded-[8px] text-white leading-[32px] px-[24px] text-[12px] font-[700] ${
               !targetLanguage || isProcessing
-                ? "bg-[#616161] cursor-not-allowed"
-                : "bg-[#33B0CA] text-[#fafafa]"
+                ? "bg-[#ACDDE7] "
+                : "bg-[#33B0CA] "
             }`}
           >
             {isProcessing ? "Processing..." : "Pay now"}

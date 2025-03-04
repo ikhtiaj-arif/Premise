@@ -179,8 +179,8 @@ const LimitPaymentPage = () => {
 
       // Dynamically create and submit the form
       const payuForm = document.createElement("form");
-      // payuForm.action = "https://secure.payu.in/_payment";
-      payuForm.action = "https://test.payu.in/_payment";
+      payuForm.action = "https://secure.payu.in/_payment";
+      // payuForm.action = "https://test.payu.in/_payment";
       payuForm.method = "POST";
 
       // Add form fields
@@ -258,10 +258,7 @@ const LimitPaymentPage = () => {
 
             <div className=" grid grid-cols-1 md:grid-cols-[40%_minmax(40%,_1fr)_20%] items-start gap-2">
               <HeaderOptions mnf />
-              <HeaderOptions
-                currentUser={currentUser}
-                data={paymentData}
-              />
+              <HeaderOptions currentUser={currentUser} data={paymentData} />
               <div className=" hidden md:flex w-[100px] h-[150px] ml-auto mr-4">
                 <img src={Valid} className="w-full h-full ml-auto" alt="" />
               </div>
@@ -270,39 +267,19 @@ const LimitPaymentPage = () => {
             <section className="flex flex-col lg:flex-row justify-between lg:gap-[5rem] gap-[20px] h-full">
               <Package data={paymentData?.services} fromLimit />
 
-              <Amount data={paymentData} />
+              <Amount data={paymentData} {...{isAgreementChecked,setAgreementChecked}} />
             </section>
 
-            {/* terms part */}
-            <div className="mt-2">
-              <div className=" text-left flex gap-1">
-                <input
-                  checked={isAgreementChecked}
-                  onChange={() => setAgreementChecked(!isAgreementChecked)}
-                  type="checkbox"
-                  id="terms"
-                />
-                <label htmlFor="terms" className=" text-[12px] md:text-[16px]">
-                  I agree with the{" "}
-                  <a
-                    target="_blank"
-                    rel="noreferrer"
-                    href={`https://mynextfilm.ai/templates/Tnc.html`}
-                    className="text-[#5a83ef] underline"
-                  >
-                    Terms of Payment
-                  </a>
-                </label>
-              </div>
-              <div></div>
-            </div>
+            
 
             {/* pay button */}
             <div className=" text-center">
               <button
                 disabled={paymentCondition}
                 onClick={handleClick}
-                className="w-32 my-8 h-[40px] bg-[#33b0ca] text-white rounded-lg font-semibold"
+                className={`${
+                  paymentCondition ? "bg-[#ACDDE7]" : "bg-[#33b0ca] "
+                } w-32 my-8 h-[40px]  rounded-lg font-semibold text-white`}
               >
                 Pay Now
               </button>

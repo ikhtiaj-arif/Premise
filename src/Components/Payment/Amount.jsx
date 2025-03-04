@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Amount = ({ data }) => {
+export const Amount = ({ data,isAgreementChecked,setAgreementChecked }) => {
   return (
     <div className="w-full lg:w-[80%] h-full">
       <p
@@ -88,6 +88,29 @@ export const Amount = ({ data }) => {
           This is the system generated invoice.
         </span>
       </p> */}
+      {/* terms part */}
+      <div className="mt-2">
+        <div className=" text-left flex gap-1">
+          <input
+            checked={isAgreementChecked}
+            onChange={() => setAgreementChecked(!isAgreementChecked)}
+            type="checkbox"
+            id="terms"
+          />
+          <label htmlFor="terms" className=" text-[12px] md:text-[16px]">
+            I agree with the{" "}
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href={`https://mynextfilm.ai/templates/Tnc.html`}
+              className="text-[#5a83ef] underline"
+            >
+              Terms of Payment
+            </a>
+          </label>
+        </div>
+        <div></div>
+      </div>
     </div>
   );
 };
