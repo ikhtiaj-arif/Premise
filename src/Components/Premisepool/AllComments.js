@@ -1144,7 +1144,7 @@ const AllComments = ({
                 </div>
               )}
 
-              <div className="absolute flex gap-2 items-center right-[-19.5px] md:right-[4.5px] top-[28%]">
+              <div className="absolute flex flex-col md:flex-row gap-2 items-center right-[4.5px] top-[18%] md:top-[28%]">
                 <CommentTranslator
                   comment={comments}
                   translateComment={translateComment}

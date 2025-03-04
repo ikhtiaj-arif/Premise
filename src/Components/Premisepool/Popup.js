@@ -75,7 +75,7 @@ const Popup = ({
     setHideDisable,
     project_id,
   } = data;
-
+// console.log("popData", data);
   const { data: characters, isCharLoading } =
     useGetSavedCharactersQuery(project_id);
 
@@ -562,6 +562,7 @@ const Popup = ({
                   openDotMenu={openDotMenu}      
                   setOpenHidePop={setOpenHidePop}
                   openHidePop={openHidePop}
+                  setUserMail={setUserMail}
                 
                 />
                 </div>
