@@ -147,7 +147,7 @@ const ApproveTranslationPop = ({
               selectedRequests.length === 0 || loading
                 ? "bg-[#616161]  cursor-not-allowed"
                 : "bg-[#33B0CA]"
-            } text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] py-[2px] text-[13px] font-[600]`}
+            } text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] pt-[2px] pb-4 text-[13px] font-[600]`}
           >
             {loading ? "Processing..." : "Proceed"}
           </button>
