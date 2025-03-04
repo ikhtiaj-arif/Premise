@@ -47,12 +47,15 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
     }
 
     console.log("Form Submitted:", formData);
+
     const data = {
       id,
-      body: { sellingPrice: price, ...premiseData },
+      body: { ...premiseData, sellingPrice: price },
     };
+
+    console.log("Updatedpremise result:", data);
+
     const res = await updatePremise(data);
-    //console.log("Updatedpremise result:", res);
     if (res?.data) {
       popClose(null);
     }
@@ -92,11 +95,11 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
                 />
               </div>
               <div>
-                <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
+                <p className="text-left !text-[14px] !leading-[21px] font-[400] text-[#616161]">
                   By allowing translation of the Premise Project in a language
                   to MNF users for a price of $ PQR.
                 </p>
-                <p className="text-left text-[12px] mt-[8px] leading-[18px] italic font-[400] text-[#616161]">
+                <p className="text-left !text-[12px] mt-[8px] !leading-[18px] italic font-[400] text-[#616161]">
                   (Please Note that 1/3 of the amount received for translating
                   the Premise project will be retained by MNF.)
                 </p>
@@ -115,7 +118,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
                 />
               </div>
               <div>
-                <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
+                <p className="text-left !text-[14px] !leading-[21px] font-[400] text-[#616161]">
                   By transferring the ownership of the Premise Project
                   <span className="flex">
                     to the interested buyer for a price of $
@@ -141,7 +144,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
                     />
                   </span>
                 </p>
-                <p className="text-left text-[12px] mt-[8px] leading-[18px] italic font-[400] text-[#616161]">
+                <p className="text-left !text-[12px] mt-[8px] !leading-[18px] italic font-[400] text-[#616161]">
                   (Please Note that the price shown to the prospective buyer
                   will be 1.5 times the price quoted by you.)
                 </p>

@@ -420,7 +420,7 @@ const PremiseCardV2 = ({
                     user_type={premiseOwner?.centraldatabase?.user_type}
                   />
                 </div>
-                <div className="text-[#616161] text-[10px] flex flex-col gap-[8px] font-[400] leading-[4px] mb-[12px]">
+                <div className="text-[#616161] text-[10px] flex flex-col gap-[8px] font-[400] leading-[4px] ">
                   <p>
                     {formattedDate}, {formattedTime}
                   </p>
@@ -681,6 +681,7 @@ const PremiseCardV2 = ({
         <ViewTranslationPop
           popClose={setOpenViewTranslationsPop}
           premiseId={viewTransactionPId}
+          popupData
           popCloseCmnt={() => setOpenPop(false)}
           {...{
             handleVisibility,
@@ -712,14 +713,14 @@ const PremiseCardV2 = ({
           />
         )
       )}
-      {noAccessLbPopUp?.msg == "ShowBecomePrivilege" ? (
+      {noAccessLbPopUp?.msg === "ShowBecomePrivilege" ? (
         <NoAccessPopUp
           noAccessPopup={noAccessLbPopUp}
           setNoAccessPopup={setNoAccessLbPopUp}
         />
       ) : (
-        (noAccessLbPopUp?.msg == "LB" ||
-          noAccessLbPopUp?.msg == "ShowBuyPackage_and_Allacarte") && (
+        (noAccessLbPopUp?.msg === "LB" ||
+          noAccessLbPopUp?.msg === "ShowBuyPackage_and_Allacarte") && (
           <NoAccessLbPopUp
             noAccessLbPopup={noAccessLbPopUp}
             setNoAccessPopup={setNoAccessLbPopUp}

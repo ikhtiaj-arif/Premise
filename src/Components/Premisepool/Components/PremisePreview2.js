@@ -1447,7 +1447,7 @@ const PremisePreview2 = ({
         <div
           className={`relative ${
             charSaveDisable
-              ? "h-[150px] md:h-[125px] overflow-y-hidden "
+              ? `h-[150px] ${finalSubmitLoading ? "md:h-[65px]":"md:h-[125px]"}  overflow-y-hidden`
               : finalEdit
               ? "h-[125px]"
               : createNewProject || selectedSpProjectID
@@ -1917,9 +1917,7 @@ const PremisePreview2 = ({
                         Genre
                       </option>
 
-                      <option value="" disabled>
-                        Genre
-                      </option>
+                 
 
                       {genera?.map((option) => (
                         <option key={option} value={option}>
@@ -2150,7 +2148,7 @@ const PremisePreview2 = ({
                     isLoading
                       ? "bg-[#616161] rounded-[8px] h-[32px] px-[12px] text-[14px] font-[600] text-white hover:bg hidden"
                       : "bg-[#FAFAFA] border h-[32px] !border-[#33B0CA] text-[#33B0CA] rounded-[8px]  px-[12px] text-[14px] font-[600]"
-                  } mr-7 md:ml-0`}
+                  } mr-4 md:ml-0`}
                   onClick={() => handleGoBack()}
                 >
                   Back
@@ -2169,11 +2167,11 @@ const PremisePreview2 = ({
                 )}
               </div>
             ) : (
-              <div className="lg:bg-[#FAFAFA] absolute right-3 md:right-0 bottom-0  flex  justify-end pt-[4px] pb-[8px] text-center  md:mx-[28px] top-[100px] md:top-[73px] md:mb-[10px] ">
+              <div className={`lg:bg-[#FAFAFA] absolute right-3 md:right-0 bottom-0  flex  justify-end pt-[4px] pb-[8px] text-center  md:mx-[28px] top-[100px] ${finalSubmitLoading ? " md:top-[23px]":" md:top-[73px]"} md:mb-[10px] `}>
                 {!charSaveDisable && (
                   <div
                     onClick={() => setCharacterEditPop(true)}
-                    className={` text-[#33B0CA] cursor-pointer mr-[12px] rounded-[8px] h-[32px] px-[10px] text-[14px] font-[500] border border-[#fafafa] border-b-[#33B0CA]
+                    className={` text-[#33B0CA] cursor-pointer mr-[12px]  h-[32px] px-[10px] text-[14px] font-[500] border border-[#fafafa] border-b-[#33B0CA]
                   `}
                   >
                     Edit Proposed Characters

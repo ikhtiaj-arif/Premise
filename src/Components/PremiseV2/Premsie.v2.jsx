@@ -371,7 +371,7 @@ const PremiseV2 = () => {
               }
             </div>
             <div className="md:w-[50%] flex items-center justify-between h-[124px]">
-              <div className="mr-[20px] md:mr-[0px] text-center w-[360px] md:mt-[-30px] lg:w-[440px] ml-[-186px] mb-0">
+              <div className="mr-[20px] md:mr-[0px] text-center w-[360px] md:mt-[-30px] lg:w-[440px] ml-[-186px] mb-0 lg:ml-[-171px] xl:ml-[-229px">
                 <img
                   alt="monetize your creativity"
                   src={headText}
@@ -386,10 +386,10 @@ const PremiseV2 = () => {
                   // className="btn btn"
                   className="bg-[#33B0CA] flex items-center justify-center gap-[8px] text-[#FAFAFA] text-[14px] font-[600] rounded-[8px] min-w-[196px] min-h-[34px] mt-[14px] px-[12px] ml-auto lg:mx-auto"
                 >
-                  <p>
-                    <span className=" text-2xl ">+</span>{" "}
+                  <div className="flex gap-[6px] min-h-[34px] items-center">
+                    <span className=" text-[24px] mt-[-6px]">+</span>{" "}
                     <span className="addNewPremise-m">Add A New Premise</span>
-                  </p>
+                  </div>
                 </button>
                 <div className="md:hidden flex justify-end text-[14px] text-[#252525] h-[32px] font-[500]">
                   <p>

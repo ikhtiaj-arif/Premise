@@ -233,7 +233,7 @@ const PopupTextarea = ({
             className={`${
               className ? "bg-[#fff]" : "bg-[#f8f8f8]"
             } resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic`}
-            placeholder="Brainstorm here with MNF"
+            placeholder="OR Brainstorm with Ida by sharing your thoughts"
             value={newComment}
             required
             onChange={handleTextareaChange}

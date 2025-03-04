@@ -59,14 +59,12 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
     setPreview(true);
   };
   const handleTextChange = (event) => {
-    const value = event.target.value;
-    const trimmedValue = value.replace(/^\s+/, ""); // Remove leading spaces
-    const regex = /^[A-Za-z ]*$/;
+    let value = event.target.value;
 
-    // if (regex.test(trimmedValue)) {
-    //   setText(trimmedValue);
-    // }
-    setText(trimmedValue);
+    // Replace multiple spaces between words with a single space
+    value = value.replace(/\s{2,}/g, ' ');
+
+    setText(value); // Update the state with the sanitized value
   };
 
   const handleGoBack = () => {
@@ -212,7 +210,7 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="md:bg-[#FAFAFA] flex gap-5 justify-end  my-[8px] text-center mx-[28px]">
+                  <div className="md:bg-[#FAFAFA] flex gap-4 justify-end  my-[8px] text-center mx-[28px]">
                     <button
                       type="reset"
                       onClick={handleClear}
