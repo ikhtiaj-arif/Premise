@@ -6,9 +6,9 @@ import {
   useGetSaleTranslationRequestQuery,
   useUpdateRequestForSaleOrTranslateMutation,
 } from "../../../app/EndPoints/premisePoolApi";
+import Congrats from "../../../img/Icons/CongratsSaleDoodle.svg";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import SaleDoodle from "../../../img/Icons/OwnerSaleDoodle.svg";
-import Congrats from "../../../img/Icons/CongratsSaleDoodle.svg";
 
 const SaleRequestedOwner = ({ popClose, premiseId }) => {
   const [showBankDetails, setShowBankDetails] = useState(false);
@@ -45,7 +45,6 @@ const SaleRequestedOwner = ({ popClose, premiseId }) => {
     }));
   };
 
-  // const requestId = Names[0]?.data?.data[0]?.id;
   const request = saleRequest?.data[0];
   const requestId = request?.id;
   const fromUser = request?.fromUser;
@@ -65,33 +64,6 @@ const SaleRequestedOwner = ({ popClose, premiseId }) => {
       console.log(err);
     }
   };
-
-  // Handle form submission
-  // const handleProceed = () => {
-  //   axios
-  //     .patch(
-  //       `${URL}/ideamall/premise/request`,
-  //       {
-  //         premise_id: premiseId,
-  //         request_ids: requestId,
-  //         bank_details: JSON.stringify(bankDetails),
-  //       },
-  //       {
-  //         headers: header,
-  //       }
-  //     )
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       console.log("Success");
-  //       // setSaleIcon(false)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  //   setShowTransRequests(true);
-  // };
-
-  // let Sale = true;
 
   const [updatePremise, { isLoading: isUpdateLoading }] =
     useEditPremiseMutation();
@@ -133,11 +105,11 @@ const SaleRequestedOwner = ({ popClose, premiseId }) => {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
+    <div className="fixed top-0 left-0 w-full h-full flex items-end md:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
 
       <div
-        className={`h-[100vh] ${
+        className={`h-[86vh] ${
           showCongratsPopup
             ? "lg:h-auto "
             : showBankDetails
@@ -145,17 +117,17 @@ const SaleRequestedOwner = ({ popClose, premiseId }) => {
             : "lg:h-[670px]"
         } mb-[20px] px-[22px] lg:mb-0 pt-2 lg:mt-[80px] xl:mt-[85px] w-full bg-[#fff] lg:w-[625px] md:mx-auto relative lg:rounded-[8px]`}
       >
-        <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
+        <div className="absolute top-[-56px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
           <img
             src={crossIcon}
-            alt=""
-            className=" text-red-500  w-8 h-8 cursor-pointer"
+            alt="cross icon"
+            className="w-8 h-8 cursor-pointer"
             onClick={() => popClose(null)}
           />
         </div>
         {!showCongratsPopup && (
           <>
-            <div className=" mx-auto w-[116px]">
+            <div className="mx-auto w-[116px]">
               <img
                 src={SaleDoodle}
                 alt="premise doodle"
@@ -169,7 +141,7 @@ const SaleRequestedOwner = ({ popClose, premiseId }) => {
           </>
         )}
         {!showBankDetails ? (
-          <div className="pr-[12px] mt-[17px] w-[542px] ml-[40px]">
+          <div className="md:pr-[12px] mt-[17px] w-full sm:w-[542px] md:ml-[40px]">
             <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
               {fromUser?.first_name} {fromUser?.last_name} is interested in
               buying this Premise Project. If you choose to sell this Premise
@@ -214,7 +186,7 @@ const SaleRequestedOwner = ({ popClose, premiseId }) => {
                   transaction below.
                 </p>
               </div>
-              <div className="flex items-center gap-[5px] w-[150px] ml-[150px] mt-[22px]">
+              <div className="flex items-center gap-[5px] w-[120px] md:w-[150px] ml-[150px] mt-[-20px] md:mt-[22px]">
                 <p className="text-[14px] leading-[15px] font-[400] text-[#616161]">
                   ${" "}
                 </p>
@@ -233,13 +205,13 @@ const SaleRequestedOwner = ({ popClose, premiseId }) => {
                 be 1.5 times the price quoted by you.
                 <span className="text-[17px] text-[#616161] italic">)</span>
               </p>
-              <div className="flex items-center gap-[18px] w-[320px] mx-auto mt-[20px]">
+              <div className="flex items-center gap-[18px] max-w-[320px] mx-auto mt-[20px]">
                 <button
                   type="submit"
                   disabled={!sellingPr || isUpdateLoading}
                   className={`${
                     !sellingPr || isUpdateLoading
-                      ? "bg-[#616161]"
+                      ? "bg-[#ACDDE7]"
                       : "bg-[#33B0CA] "
                   } text-[#fafafa] rounded-[8px] whitespace-nowrap leading-[24px] px-[20px] ml-[10px] py-[2px] text-[13px] font-[600]`}
                 >
@@ -251,7 +223,7 @@ const SaleRequestedOwner = ({ popClose, premiseId }) => {
         ) : !showCongratsPopup ? (
           <div
             id="bank_details"
-            className="flex flex-col gap-[6px] mt-[8px] w-[386px] md:ml-[76px]"
+            className="flex flex-col gap-[6px] mt-[8px] w-full sm:w-[386px] md:ml-[76px]"
           >
             <p className="text-[14px] leading-[16.8px] text-[#252525] font-[600] py-[12px]">
               Please provide your bank details below:
@@ -269,7 +241,7 @@ const SaleRequestedOwner = ({ popClose, premiseId }) => {
                 type="text"
                 value={bankDetails.bank_name}
                 onChange={handleInputChange}
-                className="w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
+                className="w-full sm:w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
               />
             </div>
             <div className="flex justify-between items-center">
@@ -285,7 +257,7 @@ const SaleRequestedOwner = ({ popClose, premiseId }) => {
                 type="text"
                 value={bankDetails.account_holder}
                 onChange={handleInputChange}
-                className="w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
+                className="w-full sm:w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
               />
             </div>
             <div className="flex justify-between items-center">
@@ -301,7 +273,7 @@ const SaleRequestedOwner = ({ popClose, premiseId }) => {
                 type="text"
                 value={bankDetails.account_number}
                 onChange={handleInputChange}
-                className="w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
+                className="w-full sm:w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
               />
             </div>
             <div className="flex justify-between items-center">
@@ -317,7 +289,7 @@ const SaleRequestedOwner = ({ popClose, premiseId }) => {
                 type="text"
                 value={bankDetails.ifsc_code}
                 onChange={handleInputChange}
-                className="w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
+                className="w-full sm:w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
               />
             </div>
             <div className="flex justify-between items-center">
@@ -333,7 +305,7 @@ const SaleRequestedOwner = ({ popClose, premiseId }) => {
                 type="text"
                 value={bankDetails.swift_code}
                 onChange={handleInputChange}
-                className="w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
+                className="w-full sm:w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
               />
             </div>
             <button
@@ -341,7 +313,7 @@ const SaleRequestedOwner = ({ popClose, premiseId }) => {
               onClick={handleProceed}
               className={`${
                 !isFormValid || isSaleLoading
-                  ? "bg-[#ACDDE7]  cursor-not-allowed"
+                  ? "bg-[#ACDDE7] cursor-not-allowed"
                   : "bg-[#33B0CA]"
               } w-[88px] mt-[20px] mx-auto text-[#fafafa] rounded-[8px] leading-[24px] px-[12px] py-[2px] text-[13px] font-[600]`}
             >
@@ -351,14 +323,14 @@ const SaleRequestedOwner = ({ popClose, premiseId }) => {
         ) : (
           <div className="text-[#252525]">
             <div className="flex items-center justify-center">
-              <img className="w-[100px] " src={Congrats} alt="Congrats"></img>
+              <img className="w-[100px] " src={Congrats} alt="Congrats" />
             </div>
             <h2 className="font-[600] text-[16px] text-center">
               Your Premise Project is Up for Monetizing
             </h2>
             <div className="h-[1px] mt-[4px] w-[340px] mx-auto bg-[#a1a1a1]" />
             <div className="text-left text-[14px] leading-[21px] font-[400] px-4 pt-6 pb-20">
-              <p className="  ">
+              <p>
                 The monetizing preferences of the Premise Project are updated
                 and
                 {" " + fromUser?.first_name + " " + fromUser?.last_name} has

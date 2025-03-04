@@ -62,6 +62,8 @@ const AllComments = ({
   actOneThreshold,
   actTwoEnd,
   focusedCValue,
+  iconWidth,
+  inpRightMargin
 }) => {
 
   // const actTwoStart = Math.floor(0.25 * m_value);
@@ -583,7 +585,7 @@ const AllComments = ({
               ) : (
                 <div
                   data-reply
-                  className="flex justify-between items-center w-[87%] md:w-[91%] my-[2px]"
+                  className={`flex justify-between items-center ${iconWidth} my-[2px]`}
                 >
                   <div className="  flex mb-[4px] items-center gap-[12px] text-sm ml-10 mt-[2px] leading-[20px]">
                     {replyData?.length > 0 ? (
@@ -1006,7 +1008,7 @@ const AllComments = ({
         {replyToCommentID && replyToCommentID === comments?.id && (
           <div>
             {replyField && (
-              <div className="w-[70.6%] md:w-[73.6%] mr-[47px] md:mr-[88px] ml-auto mb-[8px]">
+              <div className={`w-[70.6%] md:w-[73.6%]  ${inpRightMargin} ml-auto mb-[8px]`}>
                 <motion.div
                   // data-reply
                   // ref={replyRef}

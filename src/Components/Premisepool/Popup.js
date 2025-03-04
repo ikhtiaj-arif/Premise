@@ -414,7 +414,7 @@ const Popup = ({
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
         <ToastContainer />
-        <div className=" h-[100vh] lg:h-[560px] mb-[20px]  lg:mb-0 xl:h-[673px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1200px] xl:w-[1200px] md:mx-auto relative lg:rounded-[8px]">
+        <div className=" h-[100vh] lg:h-[554px] xl:h-[608px] mb-[20px]  lg:mb-0 2xl:h-[673px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1220px] xl:w-[1220px] md:mx-auto relative lg:rounded-[8px]">
           {/* close popup */}
           <img
             src={crossIcon}
@@ -439,7 +439,7 @@ const Popup = ({
 
           <div className="flex flex-col gap-[21px] lg:gap-[32px] lg my-auto lg:flex-row lg:justify-center ">
             {/* left div */}
-            <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[86%] sm:w-[80%] md:w-[33%] max-w-[336px] h-[33vh] lg:h-[510px] xl:h-[603px] lg:mt-[26px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[32px] xl:ml-[32px] rounded-[8px]">
+            <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[86%] sm:w-[80%] md:w-[33%] max-w-[356px] h-[33vh] lg:h-[500px] xl:h-[546px] 2xl:h-[610px] lg:mt-[26px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[32px] xl:ml-[32px] rounded-[8px]">
               {/* header */}
               <div className="flex w-full max-w-[383px] mx-auto justify-between items-center bg-[#FAFAFA] rounded-t-[8px]  p-[8px] md:py-[20px] md:px-[16px]">
                 <div className="block ml-[8px] mt-[4px]">
@@ -591,6 +591,8 @@ const Popup = ({
                     />
                   </div>
                 </div>{" "}
+                <div className="2xl:mt-12">
+
                 <AskIda
                   id={premiseId}
                   {...{
@@ -601,7 +603,7 @@ const Popup = ({
                     setOpenReplyFieldID,
                     lastCommentRef,isLoading,setIsLoading
                   }}
-                />
+                  />
                 {/* textarea */}
                 <PopupTextarea
                   {...{
@@ -618,14 +620,15 @@ const Popup = ({
                     replyField,
                     replyRef,isLoading,setIsLoading
                   }}
-                />
+                  />
+                  </div>
               </div>
             </div>
 
             {/* right div */}
             <div
               data-reply
-              className=" lg:border lg:mt-[26px] xl:mt-[32px]  bg-[#fff] lg:bg-[#fafafa] lg:shadow-lg border-[#eaeaea] w-[90%] sm:w-[68%] md:w-[70%] lg:w-[769px]  mx-auto lg:ml-0 h-[46vh] lg:h-[510px] xl:h-[603px] rounded-[8px] flex flex-col gap-[5px] relative"
+              className=" lg:border lg:mt-[26px] xl:mt-[32px]  bg-[#fff] lg:bg-[#fafafa] lg:shadow-lg border-[#eaeaea] w-[90%] sm:w-[68%] md:w-[70%] lg:w-[769px]  mx-auto lg:ml-0 h-[46vh] lg:h-[500px] xl:h-[546px] 2xl:h-[610px] rounded-[8px] flex flex-col gap-[5px] relative"
             >
               {/* Fixed dynamic heading */}
               {/* <div className="fixed w-[90%] sm:w-[68%] md:w-[70%] lg:w-[769px] z-50 rounded-t-[8px] bg-[#33B0CA] py-1 text-center text-white font-bold text-[20px]">
@@ -683,6 +686,8 @@ const Popup = ({
                             openReplyFieldID={openReplyFieldID}
                             setOpenReplyFieldID={setOpenReplyFieldID}
                             project_id={project_id}
+                            iconWidth={"w-[87%] md:w-[91%]"}
+                            inpRightMargin={"mr-[47px] md:mr-[88px]"}
                           />
                         </motion.div>
                       ))}

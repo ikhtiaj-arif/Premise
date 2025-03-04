@@ -58,9 +58,9 @@ const ReqTranslationPop = ({
       parentClose={popClose}
     />
   ) : (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
+    <div className="fixed top-0 left-0 w-full h-full flex items-end md:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
-      <div className=" h-[50vh] lg:h-[407px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[466px]  md:mx-auto relative lg:rounded-[8px]">
+      <div className=" h-[70vh] lg:h-[407px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[466px]  md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
         <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
           <img
@@ -157,9 +157,11 @@ const ReqTranslationPop = ({
         </div>
         <div className="w-[134px] mx-auto mt-[12px]">
           <button
-          disabled={!targetLanguage || processing}
+            disabled={!targetLanguage || processing}
             onClick={handleTranslationRequestSubmit}
-            className={`${ !targetLanguage ? "bg-[#616161]" : "bg-[#33B0CA]"} mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700] `}
+            className={`${
+              !targetLanguage ? "bg-[#ACDDE7] " : "bg-[#33B0CA]"
+            } mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700] `}
           >
             Send Request
           </button>

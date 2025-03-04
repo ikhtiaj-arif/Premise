@@ -8,6 +8,7 @@ import {
 
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
+import { MyContext } from "../../../App";
 import { useGetSavedCharactersQuery } from "../../../app/EndPoints/Characters/Characters";
 import { useCreateReplyMutation } from "../../../app/EndPoints/commentReply/reply";
 import { useFindCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
@@ -17,20 +18,16 @@ import { baseURL } from "../../utils";
 import { loadingData } from "../Premsie.v2";
 import LeftSideBar from "./LeftSideBar";
 import ProjectInfo from "./ProjectInfo";
-import VerticalBar from "./VerticalBar";
-import { MyContext } from "../../../App";
 
 const PremiseNewTab = () => {
   const { id } = useParams(); // Extract the ID from the route
   const { state } = useLocation();
   const currentCommentRef = useRef({});
-  
+
   // const params = state || {};
   // const { project_id } = params;
   // console.log("project_id", project_id);
- const {
-    setCurrentlyOpenedCommentID,
-  } = useContext(MyContext);
+  const { setCurrentlyOpenedCommentID } = useContext(MyContext);
   const {
     data: premiseData,
     isPremiseLoading,
@@ -192,7 +189,7 @@ const PremiseNewTab = () => {
                   isCharLoading,
                   handleSearch,
                   currentCommentRef,
-                  handleOpenAllReplies
+                  handleOpenAllReplies,
                 }}
               />
             </div>
@@ -217,8 +214,7 @@ const PremiseNewTab = () => {
                 <div className="pb-[120px] pt-[18px] lg:pb-[18px]">
                   {filteredCommentsData?.comments?.length > 0 ? (
                     <>
-
-                        <div >
+                      <div>
                         {[...(filteredCommentsData?.comments || [])]
                           .sort((a, b) => a.c_value - b.c_value)
                           .map((comment, index) => (
@@ -228,7 +224,9 @@ const PremiseNewTab = () => {
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, y: -50 }}
                               transition={{ duration: 0.5 }}
-                              ref={(el) => (currentCommentRef.current[comment.id] = el)}
+                              ref={(el) =>
+                                (currentCommentRef.current[comment.id] = el)
+                              }
                             >
                               <AllComments
                                 fromNew
@@ -265,6 +263,8 @@ const PremiseNewTab = () => {
                                 setOpenReplyFieldID={setOpenReplyFieldID}
                                 project_id={premiseData?.project_id}
                                 focusedCValue={focusedCValue}
+                                iconWidth={"w-[87%] md:w-[90%]"}
+                                inpRightMargin={"mr-[47px] md:mr-[120px]"}
                               />
                             </motion.div>
                           ))}

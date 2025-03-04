@@ -280,7 +280,7 @@ const PopupTextarea = ({
         </div>
       </div>
       <div
-        className={`hidden md:block absolute bottom-[0px] ${
+        className={`hidden md:block absolute bottom-[-16px] lg:bottom-[-16px] xl:bottom-[-16px] ${
           fromNew ? "md:bottom-[-16px]" : "xl:bottom-[0] right-[26px]"
         } right-[12px]`}
       >
