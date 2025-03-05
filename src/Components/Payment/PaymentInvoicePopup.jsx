@@ -73,6 +73,7 @@ const PaymentInvoicePopup = ({
         data.razorpay_payment_id = response?.razorpay_payment_id;
         data.razorpay_signature = response?.razorpay_signature;
         data.transaction_id = payInfo?.transaction_id;
+        data.premise_id = payInfo?.premise_id;
       }
       const creditToDebit = sessionStorage.getItem("creditToDebit");
       if (creditToDebit) {
