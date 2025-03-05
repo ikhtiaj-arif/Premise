@@ -153,7 +153,7 @@ const CardHeadOptions = ({
     }
   };
 
-  console.log("dotId", openDotMenu);
+  //console.log("dotId", openDotMenu);
 
   return (
     <div>

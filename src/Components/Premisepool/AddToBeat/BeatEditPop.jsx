@@ -36,7 +36,6 @@ const BeatEditPop = ({
   commentRefetch,
   replyRefetch,
   data,
-  setIsLiked,
   premiseData,
   suggestedBeats,
   isBeatSuggLoading,

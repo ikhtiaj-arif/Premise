@@ -627,6 +627,24 @@ export const premiseSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["premise-message"],
     }),
 
+    dislikeComment: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/ideamall/commentDislike`,
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
+
+    dislikeCommentReply: builder.mutation({
+      query: (id) => ({
+        url: `/ideamall/premise-Reply-dislike/${id}`,
+        method: "PATCH",
+      }),   
+      providesTags: ["reply-comment"],
+    }),
+
   }),
 });
 
@@ -681,4 +699,6 @@ export const {
   useGetCalculateProductPriceQuery,
   usePayNowPackageMutation,
   useActivateFreeMutation,useDeleteMessageMutation,
+  useDislikeCommentMutation,
+  useDislikeCommentReplyMutation
 } = premiseSlice;

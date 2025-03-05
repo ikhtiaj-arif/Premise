@@ -114,10 +114,10 @@ const AvailableForTranslationPop = ({
         setPayment(null);
         toast.success("Translation successful!");
       } else {
-        toast.error("Failed to translate. Please try again.");
+        //toast.error("Failed to translate. Please try again.");
       }
     } catch (error) {
-      toast.error("An error occurred while submitting.");
+      //toast.error("An error occurred while submitting.");
       console.error("Error:", error);
     }
   };
@@ -174,10 +174,10 @@ const AvailableForTranslationPop = ({
           <button
             onClick={handlePayNow}
             disabled={!targetLanguage || isProcessing} // Disable if no language is selected or already processing
-            className={`mx-auto text-center rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700] ${
+            className={`mx-auto text-center rounded-[8px] text-white leading-[32px] px-[24px] text-[12px] font-[700] ${
               !targetLanguage || isProcessing
-                ? "bg-[#616161] text-[#fafafa] cursor-not-allowed"
-                : "bg-[#33B0CA] text-[#fafafa]"
+                ? "bg-[#ACDDE7] cursor-not-allowed"
+                : "bg-[#33B0CA] "
             }`}
           >
             {isProcessing ? "Processing..." : "Pay now"}

@@ -20,6 +20,7 @@ import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply3 from "./ReplyToReply3";
+import ReplyLike from "./ReplyLike";
 
 const ReplyToReply2 = ({
   handleAddToBeat,
@@ -52,7 +53,6 @@ const ReplyToReply2 = ({
   const [currentReply2Id, setCurrentReply2Id] = useState(childReply?.id);
   const [idToDlt, setIdToDlt] = useState({});
   const [disableBtn, setDisableBtn] = useState(false);
-  const [isReplyLiked, setIsReplyLiked] = useState(false);
   const [likePopup, setLikePopup] = useState(false);
   const [childReplyField, setChildReplyField] = useState(false);
   const [childReplies, setChildReplies] = useState(false);
@@ -72,21 +72,6 @@ const ReplyToReply2 = ({
   } = useGetPremiseUserPictureQuery(replyBy?.id);
 
   const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
-
-  useEffect(() => {
-    if (replyLikes?.includes(user)) {
-      setIsReplyLiked(true);
-    } else {
-      setIsReplyLiked(false);
-    }
-  }, [replyLikes, user, isReplyLiked]);
-
-  const handleLikeUnlikeReply = async (id) => {
-    const res = await likeReply(id);
-    if (res) {
-      replyRefetch();
-    }
-  };
 
   const handleDeleteReply = async (id) => {
     const deleteData = {
@@ -484,62 +469,10 @@ const ReplyToReply2 = ({
                   )}
               </div>
 
-              {isReplyLiked ? (
-                <div className="flex gap-[4px] items-center text-[12px] leading-[14.52px]">
-                  <button>
-                    <FaThumbsUp
-                      onClick={() => handleLikeUnlikeReply(childReply?.id)}
-                      className={`w-3 h-3 text-[#33B0CA]  `}
-                    />
-                  </button>
-                  <p
-                    data-te-toggle="tooltip"
-                    title="Who Liked?"
-                    onClick={() =>
-                      childReply?.likes?.length > 0 && setLikePopup(true)
-                    }
-                    className={`text-[#616161] font-[400] mt-[0.8px] ${
-                      childReply?.likes?.length > 0
-                        ? "cursor-pointer"
-                        : "cursor-default"
-                    }`}
-                  >
-                    {childReply?.likes?.length}{" "}
-                  </p>
-                </div>
-              ) : (
-                <div className="flex gap-[1.2px] items-center text-[12px] leading-[14.52px]">
-                  <button>
-                    <FaThumbsUp
-                      onClick={() => handleLikeUnlikeReply(childReply?.id)}
-                      className={` w-3 h-3  text-[#252525] `}
-                    />
-                  </button>
-                  {childReply?.likes?.length !== 0 ? (
-                    <p
-                      data-te-toggle="tooltip"
-                      title="Who Liked?"
-                      onClick={() =>
-                        childReply?.likes?.length > 0 && setLikePopup(true)
-                      }
-                      className={`${
-                        childReply?.likes?.length > 0
-                          ? "cursor-pointer"
-                          : "cursor-default"
-                      } text-[#616161] font-[400] mt-[0.8px] ml-[1.2px]`}
-                    >
-                      {childReply?.likes?.length}{" "}
-                    </p>
-                  ) : (
-                    <p
-                      onClick={() =>
-                        childReply?.likes?.length > 0 && setLikePopup(true)
-                      }
-                      className=" text-[#616161] font-[400] mt-[0.8px]  ml-[1.2px] "
-                    />
-                  )}
-                </div>
-              )}
+              <ReplyLike
+                reply={childReply}
+                {...{ setLikePopup, replyRefetch }}
+              />
             </>
           </div>
           <div className="md:hidden flex  md:ml-[-40px] items-center gap-3 text-sm leading-[16px] mt-[2px] mb-[4px] ">
@@ -612,64 +545,9 @@ const ReplyToReply2 = ({
               </div>
             </>
           </div>
-          {isReplyLiked ? (
-            <div className="flex gap-[4px] md:hidden ml-auto items-center text-[12px] leading-[14.52px]">
-              <button>
-                <FaThumbsUp
-                  onClick={() => handleLikeUnlikeReply(childReply?.id)}
-                  className={`w-3 h-3 text-[#33B0CA]  `}
-                />
-              </button>
-              <p
-                data-te-toggle="tooltip"
-                title="Who Liked?"
-                onClick={() =>
-                  childReply?.likes?.length > 0 && setLikePopup(true)
-                }
-                className={`text-[#616161] font-[400] mt-[0.8px] ${
-                  childReply?.likes?.length > 0
-                    ? "cursor-pointer"
-                    : "cursor-default"
-                }`}
-              >
-                {childReply?.likes?.length}{" "}
-              </p>
-            </div>
-          ) : (
-            <div className="flex md:hidden ml-[50px] md:ml-[80px] gap-[4px] items-center text-[12px]">
-              <div className="">
-                <button>
-                  <FaThumbsUp
-                    onClick={() => handleLikeUnlikeReply(childReply?.id)}
-                    className={` w-3 h-3  text-[#252525] `}
-                  />
-                </button>
-                {childReply?.likes?.length !== 0 ? (
-                  <p
-                    data-te-toggle="tooltip"
-                    title="Who Liked?"
-                    onClick={() =>
-                      childReply?.likes?.length > 0 && setLikePopup(true)
-                    }
-                    className={`${
-                      childReply?.likes?.length > 0
-                        ? "cursor-pointer"
-                        : "cursor-default"
-                    } text-[#616161] font-[400] mt-[0.8px] ml-[1.2px]`}
-                  >
-                    {childReply?.likes?.length}{" "}
-                  </p>
-                ) : (
-                  <p
-                    onClick={() =>
-                      childReply?.likes?.length > 0 && setLikePopup(true)
-                    }
-                    className=" text-[#616161] font-[400] mt-[0.8px]  ml-[1.2px] "
-                  />
-                )}
-              </div>
-            </div>
-          )}
+          <div className="flex md:hidden">
+            <ReplyLike reply={childReply} {...{ setLikePopup, replyRefetch }} />
+          </div>
 
           <div className="md:hidden ml-[6px] mt-[-8px]">
             {owner === user &&

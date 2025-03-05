@@ -24,20 +24,24 @@ const ReqSalePop = ({ popClose, id, user, source_language, project_id }) => {
         setSuccessPop(true); // Open success popup first
         // setTimeout(() => popClose(null), 500);
       } else {
-        toast.error("Failed to submit the sale request. Please try again.");
+        //toast.error("Failed to submit the sale request. Please try again.");
       }
     } catch (error) {
-      toast.error("An error occurred while submitting the request.");
+      //toast.error("An error occurred while submitting the request.");
       console.error("Error:", error);
     }
   };
 
   return successPop ? (
-    <SuccessPop requestType={"sale"} popClose={setSuccessPop} parentClose={popClose} />
+    <SuccessPop
+      requestType={"sale"}
+      popClose={setSuccessPop}
+      parentClose={popClose}
+    />
   ) : (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
+    <div className="fixed top-0 left-0 w-full h-full flex items-end md:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
-      <div className=" h-[50vh] lg:h-[314px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[436px]  md:mx-auto relative lg:rounded-[8px]">
+      <div className=" h-[60vh] lg:h-[314px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[436px]  md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
         <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
           <img

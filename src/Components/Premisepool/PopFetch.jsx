@@ -196,16 +196,17 @@ const PopFetch = ({ popClose, data, refetch }) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
-      <div className=" h-[100vh] lg:h-[539px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1185px] md:mx-auto relative lg:rounded-[8px]">
+      <div className=" h-[50vh] lg:h-[539px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1185px] md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
-        <img
-          src={crossIcon}
-          alt=""
-          className="text-red-500 w-8 h-8 top-[-15px] right-[-15px] absolute z-[1] m-1 cursor-pointer lgVisible  "
-          onClick={() => {
-            popClose(false);
-          }}
-        />
+           {/* close popup */}
+           <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
+          <img
+            src={crossIcon}
+            alt=""
+            className=" text-red-500  w-8 h-8 cursor-pointer"
+            onClick={() => popClose(null)}
+          />
+        </div>
         <MdKeyboardBackspace
           src={crossIcon}
           alt=""

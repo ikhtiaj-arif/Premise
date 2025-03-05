@@ -601,7 +601,7 @@ const BeatEditPop = ({
                       onClick={handleCreateProject}
                       className={`${
                         buttonDisable
-                          ? "bg-[#616161] text-[#FAFAFA] border-none cursor-auto"
+                          ? "bg-[#ACDDE7] text-[#FAFAFA] border-none cursor-auto"
                           : "bg-[#33B0CA]"
                       } bg-[#33B0CA] text-[#FAFAFA]  border border-[#33B0CA] text-[14px] font-[600]  rounded-[8px] min-w-[74px] min-h-[32px] px-[8px] hover:shadow-md shadow-[#252525]  `}
                       disabled={buttonDisable}

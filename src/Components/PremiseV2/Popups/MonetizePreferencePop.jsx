@@ -126,9 +126,10 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
                       ref={priceInputRef}
                       name="price"
                       type="text"
+                      placeholder="Please Quote"
                       inputMode="decimal"
                       pattern="^\d*\.?\d*$"
-                      className={`w-[73px] border border-[#eaeaea] rounded-[4px] px-2 ml-2 focus:outline-none appearance-none ${
+                      className={`max-w-[89px] text-[11px] border focus:border-[#616161] border-[#eaeaea] rounded-[4px] px-2 ml-2 focus:outline-none appearance-none ${
                         formData.transferOwnership
                           ? "cursor-text"
                           : "cursor-not-allowed"
@@ -155,13 +156,21 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
             <button
               disabled={
                 isLoading ||
-                (!formData.allowTranslation && !formData.transferOwnership)
+                !(
+                  formData.allowTranslation &&
+                  formData.transferOwnership &&
+                  formData.price.trim() !== ""
+                )
               }
               type="submit"
               className={`${
                 isLoading ||
-                (!formData.allowTranslation && !formData.transferOwnership)
-                  ? "bg-[#616161] cursor-not-allowed"
+                !(
+                  formData.allowTranslation &&
+                  formData.transferOwnership &&
+                  formData.price.trim() !== ""
+                )
+                  ? "bg-[#ACDDE7] "
                   : "bg-[#33B0CA]"
               } text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] py-[2px] text-[13px] font-[600]`}
             >

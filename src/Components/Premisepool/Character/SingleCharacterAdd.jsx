@@ -481,7 +481,7 @@ const SingleCharacterAdd = ({
             onClick={handleAddClick}
             disabled={isSaveDisabled}
             className={`${
-              isSaveDisabled ? "bg-[#616161] " : "bg-[#33B0CA] "
+              isSaveDisabled ? "bg-[#ACDDE7]  " : "bg-[#33B0CA] "
             } text-[14px] font-[600] text-white w-[69px] h-[32px] rounded-[4px]`}
           >
             Save
