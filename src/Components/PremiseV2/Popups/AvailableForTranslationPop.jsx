@@ -114,10 +114,10 @@ const AvailableForTranslationPop = ({
         setPayment(null);
         toast.success("Translation successful!");
       } else {
-        toast.error("Failed to translate. Please try again.");
+        //toast.error("Failed to translate. Please try again.");
       }
     } catch (error) {
-      toast.error("An error occurred while submitting.");
+      //toast.error("An error occurred while submitting.");
       console.error("Error:", error);
     }
   };

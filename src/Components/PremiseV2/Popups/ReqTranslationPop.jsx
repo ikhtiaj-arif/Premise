@@ -40,12 +40,12 @@ const ReqTranslationPop = ({
         setProcessing(false);
         // popClose(null); // Close the modal or pop-up
       } else {
-        toast.error(
-          "Failed to submit the translation request. Please try again."
-        );
+        // toast.error(
+        //   "Failed to submit the translation request. Please try again."
+        // );
       }
     } catch (error) {
-      toast.error("An error occurred while submitting the request.");
+      //toast.error("An error occurred while submitting the request.");
       console.error("Error:", error);
       setProcessing(false);
     }
