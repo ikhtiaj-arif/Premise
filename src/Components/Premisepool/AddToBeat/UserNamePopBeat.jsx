@@ -112,7 +112,7 @@ const UserNamePopBeat = ({
                 className={`${
                   isNextButtonEnabled
                     ? "bg-[#33B0CA] cursor-pointer"
-                    : "bg-[#B0B0B0] cursor-not-allowed"
+                    : "bg-[#ACDDE7]  cursor-not-allowed"
                 } text-white rounded-[8px] h-[34px] px-[12px] text-[14px] font-[600] flex gap-[12px] items-center`}
                 disabled={!isNextButtonEnabled}
               >

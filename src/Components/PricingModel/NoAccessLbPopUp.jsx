@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import crossIcon from "../../img/croos_icon.png";
-import congratsImg from "../../img/congratulations.png";
-import welcomeImg from "../../img/welcome.png";
-import { MyContext } from "../../App";
 import { useNavigate } from "react-router-dom";
-import { URL } from "../utils";
+import { toast } from "react-toastify";
+import { MyContext } from "../../App";
 import {
   useActivateFreeMutation,
   useGetCalculateProductPriceQuery,
 } from "../../app/EndPoints/premisePoolApi";
-import { toast } from "react-toastify";
+import congratsImg from "../../img/congratulations.png";
+import crossIcon from "../../img/croos_icon.png";
+import welcomeImg from "../../img/welcome.png";
+import { URL } from "../utils";
 
 const NoAccessLbPopUp = ({
   setNoAccessPopup,
@@ -19,7 +19,7 @@ const NoAccessLbPopUp = ({
 }) => {
   const { counts, setCounts, currentUser } = useContext(MyContext);
 
-  console.log("noAccessLbPopup", noAccessLbPopup);
+  // console.log("noAccessLbPopup", noAccessLbPopup);
 
   const {
     data: productPrice,
@@ -39,12 +39,12 @@ const NoAccessLbPopUp = ({
   useEffect(() => {
     if (productPrice) {
       const updatedProductPrice = productPrice?.PP?.find(
-        (p) => p?.service_name == service
+        (p) => p?.service_name === service
       );
       console.log("Updated Product Price:", updatedProductPrice);
       setPpData(updatedProductPrice);
       setSelectedOption(
-        noAccessLbPopup?.ShowFreeTrialActavation == "Yes"
+        noAccessLbPopup?.ShowFreeTrialActavation === "Yes"
           ? "activate"
           : "generate"
       );
@@ -65,7 +65,7 @@ const NoAccessLbPopUp = ({
     setSceneCount(event.target.value);
     if (
       service === "PP_Premises" &&
-      noAccessLbPopup?.LimitStatus?.ScriptPad == "No"
+      noAccessLbPopup?.LimitStatus?.ScriptPad === "No"
     ) {
       setCounts((prev) => ({
         ...prev,
@@ -81,7 +81,7 @@ const NoAccessLbPopUp = ({
   };
 
   const handleGoClick = async () => {
-    console.log('counts',counts);
+    console.log("counts", counts);
     if (selectedOption === "generate") {
       if (sceneCount > 0) {
         sessionStorage.setItem("pp_limit_counts", JSON.stringify(counts));
@@ -97,7 +97,7 @@ const NoAccessLbPopUp = ({
       };
       const res = await activateFree(data);
       console.log("activateFree success", res);
-      if (res?.data?.status == "success") {
+      if (res?.data?.status === "success") {
         toast("Successfully activated Free Trial Package.");
         setNoAccessPopup(null);
         if (divId) {
@@ -108,7 +108,7 @@ const NoAccessLbPopUp = ({
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
+    <div className="fixed top-0  md:top-[44px] left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
       <div className=" lg:static lg:mt-0 absolute bottom-0 bg-white rounded-[12px] w-[100%] lg:w-[850px]">
         <div className="relative">
           <div className="absolute right-[45%] top-[-60px] md:top-[-12px] md:right-[-12px]">
@@ -122,10 +122,10 @@ const NoAccessLbPopUp = ({
             />
           </div>
 
-          <div className="md:p-10 p-2">
+          <div className="md:px-10 py-2">
             <img
               src={
-                noAccessLbPopup?.ShowFreeTrialActavation == "Yes"
+                noAccessLbPopup?.ShowFreeTrialActavation === "Yes"
                   ? welcomeImg
                   : congratsImg
               }
@@ -135,9 +135,9 @@ const NoAccessLbPopUp = ({
             {noAccessLbPopup?.msg !== "ShowBuyPackage_and_Allacarte" && (
               <h1 className=" text-[#252525] text-[16px] font-[600] leading-6">
                 You have
-                {service == "PP_Brainstrom" ? " Completed " : " Generated "}
+                {service === "PP_Brainstrom" ? " Completed " : " Generated "}
                 {PpData?.current_usage}{" "}
-                {service == "PP_Brainstrom"
+                {service === "PP_Brainstrom"
                   ? " Brainstormings with Ida "
                   : " Premises "}{" "}
                 in {PpData?.day_passed} days! That’s commendable!!

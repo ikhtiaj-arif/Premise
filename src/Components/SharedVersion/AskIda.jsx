@@ -125,7 +125,7 @@ const AskIda = ({
           disabled={isLoading}
           onClick={handleButtonClick}
           className={` border-none rounded-[6px] px-4 py-1 text-white text-[14px] font-[600] leading-[21px] ${
-            isLoading ? "bg-[#616161]  cursor-default" : "bg-[#33B0CA]"
+            isLoading ? "bg-[#ACDDE7]   cursor-default" : "bg-[#33B0CA]"
           }`}
         >
           Ask Ida for more!

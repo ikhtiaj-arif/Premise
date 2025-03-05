@@ -3,8 +3,8 @@ import { IoIosArrowDown } from "react-icons/io";
 import { toast, ToastContainer } from "react-toastify";
 import { useTranslatePremiseV2Mutation } from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
-import { sortedLanguages } from "../../Premisepool/Languages";
 import PaymentInvoicePopup from "../../Payment/PaymentInvoicePopup";
+import { sortedLanguages } from "../../Premisepool/Languages";
 
 const TransInOtherLang = ({
   popClose,
@@ -53,18 +53,19 @@ const TransInOtherLang = ({
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
+    <div className="fixed top-0 left-0 w-full h-full flex items-end md:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
       <ToastContainer />
-      <div className=" h-[100vh] lg:h-[520px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[430px]  md:mx-auto relative lg:rounded-[8px]">
+      <div className=" h-[86vh] lg:h-[520px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[430px]  md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
-        <img
-          src={crossIcon}
-          alt=""
-          className="text-red-500 w-8 h-8 top-[-15px] right-[-15px] absolute z-[1] m-1 cursor-pointer lgVisible  "
-          onClick={() => {
-            popClose(false);
-          }}
-        />
+        {/* close popup */}
+        <div className="absolute top-[-56px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
+          <img
+            src={crossIcon}
+            alt=""
+            className=" text-red-500  w-8 h-8 cursor-pointer"
+            onClick={() => popClose(null)}
+          />
+        </div>
         <h2 className="font-[700] text-[14px] leading-[19.9px] text-center mt-[18px]">
           Translate the Premise Project in another Language
         </h2>

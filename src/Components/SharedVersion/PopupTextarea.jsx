@@ -194,9 +194,7 @@ const PopupTextarea = ({
     setKeyboardVisible(!keyboardVisible);
   };
   return (
-    <div
-      className={`fixed bottom-[10px] left-0 w-[100%] md:relative md:bottom-0 md:w-auto px-2 ${className}`}
-    >
+    <div className={`relative bottom-0 md:w-auto px-2 ${className}`}>
       <div
         className={`${
           className ? "bg-[#fff]" : "bg-[#f8f8f8]"
@@ -280,8 +278,8 @@ const PopupTextarea = ({
         </div>
       </div>
       <div
-        className={`hidden md:block absolute bottom-[0px] ${
-          fromNew ? "md:bottom-[-16px]" : "xl:bottom-[0] right-[26px]"
+        className={` absolute bottom-[-16px]  ${
+          fromNew ? "" : " right-[26px]"
         } right-[12px]`}
       >
         {premiseOwner?.id === user ? (
