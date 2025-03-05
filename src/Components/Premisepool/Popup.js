@@ -587,7 +587,7 @@ const Popup = ({
                     />
                   </div>
                 </div>{" "}
-                <div className="2xl:mt-12">
+                <div className="!2xl:mt-12">
                   <AskIda
                     id={premiseId}
                     {...{
