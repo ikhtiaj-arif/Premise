@@ -176,7 +176,7 @@ const AvailableForTranslationPop = ({
             disabled={!targetLanguage || isProcessing} // Disable if no language is selected or already processing
             className={`mx-auto text-center rounded-[8px] text-white leading-[32px] px-[24px] text-[12px] font-[700] ${
               !targetLanguage || isProcessing
-                ? "bg-[#ACDDE7] "
+                ? "bg-[#ACDDE7] cursor-not-allowed"
                 : "bg-[#33B0CA] "
             }`}
           >

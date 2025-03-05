@@ -23,6 +23,7 @@ import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply from "./ReplyToReply";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
+import ReplyLike from "./ReplyLike";
 
 const ReplyToComments = ({
   // handleSuggest,
@@ -40,15 +41,7 @@ const ReplyToComments = ({
 }) => {
   // console.log(" comments", reply);
 
-  const {
-    selectedPremiseObj,
-    selectedSpProjectID,
-    createdSpProjectID,
-    currentlyOpenedCommentID,
-    setCurrentlyOpenedCommentID,
-    currentUser,
-  } = useContext(MyContext);
-  const [isReplyLiked, setIsReplyLiked] = useState(false);
+  const { currentlyOpenedCommentID, currentUser } = useContext(MyContext);
   const [openDltPop, setOpenDltPop] = useState(false);
   const [replySubmitDisable, setReplySubmitDisable] = useState(false);
   const [idToDlt, setIdToDlt] = useState({});
@@ -65,11 +58,10 @@ const ReplyToComments = ({
 
   const latestReplyRef = useRef(null);
   const replyToReplyRef = useRef(null);
-  const replyLikes = reply?.likes;
+
   const replyRef = useRef(null);
   const createdTime = reply?.created_at;
 
-  const [likeReply, likeReplyRes] = useUpdateLikeOfReplyMutation();
   const [deleteReply, deleteReplyRes] = useDeleteLikeOfReplyMutation();
   const [createReplyMutation, isReplyResInfo] = useCreateReplyMutation();
   const [suggestion, suggestionRes] = useCreateSuggestedReplyMutation();
@@ -93,13 +85,6 @@ const ReplyToComments = ({
   }, [childReplyField, currentlyOpenedCommentID]);
 
   // for reply
-  useEffect(() => {
-    if (replyLikes?.includes(user)) {
-      setIsReplyLiked(true);
-    } else {
-      setIsReplyLiked(false);
-    }
-  }, [replyLikes, user, isReplyLiked]);
 
   // close tabs
   // useEffect(() => {
@@ -117,12 +102,6 @@ const ReplyToComments = ({
   //   return () => document.body.removeEventListener("mousedown", closeMenu);
   // }, []);
 
-  const handleLikeUnlikeReply = async (id) => {
-    const res = await likeReply(id);
-    if (res) {
-      replyRefetch();
-    }
-  };
   const [isFullDelete, setIsFullDelete] = useState(false);
 
   const handleDeleteReply = async (id) => {
@@ -543,138 +522,14 @@ const ReplyToComments = ({
                   )}
               </div>
               <div className="hidden md:block ">
-                {isReplyLiked ? (
-                  <div
-                    //   disabled={disable}
-                    className="flex gap-[4px] items-center text-[12px] leading-[14.52px]"
-                  >
-                    <button>
-                      <FaThumbsUp
-                        onClick={() => handleLikeUnlikeReply(reply?.id)}
-                        className={`w-3 h-3 text-[#33B0CA]  `}
-                      />
-                    </button>
-                    <p
-                      data-te-toggle="tooltip"
-                      title="Who Liked?"
-                      onClick={() =>
-                        reply?.likes?.length > 0 && setLikePopup(true)
-                      }
-                      className={`text-[#616161] font-[400] mt-[0.8px] ${
-                        reply?.likes?.length > 0
-                          ? "cursor-pointer"
-                          : "cursor-default"
-                      }`}
-                    >
-                      {reply?.likes?.length}{" "}
-                      {/* {reply?.likes?.length === 1 ? "Like" : "Likes"} */}
-                    </p>
-                  </div>
-                ) : (
-                  <div
-                    //   disabled={disable}
-                    className="flex gap-[1.2px] items-center text-[12px]"
-                  >
-                    <button>
-                      <FaThumbsUp
-                        onClick={() => handleLikeUnlikeReply(reply?.id)}
-                        className={` w-3 h-3 text-[#252525]  `}
-                        // className={` w-3 h-3 ${
-                        // //   disable ? " cursor-default" : "cursor-pointer"
-                        // } `}
-                      />
-                    </button>
-                    {reply?.likes?.length !== 0 ? (
-                      <p
-                        data-te-toggle="tooltip"
-                        title="Who Liked?"
-                        onClick={() =>
-                          reply?.likes?.length > 0 && setLikePopup(true)
-                        }
-                        className={`${
-                          reply?.likes?.length > 0
-                            ? "cursor-pointer"
-                            : "cursor-default"
-                        } text-[#616161] font-[400] mt-[0.8px] ml-[1.2px]`}
-                      >
-                        {reply?.likes?.length}{" "}
-                        {/* {reply?.likes?.length === 1 ? "Like" : "Likes"} */}
-                      </p>
-                    ) : (
-                      <p className=" text-[#616161] font-[400] mt-[0.8px]   ml-[1.2px] ">
-                        {/* {reply?.likes?.length > 1 ? "Likes" : "Like"} */}
-                      </p>
-                    )}
-                  </div>
-                )}
+                <ReplyLike {...{ reply, setLikePopup, replyRefetch }} />
               </div>
             </div>
 
             <div className="flex items-center justify-end gap-[14px] leading-[16px] md:w-[28%] ">
-              {isReplyLiked ? (
-                <div
-                  //   disabled={disable}
-                  className="flex md:hidden gap-[4px] items-center text-[12px] leading-[14.52px]"
-                >
-                  <button>
-                    <FaThumbsUp
-                      onClick={() => handleLikeUnlikeReply(reply?.id)}
-                      className={`w-3 h-3 text-[#33B0CA]  `}
-                    />
-                  </button>
-                  <p
-                    data-te-toggle="tooltip"
-                    title="Who Liked?"
-                    onClick={() =>
-                      reply?.likes?.length > 0 && setLikePopup(true)
-                    }
-                    className={`text-[#616161] font-[400] mt-[0.8px] ${
-                      reply?.likes?.length > 0
-                        ? "cursor-pointer"
-                        : "cursor-default"
-                    }`}
-                  >
-                    {reply?.likes?.length}{" "}
-                    {/* {reply?.likes?.length === 1 ? "Like" : "Likes"} */}
-                  </p>
-                </div>
-              ) : (
-                <div
-                  //   disabled={disable}
-                  className="flex md:hidden gap-[1.2px] items-center text-[12px]"
-                >
-                  <button>
-                    <FaThumbsUp
-                      onClick={() => handleLikeUnlikeReply(reply?.id)}
-                      className={` w-3 h-3 text-[#252525]  `}
-                      // className={` w-3 h-3 ${
-                      // //   disable ? " cursor-default" : "cursor-pointer"
-                      // } `}
-                    />
-                  </button>
-                  {reply?.likes?.length !== 0 ? (
-                    <p
-                      data-te-toggle="tooltip"
-                      title="Who Liked?"
-                      onClick={() =>
-                        reply?.likes?.length > 0 && setLikePopup(true)
-                      }
-                      className={`${
-                        reply?.likes?.length > 0
-                          ? "cursor-pointer"
-                          : "cursor-default"
-                      } text-[#616161] font-[400] mt-[0.8px] ml-[1.2px]`}
-                    >
-                      {reply?.likes?.length}{" "}
-                      {/* {reply?.likes?.length === 1 ? "Like" : "Likes"} */}
-                    </p>
-                  ) : (
-                    <p className=" text-[#616161] font-[400] mt-[0.8px]   ml-[1.2px] ">
-                      {/* {reply?.likes?.length > 1 ? "Likes" : "Like"} */}
-                    </p>
-                  )}
-                </div>
-              )}
+              <div className="flex md:hidden">
+                <ReplyLike {...{ reply, setLikePopup, replyRefetch }} />
+              </div>
 
               {owner === user &&
                 reply?.text?.includes("?") &&

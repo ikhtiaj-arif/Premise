@@ -75,7 +75,7 @@ const Popup = ({
     setHideDisable,
     project_id,
   } = data;
-// console.log("popData", data);
+  // console.log("popData", data);
   const { data: characters, isCharLoading } =
     useGetSavedCharactersQuery(project_id);
 
@@ -97,12 +97,10 @@ const Popup = ({
   const [saleId, setSaleId] = useState("");
   const [viewSale, setViewSale] = useState(false);
   const [saleRequestPop, setSaleRequestPop] = useState("");
- const [openPop, setOpenPop] = useState(false);
+  const [openPop, setOpenPop] = useState(false);
   const [userMail, setUserMail] = useState(null);
-    const [ownerMail, setOwnerMail] = useState(false);
- const [openHidePop, setOpenHidePop] = useState(null);
-
- 
+  const [ownerMail, setOwnerMail] = useState(false);
+  const [openHidePop, setOpenHidePop] = useState(null);
 
   useEffect(() => {
     if (characters) setCharacterArray(characters);
@@ -307,7 +305,7 @@ const Popup = ({
         setOpenDotMenu(null);
       }
     };
-  
+
     document.body.addEventListener("mousedown", closeMenu);
     return () => document.body.removeEventListener("mousedown", closeMenu);
   }, [openDotMenu]);
@@ -406,15 +404,13 @@ const Popup = ({
     setCommentOwner(commenterName);
   };
 
- 
-
   if (isPremiseLoading) {
     return <>Loading...</>;
   } else
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
         <ToastContainer />
-        <div className=" h-[100vh] lg:h-[554px] xl:h-[608px] mb-[20px]  lg:mb-0 2xl:h-[673px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1220px] xl:w-[1220px] md:mx-auto relative lg:rounded-[8px]">
+        <div className=" h-[100vh] lg:h-[554px] xl:h-[608px] mb-[20px] lg:mb-0 2xl:h-[673px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1220px] xl:w-[1220px] md:mx-auto relative lg:rounded-[8px]">
           {/* close popup */}
           <img
             src={crossIcon}
@@ -501,7 +497,7 @@ const Popup = ({
                 </div> */}
                 </div>
                 <div className="flex gap-[3px] items-center">
-                <img
+                  <img
                     data-te-toggle="tooltip"
                     title="Open In New Tab"
                     src={newTabIcn}
@@ -509,64 +505,64 @@ const Popup = ({
                     alt=""
                     onClick={() => handlePremiseOpenNewTab(premiseId)}
                   />{" "}
-                <CardHeadOptions
-                  // owner={owner}
-                  // index={index}
-                  refetch={refetch}
-                  viewTrnRequests={viewTrnRequests}
-                  setViewTrnRequests={setViewTrnRequests}
-                  viewTransactionPId={viewTransactionPId}
-                  setViewTransactionPId={setViewTransactionPId}
-                  setViewSaleRequests={setViewSaleRequests}
-                  openTransOtherPop={openTransOtherPop}
-                  setOpenTransOtherPop={setOpenTransOtherPop}
-                  handleDelete={handleDelete}
-                  setOpenCharacterChart={setOpenCharacterChart}
-                  openViewTranslationsPop={openViewTranslationsPop}
-                  openAvailableForTranslationPop={
-                    openAvailableForTranslationPop
-                  }
-                  setOpenAvailableForTranslationPop={
-                    setOpenAvailableForTranslationPop
-                  }
-                  setOpenViewTranslationsPop={setOpenViewTranslationsPop}
-                  setOpenMonetizingPreferencesPop={
-                    setOpenMonetizingPreferencesPop
-                  }
-                  setNoAccessLbPopUp={setNoAccessLbPopUp}
-                  // setUserMail={setUserMail}
-                  setSaleId={setSaleId}
-                  setViewSale={setViewSale}
-                  setSaleRequestPop={setSaleRequestPop}
-                  setTranslationRequestPop={setTranslationRequestPop}
-                  isProjectLocked={isProjectLocked}
-                  id={id}
-                  premiseOwner={premiseOwner}
-                  filter_flag={premiseData?.filter_flag}
-                  visible_to={premiseData?.visible_to}
-                  comment_filter_flag={premiseData?.comment_filter_flag}
-                  project_id={project_id}
-                  available_for_sale={premiseData?.available_for_sale}
-                  available_for_translation={
-                    premiseData?.available_for_translation
-                  }
-                  premise_source_id={premiseData?.premise_source_id}
-                  translation_request_count={
-                    premiseData?.translation_request_count
-                  }
-                  sale_request_count={premiseData?.sale_request_count}
-                  is_requested_for_sale={premiseData?.is_requested_for_sale}
-                  is_translated_languages={premiseData?.is_translated_languages}
-                  dotPopupRef={dotPopupRef}
-                  setOpenDotMenu={setOpenDotMenu}
-                  openDotMenu={openDotMenu}      
-                  setOpenHidePop={setOpenHidePop}
-                  openHidePop={openHidePop}
-                  setUserMail={setUserMail}
-                
-                />
+                  <CardHeadOptions
+                    // owner={owner}
+                    // index={index}
+                    refetch={refetch}
+                    viewTrnRequests={viewTrnRequests}
+                    setViewTrnRequests={setViewTrnRequests}
+                    viewTransactionPId={viewTransactionPId}
+                    setViewTransactionPId={setViewTransactionPId}
+                    setViewSaleRequests={setViewSaleRequests}
+                    openTransOtherPop={openTransOtherPop}
+                    setOpenTransOtherPop={setOpenTransOtherPop}
+                    handleDelete={handleDelete}
+                    setOpenCharacterChart={setOpenCharacterChart}
+                    openViewTranslationsPop={openViewTranslationsPop}
+                    openAvailableForTranslationPop={
+                      openAvailableForTranslationPop
+                    }
+                    setOpenAvailableForTranslationPop={
+                      setOpenAvailableForTranslationPop
+                    }
+                    setOpenViewTranslationsPop={setOpenViewTranslationsPop}
+                    setOpenMonetizingPreferencesPop={
+                      setOpenMonetizingPreferencesPop
+                    }
+                    setNoAccessLbPopUp={setNoAccessLbPopUp}
+                    // setUserMail={setUserMail}
+                    setSaleId={setSaleId}
+                    setViewSale={setViewSale}
+                    setSaleRequestPop={setSaleRequestPop}
+                    setTranslationRequestPop={setTranslationRequestPop}
+                    isProjectLocked={isProjectLocked}
+                    id={id}
+                    premiseOwner={premiseOwner}
+                    filter_flag={premiseData?.filter_flag}
+                    visible_to={premiseData?.visible_to}
+                    comment_filter_flag={premiseData?.comment_filter_flag}
+                    project_id={project_id}
+                    available_for_sale={premiseData?.available_for_sale}
+                    available_for_translation={
+                      premiseData?.available_for_translation
+                    }
+                    premise_source_id={premiseData?.premise_source_id}
+                    translation_request_count={
+                      premiseData?.translation_request_count
+                    }
+                    sale_request_count={premiseData?.sale_request_count}
+                    is_requested_for_sale={premiseData?.is_requested_for_sale}
+                    is_translated_languages={
+                      premiseData?.is_translated_languages
+                    }
+                    dotPopupRef={dotPopupRef}
+                    setOpenDotMenu={setOpenDotMenu}
+                    openDotMenu={openDotMenu}
+                    setOpenHidePop={setOpenHidePop}
+                    openHidePop={openHidePop}
+                    setUserMail={setUserMail}
+                  />
                 </div>
-
               </div>
               {/* image */}
               <PopupPremiseText
@@ -592,36 +588,39 @@ const Popup = ({
                   </div>
                 </div>{" "}
                 <div className="2xl:mt-12">
-
-                <AskIda
-                  id={premiseId}
-                  {...{
-                    user,
-                    premiseOwner,
-                    commentRefetch,
-                    setOpenAllReplies,
-                    setOpenReplyFieldID,
-                    lastCommentRef,isLoading,setIsLoading
-                  }}
+                  <AskIda
+                    id={premiseId}
+                    {...{
+                      user,
+                      premiseOwner,
+                      commentRefetch,
+                      setOpenAllReplies,
+                      setOpenReplyFieldID,
+                      lastCommentRef,
+                      isLoading,
+                      setIsLoading,
+                    }}
                   />
-                {/* textarea */}
-                <PopupTextarea
-                  {...{
-                    premiseOwner,
-                    user,
-                    premiseId,
-                    commentRefetch,
-                    setOpenAllReplies,
-                    setOpenReplyFieldID,
-                    lastCommentRef,
-                    commentField,
-                    setCommentField,
-                    setReplyField,
-                    replyField,
-                    replyRef,isLoading,setIsLoading
-                  }}
+                  {/* textarea */}
+                  <PopupTextarea
+                    {...{
+                      premiseOwner,
+                      user,
+                      premiseId,
+                      commentRefetch,
+                      setOpenAllReplies,
+                      setOpenReplyFieldID,
+                      lastCommentRef,
+                      commentField,
+                      setCommentField,
+                      setReplyField,
+                      replyField,
+                      replyRef,
+                      isLoading,
+                      setIsLoading,
+                    }}
                   />
-                  </div>
+                </div>
               </div>
             </div>
 
@@ -656,7 +655,7 @@ const Popup = ({
                           transition={{ duration: 0.5 }} // Adjust the duration as needed
                         >
                           <AllComments
-                          handleOpenAllReplies={handleOpenAllReplies}
+                            handleOpenAllReplies={handleOpenAllReplies}
                             commentIdx={index + 1}
                             comments={comment}
                             data={data}
@@ -702,24 +701,38 @@ const Popup = ({
 
               {/* comment and reply div mobile */}
               <div className="md:hidden h-[10vh] md:h-[116px] flex flex-col justify-between">
-                <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" />
-                <PopupTextarea
-                  {...{
-                    premiseOwner,
-                    user,
-                    premiseId,
-                    commentRefetch,
-                    setOpenAllReplies,
-                    setOpenReplyFieldID,
-                    lastCommentRef,
-                    commentField,
-                    setCommentField,
-                    setReplyField,
-                    replyField,
-                    replyRef,
-                  }}
-                />
-
+                <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" />{" "}
+                <div className="fixed bottom-[10px] left-0 w-[100%] md:relative md:bottom-0 md:w-auto px-2 ">
+                  <AskIda
+                    id={premiseId}
+                    {...{
+                      user,
+                      premiseOwner,
+                      commentRefetch,
+                      setOpenAllReplies,
+                      setOpenReplyFieldID,
+                      lastCommentRef,
+                      isLoading,
+                      setIsLoading,
+                    }}
+                  />
+                  <PopupTextarea
+                    {...{
+                      premiseOwner,
+                      user,
+                      premiseId,
+                      commentRefetch,
+                      setOpenAllReplies,
+                      setOpenReplyFieldID,
+                      lastCommentRef,
+                      commentField,
+                      setCommentField,
+                      setReplyField,
+                      replyField,
+                      replyRef,
+                    }}
+                  />
+                </div>
                 {/* <div className="  bg-[#F8F8F8] relative flex justify-between items-stretch md:mb-[12px] pl-3 md:flex-row w-[90%] mx-auto border border-[#EAEAEA] rounded-[8px] shadow-md ">
                   {premiseOwner?.id === user ? (
                     <textarea

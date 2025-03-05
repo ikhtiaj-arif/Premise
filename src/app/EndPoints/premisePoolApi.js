@@ -638,16 +638,11 @@ export const premiseSlice = apiSlice.injectEndpoints({
     }),
 
     dislikeCommentReply: builder.mutation({
-      query: (data) => {
-        const id = data.id;
-        const body = data.body;
-        return {
-          url: `/ideamall/api/v2/premise/${id}`,
-          method: "PATCH",
-          body: body,
-        };
-      },
-      invalidatesTags: ["premise"],
+      query: (id) => ({
+        url: `/ideamall/premise-Reply-dislike/${id}`,
+        method: "PATCH",
+      }),   
+      providesTags: ["reply-comment"],
     }),
 
   }),
