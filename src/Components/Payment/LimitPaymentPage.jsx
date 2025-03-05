@@ -51,7 +51,7 @@ const LimitPaymentPage = () => {
     if (Object.keys(counts).length > 0) {
       fetchDataForLimit();
     } else {
-      navigate(`/premise-pool-v2`);
+      navigate(`/`);
     }
   }, [counts]);
 
@@ -78,7 +78,7 @@ const LimitPaymentPage = () => {
       if (res) {
         console.log("callback success", res);
         sessionStorage.removeItem("pp_limit_counts");
-        navigate(`/premise-pool-v2`);
+        navigate(`/`);
       }
     }
   };
