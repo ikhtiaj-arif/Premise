@@ -60,7 +60,7 @@ const PaymentInvoicePopup = ({
   }, [premise_id, paymentData]);
 
   const handlePaymentSuccess = async (response, isPayU = false) => {
-    //console.log("payment success", response);
+    console.log("payment success", response,payInfo);
     if (response) {
       const data = {
         services_data: payInfo?.services,
