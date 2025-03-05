@@ -61,6 +61,7 @@ const AvailableForTranslationPop = ({
       const response = await translatePremise(data);
 
       if (response) {
+        popClose(null)
         refetch();
 
         const {

@@ -60,7 +60,7 @@ const PaymentInvoicePopup = ({
   }, [premise_id, paymentData]);
 
   const handlePaymentSuccess = async (response, isPayU = false) => {
-    //console.log("payment success", response);
+    console.log("payment success", response,payInfo);
     if (response) {
       const data = {
         services_data: payInfo?.services,
@@ -73,6 +73,7 @@ const PaymentInvoicePopup = ({
         data.razorpay_payment_id = response?.razorpay_payment_id;
         data.razorpay_signature = response?.razorpay_signature;
         data.transaction_id = payInfo?.transaction_id;
+        data.premise_id = payInfo?.premise_id;
       }
       const creditToDebit = sessionStorage.getItem("creditToDebit");
       if (creditToDebit) {
