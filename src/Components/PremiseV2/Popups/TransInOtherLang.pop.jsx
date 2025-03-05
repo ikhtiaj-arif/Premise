@@ -44,10 +44,10 @@ const TransInOtherLang = ({
           refetch();
         }
       } else {
-        toast.error("Failed to translate. Please try again.");
+        //toast.error("Failed to translate. Please try again.");
       }
     } catch (error) {
-      toast.error("An error occurred while submitting.");
+      //toast.error("An error occurred while submitting.");
       console.error("Error:", error);
     }
   };

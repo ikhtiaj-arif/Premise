@@ -24,10 +24,10 @@ const ReqSalePop = ({ popClose, id, user, source_language, project_id }) => {
         setSuccessPop(true); // Open success popup first
         // setTimeout(() => popClose(null), 500);
       } else {
-        toast.error("Failed to submit the sale request. Please try again.");
+        //toast.error("Failed to submit the sale request. Please try again.");
       }
     } catch (error) {
-      toast.error("An error occurred while submitting the request.");
+      //toast.error("An error occurred while submitting the request.");
       console.error("Error:", error);
     }
   };
