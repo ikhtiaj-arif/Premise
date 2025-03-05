@@ -127,7 +127,18 @@ const ApproveTranslationPop = ({
                 </div>
                 <div className="col-span-4 flex items-center justify-center">
                   <p className="text-center text-[14px] leading-[21px] font-[400] text-[#616161]">
-                    {request.fromUser.first_name} {request.fromUser.last_name}
+                    <span>
+                      {request?.data
+                        ?.map((request) => {
+                          const { first_name, last_name, username } =
+                            request.fromUser;
+                          const displayName = first_name
+                            ? `${first_name} ${last_name || ""}`.trim()
+                            : username?.split("@")[0]; // Extracts part before "@"
+                          return displayName;
+                        })
+                        .join(", ")}
+                    </span>
                   </p>
                 </div>
                 <div className="col-span-6 flex items-center justify-center">
@@ -145,7 +156,7 @@ const ApproveTranslationPop = ({
             disabled={selectedRequests.length === 0 || loading}
             className={`${
               selectedRequests.length === 0 || loading
-                 ? "bg-[#ACDDE7] "
+                ? "bg-[#ACDDE7] "
                 : "bg-[#33B0CA] "
             } text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] pt-[2px] pb-4 text-[13px] font-[600]`}
           >

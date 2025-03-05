@@ -26,6 +26,8 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
 
   console.log("selectedRequests", selectedRequests);
 
+  console.log("translationRequest", translationRequest?.data);
+
   const [bankDetails, setBankDetails] = useState({
     bank_name: "",
     account_number: "",
@@ -129,10 +131,14 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
               <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
                 <span>
                   {translationRequest?.data
-                    ?.map(
-                      (request) =>
-                        `${request.fromUser.first_name} ${request.fromUser.last_name}`
-                    )
+                    ?.map((request) => {
+                      const { first_name, last_name, username } =
+                        request.fromUser;
+                      const displayName = first_name
+                        ? `${first_name} ${last_name || ""}`.trim()
+                        : username?.split("@")[0]; // Extracts part before "@"
+                      return displayName;
+                    })
                     .join(", ")}
                 </span>{" "}
                 {translationRequest?.data?.length === 1 ? "is" : "are"}{" "}
