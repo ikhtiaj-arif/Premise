@@ -312,8 +312,8 @@ const PremiseV2 = () => {
   const handleAddPopup = async () => {
     if (userFirstName && userLastName) {
       const res = await fetchUserAccess(`${currentUser?.id}/PP_PostPremise`);
-      console.log("add premise res", res);
-      if (res?.access == "No") {
+      // console.log("add premise res", res);
+      if (res?.access === "No") {
         setAddPopup(res);
       } else {
         setAddPopup("Yes");
@@ -442,13 +442,13 @@ const PremiseV2 = () => {
             </div>
           </div>
           <div className="w-full mx-auto h-[1px] bg-[#eaeaea] mt-[4px] barSm-hidden" />
-          {addPopup == "noUserName" && (
+          {addPopup === "noUserName" && (
             <UserNamePopup {...{ refetch, setAddPopup }} />
           )}
-          {addPopup?.msg == "ShowBecomePrivilege" ? (
+          {addPopup?.msg === "ShowBecomePrivilege" ? (
             <NoAccessPopUp noAccessPopup={addPopup} setNoAccessPopup={setAddPopup} />
-          ) : addPopup?.msg == "LB" ||
-            addPopup?.msg == "ShowBuyPackage_and_Allacarte" ? (
+          ) : addPopup?.msg === "LB" ||
+            addPopup?.msg === "ShowBuyPackage_and_Allacarte" ? (
             <NoAccessLbPopUp
               divId="addNewPremise"
               setNoAccessPopup={setAddPopup}
@@ -456,7 +456,7 @@ const PremiseV2 = () => {
               service="PP_Premises"
             />
           ) : (
-            addPopup == "Yes" && (
+            addPopup === "Yes" && (
               <AddPremise2 setAddPopup={setAddPopup} refetch={refetch} />
             )
           )}

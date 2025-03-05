@@ -569,7 +569,7 @@ const Popup = ({
                 {...{ data, bg_img, bg_color, stylings, viewText, dText }}
               />
 
-              <div className="hidden md:flex h-[10vh] md:h-[116px] mt-[8px]  flex-col justify-between">
+              <div className="hidden md:flex   mt-[8px]  flex-col justify-between">
                 {/* <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" /> */}
                 {/* icons */}
                 <div className="lg:ml-3 hidden lg:block py-[2px] ">
@@ -587,7 +587,10 @@ const Popup = ({
                     />
                   </div>
                 </div>{" "}
-                <div className="!2xl:mt-12">
+                
+              
+              </div>
+              <div className="absolute bottom-3 w-full">
                   <AskIda
                     id={premiseId}
                     {...{
@@ -621,7 +624,6 @@ const Popup = ({
                     }}
                   />
                 </div>
-              </div>
             </div>
 
             {/* right div */}
