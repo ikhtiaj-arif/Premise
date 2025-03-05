@@ -81,7 +81,7 @@ const PaymentInvoicePopup = ({
       const res = await successFulPayment(data);
       if (res) {
         console.log("callback success", res);
-        setPayment(true);
+        setPayment(false);
         toast("Payment Successful");
         if (submit) {
           submit(payInfo?.transaction_id);
