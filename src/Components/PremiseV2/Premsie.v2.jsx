@@ -462,35 +462,33 @@ const PremiseV2 = () => {
           )}
 
           <div className="shortM-hidden ">
-            <SortPagination
-              data={{
-                totalPages,
-                currentPage,
-                next: premiseData?.next,
-                prev: premiseData?.previous,
-              }}
-              showRefine={showRefine}
-              setShowRefine={setShowRefine}
-              setCurrentPage={setCurrentPage}
-              setViewData={setViewData}
-              setItemsToShow={setItemsToShow}
-              setSortedData={setSortedData}
-              setSortOrder={setSortOrder}
-              refetch={refetch}
-              setRefetching={setRefetching}
-              setText={setText}
-              setQueryUser={setQueryUser}
-              setLanguage={setLanguage}
-              sortOrder={sortOrder}
-              sortedData={sortedData}
-              language={language}
-              activeSearch={activeSearch}
-              dataCount={premiseData?.count}
-              setActiveSearch={setActiveSearch}
-              hiddenCountRes={hiddenCountRes}
-              // activeAddedByMe={activeAddedByMe}
-              // setActiveAddedByMe={setActiveAddedByMe}
-            />
+          <FilterSearchSort
+                  data={{
+                    totalPages,
+                    currentPage,
+                    next: premiseData?.next,
+                    prev: premiseData?.previous,
+                  }}
+                  showRefine={showRefine}
+                  setShowRefine={setShowRefine}
+                  setCurrentPage={setCurrentPage}
+                  setViewData={setViewData}
+                  setItemsToShow={setItemsToShow}
+                  setSortedData={setSortedData}
+                  setSortOrder={setSortOrder}
+                  refetch={refetch}
+                  setRefetching={setRefetching}
+                  setText={setText}
+                  setQueryUser={setQueryUser}
+                  setLanguage={setLanguage}
+                  sortOrder={sortOrder}
+                  sortedData={sortedData}
+                  language={language}
+                  activeSearch={activeSearch}
+                  dataCount={premiseData?.count}
+                  setActiveSearch={setActiveSearch}
+                  hiddenCountRes={hiddenCountRes}
+                />
           </div>
         </div>
         {activeAddedByMe && (

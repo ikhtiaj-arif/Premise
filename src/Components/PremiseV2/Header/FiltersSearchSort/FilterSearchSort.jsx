@@ -313,7 +313,7 @@ const FilterSearchSort = ({
               {dataCount} Premises
             </p> */}
 
-            <div className="md:hidden text-[14px] text-[#252525] h-[32px] font-[500]">
+            <div className="hidden  text-[14px] text-[#252525] h-[32px] font-[500]">
               <p>
                 {hiddenCountRes?.total_premises === 1 ? (
                   <p>
@@ -374,9 +374,9 @@ const FilterSearchSort = ({
               />
             </div>
 
-               {/* !translation filter */}
+            {/* !translation filter */}
 
-               <button
+            <button
               data-te-toggle="tooltip"
               title="Available for Translation"
               className={`h-[32px] w-[32px] rounded-full relative ${
@@ -408,26 +408,6 @@ const FilterSearchSort = ({
               />
             </button>
 
-
-            {/* <button
-              data-te-toggle="tooltip"
-              title="Added by me"
-              className={`h-[32px] w-[32px] rounded-full ${
-                !activeAddedByMe ? "bg-[#252525]" : "bg-[#33B0CA]"
-              }`}
-            >
-              <img src={transCart} className="text-[#fafafa] mx-auto" />
-            </button>
-            <button
-              data-te-toggle="tooltip"
-              title="Added by me"
-              className={`h-[32px] w-[32px] rounded-full ${
-                !activeAddedByMe ? "bg-[#252525]" : "bg-[#33B0CA]"
-              }`}
-            >
-              <img src={mailCart} className="text-[#fafafa] mx-auto" />
-            </button> */}
-
             <button
               data-te-toggle="tooltip"
               title="Popularity"
@@ -441,14 +421,6 @@ const FilterSearchSort = ({
               <BsFire className="text-[#fafafa] mx-auto" />
             </button>
 
-            {/* <button
-              className={`h-[32px] w-[32px] rounded-full ${
-                !byDateSort ? "bg-[#252525]" : "bg-[#33B0CA]"
-              }`}
-              onClick={() => setByDateSort(!byDateSort)}
-            >
-              <FaRegCalendarAlt className="text-[#fafafa] mx-auto" />
-            </button> */}
             <div
               data-te-toggle="tooltip"
               title="Sort by date"
@@ -474,7 +446,7 @@ const FilterSearchSort = ({
                 />
               )}
             </div>
-         
+
             <button
               data-te-toggle="tooltip"
               title="Added by me"
