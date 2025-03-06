@@ -98,14 +98,14 @@ const PremiseTopHeader = ({ handleSearch, id }) => {
 
       {beatsPopup && <BeatsPop popClose={setBeatsPopup} id={id} />}
 
-      {commonPopup == "brainstorms" && (
+      {commonPopup === "brainstorms" && (
         <BrainstormEngagementsPop
           popClose={setCommonPopup}
           id={id}
           commonPopup={commonPopup}
         />
       )}
-      {commonPopup == "engagements" && (
+      {commonPopup === "engagements" && (
         <BrainstormEngagementsPop
           popClose={setCommonPopup}
           id={id}

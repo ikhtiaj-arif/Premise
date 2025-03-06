@@ -4,6 +4,7 @@ import {
   useDeletePremiseMutation,
   useGetFilteredLangQuery,
 } from "../../app/EndPoints/premisePoolApi";
+import { useNavigate } from "react-router-dom";
 
 const DeletePremise = ({ setIsDelete, isDelete, refetch,hiddenCountRefetch, popClose }) => {
   const [deletePremise, resInfo] = useDeletePremiseMutation();
@@ -13,6 +14,7 @@ const DeletePremise = ({ setIsDelete, isDelete, refetch,hiddenCountRefetch, popC
     refetch: langRefetch,
   } = useGetFilteredLangQuery();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
   const handlePopupConfirm = async () => {
     setLoading(true);
@@ -27,6 +29,7 @@ const DeletePremise = ({ setIsDelete, isDelete, refetch,hiddenCountRefetch, popC
       if (popClose) {
         popClose(false);
       }
+      navigate('/')
       toast.success("Successfully deleted your Premise", {
         position: toast.POSITION.TOP_CENTER,autoClose: 800,
       });

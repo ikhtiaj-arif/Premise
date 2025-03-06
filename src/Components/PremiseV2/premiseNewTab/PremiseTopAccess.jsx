@@ -124,6 +124,9 @@ const PremiseTopAccess = ({
     setOpenDotMenu(null);
   };
   const handleDelete = async (id) => {
+    console.log(id);
+    setIsDelete(id);
+    return;
     const res = await deletePremise(id);
     if (res) {
       setIsDelete(false);
@@ -447,7 +450,7 @@ const PremiseTopAccess = ({
         />
       )}
 
-      {isDelete && (
+      {/* {isDelete && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center bg-[#252525b0] justify-center z-[21]">
           <div className="modal_css fixed inset-0 flex items-center justify-center z-50">
             <div className="w-[90%] mx-auto max-w-[510px] bg-[#fafafa]  rounded-xl ">
@@ -477,7 +480,7 @@ const PremiseTopAccess = ({
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
