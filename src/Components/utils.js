@@ -17,8 +17,8 @@ const baseURL = window.location.origin;
 // const baseURL = "https://taj4o.mynextfilm.in";
 //  const URL = "https://qa.mynextfilm.net";
 //  const baseURL = "https://qa.mynextfilm.net";
- const URL = "https://alpha.mynextfilm.ai";
- const baseURL = "https://alpha.mynextfilm.ai";
+//  const URL = "https://alpha.mynextfilm.ai";
+//  const baseURL = "https://alpha.mynextfilm.ai";
 
 export { baseURL, URL };
 
