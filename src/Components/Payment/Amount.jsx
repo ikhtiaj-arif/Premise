@@ -1,6 +1,7 @@
 import React from "react";
 
 export const Amount = ({ data,isAgreementChecked,setAgreementChecked }) => {
+  //console.log('amount data',data?.total_amount !='0');
   return (
     <div className="w-full lg:w-[80%] h-full">
       <p
@@ -22,7 +23,7 @@ export const Amount = ({ data,isAgreementChecked,setAgreementChecked }) => {
               {data?.total_price?.toFixed(2) || data?.total_amount || 0}
             </p>
           </div>
-          {data?.discounted_amount != 0 && (
+          {data?.discounted_amount && data?.discounted_amount != 0 && (
             <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
               <h3 className="">Membership Discount(USD)</h3>
 
@@ -31,7 +32,7 @@ export const Amount = ({ data,isAgreementChecked,setAgreementChecked }) => {
               </p>
             </div>
           )}
-          {data?.early_bird_discount_amount != 0 && (
+          {data?.early_bird_discount_amount && data?.early_bird_discount_amount != 0 && (
             <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
               <h3 className="">Early Bird Discount(USD)</h3>
 

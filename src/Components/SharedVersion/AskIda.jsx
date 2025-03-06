@@ -77,14 +77,14 @@ const AskIda = ({
         // Post the new comment
         const res = await postComment(body);
 
-        if (res?.error) {
-          toast.error("Failed to add comment. Please try again.", {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 800,
-          });
+        // if (res?.error) {
+        //   toast.error("Failed to add comment. Please try again.", {
+        //     position: toast.POSITION.TOP_CENTER,
+        //     autoClose: 800,
+        //   });
 
-          setIsLoading(false);
-        } else {
+        //   setIsLoading(false);
+        // } else {
           setIsLoading(false);
 
           // here scroll all the way down to a div using ref
@@ -106,7 +106,7 @@ const AskIda = ({
               autoClose: 1600,
             });
           }, 1100);
-        }
+        // }
       }
     } catch (error) {
       toast.error("Failed to add comment. Please try again.", {

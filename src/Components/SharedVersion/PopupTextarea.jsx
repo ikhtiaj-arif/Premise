@@ -138,16 +138,16 @@ const PopupTextarea = ({
         // Post the new comment
         const res = await postComment(body);
 
-        if (res?.error) {
-          toast.error("Failed to add comment. Please try again.", {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 800,
-          });
-          setNewComment("");
+        // if (res?.error) {
+        //   toast.error("Failed to add comment. Please try again.", {
+        //     position: toast.POSITION.TOP_CENTER,
+        //     autoClose: 800,
+        //   });
+        //   setNewComment("");
 
-          setIsLoading(false);
-          setTextCount(0);
-        } else {
+        //   setIsLoading(false);
+        //   setTextCount(0);
+        // } else {
           setNewComment("");
 
           setIsLoading(false);
@@ -173,7 +173,7 @@ const PopupTextarea = ({
               autoClose: 1600,
             });
           }, 1100);
-        }
+        // }
       }
     } catch (error) {
       toast.error("Failed to add comment. Please try again.", {

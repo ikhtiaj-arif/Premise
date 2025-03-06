@@ -528,7 +528,7 @@ const AllComments = ({
                           : "text-[#1E1E1E]"
                       } text-[#1E1E1E]  pl-[4px] pr-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center`}
                     >
-                      {comments?.user?.id === 1 ? (
+                      {comments?.user?.id === 1 || comments?.user?.id === 79 ? (
                         <p className="notranslate text-[14px] font-[500] ">
                           {comments?.c_value}. {commenterName}
                           {/* <span className="ml-3 text-[#33B0CA] italic font-[400]"> {" (Character Development- Catalyze)"}</span> */}
