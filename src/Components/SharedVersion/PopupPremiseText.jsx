@@ -48,7 +48,12 @@ const PopupPremiseText = ({
         } absolute inset-0  backdrop-blur-sm  text-[14px] rounded-[8px] overflow-hidden break-words`}
       >
         {/* premise text */}
-        {dText ? (
+        <p
+            className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} text-[14px] ${className2} notranslate`}
+          >
+            {viewText}
+          </p>
+        {/* {dText ? (
           <p
             className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} text-[14px] ${className2} notranslate `}
           >
@@ -60,7 +65,7 @@ const PopupPremiseText = ({
           >
             {viewText}
           </p>
-        )}
+        )} */}
       </div>
     </div>
   );

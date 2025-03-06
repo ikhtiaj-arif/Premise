@@ -220,7 +220,7 @@ const LeftSideBar = ({
   const handleVisibility = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_Privacy`);
     console.log("visibility res", res);
-    if (res?.access == "No") {
+    if (res?.access === "No") {
       setOpenHidePop(res);
     } else {
       setOpenHidePop("Yes");

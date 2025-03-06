@@ -590,7 +590,7 @@ const Popup = ({
                 
               
               </div>
-              <div className="absolute bottom-3 w-full">
+              <div className="hidden md:absolute bottom-3 w-full">
                   <AskIda
                     id={premiseId}
                     {...{
