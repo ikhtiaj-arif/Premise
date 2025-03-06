@@ -18,6 +18,8 @@ import { baseURL } from "../../utils";
 import { loadingData } from "../Premsie.v2";
 import LeftSideBar from "./LeftSideBar";
 import ProjectInfo from "./ProjectInfo";
+import AskIda from "../../SharedVersion/AskIda";
+import PopupTextarea from "../../SharedVersion/PopupTextarea";
 
 const PremiseNewTab = () => {
   const { id } = useParams(); // Extract the ID from the route
@@ -169,7 +171,8 @@ const PremiseNewTab = () => {
       {!isPremiseLoading && !isCommentLoading && premiseData && commentsData ? (
         <>
           <ProjectInfo {...{ premiseData }} />
-          <div className="w-full lg:flex items-start">
+          <div className="w-full lg:flex items-start relative" >
+          
             {/* Left Sidebar */}
             <div className="leftSection bg-[#fff] lg:w-[500px] w-full pr-0 flex justify-end lg:h-[calc(100vh-75px)]">
               <LeftSideBar
@@ -211,7 +214,7 @@ const PremiseNewTab = () => {
               {isSearchLoading || isCommentLoading ? (
                 <div>Loading ....</div>
               ) : (
-                <div className="pb-[120px] pt-[18px] lg:pb-[18px]">
+                <div className="pb-[160px] pt-[18px] lg:pb-[18px]">
                   {filteredCommentsData?.comments?.length > 0 ? (
                     <>
                       <div>

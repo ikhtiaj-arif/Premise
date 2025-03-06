@@ -220,7 +220,7 @@ const LeftSideBar = ({
   const handleVisibility = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_Privacy`);
     console.log("visibility res", res);
-    if (res?.access == "No") {
+    if (res?.access === "No") {
       setOpenHidePop(res);
     } else {
       setOpenHidePop("Yes");
@@ -228,6 +228,44 @@ const LeftSideBar = ({
   };
 
   return (
+    <>
+    <div className="fixed bottom-8 z-10 w-[96%] mx-auto md:hidden">
+              <AskIda
+                {...{
+                  id,
+                  user,
+                  premiseOwner,
+                  commentRefetch,
+                  setOpenAllReplies,
+                  setOpenReplyFieldID,
+                  lastCommentRef,
+                  isLoading,
+                  setIsLoading,
+                }}
+              />
+    
+                <PopupTextarea
+                  fromNew
+                  premiseId={id}
+                  className="ls-textarea"
+                  className2="ls-textareainput"
+                  {...{
+                    premiseOwner,
+                    user,
+                    commentRefetch,
+                    setOpenAllReplies,
+                    setOpenReplyFieldID,
+                    lastCommentRef,
+                    commentField,
+                    setCommentField,
+                    setReplyField,
+                    replyField,
+                    replyRef,
+                    isLoading,
+                    setIsLoading,
+                  }}
+                />
+              </div>
     <div className="lg:w-[350px] w-full relative ">
       <div className="relative h-full">
         <div className="lg:pr-12">
@@ -489,6 +527,7 @@ const LeftSideBar = ({
             </div>
           )}
 
+<div className="hidden md:block">
           <AskIda
             {...{
               id,
@@ -503,7 +542,6 @@ const LeftSideBar = ({
             }}
           />
 
-          <div className="">
             <PopupTextarea
               fromNew
               premiseId={id}
@@ -615,6 +653,7 @@ const LeftSideBar = ({
         />
       )}
     </div>
+    </>
   );
 };
 

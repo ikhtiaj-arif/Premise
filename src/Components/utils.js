@@ -8,8 +8,8 @@
   // const URL = "http://localhost:8001";
   // const baseURL = "http://localhost:8001";
 
-// const URL = window.location.origin;
-// const baseURL = window.location.origin; 
+const URL = window.location.origin;
+const baseURL = window.location.origin; 
 // const URL = "http://1.6.141.108";
 // const baseURL = "http://1.6.141.108";
 
@@ -17,8 +17,8 @@
 // const baseURL = "https://taj4o.mynextfilm.in";
 //  const URL = "https://qa.mynextfilm.net";
 //  const baseURL = "https://qa.mynextfilm.net";
- const URL = "https://alpha.mynextfilm.ai";
- const baseURL = "https://alpha.mynextfilm.ai";
+//  const URL = "https://alpha.mynextfilm.ai";
+//  const baseURL = "https://alpha.mynextfilm.ai";
 
 export { baseURL, URL };
 
