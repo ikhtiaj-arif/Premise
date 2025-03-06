@@ -33,7 +33,7 @@ const CommentLike = ({
     } else {
       setIsLiked(false);
     }
-  }, [comments, currentUser]);
+  }, [comments, currentUser, commentRefetch]);
 
   useEffect(() => {
     const dislikesId = comments?.dislikes?.map((e) => e);
@@ -42,7 +42,7 @@ const CommentLike = ({
     } else {
       setIsDisLiked(false);
     }
-  }, [comments, currentUser]);
+  }, [comments, currentUser, commentRefetch]);
 
   const handleLikeDislike = async (id, tag) => {
     setDisable(true);
@@ -105,7 +105,9 @@ const CommentLike = ({
       <div>
         <button
           disabled={disable || isLLoading || isRLoading || isDLoading}
-          className="flex gap-[4px] items-center text-[12px] leading-[14.52px]"
+          className={` ${
+            isLiked ? " hidden" : "flex"
+          }  gap-[4px] items-center text-[12px] leading-[14.52px]`}
         >
           <FaThumbsDown
             onClick={() => handleLikeDislike(comments?.id, "dislike")}

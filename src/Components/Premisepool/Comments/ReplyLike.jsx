@@ -21,7 +21,7 @@ const ReplyLike = ({ reply, setLikePopup, replyRefetch }) => {
     } else {
       setIsReplyLiked(false);
     }
-  }, [currentUser, reply]);
+  }, [currentUser, reply, replyRefetch]);
 
   useEffect(() => {
     const replyLikes = reply?.dislikes?.map((e) => e);
@@ -31,13 +31,12 @@ const ReplyLike = ({ reply, setLikePopup, replyRefetch }) => {
     } else {
       setIsDisReplyLiked(false);
     }
-  }, [currentUser, reply]);
+  }, [currentUser, reply, replyRefetch]);
 
   const handleLikeUnlikeReply = async (id, tag) => {
     const res = (await tag) === "like" ? likeReply(id) : dislikeReply(id);
-    if (res) {
-      replyRefetch();
-    }
+    replyRefetch();
+    
   };
   return (
     <div className=" flex gap-2 items-center">
@@ -71,7 +70,9 @@ const ReplyLike = ({ reply, setLikePopup, replyRefetch }) => {
       {/* dislike */}
       <div
         disabled={isLLoading || isDLoading}
-        className="flex gap-[1.2px] items-center text-[12px]"
+        className={` ${
+          isReplyLiked ? " hidden" : "flex"
+        }  flex gap-[1.2px] items-center text-[12px]`}
       >
         <button>
           <FaThumbsDown
