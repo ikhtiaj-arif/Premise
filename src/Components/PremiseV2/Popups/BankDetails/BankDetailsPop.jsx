@@ -130,7 +130,7 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
             <div className="pr-[12px] mt-[17px] w-[542px]  ml-[40px]">
               <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
                 <span>
-                  {translationRequest?.data
+                  {translationRequest?.data?.filter((request) => request.requestApproved === false)
                     ?.map((request) => {
                       const { first_name, last_name, username } =
                         request.fromUser;
@@ -144,7 +144,7 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
                 {translationRequest?.data?.length === 1 ? "is" : "are"}{" "}
                 interested in copying this Premise Project in{" "}
                 <span>
-                  {translationRequest?.data
+                  {translationRequest?.data?.filter((request) => request.requestApproved === false)
                     ?.map((request) => getLanguageName(request?.requestToLang))
                     .join(", ")}
                 </span>

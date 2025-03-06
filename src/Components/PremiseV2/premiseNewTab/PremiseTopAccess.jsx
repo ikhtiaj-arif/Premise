@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { fetchUserAccess, MyContext } from "../../../App";
 import {
   useGetSavedCharactersQuery,
@@ -124,24 +123,24 @@ const PremiseTopAccess = ({
     setOpenDotMenu(null);
   };
   const handleDelete = async (id) => {
-    console.log(id);
+    // console.log(id);
     setIsDelete(id);
-    return;
-    const res = await deletePremise(id);
-    if (res) {
-      setIsDelete(false);
-      toast.success("Successfully deleted your Premise", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 800,
-      });
-      navigate(`/`);
-    } else {
-      toast.error("Something went wrong", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 800,
-      });
-      setIsDelete(false);
-    }
+    // return;
+    // const res = await deletePremise(id);
+    // if (res) {
+    //   setIsDelete(false);
+    //   toast.success("Successfully deleted your Premise", {
+    //     position: toast.POSITION.TOP_CENTER,
+    //     autoClose: 800,
+    //   });
+    //   navigate(`/`);
+    // } else {
+    //   toast.error("Something went wrong", {
+    //     position: toast.POSITION.TOP_CENTER,
+    //     autoClose: 800,
+    //   });
+    //   setIsDelete(false);
+    // }
   };
 
   const handleOpenSp = () => {
@@ -200,6 +199,8 @@ const PremiseTopAccess = ({
   const [viewSale, setViewSale] = useState(false);
 
   const [saleRequestPop, setSaleRequestPop] = useState("");
+
+  console.log("currentUser", currentUser);
 
   return (
     <div className="flex gap-[3px] items-center justify-between pb-1 mt-2">
@@ -438,6 +439,7 @@ const PremiseTopAccess = ({
           popClose={setViewSaleRequests}
           setSaleIcon={setSaleRequestedOwner}
           premiseId={id}
+          user={currentUser?.id}
         />
       )}
       {viewSale && (
