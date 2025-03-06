@@ -131,7 +131,7 @@ const PremiseTopAccess = ({
         position: toast.POSITION.TOP_CENTER,
         autoClose: 800,
       });
-      navigate(`/premise-pool-v2`);
+      navigate(`/`);
     } else {
       toast.error("Something went wrong", {
         position: toast.POSITION.TOP_CENTER,
