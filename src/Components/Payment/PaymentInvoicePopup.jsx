@@ -22,6 +22,7 @@ const PaymentInvoicePopup = ({
   submit,
   setPayment,
   premise_id,
+  popClose,
 }) => {
   const { currentUser } = useContext(MyContext);
   const [paymentData, { isLoading: isPLoading }] = usePaymentDataMutation();
@@ -60,7 +61,7 @@ const PaymentInvoicePopup = ({
   }, [premise_id, paymentData]);
 
   const handlePaymentSuccess = async (response, isPayU = false) => {
-    console.log("payment success", response,payInfo);
+    console.log("payment success", response, payInfo);
     if (response) {
       const data = {
         services_data: payInfo?.services,
@@ -82,11 +83,13 @@ const PaymentInvoicePopup = ({
       const res = await successFulPayment(data);
       if (res) {
         console.log("callback success", res);
-        setPayment(false);
-        toast("Payment Successful");
         if (submit) {
           submit(payInfo?.transaction_id);
         }
+        popClose(null);
+        setPayment(null);
+        toast("Payment Successful");
+        setPaymentCondition(false);
       }
     }
   };
@@ -130,7 +133,7 @@ const PaymentInvoicePopup = ({
       const res = await loadRazorpayScript(
         "https://checkout.razorpay.com/v1/checkout.js"
       );
-      setPaymentCondition(false);
+
       if (!res) {
         alert("Razorpay SDK failed to load. please check are you online?");
         return;
@@ -207,6 +210,7 @@ const PaymentInvoicePopup = ({
       payuForm.submit();
       document.body.removeChild(payuForm);
     }
+    //setPaymentCondition(false);
   };
   const getFormattedDate = () => {
     const today = new Date();
@@ -306,7 +310,6 @@ const PaymentInvoicePopup = ({
                     /> */}
                   </section>
 
-
                   {/* pay button */}
                   <div className=" text-center">
                     <button
@@ -316,7 +319,7 @@ const PaymentInvoicePopup = ({
                         paymentCondition ? "bg-[#ACDDE7]" : "bg-[#33b0ca] "
                       } w-32 my-8 h-[40px] text-white  rounded-lg font-semibold`}
                     >
-                      Pay Now
+                      {paymentCondition ? "Processing" : "Pay Now"}
                     </button>
                   </div>
                 </div>

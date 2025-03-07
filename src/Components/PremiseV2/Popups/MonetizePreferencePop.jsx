@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import {
   useEditPremiseMutation,
   useGetOnePremiseQuery,
@@ -46,23 +46,25 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
       return;
     }
 
-  if(formData.transferOwnership &&
-    formData.price.trim() !== ""){
-      
-      
+    if (formData.transferOwnership && formData.price.trim() !== "") {
       const data = {
         id,
         body: { ...premiseData, sellingPrice: price },
       };
-      
-      
+
       const res = await updatePremise(data);
       if (res?.data) {
         popClose(null);
+        toast.success(`Your Premise Project is Up for Monetizing!`, {
+          position: toast.POSITION.TOP_CENTER,
+        });
       }
+    } else {
+      popClose(null);
+      toast.success(`Your Premise Project is Up for Monetizing!2`, {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
-
-    
   };
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
@@ -101,7 +103,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
               <div>
                 <p className="text-left !text-[14px] !leading-[21px] font-[400] text-[#616161]">
                   By allowing translation of the Premise Project in a language
-                  to MNF users for a price of $ PQR.
+                  to MNF users for a price of ${premiseData?.pqr_value}.
                 </p>
                 <p className="text-left !text-[12px] mt-[8px] !leading-[18px] italic font-[400] text-[#616161]">
                   (Please Note that 1/3 of the amount received for translating
@@ -162,8 +164,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
                 isLoading ||
                 !(
                   formData.allowTranslation ||
-               (   formData.transferOwnership &&
-                  formData.price.trim() !== "")
+                  (formData.transferOwnership && formData.price.trim() !== "")
                 )
               }
               type="submit"
@@ -171,8 +172,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
                 isLoading ||
                 !(
                   formData.allowTranslation ||
-                 ( formData.transferOwnership &&
-                  formData.price.trim() !== "")
+                  (formData.transferOwnership && formData.price.trim() !== "")
                 )
                   ? "bg-[#ACDDE7] "
                   : "bg-[#33B0CA]"

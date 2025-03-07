@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import { useSaleForPremiseMutation } from "../../../app/EndPoints/premisePoolApi";
 import PaymentInvoicePopup from "../../Payment/PaymentInvoicePopup";
+import { toast } from "react-toastify";
 
 const PaySalePopup = ({
   popClose,
@@ -27,7 +28,9 @@ const PaySalePopup = ({
       }).unwrap();
       console.log("Success", response);
       if (response) {
-        popClose(false);
+        // popClose(null);
+        // setPayment(null);
+        // toast("Payment Successful");
         refetch();
       }
     } catch (error) {
@@ -112,7 +115,7 @@ const PaySalePopup = ({
       </div>
 
       {isPayment && (
-        <PaymentInvoicePopup
+        <PaymentInvoicePopup popClose={popClose}
           typeOfRequest="sale"
           premise_id={premiseId}
           setPayment={setPayment}

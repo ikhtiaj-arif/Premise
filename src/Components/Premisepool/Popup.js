@@ -437,8 +437,8 @@ const Popup = ({
             {/* left div */}
             <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[86%] sm:w-[80%] md:w-[33%] max-w-[356px] h-[33vh] lg:h-[500px] xl:h-[546px] 2xl:h-[610px] lg:mt-[26px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[32px] xl:ml-[32px] rounded-[8px]">
               {/* header */}
-              <div className="flex w-full max-w-[383px] mx-auto justify-between items-center bg-[#FAFAFA] rounded-t-[8px]  p-[8px] md:py-[20px] md:px-[16px]">
-                <div className="block ml-[8px] mt-[4px]">
+              <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-[15px] pt-[15px] pb-[6px]">
+        <div className="block ">
                   <a
                     target="_blank"
                     rel="noreferrer"
@@ -465,9 +465,9 @@ const Popup = ({
                       <div>
                         <div className="flex items-center">
                           <h4
-                            className="notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate w-full"
-                            title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
-                          >
+                    className={`notranslate w-[75px] max-w-[110px] text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
+                    title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
+                  >
                             {premiseOwner?.first_name} {premiseOwner?.last_name}
                           </h4>
                           <UserType

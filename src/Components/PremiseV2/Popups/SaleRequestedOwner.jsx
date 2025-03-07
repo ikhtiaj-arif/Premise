@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import {
   useEditPremiseMutation,
@@ -19,7 +19,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
   const [updateSaleRequests, { isLoading: isSaleLoading }] =
     useUpdateRequestForSaleOrTranslateMutation();
 
-  const { bankDetailsAvailable, isLoading: bankDetailsLoading } =
+  const { data: bankDetailsAvailable, isLoading: bankDetailsLoading } =
     useGetBankDetailsQuery(user);
 
   const data = {
@@ -37,6 +37,19 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
     ifsc_code: "",
     swift_code: "",
   });
+
+  // If bankDetailsAvailable exists, pre-fill the bank details
+  useEffect(() => {
+    if (bankDetailsAvailable?.data) {
+      setBankDetails({
+        bank_name: bankDetailsAvailable.data.bank_name || "",
+        account_number: bankDetailsAvailable.data.account_number || "",
+        account_holder: bankDetailsAvailable.data.account_holder || "",
+        ifsc_code: bankDetailsAvailable.data.ifsc_code || "",
+        swift_code: bankDetailsAvailable.data.swift_code || "",
+      });
+    }
+  }, [bankDetailsAvailable]);
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -105,7 +118,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
         console.log(error);
       });
   };
-  console.log("xfd", user, bankDetailsAvailable);
+  console.log("xfd", user, bankDetailsAvailable?.data);
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-end md:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">

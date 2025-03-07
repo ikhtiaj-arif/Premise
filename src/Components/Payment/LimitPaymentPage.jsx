@@ -267,10 +267,11 @@ const LimitPaymentPage = () => {
             <section className="flex flex-col lg:flex-row justify-between lg:gap-[5rem] gap-[20px] h-full">
               <Package data={paymentData?.services} fromLimit />
 
-              <Amount data={paymentData} {...{isAgreementChecked,setAgreementChecked}} />
+              <Amount
+                data={paymentData}
+                {...{ isAgreementChecked, setAgreementChecked }}
+              />
             </section>
-
-            
 
             {/* pay button */}
             <div className=" text-center">
@@ -281,7 +282,7 @@ const LimitPaymentPage = () => {
                   paymentCondition ? "bg-[#ACDDE7]" : "bg-[#33b0ca] "
                 } w-32 my-8 h-[40px]  rounded-lg font-semibold text-white`}
               >
-                Pay Now
+                {paymentCondition ? "Processing" : "Pay Now"}
               </button>
             </div>
           </div>

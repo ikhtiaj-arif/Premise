@@ -310,7 +310,8 @@ const PremiseV2 = () => {
   };
 
   const handleAddPopup = async () => {
-    if (userFirstName && userLastName) {
+    if (userFirstName) {
+      //&& userLastName
       const res = await fetchUserAccess(`${currentUser?.id}/PP_PostPremise`);
       // console.log("add premise res", res);
       if (res?.access === "No") {
@@ -446,7 +447,10 @@ const PremiseV2 = () => {
             <UserNamePopup {...{ refetch, setAddPopup }} />
           )}
           {addPopup?.msg === "ShowBecomePrivilege" ? (
-            <NoAccessPopUp noAccessPopup={addPopup} setNoAccessPopup={setAddPopup} />
+            <NoAccessPopUp
+              noAccessPopup={addPopup}
+              setNoAccessPopup={setAddPopup}
+            />
           ) : addPopup?.msg === "LB" ||
             addPopup?.msg === "ShowBuyPackage_and_Allacarte" ? (
             <NoAccessLbPopUp
@@ -462,33 +466,33 @@ const PremiseV2 = () => {
           )}
 
           <div className="shortM-hidden ">
-          <FilterSearchSort
-                  data={{
-                    totalPages,
-                    currentPage,
-                    next: premiseData?.next,
-                    prev: premiseData?.previous,
-                  }}
-                  showRefine={showRefine}
-                  setShowRefine={setShowRefine}
-                  setCurrentPage={setCurrentPage}
-                  setViewData={setViewData}
-                  setItemsToShow={setItemsToShow}
-                  setSortedData={setSortedData}
-                  setSortOrder={setSortOrder}
-                  refetch={refetch}
-                  setRefetching={setRefetching}
-                  setText={setText}
-                  setQueryUser={setQueryUser}
-                  setLanguage={setLanguage}
-                  sortOrder={sortOrder}
-                  sortedData={sortedData}
-                  language={language}
-                  activeSearch={activeSearch}
-                  dataCount={premiseData?.count}
-                  setActiveSearch={setActiveSearch}
-                  hiddenCountRes={hiddenCountRes}
-                />
+            <FilterSearchSort
+              data={{
+                totalPages,
+                currentPage,
+                next: premiseData?.next,
+                prev: premiseData?.previous,
+              }}
+              showRefine={showRefine}
+              setShowRefine={setShowRefine}
+              setCurrentPage={setCurrentPage}
+              setViewData={setViewData}
+              setItemsToShow={setItemsToShow}
+              setSortedData={setSortedData}
+              setSortOrder={setSortOrder}
+              refetch={refetch}
+              setRefetching={setRefetching}
+              setText={setText}
+              setQueryUser={setQueryUser}
+              setLanguage={setLanguage}
+              sortOrder={sortOrder}
+              sortedData={sortedData}
+              language={language}
+              activeSearch={activeSearch}
+              dataCount={premiseData?.count}
+              setActiveSearch={setActiveSearch}
+              hiddenCountRes={hiddenCountRes}
+            />
           </div>
         </div>
         {activeAddedByMe && (

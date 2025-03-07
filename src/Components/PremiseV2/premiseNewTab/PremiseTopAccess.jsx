@@ -432,6 +432,7 @@ const PremiseTopAccess = ({
           // translationRequest={translationRequest}
           popClose={setViewTrnRequests}
           premiseId={viewTrnRequests}
+          user={user}
         />
       )}
       {viewSaleRequests && (
@@ -439,7 +440,7 @@ const PremiseTopAccess = ({
           popClose={setViewSaleRequests}
           setSaleIcon={setSaleRequestedOwner}
           premiseId={id}
-          user={currentUser?.id}
+          user={user}
         />
       )}
       {viewSale && (
