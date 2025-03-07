@@ -148,7 +148,7 @@ const PremiseNewTab = () => {
     const res = await findComments(data);
     setFilteredCommentsData(res?.data);
 
-    e.target.reset();
+    // e.target.reset();
   };
 
   console.log("filteredCommentsData", filteredCommentsData);

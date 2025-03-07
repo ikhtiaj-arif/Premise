@@ -16,9 +16,11 @@ const ApproveTranslationPop = ({
   setCongratsPopup,
   congratsPopup,
   handleProceed,
+  
   loading,
 }) => {
   const [selectedUserNames, setSelectedUserNames] = useState([]);
+  console.log(selectedUserNames);
 
   // Handle checkbox selection
   const handleCheckboxChange = (id, name) => {
@@ -41,7 +43,6 @@ const ApproveTranslationPop = ({
     popClose(false);
   };
 
-  console.log("object", translationRequests);
   // Handle Proceed button click
 
   return congratsPopup ? (
@@ -121,7 +122,9 @@ const ApproveTranslationPop = ({
                     onChange={() =>
                       handleCheckboxChange(
                         request.id,
-                        `${request.fromUser.first_name} ${request.fromUser.last_name}`
+                        request.fromUser.first_name
+                          ? `${request.fromUser.first_name} ${request.fromUser.last_name || ""}`.trim()
+                          : request.fromUser.email.split("@")[0] // Use email if first name is missing
                       )
                     }
                   />

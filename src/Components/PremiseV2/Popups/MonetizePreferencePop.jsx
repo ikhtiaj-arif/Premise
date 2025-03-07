@@ -61,7 +61,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
       }
     } else {
       popClose(null);
-      toast.success(`Your Premise Project is Up for Monetizing!2`, {
+      toast.success(`Your Premise Project is Up for Monetizing!`, {
         position: toast.POSITION.TOP_CENTER,
       });
     }
