@@ -85,7 +85,7 @@ const NoAccessLbPopUp = ({
     if (selectedOption === "generate") {
       if (sceneCount > 0) {
         sessionStorage.setItem("pp_limit_counts", JSON.stringify(counts));
-        navigate(`/premise-pool-v2/payment`);
+        navigate(`/payment`);
       } else {
         setShowMinText(true);
       }

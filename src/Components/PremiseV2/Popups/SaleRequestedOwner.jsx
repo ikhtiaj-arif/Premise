@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import {
   useEditPremiseMutation,
+  useGetBankDetailsQuery,
   useGetOnePremiseQuery,
   useGetSaleTranslationRequestQuery,
   useUpdateRequestForSaleOrTranslateMutation,
@@ -10,15 +11,16 @@ import Congrats from "../../../img/Icons/CongratsSaleDoodle.svg";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import SaleDoodle from "../../../img/Icons/OwnerSaleDoodle.svg";
 
-const SaleRequestedOwner = ({ popClose, premiseId }) => {
+const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
   const [showBankDetails, setShowBankDetails] = useState(false);
   const [showCongratsPopup, setShowCongratsPopup] = useState(false);
   const [sale, setSale] = useState(false);
 
-  console.log("names from Sale");
-
   const [updateSaleRequests, { isLoading: isSaleLoading }] =
     useUpdateRequestForSaleOrTranslateMutation();
+
+  const { data: bankDetailsAvailable, isLoading: bankDetailsLoading } =
+    useGetBankDetailsQuery(user);
 
   const data = {
     id: premiseId,
@@ -35,6 +37,19 @@ const SaleRequestedOwner = ({ popClose, premiseId }) => {
     ifsc_code: "",
     swift_code: "",
   });
+
+  // If bankDetailsAvailable exists, pre-fill the bank details
+  useEffect(() => {
+    if (bankDetailsAvailable?.data) {
+      setBankDetails({
+        bank_name: bankDetailsAvailable.data.bank_name || "",
+        account_number: bankDetailsAvailable.data.account_number || "",
+        account_holder: bankDetailsAvailable.data.account_holder || "",
+        ifsc_code: bankDetailsAvailable.data.ifsc_code || "",
+        swift_code: bankDetailsAvailable.data.swift_code || "",
+      });
+    }
+  }, [bankDetailsAvailable]);
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -103,6 +118,7 @@ const SaleRequestedOwner = ({ popClose, premiseId }) => {
         console.log(error);
       });
   };
+  console.log("xfd", user, bankDetailsAvailable?.data);
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-end md:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">

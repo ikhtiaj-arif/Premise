@@ -751,12 +751,14 @@ const PremiseCardV2 = ({
           // translationRequest={translationRequest}
           popClose={setViewTrnRequests}
           premiseId={viewTrnRequests}
+          user={user}
         />
       )}
       {viewSaleRequests && (
         <SaleRequestedOwner
           popClose={setViewSaleRequests}
           premiseId={id}
+          user={user}
         />
       )}
       {viewSale && (

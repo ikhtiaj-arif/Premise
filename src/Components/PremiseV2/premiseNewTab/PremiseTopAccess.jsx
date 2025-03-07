@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { fetchUserAccess, MyContext } from "../../../App";
 import {
   useGetSavedCharactersQuery,
@@ -124,21 +123,24 @@ const PremiseTopAccess = ({
     setOpenDotMenu(null);
   };
   const handleDelete = async (id) => {
-    const res = await deletePremise(id);
-    if (res) {
-      setIsDelete(false);
-      toast.success("Successfully deleted your Premise", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 800,
-      });
-      navigate(`/premise-pool-v2`);
-    } else {
-      toast.error("Something went wrong", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 800,
-      });
-      setIsDelete(false);
-    }
+    // console.log(id);
+    setIsDelete(id);
+    // return;
+    // const res = await deletePremise(id);
+    // if (res) {
+    //   setIsDelete(false);
+    //   toast.success("Successfully deleted your Premise", {
+    //     position: toast.POSITION.TOP_CENTER,
+    //     autoClose: 800,
+    //   });
+    //   navigate(`/`);
+    // } else {
+    //   toast.error("Something went wrong", {
+    //     position: toast.POSITION.TOP_CENTER,
+    //     autoClose: 800,
+    //   });
+    //   setIsDelete(false);
+    // }
   };
 
   const handleOpenSp = () => {
@@ -197,6 +199,8 @@ const PremiseTopAccess = ({
   const [viewSale, setViewSale] = useState(false);
 
   const [saleRequestPop, setSaleRequestPop] = useState("");
+
+  console.log("currentUser", currentUser);
 
   return (
     <div className="flex gap-[3px] items-center justify-between pb-1 mt-2">
@@ -428,6 +432,7 @@ const PremiseTopAccess = ({
           // translationRequest={translationRequest}
           popClose={setViewTrnRequests}
           premiseId={viewTrnRequests}
+          user={user}
         />
       )}
       {viewSaleRequests && (
@@ -435,6 +440,7 @@ const PremiseTopAccess = ({
           popClose={setViewSaleRequests}
           setSaleIcon={setSaleRequestedOwner}
           premiseId={id}
+          user={user}
         />
       )}
       {viewSale && (
@@ -447,7 +453,7 @@ const PremiseTopAccess = ({
         />
       )}
 
-      {isDelete && (
+      {/* {isDelete && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center bg-[#252525b0] justify-center z-[21]">
           <div className="modal_css fixed inset-0 flex items-center justify-center z-50">
             <div className="w-[90%] mx-auto max-w-[510px] bg-[#fafafa]  rounded-xl ">
@@ -477,7 +483,7 @@ const PremiseTopAccess = ({
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

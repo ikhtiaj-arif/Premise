@@ -31,8 +31,8 @@ const ProjectInfo = ({ premiseData }) => {
         of {}
         <span className="text-[#252525] font-bold"> {premiseOwner?.first_name} {premiseOwner?.last_name}:</span> A {sub_genre} (
         {genre}) of {duration} {}
-        in {getLanguageName(source_language)} language set in {period} {geography} on the premise
-        ‘What if......’
+        in {getLanguageName(source_language)} language set in {period} {geography} on the premise.
+        
       </h3>
     </div>
   );

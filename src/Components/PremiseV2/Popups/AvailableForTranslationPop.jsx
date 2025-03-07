@@ -61,7 +61,9 @@ const AvailableForTranslationPop = ({
       const response = await translatePremise(data);
 
       if (response) {
-        popClose(null)
+        // popClose(null)
+        // setPayment(null);
+        // toast("Payment Successful");
         refetch();
 
         const {
@@ -190,7 +192,7 @@ const AvailableForTranslationPop = ({
         <PaymentInvoicePopup
           typeOfRequest="translate"
           premise_id={id}
-          setPayment={setPayment}
+          setPayment={setPayment} popClose={popClose}
           submit={handleTranslationSubmit}
         />
       )}

@@ -1,20 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import {
+  useGetBankDetailsQuery,
   useGetSaleTranslationRequestQuery,
   useUpdateRequestForSaleOrTranslateMutation,
 } from "../../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
 import walletDoodle from "../../../../img/wallet_doodle.png";
+import TypingLoader from "../../../TypingLoader";
 import { getLanguageName } from "../../utilityFuncitons/functions";
 import ApproveTranslationPop from "./ApproveTranslation";
 
-const BankDetailsPop = ({ popClose, premiseId }) => {
-  // console.log(premiseId);
+const BankDetailsPop = ({ popClose, premiseId, user }) => {
   const [showBankDetails, setShowBankDetails] = useState(false);
   const [showTransRequests, setShowTransRequests] = useState(false);
   const [congratsPopup, setCongratsPopup] = useState(false);
   const [selectedRequests, setSelectedRequests] = useState([]);
+  const [bankDetails, setBankDetails] = useState({
+    bank_name: "",
+    account_number: "",
+    account_holder: "",
+    ifsc_code: "",
+    swift_code: "",
+  });
+
+  const { data: bankDetailsAvailable, isLoading: bankDetailsLoading } =
+    useGetBankDetailsQuery(user);
+  console.log(bankDetailsAvailable);
 
   const data = {
     id: premiseId,
@@ -24,24 +36,25 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
   const { data: translationRequest, isTransLoading } =
     useGetSaleTranslationRequestQuery(data);
 
-  console.log("selectedRequests", selectedRequests);
-
-  console.log("translationRequest", translationRequest?.data);
-
-  const [bankDetails, setBankDetails] = useState({
-    bank_name: "",
-    account_number: "",
-    account_holder: "",
-    ifsc_code: "",
-    swift_code: "",
-  });
-
   // Check if all mandatory fields are filled
   const isFormValid =
     bankDetails.bank_name &&
     bankDetails.account_holder &&
     bankDetails.account_number &&
     bankDetails.ifsc_code;
+
+  useEffect(() => {
+    if (bankDetailsAvailable?.data) {
+      // If bank details are available, pre-fill the form
+      setBankDetails({
+        bank_name: bankDetailsAvailable?.data.bank_name || "",
+        account_number: bankDetailsAvailable?.data.account_number || "",
+        account_holder: bankDetailsAvailable?.data.account_holder || "",
+        ifsc_code: bankDetailsAvailable?.data.ifsc_code || "",
+        swift_code: bankDetailsAvailable?.data.swift_code || "",
+      });
+    }
+  }, [bankDetailsAvailable]);
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -52,7 +65,6 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
     }));
   };
 
-  // Handle form submission
   const [loading, setLoading] = useState(false);
   const [updateTranslationSale] = useUpdateRequestForSaleOrTranslateMutation();
 
@@ -60,7 +72,7 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
     if (!selectedRequests.length) {
       setShowTransRequests(true);
     } else {
-      if (loading || selectedRequests.length === 0) return; // Prevent multiple clicks or empty selection
+      if (loading || selectedRequests.length === 0) return;
 
       setLoading(true); // Start loading
 
@@ -72,11 +84,9 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
 
       try {
         const res = await updateTranslationSale(data);
-        console.log("Selected Requests:", res);
         if (res?.data) {
           toast.success("Request Approved!");
           setCongratsPopup(true);
-          // Close after showing CongratsPopup
         }
       } catch (err) {
         console.error("Error:", err);
@@ -86,7 +96,7 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
     }
   };
 
-  if (isTransLoading) return <p>Loading...</p>;
+  if (isTransLoading) return <TypingLoader />;
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
@@ -131,6 +141,7 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
               <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
                 <span>
                   {translationRequest?.data
+                    ?.filter((request) => request.requestApproved === false)
                     ?.map((request) => {
                       const { first_name, last_name, username } =
                         request.fromUser;
@@ -145,6 +156,7 @@ const BankDetailsPop = ({ popClose, premiseId }) => {
                 interested in copying this Premise Project in{" "}
                 <span>
                   {translationRequest?.data
+                    ?.filter((request) => request.requestApproved === false)
                     ?.map((request) => getLanguageName(request?.requestToLang))
                     .join(", ")}
                 </span>

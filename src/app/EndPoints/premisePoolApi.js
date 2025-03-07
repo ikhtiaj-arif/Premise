@@ -578,6 +578,15 @@ export const premiseSlice = apiSlice.injectEndpoints({
           };
       },
     }),
+    // get bank details
+    getBankDetails: builder.query({
+      query: (id) => {
+          return {
+              url: `/ideamall/get_bank_details/${id}`,
+              method: "GET",
+          };
+      },
+    }),
 
     paymentUintDetails: builder.mutation({
       query: (data) => {
@@ -700,5 +709,6 @@ export const {
   usePayNowPackageMutation,
   useActivateFreeMutation,useDeleteMessageMutation,
   useDislikeCommentMutation,
-  useDislikeCommentReplyMutation
+  useDislikeCommentReplyMutation,
+  useGetBankDetailsQuery
 } = premiseSlice;

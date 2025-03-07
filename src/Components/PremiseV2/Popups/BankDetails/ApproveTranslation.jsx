@@ -41,6 +41,7 @@ const ApproveTranslationPop = ({
     popClose(false);
   };
 
+  console.log("object", translationRequests);
   // Handle Proceed button click
 
   return congratsPopup ? (
@@ -81,12 +82,11 @@ const ApproveTranslationPop = ({
           Your Premise Project is Up for Monetizing
         </h2>
         <div className="h-[1px] mt-[8px] w-[65%] mx-auto bg-[#a1a1a1]" />
-        <div className="mt-[12px]">
-          <p className="text-center text-[14px] leading-[21px] font-[400] text-[#616161]">
-            Tick the following request for allowing translation of this Premise
-            Project.
-          </p>
-
+        <p className="text-center text-[14px] leading-[21px] font-[400] text-[#616161]">
+          Tick the following request for allowing translation of this Premise
+          Project.
+        </p>
+        <div className="mt-[12px] h-[176px] overflow-y-auto">
           <div className="w-[70%] mx-auto mt-[20px]">
             {/* Header */}
             <div className="grid grid-cols-12 items-center gap-[18px]">
@@ -106,11 +106,12 @@ const ApproveTranslationPop = ({
             </div>
 
             {/* Dynamic Rows */}
-            {translationRequests?.map((request) => (
+            {translationRequests?.map((request, index) => (
               <div
                 className="grid grid-cols-12 gap-[18px] w-[100%] mx-auto mt-[4px]"
                 key={request.id}
               >
+                {/* Checkbox column */}
                 <div className="col-span-2 flex justify-center items-center">
                   <input
                     type="checkbox"
@@ -125,32 +126,35 @@ const ApproveTranslationPop = ({
                     }
                   />
                 </div>
+
+                {/* Translation Requested By column */}
                 <div className="col-span-4 flex items-center justify-center">
                   <p className="text-center text-[14px] leading-[21px] font-[400] text-[#616161]">
-                    <span>
-                      {request?.data
-                        ?.map((request) => {
-                          const { first_name, last_name, username } =
-                            request.fromUser;
-                          const displayName = first_name
-                            ? `${first_name} ${last_name || ""}`.trim()
-                            : username?.split("@")[0]; // Extracts part before "@"
-                          return displayName;
-                        })
-                        .join(", ")}
-                    </span>
+                    <p className="text-center text-[14px] leading-[21px] font-[400] text-[#616161]">
+                      {/* Displaying the language name */}
+                      {getLanguageName(request.requestToLang)}
+                    </p>
                   </p>
                 </div>
+
+                {/* Language column */}
                 <div className="col-span-6 flex items-center justify-center">
                   <p className="text-center text-[14px] leading-[21px] font-[400] text-[#616161]">
-                    {getLanguageName(request.requestToLang)}
+                    {request.fromUser.first_name ? (
+                      <>
+                        {request.fromUser.first_name}{" "}
+                        {request.fromUser.last_name}
+                      </>
+                    ) : (
+                      <>{request.fromUser.email.split("@")[0]}</>
+                    )}
                   </p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-        <div className="w-[88px] mx-auto mt-[72px]">
+        <div className="w-[88px] mx-auto  ">
           <button
             onClick={handleProceed}
             disabled={selectedRequests.length === 0 || loading}
@@ -158,7 +162,7 @@ const ApproveTranslationPop = ({
               selectedRequests.length === 0 || loading
                 ? "bg-[#ACDDE7] "
                 : "bg-[#33B0CA] "
-            } text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] pt-[2px] pb-4 text-[13px] font-[600]`}
+            } text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] py-1 text-[13px] font-[600]`}
           >
             {loading ? "Processing..." : "Proceed"}
           </button>

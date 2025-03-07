@@ -40,7 +40,9 @@ const TransInOtherLang = ({
       if (response) {
         toast.success("Translation successful!");
         if (response) {
-          popClose(null);
+          // popClose(null);
+          // setPayment(null);
+          // toast("Payment Successful");
           refetch();
         }
       } else {
@@ -180,7 +182,7 @@ const TransInOtherLang = ({
       </div>
 
       {isPayment && (
-        <PaymentInvoicePopup
+        <PaymentInvoicePopup popClose={popClose}
           typeOfRequest="translate"
           premise_id={id}
           setPayment={setPayment}
