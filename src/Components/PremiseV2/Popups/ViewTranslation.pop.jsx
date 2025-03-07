@@ -8,7 +8,6 @@ const ViewTranslationPop = ({
   popClose,
   premiseId,
   popCloseCmnt,
-
   refetch,
   transText,
   viewText,
