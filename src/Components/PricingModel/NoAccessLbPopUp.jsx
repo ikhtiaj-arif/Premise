@@ -46,7 +46,9 @@ const NoAccessLbPopUp = ({
       setSelectedOption(
         noAccessLbPopup?.ShowFreeTrialActavation === "Yes"
           ? "activate"
-          : "generate"
+          : service === "PP_Brainstrom"
+          ? "generate"
+          : "nextPackage"
       );
     }
   }, [productPrice, service, noAccessLbPopup]);
@@ -132,7 +134,7 @@ const NoAccessLbPopUp = ({
               className="w-[192px] h-[280px] mx-auto"
               alt=""
             />
-            {noAccessLbPopup?.msg !== "ShowBuyPackage_and_Allacarte" && (
+            {service === "PP_Brainstrom" && (
               <h1 className=" text-[#252525] text-[16px] font-[600] leading-6">
                 You have
                 {service === "PP_Brainstrom" ? " Completed " : " Generated "}
@@ -147,13 +149,6 @@ const NoAccessLbPopUp = ({
               To carry on further :-
             </p>
 
-            {/* {service !== "PP_Brainstrom" ? (
-              <p className=" text-center text-[#616161] text-[16px] leading-6 font-[400]">
-                Buy next Juggernaut Package (Please note that the unused
-                facilities of the existing Juggernaut package will be carried
-                forward in the next package).
-              </p>
-            ) : } */}
             <div className="ml-2 block text-[#616161] text-[16px] leading-6 font-[400] no_access_input">
               {/* 1st option */}
               {noAccessLbPopup?.ShowFreeTrialActavation == "Yes" && (
@@ -171,52 +166,57 @@ const NoAccessLbPopUp = ({
                 </div>
               )}
               {/* 1st option */}
-              <div className="">
-                <label className="flex items-start gap-2 ">
-                  <input
-                    type="radio"
-                    value="generate"
-                    checked={selectedOption === "generate"}
-                    onChange={handleRadioChange}
-                    className="mt-1"
-                  />
-                  <span className=" flex-1">
-                    {"Commit to "}
+              {service === "PP_Brainstrom" && (
+                <div className="">
+                  <label className="flex items-start gap-2 ">
                     <input
-                      type="text"
-                      placeholder="0"
-                      value={sceneCount}
-                      onChange={handleSceneCountChange}
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                      onKeyDown={(e) => {
-                        if (
-                          !/^\d$/.test(e.key) &&
-                          e.key !== "Backspace" &&
-                          e.key !== "ArrowLeft" &&
-                          e.key !== "ArrowRight"
-                        ) {
-                          e.preventDefault();
-                        }
-                      }}
-                      className="w-[58px] h-[26px] border border-[#EAEAEA] rounded-[4px] p-1 mx-2 text-center focus:outline-none"
-                      disabled={selectedOption !== "generate"}
-                    />{" "}
-                    {" more Brainstormings "} for USD{" "}
-                    {(sceneCount * PpData?.uint_value).toFixed(2)}
-                  </span>
-                </label>
-              </div>
+                      type="radio"
+                      value="generate"
+                      checked={selectedOption === "generate"}
+                      onChange={handleRadioChange}
+                      className="mt-1"
+                    />
+                    <span className=" flex-1">
+                      {"Commit to "}
+                      <input
+                        type="text"
+                        placeholder="0"
+                        value={sceneCount}
+                        onChange={handleSceneCountChange}
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        onKeyDown={(e) => {
+                          if (
+                            !/^\d$/.test(e.key) &&
+                            e.key !== "Backspace" &&
+                            e.key !== "ArrowLeft" &&
+                            e.key !== "ArrowRight"
+                          ) {
+                            e.preventDefault();
+                          }
+                        }}
+                        className="w-[58px] h-[26px] border border-[#EAEAEA] rounded-[4px] p-1 mx-2 text-center focus:outline-none"
+                        disabled={selectedOption !== "generate"}
+                      />{" "}
+                      {" more Brainstormings "} for USD{" "}
+                      {(sceneCount * PpData?.uint_value).toFixed(2)}
+                    </span>
+                  </label>
+                </div>
+              )}
               {/* 2nd option */}
               <div>
                 <label className="flex items-start gap-2 mt-2">
-                  <input
-                    type="radio"
-                    value="nextPackage"
-                    checked={selectedOption === "nextPackage"}
-                    onChange={handleRadioChange}
-                    className="mt-1"
-                  />
+                  {(noAccessLbPopup?.ShowFreeTrialActavation == "Yes" ||
+                    service === "PP_Brainstrom") && (
+                    <input
+                      type="radio"
+                      value="nextPackage"
+                      checked={selectedOption === "nextPackage"}
+                      onChange={handleRadioChange}
+                      className="mt-1"
+                    />
+                  )}
                   <span className=" flex-1 ">
                     Buy next Juggernaut Package (Please note that the unused
                     facilities of the existing package will be carried forward

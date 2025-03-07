@@ -144,8 +144,8 @@ const CardHeadOptions = ({
   };
 
   const checkAllowance = async (state, id) => {
-    const res = await fetchUserAccess(`${currentUser?.id}/PP_AllowInteraction`);
-    console.log("AllowInteraction res", res);
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_SaleRequest_and_Translate`);
+    console.log("PP_SaleRequest_and_Translate res", res);
     if (res?.access === "No") {
       setNoAccessLbPopUp(res);
     } else {

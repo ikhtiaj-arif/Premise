@@ -26,6 +26,7 @@ import ReplyToReply2 from "./ReplyToReply2";
 import { useTranslateCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyLike from "./ReplyLike";
+import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 
 const ReplyToReply = ({
   handleAddToBeat,
@@ -185,6 +186,20 @@ const ReplyToReply = ({
   };
 
   const [suggestion, suggestionRes] = useCreateSuggestedReplyMutation();
+
+  const checkSuggestAllowance = async (text) => {
+    setSuggestDisable(true);
+    const res = await fetchUserAccess(
+      `${currentUser?.id}/PP_AllowBrainstoming`
+    );
+    console.log(`PP_AllowBrainstoming res`, res);
+    if (res?.access == "No") {
+      setSuggestDisable(false);
+      setNoAccessLbPopup(res);
+    } else {
+      handleSuggest(text);
+    }
+  };
 
   const handleSuggest = async (text) => {
     const cleanedText = text.includes(":") ? text.split(":")[1].trim() : text;
@@ -467,7 +482,7 @@ const ReplyToReply = ({
                           ) : (
                             <button
                               className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-pointer"
-                              onClick={() => handleSuggest(reply?.text)}
+                              onClick={() => checkSuggestAllowance(reply?.text)}
                             >
                               <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
                                 Suggestion
@@ -578,7 +593,7 @@ const ReplyToReply = ({
                     ) : (
                       <button
                         className="px-2  rounded-[4px] py-[2px] bg-[#33B0CA]"
-                        onClick={() => handleSuggest(childReply?.text)}
+                        onClick={() => checkSuggestAllowance(childReply?.text)}
                       >
                         {suggestDisable ? (
                           <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
@@ -726,6 +741,14 @@ const ReplyToReply = ({
         <NoAccessPopUp
           noAccessPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
+        />
+      )}
+      {(noAccessLbPopup?.msg == "LB" ||
+        noAccessLbPopup?.msg == "ShowBuyPackage_and_Allacarte") && (
+        <NoAccessLbPopUp
+          noAccessLbPopup={noAccessLbPopup}
+          setNoAccessPopup={setNoAccessLbPopup}
+          service={`PP_Brainstrom`}
         />
       )}
     </>

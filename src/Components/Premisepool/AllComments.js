@@ -139,7 +139,7 @@ const AllComments = ({
   const replyRef = useRef(null);
   const latestReplyRef = useRef(null);
 
-  const [totalCommentLikes, setTotalCommentLikes] = useState([]);
+  const [service, setService] = useState();
   const [suggestedBeats, setSuggestedBeats] = useState({});
 
   const [likePopup, setLikePopup] = useState(false);
@@ -236,6 +236,19 @@ const AllComments = ({
     }
   };
 
+  const checkSuggestAllowance = async (text) => {
+    setSuggestDisable(true);
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_AllowBrainstoming`);
+    console.log(`PP_AllowBrainstoming res`, res);
+    if (res?.access == "No") {
+      setSuggestDisable(false);
+      setNoAccessLbPopup(res);
+      setService('PP_Brainstrom')
+    } else {
+      handleSuggest(text);
+    }
+  };
+
   const handleSuggest = async (text) => {
     setSuggestDisable(true);
     const data = {
@@ -321,6 +334,7 @@ const AllComments = ({
       console.log("add to beat res", res);
       if (res?.access == "No") {
         setNoAccessLbPopup(res);
+        setService('PP_Beats')
       } else {
         submitAddToBeat(comment);
       }
@@ -748,7 +762,7 @@ const AllComments = ({
                                         <button
                                           disabled={suggestDisable}
                                           onClick={() => {
-                                            handleSuggest(comments?.text);
+                                            checkSuggestAllowance(comments?.text);
                                           }}
                                           className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
                                         >
@@ -796,7 +810,7 @@ const AllComments = ({
                                     <button
                                       disabled={suggestDisable}
                                       onClick={() => {
-                                        handleSuggest(comments?.text);
+                                        checkSuggestAllowance(comments?.text);
                                       }}
                                       className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
                                     >
@@ -857,7 +871,7 @@ const AllComments = ({
                                     <button
                                       disabled={suggestDisable}
                                       onClick={() => {
-                                        handleSuggest(comments?.text);
+                                        checkSuggestAllowance(comments?.text);
                                       }}
                                       className="px-2  rounded-[4px]  pt-[2px] pb-[4px] bg-[#33B0CA]"
                                     >
@@ -888,7 +902,7 @@ const AllComments = ({
                                     <button
                                       disabled={suggestDisable}
                                       onClick={() => {
-                                        handleSuggest(comments?.text);
+                                        checkSuggestAllowance(comments?.text);
                                       }}
                                       className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
                                     >
@@ -1125,7 +1139,6 @@ const AllComments = ({
                     <ReplyToComments
                       fromNew={fromNew}
                       commentIdx={comments?.c_value}
-                      handleSuggest={handleSuggest}
                       key={index} // Make sure to provide a unique key when mapping over an array
                       reply={reply}
                       index={index}
@@ -1173,7 +1186,7 @@ const AllComments = ({
       {( noAccessLbPopup?.msg =='LB' || noAccessLbPopup?.msg=='ShowBuyPackage_and_Allacarte') && (
         <NoAccessLbPopUp noAccessLbPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
-          service="PP_Beats"
+          service={service}
         />
       )}
       <div className="h-[1px] w-[88%] mx-auto bg-[#eaeaea] mb-[4px]" />

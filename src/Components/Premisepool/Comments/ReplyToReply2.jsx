@@ -21,6 +21,7 @@ import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply3 from "./ReplyToReply3";
 import ReplyLike from "./ReplyLike";
+import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 
 const ReplyToReply2 = ({
   handleAddToBeat,
@@ -175,6 +176,20 @@ const ReplyToReply2 = ({
   };
 
   const [suggestion, suggestionRes] = useCreateSuggestedReplyMutation();
+
+  const checkSuggestAllowance = async (text) => {
+    setSuggestDisable(true);
+    const res = await fetchUserAccess(
+      `${currentUser?.id}/PP_AllowBrainstoming`
+    );
+    console.log(`PP_AllowBrainstoming res`, res);
+    if (res?.access == "No") {
+      setSuggestDisable(false);
+      setNoAccessLbPopup(res);
+    } else {
+      handleSuggest(text);
+    }
+  };
 
   const handleSuggest = async (text) => {
     const cleanedText = text.includes(":") ? text.split(":")[1].trim() : text;
@@ -456,7 +471,7 @@ const ReplyToReply2 = ({
                           ) : (
                             <button
                               className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-pointer"
-                              onClick={() => handleSuggest(reply?.text)}
+                              onClick={() => checkSuggestAllowance(reply?.text)}
                             >
                               <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
                                 Suggestion
@@ -571,7 +586,7 @@ const ReplyToReply2 = ({
                       ) : (
                         <button
                           className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-pointer"
-                          onClick={() => handleSuggest(reply?.text)}
+                          onClick={() => checkSuggestAllowance(reply?.text)}
                         >
                           <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
                             Suggestion
@@ -713,6 +728,14 @@ const ReplyToReply2 = ({
         <NoAccessPopUp
           noAccessPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
+        />
+      )}
+      {(noAccessLbPopup?.msg == "LB" ||
+        noAccessLbPopup?.msg == "ShowBuyPackage_and_Allacarte") && (
+        <NoAccessLbPopUp
+          noAccessLbPopup={noAccessLbPopup}
+          setNoAccessPopup={setNoAccessLbPopup}
+          service={`PP_Brainstrom`}
         />
       )}
     </>
