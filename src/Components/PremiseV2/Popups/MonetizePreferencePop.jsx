@@ -46,19 +46,23 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
       return;
     }
 
-    console.log("Form Submitted:", formData);
-
-    const data = {
-      id,
-      body: { ...premiseData, sellingPrice: price },
-    };
-
-    console.log("Updatedpremise result:", data);
-
-    const res = await updatePremise(data);
-    if (res?.data) {
-      popClose(null);
+  if(formData.transferOwnership &&
+    formData.price.trim() !== ""){
+      
+      
+      const data = {
+        id,
+        body: { ...premiseData, sellingPrice: price },
+      };
+      
+      
+      const res = await updatePremise(data);
+      if (res?.data) {
+        popClose(null);
+      }
     }
+
+    
   };
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
@@ -157,18 +161,18 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
               disabled={
                 isLoading ||
                 !(
-                  formData.allowTranslation &&
-                  formData.transferOwnership &&
-                  formData.price.trim() !== ""
+                  formData.allowTranslation ||
+               (   formData.transferOwnership &&
+                  formData.price.trim() !== "")
                 )
               }
               type="submit"
               className={`${
                 isLoading ||
                 !(
-                  formData.allowTranslation &&
-                  formData.transferOwnership &&
-                  formData.price.trim() !== ""
+                  formData.allowTranslation ||
+                 ( formData.transferOwnership &&
+                  formData.price.trim() !== "")
                 )
                   ? "bg-[#ACDDE7] "
                   : "bg-[#33B0CA]"
