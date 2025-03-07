@@ -24,9 +24,9 @@ import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply from "./ReplyToReply";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import ReplyLike from "./ReplyLike";
+import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 
 const ReplyToComments = ({
-  // handleSuggest,
   commentIdx,
   fromNew,
   reply,
@@ -201,6 +201,20 @@ const ReplyToComments = ({
       event.preventDefault(); // Prevents default form submission behavior
       handlePostReplyToReply(event, true);
       replyRef.current.blur();
+    }
+  };
+
+  const checkSuggestAllowance = async (text) => {
+    setSuggestDisable(true);
+    const res = await fetchUserAccess(
+      `${currentUser?.id}/PP_AllowBrainstoming`
+    );
+    console.log(`PP_AllowBrainstoming res`, res);
+    if (res?.access == "No") {
+      setSuggestDisable(false);
+      setNoAccessLbPopup(res);
+    } else {
+      handleSuggest(text);
     }
   };
 
@@ -509,7 +523,7 @@ const ReplyToComments = ({
                           ) : (
                             <button
                               className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-pointer"
-                              onClick={() => handleSuggest(reply?.text)}
+                              onClick={() => checkSuggestAllowance(reply?.text)}
                             >
                               <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
                                 Suggestion
@@ -544,7 +558,7 @@ const ReplyToComments = ({
                     ) : (
                       <button
                         className="px-2 md:hidden rounded-[4px] py-[2px] bg-[#33B0CA]"
-                        onClick={() => handleSuggest(reply?.text)}
+                        onClick={() => checkSuggestAllowance(reply?.text)}
                       >
                         {suggestDisable ? (
                           <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
@@ -723,6 +737,14 @@ const ReplyToComments = ({
         <NoAccessPopUp
           noAccessPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
+        />
+      )}
+      {(noAccessLbPopup?.msg == "LB" ||
+        noAccessLbPopup?.msg == "ShowBuyPackage_and_Allacarte") && (
+        <NoAccessLbPopUp
+          noAccessLbPopup={noAccessLbPopup}
+          setNoAccessPopup={setNoAccessLbPopup}
+          service={`PP_Brainstrom`}
         />
       )}
     </div>
