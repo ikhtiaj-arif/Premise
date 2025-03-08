@@ -10,7 +10,7 @@ import BrainstormEngagementsPop from "../Popups/newTab/BrainstormEngagementsPop"
 import { GlobalContext } from "../../../app/Hooks/Global";
 import SharePopup from "../Popups/newTab/SharePopup";
 
-const PremiseTopHeader = ({ handleSearch, id }) => {
+const PremiseTopHeader = ({ handleSearch, id,setSearchTerm }) => {
   const [beatsPopup, setBeatsPopup] = useState(false);
   const [commonPopup, setCommonPopup] = useState("");
   const [showSharePopup, setShowSharePopup] = useState(false);
@@ -81,6 +81,7 @@ const PremiseTopHeader = ({ handleSearch, id }) => {
             id=""
             maxLength="30"
             placeholder="Search"
+            onChange={(event) => setSearchTerm(event.target.value)}
           />
 
           <button type="submit" className="ml-2">

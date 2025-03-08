@@ -46,7 +46,7 @@ const LeftSideBar = ({
   characterRefetch,
   handleSearch,
   currentCommentRef,
-  handleOpenAllReplies,
+  handleOpenAllReplies,setSearchTerm
 }) => {
   const {
     bg_img,
@@ -270,7 +270,7 @@ const LeftSideBar = ({
         <div className="relative h-full shadow-md pl-3 rounded-md">
           <div className="lg:pr-12 pb-12 overflow-y-scroll">
             {/* header */}
-            <PremiseTopHeader {...{ handleSearch, id }} />
+            <PremiseTopHeader {...{ handleSearch, id , setSearchTerm}} />
             <div>
               {/* premise card top */}
               <PremiseTopAccess

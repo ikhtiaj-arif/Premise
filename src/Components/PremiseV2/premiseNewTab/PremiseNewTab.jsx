@@ -18,8 +18,6 @@ import { baseURL } from "../../utils";
 import { loadingData } from "../Premsie.v2";
 import LeftSideBar from "./LeftSideBar";
 import ProjectInfo from "./ProjectInfo";
-import AskIda from "../../SharedVersion/AskIda";
-import PopupTextarea from "../../SharedVersion/PopupTextarea";
 
 const PremiseNewTab = () => {
   const { id } = useParams(); // Extract the ID from the route
@@ -81,12 +79,17 @@ const PremiseNewTab = () => {
 
   const [actOneThreshold, setActOneThreshold] = useState(null);
   const [actTwoEnd, setActTwoEnd] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  console.log("searchTerm", searchTerm);
 
   useEffect(() => {
     if (commentsData) {
       setFilteredCommentsData(commentsData);
     }
-  }, [commentsData]);
+    if (!searchTerm) {
+      setFilteredCommentsData(commentsData);
+    }
+  }, [commentsData, searchTerm]);
 
   useEffect(() => {
     if (!isPremiseLoading && premiseData?.setC) {
@@ -139,7 +142,7 @@ const PremiseNewTab = () => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    const searchTerm = e.target.search.value;
+
     const data = {
       search_text: searchTerm,
       premise_id: id,
@@ -150,9 +153,6 @@ const PremiseNewTab = () => {
 
     // e.target.reset();
   };
-
-  console.log("filteredCommentsData", filteredCommentsData);
-  console.log("commentsData", commentsData);
 
   const [focusedCValue, setFocusedCValue] = useState(null);
 
@@ -171,8 +171,7 @@ const PremiseNewTab = () => {
       {!isPremiseLoading && !isCommentLoading && premiseData && commentsData ? (
         <>
           <ProjectInfo {...{ premiseData }} />
-          <div className="w-full lg:flex items-start relative" >
-          
+          <div className="w-full lg:flex items-start relative">
             {/* Left Sidebar */}
             <div className="leftSection bg-[#fff] lg:w-[500px] w-full pr-0 flex justify-end lg:h-[calc(100vh-75px)]">
               <LeftSideBar
@@ -193,6 +192,7 @@ const PremiseNewTab = () => {
                   handleSearch,
                   currentCommentRef,
                   handleOpenAllReplies,
+                  setSearchTerm,
                 }}
               />
             </div>
@@ -212,7 +212,9 @@ const PremiseNewTab = () => {
 
             <div className="w-full relative lg:h-[calc(100vh-75px)] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl">
               {isSearchLoading || isCommentLoading ? (
-                <div>Loading ....</div>
+                <div>
+                  <TypingLoader />
+                </div>
               ) : (
                 <div className="pb-[160px] pt-[18px] lg:pb-[18px]">
                   {filteredCommentsData?.comments?.length > 0 ? (
