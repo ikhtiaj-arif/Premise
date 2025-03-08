@@ -414,7 +414,7 @@ const AllComments = ({
 
     if (
       currentUser?.id !== data?.premiseOwner?.id &&
-      c?.user?.first_name == "Ida"
+      (c?.user?.id == 1 || c?.user?.id == 79)
     ) {
       const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
       console.log("reply brainstorm res", res);
