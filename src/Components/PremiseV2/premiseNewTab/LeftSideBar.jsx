@@ -359,7 +359,7 @@ const LeftSideBar = ({
               {/* visible to  */}
               {premiseOwner?.id === user && (
                 <div className="mt-1">
-                  <div className="heading w-full  flex justify-between items-center">
+                  <div className=" w-full  flex justify-between items-center">
                     <p className="text-[#616161] font-[700] text-[16px] leading-6">
                       Visible to
                     </p>
@@ -387,7 +387,7 @@ const LeftSideBar = ({
               {/* characters */}
               {premiseOwner?.id === user && (
                 <div className="mt-1">
-                  <div className="heading w-full flex justify-between items-center">
+                  <div className=" w-full flex justify-between items-center">
                     <p className="text-[#616161] font-[700] text-[16px] leading-6">
                       Characters
                     </p>
@@ -460,7 +460,7 @@ const LeftSideBar = ({
               {/* visible to  */}
               {premiseOwner?.id == user && (
                 <div className="mt-1">
-                  <div className="heading w-full  flex justify-between items-center">
+                  <div className=" w-full  flex justify-between items-center">
                     <p className="text-[#616161] font-[700] text-[16px] leading-6">
                       Visible to
                     </p>
@@ -488,7 +488,7 @@ const LeftSideBar = ({
               {/* characters */}
               {premiseOwner?.id === user && (
                 <div className="mt-1">
-                  <div className="heading w-full flex justify-between items-center">
+                  <div className=" w-full flex justify-between items-center">
                     <p className="text-[#616161] font-[700] text-[16px] leading-6">
                       Characters
                     </p>

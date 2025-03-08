@@ -9,6 +9,7 @@ import {
 import congratsImg from "../../img/congratulations.png";
 import crossIcon from "../../img/croos_icon.png";
 import welcomeImg from "../../img/welcome.png";
+import oopsImg from "../../img/oopsImg.png";
 import { URL } from "../utils";
 
 const NoAccessLbPopUp = ({
@@ -129,9 +130,17 @@ const NoAccessLbPopUp = ({
               src={
                 noAccessLbPopup?.ShowFreeTrialActavation === "Yes"
                   ? welcomeImg
+                  : service !== "PP_Brainstrom" &&
+                    noAccessLbPopup?.ShowFreeTrialActavation !== "Yes"
+                  ? oopsImg
                   : congratsImg
               }
-              className="w-[192px] h-[280px] mx-auto"
+              className={`${
+                service !== "PP_Brainstrom" &&
+                noAccessLbPopup?.ShowFreeTrialActavation !== "Yes"
+                  ? "w-[160px] h-[144px]"
+                  : "w-[192px] h-[280px]"
+              }  mx-auto`}
               alt=""
             />
             {service === "PP_Brainstrom" && (
