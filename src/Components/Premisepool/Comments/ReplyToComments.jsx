@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
-import { FaRegTrashAlt, FaThumbsUp } from "react-icons/fa";
+import { FaRegTrashAlt } from "react-icons/fa";
 import { IoIosUndo, IoMdSend } from "react-icons/io";
 import { toast } from "react-toastify";
 import { fetchUserAccess, MyContext } from "../../../App";
@@ -9,7 +9,6 @@ import {
   useCreateReplyMutation,
   useCreateSuggestedReplyMutation,
   useDeleteLikeOfReplyMutation,
-  useUpdateLikeOfReplyMutation,
 } from "../../../app/EndPoints/commentReply/reply";
 import { useTranslateCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
 import { useGetPremiseUserPictureQuery } from "../../../app/EndPoints/premisePoolApi";
@@ -17,14 +16,14 @@ import TimeAgo from "../../../features/TimeAgo";
 import userIcon from "../../../img/Icons/userImg.png";
 import BtnLoading from "../../../shared/BtnLoading";
 import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
+import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
+import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
-import ReplyToReply from "./ReplyToReply";
-import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import ReplyLike from "./ReplyLike";
-import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
+import ReplyToReply from "./ReplyToReply";
 
 const ReplyToComments = ({
   commentIdx,
@@ -38,6 +37,7 @@ const ReplyToComments = ({
   replyToCommentID,
   handleAddToBeat,
   commentRefetch,
+  
 }) => {
   // console.log(" comments", reply);
 
@@ -264,7 +264,10 @@ const ReplyToComments = ({
 
   const handleChildReply = async () => {
     console.log("reply child1 comment", currentUser?.id, owner, reply);
-    if (currentUser?.id !== owner && (reply?.user?.id == 1 || reply?.user?.id == 79)) {
+    if (
+      currentUser?.id !== owner &&
+      (reply?.user?.id == 1 || reply?.user?.id == 79)
+    ) {
       const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
       console.log("reply child 1 brainstorm res", res);
       if (res?.access == "No") {
@@ -281,14 +284,18 @@ const ReplyToComments = ({
     <div
       data-reply
       className={`w-[93%] ${
-        fromNew ? "w-[93%]" : "lg:w-[666px]"
+        fromNew ? "w-[95%]" : "lg:w-[674px]"
       }  ml-[5px] md:ml-[50px]  rounded-sm flex items-center gap-1`}
     >
-      <div className=" w-[97%] ">
-        <div className=" w-full relative ml-[16px] md:ml-[45px]">
+      <div className=" md:w-[97%] ">
+        <div
+          className={` w-full relative ml-[16px] ${
+            fromNew ? "md:ml-[33px]" : "md:ml-[45px]"
+          }`}
+        >
           <div
             className={`flex gap-[8px] ${
-              fromNew ? "w-[93%]" : "max-w-[627px]"
+              fromNew ? "w-[104.5%] md:w-[94.5%]" : "w-[104.5%] max-w-[654px]"
             }  `}
           >
             {reply?.user?.id === 1 ? (
@@ -386,7 +393,7 @@ const ReplyToComments = ({
                   : reply?.text}
               </p>
             </div>
-            <div className=" flex gap-1 items-center right-[8.5px] md:right-[6.5px] top-[28%]">
+            <div className="  flex flex-col md:flex-row justify-center gap-1 items-center right-[8.5px] md:right-[6.5px] top-[28%]">
               <CommentTranslator
                 comment={reply}
                 translateComment={translateComment}
@@ -426,8 +433,10 @@ const ReplyToComments = ({
           <div
             data-nest-reply
             className={`flex justify-between  max-w-[87%] ${
-              fromNew ? "md:max-w-[86%]" : "md:max-w-[585px]"
-            }   items-center my-[2px] ml-[39px] mr-[32px] md:mr-[58px] mt-[2px]`}
+              fromNew
+                ? "md:max-w-[86%]  mr-[41px] md:mr-[119px]"
+                : "md:max-w-[585px]  mr-[41px] md:mr-[58px]"
+            }   items-center my-[2px] ml-[39px]  mt-[2px]`}
           >
             <div className=" flex items-center gap-3 text-sm leading-[16px] mt-[2px] mb-[4px]">
               {reply?.child_replies?.length > 0 && (
@@ -710,6 +719,7 @@ const ReplyToComments = ({
                           reply={reply}
                           replyToCommentID={replyToCommentID}
                           commentIdx={commentIdx}
+                          
                         />
                       </div>
                     </motion.div>

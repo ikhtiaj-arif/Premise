@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
-import { FaRegTrashAlt, FaThumbsUp } from "react-icons/fa";
+import { FaRegTrashAlt } from "react-icons/fa";
 import { IoIosUndo, IoMdSend } from "react-icons/io";
 import { toast } from "react-toastify";
 import {
@@ -24,9 +24,9 @@ import UserType from "../UserType";
 import ReplyToReply2 from "./ReplyToReply2";
 
 import { useTranslateCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
+import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyLike from "./ReplyLike";
-import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 
 const ReplyToReply = ({
   handleAddToBeat,
@@ -41,6 +41,7 @@ const ReplyToReply = ({
   replyToCommentID,
   commentIdx,
   depth = 0,
+  
 }) => {
   const replyBy = childReply?.user;
   const currentReplyId = childReply?.id;
@@ -248,7 +249,10 @@ const ReplyToReply = ({
 
   const handleChildReply = async () => {
     console.log("reply child 2 comment", currentUser?.id, owner, reply);
-    if (currentUser?.id !== owner && (reply?.user?.id == 1 || reply?.user?.id == 79)) {
+    if (
+      currentUser?.id !== owner &&
+      (reply?.user?.id == 1 || reply?.user?.id == 79)
+    ) {
       const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
       console.log("reply child 2 brainstorm res", res);
       if (res?.access == "No") {
@@ -364,7 +368,7 @@ const ReplyToReply = ({
                 : childReply?.text}
             </p>
           </div>{" "}
-          <div className=" flex gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
+          <div className=" flex flex-col md:flex-row justify-center gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
             <CommentTranslator
               comment={childReply}
               translateComment={translateComment}
@@ -391,7 +395,7 @@ const ReplyToReply = ({
           </div>
         </div>
 
-        <div className="flex justify-between items-center w-[89%] mr-[16px] md:mr-[29px] my-[2px] mt-[2px]  ml-auto mb-[2px] md:mb-[2px]   ">
+        <div className={`flex justify-between items-center w-[89%] mr-[16px] ${fromNew ? "md:mr-[49px]":"md:mr-[29px]"} my-[2px] mt-[2px]  ml-auto mb-[2px] md:mb-[2px]`}>
           <div className="md:flex items-center hidden md:ml-[0px] gap-3 leading-[16px] mt-[2px] mb-[4px]">
             <>
               {childReply?.child_replies?.length > 0 && (
@@ -731,6 +735,7 @@ const ReplyToReply = ({
                     reply={reply}
                     replyToCommentID={replyToCommentID}
                     commentIdx={commentIdx}
+                    fromNew={fromNew}
                   />
                 )
             )}
