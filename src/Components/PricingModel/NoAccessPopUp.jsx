@@ -6,6 +6,7 @@ import { URL } from "../utils";
 import { MyContext } from "../../App";
 import { useActivateFreeMutation } from "../../app/EndPoints/premisePoolApi";
 import { toast } from "react-toastify";
+import welcomeImg from "../../img/welcome.png";
 
 const NoAccessPopUp = ({ setNoAccessPopup, noAccessPopup }) => {
   const navigate = useNavigate();
@@ -62,7 +63,15 @@ const NoAccessPopUp = ({ setNoAccessPopup, noAccessPopup }) => {
           </div>
 
           <div className="p-10">
-            <img src={oopsImg} className="w-[160px] h-[144px] mx-auto" alt="" />
+            <img
+              src={
+                noAccessPopup?.ShowFreeTrialActavation === "Yes"
+                  ? welcomeImg
+                  : oopsImg
+              }
+              className="w-[160px] h-[144px] mx-auto"
+              alt=""
+            />
 
             <h1 className="text-[#252525] font-[600] leading-[36px] text-[16px] mt-4">
               You do not have sufficient privileges to use this functionality.
