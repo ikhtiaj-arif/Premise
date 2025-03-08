@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { FaRegTrashAlt, FaThumbsUp } from "react-icons/fa";
+import React, { useContext, useRef, useState } from "react";
+import { FaRegTrashAlt } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
 import { toast } from "react-toastify";
 import { MyContext } from "../../../App";
@@ -8,10 +8,12 @@ import {
   useDeleteLikeOfReplyMutation,
   useUpdateLikeOfReplyMutation,
 } from "../../../app/EndPoints/commentReply/reply";
+import { useTranslateCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
 import { useGetPremiseUserPictureQuery } from "../../../app/EndPoints/premisePoolApi";
 import TimeAgo from "../../../features/TimeAgo";
 import userIcon from "../../../img/Icons/userImg.png";
 import BtnLoading from "../../../shared/BtnLoading";
+import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
 import { URL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 import UserType from "../UserType";
@@ -19,6 +21,7 @@ import ConfirmationModal from "./ConfirmationModal";
 import ReplyLike from "./ReplyLike";
 
 const ReplyToReply3 = ({
+  fromNew,
   handleAddToBeat,
   setCommentText,
   childReply,
@@ -53,6 +56,8 @@ const ReplyToReply3 = ({
   const [likeReply, likeReplyRes] = useUpdateLikeOfReplyMutation();
   const [deleteReply, deleteReplyRes] = useDeleteLikeOfReplyMutation();
   const [createReplyMutation, isReplyResInfo] = useCreateReplyMutation();
+  const [translateComment, isTranslationCommentLoading] =
+    useTranslateCommentMutation();
   const replyToReplyRef = useRef(null);
   const {
     data: profileImg,
@@ -148,7 +153,11 @@ const ReplyToReply3 = ({
 
   return (
     <>
-      <div className="w-full max-w-[601px] ml-[0px]">
+      <div
+        className={`w-full  ml-[0px] ${
+          fromNew ? "max-w-[97%]" : "max-w-[601px]"
+        }`}
+      >
         <div className="flex gap-[8px]">
           <div className="flex flex-col items-center gap-1">
             {replyBy?.id === 1 ? (
@@ -248,29 +257,41 @@ const ReplyToReply3 = ({
               {childReply?.text}
             </p>
           </div>{" "}
-          {owner === user || replyBy?.id === user ? (
-            <div className="flex gap-2 items-center pl-[2px]">
-              <button
-                // data-reply-reply
-                // disabled={disableD}
-                onClick={() => {
-                  setIdToDlt(childReply?.id);
-                  setOpenDltPop(true);
-                }}
-              >
-                <FaRegTrashAlt
-                  //   disabled={disableBtn}
-                  className="h-5 w-5 text-[#909090]"
-                />
-              </button>
-            </div>
-          ) : (
-            <div className={`px-3 'cursor-default'}`}>
-              <div className="" />
-            </div>
-          )}
+          <div className="  flex flex-col md:flex-row justify-center gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
+            <CommentTranslator
+              comment={childReply}
+              translateComment={translateComment}
+              loading={isTranslationCommentLoading}
+              commentRefetch={replyRefetch}
+            />
+            {owner === user || replyBy?.id === user ? (
+              <div className="flex gap-2 items-center pl-[2px]">
+                <button
+                  // data-reply-reply
+                  // disabled={disableD}
+                  onClick={() => {
+                    setIdToDlt(childReply?.id);
+                    setOpenDltPop(true);
+                  }}
+                >
+                  <FaRegTrashAlt
+                    //   disabled={disableBtn}
+                    className="h-5 w-5 text-[#909090]"
+                  />
+                </button>
+              </div>
+            ) : (
+              <div className={`px-3 'cursor-default'}`}>
+                <div className="" />
+              </div>
+            )}
+          </div>
         </div>
-        <div className="flex justify-between w-[86%] mr-[24px] md:mr-[29px] ml-auto">
+        <div
+          className={`flex justify-between w-[86%] mr-[24px]  ml-auto ${
+            fromNew ? " md:mr-[51px]" : " md:mr-[29px]"
+          }`}
+        >
           <div className="md:flex hidden ml-[30px] md:ml-0 gap-3 leading-[16px] mt-[2px] mb-[4px]">
             <>
               {/* <div>

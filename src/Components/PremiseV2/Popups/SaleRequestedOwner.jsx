@@ -118,7 +118,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
         console.log(error);
       });
   };
-  console.log("xfd", user, bankDetailsAvailable?.data);
+
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-end md:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">

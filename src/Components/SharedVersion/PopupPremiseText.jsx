@@ -45,27 +45,27 @@ const PopupPremiseText = ({
         // className="absolute inset-0 flex items-center justify-center backdrop-blur-sm px-2 md:text-xl lg:text-xl border border-[#EAEAEA] bg-[#FAFAFA] rounded-[8px] max-w-[383px]"
         className={`${
           bg_img || bg_color !== "#FAFAFA" ? "p-[12px]" : "px-[18px] "
-        } absolute inset-0  backdrop-blur-sm  text-[14px] rounded-[8px] overflow-hidden break-words`}
+        } absolute inset-0  backdrop-blur-sm  text-[14px] leading-[18px] rounded-[8px] overflow-hidden break-words`}
       >
         {/* premise text */}
-        <p
+        {/* <p
             className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} text-[14px] ${className2} notranslate`}
           >
             {viewText}
-          </p>
-        {/* {dText ? (
+          </p> */}
+        {viewText ? (
           <p
             className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} text-[14px] ${className2} notranslate `}
           >
-            {dText}
+            {viewText}
           </p>
         ) : (
           <p
             className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} text-[14px] ${className2} notranslate`}
           >
-            {viewText}
+            {dText}
           </p>
-        )} */}
+        )}
       </div>
     </div>
   );

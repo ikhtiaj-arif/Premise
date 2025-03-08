@@ -30,7 +30,7 @@ const BrainstormEngagementsPop = ({ popClose, id, commonPopup }) => {
 
         {/* Footer Note */}
         {commonPopup !== "brainstorms" && (
-          <p className="text-[12px] text-[#616161] text-right  pr-8">
+          <p className="text-[12px] italic text-[#616161] text-right  pr-8">
             *Buddies whom this premise is visible.
           </p>
         )}

@@ -96,13 +96,13 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
     }
   };
 
-  if (isTransLoading) return <TypingLoader />;
+  if (isTransLoading || isTransLoading) return <TypingLoader />;
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
       <div
-        className={` h-[60vh] ${
+        className={`h-[60vh] ${
           showBankDetails ? " lg:h-[497px]" : " lg:h-[734px] max-h-[80vh]"
         } mb-[20px] px-[22px] lg:mb-0 pt-2 lg:mt-[80px] xl:mt-[85px] w-full bg-[#fff] lg:w-[625px]  md:mx-auto relative lg:rounded-[8px] pb-3`}
       >

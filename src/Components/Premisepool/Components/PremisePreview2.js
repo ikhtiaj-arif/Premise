@@ -1061,16 +1061,17 @@ const PremisePreview2 = ({
   }, []);
 
   const formValid =
-    natureOfProject &&
-    generaItem &&
-    subGeneraItem &&
-    periodSetIn &&
-    geographyItem &&
-    protagonist &&
-    protaAge &&
-    protagonistName &&
-    ((["TV series", "Web series"].includes(natureOfProject) && noOfEpi) ||
-      (!["TV series", "Web series"].includes(natureOfProject) && duration));
+  natureOfProject &&
+  generaItem &&
+  subGeneraItem &&
+  periodSetIn &&
+  geographyItem &&
+  protagonist &&
+  protagonistName &&
+  ((protagonist !== "Inanimate Object" && protaAge) || protagonist === "Inanimate Object") &&
+  ((["TV series", "Web series"].includes(natureOfProject) && noOfEpi) ||
+    (!["TV series", "Web series"].includes(natureOfProject) && duration));
+
 
   const handleSelectChange = (e) => {
     setPeriodSetIn(e.target.value);
@@ -2159,7 +2160,7 @@ const PremisePreview2 = ({
                     disabled={!formValid}
                     type="submit"
                     className={` text-white rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] ${
-                      !formValid ? "bg-[#616161] " : "bg-[#33B0CA]"
+                      !formValid ? "bg-[#ACDDE7] " : "bg-[#33B0CA]"
                     }`}
                   >
                     Next

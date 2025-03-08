@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
-import { FaRegTrashAlt, FaThumbsUp } from "react-icons/fa";
+import { FaRegTrashAlt } from "react-icons/fa";
 import { IoIosUndo, IoMdSend } from "react-icons/io";
 import { toast } from "react-toastify";
 import { fetchUserAccess, MyContext } from "../../../App";
@@ -10,19 +10,23 @@ import {
   useDeleteLikeOfReplyMutation,
   useUpdateLikeOfReplyMutation,
 } from "../../../app/EndPoints/commentReply/reply";
+import { useTranslateCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
 import { useGetPremiseUserPictureQuery } from "../../../app/EndPoints/premisePoolApi";
 import TimeAgo from "../../../features/TimeAgo";
 import userIcon from "../../../img/Icons/userImg.png";
 import BtnLoading from "../../../shared/BtnLoading";
+import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
+import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
-import ReplyToReply3 from "./ReplyToReply3";
 import ReplyLike from "./ReplyLike";
+import ReplyToReply3 from "./ReplyToReply3";
 
 const ReplyToReply2 = ({
+  fromNew,
   handleAddToBeat,
   setCommentText,
   childReply,
@@ -64,6 +68,8 @@ const ReplyToReply2 = ({
   const [likeReply, likeReplyRes] = useUpdateLikeOfReplyMutation();
   const [deleteReply, deleteReplyRes] = useDeleteLikeOfReplyMutation();
   const [createReplyMutation, isReplyResInfo] = useCreateReplyMutation();
+  const [translateComment, isTranslationCommentLoading] =
+    useTranslateCommentMutation();
   const replyToReplyRef = useRef(null);
   const {
     data: profileImg,
@@ -176,6 +182,20 @@ const ReplyToReply2 = ({
 
   const [suggestion, suggestionRes] = useCreateSuggestedReplyMutation();
 
+  const checkSuggestAllowance = async (text) => {
+    setSuggestDisable(true);
+    const res = await fetchUserAccess(
+      `${currentUser?.id}/PP_AllowBrainstoming`
+    );
+    console.log(`PP_AllowBrainstoming res`, res);
+    if (res?.access == "No") {
+      setSuggestDisable(false);
+      setNoAccessLbPopup(res);
+    } else {
+      handleSuggest(text);
+    }
+  };
+
   const handleSuggest = async (text) => {
     const cleanedText = text.includes(":") ? text.split(":")[1].trim() : text;
     console.log("suggestion text from reply 2", cleanedText);
@@ -228,7 +248,10 @@ const ReplyToReply2 = ({
 
   const handleChildReply = async () => {
     console.log("reply child comment", currentUser?.id, owner, reply);
-    if (currentUser?.id !== owner && reply?.user?.first_name == "Ida") {
+    if (
+      currentUser?.id !== owner &&
+      (reply?.user?.id == 1 || reply?.user?.id == 79)
+    ) {
       const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
       console.log("reply child 1 brainstorm res", res);
       if (res?.access == "No") {
@@ -242,7 +265,11 @@ const ReplyToReply2 = ({
   };
   return (
     <>
-      <div className="w-full max-w-[593px] ml-[0px]">
+      <div
+        className={`w-full  ml-[0px] ${
+          fromNew ? "max-w-[97%]" : "max-w-[593px]"
+        }`}
+      >
         <div className="flex gap-[8px]">
           <div className="flex flex-col items-center gap-1">
             {replyBy?.id === 1 ? (
@@ -345,30 +372,42 @@ const ReplyToReply2 = ({
                 : childReply?.text}
             </p>
           </div>{" "}
-          {(owner === user || replyBy?.id === user) &&
-          !childReply?.reject_button ? (
-            <div className="flex gap-2 items-center pl-[2px]">
-              <button
-                // data-reply-reply
-                // disabled={disableD}
-                onClick={() => {
-                  setIdToDlt(currentReplyId);
-                  setOpenDltPop(true);
-                }}
-              >
-                <FaRegTrashAlt
-                  //   disabled={disableBtn}
-                  className="h-5 w-5 text-[#909090]"
-                />
-              </button>
-            </div>
-          ) : (
-            <div className={`px-3 'cursor-default'}`}>
-              <div className="" />
-            </div>
-          )}
+          <div className="  flex flex-col md:flex-row justify-center gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
+            <CommentTranslator
+              comment={childReply}
+              translateComment={translateComment}
+              loading={isTranslationCommentLoading}
+              commentRefetch={replyRefetch}
+            />
+            {(owner === user || replyBy?.id === user) &&
+            !childReply?.reject_button ? (
+              <div className="flex gap-2 items-center pl-[2px]">
+                <button
+                  // data-reply-reply
+                  // disabled={disableD}
+                  onClick={() => {
+                    setIdToDlt(currentReplyId);
+                    setOpenDltPop(true);
+                  }}
+                >
+                  <FaRegTrashAlt
+                    //   disabled={disableBtn}
+                    className="h-5 w-5 text-[#909090]"
+                  />
+                </button>
+              </div>
+            ) : (
+              <div className={`px-3 'cursor-default'}`}>
+                <div className="" />
+              </div>
+            )}
+          </div>
         </div>
-        <div className="flex justify-between items-center w-[81%] mr-[24px] md:mr-[29px] ml-auto mb-[2px] md:mb-[2px]   ">
+        <div
+          className={`flex justify-between items-center w-[81%] mr-[24px] ml-auto mb-[2px] md:mb-[2px] ${
+            fromNew ? " md:mr-[51px]" : " md:mr-[29px]"
+          }  `}
+        >
           <div className="md:flex items-center hidden md:ml-[-40px] gap-3 leading-[16px] mt-[2px] mb-[4px]">
             <>
               {childReply?.child_replies?.length > 0 && (
@@ -456,7 +495,7 @@ const ReplyToReply2 = ({
                           ) : (
                             <button
                               className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-pointer"
-                              onClick={() => handleSuggest(reply?.text)}
+                              onClick={() => checkSuggestAllowance(reply?.text)}
                             >
                               <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
                                 Suggestion
@@ -571,7 +610,7 @@ const ReplyToReply2 = ({
                       ) : (
                         <button
                           className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-pointer"
-                          onClick={() => handleSuggest(reply?.text)}
+                          onClick={() => checkSuggestAllowance(reply?.text)}
                         >
                           <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
                             Suggestion
@@ -694,6 +733,7 @@ const ReplyToReply2 = ({
                 depth < 2 && ( // Limit the recursion depth to 2
                   <ReplyToReply3
                     // data-reply-reply
+                    fromNew={fromNew}
                     commentIdx={commentIdx}
                     replyToCommentID={replyToCommentID}
                     childReply={childReply}
@@ -713,6 +753,14 @@ const ReplyToReply2 = ({
         <NoAccessPopUp
           noAccessPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
+        />
+      )}
+      {(noAccessLbPopup?.msg == "LB" ||
+        noAccessLbPopup?.msg == "ShowBuyPackage_and_Allacarte") && (
+        <NoAccessLbPopUp
+          noAccessLbPopup={noAccessLbPopup}
+          setNoAccessPopup={setNoAccessLbPopup}
+          service={`PP_Brainstrom`}
         />
       )}
     </>
