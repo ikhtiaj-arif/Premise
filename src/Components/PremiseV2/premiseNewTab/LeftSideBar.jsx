@@ -46,7 +46,8 @@ const LeftSideBar = ({
   characterRefetch,
   handleSearch,
   currentCommentRef,
-  handleOpenAllReplies,setSearchTerm
+  handleOpenAllReplies,
+  setSearchTerm,
 }) => {
   const {
     bg_img,
@@ -270,7 +271,7 @@ const LeftSideBar = ({
         <div className="relative h-full shadow-md pl-3 rounded-md">
           <div className="lg:pr-12 pb-12 overflow-y-scroll">
             {/* header */}
-            <PremiseTopHeader {...{ handleSearch, id , setSearchTerm}} />
+            <PremiseTopHeader {...{ handleSearch, id, setSearchTerm }} />
             <div>
               {/* premise card top */}
               <PremiseTopAccess
@@ -359,7 +360,7 @@ const LeftSideBar = ({
                 {/* visible to  */}
                 {premiseOwner?.id === user && (
                   <div className="mt-1">
-                    <div className="heading w-full  flex justify-between items-center">
+                    <div className="  w-full  flex justify-between items-center">
                       <p className="text-[#616161] font-[700] text-[16px] leading-6">
                         Visible to
                       </p>
@@ -387,7 +388,7 @@ const LeftSideBar = ({
                 {/* characters */}
                 {premiseOwner?.id === user && (
                   <div className="mt-1">
-                    <div className="heading w-full flex justify-between items-center">
+                    <div className="  w-full flex justify-between items-center">
                       <p className="text-[#616161] font-[700] text-[16px] leading-6">
                         Characters
                       </p>
@@ -460,7 +461,7 @@ const LeftSideBar = ({
                 {/* visible to  */}
                 {premiseOwner?.id === user && (
                   <div className="mt-1">
-                    <div className="heading w-full  flex justify-between items-center">
+                    <div className="  w-full  flex justify-between items-center">
                       <p className="text-[#616161] font-[700] text-[16px] leading-6">
                         Visible to
                       </p>
@@ -488,7 +489,7 @@ const LeftSideBar = ({
                 {/* characters */}
                 {premiseOwner?.id === user && (
                   <div className="mt-1">
-                    <div className="heading w-full flex justify-between items-center">
+                    <div className="  w-full flex justify-between items-center">
                       <p className="text-[#616161] font-[700] text-[16px] leading-6">
                         Characters
                       </p>

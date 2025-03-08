@@ -230,7 +230,7 @@ const HideOptionPop = ({
                   <input
                     type="radio"
                     name="radio-2"
-                    className="radio radio-primary h-4 w-4"
+                    className=""
                     checked={option === "visible_all"}
                     readOnly
                   />
@@ -259,7 +259,7 @@ const HideOptionPop = ({
                   <input
                     type="radio"
                     name="radio-2"
-                    className="radio radio-primary h-4 w-4"
+                    className=""
                     checked={option === "show_buddies"}
                     readOnly
                   />
@@ -288,7 +288,7 @@ const HideOptionPop = ({
                   <input
                     type="radio"
                     name="radio-2"
-                    className="radio radio-primary h-4 w-4"
+                    className=""
                     checked={option === "visible_to"}
                     readOnly
                   />
@@ -316,7 +316,7 @@ const HideOptionPop = ({
                   <input
                     type="radio"
                     name="radio-2"
-                    className="radio radio-primary h-4 w-4"
+                    className=""
                     checked={option === "hide_from_all"}
                     readOnly
                   />
