@@ -119,7 +119,6 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
       });
   };
 
-
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-end md:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
@@ -239,97 +238,62 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
         ) : !showCongratsPopup ? (
           <div
             id="bank_details"
-            className="flex flex-col gap-[6px] mt-[8px] w-full sm:w-[386px] md:ml-[76px]"
+            className="flex flex-col gap-[6px] mt-[8px] w-[386px] md:ml-[76px]"
           >
             <p className="text-[14px] leading-[16.8px] text-[#252525] font-[600] py-[12px]">
-              Please provide your bank details below:
+              Please provide your bank details below :
             </p>
-            <div className="flex justify-between items-center">
-              <label
-                className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
-                htmlFor="bank_name"
-              >
-                Bank Name:<span className="text-red-500"> *</span>
-              </label>
-              <input
-                name="bank_name"
-                placeholder="bank name"
-                type="text"
-                value={bankDetails.bank_name}
-                onChange={handleInputChange}
-                className="w-full sm:w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
-              />
-            </div>
-            <div className="flex justify-between items-center">
-              <label
-                className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
-                htmlFor="account_holder"
-              >
-                Account Holder:<span className="text-red-500"> *</span>
-              </label>
-              <input
-                name="account_holder"
-                placeholder="account holder"
-                type="text"
-                value={bankDetails.account_holder}
-                onChange={handleInputChange}
-                className="w-full sm:w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
-              />
-            </div>
-            <div className="flex justify-between items-center">
-              <label
-                className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
-                htmlFor="account_number"
-              >
-                Account Number:<span className="text-red-500"> *</span>
-              </label>
-              <input
-                name="account_number"
-                placeholder="account number"
-                type="text"
-                value={bankDetails.account_number}
-                onChange={handleInputChange}
-                className="w-full sm:w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
-              />
-            </div>
-            <div className="flex justify-between items-center">
-              <label
-                className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
-                htmlFor="ifsc_code"
-              >
-                IFSC Code:<span className="text-red-500"> *</span>
-              </label>
-              <input
-                name="ifsc_code"
-                placeholder="ifsc code"
-                type="text"
-                value={bankDetails.ifsc_code}
-                onChange={handleInputChange}
-                className="w-full sm:w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
-              />
-            </div>
-            <div className="flex justify-between items-center">
-              <label
-                className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
-                htmlFor="swift_code"
-              >
-                SWIFT Code:
-              </label>
-              <input
-                name="swift_code"
-                placeholder="swift code"
-                type="text"
-                value={bankDetails.swift_code}
-                onChange={handleInputChange}
-                className="w-full sm:w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
-              />
-            </div>
+            {[
+              { label: "Bank Name", name: "bank_name", required: true },
+              {
+                label: "Account Holder",
+                name: "account_holder",
+                required: true,
+              },
+              {
+                label: "Account Number",
+                name: "account_number",
+                required: true,
+              },
+              { label: "IFSC Code", name: "ifsc_code", required: true },
+              { label: "SWIFT Code", name: "swift_code", required: false },
+            ].map(({ label, name, required }) => (
+              <div className="flex justify-between items-center" key={name}>
+                <label
+                  className="text-[14px] leading-[16.8px] text-[#252525] font-[500]"
+                  htmlFor={name}
+                >
+                  {label}
+                  {required && (
+                    <>
+                      :<span className="text-red-500"> *</span>
+                    </>
+                  )}
+                </label>
+                <input
+                  name={name}
+                  placeholder={label.toLowerCase()}
+                  type="text"
+                  value={bankDetails[name] || ""}
+                  onChange={handleInputChange}
+                  className="w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
+                  maxLength={name === "ifsc_code" ? 11 : undefined}
+                  pattern="[A-Za-z0-9]*"
+                  title={
+                    name === "ifsc_code"
+                      ? "IFSC Code must be exactly 11 alphanumeric characters"
+                      : "Only alphanumeric characters are allowed"
+                  }
+                  required={required}
+                />
+              </div>
+            ))}
             <button
-              disabled={!isFormValid || isSaleLoading}
               onClick={handleProceed}
+              disabled={!isFormValid}
               className={`${
-                !isFormValid || isSaleLoading
-                  ? "bg-[#ACDDE7] cursor-not-allowed"
+                !isFormValid
+                  ? "bg-[#ACDDE7]  cursor-not-allowed"
                   : "bg-[#33B0CA]"
               } w-[88px] mt-[20px] mx-auto text-[#fafafa] rounded-[8px] leading-[24px] px-[12px] py-[2px] text-[13px] font-[600]`}
             >

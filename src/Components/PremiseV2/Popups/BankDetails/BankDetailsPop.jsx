@@ -279,6 +279,14 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
                     value={bankDetails[name] || ""}
                     onChange={handleInputChange}
                     className="w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
+                    maxLength={name === "ifsc_code" ? 11 : undefined}
+                    pattern="[A-Za-z0-9]*"
+                    title={
+                      name === "ifsc_code"
+                        ? "IFSC Code must be exactly 11 alphanumeric characters"
+                        : "Only alphanumeric characters are allowed"
+                    }
+                    required={required}
                   />
                 </div>
               ))}

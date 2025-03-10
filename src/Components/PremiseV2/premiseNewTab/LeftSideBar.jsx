@@ -269,7 +269,7 @@ const LeftSideBar = ({
       </div>
       <div className="lg:w-[368px] w-full relative ">
         <div className="relative h-full shadow-md pl-3 rounded-md">
-          <div className="lg:pr-12 pb-12 overflow-y-scroll">
+          <div className="lg:pr-12 h-full pb-12 overflow-y-scroll">
             {/* header */}
             <PremiseTopHeader {...{ handleSearch, id, setSearchTerm }} />
             <div>

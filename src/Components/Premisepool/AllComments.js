@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
-import { FaRegTrashAlt, FaThumbsUp } from "react-icons/fa";
+import { FaRegTrashAlt } from "react-icons/fa";
 import { IoIosUndo, IoMdSend } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -15,9 +15,7 @@ import { useTranslateCommentMutation } from "../../app/EndPoints/comments/commen
 import { useBeatSuggestionMutation } from "../../app/EndPoints/MemberPage/Buddies";
 import {
   useDeleteCommentMutation,
-  useGetPremiseUserPictureQuery,
-  useLikeCommentMutation,
-  useRemoveLikeCommentMutation,
+  useGetPremiseUserPictureQuery
 } from "../../app/EndPoints/premisePoolApi";
 import { useGetMyAllProjectQuery } from "../../app/EndPoints/ScriptPad/project";
 import TimeAgo from "../../features/TimeAgo";
@@ -26,13 +24,13 @@ import BtnLoading from "../../shared/BtnLoading";
 import CommentTranslator from "../PremiseV2/components/CommentTranslator";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
+import CommentLike from "../SharedVersion/CommentLike";
 import { URL } from "../utils";
 import BeatEditPop from "./AddToBeat/BeatEditPop";
 import CommentLikePopup from "./CommentLikePopup";
 import ConfirmationModal from "./Comments/ConfirmationModal";
 import ReplyToComments from "./Comments/ReplyToComments";
 import UserType from "./UserType";
-import CommentLike from "../SharedVersion/CommentLike";
 
 const AllComments = ({
   commentIdx,
@@ -967,7 +965,7 @@ const AllComments = ({
                 </div>
               )}
 
-              <div className={`absolute flex flex-col md:flex-row gap-2 items-center ${fromNew ? "right-[8.5px] md:right-[38.5px]":"right-0"}  top-[18%] md:top-[28%]`}>
+              <div className={`absolute flex flex-col md:flex-row gap-2 items-center ${fromNew ? "right-[8.5px] xl:right-[38.5px]":"right-0"}  top-[18%] md:top-[28%]`}>
                 <CommentTranslator
                   comment={comments}
                   translateComment={translateComment}

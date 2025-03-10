@@ -651,9 +651,10 @@ const PremisePreview2 = ({
       formData.append("geography", geographyItem);
       formData.append("protagonist_type", protagonist);
       formData.append("protagonist_name", protagonistName);
-      if (protagonist !== "Inanimate Object") {
-        formData.append("protagonist_age", protaAge);
+      if (protagonist === "Inanimate Object") {
+        setProtaAge(0)
       }
+      formData.append("protagonist_age", protaAge);
 
       const previewData = {
         // id: data?.id,
@@ -1059,6 +1060,12 @@ const PremisePreview2 = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  // Watch for changes in protagonist and update protaAge if necessary
+useEffect(() => {
+  if (protagonist === "Inanimate Object") {
+    setProtaAge(0); // Set protaAge to empty string when protagonist is "Inanimate Object"
+  }
+}, [protagonist]);
 
   const formValid =
   natureOfProject &&
@@ -1068,10 +1075,10 @@ const PremisePreview2 = ({
   geographyItem &&
   protagonist &&
   protagonistName &&
+  // If protagonist is not "Inanimate Object", ensure protaAge is set
   ((protagonist !== "Inanimate Object" && protaAge) || protagonist === "Inanimate Object") &&
   ((["TV series", "Web series"].includes(natureOfProject) && noOfEpi) ||
     (!["TV series", "Web series"].includes(natureOfProject) && duration));
-
 
   const handleSelectChange = (e) => {
     setPeriodSetIn(e.target.value);

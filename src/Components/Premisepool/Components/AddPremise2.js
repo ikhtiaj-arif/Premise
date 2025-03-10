@@ -223,7 +223,7 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
                         disabled={confirmDisable}
                         type="submit"
                         className={`${
-                          confirmDisable ? "bg-[#616161]" : "bg-[#33B0CA]"
+                          confirmDisable ? "bg-[#ACDDE7]" : "bg-[#33B0CA]"
                         }  text-white rounded-[8px] h-[32px] px-[12px] text-[14px] font-[600] flex gap-[12px] items-center `}
                       >
                         Next <img src={arrowRight} alt="" />
@@ -233,7 +233,7 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
                         disabled={confirmDisable}
                         type="submit"
                         className={`${
-                          confirmDisable ? "bg-[#616161]" : "bg-[#33B0CA]"
+                          confirmDisable ? "bg-[#ACDDE7]" : "bg-[#33B0CA]"
                         }  text-white rounded-[8px] h-[32px] px-[23px] text-[14px] font-[600] flex gap-[12px] items-center `}
                       >
                         Next
