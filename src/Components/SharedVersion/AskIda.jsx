@@ -85,27 +85,27 @@ const AskIda = ({
 
         //   setIsLoading(false);
         // } else {
-          setIsLoading(false);
+        setIsLoading(false);
 
-          // here scroll all the way down to a div using ref
-          setTimeout(() => {
-            commentRefetch(); // Refetch the comments after adding the new one
-            setOpenAllReplies(true);
-            setOpenReplyFieldID(res?.data?.id);
-          }, 1000);
+        // here scroll all the way down to a div using ref
+        setTimeout(() => {
+          commentRefetch(); // Refetch the comments after adding the new one
+          setOpenAllReplies(true);
+          setOpenReplyFieldID(res?.data?.id);
+        }, 1000);
 
-          setTimeout(() => {
-            if (lastCommentRef.current) {
-              lastCommentRef.current.scrollTo({
-                top: lastCommentRef.current.scrollHeight,
-                behavior: "smooth",
-              });
-            }
-            toast.success("Comment added!", {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: 1600,
+        setTimeout(() => {
+          if (lastCommentRef.current) {
+            lastCommentRef.current.scrollTo({
+              top: lastCommentRef.current.scrollHeight,
+              behavior: "smooth",
             });
-          }, 1100);
+          }
+          toast.success("Comment added!", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 1600,
+          });
+        }, 1100);
         // }
       }
     } catch (error) {
@@ -120,7 +120,7 @@ const AskIda = ({
 
   return (
     <div>
-      <div className="my-1 text-center">
+      <div className="my-1 text-center ">
         <button
           disabled={isLoading}
           onClick={handleButtonClick}
