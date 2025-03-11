@@ -17,6 +17,31 @@
 input[type="radio"]:checked {
   background-color: #33b0ca;
 }
+input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #33b0ca;
+  border-radius: 3px;
+  display: inline-block;
+  position: relative;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #33b0ca;
+  border: none;
+}
+
+input[type="checkbox"]:checked::before {
+  content: "✔";
+  color: white;
+  position: absolute;
+  top: -6px;
+  left: 2px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
 
 input[type="number"] {
   -moz-appearance: textfield;
