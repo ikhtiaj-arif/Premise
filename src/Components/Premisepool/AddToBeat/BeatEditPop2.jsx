@@ -698,7 +698,7 @@ const BeatEditPop = ({
                             </h5>
                           </div>
                         )}
-                        <div className="pt-[4px] text-[12px] font-[600] pb-[6px] pl-[11px] flex gap-[10px]">
+                        <div className="pt-[4px] text-[12px] font-[600] pb-[6px] pl-[11px] flex items-center gap-[10px]">
                           <input
                             type="checkbox"
                             name=""
