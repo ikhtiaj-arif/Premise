@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
+import { fetchUserAccess, MyContext } from "../../../App";
 import {
   useDeleteCharacterMutation,
   useGetSavedCharactersQuery,
 } from "../../../app/EndPoints/Characters/Characters";
+import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import ConfirmationModal from "../Comments/ConfirmationModal";
 import CharacterShowCard from "./Card";
 import SingleCharacterAdd from "./SingleCharacterAdd";
 import SingleCharacterEdit from "./SingleCharacterEdit";
-import { fetchUserAccess, MyContext } from "../../../App";
-import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 
 const CharacterEditablePop = ({
   setCharacterEditPop,
@@ -173,7 +173,7 @@ const CharacterEditablePop = ({
   const handleAddNewChar = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_AddCharacters`);
     console.log("add char res", res);
-    if (res?.access == "No") {
+    if (res?.access === "No") {
       setAddNewCharacter(res);
     } else {
       setAddNewCharacter("Yes");
@@ -207,7 +207,8 @@ const CharacterEditablePop = ({
           <span className="">
             {getTextFromValue(currentProjectData?.duration)}
           </span>{" "}
-          <span className="">{currentProjectData?.nature_project}</span>
+          <span className="">{currentProjectData?.nature_project}</span>{" "}
+          <span className="">{currentProjectData?.name}</span>
         </h3>
 
         {/* 3 Column Layout */}
@@ -266,7 +267,10 @@ const CharacterEditablePop = ({
       </div>
       <div>
         {addNewCharacter?.msg == "ShowBecomePrivilege" && (
-          <NoAccessPopUp noAccessPopup={addNewCharacter} setNoAccessPopup={setAddNewCharacter} />
+          <NoAccessPopUp
+            noAccessPopup={addNewCharacter}
+            setNoAccessPopup={setAddNewCharacter}
+          />
         )}
         {addNewCharacter == "Yes" && (
           <SingleCharacterAdd

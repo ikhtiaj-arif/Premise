@@ -1135,7 +1135,7 @@ const AllComments = ({
         <BeatEditPop
           project_id={project_id}
           popClose={() => setProjectBeatOpen(false)}
-          commentText={commentText}
+        commentText={commentText}
           commentObj={commentObj}
           commentRefetch={commentRefetch}
           replyRefetch={replyRefetch}
@@ -1150,7 +1150,7 @@ const AllComments = ({
           // currentPremiseProject={currentPremiseProject}
         />
       )}
-      {noAccessLbPopup?.msg == "ShowBecomePrivilege" && (
+      {noAccessLbPopup?.msg === "ShowBecomePrivilege" && (
         <NoAccessPopUp
           noAccessPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}

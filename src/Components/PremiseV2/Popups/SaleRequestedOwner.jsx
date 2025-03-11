@@ -118,6 +118,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
         console.log(error);
       });
   };
+  console.log(fromUser);
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-end md:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
@@ -158,9 +159,11 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
         {!showBankDetails ? (
           <div className="md:pr-[12px] mt-[17px] w-full sm:w-[542px] md:ml-[40px]">
             <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
-              {fromUser?.first_name} {fromUser?.last_name} is interested in
-              buying this Premise Project. If you choose to sell this Premise
-              Project
+              {fromUser?.first_name
+                ? `${fromUser.first_name} ${fromUser?.last_name || ""}`
+                : fromUser?.email?.split("@")[0]}{" "}
+              is interested in buying this Premise Project. If you choose to
+              sell this Premise Project
             </p>
             <ul className="ml-[24px]">
               <li className="text-left text-[14px] leading-[21px] font-[400] text-[#616161] list-disc">

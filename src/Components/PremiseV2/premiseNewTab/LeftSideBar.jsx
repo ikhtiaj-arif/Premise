@@ -230,7 +230,7 @@ const LeftSideBar = ({
 
   return (
     <>
-      <div className="fixed bottom-8 z-10 w-[96%] mx-auto md:hidden">
+      <div className="fixed bottom-8  w-[96%] mx-auto md:hidden">
         <AskIda
           {...{
             id,
