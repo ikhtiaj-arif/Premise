@@ -136,7 +136,8 @@ const Pkeyboard = forwardRef(({ inputRef, sourcesLanguage }, ref) => {
 
     // Ensure activeElement is an input field
     if (!activeElement || activeElement.tagName !== "INPUT") return;
-    if (activeElement.type !== "text" || activeElement.id === "numberField") return
+    if (activeElement.type === "number") return;
+    if (activeElement.id === "numberField") return
     const startPos = activeElement.selectionStart ?? 0;
     const endPos = activeElement.selectionEnd ?? 0;
     const inputValue = activeElement.value ?? "";
