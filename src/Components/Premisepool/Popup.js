@@ -475,16 +475,17 @@ const Popup = ({
                             user_type={premiseOwner?.centraldatabase?.user_type}
                           />
                         </div>
-                        <p className="text-[#616161] text-[10px] flex flex-col font-[400] leading-[12px]">
+                        <p className="text-[#616161] text-[10px] flex flex-col font-[400] leading-[12px] mt-[-3px]">
+                        <p>
+                            {formattedDate}, {formattedTime}
+                          </p>
                           {(premiseOwner?.id === user ||
                             premiseOwner?.id === currentProjectOwner) && (
                             <p className="notranslate">
                               {currentProjectName?.slice(0, 20)}
                             </p>
                           )}
-                          <p>
-                            {formattedDate}, {formattedTime}
-                          </p>
+                         
                         </p>
                       </div>
                     </div>
@@ -590,7 +591,7 @@ const Popup = ({
                 
               
               </div>
-              <div className="hidden md:block md:absolute bottom-3 w-full">
+              <div className="hidden lg:block md:absolute bottom-3 w-full">
                   <AskIda
                     id={premiseId}
                     {...{
@@ -702,7 +703,7 @@ const Popup = ({
               </div>
 
               {/* comment and reply div mobile */}
-              <div className="md:hidden h-[10vh] md:h-[116px] flex flex-col justify-between">
+              <div className="lg:hidden h-[10vh] md:h-[116px] flex flex-col justify-between">
                 <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" />{" "}
                 <div className="fixed bottom-[18px] left-0 w-[100%] md:relative md:bottom-0 md:w-auto px-2 ">
                   <AskIda
