@@ -34,11 +34,11 @@ import MonetizePreferencePop from "../Popups/MonetizePreferencePop";
 import PaySalePopup from "../Popups/PaySalePopup";
 import ReqSalePop from "../Popups/ReqSalePop";
 import ReqTranslationPop from "../Popups/ReqTranslationPop";
+import SaleRequestedOwner from "../Popups/SaleRequestedOwner";
 import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
 import CardHeadOptions from "./CardHeadOptions";
 import PremiseBadge from "./PremiseBadge";
-import SaleRequestedOwner from "../Popups/SaleRequestedOwner";
 
 const PremiseCardV2 = ({
   setShowRefine,
@@ -368,7 +368,7 @@ const PremiseCardV2 = ({
     project_id,
     m_value: p?.m_value,
   };
-
+  console.log("premiseOwner", premiseOwner);
   // hidden,
   // index,
   // premiseOwner,
@@ -410,7 +410,9 @@ const PremiseCardV2 = ({
               <div>
                 <div className="flex items-center">
                   <h4
-                    className={`notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate ${premise_source_id ? "w-[75px]" : "w-[110px]"}`}
+                    className={`notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate ${
+                      premise_source_id ? "w-[75px]" : "w-[110px]"
+                    }`}
                     title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
                   >
                     {premiseOwner?.first_name} {premiseOwner?.last_name}

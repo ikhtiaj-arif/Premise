@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import {
-  useGetOnePremiseQuery,
-  useGetUserByUserIdQuery,
-} from "../../../app/EndPoints/premisePoolApi";
+import { useGetOnePremiseQuery } from "../../../app/EndPoints/premisePoolApi";
 import Popup from "../../Premisepool/Popup";
 import { getLanguageName } from "../utilityFuncitons/functions";
 
@@ -52,9 +49,9 @@ const EachTranslateeCard = ({
         dText: premiseData?.text?.includes("+")
           ? premiseData?.text?.split("+")[1]
           : "",
-        viewText: premiseData?.text?.includes("+")
-          ? premiseData?.text?.split("+")[1]
-          : "",
+        // viewText: premiseData?.text?.includes("+")
+        //   ? premiseData?.text?.split("+")[1]
+        //   : "",
         project_id: premiseData?.pro_uuid || "",
         m_value: premiseData?.m_value || "",
       }
@@ -69,7 +66,6 @@ const EachTranslateeCard = ({
             popClose,
             handleVisibility,
             handleMonetizing,
-            viewText,
           }}
           data={data}
         />

@@ -3,6 +3,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { toast, ToastContainer } from "react-toastify";
 import { MyContext } from "../../../App";
 import {
+  useGetOnePremiseQuery,
   useGetPremiseUserQuery,
   useTranslatePremiseV2Mutation,
 } from "../../../app/EndPoints/premisePoolApi";
@@ -28,6 +29,13 @@ const AvailableForTranslationPop = ({
   const [openPop, setOpenPop] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const { projectRefetch } = useContext(MyContext);
+  const {
+    data: premiseData,
+    isPremiseLoading,
+    refetch: premiseRefetch,
+  } = useGetOnePremiseQuery(id);
+  const availableLanguages = premiseData?.available_for_translate_languages;
+  console.log("xxxxxxx", availableLanguages);
 
   const {
     data: userQuery,
@@ -128,7 +136,7 @@ const AvailableForTranslationPop = ({
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
-      <div className=" h-[40vh] lg:h-[204px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[430px]  md:mx-auto relative lg:rounded-[8px]">
+      <div className=" h-[40vh] lg:h-[204px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[461px]  md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
         <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
           <img
@@ -161,8 +169,8 @@ const AvailableForTranslationPop = ({
             <option className="" value="" selected disabled>
               Choose the language for translation.
             </option>
-            {Object.entries(sortedLanguages)?.map(([key, name]) =>
-              key !== source_language ? (
+            {Object.entries(sortedLanguages).map(([key, name]) =>
+              availableLanguages?.includes(key) && key !== source_language ? (
                 <option key={key} value={key}>
                   {name}
                 </option>
@@ -173,7 +181,7 @@ const AvailableForTranslationPop = ({
             <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
           </div>
         </div>
-        <div className="w-[100px] mx-auto mt-[12px]">
+        <div className="w-[100px] mx-auto my-4">
           <button
             onClick={handlePayNow}
             disabled={!targetLanguage || isProcessing} // Disable if no language is selected or already processing
@@ -192,7 +200,8 @@ const AvailableForTranslationPop = ({
         <PaymentInvoicePopup
           typeOfRequest="translate"
           premise_id={id}
-          setPayment={setPayment} popClose={popClose}
+          setPayment={setPayment}
+          popClose={popClose}
           submit={handleTranslationSubmit}
         />
       )}

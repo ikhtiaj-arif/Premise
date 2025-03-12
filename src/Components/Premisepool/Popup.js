@@ -435,7 +435,7 @@ const Popup = ({
 
           <div className="flex flex-col gap-[21px] lg:gap-[32px] lg my-auto lg:flex-row lg:justify-center ">
             {/* left div */}
-            <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[86%] sm:w-[80%] md:w-[33%] max-w-[356px] h-[33vh] lg:h-[500px] xl:h-[546px] 2xl:h-[610px] lg:mt-[26px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[32px] xl:ml-[32px] rounded-[8px]">
+            <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[92%] sm:w-[80%] md:w-[33%] max-w-[356px] h-[30vh] lg:h-[500px] xl:h-[546px] 2xl:h-[610px] lg:mt-[26px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[32px] xl:ml-[32px] rounded-[8px]">
               {/* header */}
               <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-[15px] pt-[15px] pb-[6px]">
         <div className="block ">
@@ -475,16 +475,17 @@ const Popup = ({
                             user_type={premiseOwner?.centraldatabase?.user_type}
                           />
                         </div>
-                        <p className="text-[#616161] text-[10px] flex flex-col font-[400] leading-[12px]">
+                        <p className="text-[#616161] text-[10px] flex flex-col font-[400] leading-[12px] mt-[-3px]">
+                        <p>
+                            {formattedDate}, {formattedTime}
+                          </p>
                           {(premiseOwner?.id === user ||
                             premiseOwner?.id === currentProjectOwner) && (
                             <p className="notranslate">
                               {currentProjectName?.slice(0, 20)}
                             </p>
                           )}
-                          <p>
-                            {formattedDate}, {formattedTime}
-                          </p>
+                         
                         </p>
                       </div>
                     </div>
@@ -590,7 +591,7 @@ const Popup = ({
                 
               
               </div>
-              <div className="hidden md:block md:absolute bottom-3 w-full">
+              <div className="hidden lg:block md:absolute bottom-3 w-full">
                   <AskIda
                     id={premiseId}
                     {...{
@@ -702,9 +703,9 @@ const Popup = ({
               </div>
 
               {/* comment and reply div mobile */}
-              <div className="md:hidden h-[10vh] md:h-[116px] flex flex-col justify-between">
+              <div className="lg:hidden h-[10vh] md:h-[116px] flex flex-col justify-between">
                 <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" />{" "}
-                <div className="fixed bottom-[10px] left-0 w-[100%] md:relative md:bottom-0 md:w-auto px-2 ">
+                <div className="fixed bottom-[18px] left-0 w-[100%] md:relative md:bottom-0 md:w-auto px-2 ">
                   <AskIda
                     id={premiseId}
                     {...{
@@ -731,7 +732,7 @@ const Popup = ({
                       setCommentField,
                       setReplyField,
                       replyField,
-                      replyRef,
+                      replyRef,setIsLoading
                     }}
                   />
                 </div>

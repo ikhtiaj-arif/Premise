@@ -27,6 +27,7 @@ import Uyghur from "../Keyboard/Uyghur";
 import './Premise.css';
 
 const Keyboard = ({ selectedLanguage, setText, inputRef }) => {
+  
   return (
     <div className="notranslate">
       <div className="notranslate">

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
-import { FaRegTrashAlt, FaThumbsUp } from "react-icons/fa";
+import { FaRegTrashAlt } from "react-icons/fa";
 import { IoIosUndo, IoMdSend } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -16,8 +16,6 @@ import { useBeatSuggestionMutation } from "../../app/EndPoints/MemberPage/Buddie
 import {
   useDeleteCommentMutation,
   useGetPremiseUserPictureQuery,
-  useLikeCommentMutation,
-  useRemoveLikeCommentMutation,
 } from "../../app/EndPoints/premisePoolApi";
 import { useGetMyAllProjectQuery } from "../../app/EndPoints/ScriptPad/project";
 import TimeAgo from "../../features/TimeAgo";
@@ -26,13 +24,13 @@ import BtnLoading from "../../shared/BtnLoading";
 import CommentTranslator from "../PremiseV2/components/CommentTranslator";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
+import CommentLike from "../SharedVersion/CommentLike";
 import { URL } from "../utils";
 import BeatEditPop from "./AddToBeat/BeatEditPop";
 import CommentLikePopup from "./CommentLikePopup";
 import ConfirmationModal from "./Comments/ConfirmationModal";
 import ReplyToComments from "./Comments/ReplyToComments";
 import UserType from "./UserType";
-import CommentLike from "../SharedVersion/CommentLike";
 
 const AllComments = ({
   commentIdx,
@@ -63,9 +61,8 @@ const AllComments = ({
   actTwoEnd,
   focusedCValue,
   iconWidth,
-  inpRightMargin
+  inpRightMargin,
 }) => {
-
   // const actTwoStart = Math.floor(0.25 * m_value);
 
   // const resolutionStart = Math.floor(0.8 * m_value);
@@ -159,7 +156,6 @@ const AllComments = ({
   const commentOwnerMail = comments?.user?.email;
   const modifiedEmail = commentOwnerMail?.split("@")[0];
   const owner = data?.premiseOwner?.id;
-  
 
   const {
     data: profileImg,
@@ -201,7 +197,6 @@ const AllComments = ({
   }, [comments]);
 
   //for comment
-  
 
   useEffect(() => {
     if (commentOwnerName?.length > 1) {
@@ -238,12 +233,14 @@ const AllComments = ({
 
   const checkSuggestAllowance = async (text) => {
     setSuggestDisable(true);
-    const res = await fetchUserAccess(`${currentUser?.id}/PP_AllowBrainstoming`);
+    const res = await fetchUserAccess(
+      `${currentUser?.id}/PP_AllowBrainstoming`
+    );
     console.log(`PP_AllowBrainstoming res`, res);
     if (res?.access == "No") {
       setSuggestDisable(false);
       setNoAccessLbPopup(res);
-      setService('PP_Brainstrom')
+      setService("PP_Brainstrom");
     } else {
       handleSuggest(text);
     }
@@ -331,14 +328,14 @@ const AllComments = ({
   // console.log("comments",comments);
   const handleAddToBeat = async (comment) => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_BeatSheet`);
-      console.log("add to beat res", res);
-      if (res?.access == "No") {
-        setNoAccessLbPopup(res);
-        setService('PP_Beats')
-      } else {
-        submitAddToBeat(comment);
-      }
-  }
+    console.log("add to beat res", res);
+    if (res?.access == "No") {
+      setNoAccessLbPopup(res);
+      setService("PP_Beats");
+    } else {
+      submitAddToBeat(comment);
+    }
+  };
   const submitAddToBeat = async (comment) => {
     // console.log("comment",comment);
 
@@ -407,8 +404,6 @@ const AllComments = ({
 
   const hasAReply = replyData?.length >= 1;
 
-
-
   const handleReplyToggle = async (c, commentOwnerName) => {
     //console.log('reply comment',c,commentOwnerName,c?.user?.first_name==='Ida',currentUser,data?.premiseOwner);
 
@@ -455,6 +450,10 @@ const AllComments = ({
   //   "commentOwner:",
   //   comments?.user?.id
   // );
+
+  console.log("premiseData", premiseData);
+  console.log("premiseData2", user);
+  console.log("premiseData3", comments?.user?.id);
 
   return (
     <div className=" flex flex-col justify-end w-full relative ">
@@ -656,94 +655,38 @@ const AllComments = ({
                     )}
                     {commentIdx === 1 ? (
                       <div className="flex items-center gap-[8px]">
-                        {
-                          <button
-                            onClick={() => {
-                              // setReplyField(true);
+                        <button
+                          onClick={() => {
+                            // setReplyField(true);
 
-                              // setReplyToCommentID(comments?.id);
-                              // setCommentOwner(commentOwnerName);
-                              handleReplyToggle(comments, commentOwnerName);
-                            }}
-                            className="flex items-center gap-1"
+                            // setReplyToCommentID(comments?.id);
+                            // setCommentOwner(commentOwnerName);
+                            handleReplyToggle(comments, commentOwnerName);
+                          }}
+                          className="flex items-center gap-1"
+                        >
+                          <IoIosUndo
+                            className={`${
+                              replyToCommentID === comments?.id && replyField
+                                ? "text-[#33B0CA]"
+                                : "text-[#252525]"
+                            }`}
+                          />
+                          <p
+                            className={`text-[12px] hidden lg:block ${
+                              replyToCommentID === comments?.id && replyField
+                                ? "text-[#33B0CA]"
+                                : "text-[#252525]"
+                            }  hidden md:block font-[400] leading-[14.52px] cursor-pointer`}
                           >
-                            <IoIosUndo
-                              className={`${
-                                replyToCommentID === comments?.id && replyField
-                                  ? "text-[#33B0CA]"
-                                  : "text-[#252525]"
-                              }`}
-                            />
-                            <p
-                              className={`text-[12px] hidden lg:block ${
-                                replyToCommentID === comments?.id && replyField
-                                  ? "text-[#33B0CA]"
-                                  : "text-[#252525]"
-                              }  hidden md:block font-[400] leading-[14.52px] cursor-pointer`}
-                            >
-                              Reply
-                            </p>
-                          </button>
-                        }
+                            Reply
+                          </p>
+                        </button>
+
                         {data?.premiseOwner?.id === user &&
                           comments?.text?.includes("?") &&
-                          comments?.user?.id === 1 && (
-                            // <div className=" flex items-center justify-between">
-                            //   {comments?.c_value === 1 ? (
-                            //     <>
-                            //       {!replyData?.length >= 1 && (
-                            //         <button
-                            //           disabled={suggestDisable}
-                            //           onClick={() => {
-                            //             handleSuggest(comments?.text);
-                            //           }}
-                            //           className="px-2  rounded-[4px]  pt-[2px] pb-[4px] bg-[#33B0CA]"
-                            //         >
-                            //           {suggestDisable ? (
-                            //             <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
-                            //               Suggesting...
-                            //             </p>
-                            //           ) : (
-                            //             <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
-                            //               Suggest
-                            //             </p>
-                            //           )}
-                            //         </button>
-                            //       )}
-                            //     </>
-                            //   ) : (
-                            //     <>
-                            //       {comments?.suggested ? (
-                            //         <button
-                            //           disabled={suggestDisable}
-                            //           className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[#616161]"
-                            //         >
-                            //           <p className="text-[12px] text-[#fafafa]  font-[400] leading-[14.52px] ">
-                            //             Suggested
-                            //           </p>
-                            //         </button>
-                            //       ) : (
-                            //         <button
-                            //           disabled={suggestDisable}
-                            //           onClick={() => {
-                            //             handleSuggest(comments?.text);
-                            //           }}
-                            //           className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
-                            //         >
-                            //           {suggestDisable ? (
-                            //             <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
-                            //               Suggesting...
-                            //             </p>
-                            //           ) : (
-                            //             <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
-                            //               Suggest
-                            //             </p>
-                            //           )}
-                            //         </button>
-                            //       )}
-                            //     </>
-                            //   )}
-                            // </div>
+                          (comments?.user?.id === 1 ||
+                            comments?.user?.id === 79) && (
                             <div className=" flex items-center justify-between">
                               {comments?.c_value === 1 ? (
                                 <>
@@ -762,7 +705,9 @@ const AllComments = ({
                                         <button
                                           disabled={suggestDisable}
                                           onClick={() => {
-                                            checkSuggestAllowance(comments?.text);
+                                            checkSuggestAllowance(
+                                              comments?.text
+                                            );
                                           }}
                                           className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
                                         >
@@ -863,7 +808,8 @@ const AllComments = ({
                         }
                         {data?.premiseOwner?.id === user &&
                           comments?.text?.includes("?") &&
-                          (comments?.user?.id === 1 || comments?.user?.id === 79)  && (
+                          (comments?.user?.id === 1 ||
+                            comments?.user?.id === 79) && (
                             <div className=" flex items-center justify-between">
                               {comments?.c_value === 1 ? (
                                 <>
@@ -924,12 +870,30 @@ const AllComments = ({
                       </div>
                     )}
                     <div className="hidden lg:block">
-                      <CommentLike {...{disable,comments,setLikePopup,commentLikes,commentRefetch,setDisable}}/>
+                      <CommentLike
+                        {...{
+                          disable,
+                          comments,
+                          setLikePopup,
+                          commentLikes,
+                          commentRefetch,
+                          setDisable,
+                        }}
+                      />
                     </div>
                   </div>
                   <div className="flex gap-[12px] items-center ">
                     <div className="lg:hidden">
-                      <CommentLike {...{disable,comments,setLikePopup,commentLikes,commentRefetch,setDisable}}/>
+                      <CommentLike
+                        {...{
+                          disable,
+                          comments,
+                          setLikePopup,
+                          commentLikes,
+                          commentRefetch,
+                          setDisable,
+                        }}
+                      />
                     </div>
 
                     <>
@@ -967,7 +931,11 @@ const AllComments = ({
                 </div>
               )}
 
-              <div className={`absolute flex flex-col md:flex-row gap-2 items-center ${fromNew ? "right-[8.5px] md:right-[38.5px]":"right-0"}  top-[18%] md:top-[28%]`}>
+              <div
+                className={`absolute flex flex-col md:flex-row gap-2 items-center ${
+                  fromNew ? "right-[8.5px] xl:right-[38.5px]" : "right-0"
+                }  top-[18%] md:top-[28%]`}
+              >
                 <CommentTranslator
                   comment={comments}
                   translateComment={translateComment}
@@ -1022,7 +990,9 @@ const AllComments = ({
         {replyToCommentID && replyToCommentID === comments?.id && (
           <div>
             {replyField && (
-              <div className={`w-[70.6%] md:w-[73.6%]  ${inpRightMargin} ml-auto mb-[8px]`}>
+              <div
+                className={`w-[70.6%] md:w-[73.6%]  ${inpRightMargin} ml-auto mb-[8px]`}
+              >
                 <motion.div
                   // data-reply
                   // ref={replyRef}
@@ -1117,7 +1087,9 @@ const AllComments = ({
           {
             <div
               className={`${
-                hasManyReplies ? "max-h-[40vh] overflow-y-auto pr-2 overflow-x-hidden" : ""
+                hasManyReplies
+                  ? "max-h-[40vh] overflow-y-auto pr-2 overflow-x-hidden"
+                  : ""
               }`}
             >
               {replyData
@@ -1150,7 +1122,6 @@ const AllComments = ({
                       user={user}
                       handleAddToBeat={handleAddToBeat}
                       commentRefetch={commentRefetch}
-                      
                     />
                   </motion.div>
                 ))}
@@ -1164,7 +1135,7 @@ const AllComments = ({
         <BeatEditPop
           project_id={project_id}
           popClose={() => setProjectBeatOpen(false)}
-          commentText={commentText}
+        commentText={commentText}
           commentObj={commentObj}
           commentRefetch={commentRefetch}
           replyRefetch={replyRefetch}
@@ -1179,13 +1150,16 @@ const AllComments = ({
           // currentPremiseProject={currentPremiseProject}
         />
       )}
-      { noAccessLbPopup?.msg =='ShowBecomePrivilege' && (
-        <NoAccessPopUp noAccessPopup={noAccessLbPopup}
+      {noAccessLbPopup?.msg === "ShowBecomePrivilege" && (
+        <NoAccessPopUp
+          noAccessPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
         />
       )}
-      {( noAccessLbPopup?.msg =='LB' || noAccessLbPopup?.msg=='ShowBuyPackage_and_Allacarte') && (
-        <NoAccessLbPopUp noAccessLbPopup={noAccessLbPopup}
+      {(noAccessLbPopup?.msg == "LB" ||
+        noAccessLbPopup?.msg == "ShowBuyPackage_and_Allacarte") && (
+        <NoAccessLbPopUp
+          noAccessLbPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
           service={service}
         />

@@ -1,14 +1,14 @@
-import React, { useRef, useState, forwardRef, useEffect } from "react";
+import React, { forwardRef, useEffect, useRef, useState } from "react";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
-import english from "simple-keyboard-layouts/build/layouts/english";
-import farsi from "simple-keyboard-layouts/build/layouts/farsi";
-import burmese from "simple-keyboard-layouts/build/layouts/burmese";
 import arabic from "simple-keyboard-layouts/build/layouts/arabic";
 import assamese from "simple-keyboard-layouts/build/layouts/assamese";
 import belarusian from "simple-keyboard-layouts/build/layouts/belarusian";
 import bengali from "simple-keyboard-layouts/build/layouts/bengali";
+import burmese from "simple-keyboard-layouts/build/layouts/burmese";
 import brazilian from "simple-keyboard-layouts/build/layouts/czech";
+import english from "simple-keyboard-layouts/build/layouts/english";
+import farsi from "simple-keyboard-layouts/build/layouts/farsi";
 import georgian from "simple-keyboard-layouts/build/layouts/georgian";
 import gilaki from "simple-keyboard-layouts/build/layouts/gilaki";
 import hebrew from "simple-keyboard-layouts/build/layouts/hebrew";
@@ -24,12 +24,12 @@ import nko from "simple-keyboard-layouts/build/layouts/nko";
 import norwegian from "simple-keyboard-layouts/build/layouts/norwegian";
 import russian from "simple-keyboard-layouts/build/layouts/russian";
 import sindhi from "simple-keyboard-layouts/build/layouts/sindhi";
-    import spanish from "simple-keyboard-layouts/build/layouts/spanish";
-    import thai from "simple-keyboard-layouts/build/layouts/thai";
-    import turkish from "simple-keyboard-layouts/build/layouts/turkish";
-    import ukrinian from "simple-keyboard-layouts/build/layouts/ukrainian";
-    import urdu from "simple-keyboard-layouts/build/layouts/urdu";
-    import uyghur from "simple-keyboard-layouts/build/layouts/uyghur";
+import spanish from "simple-keyboard-layouts/build/layouts/spanish";
+import thai from "simple-keyboard-layouts/build/layouts/thai";
+import turkish from "simple-keyboard-layouts/build/layouts/turkish";
+import ukrinian from "simple-keyboard-layouts/build/layouts/ukrainian";
+import urdu from "simple-keyboard-layouts/build/layouts/urdu";
+import uyghur from "simple-keyboard-layouts/build/layouts/uyghur";
 const KeyboardB = forwardRef(
   ({ setOptions, regardingOutput, inputRef, sourcesLanguage }, ref) => {
     const [layoutName, setLayoutName] = useState("default");
@@ -37,7 +37,6 @@ const KeyboardB = forwardRef(
     const [layout, setLayout] = useState(english);
 
     useEffect(() => {
-        
       switch (sourcesLanguage) {
         case "English":
           setLayout(english);
