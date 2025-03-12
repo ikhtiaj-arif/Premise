@@ -1,54 +1,28 @@
 import React from "react";
-import "./Premise.css";
+import { options } from "./options";
 
 const LanguageSelector = ({
   setSelectedLanguage,
   setKeyboardVisible,
   selectedLanguage,
 }) => {
-  // console.log(selectedLanguage);
-
-  const options = [
-    "Arabic",
-    "Assamese",
-    "Bengali",
-    "Burmese",
-    "English",
-    "Farsi",
-    "Georgian",
-    "Gilaki",
-    "Greek",
-    "Hebrew",
-    "Hindi",
-    "Hungarian",
-    "Italian",
-    "Japanese",
-    "Kannada",
-    "Korean",
-    "Malayalam",
-    "Nigerian",
-    "Nko",
-    "Norwegian",
-    "Sindhi",
-    "Spanish",
-    "Thai",
-    "Urdu",
-    "Uyghur",
-  ];
 
   const handleLanguageChange = (event) => {
     setSelectedLanguage(event.target.value);
     setKeyboardVisible(true);
   };
 
+  // Sort options alphabetically
+  const sortedOptions = options?.sort((a, b) => a.localeCompare(b));
+
   return (
     <select
       onChange={handleLanguageChange}
       value={selectedLanguage}
-      className="notranslate bg-[#FAFAFA] border-none w-auto max-w-[99px] text-[14px] text-[#616161] font-[400] focus:outline-none"
-      // className="border border-[#EAEAEA] p-1 rounded-[4px] w-3/4 text-[12px]"
+      className="text-[14px] border-none text-[#616161] focus:outline-none border w-3/4"
     >
-      {options?.map((option) => (
+      {/* <option selected value="" disabled>Select Language</option> */}
+      {sortedOptions?.map((option) => (
         <option key={option} value={option}>
           {option}
         </option>
