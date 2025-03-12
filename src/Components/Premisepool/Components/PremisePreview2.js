@@ -1604,19 +1604,23 @@ useEffect(() => {
                       </>
                     )}
                   </div>
-                  <div className="bg-[#FAFAFA] h-[38px] md:h-[32px] xl:h-[38px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-[8px] hidden lg:flex items-center w-[120px] ">
-                    <div className="flex justify-end gap-3  w-full ">
-                      <FaKeyboard
-                        onClick={onClickKeyboard}
-                        data-te-toggle="tooltip"
-                      />
-                      <LanguageSelector
-                        setSelectedLanguage={setSelectedLanguage}
-                        selectedLanguage={selectedLanguage}
-                        setKeyboardVisible={setKeyboardVisible}
-                      />
+                    <div className="bg-[#FAFAFA] h-[38px] md:h-[32px] xl:h-[38px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-[8px] hidden lg:flex items-center mx-[28px] ">
+                      <div className="flex items-center justify-end gap-3  w-full ">
+                        <FaKeyboard
+                          data-te-toggle="tooltip"
+                          title={`${!keyboardVisible ? "View Keyboard" : "Hide Keyboard"
+                            }`}
+                          className={`w-7 h-7 ${keyboardVisible && "text-[#33B0CA]"
+                            } cursor-pointer hover:text-[#33B0CA]`}
+                          onClick={onClickKeyboard}
+                        />
+                        <LanguageSelector
+                          setSelectedLanguage={setSelectedLanguage}
+                          selectedLanguage={selectedLanguage}
+                          setKeyboardVisible={setKeyboardVisible}
+                        />
+                      </div>
                     </div>
-                  </div>
                 </div>
                 {createNewProject && (
                   <h2 className="CreateAProjectStructure-m col-span-12 text-[#252525] text-[14px] leading-[16px] md:text-[16px] md:leading-[24px] font-[500] mb-[6px] mt-[3px] md:mt-0">
@@ -1925,7 +1929,7 @@ useEffect(() => {
                         Genre
                       </option>
 
-                 
+
 
                       {genera?.map((option) => (
                         <option key={option} value={option}>
@@ -2001,7 +2005,7 @@ useEffect(() => {
                         geographyItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
                       } w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
                       placeholder="Country/Region/City"
-                      value={geographyItem}
+                      // value={geographyItem}
                       onFocus={() => setActiveInput("geographyItem")}
                       onChange={(e) => setGeographyItem(e.target.value)}
                       required
@@ -2121,7 +2125,7 @@ useEffect(() => {
                             Age
                           </label>
                           <input
-                            type="text"
+                            type="number"
                             id="protaAge"
                             value={protaAge}
                             min="0" // This prevents negative values
