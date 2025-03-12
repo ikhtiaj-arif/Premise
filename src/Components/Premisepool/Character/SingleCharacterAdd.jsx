@@ -193,7 +193,7 @@ const SingleCharacterAdd = ({
               <div className="block mb-[10px] md:mb-[20px] md:flex gap-[18px] ">
                 <div className="relative w-full md:w-[171px]">
                   <label
-                    className={`absolute left-2 top-[1px] lg:top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500]  transition-all z-[2] 
+                    className={`absolute left-2 top-[1px] lg:top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500]  transition-all z-[2]
                      `}
                   >
                     Role
@@ -297,7 +297,8 @@ const SingleCharacterAdd = ({
                     placeholder="age"
                     required
                   />
-                </div>}
+                </div>
+                }
                 <div className="relative w-full md:w-[206px] md:left-5 ">
                   <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Occupation
@@ -334,7 +335,7 @@ const SingleCharacterAdd = ({
                     name="background"
                     translate="no"
                     placeholder="Background"
-                    className={`text-[14px] bg-[#FAFAFA]   text-[#616161] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] overflow-y-hidden border-2   w-full md:w-[398px] 
+                    className={`text-[14px] bg-[#FAFAFA]   text-[#616161] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] overflow-y-hidden border-2   w-full md:w-[398px]
                     h-auto resize-none `}
                   />
                 </div>
