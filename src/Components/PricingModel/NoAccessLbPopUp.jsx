@@ -125,7 +125,7 @@ const NoAccessLbPopUp = ({
             />
           </div>
 
-          <div className="md:px-10 py-2">
+          <div className="px-[20px] py-[10px]">
             <img
               src={
                 noAccessLbPopup?.ShowFreeTrialActavation === "Yes"
@@ -138,8 +138,8 @@ const NoAccessLbPopUp = ({
               className={`${
                 service !== "PP_Brainstrom" &&
                 noAccessLbPopup?.ShowFreeTrialActavation !== "Yes"
-                  ? "w-[160px] h-[144px]"
-                  : "w-[192px] h-[280px]"
+                  ? "w-[160px] h-[150px]"
+                  : "w-[160px] h-[150px]"
               }  mx-auto`}
               alt=""
             />
@@ -238,7 +238,7 @@ const NoAccessLbPopUp = ({
             {/* button */}
             <div className="text-center">
               <button
-                className="bg-[#33b0ca] w-[98px] h-[42px] text-center text-[#fafafa] font-semibold text-[16px] rounded-[4px] mt-5 mb-3 py-1 px-4"
+                className="bg-[#33b0ca] w-[98px] h-[42px] text-center text-[#fafafa] font-semibold text-[16px] rounded-[4px] mt-4 mb-2 py-1 px-4"
                 onClick={handleGoClick}
               >
                 Go
