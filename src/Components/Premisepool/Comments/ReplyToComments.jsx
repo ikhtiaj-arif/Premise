@@ -266,11 +266,11 @@ const ReplyToComments = ({
     console.log("reply child1 comment", currentUser?.id, owner, reply);
     if (
       currentUser?.id !== owner &&
-      (reply?.user?.id == 1 || reply?.user?.id == 79)
+      (reply?.user?.id === 1 || reply?.user?.id === 79)
     ) {
       const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
       console.log("reply child 1 brainstorm res", res);
-      if (res?.access == "No") {
+      if (res?.access === "No") {
         setNoAccessLbPopup(res);
       } else {
         setOpenReplyField(!openReplyField);

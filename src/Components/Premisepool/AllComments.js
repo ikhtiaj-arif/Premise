@@ -409,11 +409,11 @@ const AllComments = ({
 
     if (
       currentUser?.id !== data?.premiseOwner?.id &&
-      (c?.user?.id == 1 || c?.user?.id == 79)
+      (c?.user?.id === 1 || c?.user?.id === 79)
     ) {
       const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
       console.log("reply brainstorm res", res);
-      if (res?.access == "No") {
+      if (res?.access === "No") {
         setNoAccessLbPopup(res);
       } else {
         applyReplyToggle(c, commentOwnerName);
@@ -451,9 +451,12 @@ const AllComments = ({
   //   comments?.user?.id
   // );
 
-  console.log("premiseData", premiseData);
-  console.log("premiseData2", user);
-  console.log("premiseData3", comments?.user?.id);
+  const [openDropdownId, setOpenDropdownId] = useState(null); // Track which comment's dropdown is open
+
+  // Function to handle the dropdown toggle logic
+  const handleDropdownToggle = (id) => {
+    setOpenDropdownId((prevDropdownId) => (prevDropdownId === id ? null : id)); // Toggle dropdown visibility
+  };
 
   return (
     <div className=" flex flex-col justify-end w-full relative ">
@@ -937,11 +940,12 @@ const AllComments = ({
                 }  top-[18%] md:top-[28%]`}
               >
                 <CommentTranslator
+                  key={comments.id}
                   comment={comments}
                   translateComment={translateComment}
-                  loading={isTranslationCommentLoading}
                   commentRefetch={commentRefetch}
                 />
+
                 <>
                   {" "}
                   {comments?.is_deleted ? (
@@ -1135,7 +1139,7 @@ const AllComments = ({
         <BeatEditPop
           project_id={project_id}
           popClose={() => setProjectBeatOpen(false)}
-        commentText={commentText}
+          commentText={commentText}
           commentObj={commentObj}
           commentRefetch={commentRefetch}
           replyRefetch={replyRefetch}
