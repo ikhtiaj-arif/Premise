@@ -19,7 +19,7 @@ const LanguageSelector = ({
     <select
       onChange={handleLanguageChange}
       value={selectedLanguage}
-      className="text-[14px] border-none text-[#616161] focus:outline-none border w-3/4"
+      className="text-[14px] border-none bg-[#fafafa] text-[#616161] focus:outline-none border w-full"
     >
       {/* <option selected value="" disabled>Select Language</option> */}
       {sortedOptions?.map((option) => (

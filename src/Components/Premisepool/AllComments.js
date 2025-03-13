@@ -159,7 +159,7 @@ const AllComments = ({
   const commentOwnerMail = comments?.user?.email;
   const modifiedEmail = commentOwnerMail?.split("@")[0];
   const owner = data?.premiseOwner?.id;
-  
+
 
   const {
     data: profileImg,
@@ -201,7 +201,7 @@ const AllComments = ({
   }, [comments]);
 
   //for comment
-  
+
 
   useEffect(() => {
     if (commentOwnerName?.length > 1) {
@@ -456,6 +456,10 @@ const AllComments = ({
   //   comments?.user?.id
   // );
 
+    const [openDropdownId, setOpenDropdownId] = useState(null);
+  const handleTranslate = async (comment) => {
+    setOpenDropdownId((prev) => (prev === comment.id ? null : comment.id));
+  };
   return (
     <div className=" flex flex-col justify-end w-full relative ">
       <div className="md:ml-10">
@@ -969,6 +973,8 @@ const AllComments = ({
 
               <div className={`absolute flex flex-col md:flex-row gap-2 items-center ${fromNew ? "right-[8.5px] md:right-[38.5px]":"right-0"}  top-[18%] md:top-[28%]`}>
                 <CommentTranslator
+                  handleTranslate={handleTranslate}
+                  openDropdownId={openDropdownId} setOpenDropdownId={setOpenDropdownId}
                   comment={comments}
                   translateComment={translateComment}
                   loading={isTranslationCommentLoading}
@@ -1150,7 +1156,7 @@ const AllComments = ({
                       user={user}
                       handleAddToBeat={handleAddToBeat}
                       commentRefetch={commentRefetch}
-                      
+
                     />
                   </motion.div>
                 ))}

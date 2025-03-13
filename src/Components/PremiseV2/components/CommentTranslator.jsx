@@ -9,10 +9,10 @@ const CommentTranslator = ({
   translateComment,
   loading,
   commentRefetch,
+  openDropdownId, setOpenDropdownId, handleTranslate
 }) => {
   const { currentUser } = useContext(MyContext);
   const [selectedLanguage, setSelectedLanguage] = useState("bn");
-  const [openDropdownId, setOpenDropdownId] = useState(null); // Track which comment's dropdown is open
   const [noAccessPopup, setNoAccessPopup] = useState(false);
 
   const handleTranslateComment = async (lang) => {
@@ -32,21 +32,24 @@ const CommentTranslator = ({
 
   const handleLanguageSelect = (key) => {
     setSelectedLanguage(key);
-    setOpenDropdownId(null); // Close the dropdown
-    handleTranslateComment(key); // Call the translation function
+    setOpenDropdownId(null);
+    handleTranslateComment(key);
   };
 
-  const handleTranslate = async () => {
-    const res = await fetchUserAccess(`${currentUser?.id}/PP_Translate`);
-    console.log(`PP_Translate res`, res);
-    if (res?.access == "No") {
-      setNoAccessPopup(res);
-    } else {
-      // If another dropdown is open, close it and open the current one
-      setOpenDropdownId(openDropdownId === comment.id ? null : comment.id);
-    }
-  };
+  // const handleTranslate = async () => {
+  //   const res = await fetchUserAccess(`${currentUser?.id}/PP_Translate`);
+  //   console.log(`PP_Translate res`, res);
+  //   if (!res?.access == "No") {
+  //     setNoAccessPopup(res);
+  //   } else {
+  //     if (openDropdownId) {
+  //       setOpenDropdownId(null)
+  //     } else {
 
+  //       setOpenDropdownId((prev) => (prev === comment.id ? null : comment.id));
+  //     }
+  //   }
+  // };
   return (
     <div className="relative">
       {/* {loading ? (
@@ -56,7 +59,7 @@ const CommentTranslator = ({
         data-te-toggle="tooltip"
         title="Translate"
         src={transIcon}
-        onClick={handleTranslate}
+        onClick={() => handleTranslate(comment)}
         className="w-5 h-5 ml-auto cursor-pointer"
         alt=""
       />

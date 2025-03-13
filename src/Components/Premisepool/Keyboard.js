@@ -1,159 +1,82 @@
-import React from "react";
-import Arabic from "../Keyboard/Arabic";
-import Assamese from "../Keyboard/Assamese";
-import Bengali from "../Keyboard/Bengali";
-import Burmese from "../Keyboard/Burmese";
-import English from "../Keyboard/English";
-import Farsi from "../Keyboard/Farsi";
-import Georgian from "../Keyboard/Georgian";
-import Gilaki from "../Keyboard/Gilaki";
-import Greek from "../Keyboard/Greek";
-import Hebrew from "../Keyboard/Hebrew";
-import Hindi from "../Keyboard/Hindi";
-import Hungarian from "../Keyboard/Hungarian";
-import Italian from "../Keyboard/Italian";
-import Japanese from "../Keyboard/Japanese";
-import Kannada from "../Keyboard/Kannada";
-import Korean from "../Keyboard/Korean";
-import Malayalam from "../Keyboard/Malayalam";
-import Nigerian from "../Keyboard/Nigerian";
-import Nko from "../Keyboard/Nko";
-import Norwegian from "../Keyboard/Norwegian";
-import Sindhi from "../Keyboard/Sindhi";
-import Spanish from "../Keyboard/Spanish";
-import Thai from "../Keyboard/Thai";
-import Urdu from "../Keyboard/Urdu";
-import Uyghur from "../Keyboard/Uyghur";
-import './Premise.css';
+import React, { useEffect, useRef, useState } from "react";
+import "react-simple-keyboard/build/css/index.css";
+import KeyboardComponent from "./Components/KeyboardComponent";
 
-const Keyboard = ({ selectedLanguage, setText, inputRef }) => {
+const Keyboard = ({ setText, inputRef, selectedLanguage }) => {
+  const [layoutName, setLayoutName] = useState("default");
+  const keyboard = useRef(null);
+
+  useEffect(() => {
+    if (keyboard.current && inputRef.current) {
+      keyboard.current.setInput(inputRef.current.value);
+    }
+  }, [inputRef]);
+
+  const onKeyPress = (button) => {
+    if (button === "{shift}" || button === "{lock}") {
+      setLayoutName((prevLayoutName) =>
+        prevLayoutName === "default" ? "shift" : "default"
+      );
+      return;
+    }
+
+    const inputElement = inputRef.current;
+    const startPos = inputElement.selectionStart;
+    const endPos = inputElement.selectionEnd;
+    const inputValue = inputElement.value;
+
+    let newText;
+    let newSelectionStart;
+
+    switch (button) {
+      case "{enter}":
+        newText =
+          inputValue.slice(0, startPos) + "\n" + inputValue.slice(endPos);
+        newSelectionStart = startPos + 1;
+        break;
+      case "{tab}":
+        newText =
+          inputValue.slice(0, startPos) + "\t" + inputValue.slice(endPos);
+        newSelectionStart = startPos + 1;
+        break;
+      case "{space}":
+        newText =
+          inputValue.slice(0, startPos) + " " + inputValue.slice(endPos);
+        newSelectionStart = startPos + 1;
+        break;
+      case "{bksp}":
+        if (startPos === endPos) {
+          if (startPos === 0) {
+            newText = inputValue;
+            newSelectionStart = startPos;
+          } else {
+            newText =
+              inputValue.slice(0, startPos - 1) + inputValue.slice(startPos);
+            newSelectionStart = startPos - 1;
+          }
+        } else {
+          newText = inputValue.slice(0, startPos) + inputValue.slice(endPos);
+          newSelectionStart = startPos;
+        }
+        break;
+      default:
+        newText =
+          inputValue.slice(0, startPos) + button + inputValue.slice(endPos);
+        newSelectionStart = startPos + 1;
+        break;
+    }
+
+    setText(newText);
+
+    setTimeout(() => {
+      inputElement.setSelectionRange(newSelectionStart, newSelectionStart);
+      inputElement.focus();
+    }, 0);
+  };
+
   return (
-    <div className="notranslate">
-      <div className="notranslate">
-        {selectedLanguage === "Arabic" && (
-          <Arabic  setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Assamese" && (
-          <Assamese setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Bengali" && (
-          <Bengali setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Burmese" && (
-          <Burmese setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "English" && (
-          <English setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Farsi" && (
-          <Farsi setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Georgian" && (
-          <Georgian setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Gilaki" && (
-          <Gilaki setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Greek" && (
-          <Greek setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Hebrew" && (
-          <Hebrew setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Hindi" && (
-          <Hindi setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Hungarian" && (
-          <Hungarian setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Italian" && (
-          <Italian setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Japanese" && (
-          <Japanese setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Kannada" && (
-          <Kannada setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Korean" && (
-          <Korean setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Malayalam" && (
-          <Malayalam setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Nigerian" && (
-          <Nigerian setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Nko" && (
-          <Nko setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Norwegian" && (
-          <Norwegian setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Sindhi" && (
-          <Sindhi setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Spanish" && (
-          <Spanish setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Thai" && (
-          <Thai setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Urdu" && (
-          <Urdu setText={setText} inputRef={inputRef} />
-        )}
-      </div>
-      <div className="notranslate">
-        {selectedLanguage === "Uyghur" && (
-          <Uyghur setText={setText} inputRef={inputRef} />
-        )}
-      </div>
+    <div>
+      <KeyboardComponent language={selectedLanguage} onKeyPress={onKeyPress} layoutName={layoutName} />
     </div>
   );
 };
