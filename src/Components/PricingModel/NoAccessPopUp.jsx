@@ -44,6 +44,7 @@ const NoAccessPopUp = ({ setNoAccessPopup, noAccessPopup }) => {
       if (res?.data?.status == "success") {
         toast("Successfully activated Free Trial Package.");
         setNoAccessPopup(null);
+        window.location.reload();
       }
     }
   };
@@ -62,14 +63,14 @@ const NoAccessPopUp = ({ setNoAccessPopup, noAccessPopup }) => {
             />
           </div>
 
-          <div className="p-10">
+          <div className="px-[20px] py-[10px]">
             <img
               src={
                 noAccessPopup?.ShowFreeTrialActavation === "Yes"
                   ? welcomeImg
                   : oopsImg
               }
-              className="w-[160px] h-[144px] mx-auto"
+              className="w-[160px] h-[150px] mx-auto"
               alt=""
             />
 
@@ -128,7 +129,7 @@ const NoAccessPopUp = ({ setNoAccessPopup, noAccessPopup }) => {
             {/* button */}
             <div className="text-center">
               <button
-                className="bg-[#33b0ca] w-[98px] h-[42px] text-center text-[#fafafa] font-semibold text-[16px] rounded-[4px] mt-5 mb-3 py-1 px-4"
+                className="bg-[#33b0ca] w-[98px] h-[42px] text-center text-[#fafafa] font-semibold text-[16px] rounded-[4px] mt-4 mb-2 py-1 px-4"
                 onClick={handleGoClick}
               >
                 Go
