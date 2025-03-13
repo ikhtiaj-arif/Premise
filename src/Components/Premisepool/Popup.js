@@ -51,6 +51,7 @@ import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
 import UserMail from "./UserMail";
 import UserType from "./UserType";
+import UserNamePopup from "./UserNamePopup";
 
 const Popup = ({
   popClose,
@@ -82,7 +83,7 @@ const Popup = ({
   const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
 
   const [characterArray, setCharacterArray] = useState([]);
-
+  const [addPopup, setAddPopup] = useState(null)
   const [onlyAdd, setOnlyAdd] = useState(true);
   const [characterLoading, setCharacterLoading] = useState(true);
 
@@ -561,7 +562,7 @@ const Popup = ({
                     openDotMenu={openDotMenu}
                     setOpenHidePop={setOpenHidePop}
                     openHidePop={openHidePop}
-                    setUserMail={setUserMail}
+                    setUserMail={setUserMail}  addPopup={addPopup} setAddPopup={setAddPopup}
                   />
                 </div>
               </div>
@@ -996,6 +997,9 @@ const Popup = ({
               sellingValue={premiseData?.sellingPrice}
               Userid={user}
             />
+          )}
+          {addPopup === "noUserName" && (
+            <UserNamePopup {...{ refetch, setAddPopup }} />
           )}
         </div>
       </div>

@@ -24,6 +24,7 @@ import Popup from "../../Premisepool/Popup";
 import { hideUnhidePremise } from "../../Premisepool/PreiseUtils";
 import TranslatePremise from "../../Premisepool/TranslatePremise";
 import UserMail from "../../Premisepool/UserMail";
+import UserNamePopup from "../../Premisepool/UserNamePopup";
 import UserType from "../../Premisepool/UserType";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
@@ -54,7 +55,7 @@ const PremiseCardV2 = ({
   setTransPopClose,
   isLiked,
   setIsLiked,
-  hiddenCountRefetch,
+  hiddenCountRefetch,addPopup, setAddPopup
 }) => {
   const { user, userFirstName, userLastName } = owner;
 
@@ -482,6 +483,7 @@ const PremiseCardV2 = ({
           setOpenHidePop={setOpenHidePop}
           openHidePop={openHidePop}
           openDotMenu={openDotMenu}
+          addPopup={addPopup} setAddPopup={setAddPopup}
         />
       </div>
       {/* middle div */}
@@ -772,6 +774,9 @@ const PremiseCardV2 = ({
           Userid={user}
         />
       )}
+       {addPopup === "noUserName" && (
+            <UserNamePopup {...{ refetch, setAddPopup }} />
+          )}
     </div>
   );
 };

@@ -146,7 +146,7 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
                 setFinalEdit={setFinalEdit}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
-               
+
 
                 //setIsAddNew={setIsAddNew}
               />

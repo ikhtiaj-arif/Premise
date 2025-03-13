@@ -55,6 +55,8 @@ const PremiseV2 = () => {
 
   const [isFirstCardBlinking, setIsFirstCardBlinking] = useState(false);
   const user = useSelector((state) => state?.user?.id);
+
+ 
   const dispatch = useDispatch();
 
   const [queryUser, setQueryUser] = useState(null);
@@ -560,6 +562,8 @@ const PremiseV2 = () => {
                     transPopClose={transPopClose}
                     setTransPopClose={setTransPopClose}
                     hiddenCountRefetch={hiddenCountRefetch}
+                    addPopup={addPopup} setAddPopup={setAddPopup}
+                    
                   />
                 ))}
                 {isDelete && (

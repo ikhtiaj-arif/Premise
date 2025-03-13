@@ -60,6 +60,8 @@ const CardHeadOptions = ({
   setOpenHidePop,
   openHidePop,
   openDotMenu,
+  addPopup,
+  setAddPopup,
 }) => {
   // const {
 
@@ -67,7 +69,8 @@ const CardHeadOptions = ({
   const { currentUser } = useContext(MyContext);
 
   // const dotPopupRef = useRef();
-
+  // const [addPopup, setAddPopup] = useState();
+  const userFirstName = useSelector((state) => state?.user?.firstName);
   const user = useSelector((state) => state?.user?.id);
 
   //! states
@@ -144,12 +147,18 @@ const CardHeadOptions = ({
   };
 
   const checkAllowance = async (state, id) => {
-    const res = await fetchUserAccess(`${currentUser?.id}/PP_SaleRequest_and_Translate`);
-    console.log("PP_SaleRequest_and_Translate res", res);
-    if (res?.access === "No") {
-      setNoAccessLbPopUp(res);
+    if (userFirstName) {
+      const res = await fetchUserAccess(
+        `${currentUser?.id}/PP_SaleRequest_and_Translate`
+      );
+      console.log("PP_SaleRequest_and_Translate res", res);
+      if (res?.access === "No") {
+        setNoAccessLbPopUp(res);
+      } else {
+        state(id);
+      }
     } else {
-      state(id);
+      setAddPopup("noUserName");
     }
   };
 
@@ -349,7 +358,7 @@ const CardHeadOptions = ({
           </div>
         ) : (
           <div className="flex gap-[3px] items-center  mr-[2px] relative ">
-            {available_for_translation ? (
+            {available_for_translation && (
               <img
                 data-te-toggle="tooltip"
                 title="Available for Translation"
@@ -363,18 +372,17 @@ const CardHeadOptions = ({
                   // setOpenDotMenu(null);
                 }}
               />
-            ) : (
-              <div className="relative">
-                <img
-                  data-te-toggle="tooltip"
-                  title="Send Translation Request"
-                  src={transCartQ}
-                  className="w-8 h-8 mt-[-13px] cursor-pointer"
-                  alt=""
-                  onClick={() => checkAllowance(setTranslationRequestPop, id)}
-                />
-              </div>
             )}
+            <div className="relative">
+              <img
+                data-te-toggle="tooltip"
+                title="Send Translation Request"
+                src={transCartQ}
+                className="w-8 h-8 mt-[-13px] cursor-pointer"
+                alt=""
+                onClick={() => checkAllowance(setTranslationRequestPop, id)}
+              />
+            </div>
 
             {available_for_sale ? (
               <img
