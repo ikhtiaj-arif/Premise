@@ -94,7 +94,7 @@ export const Amount = ({ data, isAgreementChecked, setAgreementChecked }) => {
       </p> */}
       {/* terms part */}
       <div className="mt-2">
-        <div className=" text-left flex gap-1">
+        <div className=" text-left flex items-center gap-1">
           <input
             checked={isAgreementChecked}
             onChange={() => setAgreementChecked(!isAgreementChecked)}

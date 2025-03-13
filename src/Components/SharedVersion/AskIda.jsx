@@ -34,7 +34,7 @@ const AskIda = ({
 
   const handleButtonClick = async () => {
     setIsLoading(true);
-    if (premiseOwner?.id == currentUser?.id) {
+    if (premiseOwner?.id === currentUser?.id) {
       checkAllowance("PP_AllowBrainstoming");
     } else {
       checkAllowance("PP_AllowInteraction");
@@ -44,7 +44,7 @@ const AskIda = ({
   const checkAllowance = async (flag) => {
     const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);
     console.log(`${flag} res`, res);
-    if (res?.access == "No") {
+    if (res?.access === "No") {
       setNoAccessPopup(res);
       setService(flag);
       setIsLoading(false);
@@ -68,7 +68,8 @@ const AskIda = ({
       if (response) {
         const body = {
           premise: id,
-          text: "continue",
+          text: "Please proceed further Ida !",
+          ask_ida:true,
           user: user,
           C: response?.data?.counts + 1, // Update the comment count
           is_question: false,
@@ -85,27 +86,27 @@ const AskIda = ({
 
         //   setIsLoading(false);
         // } else {
-          setIsLoading(false);
+        setIsLoading(false);
 
-          // here scroll all the way down to a div using ref
-          setTimeout(() => {
-            commentRefetch(); // Refetch the comments after adding the new one
-            setOpenAllReplies(true);
-            setOpenReplyFieldID(res?.data?.id);
-          }, 1000);
+        // here scroll all the way down to a div using ref
+        setTimeout(() => {
+          commentRefetch(); // Refetch the comments after adding the new one
+          setOpenAllReplies(true);
+          setOpenReplyFieldID(res?.data?.id);
+        }, 1000);
 
-          setTimeout(() => {
-            if (lastCommentRef.current) {
-              lastCommentRef.current.scrollTo({
-                top: lastCommentRef.current.scrollHeight,
-                behavior: "smooth",
-              });
-            }
-            toast.success("Comment added!", {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: 1600,
+        setTimeout(() => {
+          if (lastCommentRef.current) {
+            lastCommentRef.current.scrollTo({
+              top: lastCommentRef.current.scrollHeight,
+              behavior: "smooth",
             });
-          }, 1100);
+          }
+          toast.success("Comment added!", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 1600,
+          });
+        }, 1100);
         // }
       }
     } catch (error) {
@@ -120,7 +121,7 @@ const AskIda = ({
 
   return (
     <div>
-      <div className="my-1 text-center">
+      <div className="my-1 text-center ">
         <button
           disabled={isLoading}
           onClick={handleButtonClick}
@@ -132,19 +133,19 @@ const AskIda = ({
         </button>
       </div>
 
-      {noAccessPopup?.msg == "ShowBecomePrivilege" ? (
+      {noAccessPopup?.msg === "ShowBecomePrivilege" ? (
         <NoAccessPopUp
           noAccessPopup={noAccessPopup}
           setNoAccessPopup={setNoAccessPopup}
         />
       ) : (
-        (noAccessPopup?.msg == "ShowBuyPackage_and_Allacarte" ||
-          noAccessPopup?.msg == "LB") && (
+        (noAccessPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
+          noAccessPopup?.msg === "LB") && (
           <NoAccessLbPopUp
             noAccessLbPopup={noAccessPopup}
             setNoAccessPopup={setNoAccessPopup}
             service={
-              service == "PP_AllowBrainstoming"
+              service === "PP_AllowBrainstoming"
                 ? "PP_Brainstrom"
                 : "PP_interactions"
             }

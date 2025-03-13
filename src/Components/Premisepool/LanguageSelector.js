@@ -6,6 +6,8 @@ const LanguageSelector = ({
   setKeyboardVisible,
   selectedLanguage,
 }) => {
+  // console.log(selectedLanguage);
+
 
   const handleLanguageChange = (event) => {
     setSelectedLanguage(event.target.value);

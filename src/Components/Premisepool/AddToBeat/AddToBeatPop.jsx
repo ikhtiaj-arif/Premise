@@ -38,7 +38,7 @@ const BeatSheetGenerating = ({setBeatSheetGenPop}) => {
                   provide details or reflection.
                 </h5>
               </div>
-              <div className="pt-[7px] pb-[10px] pl-[11px] flex gap-[10px]">
+              <div className="pt-[7px] pb-[10px] pl-[11px] flex items-center gap-[10px]">
                 <input  type="checkbox" name="" id="" />
                 <span>Do not show this box again</span>
               </div>

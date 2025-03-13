@@ -24,6 +24,7 @@ import Popup from "../../Premisepool/Popup";
 import { hideUnhidePremise } from "../../Premisepool/PreiseUtils";
 import TranslatePremise from "../../Premisepool/TranslatePremise";
 import UserMail from "../../Premisepool/UserMail";
+import UserNamePopup from "../../Premisepool/UserNamePopup";
 import UserType from "../../Premisepool/UserType";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
@@ -34,11 +35,11 @@ import MonetizePreferencePop from "../Popups/MonetizePreferencePop";
 import PaySalePopup from "../Popups/PaySalePopup";
 import ReqSalePop from "../Popups/ReqSalePop";
 import ReqTranslationPop from "../Popups/ReqTranslationPop";
+import SaleRequestedOwner from "../Popups/SaleRequestedOwner";
 import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
 import CardHeadOptions from "./CardHeadOptions";
 import PremiseBadge from "./PremiseBadge";
-import SaleRequestedOwner from "../Popups/SaleRequestedOwner";
 
 const PremiseCardV2 = ({
   setShowRefine,
@@ -54,7 +55,7 @@ const PremiseCardV2 = ({
   setTransPopClose,
   isLiked,
   setIsLiked,
-  hiddenCountRefetch,
+  hiddenCountRefetch,addPopup, setAddPopup
 }) => {
   const { user, userFirstName, userLastName } = owner;
 
@@ -368,7 +369,7 @@ const PremiseCardV2 = ({
     project_id,
     m_value: p?.m_value,
   };
-
+  console.log("premiseOwner", premiseOwner);
   // hidden,
   // index,
   // premiseOwner,
@@ -410,7 +411,9 @@ const PremiseCardV2 = ({
               <div>
                 <div className="flex items-center">
                   <h4
-                    className={`notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate ${premise_source_id ? "w-[75px]" : "w-[110px]"}`}
+                    className={`notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate ${
+                      premise_source_id ? "w-[75px]" : "w-[110px]"
+                    }`}
                     title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
                   >
                     {premiseOwner?.first_name} {premiseOwner?.last_name}
@@ -480,6 +483,7 @@ const PremiseCardV2 = ({
           setOpenHidePop={setOpenHidePop}
           openHidePop={openHidePop}
           openDotMenu={openDotMenu}
+          addPopup={addPopup} setAddPopup={setAddPopup}
         />
       </div>
       {/* middle div */}
@@ -770,6 +774,9 @@ const PremiseCardV2 = ({
           Userid={user}
         />
       )}
+       {addPopup === "noUserName" && (
+            <UserNamePopup {...{ refetch, setAddPopup }} />
+          )}
     </div>
   );
 };

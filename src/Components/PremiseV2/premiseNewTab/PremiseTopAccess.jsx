@@ -13,6 +13,7 @@ import CharacterEditablePop from "../../Premisepool/Character/CharacterEditableP
 import DeletePremise from "../../Premisepool/DeletePremise";
 import OwnerMail from "../../Premisepool/OwnerMail";
 import UserMail from "../../Premisepool/UserMail";
+import UserNamePopup from "../../Premisepool/UserNamePopup";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { baseURL } from "../../utils";
@@ -36,7 +37,7 @@ const PremiseTopAccess = ({
   premiseRefetch,
 }) => {
   const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
-
+  const [addPopup, setAddPopup] = useState(null);
   const { currentUser } = useContext(MyContext);
   const userFirstName = userQuery?.first_name;
   const userLastName = userQuery?.last_name;
@@ -251,6 +252,8 @@ const PremiseTopAccess = ({
         openDotMenu={openDotMenu}
         setOpenHidePop={setOpenHidePop}
         openHidePop={openHidePop}
+        addPopup={addPopup}
+        setAddPopup={setAddPopup}
       />
 
       {openTransOtherPop && (
@@ -451,6 +454,9 @@ const PremiseTopAccess = ({
           sellingValue={premiseData?.sellingPrice}
           Userid={user}
         />
+      )}
+      {addPopup === "noUserName" && (
+        <UserNamePopup refetch={premiseRefetch} setAddPopup={setAddPopup} />
       )}
 
       {/* {isDelete && (

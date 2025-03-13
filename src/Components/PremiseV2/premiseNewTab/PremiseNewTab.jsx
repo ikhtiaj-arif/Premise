@@ -210,7 +210,7 @@ const PremiseNewTab = () => {
                 ))}
             </div> */}
 
-            <div className="w-full relative lg:h-[calc(100vh-75px)] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl">
+            <div className="w-full z-[0] relative lg:h-[calc(100vh-75px)] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl">
               {isSearchLoading || isCommentLoading ? (
                 <div>
                   <TypingLoader />

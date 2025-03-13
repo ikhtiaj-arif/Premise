@@ -148,31 +148,31 @@ const PopupTextarea = ({
         //   setIsLoading(false);
         //   setTextCount(0);
         // } else {
-          setNewComment("");
+        setNewComment("");
 
-          setIsLoading(false);
-          setTextCount(0);
+        setIsLoading(false);
+        setTextCount(0);
 
-          // here scroll all the way down to a div using ref
-          setTimeout(() => {
-            commentRefetch(); // Refetch the comments after adding the new one
-            setOpenAllReplies(true);
-            setOpenReplyFieldID(res?.data?.id);
-          }, 1000);
+        // here scroll all the way down to a div using ref
+        setTimeout(() => {
+          commentRefetch(); // Refetch the comments after adding the new one
+          setOpenAllReplies(true);
+          setOpenReplyFieldID(res?.data?.id);
+        }, 1000);
 
-          setTimeout(() => {
-            console.log(lastCommentRef.current);
-            if (lastCommentRef.current) {
-              lastCommentRef.current.scrollTo({
-                top: lastCommentRef.current.scrollHeight,
-                behavior: "smooth",
-              });
-            }
-            toast.success("Comment added!", {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: 1600,
+        setTimeout(() => {
+          console.log(lastCommentRef.current);
+          if (lastCommentRef.current) {
+            lastCommentRef.current.scrollTo({
+              top: lastCommentRef.current.scrollHeight,
+              behavior: "smooth",
             });
-          }, 1100);
+          }
+          toast.success("Comment added!", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 1600,
+          });
+        }, 1100);
         // }
       }
     } catch (error) {
@@ -328,19 +328,19 @@ const PopupTextarea = ({
         )}
       </>
 
-      {noAccessPopup?.msg == "ShowBecomePrivilege" ? (
+      {noAccessPopup?.msg === "ShowBecomePrivilege" ? (
         <NoAccessPopUp
           noAccessPopup={noAccessPopup}
           setNoAccessPopup={setNoAccessPopup}
         />
       ) : (
-        (noAccessPopup?.msg == "ShowBuyPackage_and_Allacarte" ||
-          noAccessPopup?.msg == "LB") && (
+        (noAccessPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
+          noAccessPopup?.msg === "LB") && (
           <NoAccessLbPopUp
             noAccessLbPopup={noAccessPopup}
             setNoAccessPopup={setNoAccessPopup}
             service={
-              service == "PP_AllowBrainstoming"
+              service === "PP_AllowBrainstoming"
                 ? "PP_Brainstrom"
                 : "PP_interactions"
             }

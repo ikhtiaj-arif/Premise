@@ -15,14 +15,13 @@ import walletDoodle from "../../img/wallet_doodle.png";
 import AddPremise2 from "../Premisepool/Components/AddPremise2";
 import DeletePremise from "../Premisepool/DeletePremise";
 import Popup from "../Premisepool/Popup";
-import SortPagination from "../Premisepool/SortPagination/SortPagination";
 import UserNamePopup from "../Premisepool/UserNamePopup";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
+import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 import TypingLoader from "../TypingLoader";
 import { baseURL } from "../utils";
 import PremiseCardV2 from "./Card/PremiseCardV2";
 import FilterSearchSort from "./Header/FiltersSearchSort/FilterSearchSort";
-import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 
 export const loadingData = [
   "Initializing..",
@@ -56,6 +55,8 @@ const PremiseV2 = () => {
 
   const [isFirstCardBlinking, setIsFirstCardBlinking] = useState(false);
   const user = useSelector((state) => state?.user?.id);
+
+ 
   const dispatch = useDispatch();
 
   const [queryUser, setQueryUser] = useState(null);
@@ -388,7 +389,7 @@ const PremiseV2 = () => {
                   className="bg-[#33B0CA] flex items-center justify-center gap-[8px] text-[#FAFAFA] text-[14px] font-[600] rounded-[8px] min-w-[196px] min-h-[34px] mt-[14px] px-[12px] ml-auto lg:mx-auto"
                 >
                   <div className="flex gap-[6px] min-h-[34px] items-center">
-                    <span className=" text-[24px] mt-[-6px]">+</span>{" "}
+                    <span className=" text-[24px]">+</span>{" "}
                     <span className="addNewPremise-m">Add A New Premise</span>
                   </div>
                 </button>
@@ -561,6 +562,8 @@ const PremiseV2 = () => {
                     transPopClose={transPopClose}
                     setTransPopClose={setTransPopClose}
                     hiddenCountRefetch={hiddenCountRefetch}
+                    addPopup={addPopup} setAddPopup={setAddPopup}
+                    
                   />
                 ))}
                 {isDelete && (
