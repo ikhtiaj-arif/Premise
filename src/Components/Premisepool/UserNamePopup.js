@@ -11,7 +11,7 @@ import { fetchUserAccess, MyContext } from "../../App";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 
-const UserNamePopup = ({ setAddPopup,refetch }) => {
+const UserNamePopup = ({ refetch, setAddPopup }) => {
   const [userName, userInfo] = useAddUserNamePremiseMutation();
   const { data: userQuery, isUserLoading, refetch:userRefetch } = useGetPremiseUserQuery();
   const dispatch = useDispatch();
