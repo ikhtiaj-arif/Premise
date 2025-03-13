@@ -34,7 +34,6 @@ import greek from "simple-keyboard-layouts/build/layouts/greek";
 import armenianEastern from "simple-keyboard-layouts/build/layouts/armenianEastern";
 // import armenianWestern from "simple-keyboard-layouts/build/layouts/armenianWestern";
 import balochi from "simple-keyboard-layouts/build/layouts/balochi";
-import chinese from "simple-keyboard-layouts/build/layouts/chinese";
 import czech from "simple-keyboard-layouts/build/layouts/czech";
 import french from "simple-keyboard-layouts/build/layouts/french";
 import german from "simple-keyboard-layouts/build/layouts/german";
@@ -46,15 +45,24 @@ import punjabi from "simple-keyboard-layouts/build/layouts/punjabi";
 // import russianOld from "simple-keyboard-layouts/build/layouts/russianOld";
 import swedish from "simple-keyboard-layouts/build/layouts/swedish";
 import telugu from "simple-keyboard-layouts/build/layouts/telugu";
-// import urduStandard from "simple-keyboard-layouts/build/layouts/urduStandard";
 
+/* custom layout */
+import chineseLayout from "./layout/chineseLayout";
+import cyrillicLatinLayout from "./layout/cyrillicLatinLayout";
+import cyrillicLayout from "./layout/cyrillicLayout";
+import cyrillicMongolianLayout from "./layout/cyrillicMongolianLayout";
+import geezLayout from "./layout/geezLayout";
+import gujaratiLayout from './layout/gujaratiLayout'
+import khmerLayout from "./layout/khmerLayout";
+import laoLayout from "./layout/laoLayout";
+import sinhalaLayout from "./layout/sinhalaLayout";
+import tamilLayout from "./layout/tamilLayout";
 
-
-
+// Layouts dictionary
 const layouts = {
     Afrikaans: english,
     Albanian: english,
-    Amharic: english,
+    Amharic: geezLayout,
     Arabic: arabic,
     Armenian: armenianEastern,
     Assamese: assamese,
@@ -64,12 +72,12 @@ const layouts = {
     Belarusian: belarusian,
     Bengali: bengali,
     Bosnian: english,
-    Bulgarian: english,
+    Bulgarian: cyrillicLayout,
     Burmese: burmese,
     Catalan: english,
     Cebuano: english,
-    'Chinese-Simplified': chinese,
-    'Chinese-Traditional': chinese,
+    'Chinese-Simplified': chineseLayout,
+    'Chinese-Traditional': chineseLayout,
     Corsican: english,
     Croatian: english,
     Czech: czech,
@@ -87,7 +95,7 @@ const layouts = {
     Georgian: georgian,
     German: german,
     Greek: greek,
-    Gujarati: hindi,
+    Gujarati: gujaratiLayout,
     Haitian: english,
     Hausa: english,
     Hawaiian: english,
@@ -103,12 +111,12 @@ const layouts = {
     Japanese: japanese,
     Javanese: english,
     Kannada: kannada,
-    Kazakh: english,
-    Khmer: english,
+    Kazakh: cyrillicLatinLayout,
+    Khmer: khmerLayout,
     Kinyarwanda: english,
     Korean: korean,
-    Kyrgyz: english,
-    Lao: english,
+    Kyrgyz: cyrillicLayout,
+    Lao: laoLayout,
     Latin: english,
     Latvian: english,
     Lithuanian: english,
@@ -120,7 +128,7 @@ const layouts = {
     Maltese: english,
     Maori: english,
     Marathi: hindi,
-    Mongolian: english,
+    Mongolian: cyrillicMongolianLayout,
     Myanmar: burmese,
     Nepali: hindi,
     Norwegian: norwegian,
@@ -134,11 +142,11 @@ const layouts = {
     Russian: russian,
     Samoan: english,
     Scots: english,
-    Serbian: english,
+    Serbian: cyrillicLatinLayout,
     Sesotho: english,
     Shona: english,
     Sindhi: sindhi,
-    Sinhala: english,
+    Sinhala: sinhalaLayout,
     Slovak: english,
     Slovenian: english,
     Somali: english,
@@ -146,8 +154,8 @@ const layouts = {
     Sundanese: english,
     Swahili: swedish,
     Swedish: english,
-    Tamil: hindi,
-    Tatar: hindi,
+    Tamil: tamilLayout,
+    Tatar: cyrillicLatinLayout,
     Telugu: telugu,
     Thai: thai,
     Turkish: turkish,
