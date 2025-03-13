@@ -21,7 +21,7 @@ const LanguageSelector = ({
       value={selectedLanguage}
       className="text-[14px] border-none bg-[#fafafa] text-[#616161] focus:outline-none border w-full"
     >
-      {/* <option selected value="" disabled>Select Language</option> */}
+      <option selected value="" disabled>Select Language</option>
       {sortedOptions?.map((option) => (
         <option key={option} value={option}>
           {option}
