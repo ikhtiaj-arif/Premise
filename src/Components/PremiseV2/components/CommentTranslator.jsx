@@ -50,7 +50,7 @@ const CommentTranslator = ({ comment, translateComment, commentRefetch }) => {
         alt=""
       />
       {openDropdownId === comment.id && (
-        <div className="absolute top-[32px] right-0 z-20 w-[124px] h-[27vh] md:h-[40vh] overflow-y-auto border bg-[#fafafa]">
+        <div className="absolute top-[32px] right-0 z-20 w-[135px] h-[27vh] md:h-[40vh] overflow-y-auto border bg-[#fafafa]">
           {Object.entries(sortedLanguages).map(([key, name]) => (
             <li
               key={key}

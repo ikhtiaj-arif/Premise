@@ -217,7 +217,7 @@ const TranslatePremise = ({
             />
           )}
           {transPopClose === id && (
-            <div className="absolute top-[32px] right-0 z-20 w-[124px]  h-[27vh] overflow-x-hidden md:h-[40vh] overflow-y-auto border bg-[#fafafa]">
+            <div className="absolute top-[32px] right-0 z-20 w-[135px]  h-[27vh] overflow-x-hidden md:h-[40vh] overflow-y-auto border bg-[#fafafa]">
               {Object.entries(sortedLanguages)?.map(([key, name]) =>
                 key !== source_language ? (
                   <li

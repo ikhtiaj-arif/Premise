@@ -621,6 +621,7 @@ const PremisePreview2 = ({
         hexColor,
       };
       const subText = `${JSON.stringify(styling)} + ${text}`;
+      formData.append("source_language", language);
       formData.append("text", subText);
 
       if (file) {
