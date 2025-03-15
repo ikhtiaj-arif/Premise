@@ -380,7 +380,7 @@ const PremiseCardV2 = ({
     <div className="w-[358px] lg:w-[100%] mx-auto border border-[#EAEAEA] hover:shadow-lg rounded-[8px]  ">
       {/* upper div */}
       <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-[15px] pt-[15px] pb-[6px]">
-        <div className="block max-w-[140px]">
+        <div className="block ">
           <a
             target="_blank"
             rel="noreferrer"
@@ -409,19 +409,24 @@ const PremiseCardV2 = ({
                 />
               )}
               <div>
-                <div className="flex items-center">
+                <div className={`flex items-center relative ${
+                      premise_source_id ? "w-[90px]" : "w-[110px]"
+                    }`}>
                   <h4
-                    className={`notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate ${
-                      premise_source_id ? "w-[75px]" : "w-[110px]"
-                    }`}
+                    className={`notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
                     title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
                   >
                     {premiseOwner?.first_name} {premiseOwner?.last_name}
                   </h4>
+                  <div className={`${
+                      premise_source_id ? "right-0" : "right-[-4px]"
+                    }`}>
+
                   <UserType
                     type={premiseOwner?.centraldatabase?.type}
                     user_type={premiseOwner?.centraldatabase?.user_type}
-                  />
+                    />
+                    </div>
                 </div>
                 <div className="text-[#616161] text-[10px] flex flex-col gap-[8px] font-[400] leading-[4px] ">
                   <p>

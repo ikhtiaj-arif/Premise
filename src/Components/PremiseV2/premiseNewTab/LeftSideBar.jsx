@@ -68,7 +68,7 @@ const LeftSideBar = ({
     created_by_name,
   } = premiseData;
 
-  console.log("filteredCommentsData", filteredCommentsData);
+ 
 
   const { charactersPopupMobile } = useContext(GlobalContext);
 
