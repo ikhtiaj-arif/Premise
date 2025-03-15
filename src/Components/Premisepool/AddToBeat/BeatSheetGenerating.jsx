@@ -262,7 +262,7 @@ const BeatSheetGenerating = ({ popClose, commentText, data, setIsLiked }) => {
                       onChange={handleOptionChange}
                       className="bg-[#FAFAFA] border-none w-[106px] text-[14px] text-[#616161] font-[400] focus:outline-none h-7"
                     >
-                     
+
                       {Object.entries(sortedLanguages).map(([key, name]) => (
                         <option key={key} value={key}>
                           <p className="bg-[#33B0CA]">{name}</p>
