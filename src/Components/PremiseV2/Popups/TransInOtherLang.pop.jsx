@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+import { MdKeyboardBackspace } from "react-icons/md";
 import { toast, ToastContainer } from "react-toastify";
 import { useTranslatePremiseV2Mutation } from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
@@ -57,10 +58,10 @@ const TransInOtherLang = ({
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-end md:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
       <ToastContainer />
-      <div className=" h-[86vh] lg:h-[520px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[430px]  md:mx-auto relative lg:rounded-[8px]">
+      <div className=" h-[98vh] lg:h-[520px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[430px]  md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
         {/* close popup */}
-        <div className="absolute top-[-56px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
+        <div className="hidden md:block absolute top-[-56px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
           <img
             src={crossIcon}
             alt=""
@@ -68,7 +69,15 @@ const TransInOtherLang = ({
             onClick={() => popClose(null)}
           />
         </div>
-        <h2 className="font-[700] text-[14px] leading-[19.9px] text-center mt-[18px]">
+        <div className="md:hidden absolute top-0 left-[-18px] ml-4 sm:ml-0 sm:right-[-15px]">
+          <MdKeyboardBackspace
+            alt=""
+            className="text-[#33B0CA] ml-[20px] text-left text-[38px] z-[1] absolute cursor-pointer mdHidden"
+            onClick={() => popClose(null)}
+          />
+        </div>
+
+        <h2 className="font-[700] text-[14px] leading-[19.9px] text-center mt-[39px] md:mt-[18px]">
           Translate the Premise Project in another Language
         </h2>
         <div className="h-[1px] mt-[8px] w-full mx-auto bg-[#a1a1a1]" />
@@ -182,7 +191,8 @@ const TransInOtherLang = ({
       </div>
 
       {isPayment && (
-        <PaymentInvoicePopup popClose={popClose}
+        <PaymentInvoicePopup
+          popClose={popClose}
           typeOfRequest="translate"
           premise_id={id}
           setPayment={setPayment}
