@@ -242,7 +242,7 @@ const PaymentInvoicePopup = ({
             />
           </div>
 
-          <div className="w-[100%] h-[90%]  overflow-y-auto bottom-1 mx-auto my-12">
+          <div className="w-[100%] h-[80vh]  overflow-y-auto bottom-1 mx-auto my-12">
             {isPLoading ? (
               // <Loader />
               <div className="h-full">
