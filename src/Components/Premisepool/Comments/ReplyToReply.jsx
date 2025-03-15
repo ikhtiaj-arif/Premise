@@ -723,25 +723,28 @@ const ReplyToReply = ({
       {childReplies && (
         <div className="w-[96%] md:w-[88%] mr-0 md:mr-[22px] mb-[8px] ml-auto">
           {childReply?.child_replies &&
-            childReply?.child_replies?.map(
-              (childReply, idx) =>
-                depth < 2 && (
-                  <ReplyToReply2
-                    handleAddToBeat={handleAddToBeat}
-                    key={idx}
-                    setCommentText={setCommentText}
-                    childReplyIDNext={childReply?.id}
-                    childReply={childReply}
-                    owner={owner}
-                    user={user}
-                    replyRefetch={replyRefetch}
-                    reply={reply}
-                    replyToCommentID={replyToCommentID}
-                    commentIdx={commentIdx}
-                    fromNew={fromNew}
-                  />
-                )
-            )}
+            childReply?.child_replies
+              ?.slice() // Create a shallow copy to avoid mutating the original array
+              ?.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+              ?.map(
+                (childReply, idx) =>
+                  depth < 2 && (
+                    <ReplyToReply2
+                      handleAddToBeat={handleAddToBeat}
+                      key={idx}
+                      setCommentText={setCommentText}
+                      childReplyIDNext={childReply?.id}
+                      childReply={childReply}
+                      owner={owner}
+                      user={user}
+                      replyRefetch={replyRefetch}
+                      reply={reply}
+                      replyToCommentID={replyToCommentID}
+                      commentIdx={commentIdx}
+                      fromNew={fromNew}
+                    />
+                  )
+              )}
         </div>
       )}
 

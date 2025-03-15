@@ -237,7 +237,7 @@ const TranslatePremise = ({
             </div>
           )}
           {
-            noAccessPopup?.msg=='ShowBecomePrivilege' && <NoAccessPopUp noAccessPopup={noAccessPopup} setNoAccessPopup={setNoAccessPopup}/>
+            noAccessPopup?.msg === 'ShowBecomePrivilege' && <NoAccessPopUp noAccessPopup={noAccessPopup} setNoAccessPopup={setNoAccessPopup}/>
           }
         </div>
   );

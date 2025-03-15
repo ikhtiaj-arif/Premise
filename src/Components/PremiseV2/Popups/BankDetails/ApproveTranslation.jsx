@@ -16,7 +16,7 @@ const ApproveTranslationPop = ({
   setCongratsPopup,
   congratsPopup,
   handleProceed,
-  
+
   loading,
 }) => {
   const [selectedUserNames, setSelectedUserNames] = useState([]);
@@ -107,54 +107,58 @@ const ApproveTranslationPop = ({
             </div>
 
             {/* Dynamic Rows */}
-            {translationRequests?.map((request, index) => (
-              <div
-                className="grid grid-cols-12 gap-[18px] w-[100%] mx-auto mt-[4px]"
-                key={request.id}
-              >
-                {/* Checkbox column */}
-                <div className="col-span-2 flex justify-center items-center">
-                  <input
-                    type="checkbox"
-                    className="h-[20px] w-[20px]"
-                    value={request.id}
-                    checked={selectedRequests.includes(request.id)}
-                    onChange={() =>
-                      handleCheckboxChange(
-                        request.id,
-                        request.fromUser.first_name
-                          ? `${request.fromUser.first_name} ${request.fromUser.last_name || ""}`.trim()
-                          : request.fromUser.email.split("@")[0] // Use email if first name is missing
-                      )
-                    }
-                  />
-                </div>
+            {translationRequests
+              ?.filter((request) => !request.requestApproved)
+              ?.map((request, index) => (
+                <div
+                  className="grid grid-cols-12 gap-[18px] w-[100%] mx-auto mt-[4px]"
+                  key={request.id}
+                >
+                  {/* Checkbox column */}
+                  <div className="col-span-2 flex justify-center items-center">
+                    <input
+                      type="checkbox"
+                      className="h-[20px] w-[20px]"
+                      value={request.id}
+                      checked={selectedRequests.includes(request.id)}
+                      onChange={() =>
+                        handleCheckboxChange(
+                          request.id,
+                          request.fromUser.first_name
+                            ? `${request.fromUser.first_name} ${
+                                request.fromUser.last_name || ""
+                              }`.trim()
+                            : request.fromUser.email.split("@")[0] // Use email if first name is missing
+                        )
+                      }
+                    />
+                  </div>
 
-                {/* Translation Requested By column */}
-                <div className="col-span-4 flex items-center justify-center">
-                  <p className="text-center text-[14px] leading-[21px] font-[400] text-[#616161]">
+                  {/* Translation Requested By column */}
+                  <div className="col-span-4 flex items-center justify-center">
                     <p className="text-center text-[14px] leading-[21px] font-[400] text-[#616161]">
-                      {/* Displaying the language name */}
-                      {getLanguageName(request.requestToLang)}
+                      <p className="text-center text-[14px] leading-[21px] font-[400] text-[#616161]">
+                        {/* Displaying the language name */}
+                        {getLanguageName(request.requestToLang)}
+                      </p>
                     </p>
-                  </p>
-                </div>
+                  </div>
 
-                {/* Language column */}
-                <div className="col-span-6 flex items-center justify-center">
-                  <p className="text-center text-[14px] leading-[21px] font-[400] text-[#616161]">
-                    {request.fromUser.first_name ? (
-                      <>
-                        {request.fromUser.first_name}{" "}
-                        {request.fromUser.last_name}
-                      </>
-                    ) : (
-                      <>{request.fromUser.email.split("@")[0]}</>
-                    )}
-                  </p>
+                  {/* Language column */}
+                  <div className="col-span-6 flex items-center justify-center">
+                    <p className="text-center text-[14px] leading-[21px] font-[400] text-[#616161]">
+                      {request.fromUser.first_name ? (
+                        <>
+                          {request.fromUser.first_name}{" "}
+                          {request.fromUser.last_name}
+                        </>
+                      ) : (
+                        <>{request.fromUser.email.split("@")[0]}</>
+                      )}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
         <div className="w-[88px] mx-auto  ">
