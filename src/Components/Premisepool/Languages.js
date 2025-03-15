@@ -1,4 +1,3 @@
-
 export const Languages = {
   // af: "Afrikaans",
   // am: "Amharic",
@@ -13,12 +12,13 @@ export const Languages = {
   // bs: "Bosnian",
   // bu: "Burmese",
   // ca: "Catalan",
-  'zh-CN': 'Chinese(Simplified)',
+  // 'zh-CN': 'Chinese(Simplified)',
   // "zh-TW": "Chinese(Traditional)",
   // ceb: "Cebuano",
   // co: "Corsican",
   // hr:'Croatian',
   // cs: "Czech",
+  nl: "Dutch",
   // cy: "Welsh",
   // da: "Danish",
   de: "German",
@@ -45,13 +45,13 @@ export const Languages = {
   // ig: "Igbo",
   // is: "Icelandic",
   // it: "Italian",
-  ja: "Japanese",
+  // ja: "Japanese",
   // jv: "Javanese",
   // ka: "Georgian",
   // kk: "Kazakh",
   // km: "Khmer",
   kn: "Kannada",
-  ko: "Korean",
+  // ko: "Korean",
   // ky: "Kyrgyz",
   // la: "Latin",
   // lv: "Latvian",
@@ -67,7 +67,6 @@ export const Languages = {
   // mt: "Maltese",
   // my: "Myanmar",
   ne: "Nepali",
-  nl: "Dutch",
   // no: "Norwegian",
   or: "Oriya",
   pa: "Punjabi",
@@ -110,6 +109,7 @@ export const Languages = {
   // uk: 'Ukrainian',
   st: 'Sesotho'
 };
+
 
 const uniqueLanguages = [...new Set(Object.values(Languages))];
 const sortedLanguages = Object.fromEntries(
