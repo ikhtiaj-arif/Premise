@@ -512,6 +512,7 @@ const PremiseCardV2 = ({
         >
           <div
             onClick={() => {
+              setTransPopClose(null)
               setOpenPop(true);
               setShowRefine(false);
               setOpenDotMenu(null);
