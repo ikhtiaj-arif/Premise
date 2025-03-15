@@ -695,7 +695,10 @@ const ReplyToComments = ({
                 }`}
               >
                 {reply?.child_replies &&
-                  reply?.child_replies?.map((childReply, idx) => (
+                  reply?.child_replies?.slice() // Create a shallow copy to avoid mutating the original array
+                  ?.sort(
+                    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+                  )?.map((childReply, idx) => (
                     <motion.div
                       // data-reply
                       ref={latestReplyRef}
@@ -743,14 +746,14 @@ const ReplyToComments = ({
         />
       )}
 
-      {noAccessLbPopup?.msg == "ShowBecomePrivilege" && (
+      {noAccessLbPopup?.msg === "ShowBecomePrivilege" && (
         <NoAccessPopUp
           noAccessPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
         />
       )}
-      {(noAccessLbPopup?.msg == "LB" ||
-        noAccessLbPopup?.msg == "ShowBuyPackage_and_Allacarte") && (
+      {(noAccessLbPopup?.msg === "LB" ||
+        noAccessLbPopup?.msg === "ShowBuyPackage_and_Allacarte") && (
         <NoAccessLbPopUp
           noAccessLbPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
