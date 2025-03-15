@@ -2246,7 +2246,10 @@ useEffect(() => {
                   </div>
                   <div className="flex justify-center items-center w-full h-full cursor-pointer">
                     <button
-                      onClick={() => setKeyboardVisible(false)}
+                      onClick={() => {
+                        setKeyboardVisible(false)
+                        setSelectedLanguage('')
+                      }}
                       className="font-bold w-full h-full"
                     >
                       ✕

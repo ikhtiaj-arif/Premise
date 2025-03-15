@@ -28,7 +28,7 @@
     "react-select": "^5.7.4",
     "react-simple-keyboard": "^3.6.20",
     "react-toastify": "^9.1.3",
-    "simple-keyboard-layouts": "^3.2.23",
+    "simple-keyboard-layouts": "^3.4.69",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
