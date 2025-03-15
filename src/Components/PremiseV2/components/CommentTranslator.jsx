@@ -35,13 +35,17 @@ const CommentTranslator = ({ comment, translateComment, commentRefetch }) => {
     }
   };
 
+  //       setOpenDropdownId((prev) => (prev === comment.id ? null : comment.id));
+  //     }
+  //   }
+  // };
   return (
     <div className="relative">
       <img
         data-te-toggle="tooltip"
         title="Translate"
         src={transIcon}
-        onClick={handleTranslate}
+        onClick={() => handleTranslate(comment)}
         className="w-5 h-5 ml-auto cursor-pointer"
         alt=""
       />

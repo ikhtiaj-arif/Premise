@@ -1,5 +1,6 @@
 import CryptoJS from "crypto-js";
 import React, { useContext, useEffect, useState } from "react";
+import { MdKeyboardBackspace } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { MyContext } from "../../App";
@@ -12,10 +13,9 @@ import crossIcon from "../../img/croos_icon.png";
 import logo from "../../img/MNF_Logo_Final.png";
 import Valid from "../../img/valid_upto.png";
 import TypingLoader from "../TypingLoader";
+import { Amount } from "./Amount";
 import { HeaderOptions } from "./HeaderOptions";
 import { Package } from "./Package";
-import PayableAmount from "./PayableAmount";
-import { Amount } from "./Amount";
 
 const PaymentInvoicePopup = ({
   typeOfRequest,
@@ -220,13 +220,22 @@ const PaymentInvoicePopup = ({
 
   return (
     <div className="fixed top-[40px] left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
-      <div className=" lg:static lg:mt-0 absolute bottom-0 bg-white rounded-[12px] w-[100%] lg:w-[1140px]">
+      <div className="h-[97vh] lg:static lg:mt-0 absolute bottom-0 bg-white md::rounded-[12px] w-[100%] lg:w-[1140px]">
         <div className="relative">
-          <div className="absolute right-[45%] top-[-60px] md:top-[-62px] md:right-[-12px]">
+          <div className="hidden md:block absolute right-[45%] top-[-60px] md:top-[-62px] md:right-[-12px]">
             <img
               src={crossIcon}
               alt=""
-              className="w-[40px] h-[40px] z-[99999999] cursor-pointer"
+              className="w-[40px] h-[40px] z-[9] cursor-pointer"
+              onClick={() => {
+                setPayment(false);
+              }}
+            />
+          </div>
+          <div className="md:hidden absolute top-[-38px] left-[-18px] ml-4 sm:ml-0 sm:right-[-15px]">
+            <MdKeyboardBackspace
+              alt=""
+              className="text-[#33B0CA] ml-[20px] text-left text-[38px] z-[1] absolute cursor-pointer mdHidden"
               onClick={() => {
                 setPayment(false);
               }}

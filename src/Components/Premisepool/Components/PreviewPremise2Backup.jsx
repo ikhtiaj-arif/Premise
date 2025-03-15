@@ -155,7 +155,7 @@ const PremisePreview2 = ({
       ],
     };
 
-    
+
   const options = {
     "Short film": [
       { text: "About 2 Minutes", value: "Upto 2 Minutes" },
@@ -531,7 +531,7 @@ const PremisePreview2 = ({
       }
       setKeyboardVisible(!keyboardVisible);
     };
-  
+
 
 
   // browsing file
@@ -1809,7 +1809,7 @@ const PremisePreview2 = ({
                       </div>
                     </div>
                   </div>
-         
+
                   <div
                     className={`h-[31px] relative  bg-[#fafafa] rounded-[4px] border-[2px] col-span-4 ${
                       createNewProject
@@ -2300,7 +2300,10 @@ const PremisePreview2 = ({
                           </div>
                           <div className="flex justify-center items-center w-full h-full cursor-pointer">
                             <button
-                              onClick={() => setKeyboardVisible(false)}
+                          onClick={() => {
+                            setKeyboardVisible(false)
+                            setSelectedLanguage('')
+                          }}
                               className="font-bold w-full h-full"
                             >
                               ✕
