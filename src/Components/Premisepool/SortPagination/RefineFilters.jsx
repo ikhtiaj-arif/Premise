@@ -179,7 +179,7 @@ const RefineFilters = ({
           <button
             disabled={disabled}
             className={` px-4 py-[4px] text-[14px] font-[400] text-white rounded-[8px] ${
-              disabled ? "bg-[#9A9A9A]" : "bg-[#33B0CA]"
+              disabled ? "bg-[#ACDDE7]" : "bg-[#33B0CA]"
             }`}
             onClick={() => {
               handleFilterSubmit();
@@ -193,7 +193,7 @@ const RefineFilters = ({
             disabled={disabled}
             className={`clear-m px-4 py-[2px] text-[14px] font-[400] rounded-[8px] ${
               disabled
-                ? "bg-[#9A9A9A] text-white"
+                ? "bg-[#ACDDE7] text-white"
                 : "bg-[#FAFAFA] text-[#33B0CA] border !border-[#33B0CA] "
             }`}
             onClick={handleLangFilterClear}
