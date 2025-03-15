@@ -380,7 +380,7 @@ const PremiseCardV2 = ({
     <div className="w-[358px] lg:w-[100%] mx-auto border border-[#EAEAEA] hover:shadow-lg rounded-[8px]  ">
       {/* upper div */}
       <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-[15px] pt-[15px] pb-[6px]">
-        <div className="block ">
+        <div className="block max-w-[140px]">
           <a
             target="_blank"
             rel="noreferrer"

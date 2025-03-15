@@ -194,13 +194,13 @@ const PopupTextarea = ({
     setKeyboardVisible(!keyboardVisible);
   };
   return (
-    <div className={`relative bottom-0 md:w-auto px-2 ${className}`}>
+    <div className={`relative  bottom-0 md:w-auto px-2 ${className}`}>
       <div
         className={`${
           className ? "bg-[#fff]" : "bg-[#f8f8f8]"
         } relative md:mb-[16px] pl-3 md:flex-row ${
           fromNew ? "w-full" : "w-[90%]"
-        }  mx-auto border border-[#EAEAEA] rounded-[8px] mt-[8px]`}
+        }  mx-auto  border border-[#EAEAEA] rounded-[8px] mt-[8px] md:h-[92px] xl:h-[126px]`}
       >
         {premiseOwner?.id === user ? (
           <textarea
@@ -244,7 +244,7 @@ const PopupTextarea = ({
             }}
           />
         )}
-        <div className="flex gap-3 items-center justify-end pr-2 pb-1">
+        <div className="absolute right-0 bottom-[2px] xl:bottom-1 flex gap-3 items-center justify-end pr-2 pb-1">
           <div className="md:flex  hidden ">
             <FaKeyboard
               data-te-toggle="tooltip"
