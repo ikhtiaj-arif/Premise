@@ -220,7 +220,7 @@ const PaymentInvoicePopup = ({
 
   return (
     <div className="fixed top-[40px] left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
-      <div className="h-[97vh] lg:static lg:mt-0 absolute bottom-0 bg-white md::rounded-[12px] w-[100%] lg:w-[1140px]">
+      <div className="h-[90vh] lg:static lg:mt-0 absolute bottom-0 bg-white md::rounded-[12px] w-[100%] lg:w-[1140px]">
         <div className="relative">
           <div className="hidden md:block absolute right-[45%] top-[-60px] md:top-[-62px] md:right-[-12px]">
             <img
@@ -242,7 +242,7 @@ const PaymentInvoicePopup = ({
             />
           </div>
 
-          <div className="w-[100%] h-[60vh]  overflow-y-auto bottom-1 mx-auto my-12">
+          <div className="w-[100%] h-[90%]  overflow-y-auto bottom-1 mx-auto my-12">
             {isPLoading ? (
               // <Loader />
               <div className="h-full">
