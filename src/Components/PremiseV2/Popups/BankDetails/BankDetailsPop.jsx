@@ -228,12 +228,14 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
                   >
                     Submit Details of bank account
                   </button>
-                  <button
-                    onClick={() => setShowTransRequests(true)}
-                    className={`${"text-[#33B0CA]"} border-b border-[#33B0CA] leading-[18px]  md:leading-[24px] px-[20px] py-[2px] text-[12px] md:text-[14px] font-[600] w-fit`}
-                  >
-                    Select
-                  </button>
+                  {bankDetailsAvailable?.data && (
+                    <button
+                      onClick={() => setShowTransRequests(true)}
+                      className={`${"text-[#33B0CA]"} border-b border-[#33B0CA] leading-[18px]  md:leading-[24px] px-[20px] py-[2px] text-[12px] md:text-[14px] font-[600] w-fit`}
+                    >
+                      Select
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

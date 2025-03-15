@@ -469,8 +469,8 @@ const Popup = ({
                     className={`notranslate w-[75px] max-w-[110px] text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
                     title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
                   >
-                            {/* {premiseOwner?.first_name} {premiseOwner?.last_name} */}
-                            Moniruzzaman chowdhory
+                            {premiseOwner?.first_name} {premiseOwner?.last_name}
+                          
                           </h4>
                           <UserType
                             type={premiseOwner?.centraldatabase?.type}
