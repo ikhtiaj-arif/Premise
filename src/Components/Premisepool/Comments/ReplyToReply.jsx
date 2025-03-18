@@ -469,7 +469,7 @@ const ReplyToReply = ({
               </div>
               <div className="hidden md:block">
                 {owner === user &&
-                  childReply?.text?.includes("?") &&
+                 ( childReply?.text?.includes("?") || childReply?.text?.includes("؟") )&&
                   childReply?.user?.id === 1 && (
                     <>
                       {childReply?.suggested ? (
@@ -588,7 +588,7 @@ const ReplyToReply = ({
             </div>
             <div className="md:hidden mt-[-6px]">
               {owner === user &&
-                childReply?.text?.includes("?") &&
+               ( childReply?.text?.includes("?") || childReply?.text?.includes("؟")) &&
                 childReply?.user?.id === 1 && (
                   <>
                     {childReply?.suggested ? (

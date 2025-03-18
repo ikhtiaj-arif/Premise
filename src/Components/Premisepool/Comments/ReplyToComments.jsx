@@ -512,7 +512,7 @@ const ReplyToComments = ({
               </button>
               <div className="hidden md:block">
                 {owner === user &&
-                  reply?.text?.includes("?") &&
+                 ( reply?.text?.includes("?")|| reply?.text?.includes("؟")) &&
                   reply?.user?.id === 1 && (
                     <>
                       {reply?.suggested ? (
@@ -555,7 +555,7 @@ const ReplyToComments = ({
               </div>
 
               {owner === user &&
-                reply?.text?.includes("?") &&
+                (reply?.text?.includes("?") || reply?.text?.includes("؟"))&&
                 reply?.user?.id === 1 && (
                   <>
                     {reply?.suggested ? (
