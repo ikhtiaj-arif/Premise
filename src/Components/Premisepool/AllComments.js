@@ -687,7 +687,7 @@ const AllComments = ({
                         </button>
 
                         {data?.premiseOwner?.id === user &&
-                          comments?.text?.includes("?") &&
+                          (comments?.text?.includes("?")|| comments?.text?.includes("؟")) &&
                           (comments?.user?.id === 1 ||
                             comments?.user?.id === 79) && (
                             <div className=" flex items-center justify-between">
@@ -810,7 +810,7 @@ const AllComments = ({
                           </button>
                         }
                         {data?.premiseOwner?.id === user &&
-                          comments?.text?.includes("?") &&
+                          (comments?.text?.includes("?") || comments?.text?.includes("؟")) &&
                           (comments?.user?.id === 1 ||
                             comments?.user?.id === 79) && (
                             <div className=" flex items-center justify-between">

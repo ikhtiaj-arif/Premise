@@ -243,7 +243,10 @@ const ReplyToReply2 = ({
 
   const lastChildReplies = childReply?.child_replies?.filter(
     (childReply) =>
-      !(childReply?.text?.includes("?") && childReply?.user?.id === 1) // Exclude replies matching the conditions
+      !(
+        (childReply?.text?.includes("?") || childReply?.text?.includes("؟")) &&
+        childReply?.user?.id === 1
+      ) // Exclude replies matching the conditions
   );
 
   const handleChildReply = async () => {
@@ -475,7 +478,8 @@ const ReplyToReply2 = ({
 
               <div className="hidden md:block">
                 {owner === user &&
-                  childReply?.text?.includes("?") &&
+                  (childReply?.text?.includes("?") ||
+                    childReply?.text?.includes("؟")) &&
                   childReply?.user?.id === 1 && (
                     <>
                       {childReply?.suggested ? (
@@ -590,7 +594,8 @@ const ReplyToReply2 = ({
 
           <div className="md:hidden ml-[6px] mt-[-8px]">
             {owner === user &&
-              childReply?.text?.includes("?") &&
+              (childReply?.text?.includes("?") ||
+                childReply?.text?.includes("؟")) &&
               childReply?.user?.id === 1 && (
                 <>
                   {childReply?.suggested ? (
