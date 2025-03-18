@@ -1,56 +1,58 @@
 export const getWhatIfPhrase = (language) => {
-    switch (language) {
-      case "Arabic":
-        return "ماذا لو";
-      case "Assamese":
-        return "কী যদি";
-      case "Bengali":
-        return "যদি";
-      case "Burmese":
-        return "အဆိုတော်";
-      case "English":
-        return "What if";
-      case "Farsi":
-        return "چه اگر";
-      case "Georgian":
-        return "რაც თუ";
-      case "Gilaki":
-        return "اگر";
-      case "Greek":
-        return "Τι θα γινόταν αν";
-      case "Hebrew":
-        return "מה אם";
-      case "Hindi":
-        return "क्या हो अगर";
-      case "Hungarian":
-        return "Mi lenne, ha";
-      case "Italian":
-        return "E se";
-      case "Japanese":
-        return "もし";
-      case "Kannada":
-        return "ಏನು ಆಗುತ್ತಿತ್ತು ಅಂದರೆ";
-      case "Korean":
-        return "만약";
-      case "Malayalam":
-        return "എന്താണ് അനുഭവപ്പെടുന്നത്";
-      case "Nigerian":
-        return "Kini yin";
-      case "Nko":
-        return "ⴰⵏⴻⴹⴷⴰ";
-      case "Norwegian":
-        return "Hva om";
-      case "Sindhi":
-        return "ڇاڪري";
-      case "Spanish":
-        return "¿Y si";
-      case "Thai":
-        return "ถ้า";
-      case "Urdu":
-        return "کیا اگر";
-      case "Uyghur":
-        return "ھېچقانداق بولسا";
-      default:
-        return "What if";
-    }
-  };
+  switch (language) {
+    case "Arabic":
+      return "ماذا لو";
+    case "Belarusian":
+      return "Што калі";
+    case "Bengali":
+      return "যদি";
+    case "Dutch":
+      return "Wat als";
+    case "English":
+      return "What if";
+    case "French":
+      return "Et si";
+    case "Galician":
+      return "Que pasaría se";
+    case "German":
+      return "Was wäre wenn";
+    case "Hindi":
+      return "क्या हो अगर";
+    case "Indonesian":
+      return "Bagaimana jika";
+    case "Kannada":
+      return "ಏನು ಆಗುತ್ತಿತ್ತು ಅಂದರೆ";
+    case "Malay":
+      return "Bagaimana jika";
+    case "Malayalam":
+      return "എന്താണ് അനുഭവപ്പെടുന്നത്";
+    case "Marathi":
+      return "काय झाले असते तर";
+    case "Myanmar":
+      return "အဆိုတော်";
+    case "Nepali":
+      return "के भए भने";
+    case "Oriya":
+      return "କଣ ହେଲେ";
+    case "Punjabi":
+      return "ਜੇ ਅਜੇ ਹੋਇਆ ਹੋਵੇ";
+    case "Russian":
+      return "Что если";
+    case "Sesotho":
+      return "Hobaneng haeba";
+    case "Spanish":
+      return "¿Y si";
+    case "Swahili":
+      return "Vipi kama";
+    case "Swedish":
+      return "Tänk om";
+    case "Tamil":
+      return "என்னா இருந்தாலா";
+    case "Telugu":
+      return "ఏం అయితే";
+    case "Urdu":
+      return "کیا اگر";
+    default:
+      return "What if";
+  }
+};

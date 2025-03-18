@@ -257,7 +257,7 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
                             <button
                                 onClick={() => {
                                   setKeyboardVisible(false)
-                                  setSelectedLanguage('')
+                                  // setSelectedLanguage('')
                                 }}
                               className="font-bold w-full h-full"
                             >
