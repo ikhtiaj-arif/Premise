@@ -47,6 +47,16 @@ export const projectEndPoint = apiSlice.injectEndpoints({
         };
       },
     }),
+
+    suggestCharacters: builder.mutation({
+      query: (data) => ({
+        url: `ideamall/edit_characters_suggest/`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["premise"],
+    }),
+
   }),
 });
 
@@ -55,5 +65,6 @@ export const {
   useSaveCharactersMutation,
   usePostPremiseWithCharactersMutation,
   useGetSavedCharactersQuery,
-  useDeleteCharacterMutation
+  useDeleteCharacterMutation,
+  useSuggestCharactersMutation
 } = projectEndPoint;

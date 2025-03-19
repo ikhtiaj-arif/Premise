@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import AutoSizeTextArea from "./AutosizeTextArea";
+import { useSuggestCharactersMutation } from "../../../app/EndPoints/Characters/Characters";
 
 const SingleCharacterAdd = ({
   setAddNewCharacter,
@@ -22,6 +23,9 @@ const SingleCharacterAdd = ({
 
   // New state to track if all fields are filled
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
+
+  const [suggestCharacters, updatePostPremiseResInfo] =
+    useSuggestCharactersMutation();
 
   const occupationRef = useRef(null);
   const personalityRef = useRef(null);
@@ -173,9 +177,31 @@ const SingleCharacterAdd = ({
     (roleOption) => !characterArray.some((char) => char.role === roleOption)
   );
 
-  const handleSuggest=(e)=>{
+  const handleSuggest = async (e) => {
     e.preventDefault();
-  }
+    const assignedRole = role === "Others" ? customRole : role;
+    const newCharacter = {
+      role: assignedRole,
+      name,
+      age,
+      occupation,
+      gender,
+    };
+    try {
+      const res = await suggestCharacters(newCharacter);
+      console.log("suggestCharacters", res?.data?.data);
+      const suggestedData = res?.data?.data;
+      setBackGround(suggestedData?.Background);
+      setPersonality(suggestedData?.Personality);
+      setIndividualWant(suggestedData?.Individual_want);
+      setCharacterjourney(suggestedData?.Character_journey);
+      setBloodrelationship(suggestedData?.Blood_relationship);
+      setFamilyrelationship(suggestedData?.Family_relationship);
+      setProfessionalrelationship(suggestedData?.Professional_relationship);
+    } catch (error) {
+      console.error("Error fetching character suggestion:", error);
+    }
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 ">
@@ -325,7 +351,13 @@ const SingleCharacterAdd = ({
                 </div>
               </div>
               <div className="mb-[12px] flex justify-end">
-                <button onClick={handleSuggest} className=" bg-[#33B0CA] text-white  text-[12px] font-[700] rounded-[6px] px-3 py-1">
+                <button
+                  disabled={isSaveDisabled}
+                  onClick={handleSuggest}
+                  className={`${
+                    isSaveDisabled ? "bg-[#ACDDE7]  " : "bg-[#33B0CA] "
+                  } text-white  text-[12px] font-[700] rounded-[6px] px-3 py-1`}
+                >
                   Suggest the following
                 </button>
               </div>
