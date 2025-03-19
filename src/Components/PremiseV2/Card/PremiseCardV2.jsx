@@ -428,7 +428,7 @@ const PremiseCardV2 = ({
                     />
                     </div>
                 </div>
-                <div className="text-[#616161] text-[10px] flex flex-col gap-[8px] font-[400] leading-[4px] ">
+                <div className="text-[#616161] text-[9.5px] flex flex-col gap-[8px] font-[400] leading-[4px] ">
                   <p>
                     {formattedDate}, {formattedTime}
                   </p>
