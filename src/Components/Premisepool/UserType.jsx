@@ -36,7 +36,7 @@ const UserType = ({ type, user_type }) => {
 
   return (
     <span
-      className="notranslate text-[14px]  font-semibold ml-1 border-2 border-solid rounded-full w-[22px] h-[22px] flex justify-center items-center text-[#33b0ca] cursor-pointer hover:tooltip-tool hover:tooltip hover:tooltip-bottom lg:hover:tooltip-top"
+      className="notranslate text-[12px]  font-semibold ml-1 border-2 border-solid rounded-full w-[18px] h-[18px] flex justify-center items-center text-[#33b0ca] cursor-pointer hover:tooltip-tool hover:tooltip hover:tooltip-bottom lg:hover:tooltip-top"
       data-te-toggle="tooltip"
       title={packageName}
     >
