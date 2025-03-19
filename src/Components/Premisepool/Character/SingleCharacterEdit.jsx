@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import AutoSizeTextArea from "./AutosizeTextArea";
+import { useSuggestCharactersMutation } from "../../../app/EndPoints/Characters/Characters";
 const SingleCharacterAdd = ({
   setEditPopupOpen,
   editData,
@@ -9,6 +10,8 @@ const SingleCharacterAdd = ({
   isEditPopupOpen,
   onlyAdd,
 }) => {
+  const [suggestCharacters, updatePostPremiseResInfo] =
+    useSuggestCharactersMutation();
   const [role, setRole] = useState(editData?.role || "");
 
   const [name, setName] = useState(editData?.name || "");
@@ -162,6 +165,32 @@ const SingleCharacterAdd = ({
 
   // const isDisabled = editIdx === 0;
   const isDisabled = onlyAdd || editIdx === 0;
+
+  const handleSuggest = async (e) => {
+    e.preventDefault();
+    const assignedRole = role === "Others" ? customRole : role;
+    const newCharacter = {
+      role: assignedRole,
+      name,
+      age,
+      occupation,
+      gender,
+    };
+    try {
+      const res = await suggestCharacters(newCharacter);
+      console.log("suggestCharacters", res?.data?.data);
+      const suggestedData = res?.data?.data;
+      setBackGround(suggestedData?.Background);
+      setPersonality(suggestedData?.Personality);
+      setIndividualWant(suggestedData?.Individual_want);
+      setCharacterjourney(suggestedData?.Character_journey);
+      setBloodrelationship(suggestedData?.Blood_relationship);
+      setFamilyrelationship(suggestedData?.Family_relationship);
+      setProfessionalrelationship(suggestedData?.Professional_relationship);
+    } catch (error) {
+      console.error("Error fetching character suggestion:", error);
+    }
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -354,6 +383,17 @@ const SingleCharacterAdd = ({
                   />
                 </div>
               </div>
+              {!isDisabled && (
+                <div className="mb-[12px] flex justify-end">
+                  <button
+                    onClick={handleSuggest}
+                    className={`bg-[#33B0CA] text-white  text-[12px] font-[700] rounded-[6px] px-3 py-1`}
+                  >
+                    Suggest the following
+                  </button>
+                </div>
+              )}
+
               <div className="mb-[12px] mt-6">
                 <div className="relative w-full md:w-[171px]">
                   <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">

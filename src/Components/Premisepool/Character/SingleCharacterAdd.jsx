@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import AutoSizeTextArea from "./AutosizeTextArea";
+import { useSuggestCharactersMutation } from "../../../app/EndPoints/Characters/Characters";
 
 const SingleCharacterAdd = ({
   setAddNewCharacter,
@@ -22,6 +23,9 @@ const SingleCharacterAdd = ({
 
   // New state to track if all fields are filled
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
+
+  const [suggestCharacters, updatePostPremiseResInfo] =
+    useSuggestCharactersMutation();
 
   const occupationRef = useRef(null);
   const personalityRef = useRef(null);
@@ -82,6 +86,7 @@ const SingleCharacterAdd = ({
       blood_relationship: bloodrelationship,
       family_relationship: familyrelationship,
       professional_relationship: professionalrelationship,
+      is_ai_generated: false,
     };
 
     handleAddNewCharacter(newCharacter);
@@ -172,6 +177,32 @@ const SingleCharacterAdd = ({
     (roleOption) => !characterArray.some((char) => char.role === roleOption)
   );
 
+  const handleSuggest = async (e) => {
+    e.preventDefault();
+    const assignedRole = role === "Others" ? customRole : role;
+    const newCharacter = {
+      role: assignedRole,
+      name,
+      age,
+      occupation,
+      gender,
+    };
+    try {
+      const res = await suggestCharacters(newCharacter);
+      console.log("suggestCharacters", res?.data?.data);
+      const suggestedData = res?.data?.data;
+      setBackGround(suggestedData?.Background);
+      setPersonality(suggestedData?.Personality);
+      setIndividualWant(suggestedData?.Individual_want);
+      setCharacterjourney(suggestedData?.Character_journey);
+      setBloodrelationship(suggestedData?.Blood_relationship);
+      setFamilyrelationship(suggestedData?.Family_relationship);
+      setProfessionalrelationship(suggestedData?.Professional_relationship);
+    } catch (error) {
+      console.error("Error fetching character suggestion:", error);
+    }
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 ">
       <div className="fixed inset-0 bg-black opacity-50"></div>
@@ -261,7 +292,7 @@ const SingleCharacterAdd = ({
                   </div>
                 )}
               </div>
-              <div className="block mb-0 md:mb-[20px] md:flex gap-[14px]">
+              <div className="block mb-0 md:flex gap-[14px]">
                 <div className="relative w-full md:w-[92px]">
                   <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-10">
                     Gender
@@ -281,24 +312,24 @@ const SingleCharacterAdd = ({
                     <option className="text-[14px]">Inanimate Object</option>
                   </select>
                 </div>
-              {gender !== "Inanimate Object" &&  <div className="relative w-full  md:w-[49px] ">
-
-                  <label className="absolute left-2 top-[-12px] z-[2] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
-                    Age
-                  </label>
-                  <input
-                    type="text"
-                    value={age}
-                    onChange={handleAgeChange}
-                    id="protaAge"
-                    min="0"
-                    maxLength={5}
-                    className={`h-[41px] w-full  md:ml-0 relative text-[12px] md:!text-[14px] leading-tight  px-[8px] mb-[24px] md:mb-[15px] md:w-[64px] bg-[#fafafa] rounded-[8px] border-[2px] focus:outline-none   text-[#616161] `}
-                    placeholder="age"
-                    required
-                  />
-                </div>
-                }
+                {gender !== "Inanimate Object" && (
+                  <div className="relative w-full  md:w-[49px] ">
+                    <label className="absolute left-2 top-[-12px] z-[2] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                      Age
+                    </label>
+                    <input
+                      type="text"
+                      value={age}
+                      onChange={handleAgeChange}
+                      id="protaAge"
+                      min="0"
+                      maxLength={5}
+                      className={`h-[41px] w-full  md:ml-0 relative text-[12px] md:!text-[14px] leading-tight  px-[8px] mb-[24px] md:mb-[15px] md:w-[64px] bg-[#fafafa] rounded-[8px] border-[2px] focus:outline-none   text-[#616161] `}
+                      placeholder="age"
+                      required
+                    />
+                  </div>
+                )}
                 <div className="relative w-full md:w-[206px] md:left-5 ">
                   <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Occupation
@@ -318,6 +349,17 @@ const SingleCharacterAdd = ({
                     "
                   />
                 </div>
+              </div>
+              <div className="mb-[12px] flex justify-end">
+                <button
+                  disabled={isSaveDisabled}
+                  onClick={handleSuggest}
+                  className={`${
+                    isSaveDisabled ? "bg-[#ACDDE7]  " : "bg-[#33B0CA] "
+                  } text-white  text-[12px] font-[700] rounded-[6px] px-3 py-1`}
+                >
+                  Suggest the following
+                </button>
               </div>
               <div className="mb-[20px]">
                 <div className="relative w-full md:w-[171px]">
