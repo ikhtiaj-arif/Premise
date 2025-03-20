@@ -368,13 +368,18 @@ const LeftSideBar = ({
                     />
                   </div>
                   <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
-                  <p className="text-[#33B0CA] text-[16px] font-[500] leading-6">
+                  <p className="text-[#33B0CA] text-[16px] font-[500] leading-6 capitalize">
                     {filter_flag === 0
                       ? "All Buddies"
                       : filter_flag === 1
                       ? "Only Me"
                       : filter_flag === 2
-                      ? "Names"
+                      ? visible_to?.length > 0
+                        ? visible_to
+                            //.filter((v) => v?.id !== currentUser?.id) // Exclude current user
+                            .map((v) => `${v?.first_name} ${v?.last_name}`) // Format names properly
+                            .join(", ")
+                        : "No one"
                         ? filter_flag === 3
                         : "Everyone"
                       : "Everyone"}
@@ -469,13 +474,18 @@ const LeftSideBar = ({
                     />
                   </div>
                   <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
-                  <p className="text-[#33B0CA] text-[16px] font-[500] leading-6">
+                  <p className="text-[#33B0CA] text-[16px] font-[500] leading-6 capitalize">
                     {filter_flag === 0
                       ? "All Buddies"
                       : filter_flag === 1
                       ? "Only Me"
                       : filter_flag === 2
-                      ? "Names"
+                      ? visible_to?.length > 0
+                        ? visible_to
+                            //.filter((v) => v?.id !== currentUser?.id) // Exclude current user
+                            .map((v) => `${v?.first_name} ${v?.last_name}`) // Format names properly
+                            .join(", ")
+                        : "No one"
                         ? filter_flag === 3
                         : "Everyone"
                       : "Everyone"}
