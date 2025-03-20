@@ -93,11 +93,11 @@ input[type="number"]::-webkit-outer-spin-button {
   background: #2a94a8;
 }
 
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
   .ls-textarea {
     z-index: 20 !important;
   }
-}
+} */
 .text_format{
   word-break: normal;
   overflow-wrap: anywhere !important;

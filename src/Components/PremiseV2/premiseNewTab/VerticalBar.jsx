@@ -16,7 +16,7 @@ const VerticalBar = ({ comments, currentCommentRef, handleOpenAllReplies }) => {
     }
   };
   return (
-    <div className="absolute top-0 right-0 bg-[#eaeaea] w-[37px] hidden lg:block h-full overflow-y-auto overflow-x-hidden">
+    <div className=" bg-[#eaeaea] w-[37px] hidden lg:block h-full overflow-y-auto overflow-x-hidden">
       {[...(comments || [])]
         .sort((a, b) => a.c_value - b.c_value)
         .map((comment, index) => (

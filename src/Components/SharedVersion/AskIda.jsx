@@ -68,7 +68,7 @@ const AskIda = ({
       if (response) {
         const body = {
           premise: id,
-          text: "Please proceed further Ida !",
+          text: "Please proceed further Ida!",
           ask_ida:true,
           user: user,
           C: response?.data?.counts + 1, // Update the comment count

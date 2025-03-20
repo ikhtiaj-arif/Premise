@@ -18,6 +18,7 @@ import { baseURL } from "../../utils";
 import { loadingData } from "../Premsie.v2";
 import LeftSideBar from "./LeftSideBar";
 import ProjectInfo from "./ProjectInfo";
+import VerticalBar from "./VerticalBar";
 
 const PremiseNewTab = () => {
   const { id } = useParams(); // Extract the ID from the route
@@ -171,9 +172,9 @@ const PremiseNewTab = () => {
       {!isPremiseLoading && !isCommentLoading && premiseData && commentsData ? (
         <>
           <ProjectInfo {...{ premiseData }} />
-          <div className="w-full lg:flex items-start relative">
+          <div className="w-full lg:flex relative">
             {/* Left Sidebar */}
-            <div className="leftSection bg-[#fff] lg:w-[500px] w-full pr-0 flex justify-end lg:h-[calc(100vh-75px)]">
+            <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex lg:h-[calc(100vh-75px)]">
               <LeftSideBar
                 {...{
                   filteredCommentsData,
@@ -195,22 +196,18 @@ const PremiseNewTab = () => {
                   setSearchTerm,
                 }}
               />
+              <VerticalBar
+                replyRef={replyRef}
+                comments={filteredCommentsData?.comments}
+                currentCommentRef={currentCommentRef}
+                handleOpenAllReplies={handleOpenAllReplies}
+                // setReplyField={setReplyField}
+                // replyField={replyField}
+                // onFocusComment={handleFocusComment}
+              />
             </div>
-            {/* right Comment Section */}
-            {/* <div
-              style={{
-                boxShadow: "0px 0px 10px 2px #eaeaea",
-              }}
-              className="commentSection bg-[#fff] py-2 px-4 rounded-lg rounded-2 w-[68%] h-full overflow-y-auto"
-            >
-              {[...(commentsData?.comments || [])] // Create a shallow copy of the array to avoid modifying the original
-                .sort((a, b) => a.c_value - b.c_value) // Sort comments by c_value in ascending order
-                .map((comment, index) => (
-                  <MainComment comment={comment} />
-                ))}
-            </div> */}
 
-            <div className="w-full z-[0] relative lg:h-[calc(100vh-75px)] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl">
+            <div className="w-full z-[-1] relative lg:h-[calc(100vh-75px)] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl">
               {isSearchLoading || isCommentLoading ? (
                 <div>
                   <TypingLoader />
