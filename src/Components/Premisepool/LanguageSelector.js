@@ -4,7 +4,7 @@ import { options } from "./options";
 const LanguageSelector = ({
   setSelectedLanguage,
   setKeyboardVisible,
-  selectedLanguage,
+  selectedLanguage,premiseLanguage
 }) => {
   // console.log(selectedLanguage);
 
@@ -18,7 +18,7 @@ const LanguageSelector = ({
   const sortedOptions = options?.sort((a, b) => a.localeCompare(b));
 
   return (
-    <select
+    <select  disabled={premiseLanguage}
       onChange={handleLanguageChange}
       value={selectedLanguage}
       className="text-[14px] border-none bg-[#fafafa] text-[#616161] focus:outline-none border w-full"

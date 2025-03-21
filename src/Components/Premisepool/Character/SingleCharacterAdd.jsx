@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import AutoSizeTextArea from "./AutosizeTextArea";
 import { useSuggestCharactersMutation } from "../../../app/EndPoints/Characters/Characters";
+import { FaKeyboard } from "react-icons/fa";
+import LanguageSelector from "../LanguageSelector";
+import Draggable from "react-draggable";
+import Keyboard from "../Keyboard";
+import Pkeyboard from "../Components/PreviewKeyboard";
 
 const SingleCharacterAdd = ({
   setAddNewCharacter,
@@ -24,6 +29,9 @@ const SingleCharacterAdd = ({
   // New state to track if all fields are filled
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
 
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+
   const [suggestCharacters, updatePostPremiseResInfo] =
     useSuggestCharactersMutation();
 
@@ -36,37 +44,28 @@ const SingleCharacterAdd = ({
   const professionalRelationshipRef = useRef(null);
   const backgroundRef = useRef(null);
 
+  const projectNameRef = useRef();
+
   useEffect(() => {
     // Check if all fields are filled to enable the "Save" button
     const isFormComplete =
       role &&
-      name &&
+      projectNameRef.current?.value &&
       age &&
-      occupation &&
+      occupationRef.current?.value &&
       gender &&
-      // background &&
-      // personality &&
-      // individualWant &&
-      // characterjourney &&
-      // bloodrelationship &&
-      // familyrelationship &&
-      // professionalrelationship &&
       (role !== "Others" || customRole);
+
+      console.log('isFormComplete', isFormComplete);
 
     setIsSaveDisabled(!isFormComplete); // Disable if form is incomplete
   }, [
     role,
-    name,
     age,
-    occupation,
     gender,
     background,
-    personality,
-    individualWant,
-    characterjourney,
-    bloodrelationship,
-    familyrelationship,
-    professionalrelationship,
+    projectNameRef.current?.value,
+    occupationRef.current?.value,
     customRole,
   ]);
 
@@ -75,17 +74,17 @@ const SingleCharacterAdd = ({
     const assignedRole = role === "Others" ? customRole : role;
     const newCharacter = {
       role: assignedRole,
-      name,
+      name: projectNameRef.current?.value,
       age,
-      occupation,
+      occupation: occupationRef.current?.value,
       gender,
-      background,
-      personality,
-      individual_want: individualWant,
-      character_journey: characterjourney,
-      blood_relationship: bloodrelationship,
-      family_relationship: familyrelationship,
-      professional_relationship: professionalrelationship,
+      background: backgroundRef.current?.value,
+      personality: personalityRef.current?.value,
+      individual_want: individualWantRef.current?.value,
+      character_journey: characterJourneyRef.current?.value,
+      blood_relationship: bloodRelationshipRef.current?.value,
+      family_relationship: familyRelationshipRef.current?.value,
+      professional_relationship: professionalRelationshipRef.current?.value,
       is_ai_generated: false,
     };
 
@@ -114,6 +113,7 @@ const SingleCharacterAdd = ({
   };
 
   const handleInputChange = (e, setValue) => {
+    //console.log("onchange input value", e);
     let value = e.target.value;
     if (typeof value !== "string") return;
 
@@ -203,6 +203,14 @@ const SingleCharacterAdd = ({
     }
   };
 
+  // keyboard clicked
+  const onClickKeyboard = () => {
+    if (selectedLanguage === "") {
+      setSelectedLanguage("English");
+    }
+    setKeyboardVisible(!keyboardVisible);
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 ">
       <div className="fixed inset-0 bg-black opacity-50"></div>
@@ -258,8 +266,9 @@ const SingleCharacterAdd = ({
                   </label>
 
                   <input
+                    ref={projectNameRef}
                     autoComplete="off"
-                    value={name}
+                    //value={name}
                     required
                     onChange={(e) => handleInputChange(e, setName)}
                     type="text"
@@ -280,8 +289,9 @@ const SingleCharacterAdd = ({
                       Others
                     </label>
                     <input
+                      ref={projectNameRef}
                       autoComplete="off"
-                      value={customRole}
+                      //value={customRole}
                       required
                       onChange={(e) => setCustomRole(e.target.value)}
                       type="text"
@@ -338,7 +348,7 @@ const SingleCharacterAdd = ({
                     autoComplete="off"
                     required
                     onChange={(e) => handleInputChange(e, setOccupation)}
-                    value={occupation}
+                    //value={occupation}
                     ref={occupationRef}
                     type="text"
                     maxLength={50}
@@ -350,7 +360,27 @@ const SingleCharacterAdd = ({
                   />
                 </div>
               </div>
+
               <div className="mb-[12px] flex justify-end">
+                <div className="bg-[#FAFAFA] h-[38px] md:h-[32px] xl:h-[38px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-[8px] hidden lg:flex items-center mx-[28px] ">
+                  <div className="flex justify-end gap-3  w-full ">
+                    <FaKeyboard
+                      data-te-toggle="tooltip"
+                      title={`${
+                        !keyboardVisible ? "View Keyboard" : "Hide Keyboard"
+                      }`}
+                      className={`w-7 h-7 ${
+                        keyboardVisible && "text-[#33B0CA]"
+                      } cursor-pointer hover:text-[#33B0CA]`}
+                      onClick={onClickKeyboard}
+                    />
+                    <LanguageSelector
+                      setSelectedLanguage={setSelectedLanguage}
+                      selectedLanguage={selectedLanguage}
+                      setKeyboardVisible={setKeyboardVisible}
+                    />
+                  </div>
+                </div>
                 <button
                   disabled={isSaveDisabled}
                   onClick={handleSuggest}
@@ -370,7 +400,7 @@ const SingleCharacterAdd = ({
                     autoComplete="off"
                     required
                     onChange={(e) => handleInputChange(e, setBackGround)}
-                    value={background}
+                    //value={background}
                     type="text"
                     ref={backgroundRef}
                     maxLength={300}
@@ -389,7 +419,7 @@ const SingleCharacterAdd = ({
                   </label>
                   <textarea
                     onChange={(e) => handleInputChange(e, setPersonality)}
-                    value={personality}
+                    //value={personality}
                     autoComplete="off"
                     required
                     type="text"
@@ -410,7 +440,7 @@ const SingleCharacterAdd = ({
                   </label>
                   <textarea
                     onChange={(e) => handleInputChange(e, setIndividualWant)}
-                    value={individualWant}
+                    //value={individualWant}
                     ref={individualWantRef}
                     autoComplete="off"
                     required
@@ -430,7 +460,7 @@ const SingleCharacterAdd = ({
                   </label>
                   <textarea
                     onChange={(e) => handleInputChange(e, setCharacterjourney)}
-                    value={characterjourney}
+                    //value={characterjourney}
                     ref={characterJourneyRef}
                     autoComplete="off"
                     required
@@ -450,7 +480,7 @@ const SingleCharacterAdd = ({
                   </label>
                   <textarea
                     onChange={(e) => handleInputChange(e, setBloodrelationship)}
-                    value={bloodrelationship}
+                    //value={bloodrelationship}
                     ref={bloodRelationshipRef}
                     autoComplete="off"
                     required
@@ -472,7 +502,7 @@ const SingleCharacterAdd = ({
                     onChange={(e) =>
                       handleInputChange(e, setFamilyrelationship)
                     }
-                    value={familyrelationship}
+                    //value={familyrelationship}
                     ref={familyRelationshipRef}
                     autoComplete="off"
                     required
@@ -497,7 +527,7 @@ const SingleCharacterAdd = ({
                     onChange={(e) =>
                       handleInputChange(e, setProfessionalrelationship)
                     }
-                    value={professionalrelationship}
+                    //value={professionalrelationship}
                     ref={professionalRelationshipRef}
                     autoComplete="off"
                     required
@@ -530,6 +560,37 @@ const SingleCharacterAdd = ({
             Save
           </button>
         </div>
+      </div>
+
+      <div>
+        {selectedLanguage && keyboardVisible && (
+          <Draggable handle=".movable-handle">
+            <div className="absolute z-20 w-[650px] top-[194px] right-[-85px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
+              <div className="grid grid-cols-12">
+                <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
+                  Drag me!!{" "}
+                  <span className="font-[500]">{selectedLanguage}</span>{" "}
+                  Keyboard
+                </div>
+                <div className="flex justify-center items-center w-full h-full cursor-pointer">
+                  <button
+                    onClick={() => {
+                      setKeyboardVisible(false);
+                      //setSelectedLanguage('')
+                    }}
+                    className="font-bold w-full h-full"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+
+              <div className="p-2">
+                <Pkeyboard sourcesLanguage={selectedLanguage} />
+              </div>
+            </div>
+          </Draggable>
+        )}
       </div>
     </div>
   );
