@@ -52,7 +52,7 @@ const PremisePreview2 = ({
   finalEdit,
   setFinalEdit,
   isLoading,
-  setIsLoading,
+  setIsLoading,premiseLanguage
 }) => {
   const baseLanguage = sessionStorage.getItem("multilingualDropDownValue");
 
@@ -248,7 +248,7 @@ const PremisePreview2 = ({
   const userLastName = userQuery?.last_name;
 
   // console.log("createdSpProjectID", user);
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
+  const [selectedLanguage, setSelectedLanguage] = useState(premiseLanguage);
   const [keyboardVisible, setKeyboardVisible] = useState(false);
   const dispatch = useDispatch();
   const [file, setFile] = useState();
@@ -322,16 +322,18 @@ const PremisePreview2 = ({
 
   const projectNameRef = useRef();
 
-  const setText = (newText) => {
-    if (activeInput && inputRefs.current[activeInput]) {
-      const setterMap = {
-        authorName: setAuthorName,
-        geographyItem: setGeographyItem,
-        protagonistName: setProtagonistName,
-      };
-      setterMap[activeInput](newText);
-    }
-  };
+  
+  // const setText = (newText) => {
+  //   console.log('inputRefs',projectNameRef);
+  //   if (activeInput && inputRefs.current[activeInput]) {
+  //     const setterMap = {
+  //       authorName: setAuthorName,
+  //       geographyItem: setGeographyItem,
+  //       protagonistName: setProtagonistName,
+  //     };
+  //     setterMap[activeInput](newText);
+  //   }
+  // };
 
   const token = localStorage.getItem("accessToken");
 
@@ -621,6 +623,7 @@ const PremisePreview2 = ({
         hexColor,
       };
       const subText = `${JSON.stringify(styling)} + ${text}`;
+      formData.append("created_from", "premisePool");
       formData.append("source_language", language);
       formData.append("text", subText);
 
@@ -1615,7 +1618,7 @@ useEffect(() => {
                             } cursor-pointer hover:text-[#33B0CA]`}
                           onClick={onClickKeyboard}
                         />
-                        <LanguageSelector
+                        <LanguageSelector premiseLanguage={premiseLanguage}
                           setSelectedLanguage={setSelectedLanguage}
                           selectedLanguage={selectedLanguage}
                           setKeyboardVisible={setKeyboardVisible}
@@ -2249,7 +2252,7 @@ useEffect(() => {
                     <button
                       onClick={() => {
                         setKeyboardVisible(false)
-                        setSelectedLanguage('')
+                        //setSelectedLanguage('')
                       }}
                       className="font-bold w-full h-full"
                     >
@@ -2261,8 +2264,8 @@ useEffect(() => {
                 <div className="p-2">
                   <Pkeyboard
                     sourcesLanguage={selectedLanguage}
-                    setText={setText}
-                    inputRef={projectNameRef}
+                    //setText={setText}
+                    //inputRef={projectNameRef}
                   />
                 </div>
               </div>

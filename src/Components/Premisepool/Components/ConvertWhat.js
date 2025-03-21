@@ -27,7 +27,7 @@ export const getWhatIfPhrase = (language) => {
     case "Malayalam":
       return "എന്താണ് അനുഭവപ്പെടുന്നത്";
     case "Marathi":
-      return "काय झाले असते तर";
+      return "काय झाले असते जर";
     case "Myanmar":
       return "အဆိုတော်";
     case "Nepali":
