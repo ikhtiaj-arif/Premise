@@ -1,21 +1,25 @@
 import React, { forwardRef, useState } from "react";
 import KeyboardComponent from "./KeyboardComponent";
 
-
 const Pkeyboard = forwardRef(({ sourcesLanguage }, ref) => {
   const [layoutName, setLayoutName] = useState("default");
 
   const onKeyPress = (button) => {
     if (button === "{shift}" || button === "{lock}") {
-      handleShift()
-      return
-    };
+      handleShift();
+      return;
+    }
     const activeElement = document.activeElement;
 
     // Ensure activeElement is an input field
-    if (!activeElement || (activeElement.tagName !== "INPUT" && activeElement.tagName !== "TEXTAREA")) return;
+    if (
+      !activeElement ||
+      (activeElement.tagName !== "INPUT" &&
+        activeElement.tagName !== "TEXTAREA")
+    )
+      return;
     if (activeElement.type === "number") return;
-    if (activeElement.id === "numberField") return
+    if (activeElement.id === "numberField") return;
     const startPos = activeElement.selectionStart ?? 0;
     const endPos = activeElement.selectionEnd ?? 0;
     const inputValue = activeElement.value ?? "";
@@ -60,7 +64,6 @@ const Pkeyboard = forwardRef(({ sourcesLanguage }, ref) => {
         newSelectionStart = startPos + button.length;
         break;
     }
-
     activeElement.value = newText;
 
     setTimeout(() => {
@@ -76,7 +79,11 @@ const Pkeyboard = forwardRef(({ sourcesLanguage }, ref) => {
 
   return (
     <div className="notranslate">
-      <KeyboardComponent language={sourcesLanguage} onKeyPress={onKeyPress} layoutName={layoutName} />
+      <KeyboardComponent
+        language={sourcesLanguage}
+        onKeyPress={onKeyPress}
+        layoutName={layoutName}
+      />
     </div>
   );
 });

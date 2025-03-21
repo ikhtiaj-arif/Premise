@@ -146,8 +146,7 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
                 setFinalEdit={setFinalEdit}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
-
-
+                premiseLanguage={selectedLanguage}
                 //setIsAddNew={setIsAddNew}
               />
             ) : (

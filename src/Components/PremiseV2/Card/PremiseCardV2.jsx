@@ -369,7 +369,7 @@ const PremiseCardV2 = ({
     project_id,
     m_value: p?.m_value,
   };
-  console.log("premiseOwner", premiseOwner);
+  //console.log("premiseOwner", premiseOwner);
   // hidden,
   // index,
   // premiseOwner,
