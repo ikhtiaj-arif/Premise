@@ -381,7 +381,7 @@ const LeftSideBar = ({
                       : filter_flag === 2
                       ? visible_to?.length > 0
                         ? visible_to
-                            //.filter((v) => v?.id !== currentUser?.id) // Exclude current user
+                            .filter((v) => v?.id !== currentUser?.id) // Exclude current user
                             .map((v) => `${v?.first_name} ${v?.last_name}`) // Format names properly
                             .join(", ")
                         : "No one"
@@ -487,7 +487,7 @@ const LeftSideBar = ({
                       : filter_flag === 2
                       ? visible_to?.length > 0
                         ? visible_to
-                            //.filter((v) => v?.id !== currentUser?.id) // Exclude current user
+                            .filter((v) => v?.id !== currentUser?.id) // Exclude current user
                             .map((v) => `${v?.first_name} ${v?.last_name}`) // Format names properly
                             .join(", ")
                         : "No one"

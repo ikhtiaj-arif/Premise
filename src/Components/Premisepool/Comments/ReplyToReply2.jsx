@@ -218,21 +218,34 @@ const ReplyToReply2 = ({
 
   const phrasesToBold = ["Do Think About:", "OR May be", "May be"];
 
-  const formatText = (text) => {
-    // Find a matching prefix
-    const matchingPrefix = phrasesToBold.find((prefix) =>
-      text.startsWith(prefix)
-    );
+  // const formatText = (text) => {
+  //   const matchingPrefix = phrasesToBold.find((prefix) =>
+  //     text.startsWith(prefix)
+  //   );
 
-    if (matchingPrefix) {
-      // Split the text into the bold prefix and the rest
-      const restOfText = text.slice(matchingPrefix.length);
+  //   if (matchingPrefix) {
+  //     const restOfText = text.slice(matchingPrefix.length);
+  //     return (
+  //       <>
+  //         <span style={{ color: "#252525", fontWeight: 500 }}>
+  //           {matchingPrefix}
+  //         </span>
+  //         {restOfText}
+  //       </>
+  //     );
+  //   }
+  //   return text;
+  // };
+
+  const formatText = (text, prefix) => {
+    console.log("prefix", prefix);
+
+    if (prefix) {
+      // If there's a prefix, make it bold and show at the front
       return (
         <>
-          <span style={{ color: "#252525", fontWeight: 500 }}>
-            {matchingPrefix}
-          </span>
-          {restOfText}
+          <span style={{ color: "#252525", fontWeight: 600 }}>{prefix}: </span>
+          {text}
         </>
       );
     }
@@ -370,8 +383,11 @@ const ReplyToReply2 = ({
 
             <p className="notranslate text-[#252525] text-[12px] lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
               {/* {childReply?.text} */}
-              {replyBy?.id === 1 && childReply?.text
+              {/* {replyBy?.id === 1 && childReply?.text
                 ? formatText(childReply?.text)
+                : childReply?.text} */}
+              {replyBy?.id === 1 && childReply?.text && childReply?.text_prefix
+                ? formatText(childReply?.text, childReply?.text_prefix)
                 : childReply?.text}
             </p>
           </div>{" "}
