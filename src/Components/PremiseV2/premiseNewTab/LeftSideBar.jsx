@@ -540,7 +540,7 @@ const LeftSideBar = ({
             </div>
           )}
 
-          <div className="hidden md:block fixed w-full max-w-[310px] bottom-8 ">
+          <div className="hidden md:block fixed w-full max-w-[310px] bottom-8 lg:bottom-12 ">
             <AskIda
               {...{
                 id,
