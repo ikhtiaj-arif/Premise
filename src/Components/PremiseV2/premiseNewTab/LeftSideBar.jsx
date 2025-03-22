@@ -88,6 +88,9 @@ const LeftSideBar = ({
   const user = useSelector((state) => state?.user?.id);
   const dispatch = useDispatch();
 
+  const [noAccessPopup, setNoAccessPopup] = useState(null);
+  const [service, setService] = useState(null);
+
   // for characters
   const [characterArray, setCharacterArray] = useState(characters || []);
   const [editData, setEditData] = useState({});
@@ -240,6 +243,8 @@ const LeftSideBar = ({
             lastCommentRef,
             isLoading,
             setIsLoading,
+            setNoAccessPopup,
+            setService,
           }}
         />
 
@@ -547,6 +552,8 @@ const LeftSideBar = ({
                 lastCommentRef,
                 isLoading,
                 setIsLoading,
+                setNoAccessPopup,
+                setService,
               }}
             />
 
@@ -650,6 +657,26 @@ const LeftSideBar = ({
           characterLoading={isCharLoading}
           project_id={project_id}
         />
+      )}
+
+      {noAccessPopup?.msg === "ShowBecomePrivilege" ? (
+        <NoAccessPopUp
+          noAccessPopup={noAccessPopup}
+          setNoAccessPopup={setNoAccessPopup}
+        />
+      ) : (
+        (noAccessPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
+          noAccessPopup?.msg === "LB") && (
+          <NoAccessLbPopUp
+            noAccessLbPopup={noAccessPopup}
+            setNoAccessPopup={setNoAccessPopup}
+            service={
+              service === "PP_AllowBrainstoming"
+                ? "PP_Brainstrom"
+                : "PP_interactions"
+            }
+          />
+        )
       )}
     </>
   );

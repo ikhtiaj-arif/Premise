@@ -16,14 +16,11 @@ const AskIda = ({
   lastCommentRef,
   premiseOwner,
   isLoading,
-  setIsLoading,
+  setIsLoading,setNoAccessPopup,setService
 }) => {
   const { currentUser } = useContext(MyContext);
   const [postComment, { isLoading: isPostLoading }] =
     useCommentPremiseMutation();
-
-  const [noAccessPopup, setNoAccessPopup] = useState(null);
-  const [service, setService] = useState(null);
 
   const token = localStorage.getItem("accessToken");
   const header = {
@@ -132,26 +129,7 @@ const AskIda = ({
           Ask Ida for more!
         </button>
       </div>
-
-      {noAccessPopup?.msg === "ShowBecomePrivilege" ? (
-        <NoAccessPopUp
-          noAccessPopup={noAccessPopup}
-          setNoAccessPopup={setNoAccessPopup}
-        />
-      ) : (
-        (noAccessPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
-          noAccessPopup?.msg === "LB") && (
-          <NoAccessLbPopUp
-            noAccessLbPopup={noAccessPopup}
-            setNoAccessPopup={setNoAccessPopup}
-            service={
-              service === "PP_AllowBrainstoming"
-                ? "PP_Brainstrom"
-                : "PP_interactions"
-            }
-          />
-        )
-      )}
+      
     </div>
   );
 };

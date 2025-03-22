@@ -212,7 +212,7 @@ const PremiseTopAccess = ({
       <CardHeadOptions
         owner={{ user, userFirstName, userLastName }}
         // index={index}
-        // refetch={refetch}
+        refetch={premiseRefetch}
         viewTrnRequests={viewTrnRequests}
         setViewTrnRequests={setViewTrnRequests}
         viewTransactionPId={viewTransactionPId}

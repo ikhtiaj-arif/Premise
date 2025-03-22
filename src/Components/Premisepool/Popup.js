@@ -103,6 +103,9 @@ const Popup = ({
   const [ownerMail, setOwnerMail] = useState(false);
   const [openHidePop, setOpenHidePop] = useState(null);
 
+  const [service, setService] = useState(null);
+  const [noAccessPopup, setNoAccessPopup] = useState(null);
+
   useEffect(() => {
     if (characters) setCharacterArray(characters);
   }, [characters]);
@@ -604,7 +607,7 @@ const Popup = ({
                       setOpenReplyFieldID,
                       lastCommentRef,
                       isLoading,
-                      setIsLoading,
+                      setIsLoading,setNoAccessPopup,setService
                     }}
                   />
                   {/* textarea */}
@@ -718,7 +721,7 @@ const Popup = ({
                       setOpenReplyFieldID,
                       lastCommentRef,
                       isLoading,
-                      setIsLoading,
+                      setIsLoading,setNoAccessPopup,setService
                     }}
                   />
                   <PopupTextarea
@@ -1002,6 +1005,26 @@ const Popup = ({
           {addPopup === "noUserName" && (
             <UserNamePopup {...{ refetch, setAddPopup }} />
           )}
+
+{noAccessPopup?.msg === "ShowBecomePrivilege" ? (
+        <NoAccessPopUp
+          noAccessPopup={noAccessPopup}
+          setNoAccessPopup={setNoAccessPopup}
+        />
+      ) : (
+        (noAccessPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
+          noAccessPopup?.msg === "LB") && (
+          <NoAccessLbPopUp
+            noAccessLbPopup={noAccessPopup}
+            setNoAccessPopup={setNoAccessPopup}
+            service={
+              service === "PP_AllowBrainstoming"
+                ? "PP_Brainstrom"
+                : "PP_interactions"
+            }
+          />
+        )
+      )}
         </div>
       </div>
     );
