@@ -175,7 +175,7 @@ const PremiseNewTab = () => {
           <div className="w-full lg:flex relative">
             {/* Left Sidebar */}
             <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex ">
-            {/* <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex lg:h-[calc(100vh-75px)]"> */}
+              {/* <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex lg:h-[calc(100vh-75px)]"> */}
               <LeftSideBar
                 {...{
                   filteredCommentsData,
@@ -208,7 +208,7 @@ const PremiseNewTab = () => {
               />
             </div>
 
-            <div className="w-full  relative lg:h-[calc(100vh-75px)] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl">
+            <div className="w-full relative lg:h-[83vh] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl">
               {isSearchLoading || isCommentLoading ? (
                 <div>
                   <TypingLoader />
