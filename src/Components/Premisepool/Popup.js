@@ -737,7 +737,7 @@ const Popup = ({
                       setCommentField,
                       setReplyField,
                       replyField,
-                      replyRef,setIsLoading
+                      replyRef,setIsLoading,
                     }}
                   />
                 </div>

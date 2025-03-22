@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import AutoSizeTextArea from "./AutosizeTextArea";
 import { useSuggestCharactersMutation } from "../../../app/EndPoints/Characters/Characters";
+import AutoSizeTextArea from "./AutosizeTextArea";
 
 const SingleCharacterAdd = ({
   setAddNewCharacter,
@@ -108,8 +108,12 @@ const SingleCharacterAdd = ({
 
   const handleAgeChange = (e) => {
     const value = e.target.value;
-    if (/^\d*$/.test(value)) {
-      setAge(value);
+    if (gender === "Inanimate Object") {
+      setAge("0");
+    } else {
+      if (/^(?!0$)(?!0\d)\d*$/.test(value)) {
+        setAge(value);
+      }
     }
   };
 

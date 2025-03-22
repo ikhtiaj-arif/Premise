@@ -1,19 +1,17 @@
 import axios from "axios";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import Draggable from "react-draggable";
+import React, { useContext, useEffect, useState } from "react";
 import { FaKeyboard } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
 import { toast } from "react-toastify";
 import { fetchUserAccess, MyContext } from "../../App";
 import { useCommentPremiseMutation } from "../../app/EndPoints/premisePoolApi";
 import BtnLoading from "../../shared/BtnLoading";
-import Keyboard from "../Premisepool/Keyboard";
 import LanguageSelector from "../Premisepool/LanguageSelector";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 import { baseURL } from "../utils";
 
-const PopupTextarea = ({
+const NewTabTextArea = ({
   premiseOwner,
   user,
   premiseId,
@@ -31,11 +29,18 @@ const PopupTextarea = ({
   className2,
   isLoading,
   setIsLoading,
+  selectedLanguage,
+  setSelectedLanguage,
+  keyboardVisible,
+  setKeyboardVisible,
+  newComment,
+  setNewComment,
+  inputRef,
 }) => {
   const [textCount, setTextCount] = useState(0);
-  const [newComment, setNewComment] = useState("");
-  const [keyboardVisible, setKeyboardVisible] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
+  // const [newComment, setNewComment] = useState("");
+  // const [keyboardVisible, setKeyboardVisible] = useState(false);
+  // const [selectedLanguage, setSelectedLanguage] = useState("English");
   const [isCommentQuestion, setIsCommentQuestion] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [noAccessPopup, setNoAccessPopup] = useState(null);
@@ -43,7 +48,6 @@ const PopupTextarea = ({
 
   const [postComment, { isLoading: isPostLoading }] =
     useCommentPremiseMutation();
-  const inputRef = useRef(null);
 
   const { currentUser } = useContext(MyContext);
 
@@ -51,7 +55,7 @@ const PopupTextarea = ({
   // console.log('user from textarea premise owner',premiseOwner);
 
   useEffect(() => {
-    if (newComment.endsWith("?")) {
+    if (newComment?.endsWith("?")) {
       setIsCommentQuestion(true);
     } else {
       setIsCommentQuestion(false);
@@ -293,7 +297,7 @@ const PopupTextarea = ({
         )}
       </div>
 
-      <>
+      {/* <>
         {selectedLanguage && keyboardVisible && (
           <Draggable handle=".movable-handle">
             <div className="absolute z-20 w-[650px] top-[4px] right-[-85px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
@@ -306,8 +310,8 @@ const PopupTextarea = ({
                 <div className="flex justify-center items-center w-full h-full cursor-pointer">
                   <button
                     onClick={() => {
-                      setKeyboardVisible(false);
-                      setSelectedLanguage("");
+                      setKeyboardVisible(false)
+                      setSelectedLanguage('')
                     }}
                     className="font-bold w-full h-full"
                   >
@@ -326,7 +330,7 @@ const PopupTextarea = ({
             </div>
           </Draggable>
         )}
-      </>
+      </> */}
 
       {noAccessPopup?.msg === "ShowBecomePrivilege" ? (
         <NoAccessPopUp
@@ -351,4 +355,4 @@ const PopupTextarea = ({
   );
 };
 
-export default PopupTextarea;
+export default NewTabTextArea;
