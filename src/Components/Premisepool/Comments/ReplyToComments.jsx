@@ -49,7 +49,7 @@ const ReplyToComments = ({
   const [childReplyField, setChildReplyField] = useState(false);
   const [openReplyField, setOpenReplyField] = useState(false);
   const [suggestDisable, setSuggestDisable] = useState(false);
-  const [replyText, setReplyText] = useState("");
+  const [replyText, setReplyText] = useState(reply?.text);
   const [childReplyText, setChildReplyText] = useState("");
   const [isTextareaDisabled, setIsTextareaDisabled] = useState(false);
 
@@ -263,21 +263,18 @@ const ReplyToComments = ({
 
   const phrasesToBold = ["Do Think About:", "OR May be", "May be"];
 
-  const formatText = (text, prefix) => {
-    console.log("prefix", prefix);
+  useEffect(() => {}, []);
 
+  const formatText = (text, prefix) => {
     if (prefix) {
       // If there's a prefix, make it bold and show at the front
       return (
         <>
-          <span style={{ color: "#252525", fontWeight: 600 }}>
-            {prefix}:{" "}
-          </span>
+          <span style={{ color: "#252525", fontWeight: 600 }}>{prefix}: </span>
           {text}
         </>
       );
     }
-  
 
     // Return the text as is if no prefix matches
     return text;
@@ -412,9 +409,9 @@ const ReplyToComments = ({
                 {/* {reply?.user?.id === 1 && reply?.text
                   ? formatText(reply?.text)
                   : reply?.text} */}
-                {reply?.user?.id === 1 && reply?.text && reply?.text_prefix
-                  ? formatText(reply?.text, reply?.text_prefix)
-                  : reply?.text}
+                {reply?.user?.id === 1 && replyText && reply?.text_prefix
+                  ? formatText(replyText, reply?.text_prefix)
+                  : replyText}
               </p>
             </div>
             <div className="  flex flex-col md:flex-row justify-center gap-1 items-center right-[8.5px] md:right-[6.5px] top-[28%]">
@@ -423,6 +420,8 @@ const ReplyToComments = ({
                 translateComment={translateComment}
                 loading={isTranslationCommentLoading}
                 commentRefetch={replyRefetch}
+                setCommentText={setReplyText}
+                formatText={formatText}
               />
 
               {(owner === user || reply?.user?.id === user) &&

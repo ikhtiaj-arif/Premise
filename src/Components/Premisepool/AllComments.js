@@ -144,7 +144,7 @@ const AllComments = ({
   const [disableD, setDisableD] = useState(false);
   const [suggestDisable, setSuggestDisable] = useState(false);
   const [projectBeatOpen, setProjectBeatOpen] = useState(false);
-  const [commentText, setCommentText] = useState("");
+  const [commentText, setCommentText] = useState(comments?.text?.replace(/^\s*\d+\.\s*/, ""));
   const [commentObj, setCommentObj] = useState({});
   const [openDltPop, setOpenDltPop] = useState(false);
   const [idToDlt, setIdToDlt] = useState({});
@@ -590,7 +590,7 @@ const AllComments = ({
                   ) : (
                     <div>
                       <p className="notranslate text-[#252525] text-[12px]  lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
-                        {comments?.text?.replace(/^\s*\d+\.\s*/, "")}
+                        {commentText}
                       </p>
                     </div>
                   )}
@@ -944,6 +944,7 @@ const AllComments = ({
                   comment={comments}
                   translateComment={translateComment}
                   commentRefetch={commentRefetch}
+                  setCommentText={setCommentText}
                 />
 
                 <>
