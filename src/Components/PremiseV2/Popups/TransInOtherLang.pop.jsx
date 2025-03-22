@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { MdKeyboardBackspace } from "react-icons/md";
 import { toast, ToastContainer } from "react-toastify";
-import { useTranslatePremiseV2Mutation } from "../../../app/EndPoints/premisePoolApi";
+import {
+  useGetOnePremiseQuery,
+  useTranslatePremiseV2Mutation,
+} from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import PaymentInvoicePopup from "../../Payment/PaymentInvoicePopup";
 import { sortedLanguages } from "../../Premisepool/Languages";
@@ -15,6 +18,12 @@ const TransInOtherLang = ({
   project_id,
   refetch,
 }) => {
+  const {
+    data: premiseData,
+    isPremiseLoading,
+    refetch: premiseRefetch,
+  } = useGetOnePremiseQuery(id);
+
   const [targetLanguage, setTargetLanguage] = useState("");
   const [translatePremise] = useTranslatePremiseV2Mutation();
   const [isPayment, setPayment] = useState(false);
@@ -84,7 +93,7 @@ const TransInOtherLang = ({
         <div>
           <p className="text-center text-[12px] leading-[14.5px] font-[400] my-[12px] text-[#616161] w-[80%] mx-auto">
             You can translate this Premise Project in any number of languages
-            for a price of $PQR/3 per Language.
+            for a price of ${premiseData?.pqr_value} per Language.
           </p>
 
           <h2 className="font-[700] text-[12px] leading-[14.5px] text-left mt-[24px]">
@@ -142,11 +151,13 @@ const TransInOtherLang = ({
             <p className="text-left text-[12px] leading-[14.5px] font-[400]  text-[#616161] ">
               You will also be entitled to monetize the translated Premise
               Project by allowing it’s further translation in any number of
-              languages for a minimum value of $PQR X 1.2. However, 1/3 of the
-              sale proceeds above $PQR will be retained by My Next Film.
+              languages for a minimum value of ${premiseData?.pqr_value} X 1.2.
+              However, 1/3 of the sale proceeds above ${premiseData?.pqr_value}{" "}
+              will be retained by My Next Film.
             </p>
           </div>
         </div>
+
 
         <div
           className={`h-[31px] mt-[18px] relative col-span-6 md:col-span-4  bg-[#fafafa]  rounded-[8px] border-[2px] w-[76%] mx-auto`}
