@@ -37,7 +37,6 @@ const ReplyToComments = ({
   replyToCommentID,
   handleAddToBeat,
   commentRefetch,
-  
 }) => {
   // console.log(" comments", reply);
 
@@ -237,26 +236,48 @@ const ReplyToComments = ({
   };
   const hasManyReplies = reply?.child_replies?.length >= 3;
 
+  // const phrasesToBold = ["Do Think About:", "OR May be", "May be"];
+
+  // const formatText = (text) => {
+  //   // Find a matching prefix
+  //   const matchingPrefix = phrasesToBold.find((prefix) =>
+  //     text.startsWith(prefix)
+  //   );
+
+  //   if (matchingPrefix) {
+  //     // Split the text into the bold prefix and the rest
+  //     const restOfText = text.slice(matchingPrefix.length);
+  //     return (
+  //       <>
+  //         <span style={{ color: "#252525", fontWeight: 500 }}>
+  //           {matchingPrefix}
+  //         </span>
+  //         {restOfText}
+  //       </>
+  //     );
+  //   }
+
+  //   // Return the text as is if no prefix matches
+  //   return text;
+  // };
+
   const phrasesToBold = ["Do Think About:", "OR May be", "May be"];
 
-  const formatText = (text) => {
-    // Find a matching prefix
-    const matchingPrefix = phrasesToBold.find((prefix) =>
-      text.startsWith(prefix)
-    );
+  const formatText = (text, prefix) => {
+    console.log("prefix", prefix);
 
-    if (matchingPrefix) {
-      // Split the text into the bold prefix and the rest
-      const restOfText = text.slice(matchingPrefix.length);
+    if (prefix) {
+      // If there's a prefix, make it bold and show at the front
       return (
         <>
-          <span style={{ color: "#252525", fontWeight: 500 }}>
-            {matchingPrefix}
+          <span style={{ color: "#252525", fontWeight: 600 }}>
+            {prefix}:{" "}
           </span>
-          {restOfText}
+          {text}
         </>
       );
     }
+  
 
     // Return the text as is if no prefix matches
     return text;
@@ -388,8 +409,11 @@ const ReplyToComments = ({
 
               <p className="notranslate text-[#252525] text-[12px] lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
                 {/* {reply?.text} */}
-                {reply?.user?.id === 1 && reply?.text
+                {/* {reply?.user?.id === 1 && reply?.text
                   ? formatText(reply?.text)
+                  : reply?.text} */}
+                {reply?.user?.id === 1 && reply?.text && reply?.text_prefix
+                  ? formatText(reply?.text, reply?.text_prefix)
                   : reply?.text}
               </p>
             </div>
@@ -512,7 +536,7 @@ const ReplyToComments = ({
               </button>
               <div className="hidden md:block">
                 {owner === user &&
-                 ( reply?.text?.includes("?")|| reply?.text?.includes("؟")) &&
+                  (reply?.text?.includes("?") || reply?.text?.includes("؟")) &&
                   reply?.user?.id === 1 && (
                     <>
                       {reply?.suggested ? (
@@ -555,7 +579,7 @@ const ReplyToComments = ({
               </div>
 
               {owner === user &&
-                (reply?.text?.includes("?") || reply?.text?.includes("؟"))&&
+                (reply?.text?.includes("?") || reply?.text?.includes("؟")) &&
                 reply?.user?.id === 1 && (
                   <>
                     {reply?.suggested ? (
@@ -695,38 +719,39 @@ const ReplyToComments = ({
                 }`}
               >
                 {reply?.child_replies &&
-                  reply?.child_replies?.slice() // Create a shallow copy to avoid mutating the original array
-                  ?.sort(
-                    (a, b) => new Date(b.created_at) - new Date(a.created_at)
-                  )?.map((childReply, idx) => (
-                    <motion.div
-                      // data-reply
-                      ref={latestReplyRef}
-                      initial={{ opacity: 0, y: 70 }} // Start from slightly below the final position
-                      animate={{ opacity: 1, y: 0 }} // Move to the final position
-                      exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
-                      transition={{ duration: 0.5 }} // Adjust the duration as needed
-                    >
-                      <div ref={latestReplyRef}>
-                        <ReplyToReply
-                          fromNew={fromNew}
-                          // data-reply-reply
-                          handleAddToBeat={handleAddToBeat}
-                          key={idx}
-                          setCommentText={setCommentText}
-                          childReplyIDNext={childReply?.id}
-                          childReply={childReply}
-                          owner={owner}
-                          user={user}
-                          replyRefetch={replyRefetch}
-                          reply={reply}
-                          replyToCommentID={replyToCommentID}
-                          commentIdx={commentIdx}
-                          
-                        />
-                      </div>
-                    </motion.div>
-                  ))}
+                  reply?.child_replies
+                    ?.slice() // Create a shallow copy to avoid mutating the original array
+                    ?.sort(
+                      (a, b) => new Date(b.created_at) - new Date(a.created_at)
+                    )
+                    ?.map((childReply, idx) => (
+                      <motion.div
+                        // data-reply
+                        ref={latestReplyRef}
+                        initial={{ opacity: 0, y: 70 }} // Start from slightly below the final position
+                        animate={{ opacity: 1, y: 0 }} // Move to the final position
+                        exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
+                        transition={{ duration: 0.5 }} // Adjust the duration as needed
+                      >
+                        <div ref={latestReplyRef}>
+                          <ReplyToReply
+                            fromNew={fromNew}
+                            // data-reply-reply
+                            handleAddToBeat={handleAddToBeat}
+                            key={idx}
+                            setCommentText={setCommentText}
+                            childReplyIDNext={childReply?.id}
+                            childReply={childReply}
+                            owner={owner}
+                            user={user}
+                            replyRefetch={replyRefetch}
+                            reply={reply}
+                            replyToCommentID={replyToCommentID}
+                            commentIdx={commentIdx}
+                          />
+                        </div>
+                      </motion.div>
+                    ))}
               </div>
             </div>
           )}

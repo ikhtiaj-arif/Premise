@@ -8,8 +8,8 @@ import {
 } from "../../app/EndPoints/premisePoolApi";
 import congratsImg from "../../img/congratulations.png";
 import crossIcon from "../../img/croos_icon.png";
-import welcomeImg from "../../img/welcome.png";
 import oopsImg from "../../img/oopsImg.png";
+import welcomeImg from "../../img/welcome.png";
 import { URL } from "../utils";
 
 const NoAccessLbPopUp = ({

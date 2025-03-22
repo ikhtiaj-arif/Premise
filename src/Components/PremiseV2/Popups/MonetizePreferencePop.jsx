@@ -84,7 +84,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
           Monetizing Preferences
         </h2>
         <p className="text-center text-[12px] mt-[8px] leading-[18px]  font-[400]  text-[#616161] ">
-          How would you want to Monetize the Premise Project ?
+          How would you want to Monetize the Premise Project?
         </p>
         <div className="h-[1px] mt-[3px] w-[77%] mx-auto bg-[#a1a1a1]" />
 
