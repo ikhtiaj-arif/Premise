@@ -153,6 +153,7 @@ const BeatEditPop = ({
     // console.log(e.target.value);
     setSelectedOption(e.target.value);
     setSelectedLanguage(e.target.value);
+    setSourcesLanguage(sortedLanguages[e.target.value]);
     const selectedLanguage = e.target.value;
     const body = {
       text: modifiedText,
@@ -169,7 +170,7 @@ const BeatEditPop = ({
         [regardingOutput]: trnsText,
       }));
 
-      setSelectedLanguage("");
+      // setSelectedLanguage("");
       setTransLoading(false);
     } else {
       setTransLoading(false);
