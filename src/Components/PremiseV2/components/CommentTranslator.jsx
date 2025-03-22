@@ -4,7 +4,12 @@ import transIcon from "../../../img/Icons/transIcon.png";
 import { sortedLanguages } from "../../Premisepool/Languages";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 
-const CommentTranslator = ({ comment, translateComment, commentRefetch }) => {
+const CommentTranslator = ({
+  comment,
+  translateComment,
+  commentRefetch,
+  setCommentText,
+}) => {
   const { currentUser } = useContext(MyContext);
   const { openDropdownId, setOpenDropdownId } = useContext(TranslationContext); // Use global dropdown state
   const [selectedLanguage, setSelectedLanguage] = useState("bn");
@@ -13,12 +18,31 @@ const CommentTranslator = ({ comment, translateComment, commentRefetch }) => {
   const handleTranslateComment = async (lang) => {
     const data = { text_id: comment.id, tar_lang: lang };
     try {
-      await translateComment(data);
+      const res = await translateComment(data);
+      setCommentText(res?.data?.text);
       commentRefetch();
     } catch (err) {
       console.log(err);
     }
   };
+
+  //   const handleTranslateComment = async (lang) => {
+  //   const data = { text_id: comment.id, tar_lang: lang };
+  //   try {
+  //     const res = await translateComment(data);
+  //     const translatedText = res?.data?.text;
+  //     const translatedPrefix = res?.data?.text_prefix;
+
+  //     if (res?.data?.text_prefix) {
+  //       setCommentText(formatText(translatedText, translatedPrefix));
+  //     } else {
+  //       setCommentText(res?.data?.text);
+  //     }
+  //     commentRefetch();
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const handleLanguageSelect = (key) => {
     setSelectedLanguage(key);

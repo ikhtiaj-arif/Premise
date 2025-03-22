@@ -35,7 +35,8 @@ const CharacterShowCard = ({
         <p className="text-[12px] leading-[16.26px] font-[400]">
           {character?.role}:{" "}
           <span className="capitalize">{character?.name}</span>,{" "}
-          {character?.gender}, {character?.age}
+          {character?.gender}
+          {character?.gender !== "Inanimate Object" && `, ${character?.age}`}
         </p>
         {/* <p className="text-[12px] font-[400]"></p>
         <p className="text-[12px] font-[400]"></p>

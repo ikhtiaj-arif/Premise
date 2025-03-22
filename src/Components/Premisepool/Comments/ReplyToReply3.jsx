@@ -151,6 +151,22 @@ const ReplyToReply3 = ({
     setChildReplyText(childReply);
   };
 
+  const formatText = (text, prefix) => {
+    console.log("prefix", prefix);
+
+    if (prefix) {
+      return (
+        <>
+          <span style={{ color: "#252525", fontWeight: 600 }}>
+            {prefix}:{" "}
+          </span>
+          {text}
+        </>
+      );
+    }
+    return text;
+  };
+
   return (
     <>
       <div
@@ -254,7 +270,10 @@ const ReplyToReply3 = ({
             </div>
 
             <p className="notranslate text-[#252525] text-[12px] lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
-              {childReply?.text}
+              {/* {childReply?.text} */}
+              {replyBy?.id === 1 && childReply?.text && childReply?.text_prefix
+                ? formatText(childReply?.text, childReply?.text_prefix)
+                : childReply?.text}
             </p>
           </div>{" "}
           <div className="  flex flex-col md:flex-row justify-center gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">

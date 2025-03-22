@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import Draggable from "react-draggable";
 import { FaPlus } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,18 +17,18 @@ import SingleCharacterAdd from "../../Premisepool/Character/SingleCharacterAdd";
 import SingleCharacterEdit from "../../Premisepool/Character/SingleCharacterEdit";
 import ConfirmationModal from "../../Premisepool/Comments/ConfirmationModal";
 import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
+import Keyboard from "../../Premisepool/Keyboard";
 import TranslatePremise from "../../Premisepool/TranslatePremise";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import AskIda from "../../SharedVersion/AskIda";
+import NewTabTextArea from "../../SharedVersion/NewTabTextArea";
 import PopupComment from "../../SharedVersion/PopupComment";
 import PopupLike from "../../SharedVersion/PopupLike";
 import PopupPremiseText from "../../SharedVersion/PopupPremiseText";
-import PopupTextarea from "../../SharedVersion/PopupTextarea";
 import PremiseBadge from "../Card/PremiseBadge";
 import PremiseTopAccess from "./PremiseTopAccess";
 import PremiseTopHeader from "./PremiseTopHeader";
-import VerticalBar from "./VerticalBar";
 
 const LeftSideBar = ({
   filteredCommentsData,
@@ -101,6 +102,10 @@ const LeftSideBar = ({
   const [onlyAdd, setOnlyAdd] = useState(true);
   const [addNewCharacter, setAddNewCharacter] = useState(null);
   const [openCharacterChart, setOpenCharacterChart] = useState(null);
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const [newComment, setNewComment] = useState("");
+  const inputRef = useRef(null);
 
   const lastCommentRef = useRef(null);
 
@@ -248,7 +253,7 @@ const LeftSideBar = ({
           }}
         />
 
-        <PopupTextarea
+        <NewTabTextArea
           fromNew
           premiseId={id}
           className="ls-textarea"
@@ -267,11 +272,18 @@ const LeftSideBar = ({
             replyRef,
             isLoading,
             setIsLoading,
+            selectedLanguage,
+            setSelectedLanguage,
+            keyboardVisible,
+            setKeyboardVisible,
+            newComment,
+            setNewComment,
+            inputRef,
           }}
         />
       </div>
       <div className="lg:w-[368px] w-full relative h-full shadow-md pl-3 rounded-md">
-        <div className=" h-full pb-12 overflow-y-scroll">
+        <div className=" h-full lg:h-[83vh] pb-12 overflow-y-scroll relative">
           {/* header */}
           <PremiseTopHeader {...{ handleSearch, id, setSearchTerm }} />
           <div>
@@ -381,7 +393,7 @@ const LeftSideBar = ({
                       : filter_flag === 2
                       ? visible_to?.length > 0
                         ? visible_to
-                            //.filter((v) => v?.id !== currentUser?.id) // Exclude current user
+                            .filter((v) => v?.id !== currentUser?.id) // Exclude current user
                             .map((v) => `${v?.first_name} ${v?.last_name}`) // Format names properly
                             .join(", ")
                         : "No one"
@@ -487,7 +499,7 @@ const LeftSideBar = ({
                       : filter_flag === 2
                       ? visible_to?.length > 0
                         ? visible_to
-                            //.filter((v) => v?.id !== currentUser?.id) // Exclude current user
+                            .filter((v) => v?.id !== currentUser?.id) // Exclude current user
                             .map((v) => `${v?.first_name} ${v?.last_name}`) // Format names properly
                             .join(", ")
                         : "No one"
@@ -540,7 +552,7 @@ const LeftSideBar = ({
             </div>
           )}
 
-          <div className="hidden md:block fixed w-full max-w-[310px] bottom-8 lg:bottom-12 ">
+          <div className="hidden md:block fixed w-full max-w-[310px] bottom-8 lg:bottom-[60px] ">
             <AskIda
               {...{
                 id,
@@ -557,7 +569,7 @@ const LeftSideBar = ({
               }}
             />
 
-            <PopupTextarea
+            <NewTabTextArea
               fromNew
               premiseId={id}
               className="ls-textarea"
@@ -576,26 +588,33 @@ const LeftSideBar = ({
                 replyRef,
                 isLoading,
                 setIsLoading,
+                selectedLanguage,
+                setSelectedLanguage,
+                keyboardVisible,
+                setKeyboardVisible,
+                newComment,
+                setNewComment,
+                inputRef,
               }}
             />
           </div>
         </div>
       </div>
 
-      {openHidePop?.msg == "ShowBecomePrivilege" ? (
+      {openHidePop?.msg === "ShowBecomePrivilege" ? (
         <NoAccessPopUp
           noAccessPopup={openHidePop}
           setNoAccessPopup={setOpenHidePop}
         />
-      ) : openHidePop?.msg == "LB" ||
-        openHidePop?.msg == "ShowBuyPackage_and_Allacarte" ? (
+      ) : openHidePop?.msg === "LB" ||
+        openHidePop?.msg === "ShowBuyPackage_and_Allacarte" ? (
         <NoAccessLbPopUp
           noAccessLbPopup={openHidePop}
           setNoAccessPopup={setOpenHidePop}
           service="PP_Private"
         />
       ) : (
-        openHidePop == "Yes" && (
+        openHidePop === "Yes" && (
           <HideOptionPop
             {...{
               setOpenHidePop,
@@ -623,13 +642,13 @@ const LeftSideBar = ({
           }}
         />
       )}
-      {addNewCharacter?.msg == "ShowBecomePrivilege" && (
+      {addNewCharacter?.msg === "ShowBecomePrivilege" && (
         <NoAccessPopUp
           noAccessPopup={addNewCharacter}
           setNoAccessPopup={setAddNewCharacter}
         />
       )}
-      {addNewCharacter == "Yes" && (
+      {addNewCharacter === "Yes" && (
         <SingleCharacterAdd
           setAddNewCharacter={setAddNewCharacter}
           editData={editData}
@@ -677,6 +696,38 @@ const LeftSideBar = ({
             }
           />
         )
+      )}
+
+      {selectedLanguage && keyboardVisible && (
+        <Draggable handle=".movable-handle">
+          <div className="absolute z-20 w-[650px] top-[230px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
+            <div className="grid grid-cols-12">
+              <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
+                Drag me!! <span className="font-[500]">{selectedLanguage}</span>{" "}
+                Keyboard
+              </div>
+              <div className="flex justify-center items-center w-full h-full cursor-pointer">
+                <button
+                  onClick={() => {
+                    setKeyboardVisible(false);
+                    setSelectedLanguage("");
+                  }}
+                  className="font-bold w-full h-full"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            <div className="p-2">
+              <Keyboard
+                selectedLanguage={selectedLanguage}
+                setText={setNewComment}
+                inputRef={inputRef}
+              />
+            </div>
+          </div>
+        </Draggable>
       )}
     </>
   );
