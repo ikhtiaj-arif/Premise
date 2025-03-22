@@ -118,7 +118,7 @@ const hideUnhidePremiseCustom = async (
 
     refetch();
   } catch (error) {
-    // console.error("Error fetching data:", error);
+     console.error("Error fetching data:", error);
     toast.error("Something went wrong! Please try again.");
   }
 };
