@@ -144,7 +144,9 @@ const AllComments = ({
   const [disableD, setDisableD] = useState(false);
   const [suggestDisable, setSuggestDisable] = useState(false);
   const [projectBeatOpen, setProjectBeatOpen] = useState(false);
-  const [commentText, setCommentText] = useState(comments?.text?.replace(/^\s*\d+\.\s*/, ""));
+  const [commentText, setCommentText] = useState(
+    comments?.text?.replace(/^\s*\d+\.\s*/, "")
+  );
   const [commentObj, setCommentObj] = useState({});
   const [openDltPop, setOpenDltPop] = useState(false);
   const [idToDlt, setIdToDlt] = useState({});
@@ -489,49 +491,32 @@ const AllComments = ({
             <div className=" w-full relative">
               {/* <div className="flex flex-row-reverse"></div> */}
               <div className="flex  gap-[8px]">
-                {comments?.user?.id === 1 ? (
-                  <div data-reply>
-                    {profileImg?.[0]?.profile_photo ? (
-                      <img
-                        src={proImgUrl}
-                        className="h-[31.9px] w-[32px] mt-[6px] rounded-full object-cover border border-[#eaeaea]"
-                        alt=""
-                      />
-                    ) : (
-                      <img
-                        src={userIcon}
-                        className="h-[31.9px] w-[32px] mt-[6px]"
-                        alt=""
-                      />
-                    )}
-                  </div>
-                ) : (
-                  <a
-                    data-reply
-                    className="h-[31.9px] w-[32px]  mt-[6px]"
-                    target="_blank"
-                    rel="noreferrer"
-                    href={
-                      comments?.user?.id === user
-                        ? `${URL}/memberpage/#/personaldetails`
-                        : `${URL}/memberpage/#/user/${comments?.user?.id}/personaldetails`
-                    }
-                  >
-                    {profileImg?.[0]?.profile_photo ? (
-                      <img
-                        src={proImgUrl}
-                        className="h-[31.9px] w-[32px] rounded-full object-cover border border-[#eaeaea]"
-                        alt=""
-                      />
-                    ) : (
-                      <img
-                        src={userIcon}
-                        className="h-[31.9px] w-[36px] "
-                        alt=""
-                      />
-                    )}
-                  </a>
-                )}
+                <a
+                  data-reply
+                  className="h-[31.9px] w-[32px]  mt-[6px]"
+                  target="_blank"
+                  rel="noreferrer"
+                  href={
+                    comments?.user?.id === user
+                      ? `${URL}/memberpage/#/personaldetails`
+                      : `${URL}/memberpage/#/user/${comments?.user?.id}/personaldetails`
+                  }
+                >
+                  {profileImg?.[0]?.profile_photo ? (
+                    <img
+                      src={proImgUrl}
+                      className="h-[31.9px] w-[32px] rounded-full object-cover border border-[#eaeaea]"
+                      alt=""
+                    />
+                  ) : (
+                    <img
+                      src={userIcon}
+                      className="h-[31.9px] w-[36px] "
+                      alt=""
+                    />
+                  )}
+                </a>
+
                 <div
                   data-reply
                   className="border w-[78%] md:w-[86%] lg:w-[85.8%]  mr-auto bg-[#f8f8f8] border-[#EAEAEA]  rounded-[8px] p-1 "
@@ -544,34 +529,32 @@ const AllComments = ({
                           : "text-[#1E1E1E]"
                       } text-[#1E1E1E]  pl-[4px] pr-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center`}
                     >
-                      {comments?.user?.id === 1 || comments?.user?.id === 79 ? (
-                        <p className="notranslate text-[14px] font-[500] ">
-                          {comments?.c_value}. {commenterName}
-                          {/* <span className="ml-3 text-[#33B0CA] italic font-[400]"> {" (Character Development- Catalyze)"}</span> */}
-                        </p>
-                      ) : (
-                        <a
-                          target="_blank"
-                          rel="noreferrer"
-                          href={
-                            comments?.user?.id === user
-                              ? `${URL}/memberpage/#/personaldetails`
-                              : `${URL}/memberpage/#/user/${comments?.user?.id}/personaldetails`
-                          }
-                        >
-                          <div className="flex items-center">
-                            <p className="notranslate text-[14px] leading-[17px] font-[500] hover:text-[#33B0CA]">
-                              {comments?.c_value}. {commenterName}
-                            </p>
+                      <a
+                        target="_blank"
+                        rel="noreferrer"
+                        href={
+                          comments?.user?.id === user
+                            ? `${URL}/memberpage/#/personaldetails`
+                            : `${URL}/memberpage/#/user/${comments?.user?.id}/personaldetails`
+                        }
+                      >
+                        <div className="flex items-center">
+                          <p className="notranslate text-[14px] leading-[17px] font-[500] hover:text-[#33B0CA]">
+                            {comments?.c_value}. {commenterName}
+                          </p>
+                          {comments?.user?.id === 1 ||
+                          comments?.user?.id === 79 ? (
+                            <></>
+                          ) : (
                             <UserType
                               type={comments?.user?.centraldatabase?.type}
                               user_type={
                                 comments?.user?.centraldatabase?.user_type
                               }
                             />
-                          </div>
-                        </a>
-                      )}
+                          )}
+                        </div>
+                      </a>
                     </div>
 
                     {!comments?.is_deleted && (
@@ -687,7 +670,8 @@ const AllComments = ({
                         </button>
 
                         {data?.premiseOwner?.id === user &&
-                          (comments?.text?.includes("?")|| comments?.text?.includes("؟")) &&
+                          (comments?.text?.includes("?") ||
+                            comments?.text?.includes("؟")) &&
                           (comments?.user?.id === 1 ||
                             comments?.user?.id === 79) && (
                             <div className=" flex items-center justify-between">
@@ -810,7 +794,8 @@ const AllComments = ({
                           </button>
                         }
                         {data?.premiseOwner?.id === user &&
-                          (comments?.text?.includes("?") || comments?.text?.includes("؟")) &&
+                          (comments?.text?.includes("?") ||
+                            comments?.text?.includes("؟")) &&
                           (comments?.user?.id === 1 ||
                             comments?.user?.id === 79) && (
                             <div className=" flex items-center justify-between">
