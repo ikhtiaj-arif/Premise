@@ -15,7 +15,7 @@ const CharacterShowCard = ({
   onlyAdd,
   deleteCharacterFun,
 }) => {
-  // console.log("character", character);
+  //console.log("character", character?.is_ai_generated,index);
 
   const [confirmDelete, setConfirmDelete] = useState(false);
 
