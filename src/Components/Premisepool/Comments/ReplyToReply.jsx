@@ -383,8 +383,8 @@ const ReplyToReply = ({
             </p>
           </div>{" "}
           <div className=" flex flex-col md:flex-row justify-center gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
-            <CommentTranslator
-              comment={reply}
+          <CommentTranslator
+              comment={childReply}
               translateComment={translateComment}
               loading={isTranslationCommentLoading}
               commentRefetch={replyRefetch}
