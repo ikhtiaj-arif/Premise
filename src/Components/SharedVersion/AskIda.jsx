@@ -1,14 +1,13 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { toast } from "react-toastify";
 import { fetchUserAccess, MyContext } from "../../App";
 import { useCommentPremiseMutation } from "../../app/EndPoints/premisePoolApi";
-import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
-import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 import { baseURL } from "../utils";
 
 const AskIda = ({
   id,
+  source_language,
   user,
   commentRefetch,
   setOpenAllReplies,
@@ -16,7 +15,9 @@ const AskIda = ({
   lastCommentRef,
   premiseOwner,
   isLoading,
-  setIsLoading,setNoAccessPopup,setService
+  setIsLoading,
+  setNoAccessPopup,
+  setService,
 }) => {
   const { currentUser } = useContext(MyContext);
   const [postComment, { isLoading: isPostLoading }] =
@@ -38,6 +39,8 @@ const AskIda = ({
     }
   };
 
+  console.log(source_language);
+
   const checkAllowance = async (flag) => {
     const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);
     console.log(`${flag} res`, res);
@@ -51,6 +54,31 @@ const AskIda = ({
   };
 
   const handleSubmitComment = async () => {
+    const translations = {
+      ar: "يرجى المتابعة، Ida!", // Corrected Arabic translation
+      be: "Калі ласка, працягвайце далей, Ida!", // Belarusian
+      bn: "অনুগ্রহ করে আরো এগিয়ে যান, Ida!", // Bengali
+      de: "Bitte fahren Sie fort, Ida!", // German
+      en: "Please proceed further, Ida!", // English
+      es: "¡Por favor, procede más adelante, Ida!", // Spanish
+      fr: "Veuillez continuer, Ida!", // French
+      gl: "Por favor, continua máis adiante, Ida!", // Galician
+      gu: "કૃપા કરીને આગળ વધો, Ida!", // Gujarati
+      hi: "कृपया आगे बढ़ें, Ida!", // Hindi
+      id: "Silakan lanjutkan lebih jauh, Ida!", // Indonesian
+      kn: "ದಯವಿಟ್ಟು ಮುಂದುವರಿಯಿರಿ, Ida!", // Kannada
+      ml: "ദയവായി തുടരുക, Ida!", // Malayalam
+      mr: "कृपया पुढे जा, Ida!", // Marathi
+      ne: "कृपया अगाडि बढ्नुहोस्, Ida!", // Nepali
+      or: "ଦୟାକରି ଆଗକୁ ଯାଆନ୍ତୁ, Ida!", // Oriya
+      pa: "ਕਿਰਪਾ ਕਰਕੇ ਅੱਗੇ ਵਧੋ, Ida!", // Punjabi
+      ru: "Пожалуйста, продолжайте дальше, Ida!", // Russian
+      st: "Ka kopo, tsoela pele, Ida!", // Sesotho
+      ta: "தயவுசெய்து மேலும் தொடரவும், Ida!", // Tamil
+      te: "దయచేసి మరింత కొనసాగించండి, Ida!", // Telugu
+      ur: "براہ کرم مزید آگے بڑھیں, Ida!", // Urdu
+    };
+
     setIsLoading(true);
 
     try {
@@ -63,10 +91,12 @@ const AskIda = ({
       );
 
       if (response) {
+        const commentText = translations[source_language] || translations["en"];
+
         const body = {
           premise: id,
-          text: "Please proceed further Ida!",
-          ask_ida:true,
+          text: commentText,
+          ask_ida: true,
           user: user,
           C: response?.data?.counts + 1, // Update the comment count
           is_question: false,
@@ -129,7 +159,6 @@ const AskIda = ({
           Ask Ida for more!
         </button>
       </div>
-      
     </div>
   );
 };

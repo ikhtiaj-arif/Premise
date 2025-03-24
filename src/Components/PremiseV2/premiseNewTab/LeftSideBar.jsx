@@ -240,6 +240,7 @@ const LeftSideBar = ({
         <AskIda
           {...{
             id,
+            source_language,
             user,
             premiseOwner,
             commentRefetch,
@@ -556,6 +557,7 @@ const LeftSideBar = ({
             <AskIda
               {...{
                 id,
+                source_language,
                 user,
                 premiseOwner,
                 commentRefetch,

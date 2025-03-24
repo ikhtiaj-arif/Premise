@@ -599,6 +599,7 @@ const Popup = ({
               <div className="hidden lg:block md:absolute bottom-3 w-full">
                   <AskIda
                     id={premiseId}
+                    source_language={premiseData?.source_language}
                     {...{
                       user,
                       premiseOwner,
@@ -608,6 +609,7 @@ const Popup = ({
                       lastCommentRef,
                       isLoading,
                       setIsLoading,setNoAccessPopup,setService
+                      
                     }}
                   />
                   {/* textarea */}
@@ -713,6 +715,7 @@ const Popup = ({
                 <div className="fixed bottom-[18px] left-0 w-[100%] md:relative md:bottom-0 md:w-auto px-2 ">
                   <AskIda
                     id={premiseId}
+                    source_language={premiseData?.source_language}
                     {...{
                       user,
                       premiseOwner,
