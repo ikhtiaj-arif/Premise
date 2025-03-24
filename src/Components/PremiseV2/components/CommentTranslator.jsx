@@ -9,6 +9,7 @@ const CommentTranslator = ({
   translateComment,
   commentRefetch,
   setCommentText,
+  setCommentPrefix
 }) => {
   const { currentUser } = useContext(MyContext);
   const { openDropdownId, setOpenDropdownId } = useContext(TranslationContext); // Use global dropdown state
@@ -19,8 +20,16 @@ const CommentTranslator = ({
     const data = { text_id: comment.id, tar_lang: lang };
     try {
       const res = await translateComment(data);
-      setCommentText(res?.data?.text);
-      commentRefetch();
+          const translatedText = res?.data?.text;
+          const translatedPrefix = res?.data?.text_prefix;
+    
+          if (res?.data?.text_prefix) {
+            setCommentText(translatedText);
+            setCommentPrefix(translatedPrefix);
+          } else {
+            setCommentText(res?.data?.text);
+          }
+          commentRefetch();
     } catch (err) {
       console.log(err);
     }

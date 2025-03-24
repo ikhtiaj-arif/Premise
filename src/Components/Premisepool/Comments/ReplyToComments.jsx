@@ -50,6 +50,7 @@ const ReplyToComments = ({
   const [openReplyField, setOpenReplyField] = useState(false);
   const [suggestDisable, setSuggestDisable] = useState(false);
   const [replyText, setReplyText] = useState(reply?.text);
+  const [replyTextPrefix, setReplyTextPrefix] = useState(reply?.text_prefix);
   const [childReplyText, setChildReplyText] = useState("");
   const [isTextareaDisabled, setIsTextareaDisabled] = useState(false);
 
@@ -263,6 +264,7 @@ const ReplyToComments = ({
 
   const phrasesToBold = ["Do Think About:", "OR May be", "May be"];
 
+  console.log("ccc", owner === user);
   useEffect(() => {}, []);
 
   const formatText = (text, prefix) => {
@@ -316,7 +318,18 @@ const ReplyToComments = ({
               fromNew ? "w-[104.5%] md:w-[94.5%]" : "w-[104.5%] max-w-[654px]"
             }  `}
           >
-            {reply?.user?.id === 1 ? (
+            <a
+              target="_blank"
+              rel="noreferrer"
+              // href={`${URL}/memberpage/#/user/${created_by?.id}`}
+
+              href={
+                reply?.id === user
+                  ? `${URL}/memberpage/#/personaldetails`
+                  : `${URL}/memberpage/#/user/${reply?.id}/personaldetails`
+              }
+            >
+              {" "}
               <div>
                 {profileImg?.[0]?.profile_photo ? (
                   <img
@@ -327,75 +340,44 @@ const ReplyToComments = ({
                 ) : (
                   <img
                     src={userIcon}
-                    className="h-[31.9px] w-[33px] mt-[6px]"
+                    className="h-[31.9px] w-[32px] mt-[6px]"
                     alt=""
                   />
                 )}
-              </div>
-            ) : (
-              <a
-                target="_blank"
-                rel="noreferrer"
-                // href={`${URL}/memberpage/#/user/${created_by?.id}`}
-
-                href={
-                  reply?.id === user
-                    ? `${URL}/memberpage/#/personaldetails`
-                    : `${URL}/memberpage/#/user/${reply?.id}/personaldetails`
-                }
-              >
-                {" "}
-                <div>
-                  {profileImg?.[0]?.profile_photo ? (
-                    <img
-                      src={proImgUrl}
-                      className="h-[31.9px] w-[32px] mt-[6px] rounded-full object-cover border border-[#eaeaea]"
-                      alt=""
-                    />
-                  ) : (
-                    <img
-                      src={userIcon}
-                      className="h-[31.9px] w-[32px] mt-[6px]"
-                      alt=""
-                    />
-                  )}
-                </div>{" "}
-              </a>
-            )}
+              </div>{" "}
+            </a>
 
             <div className="border w-[78%] md:w-[86%] lg:w-[88%] border-[##EAEAEA] bg-[#fafafa] rounded-[8px] p-1 ">
               <div className="flex justify-between my-1 relative">
                 <div className="text-[#1E1E1E] pl-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center">
-                  {reply?.user?.id === 1 ? (
-                    <p className="notranslate text-[14px] font-[500] ">
-                      {reply?.user?.first_name} {reply?.user?.last_name}
-                    </p>
-                  ) : (
-                    <a
-                      target="_blank"
-                      rel="noreferrer"
-                      href={
-                        reply?.id === user
-                          ? `${URL}/memberpage/#/personaldetails`
-                          : `${URL}/memberpage/#/user/${reply?.user?.id}/personaldetails`
-                      }
-                      className="flex items-center"
-                    >
-                      {reply?.user?.first_name && reply?.user?.last_name ? (
-                        <p className="notranslate text-[14px] font-[500] hover:text-[#33b0ca] ">
-                          {reply?.user?.first_name} {reply?.user?.last_name}
-                        </p>
-                      ) : (
-                        <p className="text-[14px] font-[500] hover:text-[#33b0ca] ">
-                          {reply?.user?.email.split("@")[0]}
-                        </p>
-                      )}
+                  <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href={
+                      reply?.id === user
+                        ? `${URL}/memberpage/#/personaldetails`
+                        : `${URL}/memberpage/#/user/${reply?.user?.id}/personaldetails`
+                    }
+                    className="flex items-center"
+                  >
+                    {reply?.user?.first_name && reply?.user?.last_name ? (
+                      <p className="notranslate text-[14px] font-[500] hover:text-[#33b0ca] ">
+                        {reply?.user?.first_name} {reply?.user?.last_name}
+                      </p>
+                    ) : (
+                      <p className="text-[14px] font-[500] hover:text-[#33b0ca] ">
+                        {reply?.user?.email.split("@")[0]}
+                      </p>
+                    )}
+                    {reply?.user?.id === 1 ? (
+                      <></>
+                    ) : (
                       <UserType
                         type={reply?.user?.centraldatabase?.type}
                         user_type={reply?.user?.centraldatabase?.user_type}
                       />
-                    </a>
-                  )}
+                    )}
+                  </a>
                 </div>
 
                 <p className="text-[12px]  h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
@@ -409,8 +391,8 @@ const ReplyToComments = ({
                 {/* {reply?.user?.id === 1 && reply?.text
                   ? formatText(reply?.text)
                   : reply?.text} */}
-                {reply?.user?.id === 1 && replyText && reply?.text_prefix
-                  ? formatText(replyText, reply?.text_prefix)
+                {reply?.user?.id === 1 && replyText && replyTextPrefix
+                  ? formatText(replyText, replyTextPrefix)
                   : replyText}
               </p>
             </div>
@@ -421,7 +403,7 @@ const ReplyToComments = ({
                 loading={isTranslationCommentLoading}
                 commentRefetch={replyRefetch}
                 setCommentText={setReplyText}
-                formatText={formatText}
+                setCommentPrefix={setReplyTextPrefix}
               />
 
               {(owner === user || reply?.user?.id === user) &&
