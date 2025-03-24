@@ -771,7 +771,7 @@ const BeatEditPop = ({
                               >
                                 <FaKeyboard />
                               </button>
-                              <select
+                              <select disabled={selectedLanguage}
                                 value={sourcesLanguage}
                                 onChange={(e) =>
                                   setSourcesLanguage(e.target.value)

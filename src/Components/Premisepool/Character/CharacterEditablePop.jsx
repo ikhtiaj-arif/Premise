@@ -254,9 +254,9 @@ const CharacterEditablePop = ({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[54px] gap-y-[8px] justify-center ">
             {finalByMeCharacters?.map((character, index) => (
               <CharacterShowCard
+                index={index + finalAICharacters?.length}
                 {...{
                   character,
-                  index,
                   setEditData,
                   setEditIdx,
                   setDeleteIdx,
