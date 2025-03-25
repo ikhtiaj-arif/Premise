@@ -56,6 +56,10 @@ const ReplyToReply = ({
     currentUser,
   } = useContext(MyContext);
   const [openDltPop, setOpenDltPop] = useState(false);
+  const [replyText, setReplyText] = useState(childReply?.text);
+  const [replyTextPrefix, setReplyTextPrefix] = useState(
+    childReply?.text_prefix
+  );
   const [currentReply2Id, setCurrentReply2Id] = useState(childReply?.id);
   const [idToDlt, setIdToDlt] = useState({});
   const [disableBtn, setDisableBtn] = useState(false);
@@ -285,7 +289,15 @@ const ReplyToReply = ({
       >
         <div className="flex gap-[8px]">
           <div className="flex flex-col items-center gap-1">
-            {replyBy?.id === 1 ? (
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href={
+                replyBy?.id === user
+                  ? `${URL}/memberpage/#/personaldetails`
+                  : `${URL}/memberpage/#/user/${replyBy?.id}/personaldetails`
+              }
+            >
               <div>
                 {profileImg?.[0]?.profile_photo ? (
                   <img
@@ -301,69 +313,41 @@ const ReplyToReply = ({
                   />
                 )}
               </div>
-            ) : (
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href={
-                  replyBy?.id === user
-                    ? `${URL}/memberpage/#/personaldetails`
-                    : `${URL}/memberpage/#/user/${replyBy?.id}/personaldetails`
-                }
-              >
-                <div>
-                  {profileImg?.[0]?.profile_photo ? (
-                    <img
-                      src={proImgUrl}
-                      className="h-[31.9px] w-[32px] mt-[6px] rounded-full object-cover border border-[#eaeaea]"
-                      alt=""
-                    />
-                  ) : (
-                    <img
-                      src={userIcon}
-                      className="h-[31.9px] w-[32px] mt-[6px]"
-                      alt=""
-                    />
-                  )}
-                </div>
-              </a>
-            )}
+            </a>
           </div>
           <div className="border w-[78%] md:w-[86%] lg:w-[89%] border-[##EAEAEA] bg-[#f8f8f8] rounded-[8px] p-1 ">
             <div className="flex justify-between my-1 relative">
               <div className="text-[#1E1E1E] pl-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center">
-                {replyBy?.id === 1 ? (
-                  <p className="notranslate text-[14px] font-[500] ">
-                    {childReply?.user?.first_name} {childReply?.user?.last_name}
-                  </p>
-                ) : (
-                  <a
-                    target="_blank"
-                    rel="noreferrer"
-                    href={
-                      replyBy?.id === user
-                        ? `${URL}/memberpage/#/personaldetails`
-                        : `${URL}/memberpage/#/user/${replyBy?.id}/personaldetails`
-                    }
-                    className="flex items-center"
-                  >
-                    {childReply?.user?.first_name &&
-                    childReply?.user?.last_name ? (
-                      <p className=" notranslate text-[14px] font-[500] hover:text-[#33b0ca]">
-                        {childReply?.user?.first_name}{" "}
-                        {childReply?.user?.last_name}{" "}
-                      </p>
-                    ) : (
-                      <p className="text-[14px] font-[500] hover:text-[#33b0ca]">
-                        {childReply?.user?.email.split("@")[0]}{" "}
-                      </p>
-                    )}
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href={
+                    replyBy?.id === user
+                      ? `${URL}/memberpage/#/personaldetails`
+                      : `${URL}/memberpage/#/user/${replyBy?.id}/personaldetails`
+                  }
+                  className="flex items-center"
+                >
+                  {childReply?.user?.first_name &&
+                  childReply?.user?.last_name ? (
+                    <p className=" notranslate text-[14px] font-[500] hover:text-[#33b0ca]">
+                      {childReply?.user?.first_name}{" "}
+                      {childReply?.user?.last_name}{" "}
+                    </p>
+                  ) : (
+                    <p className="text-[14px] font-[500] hover:text-[#33b0ca]">
+                      {childReply?.user?.email.split("@")[0]}{" "}
+                    </p>
+                  )}
+                  {replyBy?.id === 1 ? (
+                    <></>
+                  ) : (
                     <UserType
                       type={childReply?.user?.centraldatabase?.type}
                       user_type={childReply?.user?.centraldatabase?.user_type}
                     />
-                  </a>
-                )}
+                  )}
+                </a>
               </div>
 
               <p className="text-[12px]  h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
@@ -377,17 +361,19 @@ const ReplyToReply = ({
               {/* {replyBy?.id === 1 && childReply?.text
                 ? formatText(childReply?.text)
                 : childReply?.text} */}
-              {replyBy?.id === 1 && childReply?.text && childReply?.text_prefix
-                ? formatText(childReply?.text, childReply?.text_prefix)
-                : childReply?.text}
+              {replyBy?.id === 1 && replyText && replyTextPrefix
+                ? formatText(replyText, replyTextPrefix)
+                : replyText}
             </p>
           </div>{" "}
           <div className=" flex flex-col md:flex-row justify-center gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
             <CommentTranslator
-              comment={reply}
+              comment={childReply}
               translateComment={translateComment}
               loading={isTranslationCommentLoading}
               commentRefetch={replyRefetch}
+              setCommentText={setReplyText}
+              setCommentPrefix={setReplyTextPrefix}
             />
             {(owner === user || replyBy?.id === user) &&
             !childReply?.reject_button ? (
