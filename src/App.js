@@ -62,7 +62,7 @@ function App() {
     }
   }, []);
 
-  console.log('current user',currentUser);
+  //console.log('current user',currentUser);
 
   const value = {
     activeAddedByMe,

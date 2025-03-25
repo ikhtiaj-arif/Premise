@@ -18,6 +18,7 @@ import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
 import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
+import { useGetPremiseUserQuery } from "../../../app/EndPoints/premisePoolApi";
 
 const CardHeadOptions = ({
   refetch,
@@ -67,10 +68,14 @@ const CardHeadOptions = ({
 
   // } = p;
   const { currentUser } = useContext(MyContext);
+  const {
+    data: userQuery,
+    isUserLoading,
+    refetch: userRefetch,
+  } = useGetPremiseUserQuery();
 
-  // const dotPopupRef = useRef();
-  // const [addPopup, setAddPopup] = useState();
-  const userFirstName = useSelector((state) => state?.user?.firstName);
+  const userFirstName = userQuery?.first_name;
+  // const userFirstName = useSelector((state) => state?.user?.firstName);
   const user = useSelector((state) => state?.user?.id);
 
   //! states
