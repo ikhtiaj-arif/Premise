@@ -10,7 +10,7 @@ const PopupPremiseText = ({
   className,
   className2,
 }) => {
-  console.log("viewText", viewText, dText);
+  //console.log("viewText", viewText, dText);
   const { boldStyle, italicStyle, underlineStyle, hexColor } = stylings;
   return (
     <div

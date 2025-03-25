@@ -339,13 +339,13 @@ const AllComments = ({
     }
   };
   const submitAddToBeat = async (comment) => {
-    // console.log("comment",comment);
+     console.log("comment",comment);
 
     setCommentObj(comment);
     setBeatSuggLoading(true);
     setProjectBeatOpen(true);
 
-    setCommentText(comment.text || "");
+    setCommentText(comment?.text || "");
 
     const data = {
       owner: owner,
@@ -359,9 +359,9 @@ const AllComments = ({
 
       if (res && res?.data && res?.data?.beats) {
         const beats = Object.values(res?.data?.beats);
-
+        //console.log('beats',beats);
         const beatData = {
-          one: comment.text,
+          one: comment?.text,
           two: beats[0],
           three: beats[1],
           four: beats[2],

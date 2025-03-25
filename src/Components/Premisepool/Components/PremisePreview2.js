@@ -358,8 +358,8 @@ const PremisePreview2 = ({
     setDurationOptions(options[selectedProject] || []);
     setDuration("");
   };
-  console.log(natureOfProject);
-  console.log(durationOptions);
+  //console.log(natureOfProject);
+  //console.log(durationOptions);
   // const {
   //   data: ProjectsObj,
   //   isLoading: isProjectLoading,
