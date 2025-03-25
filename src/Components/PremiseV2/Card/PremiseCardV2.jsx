@@ -780,9 +780,6 @@ const PremiseCardV2 = ({
           Userid={user}
         />
       )}
-       {addPopup === "noUserName" && (
-            <UserNamePopup {...{ refetch, setAddPopup }} />
-          )}
     </div>
   );
 };

@@ -60,13 +60,13 @@ const UserNamePopup = ({ refetch, setAddPopup ,addPremise}) => {
       });
       console.log('addPremise',addPremise);
       userRefetch()
+      refetch()
       dispatch(setUser(userQuery));
-      setAddPopup(null);
-      // if(addPremise){
-      //   handleAddPopup();
-      // }else{
-      //   setAddPopup(null);
-      // }
+      if(addPremise){
+        handleAddPopup();
+      }else{
+        setAddPopup(null);
+      }
     } else {
       toast.error("Something went wrong", {
         position: toast.POSITION.TOP_CENTER,autoClose: 800,
