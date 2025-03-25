@@ -218,11 +218,10 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
                 Please share your bank details bellow :
               </p> */}
 
-                <div className="flex items-center mt-[20px]">
-                  <input
-                    className="h-[20px] w-[20px] mr-[6px]"
-                    type="checkbox"
-                  />
+                <div className="flex items-center gap-2 mt-[20px]">
+                  <div>
+                    <input className="h-[20px] w-[20px] cursor-pointer" type="checkbox" />
+                  </div>
                   <p className="text-left text-[14px] leading-[21px] font-[400]  text-[#616161] list-disc">
                     Change my Monetizing Preferences and allow translation of
                     this Premise Project in other languages also.
