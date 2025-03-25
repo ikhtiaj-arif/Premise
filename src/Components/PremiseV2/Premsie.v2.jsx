@@ -444,7 +444,7 @@ const PremiseV2 = () => {
           </div>
           <div className="w-full mx-auto h-[1px] bg-[#eaeaea] mt-[4px] barSm-hidden" />
           {addPopup === "noUserName" && (
-            <UserNamePopup {...{ refetch, setAddPopup }} />
+            <UserNamePopup {...{ refetch, setAddPopup }} addPremise={``}/>
           )}
           {addPopup?.msg === "ShowBecomePrivilege" ? (
             <NoAccessPopUp
@@ -461,7 +461,7 @@ const PremiseV2 = () => {
             />
           ) : (
             addPopup === "Yes" && (
-              <AddPremise2 setAddPopup={setAddPopup} refetch={refetch} />
+              <AddPremise2 setAddPopup={setAddPopup} refetch={refetch}/>
             )
           )}
 
