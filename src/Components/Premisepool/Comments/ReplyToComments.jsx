@@ -205,12 +205,13 @@ const ReplyToComments = ({
   };
 
   const checkSuggestAllowance = async (text) => {
+    console.log(text);
     setSuggestDisable(true);
     const res = await fetchUserAccess(
       `${currentUser?.id}/PP_AllowBrainstoming`
     );
     console.log(`PP_AllowBrainstoming res`, res);
-    if (res?.access == "No") {
+    if (res?.access === "No") {
       setSuggestDisable(false);
       setNoAccessLbPopup(res);
     } else {
@@ -619,7 +620,7 @@ const ReplyToComments = ({
                       <button
                         onClick={() => {
                           handleAddToBeat(reply);
-                          setCommentText(reply);
+                          setCommentText(reply?.text);
                         }}
                         className="w-[74px]"
                       >

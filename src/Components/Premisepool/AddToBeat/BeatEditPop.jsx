@@ -104,6 +104,7 @@ const BeatEditPop = ({
     isError,
     refetch,
   } = useGetMyAllProjectQuery();
+  console.log("suggestedBeats", suggestedBeats);
 
   useEffect(() => {
     const initialValues = Object.keys(suggestedBeats).reduce((acc, key) => {
@@ -771,7 +772,8 @@ const BeatEditPop = ({
                               >
                                 <FaKeyboard />
                               </button>
-                              <select disabled={selectedLanguage}
+                              <select
+                                disabled={selectedLanguage}
                                 value={sourcesLanguage}
                                 onChange={(e) =>
                                   setSourcesLanguage(e.target.value)

@@ -372,7 +372,7 @@ const ReplyToReply3 = ({
                 <button
                   onClick={() => {
                     handleAddToBeat(childReply);
-                    setCommentText(childReply);
+                    setCommentText(childReply?.text);
                     replyRefetch();
                   }}
                   className="w-[30%] md:w-[22%]"

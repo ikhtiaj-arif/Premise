@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import {
   useGetBankDetailsQuery,
+  useGetOnePremiseQuery,
   useGetSaleTranslationRequestQuery,
   useUpdateRequestForSaleOrTranslateMutation,
 } from "../../../../app/EndPoints/premisePoolApi";
@@ -26,7 +27,12 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
 
   const { data: bankDetailsAvailable, isLoading: bankDetailsLoading } =
     useGetBankDetailsQuery(user);
-  console.log(bankDetailsAvailable);
+
+  const {
+    data: premiseData,
+    isPremiseLoading,
+    refetch: premiseRefetch,
+  } = useGetOnePremiseQuery(premiseId);
 
   const data = {
     id: premiseId,
@@ -167,7 +173,8 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
               </p>
               <ul className="ml-[24px]">
                 <li className="text-left text-[14px] leading-[21px] font-[400]  text-[#616161] list-disc">
-                  You will receive $PQRX2 / 3 for each translation
+                  You will receive <span>{premiseData?.pqr_value}</span> for
+                  each translation
                 </li>
                 <li className="text-left text-[14px] leading-[21px] font-[400]  text-[#616161] list-disc">
                   All components of the Premise Project viz Premise, comments,
@@ -226,7 +233,7 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
                     onClick={() => setShowBankDetails(true)}
                     className={`${"bg-[#33B0CA]"} text-[#fafafa] rounded-[4px] leading-[18px] md:leading-[24px] px-[20px] py-[2px]  text-[12px] md:text-[14px] font-[600]`}
                   >
-                    Submit Details of bank account
+                    Submit details of bank account
                   </button>
                   {bankDetailsAvailable?.data && (
                     <button

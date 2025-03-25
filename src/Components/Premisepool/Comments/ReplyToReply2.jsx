@@ -658,7 +658,7 @@ const ReplyToReply2 = ({
                   <button
                     onClick={() => {
                       handleAddToBeat(childReply);
-                      setCommentText(childReply);
+                      setCommentText(childReply?.text);
                       replyRefetch();
                     }}
                     className="w-[74px]"
