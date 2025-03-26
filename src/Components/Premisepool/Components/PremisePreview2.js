@@ -209,6 +209,7 @@ const PremisePreview2 = ({
     projectRefetch,
     allProjects,
     currentUser,
+    selectedSpProjectLanguage, setSelectedSpProjectLanguage
   } = useContext(MyContext);
 
   const {
@@ -350,7 +351,7 @@ const PremisePreview2 = ({
   const [characterArray, setCharacterArray] = useState([]);
   // const [characters, setCharacters] = useState(characterArray);
 
-  const [language, setlanguage] = useState("");
+  const [language, setLanguage] = useState("");
   // console.log("language", language);
   const handleNatureOfProjectChange = (e) => {
     const selectedProject = e.target.value;
@@ -389,10 +390,12 @@ const PremisePreview2 = ({
     };
   }, []);
 
+  console.log("language", language)
+
   useEffect(() => {
     if (selectedSpProjectID === "") {
       setMatchingProject(null);
-      setlanguage("");
+      setLanguage("");
       setAuthorName("");
       setNatureOfProject("");
       setDuration("");
@@ -414,7 +417,7 @@ const PremisePreview2 = ({
       if (matchingProject) {
         // console.log("matchingProject", matchingProject);
         setMatchingProject(matchingProject);
-        setlanguage(matchingProject?.language);
+        setLanguage(matchingProject?.language);
         setAuthorName(matchingProject?.ownername);
         setNatureOfProject(matchingProject?.nature_project);
 
@@ -1708,7 +1711,9 @@ useEffect(() => {
                       <select
                         className={`block appearance-none bg-[#fafafa] h-[27px] rounded-[4px]   w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
                         value={language}
-                        onChange={(e) => setlanguage(e.target.value)}
+                        onChange={(e) => {setLanguage(e.target.value)
+                          setSelectedSpProjectLanguage(e.target.value)
+                        }}
                         onClick={() => setIsLanguageOpen(!isLanguageOpen)}
                         required
                       >
@@ -2221,6 +2226,7 @@ useEffect(() => {
             setCharacterArray={setCharacterArray}
             handleUpdateSavedChar={handleUpdateSavedChar}
             characterLoading={characterLoading}
+            source_language={selectedSpProjectLanguage}
           />
         )}
 

@@ -62,6 +62,7 @@ const AllComments = ({
   focusedCValue,
   iconWidth,
   inpRightMargin,
+  loading,
 }) => {
   // const actTwoStart = Math.floor(0.25 * m_value);
 
@@ -339,7 +340,7 @@ const AllComments = ({
     }
   };
   const submitAddToBeat = async (comment) => {
-     console.log("comment",comment);
+    console.log("comment", comment);
 
     setCommentObj(comment);
     setBeatSuggLoading(true);
@@ -463,20 +464,24 @@ const AllComments = ({
   return (
     <div className=" flex flex-col justify-end w-full relative ">
       <div className="md:ml-10">
-        {commentIdx === 1 && (
-          <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] setup-m">
-            Setup:
-          </p>
-        )}
-        {commentIdx === actOneThreshold + 1 && (
-          <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] conflict-m">
-            Conflict:
-          </p>
-        )}
-        {commentIdx === actTwoEnd + 1 && (
-          <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] resolution-m">
-            Resolution:
-          </p>
+        {!loading && actOneThreshold && actTwoEnd && (
+          <>
+            {commentIdx === 1 && (
+              <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] setup-m">
+                Setup:
+              </p>
+            )}
+            {commentIdx === actOneThreshold + 1 && (
+              <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] conflict-m">
+                Conflict:
+              </p>
+            )}
+            {commentIdx === actTwoEnd + 1 && (
+              <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] resolution-m">
+                Resolution:
+              </p>
+            )}
+          </>
         )}
 
         {/* each comment  */}

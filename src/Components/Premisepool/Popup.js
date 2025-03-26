@@ -224,9 +224,11 @@ const Popup = ({
   }, [isPremiseLoading, premiseData]); // Depend on loading state and premiseData
 
   useEffect(() => {
-    console.log("Act One Threshold:", actOneThreshold);
-    console.log("Act Two End:", actTwoEnd);
-  }, [actOneThreshold, actTwoEnd]);
+   
+  }, [actOneThreshold, actTwoEnd, ]);
+  useEffect(() => {
+    premiseRefetch()
+  }, [premiseId ]);
 
   const {
     data: commentsData,
@@ -697,6 +699,7 @@ const Popup = ({
                             project_id={project_id}
                             iconWidth={"w-[87%] md:w-[91%]"}
                             inpRightMargin={"mr-[47px] md:mr-[88px]"}
+                            loading={loading}
                           />
                         </motion.div>
                       ))}
@@ -843,6 +846,7 @@ const Popup = ({
               handleUpdateSavedChar={handleUpdateSavedChar}
               characterLoading={isCharLoading}
               project_id={project_id}
+              source_language={premiseData?.source_language}
             />
           )}
           {openViewTranslationsPop && (
@@ -891,6 +895,7 @@ const Popup = ({
               handleUpdateSavedChar={handleUpdateSavedChar}
               characterLoading={isCharLoading}
               project_id={premiseData?.project_id}
+              source_language={premiseData?.source_language}
             />
           )}
           {openTransOtherPop && (

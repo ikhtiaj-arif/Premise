@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { MdOutlineKeyboardBackspace } from "react-icons/md";
-import { FaKeyboard } from "react-icons/fa";
 import Draggable from "react-draggable";
+import { FaKeyboard } from "react-icons/fa";
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { useSuggestCharactersMutation } from "../../../app/EndPoints/Characters/Characters";
+import { getLanguageName } from "../../PremiseV2/utilityFuncitons/functions";
 import AutoSizeTextArea from "./AutosizeTextArea";
-import LanguageSelector from "../LanguageSelector";
 import CharacterKeyboard from "./CharacterKeyboard";
 
 const SingleCharacterAdd = ({
@@ -14,12 +14,13 @@ const SingleCharacterAdd = ({
   editIdx,
   isEditPopupOpen,
   onlyAdd,
+  source_language,
 }) => {
   const [role, setRole] = useState(editData?.role || "");
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [keyboardVisible, setKeyboardVisible] = useState(false);
   const [name, setName] = useState(editData?.name || "");
-  const [age, setAge] = useState(editData?.age || 0);
+  const [age, setAge] = useState(editData?.age || "");
   const [focusedFieldName, setFocusedFieldName] = useState("");
   const [occupation, setOccupation] = useState(editData?.occupation || "");
   const [gender, setGender] = useState(editData?.gender || "");
@@ -43,7 +44,7 @@ const SingleCharacterAdd = ({
   );
 
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
-  
+
   const characterNameRef = useRef(null);
   const occupationRef = useRef(null);
   const otherRoleRef = useRef(null);
@@ -118,6 +119,7 @@ const SingleCharacterAdd = ({
     }
     const assignedRole = role === "Others" ? customRole : role;
     const updatedCharacter = {
+      ...editData,
       role: assignedRole,
       name,
       age: isAgeValid,
@@ -132,7 +134,7 @@ const SingleCharacterAdd = ({
       professional_relationship: professionalrelationship,
     };
     // handleAddNewCharacter(newCharacter);
- 
+
     // Optionally, reset the form fields after adding
     setRole("");
     setName("");
@@ -241,9 +243,10 @@ const SingleCharacterAdd = ({
     }
   };
 
+  const sourceLanguageName = getLanguageName(source_language);
   const onClickKeyboard = () => {
     if (selectedLanguage === "") {
-      setSelectedLanguage("English");
+      setSelectedLanguage(sourceLanguageName);
     }
     setKeyboardVisible(!keyboardVisible);
   };
@@ -265,6 +268,28 @@ const SingleCharacterAdd = ({
                   isDisabled ? "View Character" : "Edit Character"
                 }`}</span>
               </h3>
+              {!isDisabled && (
+                <div className="absolute top-[20px] right-[10px] z-10">
+                  <div className="text-[14px] mb-[-15px] hidden text-[#616161] w-full outline-[#EAEAEA] md:flex justify-center items-center">
+                    <button
+                      onClick={onClickKeyboard}
+                      className={` w-full h-[32px] md:h-[30px] flex justify-between gap-10 px-5 items-center rounded-[6px]`}
+                    >
+                      <FaKeyboard
+                        data-te-toggle="tooltip"
+                        title={`${
+                          source_language
+                            ? `${sourceLanguageName} Keyboard`
+                            : "Select Keyboard"
+                        }`}
+                        className={`w-7 h-7 ${
+                          keyboardVisible && "text-[#33B0CA]"
+                        } cursor-pointer hover:text-[#33B0CA] w-full `}
+                      />
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
             <form
               onSubmit={handleAddClick}
@@ -447,7 +472,7 @@ const SingleCharacterAdd = ({
                 </div>
               </div>
               <div className="mb-[20px]  flex justify-end gap-1">
-                <div className="bg-[#FAFAFA] h-[38px] md:h-[32px] xl:h-[38px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-[8px] hidden lg:flex items-center">
+                {/* <div className="bg-[#FAFAFA] h-[38px] md:h-[32px] xl:h-[38px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-[8px] hidden lg:flex items-center">
                   <div className="flex justify-end gap-3  w-full ">
                     <FaKeyboard
                       data-te-toggle="tooltip"
@@ -465,7 +490,7 @@ const SingleCharacterAdd = ({
                       setKeyboardVisible={setKeyboardVisible}
                     />
                   </div>
-                </div>
+                </div> */}
                 <button
                   disabled={isSaveDisabled || disabledEdit}
                   onClick={handleSuggest}

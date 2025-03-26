@@ -26,6 +26,7 @@ function App() {
   const [selectedPremiseObj, setSelectedPremiseObj] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [selectedSpProjectID, setSelectedSpProjectID] = useState("");
+  const [selectedSpProjectLanguage, setSelectedSpProjectLanguage] = useState("");
   const [createdSpProjectID, setCreatedSpProjectID] = useState("");
   const [selectedPremiseSpProjectId, setSelectedPremiseSpProjectId] = useState("");
   const [selectedLanguages, setSelectedLanguages] = useState(null);
@@ -100,6 +101,7 @@ function App() {
     setAvailableForTranslation,
     currentlyOpenedCommentID,
     setCurrentlyOpenedCommentID, 
+    selectedSpProjectLanguage, setSelectedSpProjectLanguage
   };
 
   return (

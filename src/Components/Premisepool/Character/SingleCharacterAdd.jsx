@@ -1,19 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FaKeyboard } from "react-icons/fa";
 import Draggable from "react-draggable";
+import { FaKeyboard } from "react-icons/fa";
 import { useSuggestCharactersMutation } from "../../../app/EndPoints/Characters/Characters";
+import { getLanguageName } from "../../PremiseV2/utilityFuncitons/functions";
 import AutoSizeTextArea from "./AutosizeTextArea";
-import LanguageSelector from "../LanguageSelector";
 import CharacterKeyboard from "./CharacterKeyboard";
 
 const SingleCharacterAdd = ({
   setAddNewCharacter,
   handleAddNewCharacter,
   characterArray,
+  source_language,
 }) => {
+  // console.log("source_language", source_language);
   const [role, setRole] = useState("");
   const [name, setName] = useState("");
-  const [age, setAge] = useState(0);
+  const [age, setAge] = useState("");
   const [occupation, setOccupation] = useState("");
   const [gender, setGender] = useState("");
   const [background, setBackGround] = useState("");
@@ -48,10 +50,11 @@ const SingleCharacterAdd = ({
     let isAgeValid;
     if (gender === "Inanimate Object") {
       isAgeValid = true;
+      setAge("0");
     } else {
       isAgeValid = age;
     }
-
+    
     const isFormComplete = role && name && occupation && gender && isAgeValid;
 
     setIsSaveDisabled(!isFormComplete);
@@ -70,6 +73,17 @@ const SingleCharacterAdd = ({
     professionalrelationship,
     customRole,
   ]);
+
+  useEffect(() => {
+    let isAgeValid;
+    if (gender === "Inanimate Object") {
+      isAgeValid = true;
+    } else {
+      isAgeValid = age;
+    }
+    const isFormComplete = role && name && occupation && gender && isAgeValid;
+    setDisabled(!isFormComplete);
+  }, [role, age, occupation, name, gender]);
 
   const handleAddClick = (e) => {
     e.preventDefault();
@@ -187,12 +201,13 @@ const SingleCharacterAdd = ({
       age,
       occupation,
       gender,
+      language: source_language,
     };
     try {
       setDisabled(true);
       const res = await suggestCharacters(newCharacter);
       if (res) {
-        setDisabled(false);
+        // setDisabled(false);
         const suggestedData = res?.data?.data;
         setBackGround(suggestedData?.Background);
         setPersonality(suggestedData?.Personality);
@@ -214,6 +229,7 @@ const SingleCharacterAdd = ({
     }
     setKeyboardVisible(!keyboardVisible);
   };
+  const sourceLanguageName = getLanguageName(source_language);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 ">
@@ -222,11 +238,31 @@ const SingleCharacterAdd = ({
         <div className="h-[calc(100%-60px)] w-full overflow-auto">
           <div>
             <div>
-              <h3 className="text-center md:mb-[12px] font-[500]">
+              <h3 className="text-center md:mb-[20px] font-[500]">
                 <span className="text-[18px] text-center md:text-[14px]">
                   Add Character
                 </span>
               </h3>
+              <div className="absolute top-[20px] right-[10px] z-10">
+                <div className="text-[14px] mb-[-15px] hidden text-[#616161] w-full outline-[#EAEAEA] md:flex justify-center items-center">
+                  <button
+                    onClick={onClickKeyboard}
+                    className={` w-full h-[32px] md:h-[30px] flex justify-between gap-10 px-5 items-center rounded-[6px]`}
+                  >
+                    <FaKeyboard
+                      data-te-toggle="tooltip"
+                      title={`${
+                        source_language
+                          ? `${sourceLanguageName} Keyboard`
+                          : "Select Keyboard"
+                      }`}
+                      className={`w-7 h-7 ${
+                        keyboardVisible && "text-[#33B0CA]"
+                      } cursor-pointer hover:text-[#33B0CA] w-full `}
+                    />
+                  </button>
+                </div>
+              </div>
             </div>
 
             <form
@@ -368,25 +404,6 @@ const SingleCharacterAdd = ({
                 </div>
               </div>
               <div className="mb-[20px] flex justify-end gap-1">
-                <div className="bg-[#FAFAFA] h-[38px] md:h-[32px] xl:h-[38px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-[8px] hidden lg:flex items-center">
-                  <div className="flex justify-end gap-3  w-full ">
-                    <FaKeyboard
-                      data-te-toggle="tooltip"
-                      title={`${
-                        !keyboardVisible ? "View Keyboard" : "Hide Keyboard"
-                      }`}
-                      className={`w-7 h-7 ${
-                        keyboardVisible && "text-[#33B0CA]"
-                      } cursor-pointer hover:text-[#33B0CA]`}
-                      onClick={onClickKeyboard}
-                    />
-                    <LanguageSelector
-                      setSelectedLanguage={setSelectedLanguage}
-                      selectedLanguage={selectedLanguage}
-                      setKeyboardVisible={setKeyboardVisible}
-                    />
-                  </div>
-                </div>
                 <button
                   disabled={isSaveDisabled || disabled}
                   onClick={handleSuggest}

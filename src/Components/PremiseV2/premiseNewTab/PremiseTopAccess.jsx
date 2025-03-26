@@ -292,6 +292,7 @@ const PremiseTopAccess = ({
           handleUpdateSavedChar={handleUpdateSavedChar}
           characterLoading={isCharLoading}
           project_id={project_id}
+          source_language={premiseData?.source_language}
         />
       )}
       {openViewTranslationsPop && (
@@ -340,6 +341,7 @@ const PremiseTopAccess = ({
           handleUpdateSavedChar={handleUpdateSavedChar}
           characterLoading={isCharLoading}
           project_id={premiseData?.project_id}
+          source_language={premiseData?.source_language}
         />
       )}
       {openTransOtherPop && (

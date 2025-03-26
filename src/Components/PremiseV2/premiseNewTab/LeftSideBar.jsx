@@ -677,6 +677,7 @@ const LeftSideBar = ({
           handleUpdateSavedChar={handleUpdateSavedChar}
           characterLoading={isCharLoading}
           project_id={project_id}
+          source_language={source_language}
         />
       )}
 

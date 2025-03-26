@@ -23,6 +23,7 @@ const CharacterEditablePop = ({
   characterLoading,
   onlyAdd,
   project_id,
+  source_language,
 }) => {
   const [modifiedCharacters, setModifiedCharacters] = useState([]);
 
@@ -104,7 +105,6 @@ const CharacterEditablePop = ({
     setEditPopupOpen(true);
     setEditData(character);
   };
-
   const handleSaveEditedCharacter = (updatedCharacter, index) => {
     const updatedCharacters = characterArray.map((char, i) =>
       i === index ? updatedCharacter : char
@@ -302,22 +302,24 @@ const CharacterEditablePop = ({
             characterArray={characterArray}
             onlyAdd={onlyAdd}
             isEditPopupOpen={editPopupOpen}
+            source_language={source_language}
           />
         )}
       </div>
       <div>
-        {addNewCharacter?.msg == "ShowBecomePrivilege" && (
+        {addNewCharacter?.msg === "ShowBecomePrivilege" && (
           <NoAccessPopUp
             noAccessPopup={addNewCharacter}
             setNoAccessPopup={setAddNewCharacter}
           />
         )}
-        {addNewCharacter == "Yes" && (
+        {addNewCharacter === "Yes" && (
           <SingleCharacterAdd
             setAddNewCharacter={setAddNewCharacter}
             editData={editData}
             handleAddNewCharacter={handleAddNewCharacter}
             characterArray={characterArray}
+            source_language={source_language}
           />
         )}
       </div>

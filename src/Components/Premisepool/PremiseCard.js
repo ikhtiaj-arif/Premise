@@ -664,6 +664,7 @@ const PremiseCard = ({
           handleUpdateSavedChar={handleUpdateSavedChar}
           characterLoading={isCharLoading}
           project_id={p?.project_id}
+          source_language={source_language}
         />
       )}
       {/* {confirmOpenSp && (
