@@ -54,7 +54,7 @@ const SingleCharacterAdd = ({
     } else {
       isAgeValid = age;
     }
-    
+
     const isFormComplete = role && name && occupation && gender && isAgeValid;
 
     setIsSaveDisabled(!isFormComplete);
@@ -602,7 +602,7 @@ const SingleCharacterAdd = ({
               <div className="grid grid-cols-12">
                 <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
                   Drag me!!{" "}
-                  <span className="font-[500]">{selectedLanguage}</span>{" "}
+                  <span className="font-[500]">{sourceLanguageName}</span>{" "}
                   Keyboard
                 </div>
                 <div className="flex bg-red-500 text-white rounded justify-center items-center w-full h-full cursor-pointer">
@@ -620,7 +620,7 @@ const SingleCharacterAdd = ({
 
               <div className="p-2">
                 <CharacterKeyboard
-                  sourcesLanguage={selectedLanguage}
+                  sourcesLanguage={sourceLanguageName}
                   inputRefs={{
                     characterNameRef,
                     occupationRef,

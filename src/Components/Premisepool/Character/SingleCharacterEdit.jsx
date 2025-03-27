@@ -491,7 +491,7 @@ const SingleCharacterAdd = ({
                     />
                   </div>
                 </div> */}
-                <button
+          {!onlyAdd &&     <button
                   disabled={isSaveDisabled || disabledEdit}
                   onClick={handleSuggest}
                   className={`${
@@ -501,7 +501,7 @@ const SingleCharacterAdd = ({
                   } text-white  text-[12px] font-[700] xl:h-[38px] rounded-[6px] px-3 py-1`}
                 >
                   Suggest the following
-                </button>
+                </button>}
               </div>
               <div className="mb-[12px] mt-6">
                 <div className="relative w-full md:w-[171px]">
@@ -726,7 +726,7 @@ const SingleCharacterAdd = ({
               <div className="grid grid-cols-12">
                 <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
                   Drag me!!{" "}
-                  <span className="font-[500]">{selectedLanguage}</span>{" "}
+                  <span className="font-[500]">{sourceLanguageName}</span>{" "}
                   Keyboard
                 </div>
                 <div className="flex bg-red-500 text-white rounded justify-center items-center w-full h-full cursor-pointer">
@@ -744,7 +744,7 @@ const SingleCharacterAdd = ({
 
               <div className="p-2">
                 <CharacterKeyboard
-                  sourcesLanguage={selectedLanguage}
+                  sourcesLanguage={sourceLanguageName}
                   inputRefs={{
                     characterNameRef,
                     occupationRef,
