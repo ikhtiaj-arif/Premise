@@ -40,12 +40,13 @@ import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
 import CardHeadOptions from "./CardHeadOptions";
 import PremiseBadge from "./PremiseBadge";
+import DeletePremise from "../../Premisepool/DeletePremise";
 
 const PremiseCardV2 = ({
   setShowRefine,
   p,
   index,
-  handleDelete,
+  // handleDelete,
   owner,
   userQuery,
   refetch,
@@ -55,7 +56,9 @@ const PremiseCardV2 = ({
   setTransPopClose,
   isLiked,
   setIsLiked,
-  hiddenCountRefetch,addPopup, setAddPopup
+  hiddenCountRefetch,
+  addPopup,
+  setAddPopup,
 }) => {
   const { user, userFirstName, userLastName } = owner;
 
@@ -92,6 +95,11 @@ const PremiseCardV2 = ({
   const [actTwoEnd, setActTwoEnd] = useState();
 
   // console.log("card actOneThreshold", actOneThreshold);
+  const [isDelete, setIsDelete] = useState(false);
+
+  const handleDelete = (id) => {
+    setIsDelete(id);
+  };
 
   useEffect(() => {
     setActOneThreshold(Math.floor(0.25 * m_value));
@@ -235,12 +243,12 @@ const PremiseCardV2 = ({
   const handleUpdateSavedChar = async () => {
     setCharacterLoading(true);
     try {
-      characterArray.forEach(character => {
+      characterArray.forEach((character) => {
         if (character.is_ai_generated === undefined) {
           character.is_ai_generated = false;
         }
       });
-      characterArray.forEach(character => {
+      characterArray.forEach((character) => {
         if (character.is_ai_generated === undefined) {
           character.is_ai_generated = false;
         }
@@ -419,24 +427,27 @@ const PremiseCardV2 = ({
                 />
               )}
               <div>
-                <div className={`flex items-center relative ${
-                      premise_source_id ? "w-[90px]" : "w-[110px]"
-                    }`}>
+                <div
+                  className={`flex items-center relative ${
+                    premise_source_id ? "w-[90px]" : "w-[110px]"
+                  }`}
+                >
                   <h4
                     className={`notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
                     title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
                   >
                     {premiseOwner?.first_name} {premiseOwner?.last_name}
                   </h4>
-                  <div className={`${
+                  <div
+                    className={`${
                       premise_source_id ? "right-0" : "right-[-4px]"
-                    }`}>
-
-                  <UserType
-                    type={premiseOwner?.centraldatabase?.type}
-                    user_type={premiseOwner?.centraldatabase?.user_type}
+                    }`}
+                  >
+                    <UserType
+                      type={premiseOwner?.centraldatabase?.type}
+                      user_type={premiseOwner?.centraldatabase?.user_type}
                     />
-                    </div>
+                  </div>
                 </div>
                 <div className="text-[#616161] text-[9.5px] flex flex-col gap-[8px] font-[400] leading-[4px] ">
                   <p>
@@ -498,7 +509,8 @@ const PremiseCardV2 = ({
           setOpenHidePop={setOpenHidePop}
           openHidePop={openHidePop}
           openDotMenu={openDotMenu}
-          addPopup={addPopup} setAddPopup={setAddPopup}
+          addPopup={addPopup}
+          setAddPopup={setAddPopup}
         />
       </div>
       {/* middle div */}
@@ -527,7 +539,7 @@ const PremiseCardV2 = ({
         >
           <div
             onClick={() => {
-              setTransPopClose(null)
+              setTransPopClose(null);
               setOpenPop(true);
               setShowRefine(false);
               setOpenDotMenu(null);
@@ -713,20 +725,20 @@ const PremiseCardV2 = ({
           }}
         />
       )}
-      {openMonetizingPreferencesPop?.msg == "ShowBecomePrivilege" ? (
+      {openMonetizingPreferencesPop?.msg === "ShowBecomePrivilege" ? (
         <NoAccessPopUp
           noAccessPopup={openMonetizingPreferencesPop}
           setNoAccessPopup={setOpenMonetizingPreferencesPop}
         />
-      ) : openMonetizingPreferencesPop?.msg == "LB" ||
-        openMonetizingPreferencesPop?.msg == "ShowBuyPackage_and_Allacarte" ? (
+      ) : openMonetizingPreferencesPop?.msg === "LB" ||
+        openMonetizingPreferencesPop?.msg === "ShowBuyPackage_and_Allacarte" ? (
         <NoAccessLbPopUp
           noAccessLbPopUp={openMonetizingPreferencesPop}
           setNoAccessPopup={setOpenMonetizingPreferencesPop}
           service="PP_Monitizes"
         />
       ) : (
-        openMonetizingPreferencesPop == "Yes" && (
+        openMonetizingPreferencesPop === "Yes" && (
           <MonetizePreferencePop
             popClose={setOpenMonetizingPreferencesPop}
             id={id}
@@ -789,6 +801,16 @@ const PremiseCardV2 = ({
           popClose={setViewSale}
           sellingValue={sellingPrice}
           Userid={user}
+        />
+      )}
+      {isDelete && (
+        <DeletePremise
+          setIsDelete={setIsDelete}
+          refetch={refetch}
+          hiddenCountRefetch={hiddenCountRefetch}
+          deleteId={project_id}
+          projectName={currentProjectName?.slice(0, 20)}
+          isDelete={isDelete}
         />
       )}
     </div>

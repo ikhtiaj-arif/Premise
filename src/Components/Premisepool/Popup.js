@@ -83,7 +83,7 @@ const Popup = ({
   const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
 
   const [characterArray, setCharacterArray] = useState([]);
-  const [addPopup, setAddPopup] = useState(null)
+  const [addPopup, setAddPopup] = useState(null);
   const [onlyAdd, setOnlyAdd] = useState(true);
   const [characterLoading, setCharacterLoading] = useState(true);
 
@@ -113,7 +113,7 @@ const Popup = ({
   const handleUpdateSavedChar = async () => {
     setCharacterLoading(true);
     try {
-      characterArray.forEach(character => {
+      characterArray.forEach((character) => {
         if (character.is_ai_generated === undefined) {
           character.is_ai_generated = false;
         }
@@ -228,12 +228,10 @@ const Popup = ({
     }
   }, [isPremiseLoading, premiseData]); // Depend on loading state and premiseData
 
+  useEffect(() => {}, [actOneThreshold, actTwoEnd]);
   useEffect(() => {
-   
-  }, [actOneThreshold, actTwoEnd, ]);
-  useEffect(() => {
-    premiseRefetch()
-  }, [premiseId ]);
+    premiseRefetch();
+  }, [premiseId]);
 
   const {
     data: commentsData,
@@ -449,7 +447,7 @@ const Popup = ({
             <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[94%] sm:w-[80%] md:w-[36%] max-w-[377px] h-[30vh] lg:h-[500px] xl:h-[546px] 2xl:h-[610px] lg:mt-[26px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[32px] xl:ml-[32px] rounded-[8px]">
               {/* header */}
               <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-2 sm:px-[15px] pt-[15px] pb-[6px]">
-        <div className="block max-w-[140px]">
+                <div className="block max-w-[140px]">
                   <a
                     target="_blank"
                     rel="noreferrer"
@@ -476,11 +474,10 @@ const Popup = ({
                       <div>
                         <div className="flex items-center">
                           <h4
-                    className={`notranslate w-[75px] max-w-[110px] text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
-                    title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
-                  >
+                            className={`notranslate w-[75px] max-w-[110px] text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
+                            title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
+                          >
                             {premiseOwner?.first_name} {premiseOwner?.last_name}
-                          
                           </h4>
                           <UserType
                             type={premiseOwner?.centraldatabase?.type}
@@ -488,7 +485,7 @@ const Popup = ({
                           />
                         </div>
                         <p className="text-[#616161] text-[10px] flex flex-col font-[400] leading-[12px] mt-[-3px]">
-                        <p>
+                          <p>
                             {formattedDate}, {formattedTime}
                           </p>
                           {(premiseOwner?.id === user ||
@@ -497,7 +494,6 @@ const Popup = ({
                               {currentProjectName?.slice(0, 20)}
                             </p>
                           )}
-                         
                         </p>
                       </div>
                     </div>
@@ -573,7 +569,11 @@ const Popup = ({
                     openDotMenu={openDotMenu}
                     setOpenHidePop={setOpenHidePop}
                     openHidePop={openHidePop}
-                    setUserMail={setUserMail}  addPopup={addPopup} setAddPopup={setAddPopup}
+                    setUserMail={setUserMail}
+                    addPopup={addPopup}
+                    setAddPopup={setAddPopup}
+                    PremiseData={premiseData}
+                    premiseRefetch={premiseRefetch}
                   />
                 </div>
               </div>
@@ -600,45 +600,44 @@ const Popup = ({
                     />
                   </div>
                 </div>{" "}
-                
-              
               </div>
               <div className="hidden lg:block md:absolute bottom-3 w-full">
-                  <AskIda
-                    id={premiseId}
-                    source_language={premiseData?.source_language}
-                    {...{
-                      user,
-                      premiseOwner,
-                      commentRefetch,
-                      setOpenAllReplies,
-                      setOpenReplyFieldID,
-                      lastCommentRef,
-                      isLoading,
-                      setIsLoading,setNoAccessPopup,setService
-                      
-                    }}
-                  />
-                  {/* textarea */}
-                  <PopupTextarea
-                    {...{
-                      premiseOwner,
-                      user,
-                      premiseId,
-                      commentRefetch,
-                      setOpenAllReplies,
-                      setOpenReplyFieldID,
-                      lastCommentRef,
-                      commentField,
-                      setCommentField,
-                      setReplyField,
-                      replyField,
-                      replyRef,
-                      isLoading,
-                      setIsLoading,
-                    }}
-                  />
-                </div>
+                <AskIda
+                  id={premiseId}
+                  source_language={premiseData?.source_language}
+                  {...{
+                    user,
+                    premiseOwner,
+                    commentRefetch,
+                    setOpenAllReplies,
+                    setOpenReplyFieldID,
+                    lastCommentRef,
+                    isLoading,
+                    setIsLoading,
+                    setNoAccessPopup,
+                    setService,
+                  }}
+                />
+                {/* textarea */}
+                <PopupTextarea
+                  {...{
+                    premiseOwner,
+                    user,
+                    premiseId,
+                    commentRefetch,
+                    setOpenAllReplies,
+                    setOpenReplyFieldID,
+                    lastCommentRef,
+                    commentField,
+                    setCommentField,
+                    setReplyField,
+                    replyField,
+                    replyRef,
+                    isLoading,
+                    setIsLoading,
+                  }}
+                />
+              </div>
             </div>
 
             {/* right div */}
@@ -732,7 +731,9 @@ const Popup = ({
                       setOpenReplyFieldID,
                       lastCommentRef,
                       isLoading,
-                      setIsLoading,setNoAccessPopup,setService
+                      setIsLoading,
+                      setNoAccessPopup,
+                      setService,
                     }}
                   />
                   <PopupTextarea
@@ -748,7 +749,8 @@ const Popup = ({
                       setCommentField,
                       setReplyField,
                       replyField,
-                      replyRef,setIsLoading,
+                      replyRef,
+                      setIsLoading,
                     }}
                   />
                 </div>
@@ -828,6 +830,8 @@ const Popup = ({
               setIsDelete={setIsDelete}
               refetch={refetch}
               isDelete={isDelete}
+              deleteId={project_id}
+              projectName={currentProjectName?.slice(0, 20)}
               popClose={popClose}
             />
           )}
@@ -951,7 +955,8 @@ const Popup = ({
               service="PP_Monitizes"
             />
           ) : (
-            openMonetizingPreferencesPop === "Yes" && (
+            openMonetizingPreferencesPop === "Yes" &&
+            premiseData && (
               <MonetizePreferencePop
                 popClose={setOpenMonetizingPreferencesPop}
                 id={id}
@@ -1019,25 +1024,25 @@ const Popup = ({
             <UserNamePopup {...{ refetch, setAddPopup }} />
           )}
 
-{noAccessPopup?.msg === "ShowBecomePrivilege" ? (
-        <NoAccessPopUp
-          noAccessPopup={noAccessPopup}
-          setNoAccessPopup={setNoAccessPopup}
-        />
-      ) : (
-        (noAccessPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
-          noAccessPopup?.msg === "LB") && (
-          <NoAccessLbPopUp
-            noAccessLbPopup={noAccessPopup}
-            setNoAccessPopup={setNoAccessPopup}
-            service={
-              service === "PP_AllowBrainstoming"
-                ? "PP_Brainstrom"
-                : "PP_interactions"
-            }
-          />
-        )
-      )}
+          {noAccessPopup?.msg === "ShowBecomePrivilege" ? (
+            <NoAccessPopUp
+              noAccessPopup={noAccessPopup}
+              setNoAccessPopup={setNoAccessPopup}
+            />
+          ) : (
+            (noAccessPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
+              noAccessPopup?.msg === "LB") && (
+              <NoAccessLbPopUp
+                noAccessLbPopup={noAccessPopup}
+                setNoAccessPopup={setNoAccessPopup}
+                service={
+                  service === "PP_AllowBrainstoming"
+                    ? "PP_Brainstrom"
+                    : "PP_interactions"
+                }
+              />
+            )
+          )}
         </div>
       </div>
     );

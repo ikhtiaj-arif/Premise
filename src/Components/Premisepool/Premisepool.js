@@ -521,6 +521,8 @@ console.log("userAccess", userAccess);
                     setIsDelete={setIsDelete}
                     refetch={refetch}
                     hiddenCountRefetch={hiddenCountRefetch}
+                    deleteId={matchingPremiseData?.project_id}
+                    
                     isDelete={isDelete}
                   />
                 )}

@@ -818,10 +818,8 @@ const PremisePreview2 = ({
                 setIsLoading(false);
                 deletePremiseWhenFailed(deletePreID);
 
-                const data = {
-                  project: deleteId,
-                };
-                deleteProject(data);
+               
+                deleteProject(deleteId);
 
                 toast.error("Failed to create Premise", {
                   position: toast.POSITION.TOP_CENTER,
@@ -833,11 +831,9 @@ const PremisePreview2 = ({
             // Handle API errors
             setIsLoading(false);
 
-            const data = {
-              project: deleteId,
-            };
+          
 
-            deleteProject(data);
+            deleteProject(deleteId);
             toast.error(res?.error?.data?.message || "Something went wrong!", {
               position: toast.POSITION.TOP_CENTER,
               autoClose: 1600,

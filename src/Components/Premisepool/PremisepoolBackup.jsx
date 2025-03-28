@@ -275,6 +275,7 @@ const Premisepool = () => {
                   <DeletePremise
                     setIsDelete={setIsDelete}
                     refetch={refetch}
+                    
                     isDelete={isDelete}
                   />
                 )}

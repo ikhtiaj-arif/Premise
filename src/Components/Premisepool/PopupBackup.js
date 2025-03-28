@@ -908,6 +908,7 @@ const Popup = ({ popClose, data, refetch, transText }) => {
               setIsDelete={setIsDelete}
               refetch={refetch}
               isDelete={isDelete}
+              deleteId={project_id}
               popClose={popClose}
             />
           )}

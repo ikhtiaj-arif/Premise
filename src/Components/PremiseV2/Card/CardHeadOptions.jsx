@@ -63,6 +63,7 @@ const CardHeadOptions = ({
   openDotMenu,
   addPopup,
   setAddPopup,
+  
 }) => {
   // const {
 

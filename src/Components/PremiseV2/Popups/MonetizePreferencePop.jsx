@@ -14,6 +14,10 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
     refetch: premiseRefetch,
   } = useGetOnePremiseQuery(id);
 
+  useEffect(() => {
+    if (id) premiseRefetch();
+  }, [id]);
+
   const [formData, setFormData] = useState({
     allowTranslation: false,
     transferOwnership: false,
