@@ -246,6 +246,11 @@ const PremiseCard = ({
   const handleUpdateSavedChar = async () => {
     setCharacterLoading(true);
     try {
+      characterArray.forEach(character => {
+        if (character.is_ai_generated === undefined) {
+          character.is_ai_generated = false;
+        }
+      });
       const charArr = JSON.stringify(characterArray);
       const data = {
         // id: premiseID,

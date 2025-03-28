@@ -381,7 +381,17 @@ const SingleCharacterAdd = ({
                     translate=""
                     placeholder="Name"
                     className={`text-[14px] ${
-                      isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
+                      isDisabled
+                        ? `${`capitalize ${
+                            !editData?.is_ai_generated
+                              ? "text-[#33B0CA]"
+                              : "text-[#7a7a7a]"
+                          }`}`
+                        : `${`capitalize ${
+                            !editData?.is_ai_generated
+                              ? "text-[#33B0CA]"
+                              : "text-[#616161]"
+                          }`}`
                     }  px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[42px]   `}
                     disabled={isDisabled}
                   />
@@ -471,38 +481,7 @@ const SingleCharacterAdd = ({
                   />
                 </div>
               </div>
-              <div className="mb-[20px]  flex justify-end gap-1">
-                {/* <div className="bg-[#FAFAFA] h-[38px] md:h-[32px] xl:h-[38px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-[8px] hidden lg:flex items-center">
-                  <div className="flex justify-end gap-3  w-full ">
-                    <FaKeyboard
-                      data-te-toggle="tooltip"
-                      title={`${
-                        !keyboardVisible ? "View Keyboard" : "Hide Keyboard"
-                      }`}
-                      className={`w-7 h-7 ${
-                        keyboardVisible && "text-[#33B0CA]"
-                      } cursor-pointer hover:text-[#33B0CA]`}
-                      onClick={onClickKeyboard}
-                    />
-                    <LanguageSelector
-                      setSelectedLanguage={setSelectedLanguage}
-                      selectedLanguage={selectedLanguage}
-                      setKeyboardVisible={setKeyboardVisible}
-                    />
-                  </div>
-                </div> */}
-          {!onlyAdd &&     <button
-                  disabled={isSaveDisabled || disabledEdit}
-                  onClick={handleSuggest}
-                  className={`${
-                    isSaveDisabled || disabledEdit
-                      ? "bg-[#ACDDE7]  "
-                      : "bg-[#33B0CA] "
-                  } text-white  text-[12px] font-[700] xl:h-[38px] rounded-[6px] px-3 py-1`}
-                >
-                  Suggest the following
-                </button>}
-              </div>
+
               <div className="mb-[12px] mt-6">
                 <div className="relative w-full md:w-[171px]">
                   <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">

@@ -317,7 +317,7 @@ const SingleCharacterAdd = ({
                     maxLength={50}
                     translate="no"
                     placeholder="Name"
-                    className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[42px]   text-[#616161] "
+                    className="text-[14px] text-[#33B0CA] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[42px]"
                   />
                 </div>
               </div>
