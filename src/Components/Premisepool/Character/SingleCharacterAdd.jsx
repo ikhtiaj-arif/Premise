@@ -5,6 +5,8 @@ import { useSuggestCharactersMutation } from "../../../app/EndPoints/Characters/
 import { getLanguageName } from "../../PremiseV2/utilityFuncitons/functions";
 import AutoSizeTextArea from "./AutosizeTextArea";
 import CharacterKeyboard from "./CharacterKeyboard";
+import { genderJson } from "./Gender";
+import { inanimateObject } from "./inanimateObject";
 
 const SingleCharacterAdd = ({
   setAddNewCharacter,
@@ -231,6 +233,27 @@ const SingleCharacterAdd = ({
   };
   const sourceLanguageName = getLanguageName(source_language);
 
+  const getGenderOptions = (language) => {
+    if (genderJson[language]) {
+      return Object.keys(genderJson[language]).map((key) => (
+        <option
+          key={key}
+          value={genderJson[language][key]}
+          className="text-[14px]"
+        >
+          {genderJson[language][key]}
+        </option>
+      ));
+    }
+    return [];
+  };
+  const inanimateObjectOptions = (language) => {
+    if (inanimateObject[language]) {
+      return Object.values(inanimateObject[language])[0]; // Get the first value
+    }
+    return null; // Return null if no value is found
+  };
+  
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 ">
       <div className="fixed inset-0 bg-black opacity-50"></div>
@@ -358,13 +381,15 @@ const SingleCharacterAdd = ({
                     <option value="" className="text-[14px] " selected disabled>
                       Gender
                     </option>
-                    <option className="text-[14px]">Male</option>
+
+                    {/* <option className="text-[14px]">Male</option>
                     <option className="text-[14px]">Female</option>
                     <option className="text-[14px]">Animal</option>
-                    <option className="text-[14px]">Inanimate Object</option>
+                    <option className="text-[14px]">Inanimate Object</option> */}
+                    {getGenderOptions(sourceLanguageName)}
                   </select>
                 </div>
-                {gender !== "Inanimate Object" && (
+                {gender !== inanimateObjectOptions(sourceLanguageName) && (
                   <div className="relative w-full  md:w-[49px] ">
                     <label className="absolute left-2 top-[-12px] z-[2] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                       Age
