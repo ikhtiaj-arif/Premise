@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { MdKeyboardBackspace } from "react-icons/md";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import {
   useGetOnePremiseQuery,
   useTranslatePremiseV2Mutation,
@@ -9,6 +9,7 @@ import {
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import PaymentInvoicePopup from "../../Payment/PaymentInvoicePopup";
 import { sortedLanguages } from "../../Premisepool/Languages";
+import { MyContext } from "../../../App";
 
 const TransInOtherLang = ({
   popClose,
@@ -24,6 +25,11 @@ const TransInOtherLang = ({
     refetch: premiseRefetch,
   } = useGetOnePremiseQuery(id);
 
+  useEffect(() => {
+    if (id) premiseRefetch();
+  }, [id]);
+  
+  const { projectRefetch } = useContext(MyContext); 
   const [targetLanguage, setTargetLanguage] = useState("");
   const [translatePremise] = useTranslatePremiseV2Mutation();
   const [isPayment, setPayment] = useState(false);
@@ -45,18 +51,11 @@ const TransInOtherLang = ({
         transaction_id: transaction_id,
       };
 
-      const response = await translatePremise(data);
+      const res = await translatePremise(data)
 
-      if (response) {
-        toast.success("Translation successful!");
-        if (response) {
-          // popClose(null);
-          // setPayment(null);
-          // toast("Payment Successful");
-          refetch();
-        }
-      } else {
-        //toast.error("Failed to translate. Please try again.");
+      if (res) {
+        projectRefetch();
+        refetch();
       }
     } catch (error) {
       //toast.error("An error occurred while submitting.");
@@ -151,13 +150,12 @@ const TransInOtherLang = ({
             <p className="text-left text-[12px] leading-[14.5px] font-[400]  text-[#616161] ">
               You will also be entitled to monetize the translated Premise
               Project by allowing it’s further translation in any number of
-              languages for a minimum value of ${premiseData?.pqr_value} X 1.2.
+              languages for a minimum value of ${premiseData?.pqr_value}.
               However, 1/3 of the sale proceeds above ${premiseData?.pqr_value}{" "}
               will be retained by My Next Film.
             </p>
           </div>
         </div>
-
 
         <div
           className={`h-[31px] mt-[18px] relative col-span-6 md:col-span-4  bg-[#fafafa]  rounded-[8px] border-[2px] w-[76%] mx-auto`}
@@ -203,6 +201,7 @@ const TransInOtherLang = ({
 
       {isPayment && (
         <PaymentInvoicePopup
+          refetch={refetch}
           popClose={popClose}
           typeOfRequest="translate"
           premise_id={id}

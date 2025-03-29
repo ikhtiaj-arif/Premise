@@ -27,7 +27,6 @@ const DeletePremise = ({
   const navigate = useNavigate();
 
   const handlePopupConfirm = async () => {
-
     setLoading(true);
     const data = {
       project: deleteId,
@@ -69,8 +68,10 @@ const DeletePremise = ({
         <div className="w-[90%] mx-auto max-w-[510px] bg-[#fafafa]  rounded-xl ">
           <div className="flex flex-col justify-between h-auto px-[18px]">
             <p className="text-[14px] lg:text-[24px] text-[#252525] text-center lg:leading-10 font-[500] mt-10">
-              If you delete
-              premise, related project <span className="font-bold">{projectName}</span> will also get deleted? 
+              If you delete premise, related project {projectName} will also get
+              deleted?
+              {/* If you delete
+              premise, related project <span className="font-bold">{projectName}</span> will also get deleted?  */}
             </p>
             <div className="h-[93px] pb-[14px] flex items-center gap-10 justify-center px-[40px]">
               <button

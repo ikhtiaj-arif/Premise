@@ -18,13 +18,14 @@ import { HeaderOptions } from "./HeaderOptions";
 import { Package } from "./Package";
 
 const PaymentInvoicePopup = ({
+  refetch,
   typeOfRequest,
   submit,
   setPayment,
   premise_id,
   popClose,
 }) => {
-  const { currentUser } = useContext(MyContext);
+  const { currentUser, projectRefetch } = useContext(MyContext);
   const [paymentData, { isLoading: isPLoading }] = usePaymentDataMutation();
   const [paymentSend] = usePaymentSendMutation();
   const [successFulPayment] = usePaymentSucessMutation();
@@ -61,7 +62,7 @@ const PaymentInvoicePopup = ({
   }, [premise_id, paymentData]);
 
   const handlePaymentSuccess = async (response, isPayU = false) => {
-    console.log("payment success", response, payInfo);
+    // console.log("payment success", response, payInfo);
     if (response) {
       const data = {
         services_data: payInfo?.services,
@@ -90,6 +91,8 @@ const PaymentInvoicePopup = ({
         setPayment(null);
         toast("Payment Successful");
         setPaymentCondition(false);
+        projectRefetch();
+        refetch();
       }
     }
   };

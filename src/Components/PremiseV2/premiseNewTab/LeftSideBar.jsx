@@ -29,6 +29,7 @@ import PopupPremiseText from "../../SharedVersion/PopupPremiseText";
 import PremiseBadge from "../Card/PremiseBadge";
 import PremiseTopAccess from "./PremiseTopAccess";
 import PremiseTopHeader from "./PremiseTopHeader";
+import VisibilitySection from "./VisibilitySection";
 
 const LeftSideBar = ({
   filteredCommentsData,
@@ -198,7 +199,7 @@ const LeftSideBar = ({
   };
   const handleUpdateSavedChar = async () => {
     try {
-      characterArray.forEach(character => {
+      characterArray.forEach((character) => {
         if (character.is_ai_generated === undefined) {
           character.is_ai_generated = false;
         }
@@ -289,7 +290,7 @@ const LeftSideBar = ({
         />
       </div>
       <div className="lg:w-[368px] w-full relative h-full shadow-md pl-3 rounded-md">
-        <div className=" h-full lg:h-[83vh] pb-12 overflow-y-scroll relative">
+        <div className=" h-full lg:h-[83vh]  overflow-y-scroll relative">
           {/* header */}
           <PremiseTopHeader {...{ handleSearch, id, setSearchTerm }} />
           <div>
@@ -400,7 +401,7 @@ const LeftSideBar = ({
                       ? visible_to?.length > 0
                         ? visible_to
                             .filter((v) => v?.id !== currentUser?.id) // Exclude current user
-                            .map((v) => `${v?.first_name} ${v?.last_name}`) // Format names properly
+                            .map((v) => `${v?.first_name} ${v?.last_name} `) // Format names properly
                             .join(", ")
                         : "No one"
                         ? filter_flag === 3
@@ -484,7 +485,7 @@ const LeftSideBar = ({
               </div>
 
               {/* visible to  */}
-              {premiseOwner?.id === user && (
+              {/* {premiseOwner?.id === user && (
                 <div className="mt-1">
                   <div className="  w-full  flex justify-between items-center">
                     <p className="text-[#616161] font-[700] text-[16px] leading-6">
@@ -498,23 +499,56 @@ const LeftSideBar = ({
                   </div>
                   <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
                   <p className="text-[#33B0CA] text-[16px] font-[500] leading-6 capitalize">
-                    {filter_flag === 0
-                      ? "All Buddies"
-                      : filter_flag === 1
-                      ? "Only Me"
-                      : filter_flag === 2
-                      ? visible_to?.length > 0
-                        ? visible_to
-                            .filter((v) => v?.id !== currentUser?.id) // Exclude current user
-                            .map((v) => `${v?.first_name} ${v?.last_name}`) // Format names properly
-                            .join(", ")
-                        : "No one"
-                        ? filter_flag === 3
-                        : "Everyone"
-                      : "Everyone"}
+                    {(() => {
+                      // Define meaningful labels for each filter flag
+                      const getFilterLabel = () => {
+                        if (filter_flag === 0) {
+                          return "All Buddies";
+                        } else if (filter_flag === 1) {
+                          return "Only Me";
+                        } else if (filter_flag === 2) {
+                          // Get names of visible users, excluding the current user
+                          const visibleUsers = visible_to?.filter(
+                            (v) => v?.id !== currentUser?.id
+                          );
+                          if (visibleUsers?.length > 0) {
+                            return visibleUsers
+                              .map((v) => {
+                                // Check if first_name exists, otherwise use the email split by @
+                                if (v?.first_name) {
+                                  return `${v?.first_name} ${v?.last_name}`;
+                                } else {
+                                  const emailParts = v?.email?.split("@");
+                                  return emailParts
+                                    ? emailParts[0]
+                                    : "No Name Available";
+                                }
+                              })
+                              .join(", ");
+                          } else {
+                            return "No one";
+                          }
+                        } else if (filter_flag === 3) {
+                          return "Everyone";
+                        } else {
+                          return "Everyone";
+                        }
+                      };
+
+                      return getFilterLabel();
+                    })()}
                   </p>
                 </div>
               )}
+  */}
+              <VisibilitySection
+                premiseOwner={premiseOwner}
+                user={user}
+                visible_to={visible_to}
+                currentUser={currentUser}
+                filter_flag={filter_flag}
+                handleVisibility={handleVisibility}
+              />
 
               {/* characters */}
               {premiseOwner?.id === user && (
@@ -558,7 +592,7 @@ const LeftSideBar = ({
             </div>
           )}
 
-          <div className="hidden md:block fixed w-full max-w-[310px] bottom-8 lg:bottom-[60px] ">
+          <div className="hidden md:block  w-full max-w-[330px] mx-auto mt-4">
             <AskIda
               {...{
                 id,

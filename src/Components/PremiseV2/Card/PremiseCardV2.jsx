@@ -433,7 +433,7 @@ const PremiseCardV2 = ({
                   }`}
                 >
                   <h4
-                    className={`notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
+                    className={`notranslate text-[#252525] font-[600] text-[14px] leading-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
                     title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
                   >
                     {premiseOwner?.first_name} {premiseOwner?.last_name}
@@ -449,16 +449,16 @@ const PremiseCardV2 = ({
                     />
                   </div>
                 </div>
-                <div className="text-[#616161] text-[9.5px] flex flex-col gap-[8px] font-[400] leading-[4px] ">
-                  <p>
+                <div className="text-[#616161] text-[9.5px] flex flex-col gap-[1px] font-[400]  ">
+                  <p className="leading-[12px]">
                     {formattedDate}, {formattedTime}
                   </p>
-                  {premiseOwner?.id === user ? (
-                    <p className="notranslate text-[#252525] text-[12px]">
+                  {premiseOwner?.id === user && currentProjectName ? (
+                    <p className="notranslate text-[#252525] text-[12px] leading-[12px]">
                       {currentProjectName?.slice(0, 20)}
                     </p>
                   ) : (
-                    <br></br>
+                    <></>
                   )}
                 </div>
               </div>

@@ -110,7 +110,7 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
       <div
         className={`h-[70vh] ${
           showBankDetails ? " lg:h-[497px]" : " lg:h-[734px] max-h-[80vh]"
-        } mb-[20px] px-[22px] lg:mb-0 pt-2 lg:mt-[80px] xl:mt-[85px] w-full bg-[#fff] lg:w-[625px]  md:mx-auto relative lg:rounded-[8px] pb-3`}
+        } mb-[20px] px-[22px] lg:mb-0 pt-2 md:pt-8 lg:mt-[80px] xl:mt-[85px] w-full bg-[#fff] lg:w-[625px]  md:mx-auto relative lg:rounded-[8px] pb-3 `}
       >
         {/* close popup */}
         <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
