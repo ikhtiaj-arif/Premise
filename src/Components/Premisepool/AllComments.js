@@ -68,6 +68,8 @@ const AllComments = ({
 
   // const resolutionStart = Math.floor(0.8 * m_value);
 
+  console.log(actOneThreshold, actTwoEnd);
+
   const premiseID = data?.id;
   const user = useSelector((state) => state?.user?.id);
 

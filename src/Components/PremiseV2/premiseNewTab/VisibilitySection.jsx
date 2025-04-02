@@ -14,19 +14,27 @@ const VisibilitySection = ({
   const tooltipRef = useRef(null);
   const spanRef = useRef(null);
 
+  // State to store the processed visible users for the tooltip
+  const [processedVisibleUsers, setProcessedVisibleUsers] = useState([]);
+
+  // Effect to update processed visible users when visible_to changes
+  useEffect(() => {
+    if (visible_to?.length) {
+      // If filter_flag is 2, exclude currentUser from visible users
+      const visibleUsers = visible_to.filter((v) => v?.id !== currentUser?.id);
+      setProcessedVisibleUsers(visibleUsers);
+    }
+  }, [visible_to, currentUser]); // Only run when visible_to or currentUser changes
+
   const getFilterLabel = () => {
     if (filter_flag === 0) {
       return "All Buddies";
     } else if (filter_flag === 1) {
       return "Only Me";
     } else if (filter_flag === 2) {
-      // Get names of visible users, excluding the current user
-      const visibleUsers = visible_to?.filter(
-        (v) => v?.id !== currentUser?.id
-      );
-      if (visibleUsers?.length > 0) {
-        const displayedUsers = visibleUsers.slice(0, 5); // Only show first 5 users
-        const remainingUsers = visibleUsers.slice(5); // Remaining users
+      if (processedVisibleUsers?.length > 0) {
+        const displayedUsers = processedVisibleUsers.slice(0, 5); // Only show first 5 users
+        const remainingUsers = processedVisibleUsers.slice(5); // Remaining users
 
         const displayedNames = displayedUsers
           .map((v) => {
@@ -46,11 +54,16 @@ const VisibilitySection = ({
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             className="relative"
-            onClick={() => setIsTooltipOpen((prev) => !prev)} // Toggle tooltip on click
           >
             {displayedNames}
-            {visibleUsers.length > 5 && !isTooltipOpen && (
-              <span className="text-[#33B0CA] cursor-pointer">
+            {processedVisibleUsers.length > 5 && !isTooltipOpen && (
+              <span
+                className="text-[#33B0CA] cursor-pointer see-more"
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent clicking on names from toggling the dropdown
+                  setIsTooltipOpen((prev) => !prev); // Toggle the tooltip visibility
+                }}
+              >
                 , See more...
               </span>
             )}

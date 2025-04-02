@@ -253,7 +253,7 @@ const SingleCharacterAdd = ({
     }
     return null; // Return null if no value is found
   };
-  
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 ">
       <div className="fixed inset-0 bg-black opacity-50"></div>
@@ -619,11 +619,9 @@ const SingleCharacterAdd = ({
             Save
           </button>
         </div>
-      </div>
-      <div>
         {selectedLanguage && keyboardVisible && (
           <Draggable handle=".movable-handle">
-            <div className="absolute z-20 w-[650px] top-[194px] right-[-85px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
+            <div className="absolute z-20 w-[650px] top-[164px] right-[-145px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
               <div className="grid grid-cols-12">
                 <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
                   Drag me!!{" "}
@@ -675,6 +673,8 @@ const SingleCharacterAdd = ({
           </Draggable>
         )}
       </div>
+
+      <div></div>
     </div>
   );
 };

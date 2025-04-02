@@ -695,6 +695,7 @@ const LeftSideBar = ({
           editData={editData}
           handleAddNewCharacter={handleAddNewCharacter}
           characterArray={characterArray}
+          source_language={source_language}
         />
       )}
       {deleteChar && (
