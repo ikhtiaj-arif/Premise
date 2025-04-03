@@ -290,202 +290,205 @@ const LeftSideBar = ({
         />
       </div>
       <div className="lg:w-[368px] w-full relative h-full shadow-md pl-3 rounded-md">
-        <div className=" h-full lg:h-[83vh]  overflow-y-scroll relative">
-          {/* header */}
-          <PremiseTopHeader {...{ handleSearch, id, setSearchTerm }} />
-          <div>
-            {/* premise card top */}
-            <PremiseTopAccess
-              {...{
-                premiseOwner,
-                user,
-                id,
-                project_id,
-                premiseData,
-                premiseRefetch,
-              }}
-            />
-            {/* center */}
-            <div className="relative">
-              <PopupPremiseText
-                {...{ bg_img, bg_color, stylings, dText, viewText }}
-                className="ls-contentbox"
-                className2="ls-contenttext"
+        {/* main div */}
+        <div className="h-full lg:h-[83vh] overflow-hidden relative flex flex-col">
+          <div className="flex-none">
+            {/* header */}
+            <PremiseTopHeader {...{ handleSearch, id, setSearchTerm }} />
+            <div>
+              {/* premise card top */}
+              <PremiseTopAccess
+                {...{
+                  premiseOwner,
+                  user,
+                  id,
+                  project_id,
+                  premiseData,
+                  premiseRefetch,
+                }}
               />
-              <PremiseBadge stamp={stamp} />
-            </div>
-            {/* bottom */}
-            <div className="flex justify-between items-center  rounded-b-[8px] px-[4px] pb-[8px] pt-[4px] ">
-              {/* 1st div */}
-              <div className="flex gap-1 space-x-4 items-center">
-                {/* like */}
-                <PopupLike {...{ user, id, premiseRefetch, premiseData }} />
-                {/* comment */}
-                <PopupComment
-                  {...{
-                    setOpenReplyField,
-                    setCommentField,
-                    commentField,
-                    finalCount,
-                  }}
+              {/* center */}
+              <div className="relative">
+                <PopupPremiseText
+                  {...{ bg_img, bg_color, stylings, dText, viewText }}
+                  className="ls-contentbox"
+                  className2="ls-contenttext"
                 />
+                <PremiseBadge stamp={stamp} />
               </div>
+              {/* bottom */}
+              <div className="flex justify-between items-center  rounded-b-[8px] px-[4px] pb-[8px] pt-[4px] ">
+                {/* 1st div */}
+                <div className="flex gap-1 space-x-4 items-center">
+                  {/* like */}
+                  <PopupLike {...{ user, id, premiseRefetch, premiseData }} />
+                  {/* comment */}
+                  <PopupComment
+                    {...{
+                      setOpenReplyField,
+                      setCommentField,
+                      commentField,
+                      finalCount,
+                    }}
+                  />
+                </div>
 
-              <div className="ml-[15px] flex gap-2 items-center">
-                <TranslatePremise
-                  {...{ transPopClose, setTransPopClose, setViewText }}
-                  data={{
-                    id,
-                    dText,
-                    source_language,
-                    project_id,
-                  }}
-                  className="premise-translate-wh-24"
-                />
+                <div className="ml-[15px] flex gap-2 items-center">
+                  <TranslatePremise
+                    {...{ transPopClose, setTransPopClose, setViewText }}
+                    data={{
+                      id,
+                      dText,
+                      source_language,
+                      project_id,
+                    }}
+                    className="premise-translate-wh-24"
+                  />
+                </div>
               </div>
             </div>
           </div>
-          {/* Details */}
-
-          {window.innerWidth < 1150 && charactersPopupMobile && (
-            <div className="bg-[#fff] absolute top-[47px] right-[12px] w-[290px] rounded-[8px] p-[8px] z-30 shadow-[0px_0px_26px_0px_rgba(0,0,0,0.3)]">
-              <div className="mt-[17px]">
-                <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
-                  {" "}
-                  <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
-                    Created By
-                  </h2>
-                  <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
-                    : {created_by_name}
-                  </p>
-                </div>
-                <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
-                  {" "}
-                  <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
-                    Created On
-                  </h2>
-                  <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
-                    : {formatDate(created_at)}
-                  </p>
-                </div>
-                <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
-                  <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
-                    Last Worked On
-                  </h2>
-                  <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
-                    : {formatDate(last_worked_on)}
-                  </p>
-                </div>
-              </div>
-
-              {/* visible to  */}
-              {premiseOwner?.id === user && (
-                <div className="mt-1">
-                  <div className="  w-full  flex justify-between items-center">
-                    <p className="text-[#616161] font-[700] text-[16px] leading-6">
-                      Visible to
+          {/* Details scroll div */}
+          <div className="flex-1 overflow-y-auto">
+            {window.innerWidth < 1150 && charactersPopupMobile && (
+              <div className="bg-[#fff] absolute top-[47px] right-[12px] w-[290px] rounded-[8px] p-[8px] z-30 shadow-[0px_0px_26px_0px_rgba(0,0,0,0.3)]">
+                <div className="mt-[17px]">
+                  <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
+                    {" "}
+                    <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
+                      Created By
+                    </h2>
+                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
+                      : {created_by_name}
                     </p>
-
-                    <MdOutlineEdit
-                      onClick={handleVisibility}
-                      className="text-[#33B0CA] cursor-pointer"
-                    />
                   </div>
-                  <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
-                  <p className="text-[#33B0CA] text-[16px] font-[500] leading-6 capitalize">
-                    {filter_flag === 0
-                      ? "All Buddies"
-                      : filter_flag === 1
-                      ? "Only Me"
-                      : filter_flag === 2
-                      ? visible_to?.length > 0
-                        ? visible_to
-                            .filter((v) => v?.id !== currentUser?.id) // Exclude current user
-                            .map((v) => `${v?.first_name} ${v?.last_name} `) // Format names properly
-                            .join(", ")
-                        : "No one"
-                        ? filter_flag === 3
-                        : "Everyone"
-                      : "Everyone"}
-                  </p>
-                </div>
-              )}
-
-              {/* characters */}
-              {premiseOwner?.id === user && (
-                <div className="mt-1">
-                  <div className="  w-full flex justify-between items-center">
-                    <p className="text-[#616161] font-[700] text-[16px] leading-6">
-                      Characters
+                  <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
+                    {" "}
+                    <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
+                      Created On
+                    </h2>
+                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
+                      : {formatDate(created_at)}
                     </p>
-                    <div className=" flex gap-2 items-center ">
-                      <FaPlus
-                        className="text-[14px] cursor-pointer"
-                        onClick={handleAddNewChar}
-                      />
+                  </div>
+                  <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
+                    <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
+                      Last Worked On
+                    </h2>
+                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
+                      : {formatDate(last_worked_on)}
+                    </p>
+                  </div>
+                </div>
+
+                {/* visible to  */}
+                {premiseOwner?.id === user && (
+                  <div className="mt-1">
+                    <div className="  w-full  flex justify-between items-center">
+                      <p className="text-[#616161] font-[700] text-[16px] leading-6">
+                        Visible to
+                      </p>
+
                       <MdOutlineEdit
-                        onClick={() => {
-                          setOpenCharacterChart(project_id);
-                        }}
+                        onClick={handleVisibility}
                         className="text-[#33B0CA] cursor-pointer"
                       />
                     </div>
+                    <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
+                    <p className="text-[#33B0CA] text-[16px] font-[500] leading-6 capitalize">
+                      {filter_flag === 0
+                        ? "All Buddies"
+                        : filter_flag === 1
+                        ? "Only Me"
+                        : filter_flag === 2
+                        ? visible_to?.length > 0
+                          ? visible_to
+                              .filter((v) => v?.id !== currentUser?.id) // Exclude current user
+                              .map((v) => `${v?.first_name} ${v?.last_name} `) // Format names properly
+                              .join(", ")
+                          : "No one"
+                          ? filter_flag === 3
+                          : "Everyone"
+                        : "Everyone"}
+                    </p>
                   </div>
-                  <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full lg:max-h-[83px] overflow-auto">
-                    {finalCharacters?.map((character, index) => (
-                      <CharacterShowCard
-                        {...{
-                          character,
-                          index,
-                          setEditData,
-                          setEditIdx,
-                          setDeleteIdx,
-                          setEditPopupOpen,
-                          setDeleteChar,
-                          onlyAdd,
-                          deleteCharacterFun,
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+                )}
 
-          {window.innerWidth > 1150 && (
-            <div className="bg-[#fff]">
-              <div>
-                <div className="grid grid-cols-[40%_minmax(60%,_1fr)] items-center ">
-                  {" "}
-                  <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
-                    Created By
-                  </h2>
-                  <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
-                    : {created_by_name}
-                  </p>
-                </div>
-                <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center ">
-                  {" "}
-                  <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
-                    Created On
-                  </h2>
-                  <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
-                    : {formatDate(created_at)}
-                  </p>
-                </div>
-                <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center ">
-                  <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
-                    Last Worked On
-                  </h2>
-                  <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
-                    : {formatDate(last_worked_on)}
-                  </p>
-                </div>
+                {/* characters */}
+                {premiseOwner?.id === user && (
+                  <div className="mt-1">
+                    <div className="  w-full flex justify-between items-center">
+                      <p className="text-[#616161] font-[700] text-[16px] leading-6">
+                        Characters
+                      </p>
+                      <div className=" flex gap-2 items-center ">
+                        <FaPlus
+                          className="text-[14px] cursor-pointer"
+                          onClick={handleAddNewChar}
+                        />
+                        <MdOutlineEdit
+                          onClick={() => {
+                            setOpenCharacterChart(project_id);
+                          }}
+                          className="text-[#33B0CA] cursor-pointer"
+                        />
+                      </div>
+                    </div>
+                    <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full lg:max-h-[83px] overflow-auto">
+                      {finalCharacters?.map((character, index) => (
+                        <CharacterShowCard
+                          {...{
+                            character,
+                            index,
+                            setEditData,
+                            setEditIdx,
+                            setDeleteIdx,
+                            setEditPopupOpen,
+                            setDeleteChar,
+                            onlyAdd,
+                            deleteCharacterFun,
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
+            )}
 
-              {/* visible to  */}
-              {/* {premiseOwner?.id === user && (
+            {window.innerWidth > 1150 && (
+              <div className="bg-[#fff]">
+                <div>
+                  <div className="grid grid-cols-[40%_minmax(60%,_1fr)] items-center ">
+                    {" "}
+                    <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
+                      Created By
+                    </h2>
+                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
+                      : {created_by_name}
+                    </p>
+                  </div>
+                  <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center ">
+                    {" "}
+                    <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
+                      Created On
+                    </h2>
+                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
+                      : {formatDate(created_at)}
+                    </p>
+                  </div>
+                  <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center ">
+                    <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
+                      Last Worked On
+                    </h2>
+                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
+                      : {formatDate(last_worked_on)}
+                    </p>
+                  </div>
+                </div>
+
+                {/* visible to  */}
+                {/* {premiseOwner?.id === user && (
                 <div className="mt-1">
                   <div className="  w-full  flex justify-between items-center">
                     <p className="text-[#616161] font-[700] text-[16px] leading-6">
@@ -541,103 +544,104 @@ const LeftSideBar = ({
                 </div>
               )}
   */}
-              <VisibilitySection
-                premiseOwner={premiseOwner}
-                user={user}
-                visible_to={visible_to}
-                currentUser={currentUser}
-                filter_flag={filter_flag}
-                handleVisibility={handleVisibility}
-              />
+                <VisibilitySection
+                  premiseOwner={premiseOwner}
+                  user={user}
+                  visible_to={visible_to}
+                  currentUser={currentUser}
+                  filter_flag={filter_flag}
+                  handleVisibility={handleVisibility}
+                />
 
-              {/* characters */}
-              {premiseOwner?.id === user && (
-                <div className="mt-1">
-                  <div className="  w-full flex justify-between items-center">
-                    <p className="text-[#616161] font-[700] text-[16px] leading-6">
-                      Characters
-                    </p>
-                    <div className=" flex gap-2 items-center ">
-                      <FaPlus
-                        className="text-[14px] cursor-pointer"
-                        onClick={handleAddNewChar}
-                      />
-                      <MdOutlineEdit
-                        onClick={() => {
-                          setOpenCharacterChart(project_id);
-                        }}
-                        className="text-[#33B0CA] cursor-pointer"
-                      />
+                {/* characters */}
+                {premiseOwner?.id === user && (
+                  <div className="mt-1">
+                    <div className="  w-full flex justify-between items-center">
+                      <p className="text-[#616161] font-[700] text-[16px] leading-6">
+                        Characters
+                      </p>
+                      <div className=" flex gap-2 items-center ">
+                        <FaPlus
+                          className="text-[14px] cursor-pointer"
+                          onClick={handleAddNewChar}
+                        />
+                        <MdOutlineEdit
+                          onClick={() => {
+                            setOpenCharacterChart(project_id);
+                          }}
+                          className="text-[#33B0CA] cursor-pointer"
+                        />
+                      </div>
+                    </div>
+                    <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full lg:max-h-[83px] overflow-auto">
+                      {finalCharacters?.map((character, index) => (
+                        <CharacterShowCard
+                          {...{
+                            character,
+                            index,
+                            setEditData,
+                            setEditIdx,
+                            setDeleteIdx,
+                            setEditPopupOpen,
+                            setDeleteChar,
+                            onlyAdd,
+                            deleteCharacterFun,
+                          }}
+                        />
+                      ))}
                     </div>
                   </div>
-                  <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full lg:max-h-[83px] overflow-auto">
-                    {finalCharacters?.map((character, index) => (
-                      <CharacterShowCard
-                        {...{
-                          character,
-                          index,
-                          setEditData,
-                          setEditIdx,
-                          setDeleteIdx,
-                          setEditPopupOpen,
-                          setDeleteChar,
-                          onlyAdd,
-                          deleteCharacterFun,
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
+                )}
+              </div>
+            )}
+
+            <div className="hidden md:block  w-full max-w-[330px] mx-auto mt-4">
+              <AskIda
+                {...{
+                  id,
+                  source_language,
+                  user,
+                  premiseOwner,
+                  commentRefetch,
+                  setOpenAllReplies,
+                  setOpenReplyFieldID,
+                  lastCommentRef,
+                  isLoading,
+                  setIsLoading,
+                  setNoAccessPopup,
+                  setService,
+                }}
+              />
+
+              <NewTabTextArea
+                fromNew
+                premiseId={id}
+                className="ls-textarea"
+                className2="ls-textareainput"
+                {...{
+                  premiseOwner,
+                  user,
+                  commentRefetch,
+                  setOpenAllReplies,
+                  setOpenReplyFieldID,
+                  lastCommentRef,
+                  commentField,
+                  setCommentField,
+                  setReplyField,
+                  replyField,
+                  replyRef,
+                  isLoading,
+                  setIsLoading,
+                  selectedLanguage,
+                  setSelectedLanguage,
+                  keyboardVisible,
+                  setKeyboardVisible,
+                  newComment,
+                  setNewComment,
+                  inputRef,
+                }}
+              />
             </div>
-          )}
-
-          <div className="hidden md:block  w-full max-w-[330px] mx-auto mt-4">
-            <AskIda
-              {...{
-                id,
-                source_language,
-                user,
-                premiseOwner,
-                commentRefetch,
-                setOpenAllReplies,
-                setOpenReplyFieldID,
-                lastCommentRef,
-                isLoading,
-                setIsLoading,
-                setNoAccessPopup,
-                setService,
-              }}
-            />
-
-            <NewTabTextArea
-              fromNew
-              premiseId={id}
-              className="ls-textarea"
-              className2="ls-textareainput"
-              {...{
-                premiseOwner,
-                user,
-                commentRefetch,
-                setOpenAllReplies,
-                setOpenReplyFieldID,
-                lastCommentRef,
-                commentField,
-                setCommentField,
-                setReplyField,
-                replyField,
-                replyRef,
-                isLoading,
-                setIsLoading,
-                selectedLanguage,
-                setSelectedLanguage,
-                keyboardVisible,
-                setKeyboardVisible,
-                newComment,
-                setNewComment,
-                inputRef,
-              }}
-            />
           </div>
         </div>
       </div>

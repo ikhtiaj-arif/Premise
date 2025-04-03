@@ -33,7 +33,7 @@ const VisibilitySection = ({
       return "Only Me";
     } else if (filter_flag === 2) {
       if (processedVisibleUsers?.length > 0) {
-        const displayedUsers = processedVisibleUsers.slice(0, 5); // Only show first 5 users
+        const displayedUsers = processedVisibleUsers.slice(0, 4); // Only show first 5 users
         const remainingUsers = processedVisibleUsers.slice(5); // Remaining users
 
         const displayedNames = displayedUsers
