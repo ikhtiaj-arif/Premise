@@ -18,6 +18,7 @@ const SingleCharacterAdd = ({
   onlyAdd,
   source_language,
 }) => {
+  console.log("editIdx", editIdx);
   const [role, setRole] = useState(editData?.role || "");
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [keyboardVisible, setKeyboardVisible] = useState(false);
@@ -163,30 +164,33 @@ const SingleCharacterAdd = ({
       setAge(value);
     }
   };
+  // const handleInputChange = (e, setValue) => {
+  //   let value = e.target.value;
+  //   if (typeof value !== "string") {
+  //     // console.error('Invalid input value:', value);
+  //     return;
+  //   }
+  //   if (value.length === 0) {
+  //     setValue("");
+  //     return;
+  //   }
+
+  //   // Handle the case for single-character input
+  //   if (value.length === 1) {
+  //     const firstChar = value.replace(/[^a-zA-Z0-9]/, ""); // Remove non-alphanumeric characters
+  //     setValue(firstChar); // Set value to the cleaned character
+  //   } else {
+  //     // For multi-character input, validate only the first character
+  //     const firstChar = value[0].replace(/[^a-zA-Z0-9]/, ""); // Clean the first character if it's non-alphanumeric
+  //     const restOfValue = value.slice(1); // Keep the rest of the value as-is
+
+  //     setValue(firstChar + restOfValue); // Combine the cleaned first character with the rest of the input
+  //   }
+  // };
   const handleInputChange = (e, setValue) => {
-    let value = e.target.value;
-    if (typeof value !== "string") {
-      // console.error('Invalid input value:', value);
-      return;
-    }
-    if (value.length === 0) {
-      setValue("");
-      return;
-    }
-
-    // Handle the case for single-character input
-    if (value.length === 1) {
-      const firstChar = value.replace(/[^a-zA-Z0-9]/, ""); // Remove non-alphanumeric characters
-      setValue(firstChar); // Set value to the cleaned character
-    } else {
-      // For multi-character input, validate only the first character
-      const firstChar = value[0].replace(/[^a-zA-Z0-9]/, ""); // Clean the first character if it's non-alphanumeric
-      const restOfValue = value.slice(1); // Keep the rest of the value as-is
-
-      setValue(firstChar + restOfValue); // Combine the cleaned first character with the rest of the input
-    }
+    const value = e.target.value.trimStart().replace(/\s{2,}/g, " ");
+    setValue(value);
   };
-
   const characterRoles = [
     "Protagonist",
     "Antagonist",
@@ -210,7 +214,7 @@ const SingleCharacterAdd = ({
   };
 
   // const isDisabled = editIdx === 0;
-  const isDisabled = onlyAdd;
+  const isDisabled = onlyAdd || editIdx === 0;
   const [suggestCharacters, updatePostPremiseResInfo] =
     useSuggestCharactersMutation();
   const [disabledEdit, setDisabledEdit] = useState(false);

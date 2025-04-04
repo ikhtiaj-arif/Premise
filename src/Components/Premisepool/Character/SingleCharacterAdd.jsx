@@ -129,26 +129,29 @@ const SingleCharacterAdd = ({
     }
   };
 
+  // const handleInputChange = (e, setValue) => {
+  //   console.log(e);
+  //   let value = e.target.value;
+  //   if (typeof value !== "string") return;
+
+  //   if (value.length === 0) {
+  //     setValue("");
+  //     return;
+  //   }
+
+  //   if (value.length === 1) {
+  //     const firstChar = value.replace(/[^a-zA-Z0-9]/, "");
+  //     setValue(firstChar);
+  //   } else {
+  //     const firstChar = value[0].replace(/[^a-zA-Z0-9]/, "");
+  //     const restOfValue = value.slice(1);
+  //     setValue(firstChar + restOfValue);
+  //   }
+  // };
   const handleInputChange = (e, setValue) => {
-    console.log(e);
-    let value = e.target.value;
-    if (typeof value !== "string") return;
-
-    if (value.length === 0) {
-      setValue("");
-      return;
-    }
-
-    if (value.length === 1) {
-      const firstChar = value.replace(/[^a-zA-Z0-9]/, "");
-      setValue(firstChar);
-    } else {
-      const firstChar = value[0].replace(/[^a-zA-Z0-9]/, "");
-      const restOfValue = value.slice(1);
-      setValue(firstChar + restOfValue);
-    }
+    const value = e.target.value.trimStart().replace(/\s{2,}/g, " ");
+    setValue(value);
   };
-
   useEffect(() => {
     AutoSizeTextArea(occupationRef.current, background);
     AutoSizeTextArea(backgroundRef.current, background);
