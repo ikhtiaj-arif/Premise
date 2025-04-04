@@ -692,7 +692,7 @@ console.log("actTwoEnd:", actTwoEnd);  // Check if actTwoEnd is being set correc
                       .sort((a, b) => a.c_value - b.c_value) // Sort comments by c_value in ascending order
                       .map((comment, index) => (
                         <motion.div
-                          key={index + 1}
+                        key={comment.id + index}
                           initial={{ opacity: 0, y: 70 }} // Start from slightly below the final position
                           animate={{ opacity: 1, y: 0 }} // Move to the final position
                           exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen

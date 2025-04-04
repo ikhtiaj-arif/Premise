@@ -619,6 +619,7 @@ const PremisePreview2 = ({
 
     // Disable submit button to prevent multiple clicks
     setIsLoading(true);
+    setKeyboardVisible(false)
 
     try {
       const formData = new FormData();

@@ -29,6 +29,7 @@ const ReplyToReply2 = ({
   fromNew,
   handleAddToBeat,
   setCommentText,
+  setBeatCommentText,
   childReply,
   childReplyIDNext,
   owner,
@@ -658,7 +659,7 @@ const ReplyToReply2 = ({
                   <button
                     onClick={() => {
                       handleAddToBeat(childReply);
-                      setCommentText(childReply?.text);
+                      setBeatCommentText(childReply?.text);
                       replyRefetch();
                     }}
                     className="w-[74px]"
@@ -746,6 +747,7 @@ const ReplyToReply2 = ({
                     currentReplyId={currentReplyId}
                     handleAddToBeat={handleAddToBeat}
                     setCommentText={setCommentText}
+                    setBeatCommentText={setBeatCommentText}
                     owner={owner}
                     user={user}
                     replyRefetch={replyRefetch}

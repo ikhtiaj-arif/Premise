@@ -256,7 +256,7 @@ const PremiseNewTab = () => {
                           .sort((a, b) => a.c_value - b.c_value)
                           .map((comment, index) => (
                             <motion.div
-                              key={comment.id}
+                              key={comment.id + index}
                               initial={{ opacity: 0, y: 70 }}
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, y: -50 }}

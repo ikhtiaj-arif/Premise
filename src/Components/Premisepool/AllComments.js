@@ -150,6 +150,8 @@ const AllComments = ({
   const [commentText, setCommentText] = useState(
     comments?.text?.replace(/^\s*\d+\.\s*/, "")
   );
+  const [beatCommentText, setBeatCommentText] = useState("")
+  
   const [commentObj, setCommentObj] = useState({});
   const [openDltPop, setOpenDltPop] = useState(false);
   const [idToDlt, setIdToDlt] = useState({});
@@ -348,7 +350,7 @@ const AllComments = ({
     setBeatSuggLoading(true);
     setProjectBeatOpen(true);
 
-    setCommentText(comment?.text || "");
+    setBeatCommentText(comment?.text || "");
 
     const data = {
       owner: owner,
@@ -1097,6 +1099,7 @@ const AllComments = ({
                 ?.map((reply, index) => (
                   <motion.div
                     // data-reply
+                    key={reply.id + index}
                     ref={
                       index === replyData?.length - 1 ? latestReplyRef : null
                     }
@@ -1105,15 +1108,17 @@ const AllComments = ({
                     exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
                     transition={{ duration: 0.5 }} // Adjust the duration as needed
                   >
+
                     <ReplyToComments
                       fromNew={fromNew}
                       commentIdx={comments?.c_value}
-                      key={index} // Make sure to provide a unique key when mapping over an array
+                     // Make sure to provide a unique key when mapping over an array
                       reply={reply}
                       index={index}
                       owner={owner}
                       setProjectBeatOpen={setProjectBeatOpen}
                       setCommentText={setCommentText}
+                      setBeatCommentText={setBeatCommentText}
                       replyRefetch={replyRefetch}
                       replyToCommentID={replyToCommentID}
                       user={user}

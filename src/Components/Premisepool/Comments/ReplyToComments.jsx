@@ -32,6 +32,7 @@ const ReplyToComments = ({
   owner,
   setProjectBeatOpen,
   setCommentText,
+  setBeatCommentText,
   replyRefetch,
   user,
   replyToCommentID,
@@ -620,7 +621,7 @@ const ReplyToComments = ({
                       <button
                         onClick={() => {
                           handleAddToBeat(reply);
-                          setCommentText(reply?.text);
+                          setBeatCommentText(reply?.text);
                         }}
                         className="w-[74px]"
                       >
@@ -722,6 +723,7 @@ const ReplyToComments = ({
                             handleAddToBeat={handleAddToBeat}
                             key={idx}
                             setCommentText={setCommentText}
+                            setBeatCommentText={setBeatCommentText}
                             childReplyIDNext={childReply?.id}
                             childReply={childReply}
                             owner={owner}
