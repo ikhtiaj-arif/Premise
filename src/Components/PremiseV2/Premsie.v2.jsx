@@ -148,7 +148,7 @@ const PremiseV2 = () => {
   useEffect(() => {
     if (id && id.service === "scriptpad") {
       xyz();
-      const matchingPremiseData = premiseDataForUser.find(
+      const matchingPremiseData = premiseDataForUser?.find(
         (item) => item.id === id.__id
       );
 
@@ -607,6 +607,7 @@ const PremiseV2 = () => {
                         matchingPremiseData?.hiddenCountRefetch,
                       project_id: matchingPremiseData?.project_id,
                       m_value: matchingPremiseData?.m_value,
+                      premiseOwner: matchingPremiseData?.premiseOwner
                     }}
                     refetch={refetch}
                     p={matchingPremiseData}

@@ -200,12 +200,14 @@ const Popup = ({
 
   const { boldStyle, italicStyle, underlineStyle, hexColor } = stylings;
   const premiseId = data?.id;
+
+
   const {
     data: premiseData,
     isPremiseLoading,
     refetch: premiseRefetch,
   } = useGetOnePremiseQuery(premiseId);
-
+  console.log("premiseId", premiseData?.available_for_sale);
   const [actOneThreshold, setActOneThreshold] = useState(null);
   const [actTwoEnd, setActTwoEnd] = useState(null);
 
@@ -362,13 +364,7 @@ console.log("actTwoEnd:", actTwoEnd);  // Check if actTwoEnd is being set correc
   const [headerText, setHeaderText] = useState("Setup");
   const commentsRef = useRef(null);
 
-  // const [isFirstCommentSuggested, setIsFirstCommentSuggested] = useState(false);
-
-  // useEffect(() => {
-  //   setIsFirstCommentSuggested(premiseData?.show_initial_comments)
-  //   console.log(premiseData?.show_initial_comments);
-  //   // console.log(data);
-  // }, [premiseData]);
+ 
 
   useEffect(() => {}, [openDotMenu]);
 

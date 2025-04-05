@@ -112,7 +112,7 @@ function App() {
             <Route path="/" element={<PremiseV2 />} />
             <Route path="/payment" element={<LimitPaymentPage />} />
             <Route path="/new-tab/:id" element={<PremiseNewTab />} />
-            <Route path="/:__id/:service" element={<Premisepool />} />
+            <Route path="/:__id/:service" element={<PremiseV2 />} />
           </Routes>
         </TranslationContext.Provider>
       </MyContext.Provider>
