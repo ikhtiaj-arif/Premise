@@ -39,7 +39,7 @@ import { sortedLanguages } from "../Languages";
 import LanguageSelector from "../LanguageSelector";
 import Popup from "../Popup";
 import { hideUnhidePremise } from "../PreiseUtils";
-import Pkeyboard from "./PreviewKeyboard";
+import PremisePreviewKeyboard from "./PremisePreviewKeyboard";
 
 const PremisePreview2 = ({
   newText,
@@ -52,7 +52,8 @@ const PremisePreview2 = ({
   finalEdit,
   setFinalEdit,
   isLoading,
-  setIsLoading,premiseLanguage
+  setIsLoading,
+  premiseLanguage,
 }) => {
   const baseLanguage = sessionStorage.getItem("multilingualDropDownValue");
 
@@ -209,6 +210,8 @@ const PremisePreview2 = ({
     projectRefetch,
     allProjects,
     currentUser,
+    selectedSpProjectLanguage,
+    setSelectedSpProjectLanguage,
   } = useContext(MyContext);
 
   const {
@@ -294,7 +297,7 @@ const PremisePreview2 = ({
   ];
 
   const [durationOptions, setDurationOptions] = useState([]);
-
+  const [focusedFieldName, setFocusedFieldName] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isProtagonistOpen, setIsProtagonistOpen] = useState(false);
   const [isNatureProjectOpen, setIsNatureProjectOpen] = useState(false);
@@ -321,8 +324,10 @@ const PremisePreview2 = ({
   const inputRefs = useRef({}); // Store references to all input fields
 
   const projectNameRef = useRef();
+  const authorNameRef = useRef();
+  const locationNameRef = useRef();
+  const protagonistNameRef = useRef();
 
-  
   // const setText = (newText) => {
   //   console.log('inputRefs',projectNameRef);
   //   if (activeInput && inputRefs.current[activeInput]) {
@@ -350,7 +355,7 @@ const PremisePreview2 = ({
   const [characterArray, setCharacterArray] = useState([]);
   // const [characters, setCharacters] = useState(characterArray);
 
-  const [language, setlanguage] = useState("");
+  const [language, setLanguage] = useState("");
   // console.log("language", language);
   const handleNatureOfProjectChange = (e) => {
     const selectedProject = e.target.value;
@@ -358,8 +363,8 @@ const PremisePreview2 = ({
     setDurationOptions(options[selectedProject] || []);
     setDuration("");
   };
-  console.log(natureOfProject);
-  console.log(durationOptions);
+  //console.log(natureOfProject);
+  //console.log(durationOptions);
   // const {
   //   data: ProjectsObj,
   //   isLoading: isProjectLoading,
@@ -389,10 +394,12 @@ const PremisePreview2 = ({
     };
   }, []);
 
+  console.log("language", language);
+
   useEffect(() => {
     if (selectedSpProjectID === "") {
       setMatchingProject(null);
-      setlanguage("");
+      setLanguage("");
       setAuthorName("");
       setNatureOfProject("");
       setDuration("");
@@ -414,7 +421,7 @@ const PremisePreview2 = ({
       if (matchingProject) {
         // console.log("matchingProject", matchingProject);
         setMatchingProject(matchingProject);
-        setlanguage(matchingProject?.language);
+        setLanguage(matchingProject?.language);
         setAuthorName(matchingProject?.ownername);
         setNatureOfProject(matchingProject?.nature_project);
 
@@ -612,6 +619,7 @@ const PremisePreview2 = ({
 
     // Disable submit button to prevent multiple clicks
     setIsLoading(true);
+    setKeyboardVisible(false)
 
     try {
       const formData = new FormData();
@@ -656,7 +664,7 @@ const PremisePreview2 = ({
       formData.append("protagonist_type", protagonist);
       formData.append("protagonist_name", protagonistName);
       if (protagonist === "Inanimate Object") {
-        setProtaAge(0)
+        setProtaAge(0);
       }
       formData.append("protagonist_age", protaAge);
 
@@ -682,6 +690,7 @@ const PremisePreview2 = ({
         protagonist_type: protagonist,
         protagonist_name: protagonistName,
         protagonist_age: protaAge,
+        service_name: "premisePool"
       };
 
       if (createNewProject) {
@@ -811,10 +820,8 @@ const PremisePreview2 = ({
                 setIsLoading(false);
                 deletePremiseWhenFailed(deletePreID);
 
-                const data = {
-                  project: deleteId,
-                };
-                deleteProject(data);
+               
+                deleteProject(deleteId);
 
                 toast.error("Failed to create Premise", {
                   position: toast.POSITION.TOP_CENTER,
@@ -826,11 +833,9 @@ const PremisePreview2 = ({
             // Handle API errors
             setIsLoading(false);
 
-            const data = {
-              project: deleteId,
-            };
+          
 
-            deleteProject(data);
+            deleteProject(deleteId);
             toast.error(res?.error?.data?.message || "Something went wrong!", {
               position: toast.POSITION.TOP_CENTER,
               autoClose: 1600,
@@ -1065,24 +1070,25 @@ const PremisePreview2 = ({
     };
   }, []);
   // Watch for changes in protagonist and update protaAge if necessary
-useEffect(() => {
-  if (protagonist === "Inanimate Object") {
-    setProtaAge(0); // Set protaAge to empty string when protagonist is "Inanimate Object"
-  }
-}, [protagonist]);
+  useEffect(() => {
+    if (protagonist === "Inanimate Object") {
+      setProtaAge(0); // Set protaAge to empty string when protagonist is "Inanimate Object"
+    }
+  }, [protagonist]);
 
   const formValid =
-  natureOfProject &&
-  generaItem &&
-  subGeneraItem &&
-  periodSetIn &&
-  geographyItem &&
-  protagonist &&
-  protagonistName &&
-  // If protagonist is not "Inanimate Object", ensure protaAge is set
-  ((protagonist !== "Inanimate Object" && protaAge) || protagonist === "Inanimate Object") &&
-  ((["TV series", "Web series"].includes(natureOfProject) && noOfEpi) ||
-    (!["TV series", "Web series"].includes(natureOfProject) && duration));
+    natureOfProject &&
+    generaItem &&
+    subGeneraItem &&
+    periodSetIn &&
+    geographyItem &&
+    protagonist &&
+    protagonistName &&
+    // If protagonist is not "Inanimate Object", ensure protaAge is set
+    ((protagonist !== "Inanimate Object" && protaAge) ||
+      protagonist === "Inanimate Object") &&
+    ((["TV series", "Web series"].includes(natureOfProject) && noOfEpi) ||
+      (!["TV series", "Web series"].includes(natureOfProject) && duration));
 
   const handleSelectChange = (e) => {
     setPeriodSetIn(e.target.value);
@@ -1101,6 +1107,11 @@ useEffect(() => {
   const handleUpdateSavedChar = async () => {
     setCharacterLoading(true);
     try {
+      characterArray.forEach((character) => {
+        if (character.is_ai_generated === undefined) {
+          character.is_ai_generated = false;
+        }
+      });
       const charArr = JSON.stringify(characterArray);
       const data = {
         // id: premiseID,
@@ -1459,7 +1470,9 @@ useEffect(() => {
         <div
           className={`relative ${
             charSaveDisable
-              ? `h-[150px] ${finalSubmitLoading ? "md:h-[65px]":"md:h-[125px]"}  overflow-y-hidden`
+              ? `h-[150px] ${
+                  finalSubmitLoading ? "md:h-[65px]" : "md:h-[125px]"
+                }  overflow-y-hidden`
               : finalEdit
               ? "h-[125px]"
               : createNewProject || selectedSpProjectID
@@ -1608,23 +1621,26 @@ useEffect(() => {
                       </>
                     )}
                   </div>
-                    <div className="bg-[#FAFAFA] h-[38px] md:h-[32px] xl:h-[38px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-[8px] hidden lg:flex items-center mx-[28px] ">
-                      <div className="flex items-center justify-end gap-3  w-full ">
-                        <FaKeyboard
-                          data-te-toggle="tooltip"
-                          title={`${!keyboardVisible ? "View Keyboard" : "Hide Keyboard"
-                            }`}
-                          className={`w-7 h-7 ${keyboardVisible && "text-[#33B0CA]"
-                            } cursor-pointer hover:text-[#33B0CA]`}
-                          onClick={onClickKeyboard}
-                        />
-                        <LanguageSelector premiseLanguage={premiseLanguage}
-                          setSelectedLanguage={setSelectedLanguage}
-                          selectedLanguage={selectedLanguage}
-                          setKeyboardVisible={setKeyboardVisible}
-                        />
-                      </div>
+                  <div className="bg-[#FAFAFA] h-[38px] md:h-[32px] xl:h-[38px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-[8px] hidden lg:flex items-center mx-[28px] ">
+                    <div className="flex items-center justify-end gap-3  w-full ">
+                      <FaKeyboard
+                        data-te-toggle="tooltip"
+                        title={`${
+                          !keyboardVisible ? "View Keyboard" : "Hide Keyboard"
+                        }`}
+                        className={`w-7 h-7 ${
+                          keyboardVisible && "text-[#33B0CA]"
+                        } cursor-pointer hover:text-[#33B0CA]`}
+                        onClick={onClickKeyboard}
+                      />
+                      <LanguageSelector
+                        premiseLanguage={premiseLanguage}
+                        setSelectedLanguage={setSelectedLanguage}
+                        selectedLanguage={selectedLanguage}
+                        setKeyboardVisible={setKeyboardVisible}
+                      />
                     </div>
+                  </div>
                 </div>
                 {createNewProject && (
                   <h2 className="CreateAProjectStructure-m col-span-12 text-[#252525] text-[14px] leading-[16px] md:text-[16px] md:leading-[24px] font-[500] mb-[6px] mt-[3px] md:mt-0">
@@ -1681,6 +1697,7 @@ useEffect(() => {
                       <input
                         type="text"
                         ref={projectNameRef}
+                        onFocus={() => setFocusedFieldName("projectName")}
                         // id="spProjectName"
                         className={`h-[30px] relative  text-[12px] md:!text-[14px] leading-tight px-[8px] w-full md:w-[181px] bg-[#fafafa] rounded-[4px] border-[2px] ${
                           spProjectName
@@ -1689,8 +1706,13 @@ useEffect(() => {
                         } focus:outline-none`}
                         placeholder="Project Name"
                         required
-                        // value={spProjectName}
-                        onChange={handleProjectChange}
+                        value={spProjectName}
+                        onChange={(e) => {
+                          const value = e.target.value
+                            .trimStart()
+                            .replace(/\s{2,}/g, " ");
+                          setSpProjectName(value);
+                        }}
                       />
                     </div>
                   )}
@@ -1708,7 +1730,10 @@ useEffect(() => {
                       <select
                         className={`block appearance-none bg-[#fafafa] h-[27px] rounded-[4px]   w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
                         value={language}
-                        onChange={(e) => setlanguage(e.target.value)}
+                        onChange={(e) => {
+                          setLanguage(e.target.value);
+                          setSelectedSpProjectLanguage(e.target.value);
+                        }}
                         onClick={() => setIsLanguageOpen(!isLanguageOpen)}
                         required
                       >
@@ -1734,14 +1759,21 @@ useEffect(() => {
                     <input
                       type="text"
                       // id="authorName"
-                      ref={projectNameRef}
+                      ref={authorNameRef}
                       className={`h-[30px] relative text-[12px] md:!text-[14px] leading-tight px-[8px] w-full md:w-[191px] bg-[#fafafa] rounded-[4px] border-[2px] ${
                         authorName ? "border-[#33B0CA]" : "border-[#EAEAEA]"
                       } focus:outline-none`}
                       placeholder="Author Name"
-                      // value={authorName}
+                      onFocus={() => setFocusedFieldName("authorName")}
+                      value={authorName}
                       // onFocus={() => setActiveInput("authorName")}
-                      onChange={(e) => setAuthorName(e.target.value)}
+
+                      onChange={(e) => {
+                        const value = e.target.value
+                          .trimStart()
+                          .replace(/\s{2,}/g, " ");
+                        setAuthorName(value);
+                      }}
                       // required
                     />
                   </div>
@@ -1933,8 +1965,6 @@ useEffect(() => {
                         Genre
                       </option>
 
-
-
                       {genera?.map((option) => (
                         <option key={option} value={option}>
                           {option}
@@ -2004,14 +2034,22 @@ useEffect(() => {
                     /> */}
                     <input
                       type="text"
-                      ref={projectNameRef}
+                      ref={locationNameRef}
                       className={`block bg-[#fafafa] h-[30px] rounded-[4px] border-[2px] ${
                         geographyItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
                       } w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
                       placeholder="Country/Region/City"
-                      // value={geographyItem}
-                      onFocus={() => setActiveInput("geographyItem")}
-                      onChange={(e) => setGeographyItem(e.target.value)}
+                      value={geographyItem}
+                      onFocus={() => {
+                        setActiveInput("geographyItem");
+                        setFocusedFieldName("locationName");
+                      }}
+                      onChange={(e) => {
+                        const value = e.target.value
+                          .trimStart()
+                          .replace(/\s{2,}/g, " ");
+                        setGeographyItem(value);
+                      }}
                       required
                       maxLength={100}
                     />
@@ -2067,7 +2105,7 @@ useEffect(() => {
                       Who Is Your Protagonist
                     </p>
                     <input
-                      ref={projectNameRef}
+                      ref={protagonistNameRef}
                       className={`block bg-[#fafafa] w-full h-[30px] rounded-[4px] border-[2px] ${
                         protagonistName
                           ? "border-[#33B0CA]"
@@ -2075,10 +2113,14 @@ useEffect(() => {
                       }  px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
                       placeholder="Name"
                       type="text"
-                      // value={protagonistName}
-                      onChange={(e) =>
-                        handleProtagonistNameChange(e, setProtagonistName)
-                      }
+                      onFocus={() => setFocusedFieldName("protagonistName")}
+                      onChange={(e) => {
+                        const value = e.target.value
+                          .trimStart()
+                          .replace(/\s{2,}/g, " ");
+                        setProtagonistName(value);
+                      }}
+                      value={protagonistName}
                       required
                       maxLength={100}
                     />
@@ -2183,7 +2225,11 @@ useEffect(() => {
                 )}
               </div>
             ) : (
-              <div className={`lg:bg-[#FAFAFA] absolute right-3 md:right-0 bottom-0  flex  justify-end pt-[4px] pb-[8px] text-center  md:mx-[28px] top-[100px] ${finalSubmitLoading ? " md:top-[23px]":" md:top-[73px]"} md:mb-[10px] `}>
+              <div
+                className={`lg:bg-[#FAFAFA] absolute right-3 md:right-0 bottom-0  flex  justify-end pt-[4px] pb-[8px] text-center  md:mx-[28px] top-[100px] ${
+                  finalSubmitLoading ? " md:top-[23px]" : " md:top-[73px]"
+                } md:mb-[10px] `}
+              >
                 {!charSaveDisable && (
                   <div
                     onClick={() => setCharacterEditPop(true)}
@@ -2221,6 +2267,7 @@ useEffect(() => {
             setCharacterArray={setCharacterArray}
             handleUpdateSavedChar={handleUpdateSavedChar}
             characterLoading={characterLoading}
+            source_language={selectedSpProjectLanguage}
           />
         )}
 
@@ -2251,7 +2298,7 @@ useEffect(() => {
                   <div className="flex justify-center items-center w-full h-full cursor-pointer">
                     <button
                       onClick={() => {
-                        setKeyboardVisible(false)
+                        setKeyboardVisible(false);
                         //setSelectedLanguage('')
                       }}
                       className="font-bold w-full h-full"
@@ -2262,10 +2309,19 @@ useEffect(() => {
                 </div>
 
                 <div className="p-2">
-                  <Pkeyboard
+                  <PremisePreviewKeyboard
                     sourcesLanguage={selectedLanguage}
-                    //setText={setText}
-                    //inputRef={projectNameRef}
+                    inputRefs={{
+                      locationNameRef,
+                      authorNameRef,
+                      projectNameRef,
+                      protagonistNameRef,
+                    }}
+                    focusedFieldName={focusedFieldName}
+                    setProtagonistName={setProtagonistName}
+                    setSpProjectName={setSpProjectName}
+                    setAuthorName={setAuthorName}
+                    setGeographyItem={setGeographyItem}
                   />
                 </div>
               </div>

@@ -83,7 +83,7 @@ const Popup = ({
   const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
 
   const [characterArray, setCharacterArray] = useState([]);
-  const [addPopup, setAddPopup] = useState(null)
+  const [addPopup, setAddPopup] = useState(null);
   const [onlyAdd, setOnlyAdd] = useState(true);
   const [characterLoading, setCharacterLoading] = useState(true);
 
@@ -113,6 +113,11 @@ const Popup = ({
   const handleUpdateSavedChar = async () => {
     setCharacterLoading(true);
     try {
+      characterArray.forEach((character) => {
+        if (character.is_ai_generated === undefined) {
+          character.is_ai_generated = false;
+        }
+      });
       const charArr = JSON.stringify(characterArray);
       const data = {
         // id: premiseID,
@@ -204,29 +209,57 @@ const Popup = ({
   const [actOneThreshold, setActOneThreshold] = useState(null);
   const [actTwoEnd, setActTwoEnd] = useState(null);
 
-  useEffect(() => {
-    if (!isPremiseLoading && premiseData?.setC) {
-      try {
-        // Parse setC only if it exists
-        const setCString = premiseData.setC;
-        const setCObject = JSON.parse(setCString.replace(/'/g, '"')); // Replace single quotes with double quotes for valid JSON
+useEffect(() => {
+  if (!isPremiseLoading && premiseData?.setC) {
+    // Step 1: Log premiseData.setC to verify it
+    console.log("premiseData setC:", premiseData?.setC);  // Check what setC looks like
+
+    try {
+      const setCString = premiseData?.setC;
+
+      // Step 2: Check if setC is already an object or a string
+      if (typeof setCString === "string") {
+        const setCObject = JSON.parse(setCString.replace(/'/g, '"')); // Parse if it's a string
+        console.log("Parsed setCObject:", setCObject);  // Log parsed object to ensure it's correct
 
         const actOne = setCObject["Forward the Act One"];
         const actTwo = setCObject["Forward the Act Two"];
 
-        // Set the thresholds
+        // Step 3: Set the thresholds
+        setActOneThreshold(actOne); // Last number of Act One
+        setActTwoEnd(actTwo[actTwo.length - 1]); // Last number of Act Two
+
+        console.log("actOneThreshold:", actOne);  // Check if actOneThreshold is being set correctly
+        console.log("actTwoEnd:", actTwo[actTwo.length - 1]);  // Check if actTwoEnd is being set correctly
+      } else {
+        
+        // If setC is already an object, handle it directly
+        const setCObject = setCString;  // No need to parse
+        console.log("Direct setCObject:", setCObject);
+
+        const actOne = setCObject["Forward the Act One"];
+        const actTwo = setCObject["Forward the Act Two"];
+
         setActOneThreshold(actOne[actOne.length - 1]); // Last number of Act One
         setActTwoEnd(actTwo[actTwo.length - 1]); // Last number of Act Two
-      } catch (error) {
-        console.error("Error parsing setC or setting thresholds:", error);
+
       }
+    } catch (error) {
+      console.error("Error parsing setC or setting thresholds:", error);
     }
-  }, [isPremiseLoading, premiseData]); // Depend on loading state and premiseData
+  }
+}, [isPremiseLoading, premiseData]); // Ensure premiseData is available before running the effect
+
+console.log("actOneThreshold:", actOneThreshold);  // Check if actOneThreshold is being set correctly
+console.log("actTwoEnd:", actTwoEnd);  // Check if actTwoEnd is being set correctly
 
   useEffect(() => {
-    console.log("Act One Threshold:", actOneThreshold);
-    console.log("Act Two End:", actTwoEnd);
+    
   }, [actOneThreshold, actTwoEnd]);
+
+  useEffect(() => {
+    premiseRefetch();
+  }, [premiseId]);
 
   const {
     data: commentsData,
@@ -442,7 +475,7 @@ const Popup = ({
             <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[94%] sm:w-[80%] md:w-[36%] max-w-[377px] h-[30vh] lg:h-[500px] xl:h-[546px] 2xl:h-[610px] lg:mt-[26px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[32px] xl:ml-[32px] rounded-[8px]">
               {/* header */}
               <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-2 sm:px-[15px] pt-[15px] pb-[6px]">
-        <div className="block max-w-[140px]">
+                <div className="block max-w-[140px]">
                   <a
                     target="_blank"
                     rel="noreferrer"
@@ -469,11 +502,10 @@ const Popup = ({
                       <div>
                         <div className="flex items-center">
                           <h4
-                    className={`notranslate w-[75px] max-w-[110px] text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
-                    title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
-                  >
+                            className={`notranslate w-[75px] max-w-[110px] text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
+                            title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
+                          >
                             {premiseOwner?.first_name} {premiseOwner?.last_name}
-                          
                           </h4>
                           <UserType
                             type={premiseOwner?.centraldatabase?.type}
@@ -481,7 +513,7 @@ const Popup = ({
                           />
                         </div>
                         <p className="text-[#616161] text-[10px] flex flex-col font-[400] leading-[12px] mt-[-3px]">
-                        <p>
+                          <p>
                             {formattedDate}, {formattedTime}
                           </p>
                           {(premiseOwner?.id === user ||
@@ -490,7 +522,6 @@ const Popup = ({
                               {currentProjectName?.slice(0, 20)}
                             </p>
                           )}
-                         
                         </p>
                       </div>
                     </div>
@@ -566,7 +597,11 @@ const Popup = ({
                     openDotMenu={openDotMenu}
                     setOpenHidePop={setOpenHidePop}
                     openHidePop={openHidePop}
-                    setUserMail={setUserMail}  addPopup={addPopup} setAddPopup={setAddPopup}
+                    setUserMail={setUserMail}
+                    addPopup={addPopup}
+                    setAddPopup={setAddPopup}
+                    PremiseData={premiseData}
+                    premiseRefetch={premiseRefetch}
                   />
                 </div>
               </div>
@@ -593,43 +628,44 @@ const Popup = ({
                     />
                   </div>
                 </div>{" "}
-                
-              
               </div>
               <div className="hidden lg:block md:absolute bottom-3 w-full">
-                  <AskIda
-                    id={premiseId}
-                    {...{
-                      user,
-                      premiseOwner,
-                      commentRefetch,
-                      setOpenAllReplies,
-                      setOpenReplyFieldID,
-                      lastCommentRef,
-                      isLoading,
-                      setIsLoading,setNoAccessPopup,setService
-                    }}
-                  />
-                  {/* textarea */}
-                  <PopupTextarea
-                    {...{
-                      premiseOwner,
-                      user,
-                      premiseId,
-                      commentRefetch,
-                      setOpenAllReplies,
-                      setOpenReplyFieldID,
-                      lastCommentRef,
-                      commentField,
-                      setCommentField,
-                      setReplyField,
-                      replyField,
-                      replyRef,
-                      isLoading,
-                      setIsLoading,
-                    }}
-                  />
-                </div>
+                <AskIda
+                  id={premiseId}
+                  source_language={premiseData?.source_language}
+                  {...{
+                    user,
+                    premiseOwner,
+                    commentRefetch,
+                    setOpenAllReplies,
+                    setOpenReplyFieldID,
+                    lastCommentRef,
+                    isLoading,
+                    setIsLoading,
+                    setNoAccessPopup,
+                    setService,
+                  }}
+                />
+                {/* textarea */}
+                <PopupTextarea
+                  {...{
+                    premiseOwner,
+                    user,
+                    premiseId,
+                    commentRefetch,
+                    setOpenAllReplies,
+                    setOpenReplyFieldID,
+                    lastCommentRef,
+                    commentField,
+                    setCommentField,
+                    setReplyField,
+                    replyField,
+                    replyRef,
+                    isLoading,
+                    setIsLoading,
+                  }}
+                />
+              </div>
             </div>
 
             {/* right div */}
@@ -656,7 +692,7 @@ const Popup = ({
                       .sort((a, b) => a.c_value - b.c_value) // Sort comments by c_value in ascending order
                       .map((comment, index) => (
                         <motion.div
-                          key={index + 1}
+                        key={comment.id + index}
                           initial={{ opacity: 0, y: 70 }} // Start from slightly below the final position
                           animate={{ opacity: 1, y: 0 }} // Move to the final position
                           exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
@@ -695,6 +731,7 @@ const Popup = ({
                             project_id={project_id}
                             iconWidth={"w-[87%] md:w-[91%]"}
                             inpRightMargin={"mr-[47px] md:mr-[88px]"}
+                            loading={loading}
                           />
                         </motion.div>
                       ))}
@@ -713,6 +750,7 @@ const Popup = ({
                 <div className="fixed bottom-[18px] left-0 w-[100%] md:relative md:bottom-0 md:w-auto px-2 ">
                   <AskIda
                     id={premiseId}
+                    source_language={premiseData?.source_language}
                     {...{
                       user,
                       premiseOwner,
@@ -721,7 +759,9 @@ const Popup = ({
                       setOpenReplyFieldID,
                       lastCommentRef,
                       isLoading,
-                      setIsLoading,setNoAccessPopup,setService
+                      setIsLoading,
+                      setNoAccessPopup,
+                      setService,
                     }}
                   />
                   <PopupTextarea
@@ -737,7 +777,8 @@ const Popup = ({
                       setCommentField,
                       setReplyField,
                       replyField,
-                      replyRef,setIsLoading,
+                      replyRef,
+                      setIsLoading,
                     }}
                   />
                 </div>
@@ -817,6 +858,8 @@ const Popup = ({
               setIsDelete={setIsDelete}
               refetch={refetch}
               isDelete={isDelete}
+              deleteId={project_id}
+              projectName={currentProjectName?.slice(0, 20)}
               popClose={popClose}
             />
           )}
@@ -840,6 +883,7 @@ const Popup = ({
               handleUpdateSavedChar={handleUpdateSavedChar}
               characterLoading={isCharLoading}
               project_id={project_id}
+              source_language={premiseData?.source_language}
             />
           )}
           {openViewTranslationsPop && (
@@ -888,6 +932,7 @@ const Popup = ({
               handleUpdateSavedChar={handleUpdateSavedChar}
               characterLoading={isCharLoading}
               project_id={premiseData?.project_id}
+              source_language={premiseData?.source_language}
             />
           )}
           {openTransOtherPop && (
@@ -938,7 +983,8 @@ const Popup = ({
               service="PP_Monitizes"
             />
           ) : (
-            openMonetizingPreferencesPop === "Yes" && (
+            openMonetizingPreferencesPop === "Yes" &&
+            premiseData && (
               <MonetizePreferencePop
                 popClose={setOpenMonetizingPreferencesPop}
                 id={id}
@@ -1006,25 +1052,25 @@ const Popup = ({
             <UserNamePopup {...{ refetch, setAddPopup }} />
           )}
 
-{noAccessPopup?.msg === "ShowBecomePrivilege" ? (
-        <NoAccessPopUp
-          noAccessPopup={noAccessPopup}
-          setNoAccessPopup={setNoAccessPopup}
-        />
-      ) : (
-        (noAccessPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
-          noAccessPopup?.msg === "LB") && (
-          <NoAccessLbPopUp
-            noAccessLbPopup={noAccessPopup}
-            setNoAccessPopup={setNoAccessPopup}
-            service={
-              service === "PP_AllowBrainstoming"
-                ? "PP_Brainstrom"
-                : "PP_interactions"
-            }
-          />
-        )
-      )}
+          {noAccessPopup?.msg === "ShowBecomePrivilege" ? (
+            <NoAccessPopUp
+              noAccessPopup={noAccessPopup}
+              setNoAccessPopup={setNoAccessPopup}
+            />
+          ) : (
+            (noAccessPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
+              noAccessPopup?.msg === "LB") && (
+              <NoAccessLbPopUp
+                noAccessLbPopup={noAccessPopup}
+                setNoAccessPopup={setNoAccessPopup}
+                service={
+                  service === "PP_AllowBrainstoming"
+                    ? "PP_Brainstrom"
+                    : "PP_interactions"
+                }
+              />
+            )
+          )}
         </div>
       </div>
     );

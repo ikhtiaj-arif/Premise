@@ -246,6 +246,11 @@ const PremiseCard = ({
   const handleUpdateSavedChar = async () => {
     setCharacterLoading(true);
     try {
+      characterArray.forEach(character => {
+        if (character.is_ai_generated === undefined) {
+          character.is_ai_generated = false;
+        }
+      });
       const charArr = JSON.stringify(characterArray);
       const data = {
         // id: premiseID,
@@ -664,6 +669,7 @@ const PremiseCard = ({
           handleUpdateSavedChar={handleUpdateSavedChar}
           characterLoading={isCharLoading}
           project_id={p?.project_id}
+          source_language={source_language}
         />
       )}
       {/* {confirmOpenSp && (

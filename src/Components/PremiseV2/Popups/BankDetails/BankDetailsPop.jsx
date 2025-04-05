@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import {
   useGetBankDetailsQuery,
+  useGetOnePremiseQuery,
   useGetSaleTranslationRequestQuery,
   useUpdateRequestForSaleOrTranslateMutation,
 } from "../../../../app/EndPoints/premisePoolApi";
@@ -26,7 +27,12 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
 
   const { data: bankDetailsAvailable, isLoading: bankDetailsLoading } =
     useGetBankDetailsQuery(user);
-  console.log(bankDetailsAvailable);
+
+  const {
+    data: premiseData,
+    isPremiseLoading,
+    refetch: premiseRefetch,
+  } = useGetOnePremiseQuery(premiseId);
 
   const data = {
     id: premiseId,
@@ -104,7 +110,7 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
       <div
         className={`h-[70vh] ${
           showBankDetails ? " lg:h-[497px]" : " lg:h-[734px] max-h-[80vh]"
-        } mb-[20px] px-[22px] lg:mb-0 pt-2 lg:mt-[80px] xl:mt-[85px] w-full bg-[#fff] lg:w-[625px]  md:mx-auto relative lg:rounded-[8px] pb-3`}
+        } mb-[20px] px-[22px] lg:mb-0 pt-2 md:pt-8 lg:mt-[80px] xl:mt-[85px] w-full bg-[#fff] lg:w-[625px]  md:mx-auto relative lg:rounded-[8px] pb-3 `}
       >
         {/* close popup */}
         <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
@@ -167,7 +173,8 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
               </p>
               <ul className="ml-[24px]">
                 <li className="text-left text-[14px] leading-[21px] font-[400]  text-[#616161] list-disc">
-                  You will receive $PQRX2 / 3 for each translation
+                  You will receive <span>{premiseData?.pqr_value}</span> for
+                  each translation
                 </li>
                 <li className="text-left text-[14px] leading-[21px] font-[400]  text-[#616161] list-disc">
                   All components of the Premise Project viz Premise, comments,
@@ -211,11 +218,10 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
                 Please share your bank details bellow :
               </p> */}
 
-                <div className="flex items-center mt-[20px]">
-                  <input
-                    className="h-[20px] w-[20px] mr-[6px]"
-                    type="checkbox"
-                  />
+                <div className="flex items-center gap-2 mt-[20px]">
+                  <div>
+                    <input className="h-[20px] w-[20px] cursor-pointer" type="checkbox" />
+                  </div>
                   <p className="text-left text-[14px] leading-[21px] font-[400]  text-[#616161] list-disc">
                     Change my Monetizing Preferences and allow translation of
                     this Premise Project in other languages also.
@@ -226,7 +232,7 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
                     onClick={() => setShowBankDetails(true)}
                     className={`${"bg-[#33B0CA]"} text-[#fafafa] rounded-[4px] leading-[18px] md:leading-[24px] px-[20px] py-[2px]  text-[12px] md:text-[14px] font-[600]`}
                   >
-                    Submit Details of bank account
+                    Submit details of bank account
                   </button>
                   {bankDetailsAvailable?.data && (
                     <button

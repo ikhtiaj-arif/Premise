@@ -14,8 +14,9 @@ const CharacterShowCard = ({
   setDeleteChar,
   onlyAdd,
   deleteCharacterFun,
+  isAddedByMe,
 }) => {
-  // console.log("character", character);
+  //console.log("character", character?.is_ai_generated,index);
 
   const [confirmDelete, setConfirmDelete] = useState(false);
 
@@ -34,9 +35,11 @@ const CharacterShowCard = ({
       <div className="">
         <p className="text-[12px] leading-[16.26px] font-[400]">
           {character?.role}:{" "}
-          <span className="capitalize">{character?.name}</span>,{" "}
-          {character?.gender}
-          {character?.gender !== "Inanimate Object" && `, ${character?.age}`}
+          <span className={`capitalize ${isAddedByMe ? "text-[#33B0CA]" : ""}`}>
+            {character?.name}
+          </span>
+          , {character?.gender}
+          {character?.age > 0 && `, ${character?.age}`}
         </p>
         {/* <p className="text-[12px] font-[400]"></p>
         <p className="text-[12px] font-[400]"></p>

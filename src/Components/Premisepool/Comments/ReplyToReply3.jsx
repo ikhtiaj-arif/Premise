@@ -23,7 +23,7 @@ import ReplyLike from "./ReplyLike";
 const ReplyToReply3 = ({
   fromNew,
   handleAddToBeat,
-  setCommentText,
+  setCommentText,setBeatCommentText,
   childReply,
   currentReplyId,
   owner,
@@ -372,7 +372,7 @@ const ReplyToReply3 = ({
                 <button
                   onClick={() => {
                     handleAddToBeat(childReply);
-                    setCommentText(childReply);
+                    setBeatCommentText(childReply?.text);
                     replyRefetch();
                   }}
                   className="w-[30%] md:w-[22%]"

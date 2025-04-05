@@ -78,33 +78,81 @@ const PremiseNewTab = () => {
   const [commentOwner, setCommentOwner] = useState("");
   const [replyTextCount, setReplyTextCount] = useState(0);
 
-  const [actOneThreshold, setActOneThreshold] = useState(null);
-  const [actTwoEnd, setActTwoEnd] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  console.log("searchTerm", searchTerm);
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (commentsData) {
-      setFilteredCommentsData(commentsData);
-    }
-    if (!searchTerm) {
-      setFilteredCommentsData(commentsData);
+    if (!searchTerm && commentsData) {
+      setFilteredCommentsData(commentsData); // Set initial data if no search
     }
   }, [commentsData, searchTerm]);
 
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    const data = {
+      search_text: searchTerm,
+      premise_id: id,
+    };
+
+    // Avoid multiple concurrent requests
+    if (loading) return;
+
+    setLoading(true); // Start loading state
+
+    try {
+      const res = await findComments(data); // API call
+      console.log(res);
+
+      if (res?.data) {
+        // If search results are returned, update filtered comments
+        setFilteredCommentsData(res.data);
+      } else {
+        console.error("No data returned from API");
+      }
+    } catch (error) {
+      console.error("Error during API call:", error);
+    } finally {
+      setLoading(false); // End loading state
+    }
+  };
+
+  const [actOneThreshold, setActOneThreshold] = useState(null);
+  const [actTwoEnd, setActTwoEnd] = useState(null);
+
   useEffect(() => {
     if (!isPremiseLoading && premiseData?.setC) {
+      // Step 1: Log premiseData.setC to verify it
+      console.log("premiseData setC:", premiseData?.setC); // Check what setC looks like
+
       try {
-        // Parse setC only if it exists
-        const setCString = premiseData.setC;
-        const setCObject = JSON.parse(setCString.replace(/'/g, '"')); // Replace single quotes with double quotes for valid JSON
+        const setCString = premiseData?.setC;
 
-        const actOne = setCObject["Forward the Act One"];
-        const actTwo = setCObject["Forward the Act Two"];
+        // Step 2: Check if setC is already an object or a string
+        if (typeof setCString === "string") {
+          const setCObject = JSON.parse(setCString.replace(/'/g, '"')); // Parse if it's a string
+          console.log("Parsed setCObject:", setCObject); // Log parsed object to ensure it's correct
 
-        // Set the thresholds
-        setActOneThreshold(actOne[actOne.length - 1]); // Last number of Act One
-        setActTwoEnd(actTwo[actTwo.length - 1]); // Last number of Act Two
+          const actOne = setCObject["Forward the Act One"];
+          const actTwo = setCObject["Forward the Act Two"];
+
+          // Step 3: Set the thresholds
+          setActOneThreshold(actOne); // Last number of Act One
+          setActTwoEnd(actTwo[actTwo.length - 1]); // Last number of Act Two
+
+          console.log("actOneThreshold:", actOne); // Check if actOneThreshold is being set correctly
+          console.log("actTwoEnd:", actTwo[actTwo.length - 1]); // Check if actTwoEnd is being set correctly
+        } else {
+          // If setC is already an object, handle it directly
+          const setCObject = setCString; // No need to parse
+          console.log("Direct setCObject:", setCObject);
+
+          const actOne = setCObject["Forward the Act One"];
+          const actTwo = setCObject["Forward the Act Two"];
+
+          setActOneThreshold(actOne[actOne.length - 1]); // Last number of Act One
+          setActTwoEnd(actTwo[actTwo.length - 1]); // Last number of Act Two
+        }
       } catch (error) {
         console.error("Error parsing setC or setting thresholds:", error);
       }
@@ -139,20 +187,6 @@ const PremiseNewTab = () => {
     const reply = event.target.value;
     setReplyTextCount(reply.length);
     setReplyText(reply);
-  };
-
-  const handleSearch = async (e) => {
-    e.preventDefault();
-
-    const data = {
-      search_text: searchTerm,
-      premise_id: id,
-    };
-
-    const res = await findComments(data);
-    setFilteredCommentsData(res?.data);
-
-    // e.target.reset();
   };
 
   const [focusedCValue, setFocusedCValue] = useState(null);
@@ -222,7 +256,7 @@ const PremiseNewTab = () => {
                           .sort((a, b) => a.c_value - b.c_value)
                           .map((comment, index) => (
                             <motion.div
-                              key={index + 1}
+                              key={comment.id + index}
                               initial={{ opacity: 0, y: 70 }}
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, y: -50 }}
@@ -259,7 +293,6 @@ const PremiseNewTab = () => {
                                 premiseData={premiseData}
                                 replyTextCount={replyTextCount}
                                 setReplyTextCount={setReplyTextCount}
-                                // m_value={m_value}
                                 actTwoEnd={actTwoEnd}
                                 actOneThreshold={actOneThreshold}
                                 openReplyFieldID={openReplyFieldID}

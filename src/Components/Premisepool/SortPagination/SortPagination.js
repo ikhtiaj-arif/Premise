@@ -11,6 +11,8 @@ import calB from "../../../img/Icons/calB.png";
 import calG from "../../../img/Icons/calG.png";
 import langB from "../../../img/Icons/langB.png";
 import langG from "../../../img/Icons/langG.png";
+import byMeB from "../../../img/Icons/addedByMeBlack.png";
+import byMeG from "../../../img/Icons/addedByMeGreen.png";
 import "../Premise.css";
 import RefineFilters from "./RefineFilters";
 import "./SortPagi.css";
@@ -326,7 +328,7 @@ const SortPagination = ({
               {dataCount} Premises
             </p> */}
 
-         
+            {!activeAddedByMe ? <img src={byMeG} /> : <img src={byMeB} />}
             <button
               data-te-toggle="tooltip"
               title="Added by me"

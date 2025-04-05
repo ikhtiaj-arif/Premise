@@ -26,6 +26,7 @@ function App() {
   const [selectedPremiseObj, setSelectedPremiseObj] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [selectedSpProjectID, setSelectedSpProjectID] = useState("");
+  const [selectedSpProjectLanguage, setSelectedSpProjectLanguage] = useState("");
   const [createdSpProjectID, setCreatedSpProjectID] = useState("");
   const [selectedPremiseSpProjectId, setSelectedPremiseSpProjectId] = useState("");
   const [selectedLanguages, setSelectedLanguages] = useState(null);
@@ -61,6 +62,8 @@ function App() {
       setCounts(JSON.parse(storedCounts));
     }
   }, []);
+
+  //console.log('current user',currentUser);
 
   const value = {
     activeAddedByMe,
@@ -98,6 +101,7 @@ function App() {
     setAvailableForTranslation,
     currentlyOpenedCommentID,
     setCurrentlyOpenedCommentID, 
+    selectedSpProjectLanguage, setSelectedSpProjectLanguage
   };
 
   return (

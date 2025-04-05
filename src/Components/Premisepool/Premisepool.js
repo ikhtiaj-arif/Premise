@@ -403,7 +403,7 @@ console.log("userAccess", userAccess);
           {addPopup && (
             <>
               {!userFirstName && !userLastName ? (
-                <UserNamePopup
+                <UserNamePopup 
                   setIsUserName={setIsUserName}
                   setAddPopup={setAddPopup}
                   refetch={refetch}
@@ -521,6 +521,8 @@ console.log("userAccess", userAccess);
                     setIsDelete={setIsDelete}
                     refetch={refetch}
                     hiddenCountRefetch={hiddenCountRefetch}
+                    deleteId={matchingPremiseData?.project_id}
+                    
                     isDelete={isDelete}
                   />
                 )}

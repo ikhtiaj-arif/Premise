@@ -182,6 +182,7 @@ const BeatEditPop = ({
       language: "en",
       nature_project: premiseData?.nature_of_project,
       duration: premiseData?.minutes,
+      service_name: "premisePool"
     };
 
     const response = await createProject(data);

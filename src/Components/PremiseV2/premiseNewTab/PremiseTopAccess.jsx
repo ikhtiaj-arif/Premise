@@ -92,6 +92,11 @@ const PremiseTopAccess = ({
   const handleUpdateSavedChar = async () => {
     setCharacterLoading(true);
     try {
+      characterArray.forEach((character) => {
+        if (character.is_ai_generated === undefined) {
+          character.is_ai_generated = false;
+        }
+      });
       const charArr = JSON.stringify(characterArray);
       const data = {
         // id: premiseID,
@@ -265,7 +270,7 @@ const PremiseTopAccess = ({
           premiseId={id}
         />
       )}
-      {openMonetizingPreferencesPop && (
+      {openMonetizingPreferencesPop && premiseData && (
         <MonetizePreferencePop
           popClose={setOpenMonetizingPreferencesPop}
           id={id}
@@ -278,6 +283,8 @@ const PremiseTopAccess = ({
           setIsDelete={setIsDelete}
           refetch={premiseRefetch}
           isDelete={isDelete}
+          deleteId={project_id}
+          projectName={currentProjectName?.slice(0, 20)}
           popClose={setIsDelete}
         />
       )}
@@ -292,6 +299,7 @@ const PremiseTopAccess = ({
           handleUpdateSavedChar={handleUpdateSavedChar}
           characterLoading={isCharLoading}
           project_id={project_id}
+          source_language={premiseData?.source_language}
         />
       )}
       {openViewTranslationsPop && (
@@ -340,6 +348,7 @@ const PremiseTopAccess = ({
           handleUpdateSavedChar={handleUpdateSavedChar}
           characterLoading={isCharLoading}
           project_id={premiseData?.project_id}
+          source_language={premiseData?.source_language}
         />
       )}
       {openTransOtherPop && (
@@ -389,7 +398,8 @@ const PremiseTopAccess = ({
           service="PP_Monitizes"
         />
       ) : (
-        openMonetizingPreferencesPop === "Yes" && (
+        openMonetizingPreferencesPop === "Yes" &&
+        premiseData && (
           <MonetizePreferencePop
             popClose={setOpenMonetizingPreferencesPop}
             id={id}

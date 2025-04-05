@@ -11,7 +11,7 @@ import { fetchUserAccess, MyContext } from "../../App";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 
-const UserNamePopup = ({ refetch, setAddPopup }) => {
+const UserNamePopup = ({ refetch, setAddPopup ,addPremise}) => {
   const [userName, userInfo] = useAddUserNamePremiseMutation();
   const { data: userQuery, isUserLoading, refetch:userRefetch } = useGetPremiseUserQuery();
   const dispatch = useDispatch();
@@ -58,10 +58,15 @@ const UserNamePopup = ({ refetch, setAddPopup }) => {
       toast.success(`Username added successfully!`, {
         position: toast.POSITION.TOP_CENTER,autoClose: 800,
       });
-      handleAddPopup();
+      console.log('addPremise',addPremise);
       userRefetch()
+      refetch()
       dispatch(setUser(userQuery));
-      
+      if(addPremise){
+        handleAddPopup();
+      }else{
+        setAddPopup(null);
+      }
     } else {
       toast.error("Something went wrong", {
         position: toast.POSITION.TOP_CENTER,autoClose: 800,

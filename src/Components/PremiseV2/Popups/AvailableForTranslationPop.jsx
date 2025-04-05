@@ -35,7 +35,7 @@ const AvailableForTranslationPop = ({
     refetch: premiseRefetch,
   } = useGetOnePremiseQuery(id);
   const availableLanguages = premiseData?.available_for_translate_languages;
-  console.log("xxxxxxx", availableLanguages);
+  
 
   const {
     data: userQuery,

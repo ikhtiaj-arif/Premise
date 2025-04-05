@@ -1,20 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import Draggable from "react-draggable";
-import { FaKeyboard } from "react-icons/fa";
 import { useSuggestCharactersMutation } from "../../../app/EndPoints/Characters/Characters";
-import { getLanguageName } from "../../PremiseV2/utilityFuncitons/functions";
 import AutoSizeTextArea from "./AutosizeTextArea";
-import CharacterKeyboard from "./CharacterKeyboard";
-import { genderJson } from "./Gender";
-import { inanimateObject } from "./inanimateObject";
 
 const SingleCharacterAdd = ({
   setAddNewCharacter,
   handleAddNewCharacter,
   characterArray,
-  source_language,
 }) => {
-  // console.log("source_language", source_language);
   const [role, setRole] = useState("");
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
@@ -28,43 +20,45 @@ const SingleCharacterAdd = ({
   const [familyrelationship, setFamilyrelationship] = useState("");
   const [professionalrelationship, setProfessionalrelationship] = useState("");
   const [customRole, setCustomRole] = useState("");
-  const [focusedFieldName, setFocusedFieldName] = useState("");
+
   // New state to track if all fields are filled
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
+
+  const [suggestCharacters, updatePostPremiseResInfo] =
+    useSuggestCharactersMutation();
+
   const occupationRef = useRef(null);
-  const characterNameRef = useRef(null);
-  const otherRoleRef = useRef(null);
-  const backgroundRef = useRef(null);
   const personalityRef = useRef(null);
   const individualWantRef = useRef(null);
   const characterJourneyRef = useRef(null);
   const bloodRelationshipRef = useRef(null);
   const familyRelationshipRef = useRef(null);
   const professionalRelationshipRef = useRef(null);
-
-  const [suggestCharacters, updatePostPremiseResInfo] =
-    useSuggestCharactersMutation();
-  const [selectedLanguage, setSelectedLanguage] = useState("");
-  const [keyboardVisible, setKeyboardVisible] = useState(false);
-  const [disabled, setDisabled] = useState(false);
+  const backgroundRef = useRef(null);
 
   useEffect(() => {
-    let isAgeValid;
-    if (gender === "Inanimate Object") {
-      isAgeValid = true;
-      setAge("0");
-    } else {
-      isAgeValid = age;
-    }
+    // Check if all fields are filled to enable the "Save" button
+    const isFormComplete =
+      role &&
+      name &&
+      age &&
+      occupation &&
+      gender &&
+      // background &&
+      // personality &&
+      // individualWant &&
+      // characterjourney &&
+      // bloodrelationship &&
+      // familyrelationship &&
+      // professionalrelationship &&
+      (role !== "Others" || customRole);
 
-    const isFormComplete = role && name && occupation && gender && isAgeValid;
-
-    setIsSaveDisabled(!isFormComplete);
+    setIsSaveDisabled(!isFormComplete); // Disable if form is incomplete
   }, [
     role,
+    name,
     age,
     occupation,
-    name,
     gender,
     background,
     personality,
@@ -75,17 +69,6 @@ const SingleCharacterAdd = ({
     professionalrelationship,
     customRole,
   ]);
-
-  useEffect(() => {
-    let isAgeValid;
-    if (gender === "Inanimate Object") {
-      isAgeValid = true;
-    } else {
-      isAgeValid = age;
-    }
-    const isFormComplete = role && name && occupation && gender && isAgeValid;
-    setDisabled(!isFormComplete);
-  }, [role, age, occupation, name, gender]);
 
   const handleAddClick = (e) => {
     e.preventDefault();
@@ -103,6 +86,7 @@ const SingleCharacterAdd = ({
       blood_relationship: bloodrelationship,
       family_relationship: familyrelationship,
       professional_relationship: professionalrelationship,
+      is_ai_generated: false,
     };
 
     handleAddNewCharacter(newCharacter);
@@ -119,39 +103,39 @@ const SingleCharacterAdd = ({
     setFamilyrelationship("");
     setProfessionalrelationship("");
     setCustomRole("");
-    setAddNewCharacter(false);
+    setAddNewCharacter(null);
   };
 
   const handleAgeChange = (e) => {
     const value = e.target.value;
-    if (/^(?!0$)(?!0\d)\d*$/.test(value)) {
-      setAge(value);
+    if (gender === "Inanimate Object") {
+      setAge("0");
+    } else {
+      if (/^(?!0$)(?!0\d)\d*$/.test(value)) {
+        setAge(value);
+      }
     }
   };
 
-  // const handleInputChange = (e, setValue) => {
-  //   console.log(e);
-  //   let value = e.target.value;
-  //   if (typeof value !== "string") return;
-
-  //   if (value.length === 0) {
-  //     setValue("");
-  //     return;
-  //   }
-
-  //   if (value.length === 1) {
-  //     const firstChar = value.replace(/[^a-zA-Z0-9]/, "");
-  //     setValue(firstChar);
-  //   } else {
-  //     const firstChar = value[0].replace(/[^a-zA-Z0-9]/, "");
-  //     const restOfValue = value.slice(1);
-  //     setValue(firstChar + restOfValue);
-  //   }
-  // };
   const handleInputChange = (e, setValue) => {
-    const value = e.target.value.trimStart().replace(/\s{2,}/g, " ");
-    setValue(value);
+    let value = e.target.value;
+    if (typeof value !== "string") return;
+
+    if (value.length === 0) {
+      setValue("");
+      return;
+    }
+
+    if (value.length === 1) {
+      const firstChar = value.replace(/[^a-zA-Z0-9]/, "");
+      setValue(firstChar);
+    } else {
+      const firstChar = value[0].replace(/[^a-zA-Z0-9]/, "");
+      const restOfValue = value.slice(1);
+      setValue(firstChar + restOfValue);
+    }
   };
+
   useEffect(() => {
     AutoSizeTextArea(occupationRef.current, background);
     AutoSizeTextArea(backgroundRef.current, background);
@@ -206,55 +190,21 @@ const SingleCharacterAdd = ({
       age,
       occupation,
       gender,
-      language: source_language,
     };
     try {
-      setDisabled(true);
       const res = await suggestCharacters(newCharacter);
-      if (res) {
-        // setDisabled(false);
-        const suggestedData = res?.data?.data;
-        setBackGround(suggestedData?.Background);
-        setPersonality(suggestedData?.Personality);
-        setIndividualWant(suggestedData?.Individual_want);
-        setCharacterjourney(suggestedData?.Character_journey);
-        setBloodrelationship(suggestedData?.Blood_relationship);
-        setFamilyrelationship(suggestedData?.Family_relationship);
-        setProfessionalrelationship(suggestedData?.Professional_relationship);
-      }
+      console.log("suggestCharacters", res?.data?.data);
+      const suggestedData = res?.data?.data;
+      setBackGround(suggestedData?.Background);
+      setPersonality(suggestedData?.Personality);
+      setIndividualWant(suggestedData?.Individual_want);
+      setCharacterjourney(suggestedData?.Character_journey);
+      setBloodrelationship(suggestedData?.Blood_relationship);
+      setFamilyrelationship(suggestedData?.Family_relationship);
+      setProfessionalrelationship(suggestedData?.Professional_relationship);
     } catch (error) {
-      setDisabled(false);
       console.error("Error fetching character suggestion:", error);
     }
-  };
-
-  const onClickKeyboard = () => {
-    if (selectedLanguage === "") {
-      setSelectedLanguage("English");
-    }
-    setKeyboardVisible(!keyboardVisible);
-  };
-  const sourceLanguageName = getLanguageName(source_language);
-
-  const getGenderOptions = (language) => {
-    if (genderJson[language]) {
-      return Object.keys(genderJson[language]).map((key) => (
-        <option
-          key={key}
-          value={genderJson[language][key]}
-          className="text-[14px]"
-        >
-          {genderJson[language][key]}
-        </option>
-      ));
-    }
-    return [];
-  };
-  const inanimateObjectOptions = (language) => {
-    if (inanimateObject[language]) {
-      return Object.values(inanimateObject[language])[0]; // Get the first value
-    }
-    return null; // Return null if no value is found
   };
 
   return (
@@ -264,31 +214,11 @@ const SingleCharacterAdd = ({
         <div className="h-[calc(100%-60px)] w-full overflow-auto">
           <div>
             <div>
-              <h3 className="text-center md:mb-[20px] font-[500]">
+              <h3 className="text-center md:mb-[12px] font-[500]">
                 <span className="text-[18px] text-center md:text-[14px]">
                   Add Character
                 </span>
               </h3>
-              <div className="absolute top-[20px] right-[10px] z-10">
-                <div className="text-[14px] mb-[-15px] hidden text-[#616161] w-full outline-[#EAEAEA] md:flex justify-center items-center">
-                  <button
-                    onClick={onClickKeyboard}
-                    className={` w-full h-[32px] md:h-[30px] flex justify-between gap-10 px-5 items-center rounded-[6px]`}
-                  >
-                    <FaKeyboard
-                      data-te-toggle="tooltip"
-                      title={`${
-                        source_language
-                          ? `${sourceLanguageName} Keyboard`
-                          : "Select Keyboard"
-                      }`}
-                      className={`w-7 h-7 ${
-                        keyboardVisible && "text-[#33B0CA]"
-                      } cursor-pointer hover:text-[#33B0CA] w-full `}
-                    />
-                  </button>
-                </div>
-              </div>
             </div>
 
             <form
@@ -334,16 +264,14 @@ const SingleCharacterAdd = ({
                   <input
                     autoComplete="off"
                     value={name}
-                    ref={characterNameRef}
                     required
                     onChange={(e) => handleInputChange(e, setName)}
-                    onFocus={() => setFocusedFieldName("name")}
                     type="text"
                     name="name"
                     maxLength={50}
                     translate="no"
                     placeholder="Name"
-                    className="text-[14px] text-[#33B0CA] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[42px]"
+                    className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[42px]   text-[#616161] "
                   />
                 </div>
               </div>
@@ -356,12 +284,10 @@ const SingleCharacterAdd = ({
                       Others
                     </label>
                     <input
-                      ref={otherRoleRef}
                       autoComplete="off"
                       value={customRole}
                       required
                       onChange={(e) => setCustomRole(e.target.value)}
-                      onFocus={() => setFocusedFieldName("Others")}
                       type="text"
                       maxLength={50}
                       placeholder="Describe the role"
@@ -370,7 +296,7 @@ const SingleCharacterAdd = ({
                   </div>
                 )}
               </div>
-              <div className="block mb-0 md:mb-[10px] md:flex gap-[14px]">
+              <div className="block mb-0 md:flex gap-[14px]">
                 <div className="relative w-full md:w-[92px]">
                   <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-10">
                     Gender
@@ -384,25 +310,23 @@ const SingleCharacterAdd = ({
                     <option value="" className="text-[14px] " selected disabled>
                       Gender
                     </option>
-
-                    {/* <option className="text-[14px]">Male</option>
+                    <option className="text-[14px]">Male</option>
                     <option className="text-[14px]">Female</option>
                     <option className="text-[14px]">Animal</option>
-                    <option className="text-[14px]">Inanimate Object</option> */}
-                    {getGenderOptions(sourceLanguageName)}
+                    <option className="text-[14px]">Inanimate Object</option>
                   </select>
                 </div>
-                {gender !== inanimateObjectOptions(sourceLanguageName) && (
+                {gender !== "Inanimate Object" && (
                   <div className="relative w-full  md:w-[49px] ">
                     <label className="absolute left-2 top-[-12px] z-[2] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                       Age
                     </label>
                     <input
-                      type="number"
+                      type="text"
                       value={age}
                       onChange={handleAgeChange}
                       id="protaAge"
-                      min="1"
+                      min="0"
                       maxLength={5}
                       className={`h-[41px] w-full  md:ml-0 relative text-[12px] md:!text-[14px] leading-tight  px-[8px] mb-[24px] md:mb-[15px] md:w-[64px] bg-[#fafafa] rounded-[8px] border-[2px] focus:outline-none   text-[#616161] `}
                       placeholder="age"
@@ -416,7 +340,6 @@ const SingleCharacterAdd = ({
                   </label>
                   <textarea
                     autoComplete="off"
-                    onFocus={() => setFocusedFieldName("occupation")}
                     required
                     onChange={(e) => handleInputChange(e, setOccupation)}
                     value={occupation}
@@ -431,15 +354,13 @@ const SingleCharacterAdd = ({
                   />
                 </div>
               </div>
-              <div className="mb-[20px] flex justify-end gap-1">
+              <div className="mb-[12px] flex justify-end">
                 <button
-                  disabled={isSaveDisabled || disabled}
+                  disabled={isSaveDisabled}
                   onClick={handleSuggest}
                   className={`${
-                    isSaveDisabled || disabled
-                      ? "bg-[#ACDDE7]  "
-                      : "bg-[#33B0CA] "
-                  } text-white text-[12px] font-[700] md:h-[38px] rounded-[6px] px-3 py-1`}
+                    isSaveDisabled ? "bg-[#ACDDE7]  " : "bg-[#33B0CA] "
+                  } text-white  text-[12px] font-[700] rounded-[6px] px-3 py-1`}
                 >
                   Suggest the following
                 </button>
@@ -454,7 +375,6 @@ const SingleCharacterAdd = ({
                     required
                     onChange={(e) => handleInputChange(e, setBackGround)}
                     value={background}
-                    onFocus={() => setFocusedFieldName("background")}
                     type="text"
                     ref={backgroundRef}
                     maxLength={300}
@@ -475,7 +395,6 @@ const SingleCharacterAdd = ({
                     onChange={(e) => handleInputChange(e, setPersonality)}
                     value={personality}
                     autoComplete="off"
-                    onFocus={() => setFocusedFieldName("personality")}
                     required
                     type="text"
                     maxLength={300}
@@ -496,7 +415,6 @@ const SingleCharacterAdd = ({
                   <textarea
                     onChange={(e) => handleInputChange(e, setIndividualWant)}
                     value={individualWant}
-                    onFocus={() => setFocusedFieldName("individualWant")}
                     ref={individualWantRef}
                     autoComplete="off"
                     required
@@ -517,7 +435,6 @@ const SingleCharacterAdd = ({
                   <textarea
                     onChange={(e) => handleInputChange(e, setCharacterjourney)}
                     value={characterjourney}
-                    onFocus={() => setFocusedFieldName("characterJourney")}
                     ref={characterJourneyRef}
                     autoComplete="off"
                     required
@@ -538,7 +455,6 @@ const SingleCharacterAdd = ({
                   <textarea
                     onChange={(e) => handleInputChange(e, setBloodrelationship)}
                     value={bloodrelationship}
-                    onFocus={() => setFocusedFieldName("bloodRelationship")}
                     ref={bloodRelationshipRef}
                     autoComplete="off"
                     required
@@ -561,7 +477,6 @@ const SingleCharacterAdd = ({
                       handleInputChange(e, setFamilyrelationship)
                     }
                     value={familyrelationship}
-                    onFocus={() => setFocusedFieldName("familyRelationship")}
                     ref={familyRelationshipRef}
                     autoComplete="off"
                     required
@@ -587,9 +502,6 @@ const SingleCharacterAdd = ({
                       handleInputChange(e, setProfessionalrelationship)
                     }
                     value={professionalrelationship}
-                    onFocus={() =>
-                      setFocusedFieldName("professionalRelationship")
-                    }
                     ref={professionalRelationshipRef}
                     autoComplete="off"
                     required
@@ -607,7 +519,7 @@ const SingleCharacterAdd = ({
         </div>
         <div className="absolute bottom-0 left-0 right-0 bg-[#FAFAFA] py-4 px-8 flex justify-end gap-[18px] rounded-[8px]">
           <button
-            onClick={() => setAddNewCharacter(false)}
+            onClick={() => setAddNewCharacter(null)}
             className="bg-[#fafafa] flex items-center gap-[14px] justify-center text-[14px] text-[#33B0CA] border border-[#33B0CA] w-[69px] h-[32px] rounded-[4px] py-[4px] px-[2px] "
           >
             Cancel
@@ -616,68 +528,13 @@ const SingleCharacterAdd = ({
             onClick={handleAddClick}
             disabled={isSaveDisabled}
             className={`${
-              isSaveDisabled ? "bg-[#616161] " : "bg-[#33B0CA] "
+              isSaveDisabled ? "bg-[#ACDDE7]  " : "bg-[#33B0CA] "
             } text-[14px] font-[600] text-white w-[69px] h-[32px] rounded-[4px]`}
           >
             Save
           </button>
         </div>
-        {selectedLanguage && keyboardVisible && (
-          <Draggable handle=".movable-handle">
-            <div className="absolute z-20 w-[650px] top-[164px] right-[-145px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
-              <div className="grid grid-cols-12">
-                <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
-                  Drag me!!{" "}
-                  <span className="font-[500]">{sourceLanguageName}</span>{" "}
-                  Keyboard
-                </div>
-                <div className="flex bg-red-500 text-white rounded justify-center items-center w-full h-full cursor-pointer">
-                  <button
-                    onClick={() => {
-                      setKeyboardVisible(false);
-                      setSelectedLanguage("");
-                    }}
-                    className="font-bold w-full h-full"
-                  >
-                    ✕
-                  </button>
-                </div>
-              </div>
-
-              <div className="p-2">
-                <CharacterKeyboard
-                  sourcesLanguage={sourceLanguageName}
-                  inputRefs={{
-                    characterNameRef,
-                    occupationRef,
-                    backgroundRef,
-                    personalityRef,
-                    individualWantRef,
-                    characterJourneyRef,
-                    bloodRelationshipRef,
-                    familyRelationshipRef,
-                    professionalRelationshipRef,
-                    otherRoleRef,
-                  }}
-                  focusedFieldName={focusedFieldName}
-                  setProfessionalrelationship={setProfessionalrelationship}
-                  setFamilyrelationship={setFamilyrelationship}
-                  setBloodrelationship={setBloodrelationship}
-                  setCharacterjourney={setCharacterjourney}
-                  setIndividualWant={setIndividualWant}
-                  setPersonality={setPersonality}
-                  setBackGround={setBackGround}
-                  setOccupation={setOccupation}
-                  setCustomRole={setCustomRole}
-                  setName={setName}
-                />
-              </div>
-            </div>
-          </Draggable>
-        )}
       </div>
-
-      <div></div>
     </div>
   );
 };

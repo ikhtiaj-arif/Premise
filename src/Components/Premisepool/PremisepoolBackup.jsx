@@ -192,7 +192,7 @@ const Premisepool = () => {
             <>
               {!userFirstName && !userLastName ? (
              
-                <UserNamePopup
+                <UserNamePopup 
                   setIsUserName={setIsUserName}
                   setAddPopup={setAddPopup}
                   refetch={refetch} 
@@ -275,6 +275,7 @@ const Premisepool = () => {
                   <DeletePremise
                     setIsDelete={setIsDelete}
                     refetch={refetch}
+                    
                     isDelete={isDelete}
                   />
                 )}

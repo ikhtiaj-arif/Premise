@@ -62,10 +62,13 @@ const AllComments = ({
   focusedCValue,
   iconWidth,
   inpRightMargin,
+  loading,
 }) => {
   // const actTwoStart = Math.floor(0.25 * m_value);
 
   // const resolutionStart = Math.floor(0.8 * m_value);
+
+  console.log(actOneThreshold, actTwoEnd);
 
   const premiseID = data?.id;
   const user = useSelector((state) => state?.user?.id);
@@ -147,6 +150,8 @@ const AllComments = ({
   const [commentText, setCommentText] = useState(
     comments?.text?.replace(/^\s*\d+\.\s*/, "")
   );
+  const [beatCommentText, setBeatCommentText] = useState("");
+
   const [commentObj, setCommentObj] = useState({});
   const [openDltPop, setOpenDltPop] = useState(false);
   const [idToDlt, setIdToDlt] = useState({});
@@ -339,13 +344,13 @@ const AllComments = ({
     }
   };
   const submitAddToBeat = async (comment) => {
-    // console.log("comment",comment);
+    console.log("comment", comment);
 
     setCommentObj(comment);
     setBeatSuggLoading(true);
     setProjectBeatOpen(true);
 
-    setCommentText(comment.text || "");
+    setBeatCommentText(comment?.text || "");
 
     const data = {
       owner: owner,
@@ -359,9 +364,9 @@ const AllComments = ({
 
       if (res && res?.data && res?.data?.beats) {
         const beats = Object.values(res?.data?.beats);
-
+        //console.log('beats',beats);
         const beatData = {
-          one: comment.text,
+          one: comment?.text,
           two: beats[0],
           three: beats[1],
           four: beats[2],
@@ -463,20 +468,24 @@ const AllComments = ({
   return (
     <div className=" flex flex-col justify-end w-full relative ">
       <div className="md:ml-10">
-        {commentIdx === 1 && (
-          <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] setup-m">
-            Setup:
-          </p>
-        )}
-        {commentIdx === actOneThreshold + 1 && (
-          <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] conflict-m">
-            Conflict:
-          </p>
-        )}
-        {commentIdx === actTwoEnd + 1 && (
-          <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] resolution-m">
-            Resolution:
-          </p>
+        {!loading && actOneThreshold && actTwoEnd && (
+          <>
+            {commentIdx === 1 && (
+              <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] setup-m">
+                Setup:
+              </p>
+            )}
+            {commentIdx === actOneThreshold + 1 && (
+              <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] conflict-m">
+                Conflict:
+              </p>
+            )}
+            {commentIdx === actTwoEnd + 1 && (
+              <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] resolution-m">
+                Resolution:
+              </p>
+            )}
+          </>
         )}
 
         {/* each comment  */}
@@ -884,37 +893,42 @@ const AllComments = ({
                       />
                     </div>
 
-                    <>
-                      {data?.premiseOwner?.id === user &&
-                      comments?.add_to_beat ? (
-                        <>
-                          <button className="cursor-auto text-right">
-                            <p
-                              // onClick={() => handleAddToBeat(comments)}
-                              className=" text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] "
-                            >
-                              Added as Beat
-                            </p>
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          <button
-                            disabled={addToBeatDisable}
-                            className="text-right"
-                          >
-                            {data?.premiseOwner?.id === user && (
+                    {!(
+                      comments?.text?.includes("?") ||
+                      comments?.text?.includes("؟")
+                    ) && (
+                      <>
+                        {data?.premiseOwner?.id === user &&
+                        comments?.add_to_beat ? (
+                          <>
+                            <button className="cursor-auto text-right">
                               <p
-                                onClick={() => handleAddToBeat(comments)}
-                                className={` text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] `}
+                                // onClick={() => handleAddToBeat(comments)}
+                                className=" text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] "
                               >
-                                Add as Beat
+                                Added as Beat
                               </p>
-                            )}
-                          </button>
-                        </>
-                      )}
-                    </>
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              disabled={addToBeatDisable}
+                              className="text-right"
+                            >
+                              {data?.premiseOwner?.id === user && (
+                                <p
+                                  onClick={() => handleAddToBeat(comments)}
+                                  className={` text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] `}
+                                >
+                                  Add as Beat
+                                </p>
+                              )}
+                            </button>
+                          </>
+                        )}
+                      </>
+                    )}
                   </div>
                 </div>
               )}
@@ -1090,6 +1104,7 @@ const AllComments = ({
                 ?.map((reply, index) => (
                   <motion.div
                     // data-reply
+                    key={reply.id + index}
                     ref={
                       index === replyData?.length - 1 ? latestReplyRef : null
                     }
@@ -1101,12 +1116,13 @@ const AllComments = ({
                     <ReplyToComments
                       fromNew={fromNew}
                       commentIdx={comments?.c_value}
-                      key={index} // Make sure to provide a unique key when mapping over an array
+                      // Make sure to provide a unique key when mapping over an array
                       reply={reply}
                       index={index}
                       owner={owner}
                       setProjectBeatOpen={setProjectBeatOpen}
                       setCommentText={setCommentText}
+                      setBeatCommentText={setBeatCommentText}
                       replyRefetch={replyRefetch}
                       replyToCommentID={replyToCommentID}
                       user={user}

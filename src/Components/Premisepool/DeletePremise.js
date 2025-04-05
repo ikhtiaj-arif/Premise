@@ -1,12 +1,22 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   useDeletePremiseMutation,
   useGetFilteredLangQuery,
 } from "../../app/EndPoints/premisePoolApi";
-import { useNavigate } from "react-router-dom";
+import { useDeleteProjectMutation } from "../../app/EndPoints/ScriptPad/project";
 
-const DeletePremise = ({ setIsDelete, isDelete, refetch,hiddenCountRefetch, popClose }) => {
+const DeletePremise = ({
+  setIsDelete,
+  isDelete,
+  refetch,
+  hiddenCountRefetch,
+  deleteId,
+  projectName,
+  popClose,
+}) => {
+  const [deleteProject, resDeleteProject] = useDeleteProjectMutation();
   const [deletePremise, resInfo] = useDeletePremiseMutation();
   const {
     data: lang,
@@ -14,24 +24,30 @@ const DeletePremise = ({ setIsDelete, isDelete, refetch,hiddenCountRefetch, popC
     refetch: langRefetch,
   } = useGetFilteredLangQuery();
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handlePopupConfirm = async () => {
     setLoading(true);
+    const data = {
+      project: deleteId,
+    };
+    await deleteProject(data);
     const res = await deletePremise(isDelete);
     // console.log(res);
     if (res) {
       setLoading(false);
       setIsDelete(false);
+
       refetch();
       // hiddenCountRefetch()
       langRefetch();
       if (popClose) {
         popClose(false);
       }
-      navigate('/')
+      navigate("/");
       toast.success("Successfully deleted your Premise", {
-        position: toast.POSITION.TOP_CENTER,autoClose: 800,
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 800,
       });
       // setTimeout(() => {
       //   window.location.reload();
@@ -40,7 +56,8 @@ const DeletePremise = ({ setIsDelete, isDelete, refetch,hiddenCountRefetch, popC
     } else {
       setLoading(false);
       toast.error("Something went wrong", {
-        position: toast.POSITION.TOP_CENTER,autoClose: 800,
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 800,
       });
       setIsDelete(false);
     }
@@ -51,7 +68,10 @@ const DeletePremise = ({ setIsDelete, isDelete, refetch,hiddenCountRefetch, popC
         <div className="w-[90%] mx-auto max-w-[510px] bg-[#fafafa]  rounded-xl ">
           <div className="flex flex-col justify-between h-auto px-[18px]">
             <p className="text-[14px] lg:text-[24px] text-[#252525] text-center lg:leading-10 font-[500] mt-10">
-              Are you sure you want to delete this premise?
+              If you delete premise, related project {projectName} will also get
+              deleted?
+              {/* If you delete
+              premise, related project <span className="font-bold">{projectName}</span> will also get deleted?  */}
             </p>
             <div className="h-[93px] pb-[14px] flex items-center gap-10 justify-center px-[40px]">
               <button

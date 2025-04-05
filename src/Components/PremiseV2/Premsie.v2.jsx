@@ -189,6 +189,8 @@ const PremiseV2 = () => {
     }
   }, [id, premiseData]);
 
+  console.log("matchingPremiseData", premiseData);
+
   const userFirstName = userQuery?.first_name;
   const userLastName = userQuery?.last_name;
 
@@ -272,9 +274,9 @@ const PremiseV2 = () => {
   }, [premiseData, itemsToShow, refetch]);
 
   // delete premise card
-  const handleDelete = (id) => {
-    setIsDelete(id);
-  };
+  // const handleDelete = (id) => {
+  //   setIsDelete(id);
+  // };
 
   // const handleShow = () => {
   //   let newItemsToShow = itemsToShow + 12;
@@ -444,7 +446,7 @@ const PremiseV2 = () => {
           </div>
           <div className="w-full mx-auto h-[1px] bg-[#eaeaea] mt-[4px] barSm-hidden" />
           {addPopup === "noUserName" && (
-            <UserNamePopup {...{ refetch, setAddPopup }} />
+            <UserNamePopup {...{ refetch, setAddPopup }} addPremise />
           )}
           {addPopup?.msg === "ShowBecomePrivilege" ? (
             <NoAccessPopUp
@@ -555,7 +557,7 @@ const PremiseV2 = () => {
                     refetch={refetch}
                     userQuery={userQuery}
                     owner={{ user, userFirstName, userLastName }}
-                    handleDelete={handleDelete}
+                    // handleDelete={handleDelete}
                     shouldBlink={isAddNew && index === 0}
                     activeSearch={activeSearch}
                     transPopClose={transPopClose}
@@ -565,14 +567,15 @@ const PremiseV2 = () => {
                     setAddPopup={setAddPopup}
                   />
                 ))}
-                {isDelete && (
+                {/* {isDelete && matchingPremiseData && (
                   <DeletePremise
                     setIsDelete={setIsDelete}
                     refetch={refetch}
                     hiddenCountRefetch={hiddenCountRefetch}
+                    deleteId={matchingPremiseData}
                     isDelete={isDelete}
                   />
-                )}
+                )} */}
                 {openPopBySp && (
                   <Popup
                     popClose={() => setOpenPopBySp(false)}

@@ -32,6 +32,7 @@ const ReplyToComments = ({
   owner,
   setProjectBeatOpen,
   setCommentText,
+  setBeatCommentText,
   replyRefetch,
   user,
   replyToCommentID,
@@ -205,12 +206,13 @@ const ReplyToComments = ({
   };
 
   const checkSuggestAllowance = async (text) => {
+    console.log(text);
     setSuggestDisable(true);
     const res = await fetchUserAccess(
       `${currentUser?.id}/PP_AllowBrainstoming`
     );
     console.log(`PP_AllowBrainstoming res`, res);
-    if (res?.access == "No") {
+    if (res?.access === "No") {
       setSuggestDisable(false);
       setNoAccessLbPopup(res);
     } else {
@@ -602,35 +604,37 @@ const ReplyToComments = ({
                   )}
               </>
 
-              <>
-                {reply?.add_to_beat ? (
-                  <>
-                    {(owner === user || reply?.user?.id === user) && (
-                      <button className=" cursor-auto w-[89px]">
-                        <p className="text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] ">
-                          Added as Beat
-                        </p>
-                      </button>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    {(owner === user || reply?.user?.id === user) && (
-                      <button
-                        onClick={() => {
-                          handleAddToBeat(reply);
-                          setCommentText(reply);
-                        }}
-                        className="w-[74px]"
-                      >
-                        <p className="text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
-                          Add as Beat
-                        </p>
-                      </button>
-                    )}
-                  </>
-                )}
-              </>
+              {!(reply?.text?.includes("?") || reply?.text?.includes("؟")) && (
+                <>
+                  {reply?.add_to_beat ? (
+                    <>
+                      {(owner === user || reply?.user?.id === user) && (
+                        <button className=" cursor-auto w-[89px]">
+                          <p className="text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] ">
+                            Added as Beat
+                          </p>
+                        </button>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {(owner === user || reply?.user?.id === user) && (
+                        <button
+                          onClick={() => {
+                            handleAddToBeat(reply);
+                            setBeatCommentText(reply?.text);
+                          }}
+                          className="w-[74px]"
+                        >
+                          <p className="text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
+                            Add as Beat
+                          </p>
+                        </button>
+                      )}
+                    </>
+                  )}
+                </>
+              )}
             </div>
           </div>
           {/* nested replies */}
@@ -721,6 +725,7 @@ const ReplyToComments = ({
                             handleAddToBeat={handleAddToBeat}
                             key={idx}
                             setCommentText={setCommentText}
+                            setBeatCommentText={setBeatCommentText}
                             childReplyIDNext={childReply?.id}
                             childReply={childReply}
                             owner={owner}

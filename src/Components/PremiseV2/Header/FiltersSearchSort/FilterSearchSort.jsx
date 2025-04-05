@@ -7,6 +7,8 @@ import { useGetFilteredLangQuery } from "../../../../app/EndPoints/premisePoolAp
 // import activeLangIcon from "../../../img/Icons/activeLangIcon.png";
 // import langIcon from "../../../img/Icons/langIcon.png";
 import { MyContext } from "../../../../App";
+import byMeB from "../../../../img/Icons/addedByMeBlack.png";
+import byMeG from "../../../../img/Icons/addedByMeGreen.png";
 import calB from "../../../../img/Icons/calB.png";
 import calG from "../../../../img/Icons/calG.png";
 import langB from "../../../../img/Icons/langB.png";
@@ -447,7 +449,30 @@ const FilterSearchSort = ({
               )}
             </div>
 
-            <button
+            <div
+              data-te-toggle="tooltip"
+              title="Added by me"
+              onClick={() => setActiveAddedByMe(!activeAddedByMe)}
+              className={`h-[32px] w-[32px] rounded-full cursor-pointer relative ${
+                !activeAddedByMe ? "bg-[#252525]" : "bg-[#33B0CA]"
+              }`}
+            >
+              {!activeAddedByMe ? (
+                <img
+                  src={byMeB}
+                  alt=""
+                  className="h-[27px] w-[28px]  mx-auto absolute top-[4px] left-[2px] "
+                />
+              ) : (
+                <img
+                  src={byMeG}
+                  alt=""
+                  className="h-[27px] w-[28px] mx-auto absolute top-[4px] left-[2px] "
+                />
+              )}
+            </div>
+
+            {/* <button
               data-te-toggle="tooltip"
               title="Added by me"
               className={`h-[32px] w-[32px] rounded-full ${
@@ -456,7 +481,7 @@ const FilterSearchSort = ({
               onClick={() => setActiveAddedByMe(!activeAddedByMe)}
             >
               <ImUserCheck className="text-[#fafafa] mx-auto" />
-            </button>
+            </button> */}
 
             <button
               className={`custom-searchBtn h-[32px] w-[32px] rounded-full 
