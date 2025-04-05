@@ -690,6 +690,7 @@ const PremisePreview2 = ({
         protagonist_type: protagonist,
         protagonist_name: protagonistName,
         protagonist_age: protaAge,
+        service_name: "premisePool"
       };
 
       if (createNewProject) {

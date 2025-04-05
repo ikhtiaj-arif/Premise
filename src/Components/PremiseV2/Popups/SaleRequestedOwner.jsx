@@ -125,12 +125,12 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
       <ToastContainer />
 
       <div
-        className={`h-[86vh] ${
+        className={`h-[70vh] ${
           showCongratsPopup
             ? "lg:h-auto "
             : showBankDetails
             ? " lg:h-[497px]"
-            : "lg:h-[670px]"
+            : "lg:h-[670px] max-h-[80vh]"
         } mb-[20px] px-[22px] lg:mb-0 pt-2 lg:mt-[80px] xl:mt-[85px] w-full bg-[#fff] lg:w-[625px] md:mx-auto relative lg:rounded-[8px]`}
       >
         <div className="absolute top-[-56px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
@@ -156,6 +156,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
             <div className="h-[1px] mt-[8px] w-[52%] mx-auto bg-[#a1a1a1]" />
           </>
         )}
+         <div className="overflow-x-hidden overflow-y-auto h-[calc(100%-125px)]">
         {!showBankDetails ? (
           <div className="md:pr-[12px] mt-[17px] w-full sm:w-[542px] md:ml-[40px]">
             <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
@@ -223,7 +224,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
                 be 1.5 times the price quoted by you.
                 <span className="text-[17px] text-[#616161] italic">)</span>
               </p>
-              <div className="flex items-center gap-[18px] max-w-[320px] mx-auto mt-[20px]">
+              <div className="flex pb-4 items-center gap-[18px] max-w-[320px] mx-auto mt-[20px]">
                 <button
                   type="submit"
                   disabled={!sellingPr || isUpdateLoading}
@@ -326,6 +327,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
             </div>
           </div>
         )}
+      </div>
       </div>
     </div>
   );

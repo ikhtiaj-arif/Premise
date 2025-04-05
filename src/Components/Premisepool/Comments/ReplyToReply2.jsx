@@ -643,31 +643,37 @@ const ReplyToReply2 = ({
                 </button>
               )}
 
-            {childReply?.add_to_beat ? (
+            {!(
+              childReply?.text?.includes("?") || childReply?.text?.includes("؟")
+            ) && (
               <>
-                {(owner === user || childReply?.user?.id === user) && (
-                  <button className="w-[89px] cursor-auto ">
-                    <p className="text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] ">
-                      Added as Beat
-                    </p>
-                  </button>
-                )}
-              </>
-            ) : (
-              <>
-                {(owner === user || childReply?.user?.id === user) && (
-                  <button
-                    onClick={() => {
-                      handleAddToBeat(childReply);
-                      setBeatCommentText(childReply?.text);
-                      replyRefetch();
-                    }}
-                    className="w-[74px]"
-                  >
-                    <p className="text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
-                      Add as Beat
-                    </p>
-                  </button>
+                {childReply?.add_to_beat ? (
+                  <>
+                    {(owner === user || childReply?.user?.id === user) && (
+                      <button className="w-[89px] cursor-auto ">
+                        <p className="text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] ">
+                          Added as Beat
+                        </p>
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {(owner === user || childReply?.user?.id === user) && (
+                      <button
+                        onClick={() => {
+                          handleAddToBeat(childReply);
+                          setBeatCommentText(childReply?.text);
+                          replyRefetch();
+                        }}
+                        className="w-[74px]"
+                      >
+                        <p className="text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
+                          Add as Beat
+                        </p>
+                      </button>
+                    )}
+                  </>
                 )}
               </>
             )}

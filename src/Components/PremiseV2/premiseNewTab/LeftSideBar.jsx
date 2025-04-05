@@ -289,10 +289,10 @@ const LeftSideBar = ({
           }}
         />
       </div>
-      <div className="lg:w-[368px] w-full relative h-full shadow-md pl-3 rounded-md">
+      <div className="lg:w-[368px] w-full relative h-full shadow-md  rounded-md">
         {/* main div */}
         <div className="h-full lg:h-[83vh] overflow-hidden relative flex flex-col">
-          <div className="flex-none">
+          <div className="flex-none px-3">
             {/* header */}
             <PremiseTopHeader {...{ handleSearch, id, setSearchTerm }} />
             <div>
@@ -349,9 +349,9 @@ const LeftSideBar = ({
             </div>
           </div>
           {/* Details scroll div */}
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 pb-4 overflow-y-auto flex flex-col justify-between">
             {window.innerWidth < 1150 && charactersPopupMobile && (
-              <div className="bg-[#fff] absolute top-[47px] right-[12px] w-[290px] rounded-[8px] p-[8px] z-30 shadow-[0px_0px_26px_0px_rgba(0,0,0,0.3)]">
+              <div className="bg-[#fff] px-3 absolute top-[47px] right-[12px] w-[290px] rounded-[8px] p-[8px] z-30 shadow-[0px_0px_26px_0px_rgba(0,0,0,0.3)]">
                 <div className="mt-[17px]">
                   <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
                     {" "}
@@ -457,7 +457,7 @@ const LeftSideBar = ({
             )}
 
             {window.innerWidth > 1150 && (
-              <div className="bg-[#fff]">
+              <div className="bg-[#fff] px-3">
                 <div>
                   <div className="grid grid-cols-[40%_minmax(60%,_1fr)] items-center ">
                     {" "}
@@ -594,8 +594,8 @@ const LeftSideBar = ({
                 )}
               </div>
             )}
-
-            <div className="hidden md:block  w-full max-w-[330px] mx-auto mt-4">
+            {/* ask ida desk */}
+            <div className="hidden md:block px-3  w-full  mt-4">
               <AskIda
                 {...{
                   id,

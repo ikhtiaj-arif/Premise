@@ -1,6 +1,6 @@
 import React from "react";
 import newTabDoodle from "../../../img/new-tab-doodle.png";
-import { getLanguageName } from "../utilityFuncitons/functions";
+import { getLanguageName, getTextFromValue } from "../utilityFuncitons/functions";
 
 const ProjectInfo = ({ premiseData }) => {
   const {
@@ -33,7 +33,7 @@ const ProjectInfo = ({ premiseData }) => {
           {" "}
           {premiseOwner?.first_name} {premiseOwner?.last_name}:
         </span>{" "}
-        A {sub_genre} ({genre}) of {duration} {}
+        A {sub_genre} ({genre}) of {getTextFromValue(duration)} {}
         in {getLanguageName(source_language)} language set in {period}{" "}
         {geography}.
       </h3>

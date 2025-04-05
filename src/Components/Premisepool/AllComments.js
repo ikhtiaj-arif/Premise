@@ -150,8 +150,8 @@ const AllComments = ({
   const [commentText, setCommentText] = useState(
     comments?.text?.replace(/^\s*\d+\.\s*/, "")
   );
-  const [beatCommentText, setBeatCommentText] = useState("")
-  
+  const [beatCommentText, setBeatCommentText] = useState("");
+
   const [commentObj, setCommentObj] = useState({});
   const [openDltPop, setOpenDltPop] = useState(false);
   const [idToDlt, setIdToDlt] = useState({});
@@ -893,37 +893,42 @@ const AllComments = ({
                       />
                     </div>
 
-                    <>
-                      {data?.premiseOwner?.id === user &&
-                      comments?.add_to_beat ? (
-                        <>
-                          <button className="cursor-auto text-right">
-                            <p
-                              // onClick={() => handleAddToBeat(comments)}
-                              className=" text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] "
-                            >
-                              Added as Beat
-                            </p>
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          <button
-                            disabled={addToBeatDisable}
-                            className="text-right"
-                          >
-                            {data?.premiseOwner?.id === user && (
+                    {!(
+                      comments?.text?.includes("?") ||
+                      comments?.text?.includes("؟")
+                    ) && (
+                      <>
+                        {data?.premiseOwner?.id === user &&
+                        comments?.add_to_beat ? (
+                          <>
+                            <button className="cursor-auto text-right">
                               <p
-                                onClick={() => handleAddToBeat(comments)}
-                                className={` text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] `}
+                                // onClick={() => handleAddToBeat(comments)}
+                                className=" text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] "
                               >
-                                Add as Beat
+                                Added as Beat
                               </p>
-                            )}
-                          </button>
-                        </>
-                      )}
-                    </>
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              disabled={addToBeatDisable}
+                              className="text-right"
+                            >
+                              {data?.premiseOwner?.id === user && (
+                                <p
+                                  onClick={() => handleAddToBeat(comments)}
+                                  className={` text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] `}
+                                >
+                                  Add as Beat
+                                </p>
+                              )}
+                            </button>
+                          </>
+                        )}
+                      </>
+                    )}
                   </div>
                 </div>
               )}
@@ -1108,11 +1113,10 @@ const AllComments = ({
                     exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
                     transition={{ duration: 0.5 }} // Adjust the duration as needed
                   >
-
                     <ReplyToComments
                       fromNew={fromNew}
                       commentIdx={comments?.c_value}
-                     // Make sure to provide a unique key when mapping over an array
+                      // Make sure to provide a unique key when mapping over an array
                       reply={reply}
                       index={index}
                       owner={owner}

@@ -198,7 +198,7 @@ const NewTabTextArea = ({
     setKeyboardVisible(!keyboardVisible);
   };
   return (
-    <div className={`relative  bottom-0 md:w-auto px-2 ${className}`}>
+    <div className={`relative  bottom-0 md:w-auto  ${className}`}>
       <div
         className={`${
           className ? "bg-[#fff]" : "bg-[#f8f8f8]"

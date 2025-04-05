@@ -11,6 +11,7 @@ import ConfirmationModal from "../Comments/ConfirmationModal";
 import CharacterShowCard from "./Card";
 import SingleCharacterAdd from "./SingleCharacterAdd";
 import SingleCharacterEdit from "./SingleCharacterEdit";
+import { getTextFromValue } from "../../PremiseV2/utilityFuncitons/functions";
 
 const CharacterEditablePop = ({
   setCharacterEditPop,
@@ -136,31 +137,32 @@ const CharacterEditablePop = ({
     setCharacterArray(updatedCharacters);
   };
 
-  const options = {
-    "Short film": [
-      { text: "About 2 Minutes", value: "Upto 2 Minutes" },
-      { text: "About 5 Minutes", value: "2 to 4 Minutes" },
-      { text: "About 15 Minutes", value: "5 to 14 Minutes" },
-      { text: "About 25 Minutes", value: "15 to 29 Minutes" },
-      { text: "About 30 Minutes", value: "30 Minutes" },
-    ],
-    "Feature film": [
-      { text: "About 1 Hour", value: "1 Hour" },
-      { text: "About 2 Hours", value: "2 Hours" },
-      { text: "About 3 Hours", value: "3 Hours" },
-    ],
-  };
-  const getTextFromValue = (value) => {
-    for (const category in options) {
-      const foundOption = options[category].find(
-        (option) => option.value === value
-      );
-      if (foundOption) {
-        return foundOption.text;
-      }
-    }
-    return value;
-  };
+  // const options = {
+  //   "Short film": [
+  //     { text: "About 2 Minutes", value: "Upto 2 Minutes" },
+  //     { text: "About 5 Minutes", value: "2 to 4 Minutes" },
+  //     { text: "About 15 Minutes", value: "5 to 14 Minutes" },
+  //     { text: "About 25 Minutes", value: "15 to 29 Minutes" },
+  //     { text: "About 30 Minutes", value: "30 Minutes" },
+  //   ],
+  //   "Feature film": [
+  //     { text: "About 1 Hour", value: "1 Hour" },
+  //     { text: "About 2 Hours", value: "2 Hours" },
+  //     { text: "About 3 Hours", value: "3 Hours" },
+  //   ],
+  // };
+
+  // const getTextFromValue = (value) => {
+  //   for (const category in options) {
+  //     const foundOption = options[category].find(
+  //       (option) => option.value === value
+  //     );
+  //     if (foundOption) {
+  //       return foundOption.text;
+  //     }
+  //   }
+  //   return value;
+  // };
 
   const handleClosePopup = () => {
     if (characterArray > duplicateCharacterArray) {
@@ -216,7 +218,7 @@ const CharacterEditablePop = ({
         </div>
 
         <h3 className="text-[16px] font-semibold mb-[20px] px-6 md:px-[56px]">
-          {!onlyAdd && "Proposed"} Characters in{" "}
+          {!onlyAdd && "Proposed"} Characters in about{" "}
           <span className="">
             {getTextFromValue(currentProjectData?.duration)}
           </span>{" "}
