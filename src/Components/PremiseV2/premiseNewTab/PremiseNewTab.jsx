@@ -66,7 +66,7 @@ const PremiseNewTab = () => {
 
   const proImgUrl = baseURL.concat(profileImg?.[0]?.profile_photo);
   // For "Brainstorms" and "Engagements"
-
+  const lastCommentRef = useRef(null);
   const [openAllReplies, setOpenAllReplies] = useState(false);
   const [openReplyFieldID, setOpenReplyFieldID] = useState(null);
   const [openReplyField, setOpenReplyField] = useState(null);
@@ -218,6 +218,7 @@ const PremiseNewTab = () => {
                   commentRefetch,
                   commentsData,
                   setOpenReplyField,
+                  lastCommentRef,
                   replyField,
                   setReplyField,
                   setOpenReplyFieldID,
@@ -242,7 +243,10 @@ const PremiseNewTab = () => {
               />
             </div>
 
-            <div className="w-full relative lg:h-[83vh] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl">
+            <div
+              ref={lastCommentRef}
+              className="w-full relative lg:h-[83vh] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl"
+            >
               {isSearchLoading || isCommentLoading ? (
                 <div>
                   <TypingLoader />

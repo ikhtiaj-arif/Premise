@@ -39,6 +39,7 @@ const LeftSideBar = ({
   commentsData,
   setOpenReplyField,
   replyField,
+  lastCommentRef,
   setReplyField,
   setOpenReplyFieldID,
   setOpenAllReplies,
@@ -108,7 +109,7 @@ const LeftSideBar = ({
   const [newComment, setNewComment] = useState("");
   const inputRef = useRef(null);
 
-  const lastCommentRef = useRef(null);
+  // const lastCommentRef = useRef(null);
 
   useEffect(() => {
     if (characters) setCharacterArray(characters);
