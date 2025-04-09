@@ -335,8 +335,8 @@ const AllComments = ({
   // console.log("comments",comments);
   const handleAddToBeat = async (comment) => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_BeatSheet`);
-    console.log("add to beat res", res);
-    if (res?.access == "No") {
+    // console.log("add to beat res", res);
+    if (res?.access === "No") {
       setNoAccessLbPopup(res);
       setService("PP_Beats");
     } else {
@@ -344,7 +344,7 @@ const AllComments = ({
     }
   };
   const submitAddToBeat = async (comment) => {
-    console.log("comment", comment);
+    // console.log("comment", comment);
 
     setCommentObj(comment);
     setBeatSuggLoading(true);
@@ -366,10 +366,10 @@ const AllComments = ({
         const beats = Object.values(res?.data?.beats);
         //console.log('beats',beats);
         const beatData = {
-          one: comment?.text,
-          two: beats[0],
-          three: beats[1],
-          four: beats[2],
+          one: beats[0],
+          two: beats[1],
+          three: beats[2],
+          four: beats[3],
         };
 
         setBeatSuggLoading(false);

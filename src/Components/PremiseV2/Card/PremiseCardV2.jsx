@@ -563,7 +563,7 @@ const PremiseCardV2 = ({
         <PremiseBadge stamp={p?.stamp} />
       </div>
       {/* lower div */}
-      <div className="flex justify-between items-center bg-[#FAFAFA] rounded-b-[8px] px-[15px] pb-[15px] pt-[25px] ">
+      <div className="flex justify-between items-center bg-[#FAFAFA] rounded-b-[8px] px-[15px] pb-[15px] pt-[25px] relative">
         {/* 1st div */}
         <div className="flex items-center">
           <LikePremise

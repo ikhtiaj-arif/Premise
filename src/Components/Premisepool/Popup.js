@@ -52,6 +52,7 @@ import "./Premise.css";
 import UserMail from "./UserMail";
 import UserNamePopup from "./UserNamePopup";
 import UserType from "./UserType";
+import NotifyPopup from "../PremiseV2/Popups/alerts/NotifyPopup";
 
 const Popup = ({
   popClose,
@@ -79,7 +80,7 @@ const Popup = ({
   // console.log("popData", data);
   const { data: characters, isCharLoading } =
     useGetSavedCharactersQuery(project_id);
-
+  const [notifyPopup, setNotifyPopup] = useState(false);
   const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
 
   const [characterArray, setCharacterArray] = useState([]);
@@ -201,7 +202,6 @@ const Popup = ({
   const { boldStyle, italicStyle, underlineStyle, hexColor } = stylings;
   const premiseId = data?.id;
 
-
   const {
     data: premiseData,
     isPremiseLoading,
@@ -211,53 +211,49 @@ const Popup = ({
   const [actOneThreshold, setActOneThreshold] = useState(null);
   const [actTwoEnd, setActTwoEnd] = useState(null);
 
-useEffect(() => {
-  if (!isPremiseLoading && premiseData?.setC) {
-    // Step 1: Log premiseData.setC to verify it
-    console.log("premiseData setC:", premiseData?.setC);  // Check what setC looks like
-
-    try {
-      const setCString = premiseData?.setC;
-
-      // Step 2: Check if setC is already an object or a string
-      if (typeof setCString === "string") {
-        const setCObject = JSON.parse(setCString.replace(/'/g, '"')); // Parse if it's a string
-        console.log("Parsed setCObject:", setCObject);  // Log parsed object to ensure it's correct
-
-        const actOne = setCObject["Forward the Act One"];
-        const actTwo = setCObject["Forward the Act Two"];
-
-        // Step 3: Set the thresholds
-        setActOneThreshold(actOne); // Last number of Act One
-        setActTwoEnd(actTwo[actTwo.length - 1]); // Last number of Act Two
-
-        console.log("actOneThreshold:", actOne);  // Check if actOneThreshold is being set correctly
-        console.log("actTwoEnd:", actTwo[actTwo.length - 1]);  // Check if actTwoEnd is being set correctly
-      } else {
-        
-        // If setC is already an object, handle it directly
-        const setCObject = setCString;  // No need to parse
-        console.log("Direct setCObject:", setCObject);
-
-        const actOne = setCObject["Forward the Act One"];
-        const actTwo = setCObject["Forward the Act Two"];
-
-        setActOneThreshold(actOne[actOne.length - 1]); // Last number of Act One
-        setActTwoEnd(actTwo[actTwo.length - 1]); // Last number of Act Two
-
-      }
-    } catch (error) {
-      console.error("Error parsing setC or setting thresholds:", error);
-    }
-  }
-}, [isPremiseLoading, premiseData]); // Ensure premiseData is available before running the effect
-
-console.log("actOneThreshold:", actOneThreshold);  // Check if actOneThreshold is being set correctly
-console.log("actTwoEnd:", actTwoEnd);  // Check if actTwoEnd is being set correctly
-
   useEffect(() => {
-    
-  }, [actOneThreshold, actTwoEnd]);
+    if (!isPremiseLoading && premiseData?.setC) {
+      // Step 1: Log premiseData.setC to verify it
+      console.log("premiseData setC:", premiseData?.setC); // Check what setC looks like
+
+      try {
+        const setCString = premiseData?.setC;
+
+        // Step 2: Check if setC is already an object or a string
+        if (typeof setCString === "string") {
+          const setCObject = JSON.parse(setCString.replace(/'/g, '"')); // Parse if it's a string
+          console.log("Parsed setCObject:", setCObject); // Log parsed object to ensure it's correct
+
+          const actOne = setCObject["Forward the Act One"];
+          const actTwo = setCObject["Forward the Act Two"];
+
+          // Step 3: Set the thresholds
+          setActOneThreshold(actOne); // Last number of Act One
+          setActTwoEnd(actTwo[actTwo.length - 1]); // Last number of Act Two
+
+          console.log("actOneThreshold:", actOne); // Check if actOneThreshold is being set correctly
+          console.log("actTwoEnd:", actTwo[actTwo.length - 1]); // Check if actTwoEnd is being set correctly
+        } else {
+          // If setC is already an object, handle it directly
+          const setCObject = setCString; // No need to parse
+          console.log("Direct setCObject:", setCObject);
+
+          const actOne = setCObject["Forward the Act One"];
+          const actTwo = setCObject["Forward the Act Two"];
+
+          setActOneThreshold(actOne[actOne.length - 1]); // Last number of Act One
+          setActTwoEnd(actTwo[actTwo.length - 1]); // Last number of Act Two
+        }
+      } catch (error) {
+        console.error("Error parsing setC or setting thresholds:", error);
+      }
+    }
+  }, [isPremiseLoading, premiseData]); // Ensure premiseData is available before running the effect
+
+  console.log("actOneThreshold:", actOneThreshold); // Check if actOneThreshold is being set correctly
+  console.log("actTwoEnd:", actTwoEnd); // Check if actTwoEnd is being set correctly
+
+  useEffect(() => {}, [actOneThreshold, actTwoEnd]);
 
   useEffect(() => {
     premiseRefetch();
@@ -363,8 +359,6 @@ console.log("actTwoEnd:", actTwoEnd);  // Check if actTwoEnd is being set correc
   // dynamic setup conflict resolution
   const [headerText, setHeaderText] = useState("Setup");
   const commentsRef = useRef(null);
-
- 
 
   useEffect(() => {}, [openDotMenu]);
 
@@ -598,6 +592,8 @@ console.log("actTwoEnd:", actTwoEnd);  // Check if actTwoEnd is being set correc
                     setAddPopup={setAddPopup}
                     PremiseData={premiseData}
                     premiseRefetch={premiseRefetch}
+                    notifyPopup={notifyPopup}
+                    setNotifyPopup={setNotifyPopup}
                   />
                 </div>
               </div>
@@ -688,7 +684,7 @@ console.log("actTwoEnd:", actTwoEnd);  // Check if actTwoEnd is being set correc
                       .sort((a, b) => a.c_value - b.c_value) // Sort comments by c_value in ascending order
                       .map((comment, index) => (
                         <motion.div
-                        key={comment.id + index}
+                          key={comment.id + index}
                           initial={{ opacity: 0, y: 70 }} // Start from slightly below the final position
                           animate={{ opacity: 1, y: 0 }} // Move to the final position
                           exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
@@ -1066,6 +1062,12 @@ console.log("actTwoEnd:", actTwoEnd);  // Check if actTwoEnd is being set correc
                 }
               />
             )
+          )}
+          {notifyPopup && (
+            <NotifyPopup
+              popClose={setNotifyPopup}
+              title={`This is currently unavailable for sale as there is a pending sale request from another User.`}
+            />
           )}
         </div>
       </div>

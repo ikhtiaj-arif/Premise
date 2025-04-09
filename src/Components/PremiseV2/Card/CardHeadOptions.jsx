@@ -63,7 +63,6 @@ const CardHeadOptions = ({
   openDotMenu,
   addPopup,
   setAddPopup,
-  
 }) => {
   // const {
 
@@ -415,6 +414,14 @@ const CardHeadOptions = ({
                       checkAllowance(setSaleRequestPop, id);
                       refetch();
                     }}
+                    // onClick={() => {
+                    //   if (is_requested_for_sale) {
+                    //     setNotifyPopup(true);
+                    //   } else {
+                    //     checkAllowance(setSaleRequestPop, id);
+                    //     refetch();
+                    //   }
+                    // }}
                   >
                     <img
                       src={sendSaleReq}
