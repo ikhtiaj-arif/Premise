@@ -619,7 +619,7 @@ const PremisePreview2 = ({
 
     // Disable submit button to prevent multiple clicks
     setIsLoading(true);
-    setKeyboardVisible(false)
+    setKeyboardVisible(false);
 
     try {
       const formData = new FormData();
@@ -690,7 +690,7 @@ const PremisePreview2 = ({
         protagonist_type: protagonist,
         protagonist_name: protagonistName,
         protagonist_age: protaAge,
-        service_name: "premisePool"
+        service_name: "premisePool",
       };
 
       if (createNewProject) {
@@ -820,7 +820,6 @@ const PremisePreview2 = ({
                 setIsLoading(false);
                 deletePremiseWhenFailed(deletePreID);
 
-               
                 deleteProject(deleteId);
 
                 toast.error("Failed to create Premise", {
@@ -833,13 +832,14 @@ const PremisePreview2 = ({
             // Handle API errors
             setIsLoading(false);
 
-          
-
             deleteProject(deleteId);
-            toast.error(res?.error?.data?.message || "Something went wrong!", {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: 1600,
-            });
+            toast.error(
+              res?.error?.data?.message || "Failed to create Premise!",
+              {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 1600,
+              }
+            );
             setAddPopup(null);
           }
         }
@@ -968,10 +968,13 @@ const PremisePreview2 = ({
           } else {
             // Handle API errors
             setIsLoading(false);
-            toast.error(res?.error?.data?.message || "Something went wrong!", {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: 800,
-            });
+            toast.error(
+              res?.error?.data?.message || "Failed to create Premise!",
+              {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 800,
+              }
+            );
           }
         }
       }
@@ -979,7 +982,7 @@ const PremisePreview2 = ({
       setIsLoading(false);
 
       // console.error("Error submitting premise:", error);
-      toast.error("Something went wrong!", {
+      toast.error("Failed to create Premise!", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 800,
       });
@@ -1468,16 +1471,30 @@ const PremisePreview2 = ({
           </div>
         </div>
         <div
+          // className={`relative ${
+          //   charSaveDisable
+          //     ? `h-[150px] ${
+          //         finalSubmitLoading ? "md:h-[65px]" : "md:h-[125px]"
+          //       }  overflow-y-hidden`
+          //     : finalEdit
+          //     ? "h-[125px]"
+          //     : createNewProject || selectedSpProjectID
+          //     ? "h-[373px]"
+          //     : "h-[180px]"
+          // }`}
           className={`relative ${
-            charSaveDisable
-              ? `h-[150px] ${
-                  finalSubmitLoading ? "md:h-[65px]" : "md:h-[125px]"
-                }  overflow-y-hidden`
-              : finalEdit
-              ? "h-[125px]"
-              : createNewProject || selectedSpProjectID
-              ? "h-[373px]"
-              : "h-[180px]"
+
+
+
+            finalSubmitLoading
+            ? "md:h-[72px]"
+            : charSaveDisable
+            ? "h-[150px] overflow-y-hidden"
+            : finalEdit
+            ? "h-[125px]"
+            : createNewProject || selectedSpProjectID
+            ? "h-[373px]"
+            : "h-[180px]" 
           }`}
         >
           <div
@@ -1654,30 +1671,32 @@ const PremisePreview2 = ({
             )}
           </div>
 
-          <div
-            className={`${
-              finalEdit
-                ? "w-[90%] md:w-[600px]  mx-auto mt-[10px] md:mt-[4px] "
-                : "hidden"
-            } `}
-          >
-            {!charSaveDisable && (
-              <p className="  md:w-[90%] lg:w-[98%] mt-[4px] ml-[10px] md:ml-[8px] text-[12px] md:text-[14px] text-[#616161] leading-[20px] overflow-hidden break-words ">
-                {/* {handleMValues()} */}
-                {/* {handleCharacterText(characterArray)} */}
-                <span className="mnff-m">MNF</span> proposes to develop a{" "}
-                <span className="screenplay-m">screenplay</span> flow by
-                interacting with you through {mValue} comments and discussions
-                thereon. The discussions from comment number {1} to{" "}
-                {actOneThreshold} will be centered around{" "}
-                <span className="font-[500] text-[#252525]">set up</span>,{" "}
-                {actOneThreshold + 1} to {actTwoEnd} around{" "}
-                <span className="font-[500] text-[#252525]">conflict</span> and{" "}
-                {actTwoEnd + 1} to {mValue} around{" "}
-                <span className="font-[500] text-[#252525]">resolution</span>.
-              </p>
-            )}
-          </div>
+          {!finalSubmitLoading && (
+            <div
+              className={`${
+                finalEdit
+                  ? "w-[90%] md:w-[600px]  mx-auto mt-[10px] md:mt-[4px] "
+                  : "hidden"
+              } `}
+            >
+              {!charSaveDisable && (
+                <p className="  md:w-[90%] lg:w-[98%] mt-[4px] ml-[10px] md:ml-[8px] text-[12px] md:text-[14px] text-[#616161] leading-[20px] overflow-hidden break-words ">
+                  {/* {handleMValues()} */}
+                  {/* {handleCharacterText(characterArray)} */}
+                  <span className="mnff-m">MNF</span> proposes to develop a{" "}
+                  <span className="screenplay-m">screenplay</span> flow by
+                  interacting with you through {mValue} comments and discussions
+                  thereon. The discussions from comment number {1} to{" "}
+                  {actOneThreshold} will be centered around{" "}
+                  <span className="font-[500] text-[#252525]">set up</span>,{" "}
+                  {actOneThreshold + 1} to {actTwoEnd} around{" "}
+                  <span className="font-[500] text-[#252525]">conflict</span>{" "}
+                  and {actTwoEnd + 1} to {mValue} around{" "}
+                  <span className="font-[500] text-[#252525]">resolution</span>.
+                </p>
+              )}
+            </div>
+          )}
 
           <form onSubmit={submitPremise}>
             {/* select section */}

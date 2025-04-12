@@ -68,7 +68,7 @@ const UserNamePopup = ({ refetch, setAddPopup ,addPremise}) => {
         setAddPopup(null);
       }
     } else {
-      toast.error("Something went wrong", {
+      toast.error("Failed to add user name, Please try again", {
         position: toast.POSITION.TOP_CENTER,autoClose: 800,
       });
     }
