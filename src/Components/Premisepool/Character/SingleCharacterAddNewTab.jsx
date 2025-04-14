@@ -232,7 +232,7 @@ const SingleCharacterAddNewTab = ({
   );
   const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
 
-  console.log("characterArray", characterArray);
+  // console.log("characterArray", characterArray);
 
   const handleSuggest = async (e) => {
     e.preventDefault();
@@ -656,7 +656,7 @@ const SingleCharacterAddNewTab = ({
               isSaveDisabled ? "bg-[#616161] " : "bg-[#33B0CA] "
             } text-[14px] font-[600] text-white w-[69px] h-[32px] rounded-[4px]`}
           >
-            Save3
+            Save
           </button>
         </div>
         {selectedLanguage && keyboardVisible && (

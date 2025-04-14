@@ -32,6 +32,7 @@ import {
 import { setUser } from "../../../app/Slices/userSlice";
 import fillIcon from "../../../img/Icons/fillicon.png";
 import bgIcon from "../../../img/Icons/setBgIcn.png";
+import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
 import TypingLoader from "../../TypingLoader";
 import { baseURL } from "../../utils";
 import CharacterEditablePop from "../Character/CharacterEditablePop";
@@ -515,6 +516,7 @@ const PremisePreview2 = ({
 
   const [openDotMenu, setOpenDotMenu] = useState(null);
   const [hideDisable, setHideDisable] = useState(false);
+  const [sameNamePop, setSameNamePop] = useState(false);
   const [toDltPremiseWhenErrorID, setToDltPremiseWhenErrorID] = useState("");
   // console.log("toDltPremiseWhenErrorID", toDltPremiseWhenErrorID);
 
@@ -694,14 +696,20 @@ const PremisePreview2 = ({
       };
 
       if (createNewProject) {
+        const trimmedName = spProjectName.trim();
         const nameExists = allspProjectJSON?.projects?.some(
-          (item) => item.name === spProjectName
+          (item) => item.name === trimmedName
         );
         if (nameExists) {
+          console.log("cxvcxcxcx");
           setIsLoading(false);
-          return alert(
-            "A project with the same name already exists. Please choose a different name."
-          );
+
+          setSameNamePop(true);
+
+          return;
+          // return alert(
+          //   "A project with the same name already exists. Please choose a different name."
+          // );
         }
 
         const response = await createProject(data);
@@ -1483,18 +1491,15 @@ const PremisePreview2 = ({
           //     : "h-[180px]"
           // }`}
           className={`relative ${
-
-
-
             finalSubmitLoading
-            ? "md:h-[72px]"
-            : charSaveDisable
-            ? "h-[150px] overflow-y-hidden"
-            : finalEdit
-            ? "h-[125px]"
-            : createNewProject || selectedSpProjectID
-            ? "h-[373px]"
-            : "h-[180px]" 
+              ? "md:h-[72px]"
+              : charSaveDisable
+              ? "h-[150px] overflow-y-hidden"
+              : finalEdit
+              ? "h-[125px]"
+              : createNewProject || selectedSpProjectID
+              ? "h-[373px]"
+              : "h-[180px]"
           }`}
         >
           <div
@@ -2302,6 +2307,13 @@ const PremisePreview2 = ({
             projectRefetch={projectRefetch}
             actOneThreshold={actOneThreshold}
             actTwoEnd={actTwoEnd}
+          />
+        )}
+
+        {sameNamePop && (
+          <SameNamePop
+            popClose={setSameNamePop}
+            title={`A project with the same name already exists. Please choose a different name.`}
           />
         )}
         <div>
