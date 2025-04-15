@@ -13,12 +13,12 @@ import transReqQ from "../../../img/Icons/transReqQ.png";
 
 import { useSelector } from "react-redux";
 import { fetchUserAccess, MyContext } from "../../../App";
+import { useGetPremiseUserQuery } from "../../../app/EndPoints/premisePoolApi";
 import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
 import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
-import { useGetPremiseUserQuery } from "../../../app/EndPoints/premisePoolApi";
 
 const CardHeadOptions = ({
   refetch,
@@ -63,6 +63,7 @@ const CardHeadOptions = ({
   openDotMenu,
   addPopup,
   setAddPopup,
+  setNotifyPopup,
 }) => {
   // const {
 
@@ -402,26 +403,22 @@ const CardHeadOptions = ({
               <>
                 {
                   <button
-                    className={`${
-                      is_requested_for_sale
-                        ? "cursor-default"
-                        : " cursor-pointer"
-                    }`}
+                    className={`cursor-pointer`}
                     data-te-toggle="tooltip"
                     title="Send Sale Request"
-                    disabled={is_requested_for_sale}
-                    onClick={() => {
-                      checkAllowance(setSaleRequestPop, id);
-                      refetch();
-                    }}
+                    // disabled={is_requested_for_sale}
                     // onClick={() => {
-                    //   if (is_requested_for_sale) {
-                    //     setNotifyPopup(true);
-                    //   } else {
-                    //     checkAllowance(setSaleRequestPop, id);
-                    //     refetch();
-                    //   }
+                    //   checkAllowance(setSaleRequestPop, id);
+                    //   refetch();
                     // }}
+                    onClick={() => {
+                      if (is_requested_for_sale) {
+                        setNotifyPopup(true);
+                      } else {
+                        checkAllowance(setSaleRequestPop, id);
+                        refetch();
+                      }
+                    }}
                   >
                     <img
                       src={sendSaleReq}

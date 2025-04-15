@@ -24,6 +24,7 @@ import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyLike from "./ReplyLike";
 import ReplyToReply3 from "./ReplyToReply3";
+import SimpleAlertPop from "../../PremiseV2/Popups/alerts/SimpleAlertPop";
 
 const ReplyToReply2 = ({
   fromNew,
@@ -132,14 +133,17 @@ const ReplyToReply2 = ({
   };
   // console.log("childReply", childReply?.user?.id, "user", user, "owner", owner);
   const childReplyRef = useRef();
+  const [alert, setAlert] = useState(false);
   const handlePostReplyToReply = async (e, isEnterKey = false) => {
     const childReplyText = childReplyRef.current.value;
     if (e) {
       e.preventDefault();
     }
     if (childReplyText.length === 0) {
-      alert("You can't send an empty reply!");
-      return;
+      // alert("You can't send an empty reply!");
+
+            setAlert(true)
+            return;
     }
 
     setDisableBtn(true);
@@ -777,6 +781,7 @@ const ReplyToReply2 = ({
           service={`PP_Brainstrom`}
         />
       )}
+       {alert && <SimpleAlertPop title={`You can't send an empty reply!`} />}
     </>
   );
 };

@@ -31,6 +31,7 @@ import CommentLikePopup from "./CommentLikePopup";
 import ConfirmationModal from "./Comments/ConfirmationModal";
 import ReplyToComments from "./Comments/ReplyToComments";
 import UserType from "./UserType";
+import SimpleAlertPop from "../PremiseV2/Popups/alerts/SimpleAlertPop";
 
 const AllComments = ({
   commentIdx,
@@ -285,8 +286,8 @@ const AllComments = ({
     }
   };
 
-  console.log("suggestDisable", suggestDisable);
-
+  // console.log("suggestDisable", suggestDisable);
+  const [alert, setAlert] = useState(false);
   const handlePostReplyToComment = async (e, isEnterKey = false) => {
     if (e) {
       e.preventDefault();
@@ -294,7 +295,8 @@ const AllComments = ({
     const replyText = replyRef?.current.value;
 
     if (replyText?.length === 0) {
-      alert("You can't send an empty reply!");
+      setAlert(true);
+      // alert("You can't send an empty reply!");
       return;
     }
     setDisableD(true);
@@ -383,7 +385,7 @@ const AllComments = ({
         };
 
         setSuggestedBeats(beatData);
-        
+
         setBeatSuggLoading(false);
       } else {
         // Handle case where no beats are returned
@@ -1173,8 +1175,8 @@ const AllComments = ({
           setNoAccessPopup={setNoAccessLbPopup}
         />
       )}
-      {(noAccessLbPopup?.msg == "LB" ||
-        noAccessLbPopup?.msg == "ShowBuyPackage_and_Allacarte") && (
+      {(noAccessLbPopup?.msg === "LB" ||
+        noAccessLbPopup?.msg === "ShowBuyPackage_and_Allacarte") && (
         <NoAccessLbPopUp
           noAccessLbPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
@@ -1191,6 +1193,8 @@ const AllComments = ({
           content="Are you sure you want to delete this item?"
         />
       )}
+
+      {alert && <SimpleAlertPop title={`You can't send an empty reply!`} />}
     </div>
   );
 };

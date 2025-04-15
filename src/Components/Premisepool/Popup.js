@@ -31,6 +31,7 @@ import PaySalePopup from "../PremiseV2/Popups/PaySalePopup";
 import ReqSalePop from "../PremiseV2/Popups/ReqSalePop";
 import ReqTranslationPop from "../PremiseV2/Popups/ReqTranslationPop";
 
+import NotifyPopup from "../PremiseV2/Popups/alerts/NotifyPopup";
 import SaleRequestedOwner from "../PremiseV2/Popups/SaleRequestedOwner";
 import TransInOtherLang from "../PremiseV2/Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../PremiseV2/Popups/ViewTranslation.pop";
@@ -52,7 +53,6 @@ import "./Premise.css";
 import UserMail from "./UserMail";
 import UserNamePopup from "./UserNamePopup";
 import UserType from "./UserType";
-import NotifyPopup from "../PremiseV2/Popups/alerts/NotifyPopup";
 
 const Popup = ({
   popClose,
@@ -1066,7 +1066,7 @@ const Popup = ({
           {notifyPopup && (
             <NotifyPopup
               popClose={setNotifyPopup}
-              title={`This is currently unavailable for sale as there is a pending sale request from another User.`}
+              title={`This is currently unavailable for sale as there is a pending sale request from another User. Would you like us to notify you when this becomes available?`}
             />
           )}
         </div>

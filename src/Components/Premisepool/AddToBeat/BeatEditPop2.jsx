@@ -23,6 +23,7 @@ import { URL } from "../../utils";
 import KeyboardB from "../KeyboardB";
 import { keyboardOptions } from "../KeyboardOption";
 import { sortedLanguages } from "../Languages";
+import SimpleAlertPop from "../../PremiseV2/Popups/alerts/SimpleAlertPop";
 const BeatEditPop = ({
   popClose,
   commentText,
@@ -127,15 +128,19 @@ const BeatEditPop = ({
     }
   }, [userFirstName, userLastName, userRefetch]);
 
+  const [alert, setAlert] = useState(false);
+  const [alertText, setAlertText] = useState("");
   const handleCreateProject = async () => {
-
     const nameExists = ProjectsObj?.projects?.some(
       (item) => item.name === newProjectName
     );
     if (nameExists) {
-      return alert(
-        "A project with the same name already exists. Please choose a different name."
-      );
+      setAlert(true);
+      setAlertText('A project with the same name already exists. Please choose a different name.')
+      return;
+      //  alert(
+      //   "A project with the same name already exists. Please choose a different name."
+      // );
     }
 
     setButtonDisable(true);
@@ -182,7 +187,7 @@ const BeatEditPop = ({
       language: "en",
       nature_project: premiseData?.nature_of_project,
       duration: premiseData?.minutes,
-      service_name: "premisePool"
+      service_name: "premisePool",
     };
 
     const response = await createProject(data);
@@ -240,7 +245,6 @@ const BeatEditPop = ({
   // Function to handle the click on "Add New Project" button
 
   const handleAddNewProjectClick = () => {
-
     setNewProjectVisible(!isNewProjectVisible);
     setSelectedProject(null);
   };
@@ -254,8 +258,6 @@ const BeatEditPop = ({
   const [saveScreenPlay, resSaveScreenPlay] = useSaveScreenPlayMutation();
   const [screenPlayData, setScreenPlayData] = useState();
 
-
-  
   const handleSubmitBeatToProject = async () => {
     // console.log("resSaveScreenPlay", resSaveScreenPlay.isSuccess);
     const data = {
@@ -545,7 +547,9 @@ const BeatEditPop = ({
                           }}
                           onChange={(e) => {
                             if (e.target.value.length === 30) {
-                              alert("Maximum 30 characters are allowed");
+                              // alert("Maximum 30 characters are allowed");
+                              setAlertText(`Maximum 30 characters are allowed`)
+                              setAlert(true)
                               return;
                             }
                             setNewProjectName(e.target.value);
@@ -904,6 +908,8 @@ const BeatEditPop = ({
           </div>
         </div>
       )}
+
+      {alert && <SimpleAlertPop title={alertText} />}
     </>
   );
 };

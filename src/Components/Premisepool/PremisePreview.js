@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReactHtmlParser from "react-html-parser";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -31,6 +31,8 @@ const PremisePreview = ({
     }
   }, [userQuery, dispatch, user]);
 
+
+   const [wentWrongPop, setWentWrongPop] = useState(false);
   const submitPremise = async () => {
     const formData = new FormData();
     formData.append("text", editorContent);

@@ -6,6 +6,7 @@ import arrowRight from "../../../img/Icons/ArrowRicon.png";
 
 import { useAddUserNamePremiseMutation } from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
+import WentWrongPop from "../../PremiseV2/Popups/alerts/WentWrongPop";
 
 const UserNamePopBeat = ({
   setOpenUserNamePop,
@@ -36,7 +37,7 @@ const UserNamePopBeat = ({
     setLastName(value);
     setIsNextButtonEnabled(firstName.trim() !== "" && value.trim() !== "");
   };
-
+ const [wentWrongPop, setWentWrongPop] = useState(false);
   const handleSubmit = async () => {
     const body = {
       firstName: firstName.trim(),
@@ -60,9 +61,8 @@ const UserNamePopBeat = ({
 
       // window.location.reload();
     } else {
-      toast.error("Something went wrong", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      setWentWrongPop(true)
+     
     }
   };
 
@@ -122,6 +122,7 @@ const UserNamePopBeat = ({
           </div>
         </div>
       </div>
+        {wentWrongPop && <WentWrongPop popClose={setWentWrongPop} />}
     </div>
   );
 };
