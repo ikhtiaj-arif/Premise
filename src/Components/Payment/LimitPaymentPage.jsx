@@ -1,18 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
-import { MyContext } from "../../App";
-import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
-import TypingLoader from "../TypingLoader";
-import logo from "../../img/MNF_Logo_Final.png";
-import Valid from "../../img/valid_upto.png";
-import { HeaderOptions } from "./HeaderOptions";
-import { Package } from "./Package";
-import { Amount } from "./Amount";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { MyContext } from "../../App";
 import {
   useCallbackPackageMutation,
   usePaymentUintDetailsMutation,
   usePayNowPackageMutation,
 } from "../../app/EndPoints/premisePoolApi";
+import logo from "../../img/MNF_Logo_Final.png";
+import Valid from "../../img/valid_upto.png";
+import SimpleAlertPop from "../PremiseV2/Popups/alerts/SimpleAlertPop";
+import TypingLoader from "../TypingLoader";
+import { Amount } from "./Amount";
+import { HeaderOptions } from "./HeaderOptions";
+import { Package } from "./Package";
+import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 
 const LimitPaymentPage = () => {
   const { counts, setCounts, currentUser, scriptId } = useContext(MyContext);
@@ -99,9 +101,11 @@ const LimitPaymentPage = () => {
     });
   }
 
+  const [termAlert, setTermAlert] = useState(false);
   const handleClick = async () => {
     if (!isAgreementChecked) {
-      alert("You must agree to the terms of payment..!");
+      // alert("You must agree to the terms of payment..!");
+      setTermAlert(true);
       return;
     }
     setPaymentCondition(true);
@@ -287,6 +291,10 @@ const LimitPaymentPage = () => {
             </div>
           </div>
         </section>
+      )}
+
+      {termAlert && (
+        <SameNamePop popClose={setTermAlert} title={`You must agree to the terms of payment..!`} />
       )}
     </div>
   );

@@ -16,6 +16,8 @@ import TypingLoader from "../TypingLoader";
 import { Amount } from "./Amount";
 import { HeaderOptions } from "./HeaderOptions";
 import { Package } from "./Package";
+import SimpleAlertPop from "../PremiseV2/Popups/alerts/SimpleAlertPop";
+import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 
 const PaymentInvoicePopup = ({
   refetch,
@@ -112,10 +114,11 @@ const PaymentInvoicePopup = ({
       document.body.appendChild(script);
     });
   }
-
+  const [termAlert, setTermAlert] = useState(false);
   const handleClick = async () => {
     if (!isAgreementChecked) {
-      alert("You must agree to the terms of payment..!");
+      // alert("You must agree to the terms of payment..!");
+      setTermAlert(true);
       return;
     }
     setPaymentCondition(true);
@@ -340,6 +343,9 @@ const PaymentInvoicePopup = ({
           </div>
         </div>
       </div>
+      {termAlert && (
+        <SameNamePop popClose={setTermAlert} title={`You must agree to the terms of payment..!`} />
+      )}
     </div>
   );
 };

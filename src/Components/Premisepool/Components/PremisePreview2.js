@@ -395,7 +395,7 @@ const PremisePreview2 = ({
     };
   }, []);
 
-  console.log("language", language);
+
 
   useEffect(() => {
     if (selectedSpProjectID === "") {

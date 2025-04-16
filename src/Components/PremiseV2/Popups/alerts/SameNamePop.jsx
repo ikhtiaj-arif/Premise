@@ -21,7 +21,7 @@ const SameNamePop = ({ popClose, title }) => {
               className={` text-white rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] 
                 bg-[#33B0CA]`}
             >
-              Okay
+              Ok
             </button>
           </div>
         </div>
