@@ -32,6 +32,7 @@ import ConfirmationModal from "./Comments/ConfirmationModal";
 import ReplyToComments from "./Comments/ReplyToComments";
 import UserType from "./UserType";
 import SimpleAlertPop from "../PremiseV2/Popups/alerts/SimpleAlertPop";
+import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 
 const AllComments = ({
   commentIdx,
@@ -1194,7 +1195,7 @@ const AllComments = ({
         />
       )}
 
-      {alert && <SimpleAlertPop title={`You can't send an empty reply!`} />}
+      {alert && <SameNamePop  popClose={setAlert} title={`You can't send an empty reply!`} />}
     </div>
   );
 };

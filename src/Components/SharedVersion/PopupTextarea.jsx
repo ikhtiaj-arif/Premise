@@ -12,6 +12,8 @@ import LanguageSelector from "../Premisepool/LanguageSelector";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 import { baseURL } from "../utils";
+import SimpleAlertPop from "../PremiseV2/Popups/alerts/SimpleAlertPop";
+import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 
 const PopupTextarea = ({
   premiseOwner,
@@ -109,9 +111,11 @@ const PopupTextarea = ({
     }
   };
 
+  const [alert, setAlert] = useState(false);
   const handleSubmitComment = async () => {
     if (newComment.length === 0) {
-      alert("You can't send an empty comment!");
+      // alert("You can't send an empty comment!");
+      setAlert(true)
       return;
     }
 
@@ -347,6 +351,7 @@ const PopupTextarea = ({
           />
         )
       )}
+        {alert && <SameNamePop popClose={setAlert} title={`You can't send an empty comment!`} />}
     </div>
   );
 };

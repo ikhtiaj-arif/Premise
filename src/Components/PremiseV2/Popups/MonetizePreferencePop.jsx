@@ -6,6 +6,7 @@ import {
 } from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import SimpleAlertPop from "./alerts/SimpleAlertPop";
+import SameNamePop from "./alerts/SameNamePop";
 
 const MonetizePreferencePop = ({ popClose, id, user }) => {
   const [updatePremise, { isLoading }] = useEditPremiseMutation();
@@ -189,7 +190,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
           </div>
         </form>
       </div>
-      {alert && <SimpleAlertPop title={`Please provide a price for transferring ownership.`} />}
+      {alert && <SameNamePop popClose={setAlert} title={`Please provide a price for transferring ownership.`} />}
     </div>
   );
 };

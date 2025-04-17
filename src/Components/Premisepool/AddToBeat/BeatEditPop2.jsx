@@ -24,6 +24,7 @@ import KeyboardB from "../KeyboardB";
 import { keyboardOptions } from "../KeyboardOption";
 import { sortedLanguages } from "../Languages";
 import SimpleAlertPop from "../../PremiseV2/Popups/alerts/SimpleAlertPop";
+import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
 const BeatEditPop = ({
   popClose,
   commentText,
@@ -909,7 +910,7 @@ const BeatEditPop = ({
         </div>
       )}
 
-      {alert && <SimpleAlertPop title={alertText} />}
+      {alert && <SameNamePop popClose={setAlert} title={alertText} />}
     </>
   );
 };

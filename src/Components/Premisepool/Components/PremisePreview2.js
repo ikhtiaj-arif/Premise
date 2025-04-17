@@ -395,8 +395,6 @@ const PremisePreview2 = ({
     };
   }, []);
 
-
-
   useEffect(() => {
     if (selectedSpProjectID === "") {
       setMatchingProject(null);
@@ -701,11 +699,8 @@ const PremisePreview2 = ({
           (item) => item.name === trimmedName
         );
         if (nameExists) {
-          console.log("cxvcxcxcx");
           setIsLoading(false);
-
           setSameNamePop(true);
-
           return;
           // return alert(
           //   "A project with the same name already exists. Please choose a different name."
@@ -826,9 +821,8 @@ const PremisePreview2 = ({
               })
               .catch((error) => {
                 setIsLoading(false);
-                deletePremiseWhenFailed(deletePreID);
-
                 deleteProject(deleteId);
+                deletePremiseWhenFailed(deletePreID);
 
                 toast.error("Failed to create Premise", {
                   position: toast.POSITION.TOP_CENTER,
@@ -840,7 +834,7 @@ const PremisePreview2 = ({
             // Handle API errors
             setIsLoading(false);
 
-            deleteProject(deleteId);
+            deleteProject({ project: deleteId });
             toast.error(
               res?.error?.data?.message || "Failed to create Premise!",
               {
@@ -996,6 +990,8 @@ const PremisePreview2 = ({
       });
     }
   };
+
+
 
   useEffect(() => {
     if (updateResInfo.isSuccess) {

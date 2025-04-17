@@ -25,6 +25,7 @@ import ConfirmationModal from "./ConfirmationModal";
 import ReplyLike from "./ReplyLike";
 import ReplyToReply3 from "./ReplyToReply3";
 import SimpleAlertPop from "../../PremiseV2/Popups/alerts/SimpleAlertPop";
+import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
 
 const ReplyToReply2 = ({
   fromNew,
@@ -781,7 +782,7 @@ const ReplyToReply2 = ({
           service={`PP_Brainstrom`}
         />
       )}
-       {alert && <SimpleAlertPop title={`You can't send an empty reply!`} />}
+       {alert && <SameNamePop popClose={setAlert} title={`You can't send an empty reply!`} />}
     </>
   );
 };
