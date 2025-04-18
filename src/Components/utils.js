@@ -10,10 +10,10 @@
 // const URL = `https://app.mynextfilm.ai`;
 // const baseURL = `https://app.mynextfilm.ai`;
 
-const URL = window.location.origin;
-const baseURL = window.location.origin;
-// const URL = "http://1.6.141.108";
-// const baseURL = "http://1.6.141.108";
+// const URL = window.location.origin;
+// const baseURL = window.location.origin;
+const URL = "http://1.6.141.108";
+const baseURL = "http://1.6.141.108";
 
 // const URL = "https://taj4o.mynextfilm.in";
 // const baseURL = "https://taj4o.mynextfilm.in";

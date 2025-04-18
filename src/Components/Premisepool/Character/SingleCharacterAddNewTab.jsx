@@ -214,7 +214,8 @@ const SingleCharacterAddNewTab = ({
     "Antagonist",
     "Narrator",
     "Co-Star",
-    "Supporting Character",
+ 
+    "Mediator",
     "Confidant",
     "Love Interest",
     "Antagonist's Right Hand",
@@ -224,6 +225,17 @@ const SingleCharacterAddNewTab = ({
     "Rival",
     "Sidekick",
     "Symbolic Character",
+    "Suspect",
+    "Family Member",
+    "Instigator",
+    "Authority Figure",
+    "Activist",
+    "Peer",
+    "Seeker ",
+    "Guardian",
+    "Supporting Character",
+    "Expert",
+    "Arbiter",
     "Others",
   ];
 

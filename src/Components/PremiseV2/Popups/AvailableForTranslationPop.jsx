@@ -49,6 +49,7 @@ const AvailableForTranslationPop = ({
   const handlePayNow = () => {
     setPayment(true);
   };
+  
   const [openDotMenu, setOpenDotMenu] = useState(null);
   const [hideDisable, setHideDisable] = useState(false);
 

@@ -125,11 +125,22 @@ const LeftSideBar = ({
     "Sidekick",
     "Comic Relief",
     "Narrator",
-    "Supporting Character",
+    "Mediator",
     "Confidant",
     "Foil",
     "Mentor",
     "Symbolic Character",
+    "Suspect",
+    "Family Member",
+    "Instigator",
+    "Authority Figure",
+    "Activist",
+    "Peer",
+    "Seeker ",
+    "Guardian",
+    "Supporting Character",
+    "Expert",
+    "Arbiter",
   ];
 
   const sortedCharacters = characterOrder?.reduce((acc, role) => {
@@ -252,7 +263,6 @@ const LeftSideBar = ({
 
   // console.log("characters", characters);
   // console.log("finalCharacters", finalCharacters);
-
 
   return (
     <>
@@ -711,17 +721,17 @@ const LeftSideBar = ({
       )}
       {addNewCharacter === "Yes" && (
         <SingleCharacterAddNewTab
-        setCharacterEditPop={setOpenCharacterChart}
-        setAddNewCharacter={setAddNewCharacter}
-        characterArray={characterArray}
-        currentProjectData={premiseData}
-        setCharacterArray={setCharacterArray}
-        onlyAdd={onlyAdd}
-        handleUpdateSavedChar={handleUpdateSavedChar}
-        characterLoading={isCharLoading}
-        project_id={project_id}
-        source_language={source_language}
-        characterRefetch={characterRefetch}
+          setCharacterEditPop={setOpenCharacterChart}
+          setAddNewCharacter={setAddNewCharacter}
+          characterArray={characterArray}
+          currentProjectData={premiseData}
+          setCharacterArray={setCharacterArray}
+          onlyAdd={onlyAdd}
+          handleUpdateSavedChar={handleUpdateSavedChar}
+          characterLoading={isCharLoading}
+          project_id={project_id}
+          source_language={source_language}
+          characterRefetch={characterRefetch}
         />
       )}
       {deleteChar && (

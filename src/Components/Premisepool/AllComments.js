@@ -22,6 +22,7 @@ import TimeAgo from "../../features/TimeAgo";
 import userIcon from "../../img/Icons/userImg.png";
 import BtnLoading from "../../shared/BtnLoading";
 import CommentTranslator from "../PremiseV2/components/CommentTranslator";
+import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 import CommentLike from "../SharedVersion/CommentLike";
@@ -31,8 +32,6 @@ import CommentLikePopup from "./CommentLikePopup";
 import ConfirmationModal from "./Comments/ConfirmationModal";
 import ReplyToComments from "./Comments/ReplyToComments";
 import UserType from "./UserType";
-import SimpleAlertPop from "../PremiseV2/Popups/alerts/SimpleAlertPop";
-import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 
 const AllComments = ({
   commentIdx,
@@ -379,10 +378,10 @@ const AllComments = ({
         const beats = Object.values(res?.data?.beats);
         //console.log('beats',beats);
         const beatData = {
-          one: beats[0],
-          two: beats[1],
-          three: beats[2],
-          four: beats[3],
+          one: comment?.text,
+          two: beats[0],
+          three: beats[1],
+          four: beats[2],
         };
 
         setSuggestedBeats(beatData);
@@ -1195,7 +1194,12 @@ const AllComments = ({
         />
       )}
 
-      {alert && <SameNamePop  popClose={setAlert} title={`You can't send an empty reply!`} />}
+      {alert && (
+        <SameNamePop
+          popClose={setAlert}
+          title={`You can't send an empty reply!`}
+        />
+      )}
     </div>
   );
 };
