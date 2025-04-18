@@ -24,6 +24,8 @@ import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyLike from "./ReplyLike";
 import ReplyToReply from "./ReplyToReply";
+import SimpleAlertPop from "../../PremiseV2/Popups/alerts/SimpleAlertPop";
+import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
 
 const ReplyToComments = ({
   commentIdx,
@@ -162,14 +164,15 @@ const ReplyToComments = ({
     setReplyChildTextCount(childReply?.length);
     setChildReplyText(childReply);
   };
-
+  const [alert, setAlert] = useState(false);
   const handlePostReplyToReply = async (e, isEnterKey = false) => {
     const childReplyText = replyRef.current.value;
     if (e) {
       e.preventDefault();
     }
     if (childReplyText?.length === 0) {
-      alert("You can't send an empty reply!");
+      // alert("You can't send an empty reply!");
+      setAlert(true)
       return;
     }
 
@@ -771,6 +774,7 @@ const ReplyToComments = ({
           service={`PP_Brainstrom`}
         />
       )}
+       {alert && <SameNamePop popClose={setAlert} title={`You can't send an empty reply!`} />}
     </div>
   );
 };

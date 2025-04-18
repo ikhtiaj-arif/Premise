@@ -12,6 +12,7 @@ import {
 import crossIcon from "../../img/croos_icon.png";
 import logo from "../../img/MNF_Logo_Final.png";
 import Valid from "../../img/valid_upto.png";
+import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 import TypingLoader from "../TypingLoader";
 import { Amount } from "./Amount";
 import { HeaderOptions } from "./HeaderOptions";
@@ -112,10 +113,12 @@ const PaymentInvoicePopup = ({
       document.body.appendChild(script);
     });
   }
-
+  const [alert, setAlert] = useState(false);
+  const [termAlert, setTermAlert] = useState(false);
   const handleClick = async () => {
     if (!isAgreementChecked) {
-      alert("You must agree to the terms of payment..!");
+      // alert("You must agree to the terms of payment..!");
+      setTermAlert(true);
       return;
     }
     setPaymentCondition(true);
@@ -138,7 +141,7 @@ const PaymentInvoicePopup = ({
       );
 
       if (!res) {
-        alert("Razorpay SDK failed to load. please check are you online?");
+        setAlert(true);
         return;
       }
 
@@ -340,6 +343,18 @@ const PaymentInvoicePopup = ({
           </div>
         </div>
       </div>
+      {termAlert && (
+        <SameNamePop
+          popClose={setTermAlert}
+          title={`You must agree to the terms of payment..!`}
+        />
+      )}
+      {alert && (
+        <SameNamePop
+          popClose={setAlert}
+          title={`Razorpay SDK failed to load. please check are you online?`}
+        />
+      )}
     </div>
   );
 };

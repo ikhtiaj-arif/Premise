@@ -104,7 +104,6 @@ const BeatEditPop = ({
     isError,
     refetch,
   } = useGetMyAllProjectQuery();
-  console.log("suggestedBeats", suggestedBeats);
 
   useEffect(() => {
     const initialValues = Object.keys(suggestedBeats).reduce((acc, key) => {
@@ -208,103 +207,234 @@ const BeatEditPop = ({
   const [beatPostLoading, setBeatPostLoading] = useState(false);
   const [projectNotFound, setProjectNotFound] = useState(false);
 
+  // const handleSubmitBeatToProject = async () => {
+  //   setBeatPostLoading(true);
+  //   // setAddToBeatDisable(true);
+  //   const data = {
+  //     name: selectedProject?.name,
+  //     version: selectedProject?.total_versions,
+  //   };
+  //   let screenPlayResponse;
+  //   // screenPlayResponse = await getScreenPlay(data);
+  //   try {
+  //     screenPlayResponse = await getScreenPlay(data);
+  //     // console.log("screenPlayResponse", screenPlayResponse?.data);
+  //   } catch (err) {
+  //     // alert("The screenplay file on the server is deleted or cannot be found.");
+  //     setBeatPostLoading(false);
+  //     // setAddToBeatDisable(false);
+  //     return;
+  //   }
+
+  //   if (!screenPlayResponse?.data || isProjectLocked) {
+  //     setProjectNotFound(true);
+
+  //     setBeatPostLoading(false);
+  //     return;
+  //   }
+  //   const screenPlayJson = screenPlayResponse.data?.screenplay_data_json;
+
+  //   if (screenPlayJson && Object.keys(screenPlayJson).length !== 0) {
+  //     const newBlankParagraph = {
+  //       type: "paragraph",
+  //       attrs: {
+  //         "data-line-number": null,
+  //         paragraphWidth: "0px",
+  //         paragraphMargin: "20px",
+  //         paragraphCase: "uppercase",
+  //         textAlign: "left",
+  //         scriptElement: "blank",
+  //         id: "new-uuid-for-blank",
+  //         class: "",
+  //         color: "black",
+  //       },
+  //     };
+
+  //     const newSluglineParagraph = {
+  //       type: "paragraph",
+  //       attrs: {
+  //         "data-line-number": null,
+  //         paragraphWidth: "0px",
+  //         paragraphMargin: "20px",
+  //         paragraphCase: "uppercase",
+  //         textAlign: "left",
+  //         scriptElement: "slugline",
+  //         id: "new-uuid-for-slugline",
+  //         class: "",
+  //         color: "black",
+  //       },
+  //       content: [
+  //         {
+  //           type: "text",
+  //           text: "INT. NEW SLUGLINE TEXT",
+  //         },
+  //       ],
+  //     };
+
+  //     const newArray = [
+  //       ...screenPlayJson,
+  //       newBlankParagraph,
+  //       newSluglineParagraph,
+  //     ];
+
+  //     setScreenPlayData(newArray);
+  //   } else {
+  //     const newSluglineParagraph = {
+  //       type: "paragraph",
+  //       attrs: {
+  //         "data-line-number": null,
+  //         paragraphWidth: "0px",
+  //         paragraphMargin: "20px",
+  //         paragraphCase: "uppercase",
+  //         textAlign: "left",
+  //         scriptElement: "slugline",
+  //         id: "new-uuid-for-slugline",
+  //         class: "",
+  //         color: "black",
+  //       },
+  //       content: [
+  //         {
+  //           type: "text",
+  //           text: "INT. NEW SLUGLINE TEXT",
+  //         },
+  //       ],
+  //     };
+
+  //     const newArray = [newSluglineParagraph];
+
+  //     setScreenPlayData(newArray);
+  //   }
+
+  //   const accessToken = localStorage.getItem("accessToken");
+  //   const screenPlayResId = screenPlayResponse.data.screenplay.screenplay_uuid;
+  //   const options = {
+  //     url: `${URL}/scriptpad2/update-scene/${screenPlayResId}`,
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: `Bearer ${accessToken}`,
+  //       "Content-Type": "application/json",
+
+  //       // Add any other headers if needed
+  //     },
+  //   };
+  //   return axios(options)
+  //     .then((response) => {
+  //       if (response) {
+  //         let existingBeatData = response.data.data;
+  //         const beatAddData = {
+  //           beat: modifiedText,
+  //           script: screenPlayResId,
+  //           scene_number: existingBeatData.length + 1,
+  //         };
+  //         updateScene(beatAddData);
+  //         toast.success("Beat successfully added to your scene", {
+  //           position: toast.POSITION.TOP_CENTER,
+  //           autoClose: 800,
+  //         });
+
+  //         if (commentObj?.reply) {
+  //           // console.log("replyyy");
+  //           const data = {
+  //             reply_id: commentObj.id,
+  //             add_to_beat_text: modifiedText,
+  //           };
+  //           addedToBeat(data);
+  //           replyRefetch();
+  //         } else {
+  //           // console.log("cmnttt");
+  //           const data = {
+  //             comment_id: commentObj.id,
+  //             add_to_beat_text: modifiedText,
+  //           };
+  //           addedToBeat(data);
+  //           commentRefetch();
+  //         }
+  //         // setBeatPostLoading(false);
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       toast.error("Something went wrong!", {
+  //         position: toast.POSITION.TOP_CENTER,
+  //         autoClose: 800,
+  //       });
+  //       setBeatPostLoading(false);
+  //     });
+  // };
   const handleSubmitBeatToProject = async () => {
-    setBeatPostLoading(true);
-    // setAddToBeatDisable(true);
+    setBeatPostLoading(true); // Disable loading initially
+
     const data = {
       name: selectedProject?.name,
       version: selectedProject?.total_versions,
     };
+
     let screenPlayResponse;
-    // screenPlayResponse = await getScreenPlay(data);
     try {
       screenPlayResponse = await getScreenPlay(data);
-      // console.log("screenPlayResponse", screenPlayResponse?.data);
     } catch (err) {
-      // alert("The screenplay file on the server is deleted or cannot be found.");
-      setBeatPostLoading(false);
-      // setAddToBeatDisable(false);
+      setBeatPostLoading(false); // Re-enable loading in case of error
+      toast.error("Failed to fetch screenplay, please try again.", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 800,
+      });
       return;
     }
 
     if (!screenPlayResponse?.data || isProjectLocked) {
       setProjectNotFound(true);
-
-      setBeatPostLoading(false);
+      setBeatPostLoading(false); // Re-enable loading when project not found
+      toast.error("Project not found or locked, please try again.", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 800,
+      });
       return;
     }
+
     const screenPlayJson = screenPlayResponse.data?.screenplay_data_json;
 
-    if (screenPlayJson && Object.keys(screenPlayJson).length !== 0) {
-      const newBlankParagraph = {
-        type: "paragraph",
-        attrs: {
-          "data-line-number": null,
-          paragraphWidth: "0px",
-          paragraphMargin: "20px",
-          paragraphCase: "uppercase",
-          textAlign: "left",
-          scriptElement: "blank",
-          id: "new-uuid-for-blank",
-          class: "",
-          color: "black",
+    // Create paragraphs to add to the screenplay data
+    const newBlankParagraph = {
+      type: "paragraph",
+      attrs: {
+        "data-line-number": null,
+        paragraphWidth: "0px",
+        paragraphMargin: "20px",
+        paragraphCase: "uppercase",
+        textAlign: "left",
+        scriptElement: "blank",
+        id: "new-uuid-for-blank",
+        class: "",
+        color: "black",
+      },
+    };
+
+    const newSluglineParagraph = {
+      type: "paragraph",
+      attrs: {
+        "data-line-number": null,
+        paragraphWidth: "0px",
+        paragraphMargin: "20px",
+        paragraphCase: "uppercase",
+        textAlign: "left",
+        scriptElement: "slugline",
+        id: "new-uuid-for-slugline",
+        class: "",
+        color: "black",
+      },
+      content: [
+        {
+          type: "text",
+          text: "INT. NEW SLUGLINE TEXT",
         },
-      };
+      ],
+    };
 
-      const newSluglineParagraph = {
-        type: "paragraph",
-        attrs: {
-          "data-line-number": null,
-          paragraphWidth: "0px",
-          paragraphMargin: "20px",
-          paragraphCase: "uppercase",
-          textAlign: "left",
-          scriptElement: "slugline",
-          id: "new-uuid-for-slugline",
-          class: "",
-          color: "black",
-        },
-        content: [
-          {
-            type: "text",
-            text: "INT. NEW SLUGLINE TEXT",
-          },
-        ],
-      };
+    const newArray =
+      screenPlayJson && Object.keys(screenPlayJson).length !== 0
+        ? [...screenPlayJson, newBlankParagraph, newSluglineParagraph]
+        : [newSluglineParagraph];
 
-      const newArray = [
-        ...screenPlayJson,
-        newBlankParagraph,
-        newSluglineParagraph,
-      ];
-
-      setScreenPlayData(newArray);
-    } else {
-      const newSluglineParagraph = {
-        type: "paragraph",
-        attrs: {
-          "data-line-number": null,
-          paragraphWidth: "0px",
-          paragraphMargin: "20px",
-          paragraphCase: "uppercase",
-          textAlign: "left",
-          scriptElement: "slugline",
-          id: "new-uuid-for-slugline",
-          class: "",
-          color: "black",
-        },
-        content: [
-          {
-            type: "text",
-            text: "INT. NEW SLUGLINE TEXT",
-          },
-        ],
-      };
-
-      const newArray = [newSluglineParagraph];
-
-      setScreenPlayData(newArray);
-    }
+    setScreenPlayData(newArray);
 
     const accessToken = localStorage.getItem("accessToken");
     const screenPlayResId = screenPlayResponse.data.screenplay.screenplay_uuid;
@@ -314,52 +444,87 @@ const BeatEditPop = ({
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",
-
-        // Add any other headers if needed
       },
     };
-    return axios(options)
-      .then((response) => {
-        if (response) {
-          let existingBeatData = response.data.data;
-          const beatAddData = {
-            beat: modifiedText,
-            script: screenPlayResId,
-            scene_number: existingBeatData.length + 1,
-          };
-          updateScene(beatAddData);
-          toast.success("Beat successfully added to your scene", {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 800,
-          });
 
-          if (commentObj?.reply) {
-            // console.log("replyyy");
-            const data = {
-              reply_id: commentObj.id,
-              add_to_beat_text: modifiedText,
-            };
-            addedToBeat(data);
-            replyRefetch();
-          } else {
-            // console.log("cmnttt");
-            const data = {
-              comment_id: commentObj.id,
-              add_to_beat_text: modifiedText,
-            };
-            addedToBeat(data);
-            commentRefetch();
-          }
-          // setBeatPostLoading(false);
-        }
-      })
-      .catch((err) => {
-        toast.error("Something went wrong!", {
+    try {
+      const response = await axios(options);
+
+      if (!response) {
+        throw new Error("Failed to update scene data.");
+      }
+
+      let existingBeatData = response.data.data;
+      const beatAddData = {
+        beat: modifiedText,
+        script: screenPlayResId,
+        scene_number: existingBeatData.length + 1,
+      };
+
+      // Attempt to update the scene
+      const updateRes = await updateScene(beatAddData);
+
+      if (updateRes?.error) {
+        toast.error("Failed to update the scene, please try again.", {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 800,
         });
-        setBeatPostLoading(false);
+        setBeatPostLoading(false); // Re-enable loading in case of error
+        return; // Stop further execution if scene update fails
+      }
+
+      // Proceed with adding the beat if scene update is successful
+      const fetchData = commentObj?.reply
+        ? { reply_id: commentObj.id, add_to_beat_text: modifiedText }
+        : { comment_id: commentObj.id, add_to_beat_text: modifiedText };
+
+      try {
+        // Attempt to add the beat
+        const addToBeatRes = await addedToBeat(fetchData);
+        if (addToBeatRes?.error) {
+          toast.error("Failed to add beat to project, please try again.", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 800,
+          });
+          setBeatPostLoading(false); // Re-enable loading in case of error
+          return; // Stop further execution if adding the beat fails
+        }
+      } catch (beatError) {
+        toast.error("Failed to add beat to project, please try again.", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 800,
+        });
+        setBeatPostLoading(false); // Re-enable loading in case of error
+        return; // Stop further execution if adding the beat fails
+      }
+
+      // Wait for refetch before finishing
+      try {
+        if (commentObj?.reply) {
+          await replyRefetch();
+        } else {
+          await commentRefetch();
+        }
+        // If all steps succeed, show success toast
+        toast.success("Beat successfully added to your scene", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 800,
+        });
+      } catch (refetchError) {
+        toast.error("Failed to refetch data, please try again.", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 800,
+        });
+        setBeatPostLoading(false); // Re-enable loading in case of error
+        return; // Stop further execution if refetching fails
+      }
+    } catch (err) {
+      toast.error("Failed to update scene, please try again.", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 800,
       });
+      setBeatPostLoading(false); // Ensure loading is disabled in case of error
+    }
   };
 
   useEffect(() => {
@@ -820,7 +985,7 @@ const BeatEditPop = ({
                   popClose();
                 }}
                 onConfirm={() => handleOpenBeatSheet()}
-                title="Beat added, would you like to open script now ?"
+                title="Beat added, would you like to open script now?"
                 content="Beat added would you like to open script now "
               />
             )}

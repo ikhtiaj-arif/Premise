@@ -22,6 +22,7 @@ import TimeAgo from "../../features/TimeAgo";
 import userIcon from "../../img/Icons/userImg.png";
 import BtnLoading from "../../shared/BtnLoading";
 import CommentTranslator from "../PremiseV2/components/CommentTranslator";
+import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 import CommentLike from "../SharedVersion/CommentLike";
@@ -244,7 +245,7 @@ const AllComments = ({
       `${currentUser?.id}/PP_AllowBrainstoming`
     );
     console.log(`PP_AllowBrainstoming res`, res);
-    if (res?.access == "No") {
+    if (res?.access === "No") {
       setSuggestDisable(false);
       setNoAccessLbPopup(res);
       setService("PP_Brainstrom");
@@ -254,30 +255,39 @@ const AllComments = ({
   };
 
   const handleSuggest = async (text) => {
-    setSuggestDisable(true);
+    setSuggestDisable(true); // Disable suggestion initially
+
     const data = {
       reply: comments?.id,
       ques_text: text,
       C: comments?.c_value,
     };
 
-    const res = await suggestion(data);
-    if (res) {
-      // setOpenReplyField(comments?.id);
-      setOpenAllReplies(true);
-      setReplyField(false);
-      // setReplyField(true);
-      setReplyToCommentID(comments?.id);
-      setCurrentlyOpenedCommentID(comments?.id);
+    try {
+      // Make the suggestion request
+      const res = await suggestion(data);
+      if (res) {
+        setOpenAllReplies(true);
+        setReplyField(false);
+        setReplyToCommentID(comments?.id);
+        setCurrentlyOpenedCommentID(comments?.id);
+        setOpenReplyFieldID(comments?.id);
+        setCommentOwner(commentOwnerName);
 
-      setOpenReplyFieldID(comments?.id);
-      setCommentOwner(commentOwnerName);
-      setSuggestDisable(false);
-      commentRefetch();
-      replyRefetch();
+        // Wait for both refetch operations to complete
+        await Promise.all([commentRefetch(), replyRefetch()]);
+
+        // After both refetches, re-enable suggestions
+        setSuggestDisable(false);
+      }
+    } catch (error) {
+      console.error("Error during the suggestion process:", error);
+      setSuggestDisable(false); // Ensure to re-enable if there's an error
     }
   };
 
+  // console.log("suggestDisable", suggestDisable);
+  const [alert, setAlert] = useState(false);
   const handlePostReplyToComment = async (e, isEnterKey = false) => {
     if (e) {
       e.preventDefault();
@@ -285,7 +295,8 @@ const AllComments = ({
     const replyText = replyRef?.current.value;
 
     if (replyText?.length === 0) {
-      alert("You can't send an empty reply!");
+      setAlert(true);
+      // alert("You can't send an empty reply!");
       return;
     }
     setDisableD(true);
@@ -335,16 +346,17 @@ const AllComments = ({
   // console.log("comments",comments);
   const handleAddToBeat = async (comment) => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_BeatSheet`);
-    console.log("add to beat res", res);
-    if (res?.access == "No") {
+    // console.log("add to beat res", res);
+    if (res?.access === "No") {
       setNoAccessLbPopup(res);
       setService("PP_Beats");
     } else {
       submitAddToBeat(comment);
     }
   };
+
   const submitAddToBeat = async (comment) => {
-    console.log("comment", comment);
+    // console.log("comment", comment);
 
     setCommentObj(comment);
     setBeatSuggLoading(true);
@@ -372,8 +384,9 @@ const AllComments = ({
           four: beats[2],
         };
 
-        setBeatSuggLoading(false);
         setSuggestedBeats(beatData);
+
+        setBeatSuggLoading(false);
       } else {
         // Handle case where no beats are returned
         setSuggestedBeats({
@@ -1162,8 +1175,8 @@ const AllComments = ({
           setNoAccessPopup={setNoAccessLbPopup}
         />
       )}
-      {(noAccessLbPopup?.msg == "LB" ||
-        noAccessLbPopup?.msg == "ShowBuyPackage_and_Allacarte") && (
+      {(noAccessLbPopup?.msg === "LB" ||
+        noAccessLbPopup?.msg === "ShowBuyPackage_and_Allacarte") && (
         <NoAccessLbPopUp
           noAccessLbPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
@@ -1178,6 +1191,13 @@ const AllComments = ({
           onConfirm={() => handleDeleteComment(idToDlt)}
           title="Are you sure you want to delete this comment?"
           content="Are you sure you want to delete this item?"
+        />
+      )}
+
+      {alert && (
+        <SameNamePop
+          popClose={setAlert}
+          title={`You can't send an empty reply!`}
         />
       )}
     </div>

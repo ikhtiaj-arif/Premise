@@ -9,7 +9,8 @@ const hideUnhidePremiseCustom = async (
   selectedUserIds,
   setBtnDisable,
   setOpenHidePop,
-  commentHide
+  commentHide,
+  setWentWrongPop
 ) => {
   const flag = option.toString();
 
@@ -118,10 +119,9 @@ const hideUnhidePremiseCustom = async (
 
     refetch();
   } catch (error) {
-     console.error("Error fetching data:", error);
-    toast.error("Something went wrong! Please try again.");
+    console.error("Error fetching data:", error);
+    setWentWrongPop(true)
   }
 };
 
 export { hideUnhidePremiseCustom };
-

@@ -32,6 +32,7 @@ import {
 import { setUser } from "../../../app/Slices/userSlice";
 import fillIcon from "../../../img/Icons/fillicon.png";
 import bgIcon from "../../../img/Icons/setBgIcn.png";
+import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
 import TypingLoader from "../../TypingLoader";
 import { baseURL } from "../../utils";
 import CharacterEditablePop from "../Character/CharacterEditablePop";
@@ -394,8 +395,6 @@ const PremisePreview2 = ({
     };
   }, []);
 
-  console.log("language", language);
-
   useEffect(() => {
     if (selectedSpProjectID === "") {
       setMatchingProject(null);
@@ -515,6 +514,7 @@ const PremisePreview2 = ({
 
   const [openDotMenu, setOpenDotMenu] = useState(null);
   const [hideDisable, setHideDisable] = useState(false);
+  const [sameNamePop, setSameNamePop] = useState(false);
   const [toDltPremiseWhenErrorID, setToDltPremiseWhenErrorID] = useState("");
   // console.log("toDltPremiseWhenErrorID", toDltPremiseWhenErrorID);
 
@@ -619,7 +619,7 @@ const PremisePreview2 = ({
 
     // Disable submit button to prevent multiple clicks
     setIsLoading(true);
-    setKeyboardVisible(false)
+    setKeyboardVisible(false);
 
     try {
       const formData = new FormData();
@@ -690,18 +690,21 @@ const PremisePreview2 = ({
         protagonist_type: protagonist,
         protagonist_name: protagonistName,
         protagonist_age: protaAge,
-        service_name: "premisePool"
+        service_name: "premisePool",
       };
 
       if (createNewProject) {
+        const trimmedName = spProjectName.trim();
         const nameExists = allspProjectJSON?.projects?.some(
-          (item) => item.name === spProjectName
+          (item) => item.name === trimmedName
         );
         if (nameExists) {
           setIsLoading(false);
-          return alert(
-            "A project with the same name already exists. Please choose a different name."
-          );
+          setSameNamePop(true);
+          return;
+          // return alert(
+          //   "A project with the same name already exists. Please choose a different name."
+          // );
         }
 
         const response = await createProject(data);
@@ -818,10 +821,8 @@ const PremisePreview2 = ({
               })
               .catch((error) => {
                 setIsLoading(false);
-                deletePremiseWhenFailed(deletePreID);
-
-               
                 deleteProject(deleteId);
+                deletePremiseWhenFailed(deletePreID);
 
                 toast.error("Failed to create Premise", {
                   position: toast.POSITION.TOP_CENTER,
@@ -833,13 +834,14 @@ const PremisePreview2 = ({
             // Handle API errors
             setIsLoading(false);
 
-          
-
-            deleteProject(deleteId);
-            toast.error(res?.error?.data?.message || "Something went wrong!", {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: 1600,
-            });
+            deleteProject({ project: deleteId });
+            toast.error(
+              res?.error?.data?.message || "Failed to create Premise!",
+              {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 1600,
+              }
+            );
             setAddPopup(null);
           }
         }
@@ -968,10 +970,13 @@ const PremisePreview2 = ({
           } else {
             // Handle API errors
             setIsLoading(false);
-            toast.error(res?.error?.data?.message || "Something went wrong!", {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: 800,
-            });
+            toast.error(
+              res?.error?.data?.message || "Failed to create Premise!",
+              {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 800,
+              }
+            );
           }
         }
       }
@@ -979,12 +984,14 @@ const PremisePreview2 = ({
       setIsLoading(false);
 
       // console.error("Error submitting premise:", error);
-      toast.error("Something went wrong!", {
+      toast.error("Failed to create Premise!", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 800,
       });
     }
   };
+
+
 
   useEffect(() => {
     if (updateResInfo.isSuccess) {
@@ -1468,11 +1475,22 @@ const PremisePreview2 = ({
           </div>
         </div>
         <div
+          // className={`relative ${
+          //   charSaveDisable
+          //     ? `h-[150px] ${
+          //         finalSubmitLoading ? "md:h-[65px]" : "md:h-[125px]"
+          //       }  overflow-y-hidden`
+          //     : finalEdit
+          //     ? "h-[125px]"
+          //     : createNewProject || selectedSpProjectID
+          //     ? "h-[373px]"
+          //     : "h-[180px]"
+          // }`}
           className={`relative ${
-            charSaveDisable
-              ? `h-[150px] ${
-                  finalSubmitLoading ? "md:h-[65px]" : "md:h-[125px]"
-                }  overflow-y-hidden`
+            finalSubmitLoading
+              ? "md:h-[72px]"
+              : charSaveDisable
+              ? "h-[150px] overflow-y-hidden"
               : finalEdit
               ? "h-[125px]"
               : createNewProject || selectedSpProjectID
@@ -1654,30 +1672,32 @@ const PremisePreview2 = ({
             )}
           </div>
 
-          <div
-            className={`${
-              finalEdit
-                ? "w-[90%] md:w-[600px]  mx-auto mt-[10px] md:mt-[4px] "
-                : "hidden"
-            } `}
-          >
-            {!charSaveDisable && (
-              <p className="  md:w-[90%] lg:w-[98%] mt-[4px] ml-[10px] md:ml-[8px] text-[12px] md:text-[14px] text-[#616161] leading-[20px] overflow-hidden break-words ">
-                {/* {handleMValues()} */}
-                {/* {handleCharacterText(characterArray)} */}
-                <span className="mnff-m">MNF</span> proposes to develop a{" "}
-                <span className="screenplay-m">screenplay</span> flow by
-                interacting with you through {mValue} comments and discussions
-                thereon. The discussions from comment number {1} to{" "}
-                {actOneThreshold} will be centered around{" "}
-                <span className="font-[500] text-[#252525]">set up</span>,{" "}
-                {actOneThreshold + 1} to {actTwoEnd} around{" "}
-                <span className="font-[500] text-[#252525]">conflict</span> and{" "}
-                {actTwoEnd + 1} to {mValue} around{" "}
-                <span className="font-[500] text-[#252525]">resolution</span>.
-              </p>
-            )}
-          </div>
+          {!finalSubmitLoading && (
+            <div
+              className={`${
+                finalEdit
+                  ? "w-[90%] md:w-[600px]  mx-auto mt-[10px] md:mt-[4px] "
+                  : "hidden"
+              } `}
+            >
+              {!charSaveDisable && (
+                <p className="  md:w-[90%] lg:w-[98%] mt-[4px] ml-[10px] md:ml-[8px] text-[12px] md:text-[14px] text-[#616161] leading-[20px] overflow-hidden break-words ">
+                  {/* {handleMValues()} */}
+                  {/* {handleCharacterText(characterArray)} */}
+                  <span className="mnff-m">MNF</span> proposes to develop a{" "}
+                  <span className="screenplay-m">screenplay</span> flow by
+                  interacting with you through {mValue} comments and discussions
+                  thereon. The discussions from comment number {1} to{" "}
+                  {actOneThreshold} will be centered around{" "}
+                  <span className="font-[500] text-[#252525]">set up</span>,{" "}
+                  {actOneThreshold + 1} to {actTwoEnd} around{" "}
+                  <span className="font-[500] text-[#252525]">conflict</span>{" "}
+                  and {actTwoEnd + 1} to {mValue} around{" "}
+                  <span className="font-[500] text-[#252525]">resolution</span>.
+                </p>
+              )}
+            </div>
+          )}
 
           <form onSubmit={submitPremise}>
             {/* select section */}
@@ -2283,6 +2303,13 @@ const PremisePreview2 = ({
             projectRefetch={projectRefetch}
             actOneThreshold={actOneThreshold}
             actTwoEnd={actTwoEnd}
+          />
+        )}
+
+        {sameNamePop && (
+          <SameNamePop
+            popClose={setSameNamePop}
+            title={`A project with the same name already exists. Please choose a different name.`}
           />
         )}
         <div>

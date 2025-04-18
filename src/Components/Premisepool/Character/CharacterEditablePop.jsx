@@ -50,11 +50,22 @@ const CharacterEditablePop = ({
     "Sidekick",
     "Comic Relief",
     "Narrator",
-    "Supporting Character",
+    "Mediator",
     "Confidant",
     "Foil",
     "Mentor",
     "Symbolic Character",
+    "Suspect",
+    "Family Member",
+    "Instigator",
+    "Authority Figure",
+    "Activist",
+    "Peer",
+    "Seeker ",
+    "Guardian",
+    "Supporting Character",
+    "Expert",
+    "Arbiter",
   ];
 
   const sortedCharacters = characterOrder?.reduce((acc, role) => {
@@ -309,7 +320,6 @@ const CharacterEditablePop = ({
             onlyAdd={onlyAdd}
             isEditPopupOpen={editPopupOpen}
             source_language={source_language}
-            
           />
         )}
       </div>

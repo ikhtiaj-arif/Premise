@@ -6,7 +6,7 @@ import transIcon from "../../img/Icons/transIcon.png";
 import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 import { sortedLanguages } from "./Languages";
 
-const TranslatePremise = ({
+const TranslatePremiseNewTab = ({
   data,
   transPopClose,
   setTransPopClose,
@@ -96,7 +96,7 @@ const TranslatePremise = ({
   };
 
   return (
-    <div ref={btnRef} className="relative">
+    <div ref={btnRef} className="">
       {loading ? (
         <span className="loading loading-spinner text-[#33B0CA] h-[20px] w-[20px] my-auto "></span>
       ) : (
@@ -111,7 +111,7 @@ const TranslatePremise = ({
         />
       )}
       {transPopClose === id && (
-        <div className="absolute top-[32px] right-0 z-50 w-[135px]  h-[27vh] overflow-x-hidden md:h-[40vh] overflow-y-auto border bg-[#fafafa]">
+        <div className="absolute top-[4px] right-0 z-50 w-[135px]  h-[27vh] overflow-x-hidden md:h-[40vh] overflow-y-auto border bg-[#fafafa]">
           {Object.entries(sortedLanguages)?.map(([key, name]) =>
             key !== source_language ? (
               <li
@@ -140,4 +140,4 @@ const TranslatePremise = ({
   );
 };
 
-export default TranslatePremise;
+export default TranslatePremiseNewTab;

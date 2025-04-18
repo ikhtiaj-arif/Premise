@@ -15,6 +15,7 @@ import { useGetHiddenPremiseCountQuery } from "../../../app/EndPoints/premisePoo
 import { hideUnhidePremiseCustom } from "../hideUnhidePremiseCustom";
 import HideUnhideUesr from "./HideUnhideUesr";
 import { MyContext } from "../../../App";
+import WentWrongPop from "../../PremiseV2/Popups/alerts/WentWrongPop";
 
 const HideOptionPop = ({
   openHidePop,
@@ -94,8 +95,11 @@ const HideOptionPop = ({
       }
     });
   };
+  const [wentWrongPop, setWentWrongPop] = useState(false);
 
   const handlePostHideUnhide = async (id, refetch, user) => {
+    // setWentWrongPop(true)
+    // return
     // console.log(id, user, option,selectedUserIds, "SDfsdfdfsdf");
     hideUnhidePremiseCustom(
       id,
@@ -105,7 +109,8 @@ const HideOptionPop = ({
       selectedUserIds,
       setBtnDisable,
       setOpenHidePop,
-      commentHide
+      commentHide,
+      setWentWrongPop
     );
     hiddenCountRefetch();
   };
@@ -474,6 +479,7 @@ const HideOptionPop = ({
           </div>
         </div>
       </div>
+      {wentWrongPop && <WentWrongPop popClose={setWentWrongPop} />}
     </div>
   );
 };

@@ -13,12 +13,12 @@ import { GlobalContext } from "../../../app/Hooks/Global";
 import { setUser } from "../../../app/Slices/userSlice";
 import CharacterShowCard from "../../Premisepool/Character/Card";
 import CharacterEditablePop from "../../Premisepool/Character/CharacterEditablePop";
-import SingleCharacterAdd from "../../Premisepool/Character/SingleCharacterAdd";
+import SingleCharacterAddNewTab from "../../Premisepool/Character/SingleCharacterAddNewTab";
 import SingleCharacterEdit from "../../Premisepool/Character/SingleCharacterEdit";
 import ConfirmationModal from "../../Premisepool/Comments/ConfirmationModal";
 import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
 import Keyboard from "../../Premisepool/Keyboard";
-import TranslatePremise from "../../Premisepool/TranslatePremise";
+import TranslatePremiseNewTab from "../../Premisepool/TranslatePremiseNewTab";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import AskIda from "../../SharedVersion/AskIda";
@@ -39,6 +39,7 @@ const LeftSideBar = ({
   commentsData,
   setOpenReplyField,
   replyField,
+  lastCommentRef,
   setReplyField,
   setOpenReplyFieldID,
   setOpenAllReplies,
@@ -108,7 +109,7 @@ const LeftSideBar = ({
   const [newComment, setNewComment] = useState("");
   const inputRef = useRef(null);
 
-  const lastCommentRef = useRef(null);
+  // const lastCommentRef = useRef(null);
 
   useEffect(() => {
     if (characters) setCharacterArray(characters);
@@ -124,11 +125,22 @@ const LeftSideBar = ({
     "Sidekick",
     "Comic Relief",
     "Narrator",
-    "Supporting Character",
+    "Mediator",
     "Confidant",
     "Foil",
     "Mentor",
     "Symbolic Character",
+    "Suspect",
+    "Family Member",
+    "Instigator",
+    "Authority Figure",
+    "Activist",
+    "Peer",
+    "Seeker ",
+    "Guardian",
+    "Supporting Character",
+    "Expert",
+    "Arbiter",
   ];
 
   const sortedCharacters = characterOrder?.reduce((acc, role) => {
@@ -240,6 +252,18 @@ const LeftSideBar = ({
     }
   };
 
+  const [hasUpdated, setHasUpdated] = useState(false);
+
+  const handleUpdateCharNewTab = async () => {
+    const res = await handleUpdateSavedChar();
+    if (res) {
+      characterRefetch();
+    }
+  };
+
+  // console.log("characters", characters);
+  // console.log("finalCharacters", finalCharacters);
+
   return (
     <>
       <div className="fixed bottom-8 z-[1] w-[96%] mx-auto md:hidden">
@@ -334,7 +358,7 @@ const LeftSideBar = ({
                 </div>
 
                 <div className="ml-[15px] flex gap-2 items-center">
-                  <TranslatePremise
+                  <TranslatePremiseNewTab
                     {...{ transPopClose, setTransPopClose, setViewText }}
                     data={{
                       id,
@@ -543,7 +567,8 @@ const LeftSideBar = ({
                   </p>
                 </div>
               )}
-  */}
+           */}
+
                 <VisibilitySection
                   premiseOwner={premiseOwner}
                   user={user}
@@ -594,6 +619,7 @@ const LeftSideBar = ({
                 )}
               </div>
             )}
+
             {/* ask ida desk */}
             <div className="hidden md:block px-3  w-full  mt-4">
               <AskIda
@@ -694,12 +720,18 @@ const LeftSideBar = ({
         />
       )}
       {addNewCharacter === "Yes" && (
-        <SingleCharacterAdd
+        <SingleCharacterAddNewTab
+          setCharacterEditPop={setOpenCharacterChart}
           setAddNewCharacter={setAddNewCharacter}
-          editData={editData}
-          handleAddNewCharacter={handleAddNewCharacter}
           characterArray={characterArray}
+          currentProjectData={premiseData}
+          setCharacterArray={setCharacterArray}
+          onlyAdd={onlyAdd}
+          handleUpdateSavedChar={handleUpdateSavedChar}
+          characterLoading={isCharLoading}
+          project_id={project_id}
           source_language={source_language}
+          characterRefetch={characterRefetch}
         />
       )}
       {deleteChar && (

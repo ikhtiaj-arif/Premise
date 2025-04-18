@@ -18,17 +18,18 @@ import { setPremise } from "../../../app/Slices/premiseSlice";
 import CharacterEditablePop from "../../Premisepool/Character/CharacterEditablePop";
 import CommentPremise from "../../Premisepool/CommentPremise";
 import AddPremise2 from "../../Premisepool/Components/AddPremise2";
+import DeletePremise from "../../Premisepool/DeletePremise";
 import LikePremise from "../../Premisepool/LikePremise";
 import OwnerMail from "../../Premisepool/OwnerMail";
 import Popup from "../../Premisepool/Popup";
 import { hideUnhidePremise } from "../../Premisepool/PreiseUtils";
 import TranslatePremise from "../../Premisepool/TranslatePremise";
 import UserMail from "../../Premisepool/UserMail";
-import UserNamePopup from "../../Premisepool/UserNamePopup";
 import UserType from "../../Premisepool/UserType";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
+import NotifyPopup from "../Popups/alerts/NotifyPopup";
 import AvailableForTranslationPop from "../Popups/AvailableForTranslationPop";
 import BankDetailsPop from "../Popups/BankDetails/BankDetailsPop";
 import MonetizePreferencePop from "../Popups/MonetizePreferencePop";
@@ -40,7 +41,6 @@ import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
 import CardHeadOptions from "./CardHeadOptions";
 import PremiseBadge from "./PremiseBadge";
-import DeletePremise from "../../Premisepool/DeletePremise";
 
 const PremiseCardV2 = ({
   setShowRefine,
@@ -115,6 +115,7 @@ const PremiseCardV2 = ({
 
   const [onlyAdd, setOnlyAdd] = useState(true);
   const [characterLoading, setCharacterLoading] = useState(true);
+  const [notifyPopup, setNotifyPopup] = useState(false);
 
   useEffect(() => {
     if (characters) setCharacterArray(characters);
@@ -511,6 +512,8 @@ const PremiseCardV2 = ({
           openDotMenu={openDotMenu}
           addPopup={addPopup}
           setAddPopup={setAddPopup}
+          notifyPopup={notifyPopup}
+          setNotifyPopup={setNotifyPopup}
         />
       </div>
       {/* middle div */}
@@ -563,7 +566,7 @@ const PremiseCardV2 = ({
         <PremiseBadge stamp={p?.stamp} />
       </div>
       {/* lower div */}
-      <div className="flex justify-between items-center bg-[#FAFAFA] rounded-b-[8px] px-[15px] pb-[15px] pt-[25px] ">
+      <div className="flex justify-between items-center bg-[#FAFAFA] rounded-b-[8px] px-[15px] pb-[15px] pt-[25px] relative">
         {/* 1st div */}
         <div className="flex items-center">
           <LikePremise
@@ -811,6 +814,12 @@ const PremiseCardV2 = ({
           deleteId={project_id}
           projectName={currentProjectName?.slice(0, 20)}
           isDelete={isDelete}
+        />
+      )}
+      {notifyPopup && (
+        <NotifyPopup
+          popClose={setNotifyPopup}
+          title={`This is currently unavailable for sale as there is a pending sale request from another User. Would you like us to notify you when this becomes available?`}
         />
       )}
     </div>

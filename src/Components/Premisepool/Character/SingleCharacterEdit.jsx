@@ -196,7 +196,8 @@ const SingleCharacterAdd = ({
     "Antagonist",
     "Narrator",
     "Co-Star",
-    "Supporting Character",
+
+    "Mediator",
     "Confidant",
     "Love Interest",
     "Antagonist's Right Hand",
@@ -206,6 +207,17 @@ const SingleCharacterAdd = ({
     "Rival",
     "Sidekick",
     "Symbolic Character",
+    "Suspect",
+    "Family Member",
+    "Instigator",
+    "Authority Figure",
+    "Activist",
+    "Peer",
+    "Seeker ",
+    "Guardian",
+    "Supporting Character",
+    "Expert",
+    "Arbiter",
     "Others",
   ];
 
@@ -339,6 +351,18 @@ const SingleCharacterAdd = ({
                     className=" text-[14px] bg-[#FAFAFA] border-[2px] text-[#252525] outline-[#EAEAEA]  rounded-[8px] my-[12px] md:my-0   w-full md:w-[171px] h-[42px]  indent-1 "
                     disabled
                   >
+                    {characterRoles?.map((roleOption) => (
+                      <option
+                        key={roleOption}
+                        value={roleOption}
+                        selected
+                        disabled
+                        className="bg-white text-[#252525] text-[14px] "
+                      >
+                        {roleOption}
+                      </option>
+                    ))}
+                    {/*                     
                     <option className="text-[14px]" value="" selected disabled>
                       Role
                     </option>
@@ -355,7 +379,7 @@ const SingleCharacterAdd = ({
                       Co-Star
                     </option>
                     <option className=" text-[#252525] text-[14px]">
-                      Supporting Character
+                    Mediator
                     </option>
                     <option className=" text-[#252525] text-[14px]">
                       Confidant
@@ -386,7 +410,7 @@ const SingleCharacterAdd = ({
                     </option>
                     <option className=" text-[#252525] text-[14px]">
                       Others
-                    </option>
+                    </option> */}
                   </select>
                 </div>
 

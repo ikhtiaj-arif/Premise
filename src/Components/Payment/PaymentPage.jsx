@@ -15,6 +15,7 @@ import {
   usePaymentSucessMutation,
 } from "../../app/EndPoints/premisePoolApi";
 import { toast } from "react-toastify";
+import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 
 const PaymentPage = ({
   typeOfRequest,
@@ -104,10 +105,11 @@ const PaymentPage = ({
       document.body.appendChild(script);
     });
   }
-
+  const [termAlert, setTermAlert] = useState(false);
   const handleClick = async () => {
     if (!isAgreementChecked) {
-      alert("You must agree to the terms of payment..!");
+      // alert("You must agree to the terms of payment..!");
+      setTermAlert(true);
       return;
     }
     setPaymentCondition(true);
@@ -303,6 +305,9 @@ const PaymentPage = ({
             </div>
           </div>
         </section>
+      )}
+         {termAlert && (
+        <SameNamePop popClose={setTermAlert} title={`You must agree to the terms of payment..!`} />
       )}
     </div>
   );

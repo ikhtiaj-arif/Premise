@@ -55,7 +55,7 @@ const DeletePremise = ({
       return;
     } else {
       setLoading(false);
-      toast.error("Something went wrong", {
+      toast.error("Failed to delete Premise, Please try again", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 800,
       });

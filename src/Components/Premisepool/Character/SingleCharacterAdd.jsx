@@ -180,7 +180,7 @@ const SingleCharacterAdd = ({
     "Antagonist",
     "Narrator",
     "Co-Star",
-    "Supporting Character",
+    "Mediator",
     "Confidant",
     "Love Interest",
     "Antagonist's Right Hand",
@@ -190,7 +190,19 @@ const SingleCharacterAdd = ({
     "Rival",
     "Sidekick",
     "Symbolic Character",
+    "Suspect",
+    "Family Member",
+    "Instigator",
+    "Authority Figure",
+    "Activist",
+    "Peer",
+    "Seeker ",
+    "Guardian",
+    "Supporting Character",
+    "Expert",
+    "Arbiter",
     "Others",
+    
   ];
 
   const filteredRoleOptions = roleOptions.filter(

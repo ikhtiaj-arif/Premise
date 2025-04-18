@@ -129,24 +129,9 @@ const PremiseTopAccess = ({
     setOpenDotMenu(null);
   };
   const handleDelete = async (id) => {
-    // console.log(id);
+    
     setIsDelete(id);
-    // return;
-    // const res = await deletePremise(id);
-    // if (res) {
-    //   setIsDelete(false);
-    //   toast.success("Successfully deleted your Premise", {
-    //     position: toast.POSITION.TOP_CENTER,
-    //     autoClose: 800,
-    //   });
-    //   navigate(`/`);
-    // } else {
-    //   toast.error("Something went wrong", {
-    //     position: toast.POSITION.TOP_CENTER,
-    //     autoClose: 800,
-    //   });
-    //   setIsDelete(false);
-    // }
+    
   };
 
   const handleOpenSp = () => {
