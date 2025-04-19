@@ -67,7 +67,7 @@ const TypingLoader = ({
   }, [currentIndex]);
 
   return (
-    <div className="relative rounded-[8px] h-[100px] bg-[#fff] lg:bg-[#fafafa]  flex items-center">
+    <div className="relative rounded-[8px]  h-[100px] bg-[#fff] lg:bg-[#fafafa]  flex items-center">
       <div className="">
         <h2 className="text-[16px] lg:text-[24px] ml-[40px] font-[500] text-[#33B0CA]">
           {displayedText}

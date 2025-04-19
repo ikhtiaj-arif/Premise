@@ -12,9 +12,6 @@ import PaymentInvoicePopup from "../../Payment/PaymentInvoicePopup";
 import { sortedLanguages } from "../../Premisepool/Languages";
 import Popup from "../../Premisepool/Popup";
 import { hideUnhidePremise } from "../../Premisepool/PreiseUtils";
-import SimpleAlertPop from "./alerts/SimpleAlertPop";
-import SameNamePop from "./alerts/SameNamePop";
-import TypingLoader from "../../TypingLoader";
 
 const AvailableForTranslationPop = ({
   popClose,
@@ -51,17 +48,14 @@ const AvailableForTranslationPop = ({
   const handlePayNow = () => {
     setPayment(true);
   };
-
   const [openDotMenu, setOpenDotMenu] = useState(null);
   const [hideDisable, setHideDisable] = useState(false);
 
   const handleHideUnhidePremise = async (id) => {
     hideUnhidePremise(id, setHideDisable, userRefetch, setOpenDotMenu);
   };
-  const [translationLoading, setTranslationLoading] = useState(false);
-  const [transErrorPop, setTransErrorPop] = useState(false);
+
   const handleTranslationSubmit = async (transaction_id) => {
-    setTranslationLoading(true);
     try {
       const data = {
         premise_id: id,
@@ -77,7 +71,7 @@ const AvailableForTranslationPop = ({
         // popClose(null)
         // setPayment(null);
         // toast("Payment Successful");
-        await refetch();
+        refetch();
 
         const {
           text,
@@ -91,7 +85,6 @@ const AvailableForTranslationPop = ({
           updated_at,
           // project_id
         } = response?.data?.data;
-
         const formattedDate = new Date(created_at).toLocaleDateString("en-US", {
           timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           day: "numeric",
@@ -127,24 +120,17 @@ const AvailableForTranslationPop = ({
 
         setTranslatedPremise(data);
         setOpenPop(true);
+        console.log("object-res", response);
         setPayment(null);
-        setTranslationLoading(false);
         toast.success("Translation successful!");
       } else {
         //toast.error("Failed to translate. Please try again.");
-        setTranslationLoading(false);
-        setTransErrorPop(true);
       }
     } catch (error) {
       //toast.error("An error occurred while submitting.");
-      setTranslationLoading(false);
-      setTransErrorPop(true);
+      console.error("Error:", error);
     }
   };
-
-  if (translationLoading) {
-    return <TypingLoader />;
-  }
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
@@ -230,13 +216,6 @@ const AvailableForTranslationPop = ({
           data={translatedPremise}
           refetch={refetch}
           projectRefetch={projectRefetch}
-        />
-      )}
-
-      {transErrorPop && (
-        <SameNamePop
-          popClose={setTransErrorPop}
-          title={`Failed to translate the premise.`}
         />
       )}
     </div>

@@ -168,6 +168,15 @@ const CardHeadOptions = ({
     }
   };
 
+  const handleSendSaleRequest = async() => {
+    if (is_requested_for_sale) {
+      setNotifyPopup(true);
+    } else {
+      checkAllowance(setSaleRequestPop, id);
+      refetch();
+    }
+  }
+
   //console.log("dotId", openDotMenu);
 
   return (
@@ -411,14 +420,7 @@ const CardHeadOptions = ({
                     //   checkAllowance(setSaleRequestPop, id);
                     //   refetch();
                     // }}
-                    onClick={() => {
-                      if (is_requested_for_sale) {
-                        setNotifyPopup(true);
-                      } else {
-                        checkAllowance(setSaleRequestPop, id);
-                        refetch();
-                      }
-                    }}
+                    onClick={handleSendSaleRequest}
                   >
                     <img
                       src={sendSaleReq}
