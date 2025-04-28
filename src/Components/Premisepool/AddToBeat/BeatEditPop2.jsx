@@ -18,13 +18,12 @@ import {
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import transIcon from "../../../img/Icons/transIcon.png";
 import Loading from "../../../shared/Loading";
+import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
 import "../../Premisepool/Premise.css";
 import { URL } from "../../utils";
 import KeyboardB from "../KeyboardB";
 import { keyboardOptions } from "../KeyboardOption";
 import { sortedLanguages } from "../Languages";
-import SimpleAlertPop from "../../PremiseV2/Popups/alerts/SimpleAlertPop";
-import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
 const BeatEditPop = ({
   popClose,
   commentText,
@@ -137,7 +136,9 @@ const BeatEditPop = ({
     );
     if (nameExists) {
       setAlert(true);
-      setAlertText('A project with the same name already exists. Please choose a different name.')
+      setAlertText(
+        "A project with the same name already exists. Please choose a different name."
+      );
       return;
       //  alert(
       //   "A project with the same name already exists. Please choose a different name."
@@ -549,8 +550,8 @@ const BeatEditPop = ({
                           onChange={(e) => {
                             if (e.target.value.length === 30) {
                               // alert("Maximum 30 characters are allowed");
-                              setAlertText(`Maximum 30 characters are allowed`)
-                              setAlert(true)
+                              setAlertText(`Maximum 30 characters are allowed`);
+                              setAlert(true);
                               return;
                             }
                             setNewProjectName(e.target.value);
@@ -655,7 +656,7 @@ const BeatEditPop = ({
                   </div>
                   <div className="pb-[8px] mt-[8px]">
                     <h1 className="text-[14px] md:text-[18px] font-[500] text-center">
-                      Adding a Comment to Beat Sheet
+                      Adding a Brainstorm to Beat Sheet
                     </h1>
                   </div>
                   <div className="px-[12px] md:px-[33px] pb-[4p]">

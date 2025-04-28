@@ -18,6 +18,7 @@ import { HeaderOptions } from "./HeaderOptions";
 import { Package } from "./Package";
 import SimpleAlertPop from "../PremiseV2/Popups/alerts/SimpleAlertPop";
 import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
+import { URL } from "../utils";
 
 const PaymentInvoicePopup = ({
   refetch,
@@ -273,9 +274,9 @@ const PaymentInvoicePopup = ({
                     </p>
                     <a
                       className="text-[12px]  sm:text-[14px]"
-                      href="https://mynextfilm.ai/"
+                      href={`${URL}`}
                     >
-                      www.mynextfilm.ai
+                      www.mnf.ai
                     </a>
                   </div>
                 </div>

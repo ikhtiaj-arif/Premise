@@ -12,7 +12,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { PiTextAUnderlineBold } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { MyContext } from "../../../App";
+import { fetchUserAccess, MyContext } from "../../../App";
 import {
   usePostPremiseWithCharactersMutation,
   useSaveCharactersMutation,
@@ -32,14 +32,15 @@ import {
 import { setUser } from "../../../app/Slices/userSlice";
 import fillIcon from "../../../img/Icons/fillicon.png";
 import bgIcon from "../../../img/Icons/setBgIcn.png";
+import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
 import TypingLoader from "../../TypingLoader";
 import { baseURL } from "../../utils";
 import CharacterEditablePop from "../Character/CharacterEditablePop";
-import Keyboard from "../Keyboard";
 import { sortedLanguages } from "../Languages";
 import LanguageSelector from "../LanguageSelector";
 import Popup from "../Popup";
 import { hideUnhidePremise } from "../PreiseUtils";
+import PremisePreviewKeyboard from "./PremisePreviewKeyboard";
 
 const PremisePreview2 = ({
   newText,
@@ -53,110 +54,11 @@ const PremisePreview2 = ({
   setFinalEdit,
   isLoading,
   setIsLoading,
-
+  premiseLanguage,
 }) => {
-   const genera1 = [
-      { value: "Action", hi: "एक्शन" },
-      { value: "Crime", hi: "क्राइम" },
-      { value: "Comedy", hi: "कॉमेडी" },
-      { value: "Drama", hi: "ड्रामा" },
-      { value: "Fantasy", hi: "फैंटेसी" },
-      { value: "Horror", hi: "हॉरर" },
-      { value: "Romantic", hi: "रोमांटिक" },
-      { value: "Science_fiction", hi: "साइंस फिक्शन" },
-      { value: "Thriller", hi: "थ्रिलर" },
-    ];
-    const subGenraItems1 = {
-      Action: [
-        { value: "Superhero", hi: "सुपरहीरो" },
-        { value: "Martial arts", hi: "मार्शल आर्ट्स" },
-        { value: "Action Comedy", hi: "एक्शन कॉमेडी" },
-      ],
-      Adventure: [
-        { value: "Adventure", hi: "एडवेंचर" },
-        { value: "Treasure hunt", hi: "खजाना खोज" },
-        { value: "War action adventure", hi: "युद्ध एक्शन एडवेंचर" },
-      ],
-      Comedy: [
-        { value: "Black Comedy", hi: "ब्लैक कॉमेडी" },
-        { value: "Buddy Comedy", hi: "बडी कॉमेडी" },
-        { value: "Comedic Thriller", hi: "कॉमेडिक थ्रिलर" },
-        { value: "Farce", hi: "फार्स" },
-        { value: "Mockumentary", hi: "मॉक्युमेंट्री" },
-        { value: "Musical Comedy", hi: "म्यूजिकल कॉमेडी" },
-        { value: "Parody", hi: "पैरोडी" },
-        { value: "Romantic Comedy", hi: "रोमांटिक कॉमेडी" },
-        { value: "Slapstick", hi: "स्लैपस्टिक" },
-        { value: "Sports Comedy", hi: "स्पोर्ट्स कॉमेडी" },
-      ],
-      Crime: [
-        { value: "Film noir", hi: "फिल्म नोयर" },
-        { value: "Neo-noir", hi: "नियो-नोयर" },
-        { value: "Mafia", hi: "माफिया" },
-        { value: "Military Thriller", hi: "मिलिट्री थ्रिलर" },
-        { value: "Psychological Thriller", hi: "साइकोलॉजिकल थ्रिलर" },
-      ],
-      Drama: [
-        { value: "Biopic", hi: "बायोपिक" },
-        { value: "Coming of age drama", hi: "आने वाली उम्र का ड्रामा" },
-        { value: "Costume drama", hi: "कॉस्टयूम ड्रामा" },
-        { value: "Crime drama", hi: "क्राइम ड्रामा" },
-        { value: "Romantic drama", hi: "रोमांटिक ड्रामा" },
-        { value: "Tragedy", hi: "त्रासदी" },
-        { value: "War movie", hi: "युद्ध फिल्म" },
-      ],
-      Fantasy: [
-        { value: "Dark fantasy", hi: "डार्क फैंटेसी" },
-        { value: "Epic fantasy", hi: "एपिक फैंटेसी" },
-        { value: "Low fantasy", hi: "लो फैंटेसी" },
-        { value: "Magical realism", hi: "मैजिकल रियलिज़्म" },
-        { value: "Fables", hi: "फेबल्स" },
-        { value: "Fairy tales", hi: "फेयरी टेल्स" },
-        { value: "Superhero fiction", hi: "सुपरहीरो फिक्शन" },
-      ],
-      Horror: [
-        { value: "B-Movie", hi: "बी-मूवी" },
-        { value: "Found footage", hi: "फाउंड फुटेज" },
-        { value: "Monster", hi: "मॉन्स्टर" },
-        { value: "Paranormal film", hi: "पैरानॉर्मल फिल्म" },
-        { value: "Slasher", hi: "स्लैशर" },
-        { value: "Vampire", hi: "वैंपायर" },
-        { value: "Zombie", hi: "जॉम्बी" },
-      ],
-      Romantic: [
-        { value: "Bromantic Comedy", hi: "ब्रोंमैटिक कॉमेडी" },
-        { value: "Chick flick", hi: "चिक फ्लिक" },
-        { value: "Historical romance", hi: "ऐतिहासिक रोमांस" },
-        { value: "Gothic romance", hi: "गॉथिक रोमांस" },
-        { value: "Romantic Comedy", hi: "रोमांटिक कॉमेडी" },
-      ],
-      Science_fiction: [
-        { value: "Cyberpunk", hi: "साइबरपंक" },
-        { value: "Disaster", hi: "डिजास्टर" },
-        { value: "Dystopian", hi: "डिस्टोपियन" },
-        { value: "Fairy tale", hi: "फेयरी टेल" },
-        { value: "Fantasy", hi: "फैंटेसी" },
-        { value: "Space opera", hi: "स्पेस ओपेरा" },
-        { value: "Time travel", hi: "टाइम ट्रैवल" },
-      ],
-      Thriller: [
-        { value: "Action Thriller", hi: "एक्शन थ्रिलर" },
-        { value: "Crime Thriller", hi: "क्राइम थ्रिलर" },
-        { value: "Legal thriller", hi: "लीगल थ्रिलर" },
-        { value: "Mystery Thriller", hi: "मिस्ट्री थ्रिलर" },
-        { value: "Romantic Thriller", hi: "रोमांटिक थ्रिलर" },
-        { value: "Science fiction Thriller", hi: "साइंस फिक्शन थ्रिलर" },
-        { value: "Political Thriller", hi: "पॉलिटिकल थ्रिलर" },
-        { value: "Spy Thriller", hi: "स्पाई थ्रिलर" },
-      ],
-      Other: [
-        { value: "", hi: "" },
-        { value: "", hi: "" },
-      ],
-    };
+  const baseLanguage = sessionStorage.getItem("multilingualDropDownValue");
 
-
-  const options = {
+  const options1 = {
     "Short film": [
       { text: "About 2 Minutes", value: "Upto 2 Minutes" },
       { text: "About 5 Minutes", value: "2 to 4 Minutes" },
@@ -168,6 +70,40 @@ const PremisePreview2 = ({
       { text: "About 1 Hour", value: "1 Hour" },
       { text: "About 2 Hours", value: "2 Hours" },
       { text: "About 3 Hours", value: "3 Hours" },
+    ],
+  };
+
+  const NProjectOpt = [
+    {
+      value: "Short film",
+      hi: "शॉर्ट फिल्म",
+    },
+    {
+      value: "Feature film",
+      hi: "फीचर फिल्म",
+    },
+  ];
+
+  const options = {
+    "Short film": [
+      { text: "About 2 Minutes", value: "Upto 2 Minutes", hi: "लगभग 2 मिनट" },
+      { text: "About 5 Minutes", value: "2 to 4 Minutes", hi: "लगभग 5 मिनट" },
+      {
+        text: "About 15 Minutes",
+        value: "5 to 14 Minutes",
+        hi: "लगभग 15 मिनट",
+      },
+      {
+        text: "About 25 Minutes",
+        value: "15 to 29 Minutes",
+        hi: "लगभग 25 मिनट",
+      },
+      { text: "About 30 Minutes", value: "30 Minutes", hi: "लगभग 30 मिनट" },
+    ],
+    "Feature film": [
+      { text: "About 1 Hour", value: "1 Hour", hi: "लगभग 1 घंटा" },
+      { text: "About 2 Hours", value: "2 Hours", hi: "लगभग 2 घंटे" },
+      { text: "About 3 Hours", value: "3 Hours", hi: "लगभग 3 घंटे" },
     ],
   };
 
@@ -274,6 +210,9 @@ const PremisePreview2 = ({
     // ProjectsObj,
     projectRefetch,
     allProjects,
+    currentUser,
+    selectedSpProjectLanguage,
+    setSelectedSpProjectLanguage,
   } = useContext(MyContext);
 
   const {
@@ -313,8 +252,8 @@ const PremisePreview2 = ({
   const userLastName = userQuery?.last_name;
 
   // console.log("createdSpProjectID", user);
-    const [selectedLanguage, setSelectedLanguage] = useState("English");
-    const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState(premiseLanguage);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
   const dispatch = useDispatch();
   const [file, setFile] = useState();
   const [imgUrl, setImageUrl] = useState(data?.bg_img);
@@ -359,7 +298,7 @@ const PremisePreview2 = ({
   ];
 
   const [durationOptions, setDurationOptions] = useState([]);
-
+  const [focusedFieldName, setFocusedFieldName] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isProtagonistOpen, setIsProtagonistOpen] = useState(false);
   const [isNatureProjectOpen, setIsNatureProjectOpen] = useState(false);
@@ -385,18 +324,22 @@ const PremisePreview2 = ({
   const [activeInput, setActiveInput] = useState(""); // Track the active input field
   const inputRefs = useRef({}); // Store references to all input fields
 
-  const projectNameRef = useRef()
+  const projectNameRef = useRef();
+  const authorNameRef = useRef();
+  const locationNameRef = useRef();
+  const protagonistNameRef = useRef();
 
-  const setText = (newText) => {
-    if (activeInput && inputRefs.current[activeInput]) {
-      const setterMap = {
-        authorName: setAuthorName,
-        geographyItem: setGeographyItem,
-        protagonistName: setProtagonistName,
-      };
-      setterMap[activeInput](newText);
-    }
-  };
+  // const setText = (newText) => {
+  //   console.log('inputRefs',projectNameRef);
+  //   if (activeInput && inputRefs.current[activeInput]) {
+  //     const setterMap = {
+  //       authorName: setAuthorName,
+  //       geographyItem: setGeographyItem,
+  //       protagonistName: setProtagonistName,
+  //     };
+  //     setterMap[activeInput](newText);
+  //   }
+  // };
 
   const token = localStorage.getItem("accessToken");
 
@@ -413,7 +356,7 @@ const PremisePreview2 = ({
   const [characterArray, setCharacterArray] = useState([]);
   // const [characters, setCharacters] = useState(characterArray);
 
-  const [language, setlanguage] = useState("");
+  const [language, setLanguage] = useState("");
   // console.log("language", language);
   const handleNatureOfProjectChange = (e) => {
     const selectedProject = e.target.value;
@@ -421,8 +364,8 @@ const PremisePreview2 = ({
     setDurationOptions(options[selectedProject] || []);
     setDuration("");
   };
-  console.log(natureOfProject);
-  console.log(durationOptions);
+  //console.log(natureOfProject);
+  //console.log(durationOptions);
   // const {
   //   data: ProjectsObj,
   //   isLoading: isProjectLoading,
@@ -455,7 +398,7 @@ const PremisePreview2 = ({
   useEffect(() => {
     if (selectedSpProjectID === "") {
       setMatchingProject(null);
-      setlanguage("");
+      setLanguage("");
       setAuthorName("");
       setNatureOfProject("");
       setDuration("");
@@ -477,7 +420,7 @@ const PremisePreview2 = ({
       if (matchingProject) {
         // console.log("matchingProject", matchingProject);
         setMatchingProject(matchingProject);
-        setlanguage(matchingProject?.language);
+        setLanguage(matchingProject?.language);
         setAuthorName(matchingProject?.ownername);
         setNatureOfProject(matchingProject?.nature_project);
 
@@ -524,15 +467,13 @@ const PremisePreview2 = ({
     setColor((prev) => !prev);
   };
 
-    // keyboard clicked
-    const onClickKeyboard = () => {
-      if (selectedLanguage === "") {
-        setSelectedLanguage("English");
-      }
-      setKeyboardVisible(!keyboardVisible);
-    };
-
-
+  // keyboard clicked
+  const onClickKeyboard = () => {
+    if (selectedLanguage === "") {
+      setSelectedLanguage("English");
+    }
+    setKeyboardVisible(!keyboardVisible);
+  };
 
   // browsing file
   const handleFileChange = (event) => {
@@ -573,11 +514,23 @@ const PremisePreview2 = ({
 
   const [openDotMenu, setOpenDotMenu] = useState(null);
   const [hideDisable, setHideDisable] = useState(false);
+  const [sameNamePop, setSameNamePop] = useState(false);
   const [toDltPremiseWhenErrorID, setToDltPremiseWhenErrorID] = useState("");
   // console.log("toDltPremiseWhenErrorID", toDltPremiseWhenErrorID);
 
   const handleHideUnhidePremise = async (id) => {
     hideUnhidePremise(id, setHideDisable, userRefetch, setOpenDotMenu);
+  };
+  const [userMail, setUserMail] = useState(null);
+  const [ownerMail, setOwnerMail] = useState(false);
+  const handleUserMail = async () => {
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_MessageOwner`);
+    console.log("message rs", res);
+    if (res?.access === "No") {
+      setUserMail(res);
+    } else {
+      setUserMail("Yes");
+    }
   };
 
   const handleProtagonistNameChange = (e, setValue) => {
@@ -616,7 +569,8 @@ const PremisePreview2 = ({
     // Remove non-alphanumeric characters for the first character only
     const firstChar = value[0].replace(/[^a-zA-Z0-9]/, ""); // Clean the first character
     const restOfValue = value.slice(1); // Keep the rest of the value as-is
-    setGeographyItem(firstChar + restOfValue);
+    // setGeographyItem(firstChar + restOfValue);
+    setGeographyItem(e.target.value);
   };
 
   const handleAuthorChange = (e) => {
@@ -656,12 +610,16 @@ const PremisePreview2 = ({
     setSpProjectName(firstChar + restOfValue);
   };
 
+  useEffect(() => {
+    console.log("protagonist", protagonist);
+  }, [protagonist]);
   // console.log("Header", characterArray);
   const submitPremise = async (e) => {
     e.preventDefault();
 
     // Disable submit button to prevent multiple clicks
     setIsLoading(true);
+    setKeyboardVisible(false);
 
     try {
       const formData = new FormData();
@@ -673,6 +631,8 @@ const PremisePreview2 = ({
         hexColor,
       };
       const subText = `${JSON.stringify(styling)} + ${text}`;
+      formData.append("created_from", "premisePool");
+      formData.append("source_language", language);
       formData.append("text", subText);
 
       if (file) {
@@ -703,6 +663,9 @@ const PremisePreview2 = ({
       formData.append("geography", geographyItem);
       formData.append("protagonist_type", protagonist);
       formData.append("protagonist_name", protagonistName);
+      if (protagonist === "Inanimate Object") {
+        setProtaAge(0);
+      }
       formData.append("protagonist_age", protaAge);
 
       const previewData = {
@@ -727,17 +690,26 @@ const PremisePreview2 = ({
         protagonist_type: protagonist,
         protagonist_name: protagonistName,
         protagonist_age: protaAge,
+        service_name: "premisePool",
       };
 
       if (createNewProject) {
+        // const trimmedName = spProjectName.trim();
+        // const nameExists = allspProjectJSON?.projects?.some(
+        //   (item) => item.name === trimmedName
+        // );
+
+        const trimmedName = spProjectName.trim().toLowerCase(); 
         const nameExists = allspProjectJSON?.projects?.some(
-          (item) => item.name === spProjectName
+          (item) => item.name.toLowerCase() === trimmedName 
         );
         if (nameExists) {
           setIsLoading(false);
-          return alert(
-            "A project with the same name already exists. Please choose a different name."
-          );
+          setSameNamePop(true);
+          return;
+          // return alert(
+          //   "A project with the same name already exists. Please choose a different name."
+          // );
         }
 
         const response = await createProject(data);
@@ -820,6 +792,11 @@ const PremisePreview2 = ({
               openDotMenu,
               project_id: response?.data?.projects?.pro_uuid,
               m_value: res?.data?.m_value,
+              hidden: res?.data?.hidden,
+              index: 0,
+              premiseOwner: userQuery,
+              handleUserMail,
+              setOwnerMail,
             };
 
             // Update state with new premise data
@@ -849,33 +826,28 @@ const PremisePreview2 = ({
               })
               .catch((error) => {
                 setIsLoading(false);
+                deleteProject(deleteId);
                 deletePremiseWhenFailed(deletePreID);
-
-                const data = {
-                  project: deleteId,
-                };
-                deleteProject(data);
 
                 toast.error("Failed to create Premise", {
                   position: toast.POSITION.TOP_CENTER,
                   autoClose: 1600,
                 });
-                setAddPopup(false);
+                setAddPopup(null);
               });
           } else {
             // Handle API errors
             setIsLoading(false);
 
-            const data = {
-              project: deleteId,
-            };
-
-            deleteProject(data);
-            toast.error(res?.error?.data?.message || "Something went wrong!", {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: 1600,
-            });
-            setAddPopup(false);
+            deleteProject({ project: deleteId });
+            toast.error(
+              res?.error?.data?.message || "Failed to create Premise!",
+              {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 1600,
+              }
+            );
+            setAddPopup(null);
           }
         }
       } else {
@@ -957,6 +929,11 @@ const PremisePreview2 = ({
               openDotMenu,
               project_id: response?.data?.projects?.pro_uuid,
               m_value: res?.data?.m_value,
+              hidden: res?.data?.hidden,
+              index: 0,
+              premiseOwner: userQuery,
+              handleUserMail,
+              setOwnerMail,
             };
 
             // Update state with new premise data
@@ -998,10 +975,13 @@ const PremisePreview2 = ({
           } else {
             // Handle API errors
             setIsLoading(false);
-            toast.error(res?.error?.data?.message || "Something went wrong!", {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: 800,
-            });
+            toast.error(
+              res?.error?.data?.message || "Failed to create Premise!",
+              {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 800,
+              }
+            );
           }
         }
       }
@@ -1009,12 +989,14 @@ const PremisePreview2 = ({
       setIsLoading(false);
 
       // console.error("Error submitting premise:", error);
-      toast.error("Something went wrong!", {
+      toast.error("Failed to create Premise!", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 800,
       });
     }
   };
+
+
 
   useEffect(() => {
     if (updateResInfo.isSuccess) {
@@ -1025,7 +1007,7 @@ const PremisePreview2 = ({
   const deletePremiseWhenFailed = async (id) => {
     const response = await deletePremise(id);
     if (response) {
-      setAddPopup(false);
+      setAddPopup(null);
     }
   };
 
@@ -1099,6 +1081,12 @@ const PremisePreview2 = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  // Watch for changes in protagonist and update protaAge if necessary
+  useEffect(() => {
+    if (protagonist === "Inanimate Object") {
+      setProtaAge(0); // Set protaAge to empty string when protagonist is "Inanimate Object"
+    }
+  }, [protagonist]);
 
   const formValid =
     natureOfProject &&
@@ -1107,8 +1095,10 @@ const PremisePreview2 = ({
     periodSetIn &&
     geographyItem &&
     protagonist &&
-    protaAge &&
     protagonistName &&
+    // If protagonist is not "Inanimate Object", ensure protaAge is set
+    ((protagonist !== "Inanimate Object" && protaAge) ||
+      protagonist === "Inanimate Object") &&
     ((["TV series", "Web series"].includes(natureOfProject) && noOfEpi) ||
       (!["TV series", "Web series"].includes(natureOfProject) && duration));
 
@@ -1129,6 +1119,11 @@ const PremisePreview2 = ({
   const handleUpdateSavedChar = async () => {
     setCharacterLoading(true);
     try {
+      characterArray.forEach((character) => {
+        if (character.is_ai_generated === undefined) {
+          character.is_ai_generated = false;
+        }
+      });
       const charArr = JSON.stringify(characterArray);
       const data = {
         // id: premiseID,
@@ -1476,7 +1471,7 @@ const PremisePreview2 = ({
             className="absolute inset-0  backdrop-blur-sm  text-[14px]  rounded-[8px] overflow-hidden break-words px-[20px] py-[12px]"
           >
             <p
-              className={`${bold ? "font-bold" : ""} ${
+              className={`notranslate ${bold ? "font-bold" : ""} ${
                 italic ? "italic" : ""
               } ${underline ? "underline" : ""} ${hexColor}`}
             >
@@ -1485,9 +1480,22 @@ const PremisePreview2 = ({
           </div>
         </div>
         <div
+          // className={`relative ${
+          //   charSaveDisable
+          //     ? `h-[150px] ${
+          //         finalSubmitLoading ? "md:h-[65px]" : "md:h-[125px]"
+          //       }  overflow-y-hidden`
+          //     : finalEdit
+          //     ? "h-[125px]"
+          //     : createNewProject || selectedSpProjectID
+          //     ? "h-[373px]"
+          //     : "h-[180px]"
+          // }`}
           className={`relative ${
-            charSaveDisable
-              ? "h-[150px] md:h-[125px] overflow-y-hidden "
+            finalSubmitLoading
+              ? "md:h-[72px]"
+              : charSaveDisable
+              ? "h-[150px] overflow-y-hidden"
               : finalEdit
               ? "h-[125px]"
               : createNewProject || selectedSpProjectID
@@ -1636,13 +1644,20 @@ const PremisePreview2 = ({
                       </>
                     )}
                   </div>
-                  <div className="bg-[#FAFAFA] h-[38px] md:h-[32px] xl:h-[38px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-[8px] hidden lg:flex items-center w-[120px] ">
-                    <div className="flex justify-end gap-3  w-full ">
+                  <div className="bg-[#FAFAFA] h-[38px] md:h-[32px] xl:h-[38px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-[8px] hidden lg:flex items-center mx-[28px] ">
+                    <div className="flex items-center justify-end gap-3  w-full ">
                       <FaKeyboard
-                        onClick={onClickKeyboard}
                         data-te-toggle="tooltip"
+                        title={`${
+                          !keyboardVisible ? "View Keyboard" : "Hide Keyboard"
+                        }`}
+                        className={`w-7 h-7 ${
+                          keyboardVisible && "text-[#33B0CA]"
+                        } cursor-pointer hover:text-[#33B0CA]`}
+                        onClick={onClickKeyboard}
                       />
                       <LanguageSelector
+                        premiseLanguage={premiseLanguage}
                         setSelectedLanguage={setSelectedLanguage}
                         selectedLanguage={selectedLanguage}
                         setKeyboardVisible={setKeyboardVisible}
@@ -1662,30 +1677,32 @@ const PremisePreview2 = ({
             )}
           </div>
 
-          <div
-            className={`${
-              finalEdit
-                ? "w-[90%] md:w-[600px]  mx-auto mt-[10px] md:mt-[4px] "
-                : "hidden"
-            } `}
-          >
-            {!charSaveDisable && (
-              <p className="  md:w-[90%] lg:w-[98%] mt-[4px] ml-[10px] md:ml-[8px] text-[12px] md:text-[14px] text-[#616161] leading-[20px] overflow-hidden break-words ">
-                {/* {handleMValues()} */}
-                {/* {handleCharacterText(characterArray)} */}
-                <span className="mnff-m">MNF</span> proposes to develop a{" "}
-                <span className="screenplay-m">screenplay</span> flow by
-                interacting with you through {mValue} comments and discussions
-                thereon. The discussions from comment number {1} to{" "}
-                {actOneThreshold} will be centered around{" "}
-                <span className="font-[500] text-[#252525]">set up</span>,{" "}
-                {actOneThreshold + 1} to {actTwoEnd} around{" "}
-                <span className="font-[500] text-[#252525]">conflict</span> and{" "}
-                {actTwoEnd + 1} to {mValue} around{" "}
-                <span className="font-[500] text-[#252525]">resolution</span>.
-              </p>
-            )}
-          </div>
+          {!finalSubmitLoading && (
+            <div
+              className={`${
+                finalEdit
+                  ? "w-[90%] md:w-[600px]  mx-auto mt-[10px] md:mt-[4px] "
+                  : "hidden"
+              } `}
+            >
+              {!charSaveDisable && (
+                <p className="  md:w-[90%] lg:w-[98%] mt-[4px] ml-[10px] md:ml-[8px] text-[12px] md:text-[14px] text-[#616161] leading-[20px] overflow-hidden break-words ">
+                  {/* {handleMValues()} */}
+                  {/* {handleCharacterText(characterArray)} */}
+                  <span className="mnff-m">MNF</span> proposes to develop a{" "}
+                  <span className="screenplay-m">screenplay</span> flow by
+                  interacting with you through {mValue} comments and discussions
+                  thereon. The discussions from comment number {1} to{" "}
+                  {actOneThreshold} will be centered around{" "}
+                  <span className="font-[500] text-[#252525]">set up</span>,{" "}
+                  {actOneThreshold + 1} to {actTwoEnd} around{" "}
+                  <span className="font-[500] text-[#252525]">conflict</span>{" "}
+                  and {actTwoEnd + 1} to {mValue} around{" "}
+                  <span className="font-[500] text-[#252525]">resolution</span>.
+                </p>
+              )}
+            </div>
+          )}
 
           <form onSubmit={submitPremise}>
             {/* select section */}
@@ -1699,13 +1716,14 @@ const PremisePreview2 = ({
               {!createNewProject && !selectedSpProjectID ? (
                 <div className="col-span-12"></div>
               ) : (
-                <div className="text-[12px] grid grid-cols-12 gap-x-[6px] md:gap-x-[12px] gap-y-[4px] md:gap-y-[8px] px-[16px] md:px-0 lg:px-0 mt-[8px] md:mt-[-5px]">
+                <div className="text-[12px] grid grid-cols-12 gap-x-[6px] md:gap-x-[12px] gap-y-[4px]  px-[16px] md:px-0 lg:px-0 mt-[8px] md:mt-[-5px]">
                   {createNewProject && (
                     <div className="flex h-[31px] col-span-5 md:col-span-4">
                       <input
                         type="text"
                         ref={projectNameRef}
-                        id="spProjectName"
+                        onFocus={() => setFocusedFieldName("projectName")}
+                        // id="spProjectName"
                         className={`h-[30px] relative  text-[12px] md:!text-[14px] leading-tight px-[8px] w-full md:w-[181px] bg-[#fafafa] rounded-[4px] border-[2px] ${
                           spProjectName
                             ? "border-[#33B0CA]"
@@ -1714,7 +1732,12 @@ const PremisePreview2 = ({
                         placeholder="Project Name"
                         required
                         value={spProjectName}
-                        onChange={handleProjectChange}
+                        onChange={(e) => {
+                          const value = e.target.value
+                            .trimStart()
+                            .replace(/\s{2,}/g, " ");
+                          setSpProjectName(value);
+                        }}
                       />
                     </div>
                   )}
@@ -1732,7 +1755,10 @@ const PremisePreview2 = ({
                       <select
                         className={`block appearance-none bg-[#fafafa] h-[27px] rounded-[4px]   w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
                         value={language}
-                        onChange={(e) => setlanguage(e.target.value)}
+                        onChange={(e) => {
+                          setLanguage(e.target.value);
+                          setSelectedSpProjectLanguage(e.target.value);
+                        }}
                         onClick={() => setIsLanguageOpen(!isLanguageOpen)}
                         required
                       >
@@ -1757,19 +1783,26 @@ const PremisePreview2 = ({
                   <div className="flex h-[31px] col-span-5 md:col-span-4">
                     <input
                       type="text"
-                      id="authorName"
-                      ref={(el) => (inputRefs.current["authorName"] = el)}
+                      // id="authorName"
+                      ref={authorNameRef}
                       className={`h-[30px] relative text-[12px] md:!text-[14px] leading-tight px-[8px] w-full md:w-[191px] bg-[#fafafa] rounded-[4px] border-[2px] ${
                         authorName ? "border-[#33B0CA]" : "border-[#EAEAEA]"
                       } focus:outline-none`}
                       placeholder="Author Name"
+                      onFocus={() => setFocusedFieldName("authorName")}
                       value={authorName}
-                      onFocus={() => setActiveInput("authorName")}
-                      onChange={(e) => setAuthorName(e.target.value)}
-                      required
+                      // onFocus={() => setActiveInput("authorName")}
+
+                      onChange={(e) => {
+                        const value = e.target.value
+                          .trimStart()
+                          .replace(/\s{2,}/g, " ");
+                        setAuthorName(value);
+                      }}
+                      // required
                     />
                   </div>
-                  {/* <div
+                  <div
                     className={` col-span-7 ${
                       createNewProject
                         ? "md:col-span-3  md:w-[146px] "
@@ -1794,10 +1827,24 @@ const PremisePreview2 = ({
                         <option value="" disabled>
                           Nature of project
                         </option>
-                        {Object.keys(options)?.map((option) => (
+                        {/* {Object.keys(options)?.map((option) => (
                           <option key={option} value={option}>
                             {option}
                           </option>
+                        ))} */}
+
+                        {NProjectOpt?.map((option) => (
+                          <>
+                            {baseLanguage === "hi" ? (
+                              <option key={option?.value} value={option?.value}>
+                                {option?.hi}
+                              </option>
+                            ) : (
+                              <option key={option?.value} value={option?.value}>
+                                {option?.value}
+                              </option>
+                            )}
+                          </>
                         ))}
                       </select>
                       <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center pointer-events-none">
@@ -1809,8 +1856,7 @@ const PremisePreview2 = ({
                       </div>
                     </div>
                   </div>
-
-                  <div
+                  {/* <div
                     className={`h-[31px] relative  bg-[#fafafa] rounded-[4px] border-[2px] col-span-4 ${
                       createNewProject
                         ? "  md:col-span-3 w-[104px] xxs:w-[120px] md:w-[130px] md:ml-[8px] "
@@ -1879,43 +1925,6 @@ const PremisePreview2 = ({
                     </div>
                   </div> */}
                   <div
-                    className={` col-span-7 ${
-                      createNewProject
-                        ? "md:col-span-3  md:w-[146px] "
-                        : "md:col-span-4"
-                    } `}
-                  >
-                    <div
-                      ref={natureProjectRef}
-                      className={`h-[31px] relative  bg-[#fafafa] rounded-[4px] border-[2px] ${
-                        natureOfProject
-                          ? "border-[#33B0CA]"
-                          : "border-[#EAEAEA]"
-                      } `}
-                    >
-                      <select
-                        className={`block appearance-none bg-[#fafafa] h-[27px] rounded-[4px]   w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
-                        value={natureOfProject}
-                        onChange={handleNatureOfProjectChange}
-                        onClick={handleSelectClick}
-                        required
-                      >
-                        <option value="" disabled>
-                          Nature of project
-                        </option>
-                        <option value="short_film">Short film</option>
-                        <option value="feature_film">Feature film</option>
-                      </select>
-                      <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center pointer-events-none">
-                        {isNatureProjectOpen ? (
-                          <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px] " />
-                        ) : (
-                          <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px] " />
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div
                     className={`h-[31px] relative  bg-[#fafafa] rounded-[4px] border-[2px] col-span-4 ${
                       createNewProject
                         ? "  md:col-span-3 w-[104px] xxs:w-[120px] md:w-[130px] md:ml-[8px] "
@@ -1933,59 +1942,24 @@ const PremisePreview2 = ({
                       <option className="" value="" selected disabled>
                         Duration
                       </option>
-                      <option className="" value="Upto 2 Minutes">
-                        About 2 Minutes
-                      </option>
-                      <option className="" value="Upto 2 Minutes">
-                        About 5 Minutes
-                      </option>
-                      <option className="" value="1 Hour">
-                        About 1 Hour
-                      </option>
-                      <option className="" value="1 Hour">
-                        About 2 Hour
-                      </option>
 
-                      {
-                        natureOfProject === "short_film" && (
-                          <>
-                            <option className="" value="Upto 2 Minutes">
-                              About 2 Minutes
+                      {durationOptions?.map((option, index) => (
+                        <>
+                          {baseLanguage === "hi" ? (
+                            <option key={option?.value} value={option?.value}>
+                              {option?.hi}
                             </option>
-                            <option className="" value="Upto 2 Minutes">
-                              About 5 Minutes
+                          ) : (
+                            <option key={option?.value} value={option?.value}>
+                              {option?.text}
                             </option>
-                          </>
-                        )
-                        // <option
-                        //   className=""
-                        //   value="2 to 4 Minutes"
-                        //   selected
-                        //   disabled
-                        // >
-                        //   About 5 Minutes
+                          )}
+                        </>
+
+                        // <option key={option.value} value={option.value}>
+                        //   {option.text}
                         // </option>
-                      }
-                      {
-                        natureOfProject === "feature_film" && (
-                          <>
-                            <option className="" value="1 Hour">
-                              About 1 Hour
-                            </option>
-                            <option className="" value="1 Hour">
-                              About 2 Hour
-                            </option>
-                          </>
-                        )
-                        // <option className="" value="2 Hour" selected disabled>
-                        //   About 2 Hour
-                        // </option>
-                      }
-                      {/* {durationOptions?.map((option, index) => (
-                        <option key={option.value} value={option.value}>
-                          {option.text}
-                        </option>
-                      ))} */}
+                      ))}
                     </select>
                     <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center  pointer-events-none">
                       {isdurationOpen ? (
@@ -2022,6 +1996,7 @@ const PremisePreview2 = ({
                         </option>
                       ))}
                     </select>
+
                     <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center  pointer-events-none">
                       {isgenreOpen ? (
                         <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
@@ -2084,14 +2059,22 @@ const PremisePreview2 = ({
                     /> */}
                     <input
                       type="text"
-                      ref={(el) => (inputRefs.current["geographyItem"] = el)}
+                      ref={locationNameRef}
                       className={`block bg-[#fafafa] h-[30px] rounded-[4px] border-[2px] ${
                         geographyItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
                       } w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
                       placeholder="Country/Region/City"
                       value={geographyItem}
-                      onFocus={() => setActiveInput("geographyItem")}
-                      onChange={(e) => setGeographyItem(e.target.value)}
+                      onFocus={() => {
+                        setActiveInput("geographyItem");
+                        setFocusedFieldName("locationName");
+                      }}
+                      onChange={(e) => {
+                        const value = e.target.value
+                          .trimStart()
+                          .replace(/\s{2,}/g, " ");
+                        setGeographyItem(value);
+                      }}
                       required
                       maxLength={100}
                     />
@@ -2147,6 +2130,7 @@ const PremisePreview2 = ({
                       Who Is Your Protagonist
                     </p>
                     <input
+                      ref={protagonistNameRef}
                       className={`block bg-[#fafafa] w-full h-[30px] rounded-[4px] border-[2px] ${
                         protagonistName
                           ? "border-[#33B0CA]"
@@ -2154,10 +2138,14 @@ const PremisePreview2 = ({
                       }  px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
                       placeholder="Name"
                       type="text"
+                      onFocus={() => setFocusedFieldName("protagonistName")}
+                      onChange={(e) => {
+                        const value = e.target.value
+                          .trimStart()
+                          .replace(/\s{2,}/g, " ");
+                        setProtagonistName(value);
+                      }}
                       value={protagonistName}
-                      onChange={(e) =>
-                        handleProtagonistNameChange(e, setProtagonistName)
-                      }
                       required
                       maxLength={100}
                     />
@@ -2202,29 +2190,33 @@ const PremisePreview2 = ({
                   <div className="col-span-12 mb-[12px] md:mt-[21px] md:mb-[0px] md:col-span-3">
                     {" "}
                     <div className="flex h-[31px] gap-[12px] md:w-[185px]">
-                      <label className="text-[12px] md:!text-[14px] font-[500]">
-                        Age
-                      </label>
-                      <input
-                        type="text"
-                        id="protaAge"
-                        value={protaAge}
-                        min="0" // This prevents negative values
-                        className={`h-[30px] col-span-4 relative text-[12px] md:!text-[14px] leading-tight px-[8px] w-[57px]  bg-[#fafafa] rounded-[4px] border-[2px] ${
-                          protaAge ? "border-[#33B0CA]" : "border-[#EAEAEA]"
-                        } focus:outline-none`}
-                        placeholder="23"
-                        required
-                        onChange={(e) => {
-                          const value = e.target.value;
+                      {protagonist !== "Inanimate Object" && (
+                        <>
+                          <label className="text-[12px] md:!text-[14px] font-[500]">
+                            Age
+                          </label>
+                          <input
+                            type="number"
+                            id="protaAge"
+                            value={protaAge}
+                            min="0" // This prevents negative values
+                            className={`h-[30px] col-span-4 relative text-[12px] md:!text-[14px] leading-tight px-[8px] w-[57px]  bg-[#fafafa] rounded-[4px] border-[2px] ${
+                              protaAge ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                            } focus:outline-none`}
+                            placeholder="23"
+                            required
+                            onChange={(e) => {
+                              const value = e.target.value;
 
-                          if (/^\d*$/.test(value)) {
-                            if (value === "" || value > 0) {
-                              setProtaAge(value);
-                            }
-                          }
-                        }}
-                      />
+                              if (/^\d*$/.test(value)) {
+                                if (value === "" || value > 0) {
+                                  setProtaAge(value);
+                                }
+                              }
+                            }}
+                          />
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -2239,7 +2231,7 @@ const PremisePreview2 = ({
                     isLoading
                       ? "bg-[#616161] rounded-[8px] h-[32px] px-[12px] text-[14px] font-[600] text-white hover:bg hidden"
                       : "bg-[#FAFAFA] border h-[32px] !border-[#33B0CA] text-[#33B0CA] rounded-[8px]  px-[12px] text-[14px] font-[600]"
-                  } mr-7 md:ml-0`}
+                  } mr-4 md:ml-0`}
                   onClick={() => handleGoBack()}
                 >
                   Back
@@ -2250,7 +2242,7 @@ const PremisePreview2 = ({
                     disabled={!formValid}
                     type="submit"
                     className={` text-white rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] ${
-                      !formValid ? "bg-[#616161] " : "bg-[#33B0CA]"
+                      !formValid ? "bg-[#ACDDE7] " : "bg-[#33B0CA]"
                     }`}
                   >
                     Next
@@ -2258,11 +2250,15 @@ const PremisePreview2 = ({
                 )}
               </div>
             ) : (
-              <div className="lg:bg-[#FAFAFA] absolute right-3 md:right-0 bottom-0  flex  justify-end pt-[4px] pb-[8px] text-center  md:mx-[28px] top-[100px] md:top-[73px] md:mb-[10px] ">
+              <div
+                className={`lg:bg-[#FAFAFA] absolute right-3 md:right-0 bottom-0  flex  justify-end pt-[4px] pb-[8px] text-center  md:mx-[28px] top-[100px] ${
+                  finalSubmitLoading ? " md:top-[23px]" : " md:top-[73px]"
+                } md:mb-[10px] `}
+              >
                 {!charSaveDisable && (
                   <div
                     onClick={() => setCharacterEditPop(true)}
-                    className={` text-[#33B0CA] cursor-pointer mr-[12px] rounded-[8px] h-[32px] px-[10px] text-[14px] font-[500] border border-[#fafafa] border-b-[#33B0CA]
+                    className={` text-[#33B0CA] cursor-pointer mr-[12px]  h-[32px] px-[10px] text-[14px] font-[500] border border-[#fafafa] border-b-[#33B0CA]
                   `}
                   >
                     Edit Proposed Characters
@@ -2286,42 +2282,6 @@ const PremisePreview2 = ({
                 )}
               </div>
             )}
-             <div>
-                  {selectedLanguage && keyboardVisible && (
-                    <Draggable handle=".movable-handle">
-                      <div className="absolute z-20 w-[650px] top-[194px] right-[-85px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
-                        <div className="grid grid-cols-12">
-                          <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
-                            Drag me!!{" "}
-                            <span className="font-[500]">
-                              {selectedLanguage}
-                            </span>{" "}
-                            Keyboard
-                          </div>
-                          <div className="flex justify-center items-center w-full h-full cursor-pointer">
-                            <button
-                          onClick={() => {
-                            setKeyboardVisible(false)
-                            setSelectedLanguage('')
-                          }}
-                              className="font-bold w-full h-full"
-                            >
-                              ✕
-                            </button>
-                          </div>
-                        </div>
-
-                        <div className="p-2">
-                          <Keyboard
-                            selectedLanguage={selectedLanguage}
-                            setText={setText}
-                            inputRef={projectNameRef}
-                          />
-                        </div>
-                      </div>
-                    </Draggable>
-                  )}
-                </div>
           </form>
         </div>
         {characterEditPop && (
@@ -2332,6 +2292,7 @@ const PremisePreview2 = ({
             setCharacterArray={setCharacterArray}
             handleUpdateSavedChar={handleUpdateSavedChar}
             characterLoading={characterLoading}
+            source_language={selectedSpProjectLanguage}
           />
         )}
 
@@ -2339,7 +2300,7 @@ const PremisePreview2 = ({
           <Popup
             popClose={() => {
               setOpenPop(false);
-              setAddPopup(false);
+              setAddPopup(null);
             }}
             setIsLiked={setIsLiked}
             data={premiseData}
@@ -2349,6 +2310,56 @@ const PremisePreview2 = ({
             actTwoEnd={actTwoEnd}
           />
         )}
+
+        {sameNamePop && (
+          <SameNamePop
+            popClose={setSameNamePop}
+            title={`A project with the same name already exists. Please choose a different name.`}
+          />
+        )}
+        <div>
+          {selectedLanguage && keyboardVisible && (
+            <Draggable handle=".movable-handle">
+              <div className="absolute z-20 w-[650px] top-[194px] right-[-85px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
+                <div className="grid grid-cols-12">
+                  <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
+                    Drag me!!{" "}
+                    <span className="font-[500]">{selectedLanguage}</span>{" "}
+                    Keyboard
+                  </div>
+                  <div className="flex justify-center items-center w-full h-full cursor-pointer">
+                    <button
+                      onClick={() => {
+                        setKeyboardVisible(false);
+                        //setSelectedLanguage('')
+                      }}
+                      className="font-bold w-full h-full"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                </div>
+
+                <div className="p-2">
+                  <PremisePreviewKeyboard
+                    sourcesLanguage={selectedLanguage}
+                    inputRefs={{
+                      locationNameRef,
+                      authorNameRef,
+                      projectNameRef,
+                      protagonistNameRef,
+                    }}
+                    focusedFieldName={focusedFieldName}
+                    setProtagonistName={setProtagonistName}
+                    setSpProjectName={setSpProjectName}
+                    setAuthorName={setAuthorName}
+                    setGeographyItem={setGeographyItem}
+                  />
+                </div>
+              </div>
+            </Draggable>
+          )}
+        </div>
       </div>
     );
   }

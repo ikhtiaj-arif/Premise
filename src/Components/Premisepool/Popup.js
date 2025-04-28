@@ -431,6 +431,8 @@ const Popup = ({
     setCommentOwner(commenterName);
   };
 
+  // console.log("is_read_only", premiseData?.is_read_only)
+
   if (isPremiseLoading) {
     return <>Loading...</>;
   } else
@@ -594,6 +596,7 @@ const Popup = ({
                     premiseRefetch={premiseRefetch}
                     notifyPopup={notifyPopup}
                     setNotifyPopup={setNotifyPopup}
+                    is_read_only={premiseData?.is_read_only}
                   />
                 </div>
               </div>

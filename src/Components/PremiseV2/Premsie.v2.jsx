@@ -13,7 +13,6 @@ import { setUser } from "../../app/Slices/userSlice";
 import headText from "../../img/headText.png";
 import walletDoodle from "../../img/wallet_doodle.png";
 import AddPremise2 from "../Premisepool/Components/AddPremise2";
-import DeletePremise from "../Premisepool/DeletePremise";
 import Popup from "../Premisepool/Popup";
 import UserNamePopup from "../Premisepool/UserNamePopup";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
@@ -51,6 +50,8 @@ const PremiseV2 = () => {
     availableForSale,
     availableForTranslation,
     currentUser,
+    openSequalPop,
+    currentPopup,
   } = useContext(MyContext);
 
   const [isFirstCardBlinking, setIsFirstCardBlinking] = useState(false);
@@ -325,6 +326,47 @@ const PremiseV2 = () => {
       setAddPopup("noUserName");
     }
   };
+
+  const [triggerPopup, setTriggerPopup] = useState(false);
+  let idleTimer = null;
+  const stored = localStorage.getItem("doNotShowBubblePopup");
+
+  useEffect(() => {
+    if (stored === "true") {
+      return;
+    } else {
+      // Function to handle idle state
+      const handleIdle = () => {
+        idleTimer = setTimeout(() => {
+          setTriggerPopup(true); // Trigger popup after 8 seconds of inactivity
+        }, 10000); // 8 seconds
+      };
+
+      // Reset the timer on user activity
+      const resetIdleTimer = () => {
+        clearTimeout(idleTimer); // Clear existing timer
+        handleIdle(); // Restart idle timer
+      };
+
+      // Set event listeners to reset idle timer
+      window.addEventListener("mousemove", resetIdleTimer);
+      window.addEventListener("keydown", resetIdleTimer);
+      window.addEventListener("scroll", resetIdleTimer);
+      window.addEventListener("click", resetIdleTimer);
+
+      // Start the idle timer on mount
+      handleIdle();
+
+      // Cleanup event listeners and timer on unmount
+      return () => {
+        clearTimeout(idleTimer);
+        window.removeEventListener("mousemove", resetIdleTimer);
+        window.removeEventListener("keydown", resetIdleTimer);
+        window.removeEventListener("scroll", resetIdleTimer);
+        window.removeEventListener("click", resetIdleTimer);
+      };
+    }
+  }, [stored]);
 
   return (
     //   <div
@@ -607,7 +649,7 @@ const PremiseV2 = () => {
                         matchingPremiseData?.hiddenCountRefetch,
                       project_id: matchingPremiseData?.project_id,
                       m_value: matchingPremiseData?.m_value,
-                      premiseOwner: matchingPremiseData?.premiseOwner
+                      premiseOwner: matchingPremiseData?.premiseOwner,
                     }}
                     refetch={refetch}
                     p={matchingPremiseData}
@@ -631,6 +673,9 @@ const PremiseV2 = () => {
           )}
         </div>
       </div>
+
+      {/* {openSequalPop && <TestPopup />} */}
+
       {/* footer */}
       {/* <Footer></Footer> */}
     </div>
