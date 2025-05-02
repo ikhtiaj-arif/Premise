@@ -1,10 +1,21 @@
 import React, { useContext, useState } from "react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { MyContext } from "../../../App";
-import arrowRight from "../../../img/Icons/ArrowRicon.png";
 import crossIcon from "../../../img/Icons/crossIcon.png";
-import dummy from "../../../img/sr/Image0000000png.png";
-import { FaArrowRight } from "react-icons/fa6";
-import { FaArrowLeft } from "react-icons/fa6";
+import premise_sr_01 from "../../../img/sr/premise_sr_01.webp";
+import premise_sr_02 from "../../../img/sr/premise_sr_02.webp";
+import premise_sr_03 from "../../../img/sr/premise_sr_03.webp";
+import premise_sr_04 from "../../../img/sr/premise_sr_04.webp";
+import premise_sr_05 from "../../../img/sr/premise_sr_05.webp";
+import premise_sr_06 from "../../../img/sr/premise_sr_06.webp";
+import premise_sr_07 from "../../../img/sr/premise_sr_07.webp";
+import premise_sr_08 from "../../../img/sr/premise_sr_08.webp";
+import premise_sr_09 from "../../../img/sr/premise_sr_09.webp";
+import premise_sr_10 from "../../../img/sr/premise_sr_10.webp";
+import premise_sr_11 from "../../../img/sr/premise_sr_11.webp";
+import premise_sr_12 from "../../../img/sr/premise_sr_12.webp";
+import premise_sr_13 from "../../../img/sr/premise_sr_13.webp";
+import premise_sr_14 from "../../../img/sr/premise_sr_14.webp";
 
 const TestPopup = () => {
   const {
@@ -12,7 +23,8 @@ const TestPopup = () => {
     incrementPopup,
     setOpenSequalPop,
     setDoNotShowAgain,
-    removeDoNotShowAgain,decrementPopup
+    removeDoNotShowAgain,
+    decrementPopup,
   } = useContext(MyContext);
 
   const [isChecked, setIsChecked] = useState(false);
@@ -41,91 +53,163 @@ const TestPopup = () => {
   };
 
   // Popup data array
-  const popupData = [
+  const popupData2 = [
     {
       imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_01.png`,
-      message: "You can read Premise in the language of your choice. 📖",
+      message: "You can read Premise in the language of your choice. ",
       serialNo: 1,
     },
     {
-      imgUrl: dummy,
+      imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_02.png`,
       message:
-        "You can view the Premises written in a particular language by applying the language filter. 🌐",
+        "You can view the Premises written in a particular language by applying the language filter. ",
       serialNo: 2,
     },
-    // {
-    //   imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_02.png`,
-    //   message:
-    //     "You can view the Premises written in a particular language by applying the language filter. 🌐",
-    //   serialNo: 2,
-    // },
     {
       imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_03.png`,
-      message: "You can sort the Premises from oldest to latest. ⏳",
+      message: "You can sort the Premises from oldest to latest. ",
       serialNo: 3,
     },
     {
       imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_04.png`,
-      message: "You can sort the Premises by Popularity. ⭐",
+      message: "You can sort the Premises by Popularity. ",
       serialNo: 4,
     },
     {
       imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_05.png`,
-      message: "You can apply multiple filters simultaneously. 🔄",
+      message: "You can apply multiple filters simultaneously. ",
       serialNo: 5,
     },
     {
       imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_06.png`,
       message:
-        "You can see only the Premises added by you and shared with you. 👤",
+        "You can see only the Premises added by you and shared with you. ",
       serialNo: 6,
     },
     {
       imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_07.png`,
       message:
-        "You can search the Premise by name of the owner or content of the Premise. 🔍",
+        "You can search the Premise by name of the owner or content of the Premise. ",
       serialNo: 7,
     },
     {
       imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_08.png`,
       message:
-        "You can view all Brainstormings on a Premise by clicking on the Premise card. 💭",
+        "You can view all Brainstormings on a Premise by clicking on the Premise card. ",
       serialNo: 8,
     },
     {
       imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_09.png`,
       message:
-        "You can view source Premise if the Premise you are viewing is translated from another language. 🔄🌍",
+        "You can view source Premise if the Premise you are viewing is translated from another language. ",
       serialNo: 9,
     },
     {
       imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_10.png`,
-      message: "You can add a new Premise ➕",
+      message: "You can add a new Premise ",
       serialNo: 10,
     },
     {
       imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_11.png`,
       message:
-        "You can filter the Premise Projects available for translations! 🌍📚",
+        "You can filter the Premise Projects available for translations! ",
       serialNo: 11,
     },
     {
       imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_12.png`,
-      message: "You can filter the Premise Projects available for sale! 💸",
+      message: "You can filter the Premise Projects available for sale! ",
       serialNo: 12,
     },
     {
       imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_13.png`,
-      message: "You can send message to the Premise Project owner! 📩",
+      message: "You can send message to the Premise Project owner! ",
       serialNo: 13,
     },
     {
       imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_14.png`,
-      message: "You can view Premise Project owner's profile! 👤",
+      message: "You can view Premise Project owner's profile! ",
       serialNo: 14,
     },
 
     // Add more popup data here as needed
+  ];
+  const popupData = [
+    {
+      imgUrl: premise_sr_01,
+      message: "You can read Premise in the language of your choice.",
+      serialNo: 1,
+    },
+    {
+      imgUrl: premise_sr_02,
+      message:
+        "You can view the Premises written in a particular language by applying the language filter.",
+      serialNo: 2,
+    },
+    {
+      imgUrl: premise_sr_03,
+      message: "You can sort the Premises from oldest to latest.",
+      serialNo: 3,
+    },
+    {
+      imgUrl: premise_sr_04,
+      message: "You can sort the Premises by Popularity.",
+      serialNo: 4,
+    },
+    {
+      imgUrl: premise_sr_05,
+      message: "You can apply multiple filters simultaneously.",
+      serialNo: 5,
+    },
+    {
+      imgUrl: premise_sr_06,
+      message:
+        "You can see only the Premises added by you and shared with you.",
+      serialNo: 6,
+    },
+    {
+      imgUrl: premise_sr_07,
+      message:
+        "You can search the Premise by name of the owner or content of the Premise.",
+      serialNo: 7,
+    },
+    {
+      imgUrl: premise_sr_08,
+      message:
+        "You can view all Brainstormings on a Premise by clicking on the Premise card.",
+      serialNo: 8,
+    },
+    {
+      imgUrl: premise_sr_09,
+      message:
+        "You can view source Premise if the Premise you are viewing is translated from another language.",
+      serialNo: 9,
+    },
+    {
+      imgUrl: premise_sr_10,
+      message: "You can add a new Premise",
+      serialNo: 10,
+    },
+    {
+      imgUrl: premise_sr_11,
+      message:
+        "You can filter the Premise Projects available for translations!",
+      serialNo: 11,
+    },
+    {
+      imgUrl: premise_sr_12,
+      message: "You can filter the Premise Projects available for sale!",
+      serialNo: 12,
+    },
+    {
+      imgUrl: premise_sr_13,
+      message: "You can send message to the Premise Project owner!",
+      serialNo: 13,
+    },
+    {
+      imgUrl: premise_sr_14,
+      message: "You can view Premise Project owner's profile!",
+      serialNo: 14,
+    },
   ];
 
   // Find the popup data that matches the current popup number
@@ -179,13 +263,13 @@ const TestPopup = () => {
             <div className="flex flex-col items-center gap-[6px] mb-5 w-full">
               {currentPopup < 14 ? (
                 <div className="flex items-center justify-around w-full">
-                  <button
+                 { <button
                     onClick={handlePrevPopup}
-                    className="w-[130px] h-[32px]  bg-[#33b0ca] text-white rounded-[8px] px-[12px] text-[14px] font-[600] flex gap-[12px] items-center justify-center"
+                    className={`w-[130px] h-[32px] ${currentPopup === 1 ? "bg-[#33b1ca4c] cursor-default":"bg-[#33b0ca] cursor-pointer" } bg-[#33b0ca] text-white rounded-[8px] px-[12px] text-[14px] font-[600] flex gap-[12px] items-center justify-center`}
                   >
                     <FaArrowLeft />
                     Previous
-                  </button>
+                  </button>}
                   <button
                     onClick={handleNextPopup}
                     className="w-[130px] h-[32px]  bg-[#33b0ca] text-white rounded-[8px] px-[12px] text-[14px] font-[600] flex gap-[12px] items-center justify-center"

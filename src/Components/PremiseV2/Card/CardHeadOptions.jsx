@@ -425,7 +425,7 @@ const CardHeadOptions = ({
                   <button
                     className={`cursor-pointer`}
                     data-te-toggle="tooltip"
-                    title="Send Sale Request"
+                    title="Send Purchase Request"
                     // disabled={is_requested_for_sale}
                     // onClick={() => {
                     //   checkAllowance(setSaleRequestPop, id);
@@ -436,7 +436,7 @@ const CardHeadOptions = ({
                     <img
                       src={sendSaleReq}
                       className={`w-8 h-8 mt-[-13px]`}
-                      alt="send sale request"
+                      alt="Send Purchase request"
                     />
                   </button>
                 }

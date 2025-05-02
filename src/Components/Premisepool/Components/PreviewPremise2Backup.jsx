@@ -719,6 +719,7 @@ const PremisePreview2 = ({
           // refetch();
           setCurrentProjectData(response?.data?.projects);
           setCreatedSpProjectID(response?.data?.projects?.pro_uuid);
+          
           setspID(response?.data?.projects?.pro_uuid);
           formData.append("project_id", response?.data?.projects?.pro_uuid);
           projectRefetch();

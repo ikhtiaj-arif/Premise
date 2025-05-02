@@ -21,6 +21,7 @@ import TypingLoader from "../TypingLoader";
 import { baseURL } from "../utils";
 import PremiseCardV2 from "./Card/PremiseCardV2";
 import FilterSearchSort from "./Header/FiltersSearchSort/FilterSearchSort";
+import TestPopup from "./sequalPopup/TestPopup";
 
 export const loadingData = [
   "Initializing..",

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { useRequestForSaleOrTranslateMutation } from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
-import SuccessPop from "./SuccessPop";
 import TypingLoader from "../../TypingLoader";
 import SameNamePop from "./alerts/SameNamePop";
+import SuccessPop from "./SuccessPop";
 
 const ReqSalePop = ({ popClose, id, user, source_language, project_id }) => {
   const [reqSale] = useRequestForSaleOrTranslateMutation();
@@ -51,8 +51,13 @@ const ReqSalePop = ({ popClose, id, user, source_language, project_id }) => {
       />
     );
   }
-  if(errorPop){
-    return <SameNamePop popClose={setErrorPop} title="Failed to submit the sale request. Please try again" />
+  if (errorPop) {
+    return (
+      <SameNamePop
+        popClose={setErrorPop}
+        title="Failed to submit the sale request. Please try again"
+      />
+    );
   }
 
   return (
@@ -117,8 +122,8 @@ const ReqSalePop = ({ popClose, id, user, source_language, project_id }) => {
                 4.{" "}
               </p>
               <p className="text-left text-[10px] leading-[14.5px] font-[400]  text-[#616161] ">
-                You will be able to monetize this Premise Project through sale
-                or Sale.
+                You will be able to monetize this Premise Project through
+                purchase or Translation.
               </p>
             </div>
           </div>

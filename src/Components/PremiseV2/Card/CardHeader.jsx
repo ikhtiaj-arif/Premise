@@ -170,7 +170,7 @@ const CardHeader = ({
                 <img
                   src={mailCartQ}
                   className="w-9 h-9 cursor-pointer"
-                  alt="Send Sale Request"
+                  alt="Send Purchase Request"
                   onClick={() => checkAllowance(setSaleRequestPop)}
                 />
               )}

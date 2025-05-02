@@ -48,17 +48,52 @@ const SingleCharacterAdd = ({
   const [keyboardVisible, setKeyboardVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
+  // useEffect(() => {
+  //   let isAgeValid;
+  //   if (gender === "Inanimate Object") {
+  //     isAgeValid = true;
+  //     setAge("0");
+  //   } else {
+  //     isAgeValid = age;
+  //   }
+
+  //   const isFormComplete = role && name && occupation && gender && isAgeValid;
+
+  //   setIsSaveDisabled(!isFormComplete);
+  // }, [
+  //   role,
+  //   age,
+  //   occupation,
+  //   name,
+  //   gender,
+  //   background,
+  //   personality,
+  //   individualWant,
+  //   characterjourney,
+  //   bloodrelationship,
+  //   familyrelationship,
+  //   professionalrelationship,
+  //   customRole,
+  // ]);
+
+  const inanimateObjectOptions = (language) => {
+    if (inanimateObject[language]) {
+      return Object.values(inanimateObject[language])[0]; // Get the first value
+    }
+    return null; // Return null if no value is found
+  };
+
   useEffect(() => {
     let isAgeValid;
-    if (gender === "Inanimate Object") {
+    if (
+      gender === "Inanimate Object" ||
+      inanimateObjectOptions(sourceLanguageName)
+    ) {
       isAgeValid = true;
-      setAge("0");
     } else {
       isAgeValid = age;
     }
-
     const isFormComplete = role && name && occupation && gender && isAgeValid;
-
     setIsSaveDisabled(!isFormComplete);
   }, [
     role,
@@ -75,17 +110,16 @@ const SingleCharacterAdd = ({
     professionalrelationship,
     customRole,
   ]);
-
-  useEffect(() => {
-    let isAgeValid;
-    if (gender === "Inanimate Object") {
-      isAgeValid = true;
-    } else {
-      isAgeValid = age;
-    }
-    const isFormComplete = role && name && occupation && gender && isAgeValid;
-    setDisabled(!isFormComplete);
-  }, [role, age, occupation, name, gender]);
+  // useEffect(() => {
+  //   let isAgeValid;
+  //   if (gender === inanimateObjectOptions(sourceLanguageName)) {
+  //     isAgeValid = true;
+  //   } else {
+  //     isAgeValid = age;
+  //   }
+  //   const isFormComplete = role && name && occupation && gender && isAgeValid;
+  //   setDisabled(!isFormComplete);
+  // }, [role, age, occupation, name, gender]);
 
   const handleAddClick = (e) => {
     e.preventDefault();
@@ -202,7 +236,6 @@ const SingleCharacterAdd = ({
     "Expert",
     "Arbiter",
     "Others",
-    
   ];
 
   const filteredRoleOptions = roleOptions.filter(
@@ -248,6 +281,8 @@ const SingleCharacterAdd = ({
   };
   const sourceLanguageName = getLanguageName(source_language);
 
+  // console.log("sourceLanguageName", sourceLanguageName === "English");
+
   const getGenderOptions = (language) => {
     if (genderJson[language]) {
       return Object.keys(genderJson[language]).map((key) => (
@@ -261,12 +296,6 @@ const SingleCharacterAdd = ({
       ));
     }
     return [];
-  };
-  const inanimateObjectOptions = (language) => {
-    if (inanimateObject[language]) {
-      return Object.values(inanimateObject[language])[0]; // Get the first value
-    }
-    return null; // Return null if no value is found
   };
 
   return (
@@ -396,12 +425,18 @@ const SingleCharacterAdd = ({
                     <option value="" className="text-[14px] " selected disabled>
                       Gender
                     </option>
-
-                    {/* <option className="text-[14px]">Male</option>
-                    <option className="text-[14px]">Female</option>
-                    <option className="text-[14px]">Animal</option>
-                    <option className="text-[14px]">Inanimate Object</option> */}
-                    {getGenderOptions(sourceLanguageName)}
+                    {sourceLanguageName === "English" ? (
+                      <>
+                        <option className="text-[14px]">Male</option>
+                        <option className="text-[14px]">Female</option>
+                        <option className="text-[14px]">Animal</option>
+                        <option className="text-[14px]">
+                          Inanimate Object
+                        </option>
+                      </>
+                    ) : (
+                      <>{getGenderOptions(sourceLanguageName)}</>
+                    )}
                   </select>
                 </div>
                 {gender !== inanimateObjectOptions(sourceLanguageName) && (

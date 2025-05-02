@@ -296,7 +296,7 @@ const PremisePreview2 = ({
 
   const [previewPremise, isPremiseLoading, status, isError] =
     usePostPremiseMutation();
-
+ const [isOldProject, setIsOldProject] = useState(false);
   const [previewEdit] = useEditPremiseMutation();
   const [deletePremise] = useDeletePremiseMutation();
   const [createProject, resInfo] = useCreateProjectMutation();
@@ -727,18 +727,15 @@ const PremisePreview2 = ({
       if (generaItem === "Other") {
         formData.append("genre", "Drama");
         formData.append("sub_genre", subGeneraItemTxt);
-
-      }
-      else if(
+      } else if (
         generaItem === "Superhero" ||
         generaItem === "Adventure" ||
-        generaItem === "Documentary"){
-          formData.append("genre", "Drama");
-          formData.append("sub_genre", subGeneraItem);
-        }
-      
-      
-      else {
+        generaItem === "Mystery" ||
+        generaItem === "Documentary"
+      ) {
+        formData.append("genre", "Drama");
+        formData.append("sub_genre", subGeneraItem);
+      } else {
         formData.append("sub_genre", subGeneraItem);
         formData.append("genre", generaItem);
       }
@@ -746,6 +743,7 @@ const PremisePreview2 = ({
       formData.append("geography", geographyItem);
       formData.append("protagonist_type", protagonist);
       formData.append("protagonist_name", protagonistName);
+
       if (protagonist === "Inanimate Object") {
         setProtaAge(0);
       }
@@ -775,6 +773,7 @@ const PremisePreview2 = ({
         protagonist_age: protaAge,
         service_name: "premisePool",
       };
+      
 
       if (createNewProject) {
         // const trimmedName = spProjectName.trim();
@@ -905,13 +904,13 @@ const PremisePreview2 = ({
                   setFinalEdit(true);
                   setCharacterArray(charData);
                   setIsLoading(false);
+                  setIsOldProject(true)
                 }
               })
               .catch((error) => {
                 setIsLoading(false);
                 deleteProject(deleteId);
                 deletePremiseWhenFailed(deletePreID);
-
                 toast.error("Failed to create Premise", {
                   position: toast.POSITION.TOP_CENTER,
                   autoClose: 1600,
@@ -921,7 +920,6 @@ const PremisePreview2 = ({
           } else {
             // Handle API errors
             setIsLoading(false);
-
             deleteProject({ project: deleteId });
             toast.error(
               res?.error?.data?.message || "Failed to create Premise!",
@@ -961,6 +959,7 @@ const PremisePreview2 = ({
               // project_id,
             } = res?.data;
 
+            console.log("source_language",source_language);
             setSelectedPremiseSpProjectId(response?.data?.projects?.pro_uuid);
             setPremiseId(res?.data?.id);
             const deletePreID = res?.data?.id;
@@ -1042,6 +1041,7 @@ const PremisePreview2 = ({
                   setFinalEdit(true);
                   setCharacterArray(charData);
                   setIsLoading(false);
+                  setIsOldProject(true);
                 }
 
                 // Optionally set openPop here if needed
@@ -1598,7 +1598,7 @@ const PremisePreview2 = ({
             {!createNewProject && !selectedSpProjectID ? (
               <div className="col-span-12">
                 <div className="flex gap-[12px] items-center mt-[32px]">
-                  {filteredSpProjects.length !== 0 && (
+                  {filteredSpProjects?.length !== 0 && (
                     <div
                       ref={spProjectRef}
                       className={`h-[31px] relative w-[144px] md:w-[206px] bg-[#fafafa] ${
@@ -2436,7 +2436,11 @@ const PremisePreview2 = ({
             setCharacterArray={setCharacterArray}
             handleUpdateSavedChar={handleUpdateSavedChar}
             characterLoading={characterLoading}
-            source_language={selectedSpProjectLanguage}
+            source_language={premiseData?.source_language}
+            project_id={selectedSpProjectID || createdSpProjectID}
+            // project_id1={createdSpProjectID}
+            isOldProject={isOldProject}
+            // source_language={premiseData?.source_language}
           />
         )}
 
