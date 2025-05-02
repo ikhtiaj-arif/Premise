@@ -184,7 +184,7 @@ const PremiseNewTab = () => {
   };
 
   const handleReplyTextChange = (event) => {
-    const reply = event.target.value;
+    const reply = event.target.value.replace(/^\s+|\s+(?=\s)/g, "");
     setReplyTextCount(reply.length);
     setReplyText(reply);
   };

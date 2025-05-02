@@ -98,7 +98,7 @@ const PaySalePopup = ({
             4.{" "}
           </p>
           <p className="text-left text-[13px] leading-[14.5px] font-[400] text-[#616161]">
-            You will be able to monetize this Premise Project through sale or
+            You will be able to monetize this Premise Project through Purchase or
             translation.
           </p>
         </div>

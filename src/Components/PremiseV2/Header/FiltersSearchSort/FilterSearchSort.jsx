@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { BsFire } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";
-import { ImCross, ImUserCheck } from "react-icons/im";
+import { ImCross } from "react-icons/im";
 import { useSelector } from "react-redux";
 import { useGetFilteredLangQuery } from "../../../../app/EndPoints/premisePoolApi";
 // import activeLangIcon from "../../../img/Icons/activeLangIcon.png";
@@ -307,7 +307,7 @@ const FilterSearchSort = ({
           }`}
         >
           <div
-            className={`flex items-center gap-[16px] justify-end py-2 ${
+            className={`flex items-center gap-[16px] justify-end py-2 mx-auto ${
               activeSearch ? "hidden" : " block"
             }`}
           >
@@ -484,7 +484,7 @@ const FilterSearchSort = ({
             </button> */}
 
             <button
-              className={`custom-searchBtn h-[32px] w-[32px] rounded-full 
+              className={`custom-searchBtn lg:hidden h-[32px] w-[32px] rounded-full 
              bg-[#252525] 
             `}
               onClick={() => handleButtonClick()}
@@ -494,10 +494,14 @@ const FilterSearchSort = ({
             </button>
           </div>
 
-          <div className={`${activeSearch ? "w-full" : ""}`}>
+          <div
+            className={`${
+              activeSearch ? "w-full" : ""
+            } bg-[#EAEAEA] md:bg-[#fff]`}
+          >
             {activeSearch && (
               <div
-                className={`flex border items-center border-[#B4B4B4] w-[80%] mx-auto px-[14px] h-[42px] my-2 rounded-full`}
+                className={`flex  border items-center border-[#B4B4B4] bg-[#fafafa] w-[80%] mx-auto px-[14px] h-[42px] my-3 rounded-full`}
               >
                 <form
                   className="flex items-center w-full"
@@ -506,7 +510,7 @@ const FilterSearchSort = ({
                   <input
                     ref={searchInputRef}
                     type="text"
-                    className="w-full flex-1 px-2 h-[40px] text-[14px] focus:outline-none"
+                    className="w-full flex-1 px-2 h-[40px] text-[14px] bg-[#fafafa] focus:outline-none"
                     name="search"
                     placeholder="Search"
                     value={searchText}
@@ -539,7 +543,7 @@ const FilterSearchSort = ({
               // />
             )}
             <div
-              className={`custom-srch_input border  border-[#B4B4B4] mx-auto px-[14px] h-[32px] my-2 rounded-full`}
+              className={`hidden lg:block custom-srch_input border  border-[#B4B4B4] mx-auto px-[14px] h-[32px] my-2 rounded-full`}
             >
               <form className="flex items-center" onSubmit={handleSearchSubmit}>
                 <input
@@ -574,7 +578,7 @@ const FilterSearchSort = ({
                 </button>
               </form>
             </div>
-            <p className="absolute top-[58px] md:top-[48px] right-[46px] lg:right-0 text-[12px] leading-[14px] text-red-500">
+            <p className="absolute top-[60px] md:top-[48px] right-[46px] lg:right-0 text-[12px] leading-[14px] text-red-500">
               {notifyText}
             </p>
           </div>

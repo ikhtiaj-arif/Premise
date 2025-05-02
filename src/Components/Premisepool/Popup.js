@@ -296,7 +296,8 @@ const Popup = ({
   }, [commentsData, commentRefetch]);
 
   const handleReplyTextChange = (event) => {
-    const reply = event.target.value;
+    const reply = event?.target?.value?.replace(/^\s+|\s+(?=\s)/g, "");
+    console.log("reply----->", reply);
     setReplyTextCount(reply.length);
     setReplyText(reply);
   };
@@ -430,6 +431,8 @@ const Popup = ({
     setCurrentlyOpenedCommentID(id);
     setCommentOwner(commenterName);
   };
+
+  // console.log("is_read_only", premiseData?.is_read_only)
 
   if (isPremiseLoading) {
     return <>Loading...</>;
@@ -594,6 +597,7 @@ const Popup = ({
                     premiseRefetch={premiseRefetch}
                     notifyPopup={notifyPopup}
                     setNotifyPopup={setNotifyPopup}
+                    is_read_only={premiseData?.is_read_only}
                   />
                 </div>
               </div>
@@ -708,7 +712,7 @@ const Popup = ({
                             proImgUrl={proImgUrl}
                             setReplyField={setReplyField}
                             replyField={replyField}
-                            replyRef={replyRef}
+                            // replyRef={replyRef}
                             handleReplyTextChange={handleReplyTextChange}
                             handlePostReplyToComment={handlePostReplyToComment}
                             replyLoading={replyLoading}
@@ -724,6 +728,7 @@ const Popup = ({
                             iconWidth={"w-[87%] md:w-[91%]"}
                             inpRightMargin={"mr-[47px] md:mr-[88px]"}
                             loading={loading}
+                            replyText={replyText}
                           />
                         </motion.div>
                       ))}
@@ -774,73 +779,6 @@ const Popup = ({
                     }}
                   />
                 </div>
-                {/* <div className="  bg-[#F8F8F8] relative flex justify-between items-stretch md:mb-[12px] pl-3 md:flex-row w-[90%] mx-auto border border-[#EAEAEA] rounded-[8px] shadow-md ">
-                  {premiseOwner?.id === user ? (
-                    <textarea
-                      ref={commentRef}
-                      type="text"
-                      name=""
-                      maxLength={250}
-                      id=""
-                      className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] w-[85%] md:w-[100%]  h-[75px]  lg:h-[65px]  focus:border-none focus:outline-none text-[14px] py-[2px] md:pr-[55px] font-[400]"
-                      placeholder="Brainstorm here with MNF"
-                      value={newComment}
-                      required
-                      onChange={handleTextareaChange}
-                      onKeyDown={(event) => {
-                        // console.log('Key pressed:', event.key);
-                        if (event.key === "Enter") {
-                          handleButtonClick();
-                        }
-                      }}
-                    />
-                  ) : (
-                    <textarea
-                      ref={commentRef}
-                      type="text"
-                      name=""
-                      maxLength={150}
-                      id=""
-                      className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] w-[85%] md:w-[100%] h-[75px]  lg:h-[65px]  focus:border-none focus:outline-none text-[14px] py-[2px] md:pr-[55px] font-[400] "
-                      placeholder="Brainstorm here with MNF"
-                      value={newComment}
-                      required
-                      onChange={handleTextareaChange}
-                      onKeyDown={(event) => {
-                        // console.log('Key pressed:', event.key);
-                        if (event.key === "Enter") {
-                          handleButtonClick();
-                        }
-                      }}
-                    />
-                  )}
-                  <div className="">
-                    {isLoading ? (
-                      <div className="md:w-[40px] absolute right-[16px] bottom-[50%] md:bottom-[20%] ">
-                        <BtnLoading />
-                      </div>
-                    ) : (
-                      <button
-                        className=" md:w-[21px] absolute  right-[9px] md:right-[16px] top-1/2 transform -translate-y-1/2 md:bottom-[20%] md:translate-y-0"
-                        onClick={handleButtonClick}
-                        disabled={isDisabled}
-                      >
-                        <IoMdSend className=" text-[#33B0CA] w-6 h-6 my-auto cursor-pointer" />
-                      </button>
-                    )}
-                    <div className=" md:hidden absolute bottom-[4px] right-[2px]">
-                      {premiseOwner?.id === user ? (
-                        <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
-                          {textCount}/250
-                        </p>
-                      ) : (
-                        <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
-                          {textCount}/150
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </div> */}
               </div>
             </div>
           </div>

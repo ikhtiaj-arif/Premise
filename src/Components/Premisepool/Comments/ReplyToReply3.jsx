@@ -23,7 +23,8 @@ import ReplyLike from "./ReplyLike";
 const ReplyToReply3 = ({
   fromNew,
   handleAddToBeat,
-  setCommentText,setBeatCommentText,
+  setCommentText,
+  setBeatCommentText,
   childReply,
   currentReplyId,
   owner,
@@ -151,7 +152,7 @@ const ReplyToReply3 = ({
   };
 
   const handleReplyTextChange = (event) => {
-    const childReply = event.target.value;
+    const childReply = event.target.value.replace(/^\s+|\s+(?=\s)/g, "");
     setReplyChildTextCount(childReply?.length);
     setChildReplyText(childReply);
   };
@@ -211,41 +212,39 @@ const ReplyToReply3 = ({
           <div className="border w-[78%] md:w-[86%] lg:w-[89%] border-[##EAEAEA] bg-[#f8f8f8] rounded-[8px] p-1 ">
             <div className="flex justify-between my-1 relative">
               <div className="text-[#1E1E1E] pl-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center">
-             
-                  <a
-                    // data-reply-reply
-                    target="_blank"
-                    rel="noreferrer"
-                    // href={`${URL}/memberpage/#/user/${created_by?.id}`}
+                <a
+                  // data-reply-reply
+                  target="_blank"
+                  rel="noreferrer"
+                  // href={`${URL}/memberpage/#/user/${created_by?.id}`}
 
-                    href={
-                      replyBy?.id === user
-                        ? `${URL}/memberpage/#/personaldetails`
-                        : `${URL}/memberpage/#/user/${replyBy?.id}/personaldetails`
-                    }
-                    className="flex items-center"
-                  >
-                    {childReply?.user?.first_name &&
-                    childReply?.user?.last_name ? (
-                      <p className="notranslate text-[14px] font-[500] hover:text-[#33b0ca]">
-                        {childReply?.user?.first_name}{" "}
-                        {childReply?.user?.last_name}
-                      </p>
-                    ) : (
-                      <p className="text-[14px] font-[500] hover:text-[#33b0ca]">
-                        {childReply?.user?.email.split("@")[0]}{" "}
-                      </p>
-                    )}
-                    {replyBy?.id === 1 ? (
-                      <></>
-                    ) : (
-                      <UserType
-                        type={childReply?.user?.centraldatabase?.type}
-                        user_type={childReply?.user?.centraldatabase?.user_type}
-                      />
-                    )}
-                  </a>
-              
+                  href={
+                    replyBy?.id === user
+                      ? `${URL}/memberpage/#/personaldetails`
+                      : `${URL}/memberpage/#/user/${replyBy?.id}/personaldetails`
+                  }
+                  className="flex items-center"
+                >
+                  {childReply?.user?.first_name &&
+                  childReply?.user?.last_name ? (
+                    <p className="notranslate text-[14px] font-[500] hover:text-[#33b0ca]">
+                      {childReply?.user?.first_name}{" "}
+                      {childReply?.user?.last_name}
+                    </p>
+                  ) : (
+                    <p className="text-[14px] font-[500] hover:text-[#33b0ca]">
+                      {childReply?.user?.email.split("@")[0]}{" "}
+                    </p>
+                  )}
+                  {replyBy?.id === 1 ? (
+                    <></>
+                  ) : (
+                    <UserType
+                      type={childReply?.user?.centraldatabase?.type}
+                      user_type={childReply?.user?.centraldatabase?.user_type}
+                    />
+                  )}
+                </a>
               </div>
 
               <p className="text-[12px]  h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
@@ -413,6 +412,7 @@ const ReplyToReply3 = ({
               name="reply"
               maxLength={150}
               id=""
+              value={childReplyText}
               className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] px-[8px] w-[100%] h-[44.27px]  lg:h-[37px] focus:border-none focus:outline-none text-[14px] pr-[45px] font-[400]"
               placeholder="Enter your reply..."
               required

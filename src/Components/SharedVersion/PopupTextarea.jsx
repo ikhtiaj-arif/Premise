@@ -9,11 +9,10 @@ import { useCommentPremiseMutation } from "../../app/EndPoints/premisePoolApi";
 import BtnLoading from "../../shared/BtnLoading";
 import Keyboard from "../Premisepool/Keyboard";
 import LanguageSelector from "../Premisepool/LanguageSelector";
+import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 import { baseURL } from "../utils";
-import SimpleAlertPop from "../PremiseV2/Popups/alerts/SimpleAlertPop";
-import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 
 const PopupTextarea = ({
   premiseOwner,
@@ -78,7 +77,8 @@ const PopupTextarea = ({
   }, [replyField, commentField]);
 
   const handleTextareaChange = (event) => {
-    const comment = event.target.value;
+    const comment = event.target.value.replace(/^\s+|\s+(?=\s)/g, "");
+    console.log("comment -----> ", comment);
     setTextCount(comment.length);
     setNewComment(comment);
   };
@@ -100,6 +100,32 @@ const PopupTextarea = ({
     setIsLoading(false);
   };
 
+  const [triggerPopup, setTriggerPopup] = useState(false);
+  const [triggerSPPopup, setTriggerSPPopup] = useState(false);
+  useEffect(() => {
+    // Check localStorage on mount
+    const stored = localStorage.getItem("ppdoNotShowCommentPopup");
+
+    if (stored === "true") {
+      setTriggerPopup(false);
+    } else {
+      setTriggerPopup(true);
+    }
+  }, []);
+
+  const handlePopOpenAfterPostingComment = () => {
+    // Check localStorage on mount
+    const storedSP = localStorage.getItem("ppdoNotShowJISPPopup");
+
+    if (storedSP === "true") {
+      setTriggerSPPopup(false);
+    } else {
+      setTriggerSPPopup(true);
+    }
+  };
+
+  console.log("triggerSPPopup", triggerSPPopup);
+
   const checkAllowance = async (flag) => {
     const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);
     console.log(`${flag} res`, res);
@@ -115,7 +141,7 @@ const PopupTextarea = ({
   const handleSubmitComment = async () => {
     if (newComment.length === 0) {
       // alert("You can't send an empty comment!");
-      setAlert(true)
+      setAlert(true);
       return;
     }
 
@@ -178,6 +204,9 @@ const PopupTextarea = ({
           });
         }, 1100);
         // }
+        setTimeout(() => {
+          handlePopOpenAfterPostingComment();
+        }, 2000);
       }
     } catch (error) {
       toast.error("Failed to add comment. Please try again.", {
@@ -351,7 +380,18 @@ const PopupTextarea = ({
           />
         )
       )}
-        {alert && <SameNamePop popClose={setAlert} title={`You can't send an empty comment!`} />}
+      {alert && (
+        <SameNamePop
+          popClose={setAlert}
+          title={`You can't send an empty comment!`}
+        />
+      )}
+      {/* {triggerPopup && (
+        <TriggerPopupComment onClose={() => setTriggerPopup(false)} />
+      )}
+      {triggerSPPopup && (
+        <OpenScriptPop onClose={() => setTriggerSPPopup(false)} />
+      )} */}
     </div>
   );
 };

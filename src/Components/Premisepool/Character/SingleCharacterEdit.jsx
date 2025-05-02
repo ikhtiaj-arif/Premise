@@ -18,7 +18,6 @@ const SingleCharacterAdd = ({
   onlyAdd,
   source_language,
 }) => {
-  console.log("editIdx", editIdx);
   const [role, setRole] = useState(editData?.role || "");
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [keyboardVisible, setKeyboardVisible] = useState(false);
@@ -45,6 +44,8 @@ const SingleCharacterAdd = ({
   const [professionalrelationship, setProfessionalrelationship] = useState(
     editData?.professional_relationship || ""
   );
+
+  console.log("editData?.gender", editData?.gender, gender);
 
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
 
@@ -196,7 +197,6 @@ const SingleCharacterAdd = ({
     "Antagonist",
     "Narrator",
     "Co-Star",
-
     "Mediator",
     "Confidant",
     "Love Interest",
@@ -465,29 +465,51 @@ const SingleCharacterAdd = ({
                 )}
               </div>
 
-              <div className="flex flex-col mb-0 md:mb-[12px] md:flex-row mt-[8px] md:mt-[24px]  gap-[18px]">
-                <div className="relative w-full md:w-[92px]">
+              <div className="flex flex-col mb-0 md:mb-[12px] md:flex-row mt-[8px] md:mt-[24px] gap-[8px]">
+                <div
+                  className={`relative w-full ${
+                    isDisabled ? "md:w-[128px]" : "md:w-[97px]"
+                  } `}
+                >
                   <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-10">
                     Gender
                   </label>
-                  <select
-                    required
-                    disabled={isDisabled}
-                    value={gender}
-                    onChange={(e) => setGender(e.target.value)}
-                    className=" text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA]  rounded-[8px] mt-[12px] md:my-0   w-full md:w-[97px] h-[42px]  indent-1"
-                    // className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[42px]"
-                    // style={{ width: "97px" }}
-                  >
-                    <option value="" className="text-[14px] " selected disabled>
-                      Gender
-                    </option>
-                    {getGenderOptions(sourceLanguageName)}
-                    {/* <option className="text-[14px]">Male</option>
-                    <option className="text-[14px]">Female</option>
-                    <option className="text-[14px]">Animal</option>
-                    <option className="text-[14px]">Inanimate Object</option> */}
-                  </select>
+                  {isDisabled ? (
+                    <div className=" text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA]  rounded-[8px] mt-[12px] md:my-0   w-full md:w-[128px] h-[42px]  indent-1 overflow-x-hidden">
+                      {gender.split(" ")}
+                    </div>
+                  ) : (
+                    <select
+                      required
+                      disabled={isDisabled}
+                      value={gender}
+                      onChange={(e) => setGender(e.target.value)}
+                      className=" text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA]  rounded-[8px] mt-[12px] md:my-0   w-full md:w-[97px] h-[42px]  indent-1"
+                      // className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[42px]"
+                      // style={{ width: "97px" }}
+                    >
+                      <option
+                        value=""
+                        className="text-[14px] "
+                        selected
+                        disabled
+                      >
+                        Gender
+                      </option>
+                      {sourceLanguageName === "English" ? (
+                        <>
+                          <option className="text-[14px]">Male</option>
+                          <option className="text-[14px]">Female</option>
+                          <option className="text-[14px]">Animal</option>
+                          <option className="text-[14px]">
+                            Inanimate Object
+                          </option>
+                        </>
+                      ) : (
+                        <>{getGenderOptions(sourceLanguageName)}</>
+                      )}
+                    </select>
+                  )}
                 </div>
                 {gender !== inanimateObjectOptions(sourceLanguageName) && (
                   <div className="relative w-full md:w-[49px]">

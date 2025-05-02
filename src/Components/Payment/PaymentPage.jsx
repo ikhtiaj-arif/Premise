@@ -16,6 +16,7 @@ import {
 } from "../../app/EndPoints/premisePoolApi";
 import { toast } from "react-toastify";
 import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
+import { URL } from "../utils";
 
 const PaymentPage = ({
   typeOfRequest,
@@ -235,7 +236,7 @@ const PaymentPage = ({
                 My Next Film Pvt. Ltd.
               </h2>
               <p>CIN - U92419DL2021PTC381570</p>
-              <a href="https://mynextfilm.ai/">www.mynextfilm.ai</a>
+              <a href={`${URL}`}>www.mnf.ai</a>
             </div>
           </div>
 
@@ -281,7 +282,7 @@ const PaymentPage = ({
                   <a
                     target="_blank"
                     rel="noreferrer"
-                    href={`https://mynextfilm.ai/templates/Tnc.html`}
+                    href={`${URL}/templates/Tnc.html`}
                     className="text-[#5a83ef] underline"
                   >
                     Terms of Payment

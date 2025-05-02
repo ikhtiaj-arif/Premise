@@ -1,4 +1,5 @@
 import React from "react";
+import { URL } from "../utils";
 
 export const Amount = ({ data, isAgreementChecked, setAgreementChecked }) => {
   //console.log('amount data',data?.total_amount !='0');
@@ -106,7 +107,7 @@ export const Amount = ({ data, isAgreementChecked, setAgreementChecked }) => {
             <a
               target="_blank"
               rel="noreferrer"
-              href={`https://mynextfilm.ai/templates/Tnc.html`}
+              href={`${URL}/templates/Tnc.html`}
               className="text-[#5a83ef] underline"
             >
               Terms of Payment

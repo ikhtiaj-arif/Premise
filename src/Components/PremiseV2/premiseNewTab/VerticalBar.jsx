@@ -2,10 +2,13 @@ import React, { useState } from "react";
 
 const VerticalBar = ({ comments, currentCommentRef, handleOpenAllReplies }) => {
   const [focusedComment, setFocusedComment] = useState(null);
+
   const handleFocusComment = (id, index) => {
+    
     const currentCommentId = comments.filter(commit => commit.id === id)
     const commentOwnerName = `${currentCommentId[0]?.user?.first_name} ${currentCommentId[0]?.user?.last_name}`;
     setFocusedComment(id);
+
     handleOpenAllReplies(id, commentOwnerName)
     const ref = currentCommentRef.current[id];
     if (ref) {

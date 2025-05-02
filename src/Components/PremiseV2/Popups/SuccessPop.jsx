@@ -30,7 +30,7 @@ const SuccessPop = ({ popClose, requestType,parentClose }) => {
             </h2>
           ) : (
             <h2 className="font-[500] text-[20px]  text-center ">
-              Sale Request Sent.
+              Purchase          Request Sent.
             </h2>
           )}
         </div>

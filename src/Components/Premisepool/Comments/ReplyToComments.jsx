@@ -160,7 +160,7 @@ const ReplyToComments = ({
   const [replyChildTextCount, setReplyChildTextCount] = useState(0);
 
   const handleReplyTextChange = (event) => {
-    const childReply = event.target.value;
+    const childReply = event.target.value.replace(/^\s+|\s+(?=\s)/g, "");
     setReplyChildTextCount(childReply?.length);
     setChildReplyText(childReply);
   };
@@ -667,6 +667,7 @@ const ReplyToComments = ({
                     className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] px-[8px] w-[100%] h-[44.27px]  lg:h-[37px] focus:border-none focus:outline-none text-[14px] pr-[45px] font-[400]"
                     placeholder="Enter your reply..."
                     // required
+                    value={childReplyText}
                     onChange={handleReplyTextChange}
                     onKeyDown={handleKeyDown}
                   />

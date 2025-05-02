@@ -108,20 +108,111 @@ const PremisePreview2 = ({
   };
 
   const genera = [
-    "Action",
-    "Crime",
-    "Comedy",
-    "Drama",
-    "Fantasy",
-    "Horror",
-    "Romantic",
-    "Science_fiction",
     "Thriller",
+    "Horror",
+    "Drama",
+    "Action",
+    "Mystery",
+    "Documentary",
+    "Romance",
+    "Adventure",
+    "Superhero",
+    "Comedy",
+    "Crime",
+    "Fantasy",
+    "Science_fiction",
+    "Other",
   ];
 
   const subGenraItems = {
-    Action: ["Superhero", "Martial arts", "Action Comedy"],
-    Adventure: ["Adventure", "Treasure hunt", "War action adventure"],
+    Thriller: [
+      "Action Thriller",
+      "Crime Thriller",
+      "Legal thriller",
+      "Mystery Thriller",
+      "Romantic Thriller",
+      "Science fiction Thriller",
+      "Political Thriller",
+      "Spy Thriller",
+      "Psychological Thriller",
+      "Conspiracy Thriller",
+    ],
+    Horror: [
+      "B-Movie",
+      "Found footage",
+      "Monster",
+      "Paranormal film",
+      "Slasher",
+      "Vampire",
+      "Zombie",
+      "Folk Horror",
+      "Psychological Horror",
+      "Horror Comedy",
+    ],
+    Drama: [
+      "Biopic",
+      "Coming of age drama",
+      "Costume drama",
+      "Crime drama",
+      "Romantic drama",
+      "Tragedy",
+      "War movie",
+      "Legal Drama",
+      "Family Drama",
+      "Teen Drama",
+    ],
+    Action: [
+      "Superhero",
+      "Martial arts",
+      "Action Comedy",
+      "Military/War Action",
+      "Spy",
+      "Heist Action",
+      "Supernatural Action",
+    ],
+    Mystery: [
+      "Superhero",
+      "Martial arts",
+      "Action Comedy",
+      "Cozy Mystery",
+      "Noir",
+      "Psychological Mystery",
+      "Detective Procedural",
+      "Paranormal Mystery",
+    ],
+    Documentary: [
+      "True Crime",
+      "Biographical",
+      "Social Issue",
+      "Nature",
+      "Tech/Startup",
+    ],
+    Romance: [
+      "Bromantic Comedy",
+      "Chick flick",
+      "Historical romance",
+      "Gothic romance",
+      "Romantic Comedy",
+      "Period Romance",
+      "Teen Romance",
+      "Love Triangle",
+    ],
+
+    Adventure: [
+      "Survival Adventure",
+      "Historical Adventure",
+      "Fantasy Adventure",
+      "Expedition/Quest",
+      "Swashbuckling",
+    ],
+
+    Superhero: [
+      "Classic Superhero",
+      "Anti-Hero",
+      "Teen Superhero",
+      "Superhero Comedy",
+      "Dark/Realistic ",
+    ],
     Comedy: [
       "Black Comedy",
       "Buddy Comedy",
@@ -133,6 +224,8 @@ const PremisePreview2 = ({
       "Romantic Comedy",
       "Slapstick",
       "Sports Comedy",
+      "Romantic Comedy",
+      "Workplace Comedy",
     ],
     Crime: [
       "Film noir",
@@ -141,15 +234,7 @@ const PremisePreview2 = ({
       "Military Thriller",
       "Psychological Thriller",
     ],
-    Drama: [
-      "Biopic",
-      "Coming of age drama",
-      "Costume drama",
-      "Crime drama",
-      "Romantic drama",
-      "Tragedy",
-      "War movie",
-    ],
+
     Fantasy: [
       "Dark fantasy",
       "Epic fantasy",
@@ -159,22 +244,7 @@ const PremisePreview2 = ({
       "Fairy tales",
       "Superhero fiction",
     ],
-    Horror: [
-      "B-Movie",
-      "Found footage",
-      "Monster",
-      "Paranormal film",
-      "Slasher",
-      "Vampire",
-      "Zombie",
-    ],
-    Romantic: [
-      "Bromantic Comedy",
-      "Chick flick",
-      "Historical romance",
-      "Gothic romance",
-      "Romantic Comedy",
-    ],
+
     Science_fiction: [
       "Cyberpunk",
       "Disaster",
@@ -184,16 +254,7 @@ const PremisePreview2 = ({
       "Space opera",
       "Time travel",
     ],
-    Thriller: [
-      "Action Thriller",
-      "Crime Thriller",
-      "Legal thriller",
-      "Mystery Thriller",
-      "Romantic Thriller",
-      "Science fiction Thriller",
-      "Political Thriller",
-      "Spy Thriller",
-    ],
+
     Other: ["", ""],
   };
   // console.log("data", data);
@@ -235,7 +296,7 @@ const PremisePreview2 = ({
 
   const [previewPremise, isPremiseLoading, status, isError] =
     usePostPremiseMutation();
-
+ const [isOldProject, setIsOldProject] = useState(false);
   const [previewEdit] = useEditPremiseMutation();
   const [deletePremise] = useDeletePremiseMutation();
   const [createProject, resInfo] = useCreateProjectMutation();
@@ -311,7 +372,9 @@ const PremisePreview2 = ({
   const [noOfEpi, setNoOfEpi] = useState(null);
   const [protaAge, setProtaAge] = useState(null);
   const [generaItem, setGeneraItem] = useState("");
+  const [generaItemTxt, setGeneraItemTxt] = useState("");
   const [subGeneraItem, setSubGeneraItem] = useState("");
+  const [subGeneraItemTxt, setSubGeneraItemTxt] = useState("");
   const [duration, setDuration] = useState("");
   // console.log("duration", duration);
   const [periodSetIn, setPeriodSetIn] = useState("");
@@ -403,7 +466,9 @@ const PremisePreview2 = ({
       setNatureOfProject("");
       setDuration("");
       setGeneraItem("");
+      setGeneraItemTxt("");
       setSubGeneraItem("");
+      setSubGeneraItemTxt("");
       setGeographyItem("");
       setPeriodSetIn("");
       setProtagonistName("");
@@ -428,7 +493,9 @@ const PremisePreview2 = ({
 
         setDuration(matchingProject?.duration);
         setGeneraItem(matchingProject?.genre);
+        setGeneraItemTxt(matchingProject?.genre);
         setSubGeneraItem(matchingProject?.sub_genre);
+        setSubGeneraItemTxt(matchingProject?.sub_genre);
         setGeographyItem(matchingProject?.geography);
         setPeriodSetIn(matchingProject?.period || "");
         setProtagonistName(matchingProject?.protagonist_name);
@@ -657,12 +724,26 @@ const PremisePreview2 = ({
       if (createNewProject) {
         formData.append("project_name", spProjectName);
       }
-      formData.append("genre", generaItem);
-      formData.append("sub_genre", subGeneraItem);
+      if (generaItem === "Other") {
+        formData.append("genre", "Drama");
+        formData.append("sub_genre", subGeneraItemTxt);
+      } else if (
+        generaItem === "Superhero" ||
+        generaItem === "Adventure" ||
+        generaItem === "Mystery" ||
+        generaItem === "Documentary"
+      ) {
+        formData.append("genre", "Drama");
+        formData.append("sub_genre", subGeneraItem);
+      } else {
+        formData.append("sub_genre", subGeneraItem);
+        formData.append("genre", generaItem);
+      }
       formData.append("period", periodSetIn);
       formData.append("geography", geographyItem);
       formData.append("protagonist_type", protagonist);
       formData.append("protagonist_name", protagonistName);
+
       if (protagonist === "Inanimate Object") {
         setProtaAge(0);
       }
@@ -684,7 +765,7 @@ const PremisePreview2 = ({
         nature_project: natureOfProject,
         duration: duration,
         genre: generaItem,
-        sub_genre: subGeneraItem,
+        sub_genre: subGeneraItem || subGeneraItemTxt,
         geography: geographyItem,
         period: periodSetIn,
         protagonist_type: protagonist,
@@ -692,11 +773,17 @@ const PremisePreview2 = ({
         protagonist_age: protaAge,
         service_name: "premisePool",
       };
+      
 
       if (createNewProject) {
-        const trimmedName = spProjectName.trim();
+        // const trimmedName = spProjectName.trim();
+        // const nameExists = allspProjectJSON?.projects?.some(
+        //   (item) => item.name === trimmedName
+        // );
+
+        const trimmedName = spProjectName.trim().toLowerCase();
         const nameExists = allspProjectJSON?.projects?.some(
-          (item) => item.name === trimmedName
+          (item) => item.name.toLowerCase() === trimmedName
         );
         if (nameExists) {
           setIsLoading(false);
@@ -817,13 +904,13 @@ const PremisePreview2 = ({
                   setFinalEdit(true);
                   setCharacterArray(charData);
                   setIsLoading(false);
+                  setIsOldProject(true)
                 }
               })
               .catch((error) => {
                 setIsLoading(false);
                 deleteProject(deleteId);
                 deletePremiseWhenFailed(deletePreID);
-
                 toast.error("Failed to create Premise", {
                   position: toast.POSITION.TOP_CENTER,
                   autoClose: 1600,
@@ -833,7 +920,6 @@ const PremisePreview2 = ({
           } else {
             // Handle API errors
             setIsLoading(false);
-
             deleteProject({ project: deleteId });
             toast.error(
               res?.error?.data?.message || "Failed to create Premise!",
@@ -873,6 +959,7 @@ const PremisePreview2 = ({
               // project_id,
             } = res?.data;
 
+            console.log("source_language",source_language);
             setSelectedPremiseSpProjectId(response?.data?.projects?.pro_uuid);
             setPremiseId(res?.data?.id);
             const deletePreID = res?.data?.id;
@@ -954,6 +1041,7 @@ const PremisePreview2 = ({
                   setFinalEdit(true);
                   setCharacterArray(charData);
                   setIsLoading(false);
+                  setIsOldProject(true);
                 }
 
                 // Optionally set openPop here if needed
@@ -990,8 +1078,6 @@ const PremisePreview2 = ({
       });
     }
   };
-
-
 
   useEffect(() => {
     if (updateResInfo.isSuccess) {
@@ -1086,7 +1172,7 @@ const PremisePreview2 = ({
   const formValid =
     natureOfProject &&
     generaItem &&
-    subGeneraItem &&
+    (subGeneraItem || subGeneraItemTxt) &&
     periodSetIn &&
     geographyItem &&
     protagonist &&
@@ -1512,7 +1598,7 @@ const PremisePreview2 = ({
             {!createNewProject && !selectedSpProjectID ? (
               <div className="col-span-12">
                 <div className="flex gap-[12px] items-center mt-[32px]">
-                  {filteredSpProjects.length !== 0 && (
+                  {filteredSpProjects?.length !== 0 && (
                     <div
                       ref={spProjectRef}
                       className={`h-[31px] relative w-[144px] md:w-[206px] bg-[#fafafa] ${
@@ -1964,79 +2050,142 @@ const PremisePreview2 = ({
                       )}
                     </div>
                   </div>
-                  <div
-                    className={`h-[31px] relative col-span-4 ${
-                      createNewProject
-                        ? " md:col-span-3 w-[104px] xxs:w-[119px] md:w-[126px] ml-[-6px] md:ml-[0px]"
-                        : " md:col-span-4 "
-                    } bg-[#fafafa] rounded-[4px] border-[2px] ${
-                      generaItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
-                    } `}
-                  >
-                    <select
-                      ref={genreRef}
-                      className="block appearance-none bg-[#fafafa] h-[27px] rounded-[4px]  w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none"
-                      onClick={() => setIsgenreOpen(!isgenreOpen)}
-                      value={generaItem}
-                      onChange={(e) => setGeneraItem(e.target.value)}
-                      required
-                    >
-                      <option value="" disabled>
-                        Genre
-                      </option>
+                  {generaItem === "Other" ? (
+                    <>
+                      <div
+                        className={`h-[31px] relative col-span-4 ${
+                          createNewProject
+                            ? " md:col-span-3 w-[104px] xxs:w-[119px] md:w-[126px] ml-[-6px] md:ml-[0px]"
+                            : " md:col-span-4 "
+                        } bg-[#fafafa] rounded-[4px] border-[2px] ${
+                          generaItemTxt
+                            ? "border-[#33B0CA]"
+                            : "border-[#EAEAEA]"
+                        } `}
+                      >
+                        <input
+                          type="text"
+                          value={generaItemTxt}
+                          maxLength={"60"}
+                          placeholder="Genre"
+                          onChange={(e) => {
+                            const updatedValue = e.target.value.replace(
+                              /^\s+|\s+(?=\s)/g,
+                              ""
+                            );
+                            setGeneraItemTxt(updatedValue);
+                          }}
+                          className="focus:outline-none h-[27px] rounded-[4px] w-full px-2 text-[12px] md:!text-[14px] leading-tight"
+                        />
+                      </div>
 
-                      {genera?.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
-
-                    <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center  pointer-events-none">
-                      {isgenreOpen ? (
-                        <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
-                      ) : (
-                        <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
-                      )}
-                    </div>
-                  </div>
-                  <div
-                    className={`h-[31px] relative col-span-4 ${
-                      createNewProject
-                        ? "md:col-span-3 xxs:w-[139px] md:w-[154px] ml-[-13px] md:ml-[-13px] "
-                        : " md:col-span-4"
-                    }  bg-[#fafafa] rounded-[4px] border-[2px] ${
-                      subGeneraItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
-                    }`}
-                  >
-                    <select
-                      className="block appearance-none bg-[#fafafa] h-[27px] rounded-[4px]  w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none"
-                      value={subGeneraItem}
-                      onChange={(e) => setSubGeneraItem(e.target.value)}
-                      required
-                    >
-                      <option value="" disabled>
-                        Sub-Genre
-                      </option>
-
-                      {subGeneraOptions?.map((subGenre) => (
-                        <option
-                          className="text-[12px] md:!text-[14px]"
-                          key={subGenre}
-                          value={subGenre}
+                      <div
+                        className={`h-[31px]  col-span-4 ${
+                          createNewProject
+                            ? "md:col-span-3 xxs:w-[139px] md:w-[154px] ml-[-13px] md:ml-[-13px] "
+                            : " md:col-span-4"
+                        }  bg-[#fafafa] rounded-[4px] border-[2px] ${
+                          subGeneraItemTxt
+                            ? "border-[#33B0CA]"
+                            : "border-[#EAEAEA]"
+                        }`}
+                      >
+                        <input
+                          type="text"
+                          value={subGeneraItemTxt}
+                          maxLength={"60"}
+                          placeholder="Sub-Genre"
+                          onChange={(e) => {
+                            const updatedValue = e.target.value.replace(
+                              /^\s+|\s+(?=\s)/g,
+                              ""
+                            );
+                            setSubGeneraItemTxt(updatedValue);
+                          }}
+                          className="focus:outline-none h-[27px] rounded-[4px] w-full px-2 text-[12px] md:!text-[14px] leading-tight"
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div
+                        className={`h-[31px] relative col-span-4 ${
+                          createNewProject
+                            ? " md:col-span-3 w-[104px] xxs:w-[119px] md:w-[126px] ml-[-6px] md:ml-[0px]"
+                            : " md:col-span-4 "
+                        } bg-[#fafafa] rounded-[4px] border-[2px] ${
+                          generaItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                        } `}
+                      >
+                        <select
+                          ref={genreRef}
+                          className="block appearance-none bg-[#fafafa] h-[27px] rounded-[4px]  w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none"
+                          onClick={() => setIsgenreOpen(!isgenreOpen)}
+                          value={generaItem}
+                          onChange={(e) => setGeneraItem(e.target.value)}
+                          required
                         >
-                          {subGenre}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center pointer-events-none">
-                      {isSubGenreOpen ? (
-                        <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
-                      ) : (
-                        <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
-                      )}
-                    </div>
-                  </div>
+                          <option value="" disabled>
+                            Genre
+                          </option>
+
+                          {genera?.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+
+                        <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center  pointer-events-none">
+                          {isgenreOpen ? (
+                            <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
+                          ) : (
+                            <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
+                          )}
+                        </div>
+                      </div>
+                      <div
+                        className={`h-[31px] relative col-span-4 ${
+                          createNewProject
+                            ? "md:col-span-3 xxs:w-[139px] md:w-[154px] ml-[-13px] md:ml-[-13px] "
+                            : " md:col-span-4"
+                        }  bg-[#fafafa] rounded-[4px] border-[2px] ${
+                          subGeneraItem
+                            ? "border-[#33B0CA]"
+                            : "border-[#EAEAEA]"
+                        }`}
+                      >
+                        <select
+                          className="block appearance-none bg-[#fafafa] h-[27px] rounded-[4px]  w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none"
+                          value={subGeneraItem}
+                          onChange={(e) => setSubGeneraItem(e.target.value)}
+                          required
+                        >
+                          <option value="" disabled>
+                            Sub-Genre
+                          </option>
+
+                          {subGeneraOptions?.map((subGenre) => (
+                            <option
+                              className="text-[12px] md:!text-[14px]"
+                              key={subGenre}
+                              value={subGenre}
+                            >
+                              {subGenre}
+                            </option>
+                          ))}
+                        </select>
+
+                        <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center pointer-events-none">
+                          {isSubGenreOpen ? (
+                            <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
+                          ) : (
+                            <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
+                          )}
+                        </div>
+                      </div>{" "}
+                    </>
+                  )}
                   <div className="col-span-6 md:col-span-6 mt-[-6px]">
                     <label className="text-[12px] md:!text-[14px] font-[500]">
                       Location
@@ -2287,7 +2436,11 @@ const PremisePreview2 = ({
             setCharacterArray={setCharacterArray}
             handleUpdateSavedChar={handleUpdateSavedChar}
             characterLoading={characterLoading}
-            source_language={selectedSpProjectLanguage}
+            source_language={premiseData?.source_language}
+            project_id={selectedSpProjectID || createdSpProjectID}
+            // project_id1={createdSpProjectID}
+            isOldProject={isOldProject}
+            // source_language={premiseData?.source_language}
           />
         )}
 

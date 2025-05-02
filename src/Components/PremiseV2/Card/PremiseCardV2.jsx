@@ -514,6 +514,7 @@ const PremiseCardV2 = ({
           setAddPopup={setAddPopup}
           notifyPopup={notifyPopup}
           setNotifyPopup={setNotifyPopup}
+          is_read_only={p?.is_read_only}
         />
       </div>
       {/* middle div */}
@@ -552,14 +553,17 @@ const PremiseCardV2 = ({
               setTransPopup(false);
             }}
             // className={`absolute inset-0 w-[100%] mx-auto backdrop-filter flex items-center justify-center backdrop-blur-sm px-[14px] text-[16px] rounded-[8px] text-[#616161] leading-5 font-[400] overflow-hidden `}
-            className="absolute cursor-pointer inset-0  backdrop-blur-sm  text-[16px] leading-[19.83px] rounded-[8px] overflow-hidden break-words px-[14px] py-[12px]"
+            className="absolute cursor-pointer inset-0 backdrop-blur-sm  text-[16px] leading-[19.83px] rounded-[8px] overflow-hidden break-words px-[14px] py-[12px]"
           >
+            <div className="h-full opacity-20 hover:opacity-100 ">
+
             <p
               className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} notranslate`}
               style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
-            >
+              >
               {viewText}
             </p>
+              </div>
           </div>
           <div></div>
         </div>

@@ -6,12 +6,12 @@ import {
   useDeleteCharacterMutation,
   useGetSavedCharactersQuery,
 } from "../../../app/EndPoints/Characters/Characters";
+import { getTextFromValue } from "../../PremiseV2/utilityFuncitons/functions";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import ConfirmationModal from "../Comments/ConfirmationModal";
 import CharacterShowCard from "./Card";
 import SingleCharacterAdd from "./SingleCharacterAdd";
 import SingleCharacterEdit from "./SingleCharacterEdit";
-import { getTextFromValue } from "../../PremiseV2/utilityFuncitons/functions";
 
 const CharacterEditablePop = ({
   setCharacterEditPop,
@@ -25,6 +25,7 @@ const CharacterEditablePop = ({
   onlyAdd,
   project_id,
   source_language,
+  isOldProject,
 }) => {
   const [modifiedCharacters, setModifiedCharacters] = useState([]);
 
@@ -82,8 +83,6 @@ const CharacterEditablePop = ({
   // Concatenate the remaining characters to the sorted list
   const finalCharacters = [...sortedCharacters, ...remainingCharacters];
 
-  console.log("finalCharacters", finalCharacters);
-
   const finalAICharacters = [
     ...sortedCharacters,
     ...remainingCharacters,
@@ -93,14 +92,17 @@ const CharacterEditablePop = ({
     ...remainingCharacters,
   ].filter((char) => !char?.is_ai_generated);
 
-  console.log(finalAICharacters, finalByMeCharacters);
+
 
   const {
     data: characters,
     isCharLoading,
     isError,
     refetch: characterRefetch,
-  } = useGetSavedCharactersQuery(project_id);
+  } = useGetSavedCharactersQuery(project_id, {
+    skip: isOldProject,
+  });
+
 
   useEffect(() => {
     if (characters) {
@@ -110,10 +112,10 @@ const CharacterEditablePop = ({
   }, [characters]);
 
   useEffect(() => {
-    if (project_id) {
+    if (!isOldProject && project_id) {
       characterRefetch();
     }
-  }, [project_id]);
+  }, [project_id, isOldProject]);
 
   const handleEditClick = (character) => {
     setEditPopupOpen(true);

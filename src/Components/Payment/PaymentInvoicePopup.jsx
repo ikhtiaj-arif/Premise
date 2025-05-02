@@ -12,11 +12,13 @@ import {
 import crossIcon from "../../img/croos_icon.png";
 import logo from "../../img/MNF_Logo_Final.png";
 import Valid from "../../img/valid_upto.png";
-import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 import TypingLoader from "../TypingLoader";
 import { Amount } from "./Amount";
 import { HeaderOptions } from "./HeaderOptions";
 import { Package } from "./Package";
+import SimpleAlertPop from "../PremiseV2/Popups/alerts/SimpleAlertPop";
+import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
+import { URL } from "../utils";
 
 const PaymentInvoicePopup = ({
   refetch,
@@ -113,7 +115,6 @@ const PaymentInvoicePopup = ({
       document.body.appendChild(script);
     });
   }
-  const [alert, setAlert] = useState(false);
   const [termAlert, setTermAlert] = useState(false);
   const handleClick = async () => {
     if (!isAgreementChecked) {
@@ -141,7 +142,7 @@ const PaymentInvoicePopup = ({
       );
 
       if (!res) {
-        setAlert(true);
+        alert("Razorpay SDK failed to load. please check are you online?");
         return;
       }
 
@@ -273,9 +274,9 @@ const PaymentInvoicePopup = ({
                     </p>
                     <a
                       className="text-[12px]  sm:text-[14px]"
-                      href="https://mynextfilm.ai/"
+                      href={`${URL}`}
                     >
-                      www.mynextfilm.ai
+                      www.mnf.ai
                     </a>
                   </div>
                 </div>
@@ -344,16 +345,7 @@ const PaymentInvoicePopup = ({
         </div>
       </div>
       {termAlert && (
-        <SameNamePop
-          popClose={setTermAlert}
-          title={`You must agree to the terms of payment..!`}
-        />
-      )}
-      {alert && (
-        <SameNamePop
-          popClose={setAlert}
-          title={`Razorpay SDK failed to load. please check are you online?`}
-        />
+        <SameNamePop popClose={setTermAlert} title={`You must agree to the terms of payment..!`} />
       )}
     </div>
   );

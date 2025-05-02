@@ -580,7 +580,7 @@ console.log("userAccess", userAccess);
 
                       <button className="bg-[#33b0ca] text-[#fafafa] font-semibold text-[16px] rounded-[4px] mt-5 py-3 px-4">
                         <a
-                          href="https://taj4o.mynextfilm.in/pay/payment/"
+                          href={`${URL}/pay/payment/`}
                           target="blank"
                         >
                           Become Privilege

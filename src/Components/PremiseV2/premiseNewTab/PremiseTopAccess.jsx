@@ -244,6 +244,7 @@ const PremiseTopAccess = ({
         openHidePop={openHidePop}
         addPopup={addPopup}
         setAddPopup={setAddPopup}
+        is_read_only={premiseData?.is_read_only}
       />
 
       {openTransOtherPop && (

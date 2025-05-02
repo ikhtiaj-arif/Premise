@@ -64,6 +64,7 @@ const CardHeadOptions = ({
   addPopup,
   setAddPopup,
   setNotifyPopup,
+  is_read_only,
 }) => {
   // const {
 
@@ -113,6 +114,7 @@ const CardHeadOptions = ({
     } else {
       setOpenHidePop("Yes");
     }
+
     setOpenDotMenu(null);
   };
 
@@ -168,7 +170,16 @@ const CardHeadOptions = ({
     }
   };
 
-  //console.log("dotId", openDotMenu);
+  const handleSendSaleRequest = async () => {
+    if (is_requested_for_sale) {
+      setNotifyPopup(true);
+    } else {
+      checkAllowance(setSaleRequestPop, id);
+      refetch();
+    }
+  };
+
+  console.log("is_read_only", is_read_only);
 
   return (
     <div>
@@ -246,13 +257,22 @@ const CardHeadOptions = ({
             {openDotMenu === id && (
               <div
                 ref={dotPopupRef}
-                className="absolute flex flex-col w-[197px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px]  z-10"
+                className="absolute flex flex-col w-[197px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px] z-10"
               >
                 <button
+                  disabled={is_read_only}
                   onClick={handleVisibility}
-                  className="cursor-pointer  w-full"
+                  className={`${
+                    is_read_only ? "cursor-default" : "cursor-pointer "
+                  } w-full`}
                 >
-                  <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
+                  <p
+                    className={`text-[14px] w-full font-[500] break-none text-left ${
+                      is_read_only
+                        ? "text-[#818181]"
+                        : "hover:text-[#33B0CA] text-[#252525]"
+                    }  `}
+                  >
                     {" "}
                     Visibility Settings
                   </p>{" "}
@@ -405,25 +425,18 @@ const CardHeadOptions = ({
                   <button
                     className={`cursor-pointer`}
                     data-te-toggle="tooltip"
-                    title="Send Sale Request"
+                    title="Send Purchase Request"
                     // disabled={is_requested_for_sale}
                     // onClick={() => {
                     //   checkAllowance(setSaleRequestPop, id);
                     //   refetch();
                     // }}
-                    onClick={() => {
-                      if (is_requested_for_sale) {
-                        setNotifyPopup(true);
-                      } else {
-                        checkAllowance(setSaleRequestPop, id);
-                        refetch();
-                      }
-                    }}
+                    onClick={handleSendSaleRequest}
                   >
                     <img
                       src={sendSaleReq}
                       className={`w-8 h-8 mt-[-13px]`}
-                      alt="send sale request"
+                      alt="Send Purchase request"
                     />
                   </button>
                 }

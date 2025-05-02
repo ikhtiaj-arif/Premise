@@ -153,7 +153,8 @@ const PopFetch = ({ popClose, data, refetch }) => {
     if (res?.data) {
       setNewComment("");
       toast.success("Comment added!", {
-        position: toast.POSITION.TOP_CENTER,autoClose: 800,
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 800,
       });
       setIsLoading(false);
       refetch();
@@ -171,7 +172,7 @@ const PopFetch = ({ popClose, data, refetch }) => {
   const [createReplyMutation, isReplyResInfo] = useCreateReplyMutation();
   const replyResStat = isReplyResInfo?.status;
   const handleReplyTextChange = (event) => {
-    const reply = event.target.value;
+    const reply = event.target.value.replace(/^\s+|\s+(?=\s)/g, "");
     setReplyText(reply);
   };
 
@@ -198,8 +199,8 @@ const PopFetch = ({ popClose, data, refetch }) => {
       <ToastContainer />
       <div className=" h-[50vh] lg:h-[539px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1185px] md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
-           {/* close popup */}
-           <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
+        {/* close popup */}
+        <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
           <img
             src={crossIcon}
             alt=""

@@ -121,7 +121,7 @@ const ReplyToComments = ({
   };
   const [replyChildTextCount, setReplyChildTextCount] = useState(0);
   const handleReplyTextChange = (event) => {
-    const childReply = event.target.value;
+    const childReply = event.target.value.replace(/^\s+|\s+(?=\s)/g, "");
     setReplyChildTextCount(childReply.length);
     setChildReplyText(childReply);
   };

@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { useGetMyAllProjectQuery } from "./app/EndPoints/ScriptPad/project";
 import LimitPaymentPage from "./Components/Payment/LimitPaymentPage";
-import Premisepool from "./Components/Premisepool/Premisepool";
 import PremiseNewTab from "./Components/PremiseV2/premiseNewTab/PremiseNewTab";
 import PremiseV2 from "./Components/PremiseV2/Premsie.v2";
 import { URL } from "./Components/utils";
@@ -15,7 +14,8 @@ export const MyContext = createContext();
 export const TranslationContext = createContext(); // Added global translation context
 
 function App() {
-  const { data: allspProjectJSON, refetch: projectRefetch } = useGetMyAllProjectQuery();
+  const { data: allspProjectJSON, refetch: projectRefetch } =
+    useGetMyAllProjectQuery();
   const currentUser = useSelector((state) => state?.user);
 
   const [counts, setCounts] = useState({});
@@ -26,22 +26,67 @@ function App() {
   const [selectedPremiseObj, setSelectedPremiseObj] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [selectedSpProjectID, setSelectedSpProjectID] = useState("");
-  const [selectedSpProjectLanguage, setSelectedSpProjectLanguage] = useState("");
+  const [selectedSpProjectLanguage, setSelectedSpProjectLanguage] =
+    useState("");
   const [createdSpProjectID, setCreatedSpProjectID] = useState("");
-  const [selectedPremiseSpProjectId, setSelectedPremiseSpProjectId] = useState("");
+  const [selectedPremiseSpProjectId, setSelectedPremiseSpProjectId] =
+    useState("");
   const [selectedLanguages, setSelectedLanguages] = useState(null);
   const [transPopup, setTransPopup] = useState(false);
   const [availableForTranslation, setAvailableForTranslation] = useState(false);
   const [availableForSale, setAvailableForSale] = useState(false);
-  const [currentlyOpenedCommentID, setCurrentlyOpenedCommentID] = useState(null);
-  
+  const [currentlyOpenedCommentID, setCurrentlyOpenedCommentID] =
+    useState(null);
+  const [openSequalPop, setOpenSequalPop] = useState(true);
+
   // Global state for managing which comment dropdown is open
   const [openDropdownId, setOpenDropdownId] = useState(null);
 
   const allProjects = allspProjectJSON?.projects;
-  const filterdAllProjects = allspProjectJSON?.projects?.filter((item) => !item.locked);
+  const filterdAllProjects = allspProjectJSON?.projects?.filter(
+    (item) => !item.locked
+  );
 
+  const [currentPopup, setCurrentPopup] = useState(1); // Default to popup 1
+  const totalPopups = 15;
 
+  useEffect(() => {
+    // Retrieve the saved popup number from localStorage
+    const savedPopupNumber = parseInt(localStorage.getItem("popupNumber"), 10);
+
+    if (savedPopupNumber && savedPopupNumber <= totalPopups) {
+      setCurrentPopup(savedPopupNumber); // Set the popup state based on saved value
+    }
+  }, []);
+
+  const incrementPopup = () => {
+    const nextPopup = currentPopup + 1;
+    if (nextPopup <= totalPopups) {
+      localStorage.setItem("popupNumber", nextPopup); // Store next popup number
+      setCurrentPopup(nextPopup); // Update state
+    }
+  };
+  const decrementPopup = () => {
+    const nextPopup = currentPopup - 1;
+    if (nextPopup >= 1) { // Ensure the popup number doesn't go below 1
+      localStorage.setItem("popupNumber", nextPopup); // Store next popup number
+      setCurrentPopup(nextPopup); // Update state
+    }
+  };
+  
+
+  const resetPopups = () => {
+    localStorage.removeItem("popupNumber"); // Reset saved popup number
+    setCurrentPopup(1); // Reset state to first popup
+  };
+
+  const setDoNotShowAgain = () => {
+    localStorage.setItem("doNotShowBubblePopup", "true");
+  };
+
+  const removeDoNotShowAgain = () => {
+    localStorage.removeItem("doNotShowBubblePopup");
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -100,14 +145,24 @@ function App() {
     setAvailableForSale,
     setAvailableForTranslation,
     currentlyOpenedCommentID,
-    setCurrentlyOpenedCommentID, 
-    selectedSpProjectLanguage, setSelectedSpProjectLanguage
+    setCurrentlyOpenedCommentID,
+    selectedSpProjectLanguage,
+    setSelectedSpProjectLanguage,
+    currentPopup,
+    incrementPopup,
+    resetPopups,
+    setDoNotShowAgain,
+    removeDoNotShowAgain,
+    openSequalPop,
+    setOpenSequalPop,decrementPopup
   };
 
   return (
     <div className="text-xl">
       <MyContext.Provider value={value}>
-        <TranslationContext.Provider value={{ openDropdownId, setOpenDropdownId }}>
+        <TranslationContext.Provider
+          value={{ openDropdownId, setOpenDropdownId }}
+        >
           <Routes>
             <Route path="/" element={<PremiseV2 />} />
             <Route path="/payment" element={<LimitPaymentPage />} />

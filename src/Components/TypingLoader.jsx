@@ -37,12 +37,11 @@ const TypingLoader = ({
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
-  const typingSpeed = 120; // Speed of typing effect in ms
-  const pauseDuration = 300; // Pause duration after full text is typed
+  const typingSpeed = 200; // Speed of typing effect in ms
+  const pauseDuration = 500; // Pause duration after full text is typed
 
   useEffect(() => {
     let isCancelled = false;
-
     const typeText = async () => {
       for (let i = 0; i <= data[currentIndex].length; i++) {
         if (isCancelled) return; // Exit if component unmounts
@@ -67,7 +66,7 @@ const TypingLoader = ({
   }, [currentIndex]);
 
   return (
-    <div className="relative rounded-[8px] h-[100px] bg-[#fff] lg:bg-[#fafafa]  flex items-center">
+    <div className="relative rounded-[8px]  h-[100px] bg-[#fff] lg:bg-[#fafafa]  flex items-center">
       <div className="">
         <h2 className="text-[16px] lg:text-[24px] ml-[40px] font-[500] text-[#33B0CA]">
           {displayedText}
