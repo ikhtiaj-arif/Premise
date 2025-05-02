@@ -63,7 +63,7 @@ const AllComments = ({
   focusedCValue,
   iconWidth,
   inpRightMargin,
-  loading,
+  loading,replyText
 }) => {
   // const actTwoStart = Math.floor(0.25 * m_value);
 
@@ -1036,6 +1036,7 @@ const AllComments = ({
                         placeholder="Enter your reply..."
                         // required
                         onChange={handleReplyTextChange}
+                        value={replyText}
                         onKeyDown={(event) => {
                           if (event.key === "Enter" && !disableD) {
                             event.preventDefault(); // Prevents default form submission behavior
@@ -1055,6 +1056,7 @@ const AllComments = ({
                         className="bg-[#F8F8F8] resize-none leading-[21px] px-[8px] w-[100%] h-[44.27px]  lg:h-[37px] rounded-[8px]  focus:border-none focus:outline-none text-[14px] pr-[45px] font-[400]"
                         placeholder="Enter your reply..."
                         // required
+                        value={replyText}
                         onChange={handleReplyTextChange}
                         onKeyDown={(event) => {
                           if (event.key === "Enter" && !disableD) {

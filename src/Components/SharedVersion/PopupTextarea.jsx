@@ -78,7 +78,7 @@ const PopupTextarea = ({
 
   const handleTextareaChange = (event) => {
     const comment = event.target.value.replace(/^\s+|\s+(?=\s)/g, "");
-
+    console.log("comment -----> ", comment);
     setTextCount(comment.length);
     setNewComment(comment);
   };
