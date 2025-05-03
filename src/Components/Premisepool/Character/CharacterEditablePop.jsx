@@ -260,6 +260,7 @@ const CharacterEditablePop = ({
                   onlyAdd,
                   deleteCharacterFun,
                   isAddedByMe: false,
+                  source_language
                 }}
               />
             ))}

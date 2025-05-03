@@ -1004,6 +1004,7 @@ const Popup = ({
           {notifyPopup && (
             <NotifyPopup
               popClose={setNotifyPopup}
+              premiseId={premiseId}
               title={`This is currently unavailable for sale as there is a pending sale request from another User. Would you like us to notify you when this becomes available?`}
             />
           )}

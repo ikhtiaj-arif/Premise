@@ -711,7 +711,7 @@ const BeatEditPop = ({
                   </div>
                   <div className="pb-[8px] mt-[12px]">
                     <h1 className="text-[14px] md:text-[18px] font-[500] text-center">
-                      Adding a Comment to Beat Sheet
+                      Adding a Brainstorm to Beat Sheet
                     </h1>
                   </div>
 

@@ -471,6 +471,7 @@ const LeftSideBar = ({
                             setDeleteChar,
                             onlyAdd,
                             deleteCharacterFun,
+                            source_language,
                           }}
                         />
                       ))}
@@ -611,6 +612,7 @@ const LeftSideBar = ({
                             setDeleteChar,
                             onlyAdd,
                             deleteCharacterFun,
+                            source_language
                           }}
                         />
                       ))}

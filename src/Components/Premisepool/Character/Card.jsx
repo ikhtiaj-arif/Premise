@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { FaRegEye } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { getLanguageName } from "../../PremiseV2/utilityFuncitons/functions";
 import ConfirmationModal from "../Comments/ConfirmationModal";
+import { inanimateObject } from "./inanimateObject";
 
 const CharacterShowCard = ({
   character,
@@ -15,9 +17,10 @@ const CharacterShowCard = ({
   onlyAdd,
   deleteCharacterFun,
   isAddedByMe,
+  source_language,
 }) => {
   //console.log("character", character?.is_ai_generated,index);
-
+  const sourceLanguageName = getLanguageName(source_language);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   // console.log(onlyAdd);
@@ -30,6 +33,23 @@ const CharacterShowCard = ({
     }
   };
 
+  const inanimateObjectOptions = (language) => {
+    if (inanimateObject[language]) {
+      return Object.values(inanimateObject[language])[0]; // Get the first value
+    }
+    return null; // Return null if no value is found
+  };
+
+  console.log(
+    "Is anmimate in toher language",
+    source_language,
+    ":",
+    character?.gender,
+    ":",
+   ( character?.gender !== inanimateObjectOptions(sourceLanguageName)) &&
+      character?.age 
+  );
+
   return (
     <div className="flex text-[#252525] h-auto max-h-[36px] gap-[3px] justify-between items-center w-full">
       <div className="">
@@ -39,8 +59,11 @@ const CharacterShowCard = ({
             {character?.name}
           </span>
           , {character?.gender}
-          {character?.age > 0 && `, ${character?.age}`}
+          {character?.gender !== inanimateObjectOptions(sourceLanguageName) &&
+            character?.age  &&
+            `, ${character?.age}`}
         </p>
+
         {/* <p className="text-[12px] font-[400]"></p>
         <p className="text-[12px] font-[400]"></p>
         <p className="text-[12px] font-[400]"></p> */}

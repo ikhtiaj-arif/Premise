@@ -21,7 +21,7 @@ export const genderJson = {
     male: "পুৰাণী",
     female: "মহিলা",
     animal: "প্ৰাণী",
-    "Inanimate Object": "অপ্ৰাণী",
+    "Inanimate Object": "জড় বস্তু",
   },
   Azerbaijani: {
     male: "Kişi",
@@ -57,7 +57,7 @@ export const genderJson = {
     male: "পুরুষ",
     female: "মহিলা",
     animal: "প্রাণী",
-    "Inanimate Object": "জড়",
+    "Inanimate Object": "জড় বস্তু",
   },
   Bosnian: {
     male: "Muškarac",
@@ -147,7 +147,7 @@ export const genderJson = {
     male: "Male",
     female: "Female",
     animal: "Animal",
-    "Inanimate Object": "Inanimate Object",
+    "Inanimate Object": "Inanimate Object",
   },
   Esperanto: {
     male: "Viro",
