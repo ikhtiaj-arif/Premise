@@ -230,6 +230,7 @@ const PremiseNewTab = () => {
                   currentCommentRef,
                   handleOpenAllReplies,
                   setSearchTerm,
+                  
                 }}
               />
               <VerticalBar

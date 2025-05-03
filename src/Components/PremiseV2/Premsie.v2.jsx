@@ -675,7 +675,7 @@ const PremiseV2 = () => {
         </div>
       </div>
 
-      {/* {openSequalPop && <TestPopup />} */}
+      {openSequalPop && <TestPopup />}
 
       {/* footer */}
       {/* <Footer></Footer> */}

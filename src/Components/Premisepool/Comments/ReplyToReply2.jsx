@@ -769,14 +769,14 @@ const ReplyToReply2 = ({
             )}
         </div>
       )}
-      {noAccessLbPopup?.msg == "ShowBecomePrivilege" && (
+      {noAccessLbPopup?.msg === "ShowBecomePrivilege" && (
         <NoAccessPopUp
           noAccessPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
         />
       )}
-      {(noAccessLbPopup?.msg == "LB" ||
-        noAccessLbPopup?.msg == "ShowBuyPackage_and_Allacarte") && (
+      {(noAccessLbPopup?.msg === "LB" ||
+        noAccessLbPopup?.msg === "ShowBuyPackage_and_Allacarte") && (
         <NoAccessLbPopUp
           noAccessLbPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}

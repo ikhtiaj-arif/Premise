@@ -556,14 +556,13 @@ const PremiseCardV2 = ({
             className="absolute cursor-pointer inset-0 backdrop-blur-sm  text-[16px] leading-[19.83px] rounded-[8px] overflow-hidden break-words px-[14px] py-[12px]"
           >
             <div className="h-full opacity-20 hover:opacity-100 ">
-
-            <p
-              className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} notranslate`}
-              style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
+              <p
+                className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} notranslate`}
+                style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
               >
-              {viewText}
-            </p>
-              </div>
+                {viewText}
+              </p>
+            </div>
           </div>
           <div></div>
         </div>
@@ -823,6 +822,7 @@ const PremiseCardV2 = ({
       {notifyPopup && (
         <NotifyPopup
           popClose={setNotifyPopup}
+          premiseId={id}
           title={`This is currently unavailable for sale as there is a pending sale request from another User. Would you like us to notify you when this becomes available?`}
         />
       )}

@@ -57,6 +57,26 @@ export const projectEndPoint = apiSlice.injectEndpoints({
       invalidatesTags: ["premise"],
     }),
 
+    notifyUserForPurchase: builder.mutation({
+      query: (data) => {
+       
+        return {
+          url: `/ideamall/notify_user_for_purchase/`,
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
+    rejectPurchaseRequest: builder.mutation({
+      query: (data) => {
+        
+        return {
+          url: `/ideamall/notify_users_on_rejection/`,
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
   }),
 });
 
@@ -66,5 +86,7 @@ export const {
   usePostPremiseWithCharactersMutation,
   useGetSavedCharactersQuery,
   useDeleteCharacterMutation,
-  useSuggestCharactersMutation
+  useSuggestCharactersMutation,
+  useNotifyUserForPurchaseMutation,
+  useRejectPurchaseRequestMutation,
 } = projectEndPoint;
