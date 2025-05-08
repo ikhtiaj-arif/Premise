@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
+import { useRejectPurchaseRequestMutation } from "../../../app/EndPoints/Characters/Characters";
 import {
   useEditPremiseMutation,
   useGetBankDetailsQuery,
@@ -10,7 +11,6 @@ import {
 import Congrats from "../../../img/Icons/CongratsSaleDoodle.svg";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import SaleDoodle from "../../../img/Icons/OwnerSaleDoodle.svg";
-import { useRejectPurchaseRequestMutation } from "../../../app/EndPoints/Characters/Characters";
 
 const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
   const [showBankDetails, setShowBankDetails] = useState(false);
@@ -93,13 +93,13 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
       const result = await rejectRequest(data);
       if (result) {
         toast.success("Purchase request rejected!");
-        setRejectLoading(false)
+        setRejectLoading(false);
         popClose();
       }
     } catch (err) {
       console.log(err);
       toast.error("Failed to reject the request!");
-      setRejectLoading(false)
+      setRejectLoading(false);
     }
   };
 
@@ -112,7 +112,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
     refetch: premiseRefetch,
   } = useGetOnePremiseQuery(premiseId);
 
-  const [sellingPr, setSellingPr] = useState();
+  const [sellingPr, setSellingPr] = useState(premiseData?.sellingPrice);
 
   const isFormValid =
     bankDetails.bank_name &&
@@ -141,7 +141,6 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
         console.log(error);
       });
   };
-  console.log(fromUser);
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-end md:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">

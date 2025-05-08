@@ -309,7 +309,7 @@ const SingleCharacterAdd = ({
                 }`}</span>
               </h3>
               {!isDisabled && (
-                <div className="absolute top-[20px] right-[10px] z-10">
+                <div className="absolute top-[20px] right-[-7px] z-10">
                   <div className="text-[14px] mb-[-15px] hidden text-[#616161] w-full outline-[#EAEAEA] md:flex justify-center items-center">
                     <button
                       onClick={onClickKeyboard}

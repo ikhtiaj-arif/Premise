@@ -97,13 +97,13 @@ const RefineFilters = ({
     option: (provided, state) => ({
       ...provided,
       fontSize: "14px", // Adjust the font size as needed
-      padding: "0px 5px", // Adjust the padding to increase the gap between options
-      backgroundColor: state.isFocused ? "#1a73e8" : "#fafafa", // Change the background color on hover
+      padding: "2px 8px", // Adjust the padding to increase the gap between options
+      backgroundColor: state.isFocused ? "#33b0ca" : "#fafafa", // Change the background color on hover
       color: state.isFocused ? "#fff" : "#000000", // Change text color on hover
     }),
     menu: (provided) => ({
       ...provided,
-      marginTop: "10px", // Adjust the gap between the label and the dropdown
+      marginTop: "0px", // Adjust the gap between the label and the dropdown
     }),
   };
   return (
@@ -115,23 +115,6 @@ const RefineFilters = ({
       <div>
         {/* <p className="font-semibold mb-2">Search parameters</p> */}
         <div className="w-full r mx-3">
-          {/* <div className="lg:w-2/5">
-            <label className="text-[16px] text-[#252525] font-[600]  mb-2">
-              Search parameters
-            </label>
-            <input
-              type="search"
-              className="w-full flex-1 border text-[#616161] bg-[#FAFAFA] border-[#EAEAEA] rounded-[8px] px-2 h-[42px] text-[14px] focus:outline-none"
-              name=""
-              id=""
-              placeholder="Premise contains..."
-              value={searchText}
-              onChange={(e) => {
-                setSearchText(e.target.value);
-                // setSearchAuthor(e.target.value);
-              }}
-            />
-          </div> */}
           <div className="w-[95%]">
             <label className="text-[14px] text-[#252525] font-[400] mb-2 ">
               Choose A Language
@@ -141,7 +124,7 @@ const RefineFilters = ({
               theme={(theme) => ({
                 ...theme,
                 borderRadius: 8,
-                height: 42,
+                height: 32,
 
                 colors: {
                   ...theme.colors,

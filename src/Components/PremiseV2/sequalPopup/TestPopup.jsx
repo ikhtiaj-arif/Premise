@@ -240,7 +240,7 @@ const TestPopup = () => {
               <img
                 src={`https://uidemos.s3.ap-south-1.amazonaws.com/smiley.jpg`}
                 alt="Smile doodle"
-                className="w-[130px] h-[118px]"
+                className="w-[110px] h-[98px]"
               />
               {/* <h1 className="absolute left-3">{currentPopup}</h1> */}
               <p className="text-center text-[16px] font-medium text-[#33b0ca] translate-y-3">
@@ -256,7 +256,7 @@ const TestPopup = () => {
               <img
                 src={currentPopupData.imgUrl}
                 alt="Popup Image"
-                className="max-w-[380.58px] max-h-[300px] shadow shadow-md rounded-md mt-4"
+                className="max-w-[380.58px] max-h-[230px] shadow shadow-md rounded-md mt-4"
               />
             </div>
 
