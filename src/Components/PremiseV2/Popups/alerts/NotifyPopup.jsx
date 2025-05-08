@@ -15,11 +15,11 @@ const NotifyPopup = ({ popClose, premiseId, title }) => {
       const result = await notifyUser(data);
       if (result) {
       
-        toast.success("Purchase request rejected!");
+        toast.success("You'll be notified when the premise is available for purchase!");
         popClose();
       }
     } catch (err) {
-      toast.error("Failed to reject the request!");
+      toast.error("Unable to process the request!");
       console.log(err);
     }
   };

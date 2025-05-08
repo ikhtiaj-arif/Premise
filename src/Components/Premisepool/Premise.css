@@ -101,8 +101,16 @@ select::-webkit-scrollbar {
   /* border: 1px solid #eaeaea; */
 }
 .css-1xepz10-control {
+  height: 32px;
   border: 1px solid #eaeaea !important;
   background-color: #fafafa !important;
+}
+.css-rfczga-control {
+  height: 32px;
+}
+
+.custom-select__value-container {
+  height: 25px;
 }
 /* .css-b62m3t-container {
   border: 1px solid #eaeaea;
@@ -121,14 +129,11 @@ select::-webkit-scrollbar {
 .hg-theme-default .hg-row .hg-button-container,
 .hg-theme-default .hg-row .hg-button:not(:last-child) {
   margin-right: 2px;
-  
 }
 @media (min-width: 800px) {
   .hg-button {
     margin-right: 5px;
     margin-bottom: -3px;
-
-   
   }
 }
 

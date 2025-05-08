@@ -455,7 +455,11 @@ const PremiseCardV2 = ({
                     {formattedDate}, {formattedTime}
                   </p>
                   {premiseOwner?.id === user && currentProjectName ? (
-                    <p className="notranslate text-[#252525] text-[12px] leading-[12px]">
+                    <p
+                      data-te-toggle="tooltip"
+                      title={`${`${currentProjectName} `}`}
+                      className="notranslate text-[#252525] text-[12px] leading-[12px]"
+                    >
                       {currentProjectName?.slice(0, 20)}
                     </p>
                   ) : (

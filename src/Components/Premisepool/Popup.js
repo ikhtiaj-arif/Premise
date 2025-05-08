@@ -511,7 +511,10 @@ const Popup = ({
                           </p>
                           {(premiseOwner?.id === user ||
                             premiseOwner?.id === currentProjectOwner) && (
-                            <p className="notranslate">
+                            <p
+                            data-te-toggle="tooltip"
+                            title={`${`${currentProjectName} `}`}
+                            className="notranslate">
                               {currentProjectName?.slice(0, 20)}
                             </p>
                           )}
