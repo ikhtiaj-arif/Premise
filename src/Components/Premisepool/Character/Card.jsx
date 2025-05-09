@@ -46,8 +46,8 @@ const CharacterShowCard = ({
     ":",
     character?.gender,
     ":",
-   ( character?.gender !== inanimateObjectOptions(sourceLanguageName)) &&
-      character?.age 
+    character?.gender !== inanimateObjectOptions(sourceLanguageName) &&
+      character?.age
   );
 
   return (
@@ -60,7 +60,7 @@ const CharacterShowCard = ({
           </span>
           , {character?.gender}
           {character?.gender !== inanimateObjectOptions(sourceLanguageName) &&
-            character?.age  &&
+            character?.age &&
             `, ${character?.age}`}
         </p>
 
@@ -73,6 +73,8 @@ const CharacterShowCard = ({
           <>
             {index === 0 && (
               <FaRegEye
+                data-te-toggle="tooltip"
+                title={`${`View`}`}
                 onClick={() => {
                   setEditPopupOpen(true);
                   setEditData(character);
@@ -83,6 +85,8 @@ const CharacterShowCard = ({
             )}
             {index >= 1 && (
               <MdOutlineEdit
+                data-te-toggle="tooltip"
+                title={`${`Edit`}`}
                 onClick={() => {
                   setEditPopupOpen(true);
                   setEditData(character);
@@ -95,6 +99,8 @@ const CharacterShowCard = ({
         ) : (
           <>
             <FaRegEye
+              data-te-toggle="tooltip"
+              title={`${`View`}`}
               onClick={() => {
                 setEditPopupOpen(true);
                 setEditData(character);
@@ -107,6 +113,8 @@ const CharacterShowCard = ({
 
         {index >= 2 ? (
           <RiDeleteBinLine
+          data-te-toggle="tooltip"
+          title={`${`Delete`}`}
             onClick={() => {
               handleDeleteClick();
             }}

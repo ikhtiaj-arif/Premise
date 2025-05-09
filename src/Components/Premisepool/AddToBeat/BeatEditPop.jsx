@@ -879,49 +879,43 @@ const BeatEditPop = ({
                         </div>
 
                         <div
-                          className={`flex justify-end items-center gap-[16px] ${
+                          className={`flex  justify-end items-center gap-[16px] ${
                             doNotShowBox
                               ? "mt-[20px] mb-[0px] pb-[0px]"
                               : "mt-[23px] md:mt-[20px] mb-[3px] pb-[4px]"
                           } `}
                         >
-                          <div>
-                            {!translatedPop && (
-                              <button
-                                className={` cursor-pointer hover:text-[#33B0CA] `}
-                                onClick={() => setTranslatedPop(!translatedPop)}
-                              >
-                                <img src={transIcon} alt="" />
-                              </button>
+                          <div className="relative ">
+                            <button
+                              className={`cursor-pointer hover:text-[#33B0CA] `}
+                              onClick={() => setTranslatedPop(!translatedPop)}
+                            >
+                              <img src={transIcon} alt="" className="h-[30px]" />
+                            </button>
+
+                            {translatedPop && (
+                              <>
+                                <div className="absolute top-[32px] right-0 z-50 w-[135px]  h-[27vh] overflow-x-hidden md:h-[20vh] overflow-y-auto border bg-[#fafafa]">
+                                  {Object.entries(sortedLanguages)?.map(
+                                    ([key, name]) => (
+                                      <li
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setSelectedOption(key);
+                                          setTranslatedPop(null);
+                                        }}
+                                        className="cursor-pointer  text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] list-none pl-[8px] border-b"
+                                        key={key}
+                                        value={key}
+                                      >
+                                        {name}
+                                      </li>
+                                    )
+                                  )}
+                                </div>
+                              </>
                             )}
                           </div>
-
-                          {translatedPop && (
-                            <div className="border p-1 rounded-[4px] flex items-center justify-between">
-                              <button
-                                onClick={() => setTranslatedPop(!translatedPop)}
-                              >
-                                <img
-                                  src={transIcon}
-                                  alt=""
-                                  className="w-[29px] h-[26px]"
-                                />
-                              </button>
-                              <select
-                                value={selectedLanguage}
-                                onChange={handleOptionChange}
-                                className="bg-[#FAFAFA] border-none w-[106px] text-[14px] text-[#616161] font-[400] focus:outline-none h-7"
-                              >
-                                {Object.entries(sortedLanguages).map(
-                                  ([key, name]) => (
-                                    <option key={key} value={key}>
-                                      <p className="bg-[#33B0CA]">{name}</p>
-                                    </option>
-                                  )
-                                )}
-                              </select>
-                            </div>
-                          )}
                           {!showKeyboard && (
                             <button
                               className="hidden md:block"
@@ -931,13 +925,13 @@ const BeatEditPop = ({
                             </button>
                           )}
                           {showKeyboard && (
-                            <div className="border p-1 rounded-[4px] flex items-center justify-between">
+                            <div className=" relative p-1 rounded-[4px] flex items-center justify-between">
                               <button
                                 onClick={() => setShowKeyboard(!showKeyboard)}
                               >
-                                <FaKeyboard />
+                                <FaKeyboard className="w-full" />
                               </button>
-                              <select
+                              {/* <select
                                 disabled={selectedLanguage}
                                 value={sourcesLanguage}
                                 onChange={(e) =>
@@ -952,7 +946,25 @@ const BeatEditPop = ({
                                       {name}
                                     </option>
                                   ))}
-                              </select>
+                              </select> */}
+                               <div className="absolute top-[32px] left-0 z-50 w-[135px]  h-[27vh] overflow-x-hidden md:h-[20vh] overflow-y-auto border bg-[#fafafa]">
+                                  {Object.entries(keyboardOptions)?.sort(([, a], [, b]) => a.localeCompare(b))?.map(
+                                    ([code, name]) => (
+                                      <li
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setSourcesLanguage(code);
+                                          setTranslatedPop(null);
+                                        }}
+                                        className="cursor-pointer  text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] list-none pl-[8px] border-b"
+                                        key={code}
+                                        value={code}
+                                      >
+                                        {name}
+                                      </li>
+                                    )
+                                  )}
+                                </div>
                             </div>
                           )}
 

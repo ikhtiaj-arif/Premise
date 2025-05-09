@@ -73,7 +73,7 @@ const LeftSideBar = ({
 
   const { charactersPopupMobile } = useContext(GlobalContext);
 
-  const { currentUser } = useContext(MyContext);
+  const { currentUser, allspProjectJSON } = useContext(MyContext);
 
   const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
   const [deleteCharacter] = useDeleteCharacterMutation();
@@ -263,6 +263,9 @@ const LeftSideBar = ({
 
   // console.log("characters", characters);
   // console.log("finalCharacters", finalCharacters);
+  const currentProjectData = allspProjectJSON?.projects?.find(
+    (item) => item.pro_uuid === project_id
+  );
 
   return (
     <>
@@ -612,7 +615,7 @@ const LeftSideBar = ({
                             setDeleteChar,
                             onlyAdd,
                             deleteCharacterFun,
-                            source_language
+                            source_language,
                           }}
                         />
                       ))}
@@ -749,7 +752,7 @@ const LeftSideBar = ({
         <CharacterEditablePop
           setCharacterEditPop={setOpenCharacterChart}
           characterArray={characterArray}
-          currentProjectData={premiseData}
+          currentProjectData={currentProjectData}
           setCharacterArray={setCharacterArray}
           onlyAdd={onlyAdd}
           handleUpdateSavedChar={handleUpdateSavedChar}

@@ -1778,30 +1778,102 @@ const PremisePreview2 = ({
                             : "border-[#EAEAEA]"
                         } rounded-[4px] border-[2px]`}
                       >
-                        <select
-                          //  disabled={filteredSpProjects.length==0 || createNewProject}
-                          className="block appearance-none bg-[#fafafa]  h-[27px] rounded-[4px]  w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none"
-                          onClick={() => {
-                            setIsProjectOpen(!isProjectOpen);
-                          }}
-                          value={selectedSpProjectID}
-                          onChange={(e) =>
-                            setSelectedSpProjectID(e.target.value)
+                        <Select
+                          options={projectOptions}
+                          value={
+                            projectOptions?.find(
+                              (option) => option.value === selectedSpProjectID
+                            ) || null
                           }
-                          required
-                        >
-                          <option value="" disabled>
-                            Select A Project
-                          </option>
-                          {filteredSpProjects?.map((option) => (
-                            <option
-                              key={option.pro_uuid}
-                              value={option.pro_uuid}
-                            >
-                              {option?.name}
-                            </option>
-                          ))}
-                        </select>
+                          onChange={(selectedOption) => {
+                            setSelectedSpProjectID(selectedOption?.value || "");
+                            setIsProjectOpen(false);
+                          }}
+                          onMenuOpen={() => setIsProjectOpen(true)}
+                          onMenuClose={() => setIsProjectOpen(false)}
+                          placeholder="Select A Project"
+                          theme={customTheme}
+                          menuPortalTarget={document.body} // This is crucial - renders menu to document.body
+                          menuPosition="fixed" // Use fixed positioning
+                          styles={{
+                            menuPortal: (base) => ({
+                              ...base,
+                              zIndex: 9,
+                              // Very high z-index to ensure it's on top
+                            }),
+                            control: (base) => ({
+                              ...base,
+                              height: "27px",
+                              minHeight: "27px",
+                              fontSize: "12px",
+                              "@media (min-width: 768px)": {
+                                fontSize: "14px",
+                              },
+                              border: "none",
+                              backgroundColor: "#fafafa",
+                              boxShadow: "none",
+                              padding: "0",
+                              margin: "0",
+                              width: "100%",
+                            }),
+                            valueContainer: (base) => ({
+                              ...base,
+                              padding: "0 8px",
+                              height: "27px",
+                              display: "flex",
+                              alignItems: "center",
+                            }),
+                            input: (base) => ({
+                              ...base,
+                              margin: "0",
+                              padding: "0",
+                            }),
+                            indicatorsContainer: () => ({
+                              display: "none", // hide default dropdown arrow
+                            }),
+                            menu: (base) => ({
+                              ...base,
+                              fontSize: "14px",
+                              marginTop: "2px",
+                              zIndex: 9999, // Very high z-index
+                              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+                            }),
+                            option: (base, state) => ({
+                              ...base,
+                              fontSize: "14px",
+                              padding: "0px 8px",
+                              backgroundColor: state.isFocused
+                                ? "#33b0ca"
+                                : "#fafafa",
+                              color: state.isFocused ? "#ffffff" : "#000000",
+                              cursor: "pointer",
+                              display: "flex",
+                              alignItems: "center",
+                              height: "32px",
+                              lineHeight: "20px",
+                            }),
+                            placeholder: (base) => ({
+                              ...base,
+                              fontSize: "12px",
+                              "@media (min-width: 768px)": {
+                                fontSize: "14px",
+                              },
+                              whiteSpace: "nowrap",
+                              textOverflow: "ellipsis",
+                            }),
+                            singleValue: (base) => ({
+                              ...base,
+                              fontSize: "12px",
+                              "@media (min-width: 768px)": {
+                                fontSize: "14px",
+                              },
+                              margin: "0",
+                              padding: "0",
+                              lineHeight: "27px",
+                            }),
+                          }}
+                          classNamePrefix="custom-select"
+                        />
                         <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center   pointer-events-none">
                           {isProjectOpen ? (
                             <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
+import Select from "react-select";
 import { useSuggestCharactersMutation } from "../../../app/EndPoints/Characters/Characters";
 import { getLanguageName } from "../../PremiseV2/utilityFuncitons/functions";
 import AutoSizeTextArea from "./AutosizeTextArea";
@@ -339,30 +340,112 @@ const SingleCharacterAdd = ({
               <div className="block mb-[10px] md:mb-[20px] md:flex gap-[18px] ">
                 <div className="relative w-full md:w-[171px]">
                   <label
-                    className={`absolute left-2 top-[1px] lg:top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500]  transition-all z-[2]
-                     `}
+                    className={`absolute left-2 top-[1px] lg:top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-[2]`}
                   >
                     Role
                   </label>
-                  <select
-                    required
-                    onChange={(e) => setRole(e.target.value)}
-                    value={role}
-                    className=" text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA]  rounded-[8px] my-[12px] md:my-0   w-full md:w-[171px] h-[42px]  indent-1 "
-                  >
-                    <option className="text-[14px]" value="" selected disabled>
-                      Role
-                    </option>
-                    {filteredRoleOptions?.map((roleOption) => (
-                      <option
-                        key={roleOption}
-                        value={roleOption}
-                        className="bg-white text-[#252525] text-[14px] "
-                      >
-                        {roleOption}
-                      </option>
-                    ))}
-                  </select>
+                  <div className="my-[12px] md:my-0">
+                    <Select
+                      required
+                      onChange={(selectedOption) => {
+                        setRole(selectedOption?.value || "");
+                      }}
+                      value={
+                        filteredRoleOptions
+                          ?.map((roleOption) => ({
+                            value: roleOption,
+                            label: roleOption,
+                          }))
+                          .find((option) => option.value === role) || null
+                      }
+                      options={filteredRoleOptions?.map((roleOption) => ({
+                        value: roleOption,
+                        label: roleOption,
+                      }))}
+                      placeholder="Role"
+                      menuPortalTarget={document.body}
+                      menuPosition="fixed"
+                      styles={{
+                        container: (base) => ({
+                          ...base,
+                          width: "100%",
+                        }),
+                        control: (base) => ({
+                          ...base,
+                          minHeight: "42px",
+                          height: "42px",
+                          fontSize: "14px",
+                          backgroundColor: "#FAFAFA",
+                          border: "2px solid #EAEAEA",
+                          borderRadius: "8px",
+                          boxShadow: "none",
+                          padding: "0",
+                          width: "100%",
+                          "&:hover": {
+                            borderColor: "#EAEAEA",
+                          },
+                        }),
+                        valueContainer: (base) => ({
+                          ...base,
+                          padding: "0 0 0 8px", // indent-1 equivalent
+                          height: "38px", // account for the border
+                          display: "flex",
+                          alignItems: "center",
+                        }),
+                        input: (base) => ({
+                          ...base,
+                          margin: "0",
+                          padding: "0",
+                          color: "#616161",
+                        }),
+                        indicatorsContainer: (base) => ({
+                          ...base,
+                          height: "38px", // account for the border
+                        }),
+                        dropdownIndicator: (base) => ({
+                          ...base,
+                          padding: "0 8px",
+                        }),
+                        clearIndicator: (base) => ({
+                          ...base,
+                          padding: "0 8px",
+                        }),
+                        menu: (base) => ({
+                          ...base,
+                          fontSize: "14px",
+                          marginTop: "2px",
+                          zIndex: 9999,
+                          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+                        }),
+                        menuPortal: (base) => ({
+                          ...base,
+                          zIndex: 9999,
+                        }),
+                        option: (base, state) => ({
+                          ...base,
+                          fontSize: "14px",
+                          padding: "8px",
+                          backgroundColor: state.isFocused
+                            ? "#33b0ca"
+                            : "white",
+                          color: state.isFocused ? "#ffffff" : "#252525",
+                          cursor: "pointer",
+                        }),
+                        placeholder: (base) => ({
+                          ...base,
+                          fontSize: "14px",
+                          color: "#616161",
+                        }),
+                        singleValue: (base) => ({
+                          ...base,
+                          fontSize: "14px",
+                          color: "#616161",
+                        }),
+                      }}
+                      className="w-full"
+                      classNamePrefix="role-select"
+                    />
+                  </div>
                 </div>
 
                 <div className="relative w-full mt-[4px] md:mt-0  md:w-[171px]">
@@ -412,7 +495,14 @@ const SingleCharacterAdd = ({
                 )}
               </div>
               <div className="block mb-0 md:mb-[10px] md:flex gap-[14px]">
-                <div className="relative w-full md:w-[92px]">
+
+                <div
+                  className={`relative w-full ${
+                    gender === inanimateObjectOptions(sourceLanguageName)
+                      ? " md:w-[155px]"
+                      : " md:w-[92px]"
+                  }`}
+                >
                   <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-10">
                     Gender
                   </label>
@@ -420,25 +510,20 @@ const SingleCharacterAdd = ({
                     required
                     value={gender}
                     onChange={(e) => setGender(e.target.value)}
-                    className=" text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA]  rounded-[8px] mb-[22px] mt-[12px] md:my-0    md:w-[97px] h-[41px]  indent-1 w-full"
+                    className={` text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA]  rounded-[8px] mb-[22px] mt-[12px] md:my-0   ${
+                      gender === inanimateObjectOptions(sourceLanguageName)
+                        ? " md:w-[172px]"
+                        : " md:w-[97px]"
+                    } h-[41px]  indent-1 w-full`}
                   >
                     <option value="" className="text-[14px] " selected disabled>
                       Gender
                     </option>
-                    {sourceLanguageName === "English" ? (
-                      <>
-                        <option className="text-[14px]">Male</option>
-                        <option className="text-[14px]">Female</option>
-                        <option className="text-[14px]">Animal</option>
-                        <option className="text-[14px]">
-                          Inanimate Object
-                        </option>
-                      </>
-                    ) : (
-                      <>{getGenderOptions(sourceLanguageName)}</>
-                    )}
+                    {getGenderOptions(sourceLanguageName)}
                   </select>
                 </div>
+
+
                 {gender !== inanimateObjectOptions(sourceLanguageName) && (
                   <div className="relative w-full  md:w-[49px] ">
                     <label className="absolute left-2 top-[-12px] z-[2] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">

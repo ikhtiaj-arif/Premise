@@ -92,8 +92,6 @@ const CharacterEditablePop = ({
     ...remainingCharacters,
   ].filter((char) => !char?.is_ai_generated);
 
-
-
   const {
     data: characters,
     isCharLoading,
@@ -102,7 +100,6 @@ const CharacterEditablePop = ({
   } = useGetSavedCharactersQuery(project_id, {
     skip: isOldProject,
   });
-
 
   useEffect(() => {
     if (characters) {
@@ -208,6 +205,8 @@ const CharacterEditablePop = ({
     }
   };
 
+  console.log("currentProjectData", currentProjectData?.nature_project);
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="fixed inset-0 bg-black opacity-50"></div>
@@ -260,7 +259,7 @@ const CharacterEditablePop = ({
                   onlyAdd,
                   deleteCharacterFun,
                   isAddedByMe: false,
-                  source_language
+                  source_language,
                 }}
               />
             ))}
