@@ -383,7 +383,7 @@ const PremisePreview2 = ({
   const [geographyItem, setGeographyItem] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [selectedSpProject, setSelectedSpProject] = useState();
-  const [setAgreeToPost, agreeToPost] = useState(false);
+  const [agreeToPost, setAgreeToPost] = useState(false);
 
   const [activeInput, setActiveInput] = useState(""); // Track the active input field
   const inputRefs = useRef({}); // Store references to all input fields
@@ -1606,9 +1606,9 @@ const PremisePreview2 = ({
             finalSubmitLoading
               ? "md:h-[72px]"
               : charSaveDisable
-              ? "h-[150px] overflow-y-hidden"
+              ? "h-[80px] overflow-y-hidden"
               : finalEdit
-              ? "h-[140px]"
+              ? "h-[146px]"
               : createNewProject || selectedSpProjectID
               ? "h-[373px]"
               : "h-[180px]"
@@ -3344,7 +3344,13 @@ const PremisePreview2 = ({
             ) : (
               <>
                 <div className="flex items-center gap-1 mt-[8px] ml-8">
-                  <input type="checkbox" id="checkbox" checked={agreeToPost} />
+                  <input
+                  className=" cursor-pointer"
+                    type="checkbox"
+                    id="checkbox"
+                    onChange={() => setAgreeToPost(!agreeToPost)}
+                    checked={agreeToPost}
+                  />
                   <p htmlFor="checkbox" className="text-[12px] leading-4">
                     I understand that after posting the Premise, I will not be
                     able to edit the proposed characters.
@@ -3352,7 +3358,7 @@ const PremisePreview2 = ({
                 </div>
                 <div
                   className={`lg:bg-[#FAFAFA] absolute right-3 md:right-0 bottom-0  flex items-center justify-end pt-[4px] pb-[8px] text-center  md:mx-[28px] top-[130px] ${
-                    finalSubmitLoading ? " md:top-[23px]" : " md:top-[104px]"
+                    charSaveDisable ? " md:top-[23px]" : " md:top-[118px]"
                   } md:mb-[10px] `}
                 >
                   {!charSaveDisable && (
@@ -3380,18 +3386,20 @@ const PremisePreview2 = ({
                             setCharacterEditPop(true);
                           }}
                           // disabled={}
-                          className={`  flex justify-center items-center cursor-pointer rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] border border-[#33B0CA]  text-[#33B0CA] `}
+                          className={`  flex justify-center items-center cursor-pointer rounded-[8px] h-[32px] px-[28px]
+                             text-[14px] font-[600] border border-[#33B0CA]  text-[#33B0CA] `}
                         >
                           Back To Character List
                         </div>
                       )}
-                      <div
+                      <button
+                        disabled={!agreeToPost}
                         onClick={handlePremisePostToGetComments}
-                        disabled={finalSubmitLoading || agreeToPost}
-                        className={` text-white flex justify-center items-center cursor-pointer rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] ${"bg-[#33B0CA]"}`}
+                        className={` text-white flex justify-center items-center  rounded-[8px] h-[32px] px-[28px] text-[14px] 
+                          font-[600] ${agreeToPost ? "bg-[#33B0CA] ":"bg-[#ACDDE7]"}`}
                       >
                         Post
-                      </div>
+                      </button>
                     </div>
                   )}
                 </div>

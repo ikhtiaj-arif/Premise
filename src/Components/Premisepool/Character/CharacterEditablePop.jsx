@@ -38,6 +38,7 @@ const CharacterEditablePop = ({
   const [deleteIdx, setDeleteIdx] = useState(null);
   const [deleteChar, setDeleteChar] = useState(null);
   const [duplicateCharacterArray, setDuplicateCharacterArray] = useState([]);
+  const [saveCheckUser, setSaveCheckUser] = useState(false);
 
   const [deleteCharacter] = useDeleteCharacterMutation();
 
@@ -205,12 +206,10 @@ const CharacterEditablePop = ({
     }
   };
 
-  console.log("currentProjectData", currentProjectData?.nature_project);
-
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="fixed inset-0 bg-black opacity-50"></div>
-      <div className="relative bg-[#fafafa] py-8  rounded-lg shadow-lg w-full lg:w-[950px] h-[89vh] lg:h-[468px] mt-[85px] ">
+      <div className="relative bg-[#fafafa] py-8  rounded-lg shadow-lg w-full lg:w-[950px] h-[89vh] lg:h-[500px] mt-[85px] ">
         <button
           onClick={handleClosePopup}
           className="absolute hidden md:block right-[-13px] top-[-13px] bg-[#EE3C4D] text-white rounded-full w-8 h-8  items-center justify-center shadow"
@@ -264,6 +263,7 @@ const CharacterEditablePop = ({
               />
             ))}
           </div>
+
           {finalByMeCharacters?.length > 0 && (
             <p className=" text-[#33B0CA] text-[16px] font-[600] mt-3 mb-2">
               Added By Me
@@ -289,6 +289,25 @@ const CharacterEditablePop = ({
           </div>
         </div>
         {/* {console.log(characterArray)} */}
+        <div className="flex mx-10 justify-between gap-[16px] absolute right-[30px] bottom-[15px]">
+          <label className="flex custom-checkbox items-start gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={saveCheckUser}
+              onChange={() => setSaveCheckUser(!saveCheckUser)}
+              className="w-4 h-4 mt-1 shrink-0 noAccessRadio"
+            />
+            <span className="text-[12px] leading-snug w-[70%]">
+              I understand that after saving this character list: <br />
+              1. I will not be able to edit these characters.
+              <br />
+              2. I will, however, be able to view or delete any character and
+              also add more characters (This can be done from the 'Show
+              Characters' icon on the script pad or Brainstorm page of the
+              associated Premise).
+            </span>
+          </label>
+        </div>
 
         {/* Bottom Buttons */}
         <div className="absolute right-[30px] bottom-[30px] flex justify-end gap-[16px] mt-[38px]">
@@ -301,11 +320,11 @@ const CharacterEditablePop = ({
             </button>
           )}
           <button
-            disabled={characterLoading}
+            disabled={!saveCheckUser || characterLoading}
             onClick={() => {
               handleUpdateSavedChar();
             }}
-            className="bg-[#33B0CA] text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px] "
+            className={`${saveCheckUser ? "bg-[#33B0CA]":"bg-[#ACDDE7]"} text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
           >
             Save
           </button>

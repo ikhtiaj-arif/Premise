@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
-import Select from "react-select";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { useSuggestCharactersMutation } from "../../../app/EndPoints/Characters/Characters";
 import { getLanguageName } from "../../PremiseV2/utilityFuncitons/functions";
 import AutoSizeTextArea from "./AutosizeTextArea";
 import CharacterKeyboard from "./CharacterKeyboard";
 import { genderJson } from "./Gender";
 import { inanimateObject } from "./inanimateObject";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 const SingleCharacterAdd = ({
   setAddNewCharacter,
@@ -34,6 +33,8 @@ const SingleCharacterAdd = ({
   // New state to track if all fields are filled
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
   const [genderDropdownOpen, setGenderDropdownOpen] = useState(false);
+  const [saveCheckUser, setSaveCheckUser] = useState(false);
+
   const occupationRef = useRef(null);
   const characterNameRef = useRef(null);
   const otherRoleRef = useRef(null);
@@ -710,6 +711,7 @@ const SingleCharacterAdd = ({
             </form>
           </div>
         </div>
+      
         <div className="absolute bottom-0 left-0 right-0 bg-[#FAFAFA] py-4 px-8 flex justify-end gap-[18px] rounded-[8px]">
           <button
             onClick={() => setAddNewCharacter(false)}
