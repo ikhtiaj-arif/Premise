@@ -133,7 +133,7 @@ const SearchPremise = ({
             </label>
             <input
               type="search"
-              className="w-full flex-1 border text-[#616161] bg-[#FAFAFA] border-[#EAEAEA] rounded-[8px] px-2 h-[42px] text-[14px] focus:outline-none"
+              className="w-full flex-1 border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none text-[#616161] bg-[#FAFAFA]  rounded-[8px] px-2 h-[42px] text-[14px] "
               name=""
               id=""
               placeholder="Premise contains..."

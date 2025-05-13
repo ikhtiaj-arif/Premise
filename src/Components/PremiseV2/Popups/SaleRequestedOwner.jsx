@@ -235,7 +235,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
                     required
                     type="number"
                     placeholder="Please Quote"
-                    className="flex-1 w-full h-[22px] border rounded-[4px] px-[12px] text-[11px] font-[400]"
+                    className="flex-1 w-full h-[22px] border rounded-[4px] px-[12px] text-[11px] font-[400]  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none"
                     value={sellingPr}
                     onChange={handleInputChangePrice}
                   />
@@ -309,7 +309,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
                     type="text"
                     value={bankDetails[name] || ""}
                     onChange={handleInputChange}
-                    className="w-[252px] h-[30px] border rounded-[4px] px-[12px] text-[14px] font-[400]"
+                    className="w-[252px] h-[30px] border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none rounded-[4px] px-[12px] text-[14px] font-[400]"
                     maxLength={name === "ifsc_code" ? 11 : undefined}
                     pattern="[A-Za-z0-9]*"
                     title={

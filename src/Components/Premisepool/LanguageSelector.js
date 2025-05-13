@@ -94,18 +94,20 @@ const LanguageSelector = ({
           ...base,
           fontSize: "14px",
           marginTop: "2px",
-          zIndex: 9999,
+          zIndex: 9,
           boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
           width: '100%', // Ensure menu is full width
         }),
         menuPortal: (base) => ({
           ...base,
-          zIndex: 9999,
+          zIndex: 9,
         }),
         option: (base, state) => ({
           ...base,
           fontSize: "14px",
           padding: "8px",
+          borderRadius:"4px",
+          marginTop: 0,
           backgroundColor: state.isFocused ? "#33b0ca" : "#fafafa",
           color: state.isFocused ? "#ffffff" : "#616161",
           cursor: "pointer",
@@ -121,6 +123,7 @@ const LanguageSelector = ({
           color: "#616161",
           marginLeft: 0,
           marginRight: 0,
+          marginTop: 0,
           maxWidth: '100%', // Ensure text doesn't overflow
         }),
       }}

@@ -146,7 +146,7 @@ const SharePopup = ({ popClose }) => {
           <div className="flex gap-[10px] items-center">
             <input
               value={link}
-              className="w-full border-[1px] border-[#EAEAEA] rounded-[4px] bg-[#FAFAFA] p-[10px] text-[#616161] text-[12px] flex gap-[8px] font-[400] leading-[18px]"
+              className="w-full border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none rounded-[4px] bg-[#FAFAFA] p-[10px] text-[#616161] text-[12px] flex gap-[8px] font-[400] leading-[18px]"
               placeholder="Type here"
               type="text"
             />

@@ -383,6 +383,7 @@ const PremisePreview2 = ({
   const [geographyItem, setGeographyItem] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [selectedSpProject, setSelectedSpProject] = useState();
+  const [setAgreeToPost, agreeToPost] = useState(false);
 
   const [activeInput, setActiveInput] = useState(""); // Track the active input field
   const inputRefs = useRef({}); // Store references to all input fields
@@ -1292,14 +1293,16 @@ const PremisePreview2 = ({
   //   value: project.pro_uuid,
   //   label: project.name,
   // }));
-  const projectOptions = filteredSpProjects?.filter((currentProject) => (
-  currentProject?.view_only !== "Viewer" || currentProject?.view_only !== "Editor"
-  ))?.map((project) => ({
-    value: project.pro_uuid,
-    label: project.name,
-  }));
-
-
+  const projectOptions = filteredSpProjects
+    ?.filter(
+      (currentProject) =>
+        currentProject?.view_only !== "Viewer" ||
+        currentProject?.view_only !== "Editor"
+    )
+    ?.map((project) => ({
+      value: project.pro_uuid,
+      label: project.name,
+    }));
 
   const languageOptions = Object.entries(sortedLanguages).map(
     ([key, name]) => ({
@@ -1605,7 +1608,7 @@ const PremisePreview2 = ({
               : charSaveDisable
               ? "h-[150px] overflow-y-hidden"
               : finalEdit
-              ? "h-[125px]"
+              ? "h-[140px]"
               : createNewProject || selectedSpProjectID
               ? "h-[373px]"
               : "h-[180px]"
@@ -3339,37 +3342,60 @@ const PremisePreview2 = ({
                 )}
               </div>
             ) : (
-              <div
-                className={`lg:bg-[#FAFAFA] absolute right-3 md:right-0 bottom-0  flex  justify-end pt-[4px] pb-[8px] text-center  md:mx-[28px] top-[100px] ${
-                  finalSubmitLoading ? " md:top-[23px]" : " md:top-[73px]"
-                } md:mb-[10px] `}
-              >
-                {!charSaveDisable && (
-                  <div
-                    onClick={() => setCharacterEditPop(true)}
-                    className={` text-[#33B0CA] cursor-pointer mr-[12px]  h-[32px] px-[10px] text-[14px] font-[500] border border-[#fafafa] border-b-[#33B0CA]
+              <>
+                <div className="flex items-center gap-1 mt-[8px] ml-8">
+                  <input type="checkbox" id="checkbox" checked={agreeToPost} />
+                  <p htmlFor="checkbox" className="text-[12px] leading-4">
+                    I understand that after posting the Premise, I will not be
+                    able to edit the proposed characters.
+                  </p>
+                </div>
+                <div
+                  className={`lg:bg-[#FAFAFA] absolute right-3 md:right-0 bottom-0  flex items-center justify-end pt-[4px] pb-[8px] text-center  md:mx-[28px] top-[130px] ${
+                    finalSubmitLoading ? " md:top-[23px]" : " md:top-[104px]"
+                  } md:mb-[10px] `}
+                >
+                  {!charSaveDisable && (
+                    <div
+                      onClick={() => setCharacterEditPop(true)}
+                      className={` text-[#33B0CA] cursor-pointer mr-[12px]  h-[32px] px-[10px] text-[14px] font-[500] border border-[#fafafa] border-b-[#33B0CA]
                   `}
-                  >
-                    Edit Proposed Characters
-                  </div>
-                )}
-                {finalSubmitLoading ? (
-                  <div
-                    disabled={finalSubmitLoading}
-                    className={` text-white cursor-auto rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] ${"bg-[#33B0CA]"}`}
-                  >
-                    Posting...
-                  </div>
-                ) : (
-                  <div
-                    onClick={handlePremisePostToGetComments}
-                    disabled={finalSubmitLoading}
-                    className={` text-white flex justify-center items-center cursor-pointer rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] ${"bg-[#33B0CA]"}`}
-                  >
-                    Post
-                  </div>
-                )}
-              </div>
+                    >
+                      Edit Proposed Characters
+                    </div>
+                  )}
+                  {finalSubmitLoading ? (
+                    <div
+                      disabled={finalSubmitLoading}
+                      className={` text-white cursor-auto rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] ${"bg-[#33B0CA]"}`}
+                    >
+                      Posting...
+                    </div>
+                  ) : (
+                    <div className="flex gap-2 items-center">
+                      {charSaveDisable && (
+                        <div
+                          onClick={() => {
+                            setFinalSubmitLoading(false);
+                            setCharacterEditPop(true);
+                          }}
+                          // disabled={}
+                          className={`  flex justify-center items-center cursor-pointer rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] border border-[#33B0CA]  text-[#33B0CA] `}
+                        >
+                          Back To Character List
+                        </div>
+                      )}
+                      <div
+                        onClick={handlePremisePostToGetComments}
+                        disabled={finalSubmitLoading || agreeToPost}
+                        className={` text-white flex justify-center items-center cursor-pointer rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] ${"bg-[#33B0CA]"}`}
+                      >
+                        Post
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </>
             )}
           </form>
         </div>

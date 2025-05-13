@@ -155,7 +155,7 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
                 className="mt-[18px] md:mt-0 xl:mt-[18px] h-[80vh] md:h-auto flex flex-col justify-between"
               >
                 <div>
-                  <div className="bg-[#FAFAFA] h-[38px] md:h-[32px] xl:h-[38px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-[8px] hidden lg:flex items-center mx-[28px] ">
+                  <div className="bg-[#FAFAFA] my-1 h-[38px] md:h-[32px] xl:h-[38px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-[8px] hidden lg:flex items-center mx-[28px] ">
                     <div className="flex justify-end gap-3  w-full ">
                       <FaKeyboard
                         data-te-toggle="tooltip"

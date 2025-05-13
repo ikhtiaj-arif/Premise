@@ -510,7 +510,7 @@ const FilterSearchSort = ({
                   <input
                     ref={searchInputRef}
                     type="text"
-                    className="w-full flex-1 px-2 h-[40px] text-[14px] bg-[#fafafa] focus:outline-none"
+                    className="w-full flex-1 px-2 h-[40px] text-[14px] bg-[#fafafa] fborder border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none"
                     name="search"
                     placeholder="Search"
                     value={searchText}
@@ -549,7 +549,7 @@ const FilterSearchSort = ({
                 <input
                   ref={searchInputRef}
                   type="text"
-                  className="w-full flex-1 px-2  h-[28px] text-[14px] focus:outline-none"
+                  className="w-full flex-1 px-2  h-[28px] text-[14px] border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none"
                   name="search"
                   id=""
                   maxLength="30"

@@ -8,6 +8,7 @@ import AutoSizeTextArea from "./AutosizeTextArea";
 import CharacterKeyboard from "./CharacterKeyboard";
 import { genderJson } from "./Gender";
 import { inanimateObject } from "./inanimateObject";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 const SingleCharacterAdd = ({
   setAddNewCharacter,
@@ -32,6 +33,7 @@ const SingleCharacterAdd = ({
   const [focusedFieldName, setFocusedFieldName] = useState("");
   // New state to track if all fields are filled
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
+  const [genderDropdownOpen, setGenderDropdownOpen] = useState(false);
   const occupationRef = useRef(null);
   const characterNameRef = useRef(null);
   const otherRoleRef = useRef(null);
@@ -298,6 +300,7 @@ const SingleCharacterAdd = ({
     }
     return [];
   };
+  const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 ">
@@ -339,112 +342,40 @@ const SingleCharacterAdd = ({
             >
               <div className="block mb-[10px] md:mb-[20px] md:flex gap-[18px] ">
                 <div className="relative w-full md:w-[171px]">
-                  <label
-                    className={`absolute left-2 top-[1px] lg:top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-[2]`}
-                  >
+                  <label className="absolute left-2 top-[1px] lg:top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-[2]">
                     Role
                   </label>
-                  <div className="my-[12px] md:my-0">
-                    <Select
-                      required
-                      onChange={(selectedOption) => {
-                        setRole(selectedOption?.value || "");
-                      }}
-                      value={
-                        filteredRoleOptions
-                          ?.map((roleOption) => ({
-                            value: roleOption,
-                            label: roleOption,
-                          }))
-                          .find((option) => option.value === role) || null
-                      }
-                      options={filteredRoleOptions?.map((roleOption) => ({
-                        value: roleOption,
-                        label: roleOption,
-                      }))}
-                      placeholder="Role"
-                      menuPortalTarget={document.body}
-                      menuPosition="fixed"
-                      styles={{
-                        container: (base) => ({
-                          ...base,
-                          width: "100%",
-                        }),
-                        control: (base) => ({
-                          ...base,
-                          minHeight: "42px",
-                          height: "42px",
-                          fontSize: "14px",
-                          backgroundColor: "#FAFAFA",
-                          border: "2px solid #EAEAEA",
-                          borderRadius: "8px",
-                          boxShadow: "none",
-                          padding: "0",
-                          width: "100%",
-                          "&:hover": {
-                            borderColor: "#EAEAEA",
-                          },
-                        }),
-                        valueContainer: (base) => ({
-                          ...base,
-                          padding: "0 0 0 8px", // indent-1 equivalent
-                          height: "38px", // account for the border
-                          display: "flex",
-                          alignItems: "center",
-                        }),
-                        input: (base) => ({
-                          ...base,
-                          margin: "0",
-                          padding: "0",
-                          color: "#616161",
-                        }),
-                        indicatorsContainer: (base) => ({
-                          ...base,
-                          height: "38px", // account for the border
-                        }),
-                        dropdownIndicator: (base) => ({
-                          ...base,
-                          padding: "0 8px",
-                        }),
-                        clearIndicator: (base) => ({
-                          ...base,
-                          padding: "0 8px",
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          fontSize: "14px",
-                          marginTop: "2px",
-                          zIndex: 9999,
-                          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-                        }),
-                        menuPortal: (base) => ({
-                          ...base,
-                          zIndex: 9999,
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          fontSize: "14px",
-                          padding: "8px",
-                          backgroundColor: state.isFocused
-                            ? "#33b0ca"
-                            : "white",
-                          color: state.isFocused ? "#ffffff" : "#252525",
-                          cursor: "pointer",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          fontSize: "14px",
-                          color: "#616161",
-                        }),
-                        singleValue: (base) => ({
-                          ...base,
-                          fontSize: "14px",
-                          color: "#616161",
-                        }),
-                      }}
-                      className="w-full"
-                      classNamePrefix="role-select"
-                    />
+
+                  <button
+                    type="button"
+                    onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
+                    className="text-left text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] my-[12px] md:my-0 w-full md:w-[171px] h-[42px] indent-1 pl-2"
+                  >
+                    {role || "Role"}
+                  </button>
+
+                  {roleDropdownOpen && (
+                    <ul className="absolute z-50  w-full border bg-[#fafafa] max-h-[27vh] overflow-y-auto rounded-md shadow-sm">
+                      {filteredRoleOptions?.map((roleOption) => (
+                        <li
+                          key={roleOption}
+                          className="cursor-pointer text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] px-2 py-1 "
+                          onClick={() => {
+                            setRole(roleOption);
+                            setRoleDropdownOpen(false);
+                          }}
+                        >
+                          {roleOption}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <div className="absolute inset-y-2 right-[2px] bg-[#fafafa] flex items-center px-2 pointer-events-none">
+                    {roleDropdownOpen ? (
+                      <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[15px]" />
+                    ) : (
+                      <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                    )}
                   </div>
                 </div>
 
@@ -467,7 +398,7 @@ const SingleCharacterAdd = ({
                     maxLength={50}
                     translate="no"
                     placeholder="Name"
-                    className="text-[14px] text-[#33B0CA] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[42px]"
+                    className="text-[14px] text-[#33B0CA] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px]   w-full md:w-[208px] h-[42px] border-[2px] border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none"
                   />
                 </div>
               </div>
@@ -489,14 +420,13 @@ const SingleCharacterAdd = ({
                       type="text"
                       maxLength={50}
                       placeholder="Describe the role"
-                      className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  mt-[5px] mb-[15px] rounded-[8px] border-2   w-full md:w-[398px] h-[42px]   text-[#616161] "
+                      className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  mt-[5px] mb-[15px] rounded-[8px]    w-full md:w-[398px] h-[42px]   text-[#616161] border-[2px] border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none"
                     />
                   </div>
                 )}
               </div>
               <div className="block mb-0 md:mb-[10px] md:flex gap-[14px]">
-
-                <div
+                {/* <div
                   className={`relative w-full ${
                     gender === inanimateObjectOptions(sourceLanguageName)
                       ? " md:w-[155px]"
@@ -506,6 +436,7 @@ const SingleCharacterAdd = ({
                   <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-10">
                     Gender
                   </label>
+
                   <select
                     required
                     value={gender}
@@ -521,8 +452,50 @@ const SingleCharacterAdd = ({
                     </option>
                     {getGenderOptions(sourceLanguageName)}
                   </select>
-                </div>
+                </div> */}
 
+                <div
+                  className={`relative w-full ${
+                    gender === inanimateObjectOptions(sourceLanguageName)
+                      ? "md:w-[155px]"
+                      : "md:w-[97px]"
+                  }`}
+                >
+                  <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-10">
+                    Gender
+                  </label>
+
+                  <button
+                    type="button"
+                    onClick={() => setGenderDropdownOpen(!genderDropdownOpen)}
+                    className={`text-left px-2 text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] mb-[22px] mt-[12px] md:my-0 h-[41px] w-full indent-1 ${
+                      gender === inanimateObjectOptions(sourceLanguageName)
+                        ? "md:w-[172px]"
+                        : "md:w-[97px]"
+                    }`}
+                  >
+                    {gender || "Gender"}
+                  </button>
+
+                  {genderDropdownOpen && (
+                    <ul className="absolute z-10 mt-0 w-full border bg-[#fafafa] max-h-[27vh] md:max-h-[20vh] overflow-y-auto rounded-md shadow-sm">
+                      {getGenderOptions(sourceLanguageName).map(
+                        (option, index) => (
+                          <li
+                            key={index}
+                            className="cursor-pointer text-[14px] leading-5 text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] px-2 py-2"
+                            onClick={() => {
+                              setGender(option.props.value); // `option` is a JSX element, like <option value="Male">Male</option>
+                              setGenderDropdownOpen(false);
+                            }}
+                          >
+                            {option.props.children}
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  )}
+                </div>
 
                 {gender !== inanimateObjectOptions(sourceLanguageName) && (
                   <div className="relative w-full  md:w-[49px] ">
@@ -536,7 +509,7 @@ const SingleCharacterAdd = ({
                       id="protaAge"
                       min="1"
                       maxLength={5}
-                      className={`h-[41px] w-full  md:ml-0 relative text-[12px] md:!text-[14px] leading-tight  px-[8px] mb-[24px] md:mb-[15px] md:w-[64px] bg-[#fafafa] rounded-[8px] border-[2px] focus:outline-none   text-[#616161] `}
+                      className={`h-[41px] w-full  md:ml-0 relative text-[12px] md:!text-[14px] leading-tight  px-[8px] mb-[24px] md:mb-[15px] md:w-[64px] bg-[#fafafa] rounded-[8px] border-[2px]    text-[#616161]  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none`}
                       placeholder="age"
                       required
                     />
@@ -558,7 +531,7 @@ const SingleCharacterAdd = ({
                     name="occupation"
                     translate="no"
                     placeholder="occupation"
-                    className="text-[14px] bg-[#FAFAFA] mb-[18px]  leading-[20px] md:mb-0 px-3 pt-[8px] pb-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[42px]     text-[#616161] resize-none overflow-hidden break-words
+                    className="text-[14px] bg-[#FAFAFA] mb-[18px]  leading-[20px] md:mb-0 px-3 pt-[8px] pb-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[42px]     text-[#616161] resize-none overflow-hidden break-words  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none
                     "
                   />
                 </div>
@@ -594,7 +567,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Background"
                     className={`text-[14px] bg-[#FAFAFA]   text-[#616161] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] overflow-y-hidden border-2   w-full md:w-[398px]
-                    h-auto resize-none `}
+                    h-auto resize-none  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none`}
                   />
                 </div>
               </div>
@@ -615,7 +588,7 @@ const SingleCharacterAdd = ({
                     ref={personalityRef}
                     translate="no"
                     placeholder="Personality"
-                    className="text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none   text-[#616161]"
+                    className="text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none   text-[#616161]  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none"
                   />
                 </div>
               </div>
@@ -637,7 +610,7 @@ const SingleCharacterAdd = ({
                     name="individualwant"
                     translate="no"
                     placeholder="Individual want"
-                    className="text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none   text-[#616161] "
+                    className="text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none   text-[#616161]  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none"
                   />
                 </div>
               </div>
@@ -658,7 +631,7 @@ const SingleCharacterAdd = ({
                     name="characterjourney"
                     translate="no"
                     placeholder="Character's journey"
-                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] border-2 overflow-y-hidden   w-full md:w-[398px] h-auto resize-none    text-[#616161]  "
+                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] border-2 overflow-y-hidden   w-full md:w-[398px] h-auto resize-none    text-[#616161]  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none "
                   />
                 </div>
               </div>
@@ -679,7 +652,7 @@ const SingleCharacterAdd = ({
                     name="Blood_relationship"
                     translate="no"
                     placeholder="Blood relationship"
-                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none   text-[#616161] "
+                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px] h-auto resize-none   text-[#616161] "
                   />
                 </div>
               </div>
@@ -702,7 +675,7 @@ const SingleCharacterAdd = ({
                     name="Family_relationship"
                     translate="no"
                     placeholder="Family relationship"
-                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none   text-[#616161]"
+                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px] h-auto resize-none   text-[#616161]"
                   />
                 </div>
               </div>
@@ -730,7 +703,7 @@ const SingleCharacterAdd = ({
                     name="Professional_relationship"
                     translate="no"
                     placeholder="Professional relationship"
-                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none      text-[#616161]"
+                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px] h-auto resize-none      text-[#616161]"
                   />
                 </div>
               </div>
