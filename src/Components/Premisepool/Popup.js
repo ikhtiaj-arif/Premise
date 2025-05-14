@@ -62,7 +62,6 @@ const Popup = ({
   viewText,
   handleVisibility,
   handleMonetizing,
-  
 }) => {
   const {
     bg_img,
@@ -513,9 +512,10 @@ const Popup = ({
                           {(premiseOwner?.id === user ||
                             premiseOwner?.id === currentProjectOwner) && (
                             <p
-                            data-te-toggle="tooltip"
-                            title={`${`${currentProjectName} `}`}
-                            className="notranslate">
+                              data-te-toggle="tooltip"
+                              title={`${`${currentProjectName} `}`}
+                              className="notranslate"
+                            >
                               {currentProjectName?.slice(0, 20)}
                             </p>
                           )}
@@ -584,6 +584,7 @@ const Popup = ({
                     translation_request_count={
                       premiseData?.translation_request_count
                     }
+                    no_of_times_translated={premiseData?.no_of_times_translated}
                     sale_request_count={premiseData?.sale_request_count}
                     is_requested_for_sale={premiseData?.is_requested_for_sale}
                     is_translated_languages={

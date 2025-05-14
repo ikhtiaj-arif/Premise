@@ -234,6 +234,7 @@ const PremiseTopAccess = ({
         available_for_translation={premiseData?.available_for_translation}
         premise_source_id={premiseData?.premise_source_id}
         translation_request_count={premiseData?.translation_request_count}
+        no_of_times_translated={premiseData?.no_of_times_translated}
         sale_request_count={premiseData?.sale_request_count}
         is_requested_for_sale={premiseData?.is_requested_for_sale}
         is_translated_languages={premiseData?.is_translated_languages}

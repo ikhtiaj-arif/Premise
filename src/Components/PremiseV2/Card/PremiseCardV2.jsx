@@ -84,6 +84,7 @@ const PremiseCardV2 = ({
     available_for_translation,
     premise_source_id,
     translation_request_count,
+    no_of_times_translated,
     sale_request_count,
     is_requested_for_sale,
     is_translated_languages,
@@ -470,7 +471,6 @@ const PremiseCardV2 = ({
             </div>
           </a>
         </div>
-
         <CardHeadOptions
           owner={owner}
           index={index}
@@ -506,6 +506,7 @@ const PremiseCardV2 = ({
           available_for_translation={available_for_translation}
           premise_source_id={premise_source_id}
           translation_request_count={translation_request_count}
+          no_of_times_translated={no_of_times_translated}
           sale_request_count={sale_request_count}
           is_requested_for_sale={is_requested_for_sale}
           is_translated_languages={is_translated_languages}

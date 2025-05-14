@@ -4,13 +4,15 @@ import { FaKeyboard } from "react-icons/fa";
 import { MdKeyboardBackspace } from "react-icons/md";
 import arrowRight from "../../../img/Icons/ArrowRicon.png";
 import crossIcon from "../../../img/Icons/crossIcon.png";
+import AddPremiseTutorialPop from "../../PremiseV2/sequalPopup/singlePop/AddPremiseTutorialPop";
 import Keyboard from "../Keyboard";
 import LanguageSelector from "../LanguageSelector";
 import "../Premise.css";
 import { getWhatIfPhrase } from "./ConvertWhat";
 import PremisePreview2 from "./PremisePreview2";
 
-const AddPremise2 = ({ setAddPopup, data, refetch }) => {
+const AddPremise2 = ({ setAddPopup, data, refetch,checkedAddPremise,setCheckedAddPremise }) => {
+
   const [preview, setPreview] = useState(false);
   const [newText, setNewText] = useState("");
   const [text, setText] = useState(data?.dText);
@@ -106,7 +108,7 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
             <img
               src={crossIcon}
               alt="cross icon"
-              className={`text-red-500 barSm-hidden z- w-8 h-8 cursor-pointer absolute top-[-12px] right-0 z-10`}
+              className={`text-red-500 barSm-hidden  w-8 h-8 cursor-pointer absolute top-[-12px] right-0 z-1`}
               onClick={() => setAddPopup(null)}
             />
           )}
@@ -281,6 +283,9 @@ const AddPremise2 = ({ setAddPopup, data, refetch }) => {
           </div>
         </div>
       </div>
+      {
+        checkedAddPremise && <AddPremiseTutorialPop popClose={setCheckedAddPremise} />
+      }
     </div>
   );
 };
