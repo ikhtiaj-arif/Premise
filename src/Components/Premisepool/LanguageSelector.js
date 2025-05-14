@@ -114,8 +114,9 @@ const LanguageSelector = ({
         }),
         placeholder: (base) => ({
           ...base,
-          fontSize: "14px",
+          fontSize: "12px",
           color: "#616161",
+          lineHeight:"16px"
         }),
         singleValue: (base) => ({
           ...base,

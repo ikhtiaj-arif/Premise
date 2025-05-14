@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
-import crossIcon from "../../../../img/Icons/crossIcon.png";
-import { toast } from "react-toastify";
-import msgIcon from "../../../../img/msg_black.png";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import fbIcon from "../../../../img/fb_icon.png";
-import instaIcon from "../../../../img/insta_icon.png";
-import linkdinIcon from "../../../../img/linkdin_icon.png";
 import icon_3 from "../../../../img/icon_3.png";
 import icon_4 from "../../../../img/icon_4.png";
 import icon_5 from "../../../../img/icon_5.png";
-import { URL } from "../../../utils";
-import {  useNavigate } from "react-router-dom";
+import crossIcon from "../../../../img/Icons/crossIcon.png";
+import instaIcon from "../../../../img/insta_icon.png";
+import linkdinIcon from "../../../../img/linkdin_icon.png";
+import msgIcon from "../../../../img/msg_black.png";
 
 const SharePopup = ({ popClose }) => {
   const navigate = useNavigate();
@@ -23,7 +21,6 @@ const SharePopup = ({ popClose }) => {
       console.log("Text copied to clipboard:", link);
     } catch (err) {
       console.error("Error copying text to clipboard:", err);
-      
     }
   };
 
@@ -57,7 +54,7 @@ const SharePopup = ({ popClose }) => {
               alt=""
             />
             <p className="text-[#5C5C5C] text-[12px] flex gap-[8px] font-[400] leading-[18px]">
-              Share link with <span className="mnff-m">MNF</span> Buddies
+              Share link with MNF Buddies
             </p>
           </div>
 

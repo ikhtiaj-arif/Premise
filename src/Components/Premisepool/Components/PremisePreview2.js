@@ -2178,7 +2178,7 @@ const PremisePreview2 = ({
                   <div
                     className={` col-span-7 ${
                       createNewProject
-                        ? "md:col-span-3  md:w-[146px] "
+                        ? "md:col-span-3  md:w-[163px] "
                         : "md:col-span-4"
                     } `}
                   >
@@ -2354,7 +2354,7 @@ const PremisePreview2 = ({
                   <div
                     className={`h-[31px] relative bg-[#fafafa] rounded-[4px] border-[2px] col-span-4 ${
                       createNewProject
-                        ? "md:col-span-3 w-[108px] xxs:w-[120px] md:w-[130px] md:ml-[8px]"
+                        ? "md:col-span-3 w-[108px] xxs:w-[120px] md:w-[136px] md:ml-[16px]"
                         : "md:col-span-4"
                     } ${duration ? "border-[#33B0CA]" : "border-[#EAEAEA]"}`}
                     ref={durationRef}
@@ -2519,7 +2519,7 @@ const PremisePreview2 = ({
                       <div
                         className={`h-[31px] relative col-span-4 ${
                           createNewProject
-                            ? " md:col-span-3 w-[104px] xxs:w-[119px] md:w-[126px] ml-[-6px] md:ml-[0px]"
+                            ? " md:col-span-3  w-[130px] ml-[-10px] md:ml-[4px]"
                             : " md:col-span-4 "
                         } bg-[#fafafa] rounded-[4px] border-[2px] ${
                           generaItemTxt
@@ -2546,7 +2546,7 @@ const PremisePreview2 = ({
                       <div
                         className={`h-[31px]  col-span-4 ${
                           createNewProject
-                            ? "md:col-span-3 xxs:w-[139px] md:w-[154px] ml-[-13px] md:ml-[-13px] "
+                            ? "md:col-span-3 xxs:w-[139px] md:w-[154px] ml-[0px] md:ml-[-13px] "
                             : " md:col-span-4"
                         }  bg-[#fafafa] rounded-[4px] border-[2px] ${
                           subGeneraItemTxt
@@ -2613,7 +2613,7 @@ const PremisePreview2 = ({
                         ref={genreRef}
                         className={`h-[31px] relative col-span-4 ${
                           createNewProject
-                            ? "md:col-span-3 w-[104px] xxs:w-[119px] md:w-[126px] ml-[-6px] md:ml-[0px]"
+                            ? "md:col-span-3 w-[128px] ml-[-10px] md:ml-[4px]"
                             : "md:col-span-4"
                         } bg-[#fafafa] rounded-[4px] border-[2px] ${
                           generaItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
@@ -2732,7 +2732,7 @@ const PremisePreview2 = ({
                       <div
                         className={`h-[31px] relative col-span-4 ${
                           createNewProject
-                            ? "md:col-span-3 xxs:w-[139px] md:w-[154px] ml-[-13px] md:ml-[-13px]"
+                            ? "md:col-span-3 xxs:w-[139px] md:w-[154px] ml-[0px] md:ml-[-13px]"
                             : "md:col-span-4"
                         } bg-[#fafafa] rounded-[4px] border-[2px] ${
                           subGeneraItem

@@ -350,7 +350,7 @@ const SingleCharacterAdd = ({
                   <button
                     type="button"
                     onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
-                    className="text-left text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] my-[12px] md:my-0 w-full md:w-[171px] h-[42px] indent-1 pl-2"
+                    className="text-left text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] my-[12px] md:my-0 w-full md:w-[171px] h-[42px] indent-1 pl-2 leading-4 pt-[4px]"
                   >
                     {role || "Role"}
                   </button>
@@ -360,7 +360,7 @@ const SingleCharacterAdd = ({
                       {filteredRoleOptions?.map((roleOption) => (
                         <li
                           key={roleOption}
-                          className="cursor-pointer text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] px-2 py-1 "
+                          className="cursor-pointer text-[14px] leading-[18px]  text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] px-2 py-1 "
                           onClick={() => {
                             setRole(roleOption);
                             setRoleDropdownOpen(false);

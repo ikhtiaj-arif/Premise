@@ -206,6 +206,8 @@ const CharacterEditablePop = ({
     }
   };
 
+  console.log("onlyAdd", onlyAdd);
+
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="fixed inset-0 bg-black opacity-50"></div>
@@ -289,25 +291,27 @@ const CharacterEditablePop = ({
           </div>
         </div>
         {/* {console.log(characterArray)} */}
-        <div className="flex mx-10 justify-between gap-[16px] absolute right-[30px] bottom-[15px]">
-          <label className="flex custom-checkbox items-start gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={saveCheckUser}
-              onChange={() => setSaveCheckUser(!saveCheckUser)}
-              className="w-4 h-4 mt-1 shrink-0 noAccessRadio"
-            />
-            <span className="text-[12px] leading-snug w-[70%]">
-              I understand that after saving this character list: <br />
-              1. I will not be able to edit these characters.
-              <br />
-              2. I will, however, be able to view or delete any character and
-              also add more characters (This can be done from the 'Show
-              Characters' icon on the script pad or Brainstorm page of the
-              associated Premise).
-            </span>
-          </label>
-        </div>
+        {!onlyAdd && (
+          <div className="flex mx-10 justify-between gap-[16px] absolute right-[30px] bottom-[15px]">
+            <label className="flex custom-checkbox items-start gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={saveCheckUser}
+                onChange={() => setSaveCheckUser(!saveCheckUser)}
+                className="w-4 h-4 mt-1 shrink-0 noAccessRadio"
+              />
+              <span className="text-[12px] leading-snug w-[70%]">
+                I understand that after saving this character list: <br />
+                1. I will not be able to edit these characters.
+                <br />
+                2. I will, however, be able to view or delete any character and
+                also add more characters (This can be done from the 'Show
+                Characters' icon on the script pad or Brainstorm page of the
+                associated Premise).
+              </span>
+            </label>
+          </div>
+        )}
 
         {/* Bottom Buttons */}
         <div className="absolute right-[30px] bottom-[30px] flex justify-end gap-[16px] mt-[38px]">
@@ -324,7 +328,9 @@ const CharacterEditablePop = ({
             onClick={() => {
               handleUpdateSavedChar();
             }}
-            className={`${saveCheckUser ? "bg-[#33B0CA]":"bg-[#ACDDE7]"} text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
+            className={`${
+              saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
+            } text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
           >
             Save
           </button>

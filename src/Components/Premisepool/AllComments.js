@@ -63,7 +63,8 @@ const AllComments = ({
   focusedCValue,
   iconWidth,
   inpRightMargin,
-  loading,replyText
+  loading,replyText,
+  commentField, setCommentField
 }) => {
   // const actTwoStart = Math.floor(0.25 * m_value);
 
@@ -792,7 +793,7 @@ const AllComments = ({
                               // setReplyField(true);
 
                               // setReplyToCommentID(comments?.id);
-                              // setCommentOwner(commentOwnerName);
+                              // setCommentField(false);
                               handleReplyToggle(comments, commentOwnerName);
                             }}
                             className="flex items-center gap-1"

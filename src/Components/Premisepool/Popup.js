@@ -62,6 +62,7 @@ const Popup = ({
   viewText,
   handleVisibility,
   handleMonetizing,
+  
 }) => {
   const {
     bg_img,
@@ -156,7 +157,7 @@ const Popup = ({
   const [isDelete, setIsDelete] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const [commentField, setCommentField] = useState(false);
+  const [commentField, setCommentField] = useState(true);
   const [replyField, setReplyField] = useState(false);
 
   const [cValue, setCvalue] = useState(null);
