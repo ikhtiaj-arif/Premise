@@ -418,7 +418,7 @@ const SingleCharacterAdd = ({
                   </label>
 
                   <div
-                    className="text-[14px] bg-[#FAFAFA] border-[2px] text-[#252525] outline-[#EAEAEA] rounded-[8px] my-[12px] md:my-0 w-full md:w-[171px] h-[42px] indent-1 flex items-center pl-2 cursor-not-allowed select-none"
+                    className="text-[14px] leading-[18px] pt-[6px] bg-[#FAFAFA] border-[2px] text-[#252525] outline-[#EAEAEA] rounded-[8px] my-[12px] md:my-0 w-full md:w-[171px] h-[42px] indent-1 flex items-center pl-2 cursor-not-allowed select-none"
                     style={{ backgroundColor: "#f5f5f5", opacity: 0.8 }}
                   >
                     {getRole() || "Role"}
@@ -529,7 +529,7 @@ const SingleCharacterAdd = ({
                       : "md:w-[97px]"
                   }`}
                 >
-                  <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-10">
+                  <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Gender
                   </label>
 

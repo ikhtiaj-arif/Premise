@@ -22,6 +22,7 @@ import { baseURL } from "../utils";
 import PremiseCardV2 from "./Card/PremiseCardV2";
 import FilterSearchSort from "./Header/FiltersSearchSort/FilterSearchSort";
 import TestPopup from "./sequalPopup/TestPopup";
+import AddPremiseTutorialPop from "./sequalPopup/singlePop/AddPremiseTutorialPop";
 
 export const loadingData = [
   "Initializing..",

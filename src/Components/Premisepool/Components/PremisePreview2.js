@@ -43,6 +43,7 @@ import LanguageSelector from "../LanguageSelector";
 import Popup from "../Popup";
 import { hideUnhidePremise } from "../PreiseUtils";
 import PremisePreviewKeyboard from "./PremisePreviewKeyboard";
+import AddPremiseTutorialPop from "../../PremiseV2/sequalPopup/singlePop/AddPremiseTutorialPop";
 
 const PremisePreview2 = ({
   newText,
@@ -682,8 +683,11 @@ const PremisePreview2 = ({
     console.log("protagonist", protagonist);
   }, [protagonist]);
   // console.log("Header", characterArray);
+
   const submitPremise = async (e) => {
     e.preventDefault();
+    //demo popup
+
 
     // Disable submit button to prevent multiple clicks
     setIsLoading(true);
@@ -1695,7 +1699,7 @@ const PremisePreview2 = ({
                               ...base,
                               fontSize: "14px",
                               marginTop: "2px",
-                              zIndex: 9999, // Very high z-index
+                              zIndex: 9, // Very high z-index
                               boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
                             }),
                             option: (base, state) => ({
@@ -1838,7 +1842,7 @@ const PremisePreview2 = ({
                               ...base,
                               fontSize: "14px",
                               marginTop: "2px",
-                              zIndex: 9999, // Very high z-index
+                              zIndex: 9, // Very high z-index
                               boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
                             }),
                             option: (base, state) => ({
@@ -2035,7 +2039,7 @@ const PremisePreview2 = ({
                         styles={{
                           menuPortal: (base) => ({
                             ...base,
-                            zIndex: 9999, // Very high z-index to ensure it's on top
+                            zIndex: 9, // Very high z-index to ensure it's on top
                           }),
                           control: (base) => ({
                             ...base,
@@ -2071,7 +2075,7 @@ const PremisePreview2 = ({
                             ...base,
                             fontSize: "14px",
                             marginTop: "2px",
-                            zIndex: 9999, // Very high z-index
+                            zIndex: 9, // Very high z-index
                             boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
                           }),
                           option: (base, state) => ({
@@ -2220,7 +2224,7 @@ const PremisePreview2 = ({
                         styles={{
                           menuPortal: (base) => ({
                             ...base,
-                            zIndex: 9999, // Very high z-index to ensure it's on top
+                            zIndex: 9, // Very high z-index to ensure it's on top
                           }),
                           control: (base) => ({
                             ...base,
@@ -2256,7 +2260,7 @@ const PremisePreview2 = ({
                             ...base,
                             fontSize: "14px",
                             marginTop: "2px",
-                            zIndex: 9999, // Very high z-index
+                            zIndex: 9, // Very high z-index
                             boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
                           }),
                           option: (base, state) => ({
@@ -2421,7 +2425,7 @@ const PremisePreview2 = ({
                           ...base,
                           fontSize: "14px",
                           marginTop: "2px",
-                          zIndex: 9999, // Very high z-index
+                          zIndex: 9, // Very high z-index
                           boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
                         }),
                         option: (base, state) => ({
@@ -2644,7 +2648,7 @@ const PremisePreview2 = ({
                           styles={{
                             menuPortal: (base) => ({
                               ...base,
-                              zIndex: 9999, // Very high z-index to ensure it's on top
+                              zIndex: 9, // Very high z-index to ensure it's on top
                             }),
                             control: (base) => ({
                               ...base,
@@ -2680,7 +2684,7 @@ const PremisePreview2 = ({
                               ...base,
                               fontSize: "14px",
                               marginTop: "2px",
-                              zIndex: 9999, // Very high z-index
+                              zIndex: 9, // Very high z-index
                               boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
                             }),
                             option: (base, state) => ({
@@ -2766,7 +2770,7 @@ const PremisePreview2 = ({
                           styles={{
                             menuPortal: (base) => ({
                               ...base,
-                              zIndex: 9999, // Very high z-index to ensure it's on top
+                              zIndex: 9, // Very high z-index to ensure it's on top
                             }),
                             control: (base) => ({
                               ...base,
@@ -2802,7 +2806,7 @@ const PremisePreview2 = ({
                               ...base,
                               fontSize: "14px",
                               marginTop: "2px",
-                              zIndex: 9999, // Very high z-index
+                              zIndex: 9, // Very high z-index
                               boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
                             }),
                             option: (base, state) => ({
@@ -3009,7 +3013,7 @@ const PremisePreview2 = ({
                       styles={{
                         menuPortal: (base) => ({
                           ...base,
-                          zIndex: 9999, // Very high z-index to ensure it's on top
+                          zIndex: 9, // Very high z-index to ensure it's on top
                         }),
                         control: (base) => ({
                           ...base,
@@ -3045,7 +3049,7 @@ const PremisePreview2 = ({
                           ...base,
                           fontSize: "14px",
                           marginTop: "2px",
-                          zIndex: 9999, // Very high z-index
+                          zIndex: 9, // Very high z-index
                           boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
                         }),
                         option: (base, state) => ({
@@ -3195,7 +3199,7 @@ const PremisePreview2 = ({
                       styles={{
                         menuPortal: (base) => ({
                           ...base,
-                          zIndex: 9999, // Very high z-index to ensure it's on top
+                          zIndex: 9, // Very high z-index to ensure it's on top
                         }),
                         control: (base) => ({
                           ...base,
@@ -3231,7 +3235,7 @@ const PremisePreview2 = ({
                           ...base,
                           fontSize: "14px",
                           marginTop: "2px",
-                          zIndex: 9999, // Very high z-index
+                          zIndex: 9, // Very high z-index
                           boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
                         }),
                         option: (base, state) => ({
@@ -3345,7 +3349,7 @@ const PremisePreview2 = ({
               <>
                 <div className="flex items-center gap-1 mt-[8px] ml-8">
                   <input
-                  className=" cursor-pointer"
+                    className=" cursor-pointer"
                     type="checkbox"
                     id="checkbox"
                     onChange={() => setAgreeToPost(!agreeToPost)}
@@ -3357,14 +3361,14 @@ const PremisePreview2 = ({
                   </p>
                 </div>
                 <div
-                  className={`lg:bg-[#FAFAFA] absolute right-3 md:right-0 bottom-0  flex items-center justify-end pt-[4px] pb-[8px] text-center  md:mx-[28px] top-[130px] ${
+                  className={`lg:bg-[#FAFAFA] absolute right-3 md:right-0 md:bottom-0  flex items-center justify-end pt-[4px] pb-[8px] text-center  md:mx-[28px]  ${
                     charSaveDisable ? " md:top-[23px]" : " md:top-[118px]"
-                  } md:mb-[10px] `}
+                  } md:mb-[10px]  `}
                 >
                   {!charSaveDisable && (
                     <div
                       onClick={() => setCharacterEditPop(true)}
-                      className={` text-[#33B0CA] cursor-pointer mr-[12px]  h-[32px] px-[10px] text-[14px] font-[500] border border-[#fafafa] border-b-[#33B0CA]
+                      className={`position-relative text-[#33B0CA]  cursor-pointer mr-[12px]  h-[32px] px-[10px] text-[14px] font-[500] border border-[#fafafa] border-b-[#33B0CA]
                   `}
                     >
                       Edit Proposed Characters
@@ -3373,12 +3377,12 @@ const PremisePreview2 = ({
                   {finalSubmitLoading ? (
                     <div
                       disabled={finalSubmitLoading}
-                      className={` text-white cursor-auto rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] ${"bg-[#33B0CA]"}`}
+                      className={` text-white cursor-auto rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] bg-[#33B0CA]`}
                     >
                       Posting...
                     </div>
                   ) : (
-                    <div className="flex gap-2 items-center">
+                    <div className="flex gap-2 items-center ">
                       {charSaveDisable && (
                         <div
                           onClick={() => {
@@ -3396,7 +3400,9 @@ const PremisePreview2 = ({
                         disabled={!agreeToPost}
                         onClick={handlePremisePostToGetComments}
                         className={` text-white flex justify-center items-center  rounded-[8px] h-[32px] px-[28px] text-[14px] 
-                          font-[600] ${agreeToPost ? "bg-[#33B0CA] ":"bg-[#ACDDE7]"}`}
+                          font-[600] ${
+                            agreeToPost ? "bg-[#33B0CA] " : "bg-[#ACDDE7]"
+                          }`}
                       >
                         Post
                       </button>
@@ -3487,6 +3493,7 @@ const PremisePreview2 = ({
             </Draggable>
           )}
         </div>
+      
       </div>
     );
   }

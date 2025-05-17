@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { MdKeyboardBackspace } from "react-icons/md";
 import { ToastContainer } from "react-toastify";
+import { MyContext } from "../../../App";
 import {
   useGetOnePremiseQuery,
   useTranslatePremiseV2Mutation,
@@ -9,7 +10,6 @@ import {
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import PaymentInvoicePopup from "../../Payment/PaymentInvoicePopup";
 import { sortedLanguages } from "../../Premisepool/Languages";
-import { MyContext } from "../../../App";
 
 const TransInOtherLang = ({
   popClose,
@@ -28,8 +28,8 @@ const TransInOtherLang = ({
   useEffect(() => {
     if (id) premiseRefetch();
   }, [id]);
-  
-  const { projectRefetch } = useContext(MyContext); 
+
+  const { projectRefetch } = useContext(MyContext);
   const [targetLanguage, setTargetLanguage] = useState("");
   const [translatePremise] = useTranslatePremiseV2Mutation();
   const [isPayment, setPayment] = useState(false);
@@ -51,7 +51,7 @@ const TransInOtherLang = ({
         transaction_id: transaction_id,
       };
 
-      const res = await translatePremise(data)
+      const res = await translatePremise(data);
 
       if (res) {
         projectRefetch();
@@ -123,7 +123,7 @@ const TransInOtherLang = ({
             </p>
             <p className="text-left text-[12px] leading-[14.5px] font-[400]  text-[#616161] ">
               You will be able to brainstorm further on the translated Premise
-              and add comment etc to the Beat Sheet.
+              and add comment etc to the Beat (event) Sheet.
             </p>
           </div>
           <div className="mt-[6px] pl-[8px] pr-[18px] flex gap-[4px]">

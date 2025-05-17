@@ -656,7 +656,7 @@ const BeatEditPop = ({
                   </div>
                   <div className="pb-[8px] mt-[8px]">
                     <h1 className="text-[14px] md:text-[18px] font-[500] text-center">
-                      Adding a Brainstorm to Beat Sheet
+                      Adding a Brainstorm to Beat {"("}event{")"} Sheet
                     </h1>
                   </div>
                   <div className="px-[12px] md:px-[33px] pb-[4p]">

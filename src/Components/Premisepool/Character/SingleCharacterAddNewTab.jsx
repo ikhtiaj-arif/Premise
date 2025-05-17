@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
-import Select from "react-select";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import {
   useSaveCharactersMutation,
   useSuggestCharactersMutation,
@@ -11,7 +11,6 @@ import AutoSizeTextArea from "./AutosizeTextArea";
 import CharacterKeyboard from "./CharacterKeyboard";
 import { genderJson } from "./Gender";
 import { inanimateObject } from "./inanimateObject";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 const SingleCharacterAddNewTab = ({
   setCharacterEditPop,
@@ -383,17 +382,17 @@ const SingleCharacterAddNewTab = ({
                   <button
                     type="button"
                     onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
-                    className="text-left text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] my-[12px] md:my-0 w-full md:w-[171px] h-[42px] indent-1 pl-2"
+                    className="text-left text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] my-[12px] md:my-0 w-full md:w-[171px] h-[42px] indent-1 pl-2 leading-[18px] pt-[6px]"
                   >
                     {role || "Role"}
                   </button>
 
                   {roleDropdownOpen && (
-                    <ul className="absolute z-50  w-full border bg-[#fafafa] max-h-[27vh] overflow-y-auto rounded-md shadow-sm">
+                    <ul className="absolute z-10  w-full border bg-[#fafafa] max-h-[27vh] overflow-y-auto rounded-md shadow-sm">
                       {filteredRoleOptions?.map((roleOption) => (
                         <li
                           key={roleOption}
-                          className="cursor-pointer text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] px-2 py-1 "
+                          className="cursor-pointer text-[14px]  leading-[18px]   text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] px-2 py-1 "
                           onClick={() => {
                             setRole(roleOption);
                             setRoleDropdownOpen(false);
@@ -467,7 +466,7 @@ const SingleCharacterAddNewTab = ({
                       : "md:w-[97px]"
                   }`}
                 >
-                  <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-10">
+                  <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Gender
                   </label>
 

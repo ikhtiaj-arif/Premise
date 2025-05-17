@@ -356,7 +356,7 @@ const SingleCharacterAdd = ({
                   </button>
 
                   {roleDropdownOpen && (
-                    <ul className="absolute z-50  w-full border bg-[#fafafa] max-h-[27vh] overflow-y-auto rounded-md shadow-sm">
+                    <ul className="absolute z-10  w-full border bg-[#fafafa] max-h-[27vh] overflow-y-auto rounded-md shadow-sm">
                       {filteredRoleOptions?.map((roleOption) => (
                         <li
                           key={roleOption}
@@ -371,7 +371,7 @@ const SingleCharacterAdd = ({
                       ))}
                     </ul>
                   )}
-                  <div className="absolute inset-y-2 right-[2px] bg-[#fafafa] flex items-center px-2 pointer-events-none">
+                  <div className="absolute  md:inset-y-2 right-[2px] bg-[#fafafa] flex items-center h-[25px] px-2 pointer-events-none">
                     {roleDropdownOpen ? (
                       <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[15px]" />
                     ) : (
@@ -462,7 +462,7 @@ const SingleCharacterAdd = ({
                       : "md:w-[97px]"
                   }`}
                 >
-                  <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-10">
+                  <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Gender
                   </label>
 
@@ -711,7 +711,7 @@ const SingleCharacterAdd = ({
             </form>
           </div>
         </div>
-      
+
         <div className="absolute bottom-0 left-0 right-0 bg-[#FAFAFA] py-4 px-8 flex justify-end gap-[18px] rounded-[8px]">
           <button
             onClick={() => setAddNewCharacter(false)}

@@ -110,7 +110,7 @@ const RefineFilters = ({
     <div
       className={` left-0 ${
         showRefine ? "visible" : "invisible"
-      } bg-[#FAFAFA] px-[16px] py-[12px] rounded-[8px] w-[324px]  absolute left-[-142px] md:w-[405px] mx:left-[-18px] top-[50px] z-10 border border-[#eaeaea] shadow-lg shadow-[#9a9a9a] `}
+      } bg-[#FAFAFA] px-[16px] py-[12px] rounded-[8px] w-[324px]  absolute left-0 lg:left-[-142px] md:w-[405px] mx:left-[-18px] top-[50px] z-10 border border-[#eaeaea] shadow-lg shadow-[#9a9a9a] `}
     >
       <div>
         {/* <p className="font-semibold mb-2">Search parameters</p> */}

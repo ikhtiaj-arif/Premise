@@ -10,6 +10,7 @@ import LanguageSelector from "../LanguageSelector";
 import "../Premise.css";
 import { getWhatIfPhrase } from "./ConvertWhat";
 import PremisePreview2 from "./PremisePreview2";
+import AddPremiseNextTutorialPop from "../../PremiseV2/sequalPopup/AddPremiseNextTutorialPop";
 
 const AddPremise2 = ({ setAddPopup, data, refetch,checkedAddPremise,setCheckedAddPremise }) => {
 
@@ -41,9 +42,20 @@ const AddPremise2 = ({ setAddPopup, data, refetch,checkedAddPremise,setCheckedAd
       setConfirmDisable(true);
     }
   }, [text]);
-
+  const [openAddPremiseNextPop, setOpenAddPremiseNextPop] = useState(false);
   const handleSubmit = (event) => {
+
     event.preventDefault();
+    const notOpenNextClickDemoPop = localStorage.getItem(
+      "notOpenNextClickDemoPop"
+    );
+    if (
+      (!notOpenNextClickDemoPop || notOpenNextClickDemoPop === "false") &&
+      !openAddPremiseNextPop
+    ) {
+      setOpenAddPremiseNextPop(true);
+    }
+
     // const text = event.target.text.value;
     let modifiedText = text;
     modifiedText = modifiedText.replace(
@@ -286,6 +298,9 @@ const AddPremise2 = ({ setAddPopup, data, refetch,checkedAddPremise,setCheckedAd
       {
         checkedAddPremise && <AddPremiseTutorialPop popClose={setCheckedAddPremise} />
       }
+        {openAddPremiseNextPop && (
+          <AddPremiseNextTutorialPop setOpenAddPremiseNextPop={setOpenAddPremiseNextPop} />
+        )}
     </div>
   );
 };
