@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import crossIcon from "../../../img/Icons/crossIcon.png";
-import premise_sr_01 from "../../../img/sr/addPremise/Ss_file/2 - 1.png";
-import premise_sr_02 from "../../../img/sr/addPremise/Ss_file/2 - 2.png";
-import premise_sr_03 from "../../../img/sr/addPremise/Ss_file/2 - 3.png";
+import premise_sr_01 from "../../../img/sr/addPremise/Ss_file/3 -1.png";
+import premise_sr_02 from "../../../img/sr/addPremise/Ss_file/3 -2.png";
 
-const AddPremiseNextTutorialPop = ({ setOpenAddPremiseNextPop }) => {
+const PreviewPremiseTutorialPop = ({ setOpenPreviewDemoPop }) => {
   const [dontShowPop, setDontShowPop] = useState(false);
 
   useEffect(() => {
-    if (dontShowPop) localStorage.setItem("notOpenNextClickDemoPop", true);
-    else localStorage.setItem("notOpenNextClickDemoPop", false);
+    if (dontShowPop) localStorage.setItem("newProjectDemoPop", true);
+    else localStorage.setItem("newProjectDemoPop", false);
   }, [dontShowPop]);
 
   console.log(dontShowPop);
@@ -23,11 +22,11 @@ const AddPremiseNextTutorialPop = ({ setOpenAddPremiseNextPop }) => {
   //     decrementPopup,
   //   } = useContext(MyContext);
   const [currentPopup, setCurrentPopup] = useState(1); // Default to popup 1
-  const totalPopups = 4;
+  const totalPopups = 2;
 
   useEffect(() => {
     const savedPopupNumber = parseInt(
-      localStorage.getItem("AddPremiseNextPop"),
+      localStorage.getItem("previewNextPop"),
       2
     );
 
@@ -40,7 +39,7 @@ const AddPremiseNextTutorialPop = ({ setOpenAddPremiseNextPop }) => {
   const incrementPopup = () => {
     const nextPopup = currentPopup + 1;
     if (nextPopup <= totalPopups) {
-      localStorage.setItem("AddPremiseNextPop", nextPopup); // Store next popup number
+      localStorage.setItem("previewNextPop", nextPopup); // Store next popup number
       setCurrentPopup(nextPopup); // Update state
     }
   };
@@ -48,7 +47,7 @@ const AddPremiseNextTutorialPop = ({ setOpenAddPremiseNextPop }) => {
     const nextPopup = currentPopup - 1;
     if (nextPopup >= 1) {
       // Ensure the popup number doesn't go below 1
-      localStorage.setItem("AddPremiseNextPop", nextPopup); // Store next popup number
+      localStorage.setItem("previewNextPop", nextPopup); // Store next popup number
       setCurrentPopup(nextPopup); // Update state
     }
   };
@@ -73,50 +72,26 @@ const AddPremiseNextTutorialPop = ({ setOpenAddPremiseNextPop }) => {
     if (isChecked) {
       incrementPopup();
     }
-    setOpenAddPremiseNextPop(false); // Close the popup in both cases
+    setOpenPreviewDemoPop(false); // Close the popup in both cases
   };
 
   // Popup data array
-  const popupData2 = [
-    {
-      imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_01.webp`,
-      message: "You can read Premise in the language of your choice. ",
-      serialNo: 1,
-    },
-    {
-      imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_02.webp`,
-      message:
-        "You can view the Premises written in a particular language by applying the language filter. ",
-      serialNo: 2,
-    },
-    {
-      imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_03.webp`,
-      message: "You can sort the Premises from oldest to latest. ",
-      serialNo: 3,
-    },
-    {
-      imgUrl: `https://uidemos.s3.ap-south-1.amazonaws.com/premise_sr_04.webp`,
-      message: "You can sort the Premises by Popularity. ",
-      serialNo: 4,
-    },
-  ];
 
   const popupData = [
     {
       imgUrl: premise_sr_01,
-      message: " You can format your Premise.",
+      message: "You can open Virtual Keyboard of the language of the Premise.",
       serialNo: 1,
     },
     {
       imgUrl: premise_sr_02,
-      message:
-        "You can add background Image or Color to your Premise card.",
+      message: "",
+
+      multiMessage: [
+        "You can create a New Genre.",
+        "For a genre only relevant  sub genre options are listed in dropdown.",
+      ],
       serialNo: 2,
-    },
-    {
-      imgUrl: premise_sr_03,
-      message: "You can associate this Premise with an existing project or a create a new project based on this Premise.",
-      serialNo: 3,
     },
   ];
 
@@ -157,9 +132,19 @@ const AddPremiseNextTutorialPop = ({ setOpenAddPremiseNextPop }) => {
             </div>
 
             <div className="flex flex-col items-center gap-[6px] mb-5 mt-1">
-              <h2 className="text-[12px] md:text-[14px] leading-4 md:leading-5 px-2 font-medium text-[#252525] translate-y-3 text-center">
-                {currentPopupData.message}
-              </h2>
+              {currentPopupData?.multiMessage ? (
+                <ul className="w-full pl-10 list-disc mt-2 pr-2">
+                  {currentPopupData?.multiMessage.map((message) => (
+                    <li className="text-[12px] md:text-[14px]  text-[#252525] leading-4 md:leading-5 ">
+                      {message}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <h2 className="text-[12px] md:text-[14px] leading-4 md:leading-5 px-2 font-medium text-[#252525] translate-y-3 text-center">
+                  {currentPopupData.message}
+                </h2>
+              )}
 
               <img
                 src={currentPopupData.imgUrl}
@@ -169,7 +154,7 @@ const AddPremiseNextTutorialPop = ({ setOpenAddPremiseNextPop }) => {
             </div>
 
             <div className="flex flex-col items-center gap-[6px] mb-5 w-full">
-              {currentPopup < 3 ? (
+              {currentPopup < 2 ? (
                 <div className="flex items-center justify-around w-full">
                   {
                     <button
@@ -223,4 +208,4 @@ const AddPremiseNextTutorialPop = ({ setOpenAddPremiseNextPop }) => {
   );
 };
 
-export default AddPremiseNextTutorialPop;
+export default PreviewPremiseTutorialPop;

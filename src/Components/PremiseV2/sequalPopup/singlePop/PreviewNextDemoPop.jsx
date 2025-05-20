@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
-import premise_sr_01 from "../../../../img/sr/addPremise/Ss_file/1.png";
+import premise_sr_01 from "../../../../img/sr/addPremise/Ss_file/4 - 1.png";
 
-const AddPremiseTutorialPop = ({ popClose }) => {
+const PreviewNextDemoPop = ({ popClose }) => {
   const [dontShowPop, setDontShowPop] = useState(false);
 
   const handleCheckboxChange = () => {
-    localStorage.setItem("NotShowAddPremise", true);
+    localStorage.setItem("newProjectNextDemoPop", true);
   };
 
   useEffect(() => {
-    if (dontShowPop) localStorage.setItem("NotShowAddPremise", true);
-    else localStorage.setItem("NotShowAddPremise", false);
+    if (dontShowPop) localStorage.setItem("newProjectNextDemoPop", true);
+    else localStorage.setItem("newProjectNextDemoPop", false);
   }, [dontShowPop]);
 
   return (
@@ -45,28 +45,15 @@ const AddPremiseTutorialPop = ({ popClose }) => {
                 <ul className="w-full pl-10 list-disc mt-2">
                   <li className="text-[12px] md:text-[14px]  text-[#252525] leading-4 md:leading-5 ">
                     {" "}
-                    Premise is the{" "}
-                    <span className="font-[600]">Central Idea</span> of the
-                    film.{" "}
+                    Your co-writer Ida has proposed Characters of your film.
                   </li>
                   <li className="text-[12px] md:text-[14px]  text-[#252525] leading-4 md:leading-5 ">
                     {" "}
-                    Premise is stated in less than{" "}
-                    <span className="font-[600]">30 words</span>.
+                    You can <span className="font-[600]">Add</span>,{" "}
+                    <span className="font-[600]">Edit</span> or{" "}
+                    <span className="font-[600]">Delete</span> Characters. 
                   </li>
-                  <li className="text-[12px] md:text-[14px]  text-[#252525] leading-4 md:leading-5 ">
-                    {" "}
-                    Premise starts with{" "}
-                    <span className="font-[600]">"What if..."</span> and creates
-                    a<span className="font-[600]"> hypothetical situation</span>{" "}
-                    in which different aspects of the film e.g. Plot and
-                    Sub'plots, Characters and their Journeys, Scenes, Dialogues
-                    etc. are generated.
-                  </li>
-                  <li className="text-[12px] md:text-[14px]  text-[#252525] leading-4 md:leading-5 ">
-                    {" "}
-                    You can choose the language of your Premise.
-                  </li>
+                 
                 </ul>
 
                 <img
@@ -99,4 +86,4 @@ const AddPremiseTutorialPop = ({ popClose }) => {
   );
 };
 
-export default AddPremiseTutorialPop;
+export default PreviewNextDemoPop;

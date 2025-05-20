@@ -44,6 +44,8 @@ import Popup from "../Popup";
 import { hideUnhidePremise } from "../PreiseUtils";
 import PremisePreviewKeyboard from "./PremisePreviewKeyboard";
 import AddPremiseTutorialPop from "../../PremiseV2/sequalPopup/singlePop/AddPremiseTutorialPop";
+import PreviewPremiseTutorialPop from "../../PremiseV2/sequalPopup/PreviewPremiseTutorialPop";
+import PreviewNextDemoPop from "../../PremiseV2/sequalPopup/singlePop/PreviewNextDemoPop";
 
 const PremisePreview2 = ({
   newText,
@@ -342,6 +344,20 @@ const PremisePreview2 = ({
   // const [mValue, setMValue] = useState(0);
 
   const [natureOfProject, setNatureOfProject] = useState("");
+  const [openPreviewDemoPop, setOpenPreviewDemoPop] = useState(false);
+
+  const handleCreateNewProject = () => {
+    const newProjectDemoP = localStorage.getItem("newProjectDemoPop");
+    if (
+      (!newProjectDemoP || newProjectDemoP === "false") &&
+      !openPreviewDemoPop
+    ) {
+      setOpenPreviewDemoPop(true);
+    }
+    setCreateNewProject(true);
+    setSelectedSpProjectID("");
+  };
+
   const loadingData = [
     "Initializing...",
     "Analyzing Premise...",
@@ -684,11 +700,19 @@ const PremisePreview2 = ({
   }, [protagonist]);
   // console.log("Header", characterArray);
 
+  const [openPreviewNextDemoPop, setOpenPreviewNextDemoPop] = useState(false);
+
   const submitPremise = async (e) => {
     e.preventDefault();
+
     //demo popup
-
-
+    const newProjectNextDemoPop = localStorage.getItem("newProjectNextDemoPop");
+    if (
+      (!newProjectNextDemoPop || newProjectNextDemoPop === "false") &&
+      !openPreviewNextDemoPop
+    ) {
+      setOpenPreviewNextDemoPop(true);
+    }
     // Disable submit button to prevent multiple clicks
     setIsLoading(true);
     setKeyboardVisible(false);
@@ -1758,10 +1782,7 @@ const PremisePreview2 = ({
                       )}
 
                       <div
-                        onClick={() => {
-                          setCreateNewProject(true);
-                          setSelectedSpProjectID("");
-                        }}
+                        onClick={handleCreateNewProject}
                         className={`${
                           filteredSpProjects.length === 0 && "ml-[15px] "
                         } text-[14px] font-[400] text-[#33B0CA] cursor-pointer`}
@@ -2617,7 +2638,7 @@ const PremisePreview2 = ({
                         ref={genreRef}
                         className={`h-[31px] relative col-span-4 ${
                           createNewProject
-                            ? "md:col-span-3 w-[128px] ml-[-10px] md:ml-[4px]"
+                            ? "md:col-span-3 w-[106px] xxs:w-[122px] ml-[-7px] md:ml-[4px]"
                             : "md:col-span-4"
                         } bg-[#fafafa] rounded-[4px] border-[2px] ${
                           generaItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
@@ -2736,7 +2757,7 @@ const PremisePreview2 = ({
                       <div
                         className={`h-[31px] relative col-span-4 ${
                           createNewProject
-                            ? "md:col-span-3 xxs:w-[139px] md:w-[154px] ml-[0px] md:ml-[-13px]"
+                            ? "md:col-span-3 xxs:w-[139px] md:w-[154px] ml-[-14px] md:ml-[-13px]"
                             : "md:col-span-4"
                         } bg-[#fafafa] rounded-[4px] border-[2px] ${
                           subGeneraItem
@@ -3493,7 +3514,16 @@ const PremisePreview2 = ({
             </Draggable>
           )}
         </div>
-      
+        {openPreviewDemoPop && (
+          <PreviewPremiseTutorialPop
+            setOpenPreviewDemoPop={setOpenPreviewDemoPop}
+          />
+        )}
+        {openPreviewNextDemoPop && (
+          <PreviewNextDemoPop
+            popClose={() => setOpenPreviewNextDemoPop(false)}
+          />
+        )}
       </div>
     );
   }
