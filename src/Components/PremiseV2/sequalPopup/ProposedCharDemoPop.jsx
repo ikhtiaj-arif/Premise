@@ -115,7 +115,7 @@ const ProposedCharDemoPop = ({ setOpenProposedCharDemoPop }) => {
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
       <div className="lg:static absolute lg:mt-[50px] bottom-0 bg-white rounded-[12px] w-[100%] lg:w-[643px]">
         <div className="relative rounded-[8px] py-3 md:py-8 bg-[#fff]">
-          <div className="absolute right-[45%] top-[-70px] md:top-[-17px] md:right-[-18px]">
+          <div className="absolute right-[45%] top-[-70px] lg:top-[-17px] lg:right-[-18px]">
             <img
               src={crossIcon}
               onClick={handleClosePopup} // Use the handleClosePopup function here
@@ -141,15 +141,17 @@ const ProposedCharDemoPop = ({ setOpenProposedCharDemoPop }) => {
               {currentPopupData?.multiMessage ? (
                 <ul className="w-full pl-10 list-disc mt-2 pr-2">
                   {currentPopupData?.multiMessage.map((message) => (
-                    <li className="text-[12px] md:text-[14px]  text-[#252525] leading-4 md:leading-5 "  dangerouslySetInnerHTML={{ __html: message }} />
-                    
-                    
+                    <li
+                      className="text-[12px] md:text-[14px]  text-[#252525] leading-4 md:leading-5 "
+                      dangerouslySetInnerHTML={{ __html: message }}
+                    />
                   ))}
                 </ul>
               ) : (
-                <h2 className="text-[12px] md:text-[14px] leading-4 md:leading-5 px-2 font-medium text-[#252525] translate-y-3 text-center" dangerouslySetInnerHTML={{ __html: currentPopupData.message }} />
-                    
-                  
+                <h2
+                  className="text-[12px] md:text-[14px] leading-4 md:leading-5 px-2 font-medium text-[#252525] translate-y-3 text-center"
+                  dangerouslySetInnerHTML={{ __html: currentPopupData.message }}
+                />
               )}
 
               <img

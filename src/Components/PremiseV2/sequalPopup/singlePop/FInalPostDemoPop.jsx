@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
 import premise_sr_01 from "../../../../img/sr/addPremise/Ss_file/7-1-1.webp";
 
@@ -19,7 +19,7 @@ const FInalPostDemoPop = ({ popClose }) => {
       <div className="fixed top-0  left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[3]">
         <div className="lg:static absolute lg:mt-[50px] bottom-0 bg-white rounded-[12px] w-[100%] lg:w-[643px]">
           <div className="relative rounded-[8px] py-3 md:py-8 bg-[#fff] ">
-            <div className="absolute right-[45%] top-[-70px] md:top-[-17px] md:right-[-18px]">
+            <div className="absolute right-[45%] top-[-70px] lg:top-[-17px] lg:right-[-18px]">
               <img
                 src={crossIcon}
                 onClick={() => popClose(false)} // Use the handleClosePopup function here
@@ -44,7 +44,8 @@ const FInalPostDemoPop = ({ popClose }) => {
               <div className="flex flex-col items-center gap-[6px] mb-5 mt-1">
                 <ul className="w-full pl-10 list-disc mt-2">
                   <li className="text-[12px] md:text-[14px]  text-[#252525] leading-4 md:leading-5 ">
-                    Brainstorming with Ida on this Premise will commence in a new pop up.
+                    Brainstorming with Ida on this Premise will commence in a
+                    new pop up.
                   </li>
                 </ul>
 

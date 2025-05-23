@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
 import premise_sr_01 from "../../../../img/sr/addPremise/Ss_file/1.webp";
 
@@ -19,7 +19,7 @@ const AddPremiseTutorialPop = ({ popClose }) => {
       <div className="fixed top-0  left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
         <div className="lg:static absolute lg:mt-[50px] bottom-0 bg-white rounded-[12px] w-[100%] lg:w-[643px]">
           <div className="relative rounded-[8px] py-3 md:py-8 bg-[#fff] ">
-            <div className="absolute right-[45%] top-[-70px] md:top-[-17px] md:right-[-18px]">
+            <div className="absolute right-[45%] top-[-70px] lg:top-[-17px] lg:right-[-18px]">
               <img
                 src={crossIcon}
                 onClick={() => popClose(false)} // Use the handleClosePopup function here

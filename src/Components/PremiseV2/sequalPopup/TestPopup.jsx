@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { MyContext } from "../../../App";
 import crossIcon from "../../../img/Icons/crossIcon.png";
@@ -226,7 +226,7 @@ const TestPopup = () => {
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
       <div className="lg:static absolute lg:mt-[50px] bottom-0 bg-white rounded-[12px] w-[100%] lg:w-[643px]">
         <div className="relative rounded-[8px] py-2 xs:py-8 bg-[#fff]">
-          <div className="absolute right-[45%] top-[-60px] md:top-[-17px] md:right-[-18px]">
+          <div className="absolute right-[45%] top-[-60px] lg:top-[-17px] lg:right-[-18px]">
             <img
               src={crossIcon}
               onClick={handleClosePopup} // Use the handleClosePopup function here

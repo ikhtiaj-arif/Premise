@@ -109,13 +109,13 @@ const AddPremiseNextTutorialPop = ({ setOpenAddPremiseNextPop }) => {
     },
     {
       imgUrl: premise_sr_02,
-      message:
-        "You can add background Image or Color to your Premise card.",
+      message: "You can add background Image or Color to your Premise card.",
       serialNo: 2,
     },
     {
       imgUrl: premise_sr_03,
-      message: "You can associate this Premise with an existing project or a create a new project based on this Premise.",
+      message:
+        "You can associate this Premise with an existing project or a create a new project based on this Premise.",
       serialNo: 3,
     },
   ];
@@ -134,7 +134,7 @@ const AddPremiseNextTutorialPop = ({ setOpenAddPremiseNextPop }) => {
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
       <div className="lg:static absolute lg:mt-[50px] bottom-0 bg-white rounded-[12px] w-[100%] lg:w-[643px]">
         <div className="relative rounded-[8px] py-3 md:py-8 bg-[#fff]">
-          <div className="absolute right-[45%] top-[-70px] md:top-[-17px] md:right-[-18px]">
+          <div className="absolute right-[45%] top-[-70px] lg:top-[-17px] lg:right-[-18px]">
             <img
               src={crossIcon}
               onClick={handleClosePopup} // Use the handleClosePopup function here
