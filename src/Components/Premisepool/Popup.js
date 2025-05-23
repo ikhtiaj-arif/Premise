@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 // import { IoMdSend } from "react-icons/io";
 import {
@@ -35,6 +35,8 @@ import NotifyPopup from "../PremiseV2/Popups/alerts/NotifyPopup";
 import SaleRequestedOwner from "../PremiseV2/Popups/SaleRequestedOwner";
 import TransInOtherLang from "../PremiseV2/Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../PremiseV2/Popups/ViewTranslation.pop";
+import AddBeatTutorialPop from "../PremiseV2/sequalPopup/AddBeatTutorialPop";
+import AfterFinalPostPremisePop from "../PremiseV2/sequalPopup/AfterFinalPostPremisePop";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 import AskIda from "../SharedVersion/AskIda";
@@ -62,6 +64,8 @@ const Popup = ({
   viewText,
   handleVisibility,
   handleMonetizing,
+  afterFinalPostPremiseDemoPop,
+  setAfterFinalPostPremiseDemoPop,
 }) => {
   const {
     bg_img,
@@ -434,6 +438,8 @@ const Popup = ({
 
   // console.log("is_read_only", premiseData?.is_read_only)
 
+  const [addBeatTutorialPop, setAddBeatTutorialPop] = useState(false)
+
   if (isPremiseLoading) {
     return <>Loading...</>;
   } else
@@ -734,6 +740,7 @@ const Popup = ({
                             inpRightMargin={"mr-[47px] md:mr-[88px]"}
                             loading={loading}
                             replyText={replyText}
+                            addBeatTutorialPop={addBeatTutorialPop} setAddBeatTutorialPop={setAddBeatTutorialPop}
                           />
                         </motion.div>
                       ))}
@@ -1013,6 +1020,14 @@ const Popup = ({
               title={`This is currently unavailable for sale as there is a pending sale request from another User. Would you like us to notify you when this becomes available?`}
             />
           )}
+          {afterFinalPostPremiseDemoPop && (
+            <AfterFinalPostPremisePop
+              popClose={() => setAfterFinalPostPremiseDemoPop(false)}
+            />
+          )}
+          {
+            addBeatTutorialPop && <AddBeatTutorialPop popClose={()=> setAddBeatTutorialPop(false)} />
+          }
         </div>
       </div>
     );

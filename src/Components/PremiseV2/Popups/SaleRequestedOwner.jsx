@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { useRejectPurchaseRequestMutation } from "../../../app/EndPoints/Characters/Characters";
 import {
@@ -165,22 +165,39 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
         </div>
         {!showCongratsPopup && (
           <>
-            <div className="mx-auto w-[116px]">
-              <img
-                src={SaleDoodle}
-                alt="premise doodle"
-                className="w-[81.71px] h-[77.45px] ml-[10px] md:ml-[0px]"
-              />
+            <div className="hidden md:block">
+              <div className="mx-auto w-[116px]">
+                <img
+                  src={SaleDoodle}
+                  alt="premise doodle"
+                  className="w-[81.71px] h-[77.45px] ml-[10px] md:ml-[0px]"
+                />
+              </div>
+              <h2 className="font-[700] text-[14px] leading-[19.9px] text-center mt-[18px]">
+                Your Premise Project is Up for Monetizing
+              </h2>
+              <div className="h-[1px] mt-[8px] w-[52%] mx-auto bg-[#a1a1a1]" />
             </div>
-            <h2 className="font-[700] text-[14px] leading-[19.9px] text-center mt-[18px]">
-              Your Premise Project is Up for Monetizing
-            </h2>
-            <div className="h-[1px] mt-[8px] w-[52%] mx-auto bg-[#a1a1a1]" />
+            <div className="md:hidden flex gap-2 justify-start w-3/4">
+              <div className="mx-auto w-[64px]">
+                <img
+                  src={SaleDoodle}
+                  alt="premise doodle"
+                  className="w-[81.71px] h-[77.45px] ml-[10px] md:ml-[0px]"
+                />
+              </div>
+              <div className="w-[75%] mr-auto">
+                <h2 className="font-[700] text-[14px] leading-[19.9px] text-center mt-[18px]">
+                  Your Premise Project is Up for Monetizing
+                </h2>
+                <div className="h-[1px] mt-[8px] w-[82%] mx-auto bg-[#a1a1a1]" />
+              </div>
+            </div>
           </>
         )}
         <div className="overflow-x-hidden overflow-y-auto h-[calc(100%-125px)]">
           {!showBankDetails ? (
-            <div className="md:pr-[12px] mt-[17px] w-full sm:w-[542px] md:ml-[40px]">
+            <div className="md:pr-[12px] mt-2 md:mt-[17px] w-full sm:w-[542px] md:ml-[40px]">
               <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
                 {fromUser?.first_name
                   ? `${fromUser.first_name} ${fromUser?.last_name || ""}`
@@ -198,17 +215,17 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
                   Premise instead of you.
                 </li>
                 <li className="text-left text-[14px] leading-[21px] font-[400] text-[#616161] list-disc">
-                  The buyer will be able to
-                  <ul className="w-[75%] ml-[30px]">
+                  The buyer will be able to:
+                  <ul className="w-[80%] ml-[30px]">
                     <li className="text-left text-[14px] leading-[21px] font-[400] text-[#616161] list-disc">
                       Reset the visibility settings
                     </li>
                     <li className="text-left text-[14px] leading-[21px] font-[400] text-[#616161] list-disc">
-                      Brainstorm further on the Premise and add comment etc to
+                      Brainstorm further on the Premise and add comment etc., to
                       the Beat Sheet.
                     </li>
                     <li className="text-left text-[14px] leading-[21px] font-[400] text-[#616161] list-disc">
-                      Delete it,
+                      Delete it
                     </li>
                     <li className="text-left text-[14px] leading-[21px] font-[400] text-[#616161] list-disc">
                       Post its copies in the Premise Pool in several languages
@@ -220,14 +237,14 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
                 </li>
               </ul>
               <form onSubmit={handleSubmit} className="mt-[10px]">
-                <div className="flex items-center mt-[20px]">
+                <div className="flex items-center mt-2 md:mt-[20px]">
                   <p className="text-[14px] leading-[21px] font-[400] text-[#616161]">
                     If you are willing to transfer the ownership of the Premise
                     Project to the interested buyer, please set a price for the
                     transaction below.
                   </p>
                 </div>
-                <div className="flex items-center gap-[5px] w-[223px] md:w-[150px] ml-[150px] mt-[-20px] md:mt-4 md:mb-2">
+                <div className="flex items-center gap-[5px] w-[153px] md:w-[150px] mx-auto mt-2 md:mt-4 md:mb-2">
                   <p className="text-[14px] leading-[15px] font-[400] text-[#616161]">
                     ${" "}
                   </p>
@@ -240,20 +257,13 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
                     onChange={handleInputChangePrice}
                   />
                 </div>
-                <p className="text-[#616161] text-[13px] italic leading-4">
-                  <span className="text-[17px] text-[#616161] italic">(</span>
-                  Please Note that the price shown to the prospective buyer will
-                  be 1.5 times the price quoted by you.
-                  <span className="text-[17px] text-[#616161] italic">)</span>
+                <p className="text-[#616161] text-[13px] italic leading-4 mt-2">
+                  <span className="text-[17px] text-[#616161] italic"></span>
+                  (Please Note that the price shown to the prospective buyer
+                  will be 1.5 times the price quoted by you.)
+                  <span className="text-[17px] text-[#616161] italic"></span>
                 </p>
-                <div className="flex flex-col md:flex-row-reverse pb-4 items-center gap-[12px] md:w-[377px] mx-auto mt-[20px]">
-                  <button
-                    disabled={rejectLoading}
-                    onClick={handleReject}
-                    className={` text-[#33B0CA] border border-[#33B0CA] bg-[#fafafa] rounded-[8px] whitespace-nowrap leading-[24px] px-[20px] ml-[10px] py-[2px] text-[13px] font-[600]`}
-                  >
-                    Reject Request
-                  </button>
+                <div className="flex flex-col md:flex-row pb-4 items-center gap-[12px] w-[100%] md:w-[377px] mx-auto mt-[20px]">
                   <button
                     type="submit"
                     disabled={!sellingPr || isUpdateLoading}
@@ -261,9 +271,16 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
                       !sellingPr || isUpdateLoading
                         ? "bg-[#ACDDE7]"
                         : "bg-[#33B0CA] "
-                    } text-[#fafafa] rounded-[8px] whitespace-nowrap leading-[24px] px-[20px] ml-[10px] py-[2px] text-[13px] font-[600]`}
+                    } text-[#fafafa] ml-2 rounded-[4px] whitespace-nowrap leading-[24px] w-[80%]  px-[20px]  py-[2px] text-[13px] font-[600]`}
                   >
                     Submit Details of bank account
+                  </button>
+                  <button
+                    disabled={rejectLoading}
+                    onClick={handleReject}
+                    className={` text-[#33B0CA] border border-[#33B0CA] bg-[#fafafa] rounded-[4px] whitespace-nowrap leading-[24px] w-[80%] px-[20px] ml-[10px] py-[2px] text-[13px] font-[600]`}
+                  >
+                    Reject Request
                   </button>
                 </div>
               </form>

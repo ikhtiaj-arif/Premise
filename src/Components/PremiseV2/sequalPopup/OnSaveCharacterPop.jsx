@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import crossIcon from "../../../img/Icons/crossIcon.png";
-import premise_sr_01 from "../../../img/sr/addPremise/Ss_file/3 -1.webp";
-import premise_sr_02 from "../../../img/sr/addPremise/Ss_file/3 -2.webp";
+import premise_sr_01 from "../../../img/sr/addPremise/Ss_file/7-1.webp";
+import premise_sr_02 from "../../../img/sr/addPremise/Ss_file/7-1-1.webp";
 
-const PreviewPremiseTutorialPop = ({ popClose }) => {
+const OnSaveCharacterPop = ({ popClose }) => {
   const [dontShowPop, setDontShowPop] = useState(false);
 
   useEffect(() => {
-    if (dontShowPop) localStorage.setItem("newProjectDemoPop", true);
-    else localStorage.setItem("newProjectDemoPop", false);
+    if (dontShowPop) localStorage.setItem("onSavedCharacterDemoPop", true);
+    else localStorage.setItem("onSavedCharacterDemoPop", false);
   }, [dontShowPop]);
 
   console.log(dontShowPop);
@@ -22,11 +22,11 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   //     decrementPopup,
   //   } = useContext(MyContext);
   const [currentPopup, setCurrentPopup] = useState(1); // Default to popup 1
-  const totalPopups = 3;
+  const totalPopups = 3
 
   useEffect(() => {
     const savedPopupNumber = parseInt(
-      localStorage.getItem("previewNextPop"),
+      localStorage.getItem("onSavedCharacterPopNo"),
       2
     );
 
@@ -39,7 +39,7 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   const incrementPopup = () => {
     const nextPopup = currentPopup + 1;
     if (nextPopup <= totalPopups) {
-      localStorage.setItem("previewNextPop", nextPopup); // Store next popup number
+      localStorage.setItem("onSavedCharacterPopNo", nextPopup); // Store next popup number
       setCurrentPopup(nextPopup); // Update state
     }
   };
@@ -47,7 +47,7 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
     const nextPopup = currentPopup - 1;
     if (nextPopup >= 1) {
       // Ensure the popup number doesn't go below 1
-      localStorage.setItem("previewNextPop", nextPopup); // Store next popup number
+      localStorage.setItem("onSavedCharacterPopNo", nextPopup); // Store next popup number
       setCurrentPopup(nextPopup); // Update state
     }
   };
@@ -72,7 +72,7 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
     if (isChecked) {
       incrementPopup();
     }
-    popClose(false); // Close the popup in both cases
+    popClose() // Close the popup in both cases
   };
 
   // Popup data array
@@ -80,17 +80,12 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   const popupData = [
     {
       imgUrl: premise_sr_01,
-      message: "You can open Virtual Keyboard of the language of the Premise.",
+      message: " Your Premise will be visible in the Premise Pool. ",
       serialNo: 1,
     },
     {
       imgUrl: premise_sr_02,
-      message: "",
-
-      multiMessage: [
-        "You can create a New Genre.",
-        "For a genre only relevant  sub genre options are listed in dropdown.",
-      ],
+      message: "Brainstorming with Ida on this Premise will commence in a new pop up.",
       serialNo: 2,
     },
   ];
@@ -208,4 +203,4 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   );
 };
 
-export default PreviewPremiseTutorialPop;
+export default OnSaveCharacterPop;

@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import {
   FaBold,
@@ -35,6 +35,10 @@ import "../../../Components/Premisepool/Premise.css";
 import fillIcon from "../../../img/Icons/fillicon.png";
 import bgIcon from "../../../img/Icons/setBgIcn.png";
 import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
+import OnSaveCharacterPop from "../../PremiseV2/sequalPopup/OnSaveCharacterPop";
+import PreviewPremiseTutorialPop from "../../PremiseV2/sequalPopup/PreviewPremiseTutorialPop";
+import ProposedCharDemoPop from "../../PremiseV2/sequalPopup/ProposedCharDemoPop";
+import PreviewNextDemoPop from "../../PremiseV2/sequalPopup/singlePop/PreviewNextDemoPop";
 import TypingLoader from "../../TypingLoader";
 import { baseURL } from "../../utils";
 import CharacterEditablePop from "../Character/CharacterEditablePop";
@@ -43,9 +47,6 @@ import LanguageSelector from "../LanguageSelector";
 import Popup from "../Popup";
 import { hideUnhidePremise } from "../PreiseUtils";
 import PremisePreviewKeyboard from "./PremisePreviewKeyboard";
-import AddPremiseTutorialPop from "../../PremiseV2/sequalPopup/singlePop/AddPremiseTutorialPop";
-import PreviewPremiseTutorialPop from "../../PremiseV2/sequalPopup/PreviewPremiseTutorialPop";
-import PreviewNextDemoPop from "../../PremiseV2/sequalPopup/singlePop/PreviewNextDemoPop";
 
 const PremisePreview2 = ({
   newText,
@@ -438,7 +439,7 @@ const PremisePreview2 = ({
   // const [characters, setCharacters] = useState(characterArray);
 
   const [language, setLanguage] = useState("");
-  // console.log("language", language);
+  console.log("language", language);
   const handleNatureOfProjectChange = (e) => {
     const selectedProject = e.target.value;
     setNatureOfProject(selectedProject);
@@ -460,6 +461,21 @@ const PremisePreview2 = ({
   const filteredSpProjects = filteredSpProjectsUnsorted?.sort((a, b) => {
     return new Date(b.updated_on) - new Date(a.updated_on);
   });
+  const languageOptions = Object.entries(sortedLanguages).map(
+    ([key, name]) => ({
+      value: key,
+      label: name,
+    })
+  );
+
+  useEffect(() => {
+    const languageKey =
+      languageOptions.find((option) => option.label === premiseLanguage) ||
+      null;
+      console.log("languageKey", languageKey);
+    setSelectedSpProjectLanguage(languageKey.value);
+    setLanguage(languageKey.value)
+  }, [premiseLanguage]);
 
   useEffect(() => {
     const handleBeforeUnload = (event) => {
@@ -705,6 +721,10 @@ const PremisePreview2 = ({
   const submitPremise = async (e) => {
     e.preventDefault();
 
+      const languageKey =
+      languageOptions.find((option) => option.label === premiseLanguage) ||
+      null;
+      
     //demo popup
     const newProjectNextDemoPop = localStorage.getItem("newProjectNextDemoPop");
     if (
@@ -728,7 +748,7 @@ const PremisePreview2 = ({
       };
       const subText = `${JSON.stringify(styling)} + ${text}`;
       formData.append("created_from", "premisePool");
-      formData.append("source_language", language);
+      formData.append("source_language", languageKey.value);
       formData.append("text", subText);
 
       if (file) {
@@ -789,7 +809,7 @@ const PremisePreview2 = ({
 
       const data = {
         name: spProjectName,
-        language: language,
+        language:  languageKey.value,
         ownername: authorName,
         nature_project: natureOfProject,
         duration: duration,
@@ -1225,7 +1245,19 @@ const PremisePreview2 = ({
   const [finalSubmitLoading, setFinalSubmitLoading] = useState(false);
   const [characterLoading, setCharacterLoading] = useState(false);
 
+  const [openOnSaveCharactersDemoPop, setOpenOnSaveCharactersDemoPop] =
+    useState(false);
   const handleUpdateSavedChar = async () => {
+    const newProposedCharDemoPop = localStorage.getItem(
+      "onSavedCharacterDemoPop"
+    );
+    if (
+      (!newProposedCharDemoPop || newProposedCharDemoPop === "false") &&
+      !openOnSaveCharactersDemoPop
+    ) {
+      setOpenOnSaveCharactersDemoPop(true);
+    }
+
     setCharacterLoading(true);
     try {
       characterArray.forEach((character) => {
@@ -1258,6 +1290,9 @@ const PremisePreview2 = ({
     }
   };
 
+  const [finalPostPremiseDemoPop, setFinalPostPremiseDemoPop] = useState(false);
+  const [afterFinalPostPremiseDemoPop, setAfterFinalPostPremiseDemoPop] =
+    useState(false);
   const handlePremisePostToGetComments = async () => {
     setFinalSubmitLoading(true);
     try {
@@ -1283,9 +1318,26 @@ const PremisePreview2 = ({
           }
           if (response) {
             // console.log(response);
+            const finalPostDemoPop = localStorage.getItem("finalPostDemoPop");
+            if (
+              (!finalPostDemoPop || finalPostDemoPop === "false") &&
+              !finalPostPremiseDemoPop
+            ) {
+              setFinalPostPremiseDemoPop(true);
+            }
             setOpenPop(true);
             setFinalSubmitLoading(false);
             setSelectedSpProjectID("");
+            const afterFinalPopDemo = localStorage.getItem(
+              "afterFinalPostPremise"
+            );
+            if (
+              (!afterFinalPopDemo || afterFinalPopDemo === "false") &&
+              !finalPostPremiseDemoPop
+            ) {
+              setAfterFinalPostPremiseDemoPop(true);
+            }
+
             // refetch();
           } else {
             throw new Error("Failed to post premise with characters");
@@ -1332,12 +1384,7 @@ const PremisePreview2 = ({
       label: project.name,
     }));
 
-  const languageOptions = Object.entries(sortedLanguages).map(
-    ([key, name]) => ({
-      value: key,
-      label: name,
-    })
-  );
+
 
   const customTheme = (theme) => ({
     ...theme,
@@ -1346,6 +1393,21 @@ const PremisePreview2 = ({
       controlHeight: 30, // Adjust this value as needed
     },
   });
+
+  //!
+
+  const [openProposedCharDemoPop, setOpenProposedCharDemoPop] = useState(false);
+  const handleEditProposedCharacters = () => {
+    const newProposedCharDemoPop = localStorage.getItem("proposedCharDemoPop");
+    if (
+      (!newProposedCharDemoPop || newProposedCharDemoPop === "false") &&
+      !openProposedCharDemoPop
+    ) {
+      setOpenProposedCharDemoPop(true);
+    }
+
+    setCharacterEditPop(true);
+  };
 
   if (isLoading) {
     return (
@@ -2033,27 +2095,29 @@ const PremisePreview2 = ({
                   >
                     <div
                       ref={languageRef}
-                      className={`h-[31px] relative bg-[#fafafa] rounded-[4px] border-[2px] ${
-                        language ? "border-[#33B0CA]" : "border-[#EAEAEA]"
-                      }`}
+                      className={`h-[31px] relative bg-[#fafafa] rounded-[4px] border-[2px] border-[#33B0CA] 
+                      
+                      `}
                     >
                       <Select
-                        options={languageOptions}
-                        value={
-                          languageOptions.find(
-                            (option) => option.value === language
-                          ) || null
-                        }
-                        onChange={(selectedOption) => {
-                          if (selectedOption) {
-                            setLanguage(selectedOption.value);
-                            setSelectedSpProjectLanguage(selectedOption.value);
-                          }
-                          setIsLanguageOpen(false);
-                        }}
-                        onMenuOpen={() => setIsLanguageOpen(true)}
-                        onMenuClose={() => setIsLanguageOpen(false)}
-                        placeholder="Language"
+                        isDisabled={premiseLanguage}
+                        // options={languageOptions}
+                        // value={
+                        //   languageOptions.find(
+                        //     (option) => option.value === language
+                        //   ) || null
+                        // }
+                        placeholder={premiseLanguage}
+                        // onChange={(selectedOption) => {
+                        //   if (selectedOption) {
+                        //     setLanguage(selectedOption.value);
+                        //     setSelectedSpProjectLanguage(selectedOption.value);
+                        //   }
+                        //   setIsLanguageOpen(false);
+                        // }}
+                        // onMenuOpen={() => setIsLanguageOpen(true)}
+                        // onMenuClose={() => setIsLanguageOpen(false)}
+                        // placeholder="Language"
                         theme={customTheme}
                         menuPortalTarget={document.body} // Render menu to document.body
                         menuPosition="fixed" // Use fixed positioning
@@ -2136,13 +2200,7 @@ const PremisePreview2 = ({
                         classNamePrefix="custom-select"
                       />
 
-                      <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
-                        {isLanguageOpen ? (
-                          <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
-                        ) : (
-                          <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
-                        )}
-                      </div>
+                   
                     </div>
                     {/* <div
                       ref={languageRef}
@@ -2638,7 +2696,7 @@ const PremisePreview2 = ({
                         ref={genreRef}
                         className={`h-[31px] relative col-span-4 ${
                           createNewProject
-                            ? "md:col-span-3 w-[106px] xxs:w-[122px] ml-[-7px] md:ml-[4px]"
+                            ? "md:col-span-3 w-[106px] xxs:w-[122px] md:w-[130px] ml-[-7px] md:ml-[4px]"
                             : "md:col-span-4"
                         } bg-[#fafafa] rounded-[4px] border-[2px] ${
                           generaItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
@@ -3388,7 +3446,7 @@ const PremisePreview2 = ({
                 >
                   {!charSaveDisable && (
                     <div
-                      onClick={() => setCharacterEditPop(true)}
+                      onClick={handleEditProposedCharacters}
                       className={`position-relative text-[#33B0CA]  cursor-pointer mr-[12px]  h-[32px] px-[10px] text-[14px] font-[500] border border-[#fafafa] border-b-[#33B0CA]
                   `}
                     >
@@ -3447,6 +3505,8 @@ const PremisePreview2 = ({
             // project_id1={createdSpProjectID}
             isOldProject={isOldProject}
             // source_language={premiseData?.source_language}
+            openOnSaveCharactersDemoPop={openOnSaveCharactersDemoPop}
+            setOpenOnSaveCharactersDemoPop={setOpenOnSaveCharactersDemoPop}
           />
         )}
 
@@ -3462,6 +3522,8 @@ const PremisePreview2 = ({
             projectRefetch={projectRefetch}
             actOneThreshold={actOneThreshold}
             actTwoEnd={actTwoEnd}
+            afterFinalPostPremiseDemoPop={afterFinalPostPremiseDemoPop}
+            setAfterFinalPostPremiseDemoPop={setAfterFinalPostPremiseDemoPop}
           />
         )}
 
@@ -3516,12 +3578,27 @@ const PremisePreview2 = ({
         </div>
         {openPreviewDemoPop && (
           <PreviewPremiseTutorialPop
-            setOpenPreviewDemoPop={setOpenPreviewDemoPop}
+            popClose={() =>setOpenPreviewDemoPop(false)}
           />
         )}
         {openPreviewNextDemoPop && (
           <PreviewNextDemoPop
             popClose={() => setOpenPreviewNextDemoPop(false)}
+          />
+        )}
+        {openProposedCharDemoPop && (
+          <ProposedCharDemoPop
+            setOpenProposedCharDemoPop={setOpenProposedCharDemoPop}
+          />
+        )}
+        {/* {finalPostPremiseDemoPop && (
+          <finalPostPremiseDemoPop
+            popClose={() => setFinalPostPremiseDemoPop(false)}
+          />
+        )} */}
+        {openOnSaveCharactersDemoPop && (
+          <OnSaveCharacterPop
+            popClose={() => setOpenOnSaveCharactersDemoPop(false)}
           />
         )}
       </div>

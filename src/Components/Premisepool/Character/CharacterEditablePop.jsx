@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { fetchUserAccess, MyContext } from "../../../App";
@@ -6,12 +6,14 @@ import {
   useDeleteCharacterMutation,
   useGetSavedCharactersQuery,
 } from "../../../app/EndPoints/Characters/Characters";
+import AddCharDemoPop from "../../PremiseV2/sequalPopup/singlePop/AddCharDemoPop";
 import { getTextFromValue } from "../../PremiseV2/utilityFuncitons/functions";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import ConfirmationModal from "../Comments/ConfirmationModal";
 import CharacterShowCard from "./Card";
 import SingleCharacterAdd from "./SingleCharacterAdd";
 import SingleCharacterEdit from "./SingleCharacterEdit";
+import OnSaveCharacterPop from "../../PremiseV2/sequalPopup/OnSaveCharacterPop";
 
 const CharacterEditablePop = ({
   setCharacterEditPop,
@@ -26,6 +28,8 @@ const CharacterEditablePop = ({
   project_id,
   source_language,
   isOldProject,
+  openOnSaveCharactersDemoPop,
+  setOpenOnSaveCharactersDemoPop,
 }) => {
   const [modifiedCharacters, setModifiedCharacters] = useState([]);
 
@@ -196,9 +200,18 @@ const CharacterEditablePop = ({
     }
   };
 
+  const [openAddCharDemoPop, setOpenAddCharDemoPop] = useState(false);
+
   const handleAddNewChar = async () => {
+    const addCharDemoPop = localStorage.getItem("addNewCharDemoPop");
+    if (
+      (!addCharDemoPop || addCharDemoPop === "false") &&
+      !openAddCharDemoPop
+    ) {
+      setOpenAddCharDemoPop(true);
+    }
     const res = await fetchUserAccess(`${currentUser?.id}/PP_AddCharacters`);
-    console.log("add char res", res);
+
     if (res?.access === "No") {
       setAddNewCharacter(res);
     } else {
@@ -209,7 +222,7 @@ const CharacterEditablePop = ({
   console.log("onlyAdd", onlyAdd);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
+    <div className="fixed inset-0 flex items-center justify-center z-[2]">
       <div className="fixed inset-0 bg-black opacity-50"></div>
       <div className="relative bg-[#fafafa] py-8  rounded-lg shadow-lg w-full lg:w-[950px] h-[89vh] lg:h-[500px] mt-[85px] ">
         <button
@@ -323,17 +336,31 @@ const CharacterEditablePop = ({
               <FaPlus /> <span>Add Character</span>
             </button>
           )}
-          <button
-            disabled={!saveCheckUser || characterLoading}
-            onClick={() => {
-              handleUpdateSavedChar();
-            }}
-            className={`${
-              saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
-            } text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
-          >
-            Save
-          </button>
+          {!onlyAdd ? (
+            <button
+              disabled={!saveCheckUser || characterLoading}
+              onClick={() => {
+                handleUpdateSavedChar();
+              }}
+              className={`${
+                saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
+              } text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
+            >
+              Save
+            </button>
+          ) : (
+            <button
+              disabled={characterLoading}
+              onClick={() => {
+                handleUpdateSavedChar();
+              }}
+              className={`${
+                !characterLoading ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
+              } text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
+            >
+              Save
+            </button>
+          )}
         </div>
       </div>
       <div>
@@ -374,6 +401,10 @@ const CharacterEditablePop = ({
           onConfirm={() => handleDeleteCharacter(deleteIdx)}
           title={`Are you sure you want to Delete this Character?`}
         />
+      )}
+
+      {openAddCharDemoPop && (
+        <AddCharDemoPop popClose={() => setOpenAddCharDemoPop(false)} />
       )}
     </div>
   );

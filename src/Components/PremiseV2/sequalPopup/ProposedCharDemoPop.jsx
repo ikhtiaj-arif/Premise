@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import crossIcon from "../../../img/Icons/crossIcon.png";
-import premise_sr_01 from "../../../img/sr/addPremise/Ss_file/3 -1.webp";
-import premise_sr_02 from "../../../img/sr/addPremise/Ss_file/3 -2.webp";
+import premise_sr_01 from "../../../img/sr/addPremise/Ss_file/5-1.webp";
+import premise_sr_02 from "../../../img/sr/addPremise/Ss_file/5-2.webp";
+import premise_sr_03 from "../../../img/sr/addPremise/Ss_file/5-3.webp";
 
-const PreviewPremiseTutorialPop = ({ popClose }) => {
+const ProposedCharDemoPop = ({ setOpenProposedCharDemoPop }) => {
   const [dontShowPop, setDontShowPop] = useState(false);
 
   useEffect(() => {
-    if (dontShowPop) localStorage.setItem("newProjectDemoPop", true);
-    else localStorage.setItem("newProjectDemoPop", false);
+    if (dontShowPop) localStorage.setItem("proposedCharDemoPop", true);
+    else localStorage.setItem("proposedCharDemoPop", false);
   }, [dontShowPop]);
 
   console.log(dontShowPop);
@@ -22,11 +23,11 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   //     decrementPopup,
   //   } = useContext(MyContext);
   const [currentPopup, setCurrentPopup] = useState(1); // Default to popup 1
-  const totalPopups = 3;
+  const totalPopups = 4;
 
   useEffect(() => {
     const savedPopupNumber = parseInt(
-      localStorage.getItem("previewNextPop"),
+      localStorage.getItem("proposedCharPopNo"),
       2
     );
 
@@ -39,7 +40,7 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   const incrementPopup = () => {
     const nextPopup = currentPopup + 1;
     if (nextPopup <= totalPopups) {
-      localStorage.setItem("previewNextPop", nextPopup); // Store next popup number
+      localStorage.setItem("proposedCharPopNo", nextPopup); // Store next popup number
       setCurrentPopup(nextPopup); // Update state
     }
   };
@@ -47,7 +48,7 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
     const nextPopup = currentPopup - 1;
     if (nextPopup >= 1) {
       // Ensure the popup number doesn't go below 1
-      localStorage.setItem("previewNextPop", nextPopup); // Store next popup number
+      localStorage.setItem("proposedCharPopNo", nextPopup); // Store next popup number
       setCurrentPopup(nextPopup); // Update state
     }
   };
@@ -69,10 +70,10 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   };
 
   const handleClosePopup = () => {
-    if (isChecked) {
-      incrementPopup();
-    }
-    popClose(false); // Close the popup in both cases
+    // if (isChecked) {
+    //   incrementPopup();
+    // }
+    setOpenProposedCharDemoPop(false); // Close the popup in both cases
   };
 
   // Popup data array
@@ -80,18 +81,23 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   const popupData = [
     {
       imgUrl: premise_sr_01,
-      message: "You can open Virtual Keyboard of the language of the Premise.",
+      message: "",
+
+      multiMessage: [
+        "Ida has described every character's Role, Name, Gender, Age, Occupation, Background, Personality, Individual want, Journey through the film, Blood relationship, Family relationship, Professional relationship.",
+        "You can <strong>View</strong> and <strong>Edit</strong> the above details including Name.",
+      ],
       serialNo: 1,
     },
     {
       imgUrl: premise_sr_02,
-      message: "",
-
-      multiMessage: [
-        "You can create a New Genre.",
-        "For a genre only relevant  sub genre options are listed in dropdown.",
-      ],
+      message: "You can <strong>Delete</strong> a proposed character.",
       serialNo: 2,
+    },
+    {
+      imgUrl: premise_sr_03,
+      message: "You can <strong>Add a New Character</strong>.",
+      serialNo: 3,
     },
   ];
 
@@ -135,15 +141,15 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
               {currentPopupData?.multiMessage ? (
                 <ul className="w-full pl-10 list-disc mt-2 pr-2">
                   {currentPopupData?.multiMessage.map((message) => (
-                    <li className="text-[12px] md:text-[14px]  text-[#252525] leading-4 md:leading-5 ">
-                      {message}
-                    </li>
+                    <li className="text-[12px] md:text-[14px]  text-[#252525] leading-4 md:leading-5 "  dangerouslySetInnerHTML={{ __html: message }} />
+                    
+                    
                   ))}
                 </ul>
               ) : (
-                <h2 className="text-[12px] md:text-[14px] leading-4 md:leading-5 px-2 font-medium text-[#252525] translate-y-3 text-center">
-                  {currentPopupData.message}
-                </h2>
+                <h2 className="text-[12px] md:text-[14px] leading-4 md:leading-5 px-2 font-medium text-[#252525] translate-y-3 text-center" dangerouslySetInnerHTML={{ __html: currentPopupData.message }} />
+                    
+                  
               )}
 
               <img
@@ -154,7 +160,7 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
             </div>
 
             <div className="flex flex-col items-center gap-[6px] mb-5 w-full">
-              {currentPopup < 2 ? (
+              {currentPopup < 3 ? (
                 <div className="flex items-center justify-around w-full">
                   {
                     <button
@@ -208,4 +214,4 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   );
 };
 
-export default PreviewPremiseTutorialPop;
+export default ProposedCharDemoPop;

@@ -63,8 +63,12 @@ const AllComments = ({
   focusedCValue,
   iconWidth,
   inpRightMargin,
-  loading,replyText,
-  commentField, setCommentField
+  loading,
+  replyText,
+  commentField,
+  setCommentField,
+  addBeatTutorialPop,
+  setAddBeatTutorialPop,
 }) => {
   // const actTwoStart = Math.floor(0.25 * m_value);
 
@@ -346,6 +350,13 @@ const AllComments = ({
   const [addToBeatDisable, setAddToBeatDisable] = useState(false);
   // console.log("comments",comments);
   const handleAddToBeat = async (comment) => {
+    const addBeatTutorialCheck  = localStorage.getItem("addBeatTutorialPop")
+     if (
+      (!addBeatTutorialCheck || addBeatTutorialCheck === "false") &&
+      !addBeatTutorialPop
+    ) {
+      setAddBeatTutorialPop(true)
+    }
     const res = await fetchUserAccess(`${currentUser?.id}/PP_BeatSheet`);
     // console.log("add to beat res", res);
     if (res?.access === "No") {

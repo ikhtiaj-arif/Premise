@@ -1,19 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
 import { MdKeyboardBackspace } from "react-icons/md";
 import arrowRight from "../../../img/Icons/ArrowRicon.png";
 import crossIcon from "../../../img/Icons/crossIcon.png";
+import AddPremiseNextTutorialPop from "../../PremiseV2/sequalPopup/AddPremiseNextTutorialPop";
 import AddPremiseTutorialPop from "../../PremiseV2/sequalPopup/singlePop/AddPremiseTutorialPop";
 import Keyboard from "../Keyboard";
 import LanguageSelector from "../LanguageSelector";
 import "../Premise.css";
 import { getWhatIfPhrase } from "./ConvertWhat";
 import PremisePreview2 from "./PremisePreview2";
-import AddPremiseNextTutorialPop from "../../PremiseV2/sequalPopup/AddPremiseNextTutorialPop";
 
-const AddPremise2 = ({ setAddPopup, data, refetch,checkedAddPremise,setCheckedAddPremise }) => {
-
+const AddPremise2 = ({
+  setAddPopup,
+  data,
+  refetch,
+  checkedAddPremise,
+  setCheckedAddPremise,
+}) => {
   const [preview, setPreview] = useState(false);
   const [newText, setNewText] = useState("");
   const [text, setText] = useState(data?.dText);
@@ -44,7 +49,6 @@ const AddPremise2 = ({ setAddPopup, data, refetch,checkedAddPremise,setCheckedAd
   }, [text]);
   const [openAddPremiseNextPop, setOpenAddPremiseNextPop] = useState(false);
   const handleSubmit = (event) => {
-
     event.preventDefault();
     const notOpenNextClickDemoPop = localStorage.getItem(
       "notOpenNextClickDemoPop"
@@ -76,7 +80,7 @@ const AddPremise2 = ({ setAddPopup, data, refetch,checkedAddPremise,setCheckedAd
     let value = event.target.value;
 
     // Replace multiple spaces between words with a single space
-    value = value.replace(/\s{2,}/g, ' ');
+    value = value.replace(/\s{2,}/g, " ");
 
     setText(value); // Update the state with the sanitized value
   };
@@ -188,6 +192,25 @@ const AddPremise2 = ({ setAddPopup, data, refetch,checkedAddPremise,setCheckedAd
                       />
                     </div>
                   </div>
+                  <div className="bg-[#FAFAFA] my-1 h-[38px] md:h-[32px] xl:h-[38px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-[8px] lg:hidden flex items-center mx-[28px] ">
+                    <div className="flex justify-end gap-3  w-full ">
+                      {/* <FaKeyboard
+                        data-te-toggle="tooltip"
+                        title={`${
+                          !keyboardVisible ? "View Keyboard" : "Hide Keyboard"
+                        }`}
+                        className={`w-7 h-7 ${
+                          keyboardVisible && "text-[#33B0CA]"
+                        } cursor-pointer hover:text-[#33B0CA]`}
+                        onClick={onClickKeyboard}
+                      /> */}
+                      <LanguageSelector
+                        setSelectedLanguage={setSelectedLanguage}
+                        selectedLanguage={selectedLanguage}
+                        setKeyboardVisible={setKeyboardVisible}
+                      />
+                    </div>
+                  </div>
                   <div className="mx-[28px]">
                     <p className="font-[400] leading-[21px] text-[#252525] text-[14px] pt-[4px] pb-[3.5px]">
                       {getWhatIfPhrase(selectedLanguage)}
@@ -257,7 +280,7 @@ const AddPremise2 = ({ setAddPopup, data, refetch,checkedAddPremise,setCheckedAd
                 <div>
                   {selectedLanguage && keyboardVisible && (
                     <Draggable handle=".movable-handle">
-                      <div className="absolute z-20 w-[650px] top-[194px] right-[-85px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
+                      <div className="absolute z-20 w-[650px] top-[194px] right-[-85px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded  hidden lg:block">
                         <div className="grid grid-cols-12">
                           <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
                             Drag me!!{" "}
@@ -268,10 +291,10 @@ const AddPremise2 = ({ setAddPopup, data, refetch,checkedAddPremise,setCheckedAd
                           </div>
                           <div className="flex justify-center items-center w-full h-full cursor-pointer">
                             <button
-                                onClick={() => {
-                                  setKeyboardVisible(false)
-                                  // setSelectedLanguage('')
-                                }}
+                              onClick={() => {
+                                setKeyboardVisible(false);
+                                // setSelectedLanguage('')
+                              }}
                               className="font-bold w-full h-full"
                             >
                               ✕
@@ -295,12 +318,14 @@ const AddPremise2 = ({ setAddPopup, data, refetch,checkedAddPremise,setCheckedAd
           </div>
         </div>
       </div>
-      {
-        checkedAddPremise && <AddPremiseTutorialPop popClose={setCheckedAddPremise} />
-      }
-        {openAddPremiseNextPop && (
-          <AddPremiseNextTutorialPop setOpenAddPremiseNextPop={setOpenAddPremiseNextPop} />
-        )}
+      {checkedAddPremise && (
+        <AddPremiseTutorialPop popClose={setCheckedAddPremise} />
+      )}
+      {openAddPremiseNextPop && (
+        <AddPremiseNextTutorialPop
+          setOpenAddPremiseNextPop={setOpenAddPremiseNextPop}
+        />
+      )}
     </div>
   );
 };

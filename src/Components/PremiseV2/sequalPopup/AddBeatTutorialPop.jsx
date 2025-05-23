@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import crossIcon from "../../../img/Icons/crossIcon.png";
-import premise_sr_01 from "../../../img/sr/addPremise/Ss_file/3 -1.webp";
-import premise_sr_02 from "../../../img/sr/addPremise/Ss_file/3 -2.webp";
+import premise_sr_01 from "../../../img/sr/addPremise/Ss_file/13 - 1.webp";
+import premise_sr_02 from "../../../img/sr/addPremise/Ss_file/13 - 2.webp";
 
-const PreviewPremiseTutorialPop = ({ popClose }) => {
+const AddBeatTutorialPop = ({ popClose }) => {
   const [dontShowPop, setDontShowPop] = useState(false);
 
   useEffect(() => {
-    if (dontShowPop) localStorage.setItem("newProjectDemoPop", true);
-    else localStorage.setItem("newProjectDemoPop", false);
+    if (dontShowPop) localStorage.setItem("addBeatTutorialPop", true);
+    else localStorage.setItem("addBeatTutorialPop", false);
   }, [dontShowPop]);
 
   console.log(dontShowPop);
@@ -22,11 +22,11 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   //     decrementPopup,
   //   } = useContext(MyContext);
   const [currentPopup, setCurrentPopup] = useState(1); // Default to popup 1
-  const totalPopups = 3;
+  const totalPopups = 2;
 
   useEffect(() => {
     const savedPopupNumber = parseInt(
-      localStorage.getItem("previewNextPop"),
+      localStorage.getItem("addBeatTutorialPopNo"),
       2
     );
 
@@ -39,7 +39,7 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   const incrementPopup = () => {
     const nextPopup = currentPopup + 1;
     if (nextPopup <= totalPopups) {
-      localStorage.setItem("previewNextPop", nextPopup); // Store next popup number
+      localStorage.setItem("addBeatTutorialPopNo", nextPopup); // Store next popup number
       setCurrentPopup(nextPopup); // Update state
     }
   };
@@ -47,7 +47,7 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
     const nextPopup = currentPopup - 1;
     if (nextPopup >= 1) {
       // Ensure the popup number doesn't go below 1
-      localStorage.setItem("previewNextPop", nextPopup); // Store next popup number
+      localStorage.setItem("addBeatTutorialPopNo", nextPopup); // Store next popup number
       setCurrentPopup(nextPopup); // Update state
     }
   };
@@ -72,7 +72,7 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
     if (isChecked) {
       incrementPopup();
     }
-    popClose(false); // Close the popup in both cases
+    popClose(); // Close the popup in both cases
   };
 
   // Popup data array
@@ -80,17 +80,14 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   const popupData = [
     {
       imgUrl: premise_sr_01,
-      message: "You can open Virtual Keyboard of the language of the Premise.",
+      message:
+        "In addition to selected Brainstorm, Ida suggests 3 more alternatives beats. You can choose and edit any one before adding it to beat sheet.",
       serialNo: 1,
     },
     {
       imgUrl: premise_sr_02,
-      message: "",
-
-      multiMessage: [
-        "You can create a New Genre.",
-        "For a genre only relevant  sub genre options are listed in dropdown.",
-      ],
+      message:
+        "You can translate and edit the chosen beat in available languages before adding it to beat sheet.",
       serialNo: 2,
     },
   ];
@@ -132,19 +129,9 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
             </div>
 
             <div className="flex flex-col items-center gap-[6px] mb-5 mt-1">
-              {currentPopupData?.multiMessage ? (
-                <ul className="w-full pl-10 list-disc mt-2 pr-2">
-                  {currentPopupData?.multiMessage.map((message) => (
-                    <li className="text-[12px] md:text-[14px]  text-[#252525] leading-4 md:leading-5 ">
-                      {message}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <h2 className="text-[12px] md:text-[14px] leading-4 md:leading-5 px-2 font-medium text-[#252525] translate-y-3 text-center">
-                  {currentPopupData.message}
-                </h2>
-              )}
+              <h2 className="text-[12px] md:text-[14px] leading-4 md:leading-5 px-2 font-medium text-[#252525] translate-y-3 text-center">
+                {currentPopupData.message}
+              </h2>
 
               <img
                 src={currentPopupData.imgUrl}
@@ -208,4 +195,4 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   );
 };
 
-export default PreviewPremiseTutorialPop;
+export default AddBeatTutorialPop;

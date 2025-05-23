@@ -304,7 +304,7 @@ const SingleCharacterAdd = ({
   const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 ">
+    <div className="fixed inset-0 flex items-center justify-center z-[2] ">
       <div className="fixed inset-0 bg-black opacity-50"></div>
       <div className="relative bg-[#FAFAFA] pt-[20px] px-[8px] rounded-lg shadow-lg w-full lg:w-[479px] h-[73vh] md:h-[450px]">
         <div className="h-[calc(100%-60px)] w-full overflow-auto">
@@ -723,7 +723,7 @@ const SingleCharacterAdd = ({
             onClick={handleAddClick}
             disabled={isSaveDisabled}
             className={`${
-              isSaveDisabled ? "bg-[#616161] " : "bg-[#33B0CA] "
+              isSaveDisabled ? "bg-[#ACDDE7] " : "bg-[#33B0CA] "
             } text-[14px] font-[600] text-white w-[69px] h-[32px] rounded-[4px]`}
           >
             Save

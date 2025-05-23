@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
-import premise_sr_01 from "../../../../img/sr/addPremise/Ss_file/4 - 1.webp";
+import premise_sr_01 from "../../../../img/sr/addPremise/Ss_file/7-1-1.webp";
 
-const PreviewNextDemoPop = ({ popClose }) => {
+const FInalPostDemoPop = ({ popClose }) => {
   const [dontShowPop, setDontShowPop] = useState(false);
 
   const handleCheckboxChange = () => {
-    localStorage.setItem("newProjectNextDemoPop", true);
+    localStorage.setItem("finalPostDemoPop", true);
   };
 
   useEffect(() => {
-    if (dontShowPop) localStorage.setItem("newProjectNextDemoPop", true);
-    else localStorage.setItem("newProjectNextDemoPop", false);
+    if (dontShowPop) localStorage.setItem("finalPostDemoPop", true);
+    else localStorage.setItem("finalPostDemoPop", false);
   }, [dontShowPop]);
 
   return (
     <div>
-      <div className="fixed top-0  left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
+      <div className="fixed top-0  left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[3]">
         <div className="lg:static absolute lg:mt-[50px] bottom-0 bg-white rounded-[12px] w-[100%] lg:w-[643px]">
           <div className="relative rounded-[8px] py-3 md:py-8 bg-[#fff] ">
             <div className="absolute right-[45%] top-[-70px] md:top-[-17px] md:right-[-18px]">
@@ -44,16 +44,8 @@ const PreviewNextDemoPop = ({ popClose }) => {
               <div className="flex flex-col items-center gap-[6px] mb-5 mt-1">
                 <ul className="w-full pl-10 list-disc mt-2">
                   <li className="text-[12px] md:text-[14px]  text-[#252525] leading-4 md:leading-5 ">
-                    {" "}
-                    Your co-writer Ida has proposed Characters of your film.
+                    Brainstorming with Ida on this Premise will commence in a new pop up.
                   </li>
-                  <li className="text-[12px] md:text-[14px]  text-[#252525] leading-4 md:leading-5 ">
-                    {" "}
-                    You can <span className="font-[600]">Add</span>,{" "}
-                    <span className="font-[600]">Edit</span> or{" "}
-                    <span className="font-[600]">Delete</span> Characters. 
-                  </li>
-                 
                 </ul>
 
                 <img
@@ -86,4 +78,4 @@ const PreviewNextDemoPop = ({ popClose }) => {
   );
 };
 
-export default PreviewNextDemoPop;
+export default FInalPostDemoPop;

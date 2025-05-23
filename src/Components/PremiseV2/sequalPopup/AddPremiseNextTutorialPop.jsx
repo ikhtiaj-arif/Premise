@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import crossIcon from "../../../img/Icons/crossIcon.png";
-import premise_sr_01 from "../../../img/sr/addPremise/Ss_file/2 - 1.png";
-import premise_sr_02 from "../../../img/sr/addPremise/Ss_file/2 - 2.png";
-import premise_sr_03 from "../../../img/sr/addPremise/Ss_file/2 - 3.png";
+import premise_sr_01 from "../../../img/sr/addPremise/Ss_file/2 - 1.webp";
+import premise_sr_02 from "../../../img/sr/addPremise/Ss_file/2 - 2.webp";
+import premise_sr_03 from "../../../img/sr/addPremise/Ss_file/2 - 3.webp";
 
 const AddPremiseNextTutorialPop = ({ setOpenAddPremiseNextPop }) => {
   const [dontShowPop, setDontShowPop] = useState(false);

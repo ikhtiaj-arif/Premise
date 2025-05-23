@@ -1,15 +1,28 @@
 import { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import crossIcon from "../../../img/Icons/crossIcon.png";
-import premise_sr_01 from "../../../img/sr/addPremise/Ss_file/3 -1.webp";
-import premise_sr_02 from "../../../img/sr/addPremise/Ss_file/3 -2.webp";
+import premise_sr_01 from "../../../img/sr/addPremise/Ss_file/8-1.webp"
+import premise_sr_02 from "../../../img/sr/addPremise/Ss_file/8-2.webp";
+import premise_sr_03 from "../../../img/sr/addPremise/Ss_file/8-3.webp";
+import premise_sr_04 from "../../../img/sr/addPremise/Ss_file/9-1.webp";
+import premise_sr_05 from "../../../img/sr/addPremise/Ss_file/9-2.webp";
+import premise_sr_06 from "../../../img/sr/addPremise/Ss_file/9-3.webp";
+import premise_sr_07 from "../../../img/sr/addPremise/Ss_file/10-1.webp";
+import premise_sr_08 from "../../../img/sr/addPremise/Ss_file/10-2.webp";
+import premise_sr_09 from "../../../img/sr/addPremise/Ss_file/10-3.webp";
+import premise_sr_10 from "../../../img/sr/addPremise/Ss_file/11-1.webp";
+import premise_sr_11 from "../../../img/sr/addPremise/Ss_file/11- 2.webp";
+import premise_sr_12 from "../../../img/sr/addPremise/Ss_file/11- 3.webp";
+import premise_sr_13 from "../../../img/sr/addPremise/Ss_file/12 -1.webp";
+import premise_sr_14 from "../../../img/sr/addPremise/Ss_file/12 -2.webp";
+import premise_sr_15 from "../../../img/sr/addPremise/Ss_file/12 - 3.webp";
 
-const PreviewPremiseTutorialPop = ({ popClose }) => {
+const AfterFinalPostPremisePop = ({ popClose }) => {
   const [dontShowPop, setDontShowPop] = useState(false);
 
   useEffect(() => {
-    if (dontShowPop) localStorage.setItem("newProjectDemoPop", true);
-    else localStorage.setItem("newProjectDemoPop", false);
+    if (dontShowPop) localStorage.setItem("afterFinalPostPremise", true);
+    else localStorage.setItem("afterFinalPostPremise", false);
   }, [dontShowPop]);
 
   console.log(dontShowPop);
@@ -22,11 +35,11 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   //     decrementPopup,
   //   } = useContext(MyContext);
   const [currentPopup, setCurrentPopup] = useState(1); // Default to popup 1
-  const totalPopups = 3;
+  const totalPopups = 16;
 
   useEffect(() => {
     const savedPopupNumber = parseInt(
-      localStorage.getItem("previewNextPop"),
+      localStorage.getItem("afterFinalPostPremiseNo"),
       2
     );
 
@@ -39,7 +52,7 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   const incrementPopup = () => {
     const nextPopup = currentPopup + 1;
     if (nextPopup <= totalPopups) {
-      localStorage.setItem("previewNextPop", nextPopup); // Store next popup number
+      localStorage.setItem("afterFinalPostPremiseNo", nextPopup); // Store next popup number
       setCurrentPopup(nextPopup); // Update state
     }
   };
@@ -47,7 +60,7 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
     const nextPopup = currentPopup - 1;
     if (nextPopup >= 1) {
       // Ensure the popup number doesn't go below 1
-      localStorage.setItem("previewNextPop", nextPopup); // Store next popup number
+      localStorage.setItem("afterFinalPostPremiseNo", nextPopup); // Store next popup number
       setCurrentPopup(nextPopup); // Update state
     }
   };
@@ -72,7 +85,7 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
     if (isChecked) {
       incrementPopup();
     }
-    popClose(false); // Close the popup in both cases
+    popClose() // Close the popup in both cases
   };
 
   // Popup data array
@@ -80,18 +93,78 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   const popupData = [
     {
       imgUrl: premise_sr_01,
-      message: "You can open Virtual Keyboard of the language of the Premise.",
+      message: "By opening it in a new tab, you can view the Premise and Brainstorms more clearly and with more information. ",
       serialNo: 1,
     },
     {
       imgUrl: premise_sr_02,
-      message: "",
-
-      multiMessage: [
-        "You can create a New Genre.",
-        "For a genre only relevant  sub genre options are listed in dropdown.",
-      ],
+      message: "By changing the Visibility Settings of this Premise, you can control the privacy of this project.",
       serialNo: 2,
+    },
+    {
+      imgUrl: premise_sr_03,
+      message: "You can View and Delete Characters and add new Roles and Characters.",
+      serialNo: 3,
+    },
+    {
+      imgUrl: premise_sr_04,
+      message: "You can copy this entire project in many other languages.",
+      serialNo: 4,
+    },
+    {
+      imgUrl: premise_sr_05,
+      message: "By opening this project in Script pad, you can start generating Scenes etc.",
+      serialNo: 5,
+    },
+    {
+      imgUrl: premise_sr_06,
+      message: "By setting the Monetizing Preferences of this project, you can make it available for Sale and Translation.",
+      serialNo: 6,
+    },
+    {
+      imgUrl: premise_sr_07,
+      message: " You can read your inputs and Ida's responses in available languages.",
+      serialNo: 7,
+    },
+    {
+      imgUrl: premise_sr_08,
+      message: "You can reply to all Brainstorms and keep expanding the thought. Ida will continue Brainstorming till 4 stages.",
+      serialNo: 8,
+    },
+    {
+      imgUrl: premise_sr_09,
+      message: "You can seek suggestions for questions asked by Ida.",
+      serialNo: 9,
+    },
+    {
+      imgUrl: premise_sr_10,
+      message: " You can view or hide the Brainstorms on any comment or it's sub thread.",
+      serialNo: 10,
+    },
+    {
+      imgUrl: premise_sr_11,
+      message: " You can reject an ida suggestion.",
+      serialNo: 11,
+    },
+    {
+      imgUrl: premise_sr_12,
+      message: "You can add any Brainstorms as a beat in the beat sheet and it will reflect in the Script pad.",
+      serialNo: 12,
+    },
+    {
+      imgUrl: premise_sr_13,
+      message: "You can input a new thought and continue Brainstorming with Ida.",
+      serialNo: 13,
+    },
+    {
+      imgUrl: premise_sr_14,
+      message: "You can input your thoughts in any language by using virtual keyboard. Ida will however respond in the language of the project.",
+      serialNo: 14,
+    },
+    {
+      imgUrl: premise_sr_15,
+      message: "If you are unsure about what new thought to input, you can simply ask ida for more.",
+      serialNo: 15,
     },
   ];
 
@@ -154,7 +227,7 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
             </div>
 
             <div className="flex flex-col items-center gap-[6px] mb-5 w-full">
-              {currentPopup < 2 ? (
+              {currentPopup < 15 ? (
                 <div className="flex items-center justify-around w-full">
                   {
                     <button
@@ -208,4 +281,4 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   );
 };
 
-export default PreviewPremiseTutorialPop;
+export default AfterFinalPostPremisePop;

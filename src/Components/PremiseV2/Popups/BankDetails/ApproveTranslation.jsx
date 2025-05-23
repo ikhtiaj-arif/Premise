@@ -55,14 +55,16 @@ const ApproveTranslationPop = ({
   ) : (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
       <ToastContainer />
-      <div className="h-[100vh] lg:h-[407px] mb-[20px] px-[22px] lg:mb-0 lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA] lg:w-[605px] md:mx-auto relative lg:rounded-[8px]">
+      <div className="h-[70vh] lg:h-[407px] mb-[20px] px-[22px] lg:mb-0 lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA] lg:w-[605px] md:mx-auto relative lg:rounded-[8px]">
         {/* Close Popup */}
-        <img
-          src={crossIcon}
-          alt="Close"
-          className="text-red-500 w-8 h-8 top-[-15px] right-[-15px] absolute z-[1] m-1 cursor-pointer"
-          onClick={() => popClose(false)}
-        />
+        <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
+          <img
+            src={crossIcon}
+            alt=""
+            className=" text-red-500  w-8 h-8 cursor-pointer"
+            onClick={() => popClose(null)}
+          />
+        </div>
         <div className="h-[96px]">
           <div className="relative w-[100px] mx-auto mt-2">
             <img

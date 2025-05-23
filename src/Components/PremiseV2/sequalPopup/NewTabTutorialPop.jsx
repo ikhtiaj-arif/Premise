@@ -1,15 +1,24 @@
 import { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import crossIcon from "../../../img/Icons/crossIcon.png";
-import premise_sr_01 from "../../../img/sr/addPremise/Ss_file/3 -1.webp";
-import premise_sr_02 from "../../../img/sr/addPremise/Ss_file/3 -2.webp";
+import premise_sr_01 from "../../../img/sr/addPremise/Ss_file/14 -1.webp"
+import premise_sr_02 from "../../../img/sr/addPremise/Ss_file/14 -2.webp";
+import premise_sr_03 from "../../../img/sr/addPremise/Ss_file/14 - 3.webp";
+import premise_sr_04 from "../../../img/sr/addPremise/Ss_file/15 - 1.webp";
+import premise_sr_05 from "../../../img/sr/addPremise/Ss_file/15 - 2.webp";
+import premise_sr_06 from "../../../img/sr/addPremise/Ss_file/16 - 1.webp";
+import premise_sr_07 from "../../../img/sr/addPremise/Ss_file/16-2.webp";
+import premise_sr_08 from "../../../img/sr/addPremise/Ss_file/16 -3.webp";
+import premise_sr_09 from "../../../img/sr/addPremise/Ss_file/17 - 1.webp";
+import premise_sr_10 from "../../../img/sr/addPremise/Ss_file/17 -2.webp";
 
-const PreviewPremiseTutorialPop = ({ popClose }) => {
+
+const NewTabTutorialPop = ({ popClose }) => {
   const [dontShowPop, setDontShowPop] = useState(false);
 
   useEffect(() => {
-    if (dontShowPop) localStorage.setItem("newProjectDemoPop", true);
-    else localStorage.setItem("newProjectDemoPop", false);
+    if (dontShowPop) localStorage.setItem("newTabTutorialPop", true);
+    else localStorage.setItem("newTabTutorialPop", false);
   }, [dontShowPop]);
 
   console.log(dontShowPop);
@@ -22,11 +31,11 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   //     decrementPopup,
   //   } = useContext(MyContext);
   const [currentPopup, setCurrentPopup] = useState(1); // Default to popup 1
-  const totalPopups = 3;
+  const totalPopups = 12;
 
   useEffect(() => {
     const savedPopupNumber = parseInt(
-      localStorage.getItem("previewNextPop"),
+      localStorage.getItem("newTabTutorialPopNo"),
       2
     );
 
@@ -39,7 +48,7 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   const incrementPopup = () => {
     const nextPopup = currentPopup + 1;
     if (nextPopup <= totalPopups) {
-      localStorage.setItem("previewNextPop", nextPopup); // Store next popup number
+      localStorage.setItem("newTabTutorialPopNo", nextPopup); // Store next popup number
       setCurrentPopup(nextPopup); // Update state
     }
   };
@@ -47,7 +56,7 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
     const nextPopup = currentPopup - 1;
     if (nextPopup >= 1) {
       // Ensure the popup number doesn't go below 1
-      localStorage.setItem("previewNextPop", nextPopup); // Store next popup number
+      localStorage.setItem("newTabTutorialPopNo", nextPopup); // Store next popup number
       setCurrentPopup(nextPopup); // Update state
     }
   };
@@ -72,7 +81,7 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
     if (isChecked) {
       incrementPopup();
     }
-    popClose(false); // Close the popup in both cases
+    popClose() // Close the popup in both cases
   };
 
   // Popup data array
@@ -80,19 +89,55 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   const popupData = [
     {
       imgUrl: premise_sr_01,
-      message: "You can open Virtual Keyboard of the language of the Premise.",
+      message: "By clicking on a numbers on the Index Line, the Brainstorms on that comment will come in focus.",
       serialNo: 1,
     },
     {
       imgUrl: premise_sr_02,
-      message: "",
-
-      multiMessage: [
-        "You can create a New Genre.",
-        "For a genre only relevant  sub genre options are listed in dropdown.",
-      ],
+      message: "You can View the existing Characters, Add a New Character and also Delete any Character.",
       serialNo: 2,
     },
+    {
+      imgUrl: premise_sr_03,
+      message: "Change visibility of this Premise Project by clicking on edit button.",
+      serialNo: 3,
+    },
+    {
+      imgUrl: premise_sr_04,
+      message: " Find all Brainstorms containing your input.",
+      serialNo: 4,
+    },
+    {
+      imgUrl: premise_sr_05,
+      message: "Share the Premise Project with your MNF buddies and others.",
+      serialNo: 5,
+    },
+    {
+      imgUrl: premise_sr_06,
+      message: " You can view the number of Comments, Likes and Replies on this Premise Project by yourself, your buddies and others.",
+      serialNo: 6,
+    },
+    {
+      imgUrl: premise_sr_07,
+      message: " You can view numbers of 'Generated' as well as 'Added as a Beat' Brainstorms in Set up, Conflict and Resolution stages.",
+      serialNo: 7,
+    },
+    {
+      imgUrl: premise_sr_08,
+      message: "At one place, you can view all the Brainstorms selected for adding as a Beat and the Text of the corresponding Beat added to the Beat sheet.",
+      serialNo: 8,
+    },
+    {
+      imgUrl: premise_sr_09,
+      message: " You can view and respond to the requests received for Translating or Purchasing this Premise Project.",
+      serialNo: 9,
+    },
+    {
+      imgUrl: premise_sr_10,
+      message: "You can also View the Translation History of this Premise Project and the Translated Projects, if any.",
+      serialNo: 10,
+    },
+
   ];
 
   // Find the popup data that matches the current popup number
@@ -154,7 +199,7 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
             </div>
 
             <div className="flex flex-col items-center gap-[6px] mb-5 w-full">
-              {currentPopup < 2 ? (
+              {currentPopup < 10 ? (
                 <div className="flex items-center justify-around w-full">
                   {
                     <button
@@ -208,4 +253,4 @@ const PreviewPremiseTutorialPop = ({ popClose }) => {
   );
 };
 
-export default PreviewPremiseTutorialPop;
+export default NewTabTutorialPop;

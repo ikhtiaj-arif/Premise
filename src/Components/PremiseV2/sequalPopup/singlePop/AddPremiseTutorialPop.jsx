@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
-import premise_sr_01 from "../../../../img/sr/addPremise/Ss_file/1.png";
+import premise_sr_01 from "../../../../img/sr/addPremise/Ss_file/1.webp";
 
 const AddPremiseTutorialPop = ({ popClose }) => {
   const [dontShowPop, setDontShowPop] = useState(false);

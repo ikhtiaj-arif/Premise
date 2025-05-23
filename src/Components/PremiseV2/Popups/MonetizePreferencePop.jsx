@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import {
   useEditPremiseMutation,
   useGetOnePremiseQuery,
 } from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
-import SimpleAlertPop from "./alerts/SimpleAlertPop";
 import SameNamePop from "./alerts/SameNamePop";
 
 const MonetizePreferencePop = ({ popClose, id, user }) => {
@@ -48,7 +47,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
     const { allowTranslation, transferOwnership, price } = formData;
 
     if (transferOwnership && !price) {
-      setAlert(true)
+      setAlert(true);
       // alert("Please provide a price for transferring ownership.");
       return;
     }
@@ -60,6 +59,25 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
       };
 
       const res = await updatePremise(data);
+
+      if (res?.data) {
+        popClose(null);
+        toast.success(`Your Premise Project is Up for Monetizing!`, {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
+    } else if (allowTranslation) {
+      const updateBody = {
+        ...premiseData,
+        monitize_translation_flag: allowTranslation, // this sets it to true or false
+      };
+      const data = {
+        id,
+        body: updateBody,
+      };
+
+      const res = await updatePremise(data);
+
       if (res?.data) {
         popClose(null);
         toast.success(`Your Premise Project is Up for Monetizing!`, {
@@ -190,7 +208,12 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
           </div>
         </form>
       </div>
-      {alert && <SameNamePop popClose={setAlert} title={`Please provide a price for transferring ownership.`} />}
+      {alert && (
+        <SameNamePop
+          popClose={setAlert}
+          title={`Please provide a price for transferring ownership.`}
+        />
+      )}
     </div>
   );
 };
