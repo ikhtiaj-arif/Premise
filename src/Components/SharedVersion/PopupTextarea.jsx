@@ -69,6 +69,7 @@ const PopupTextarea = ({
     if (commentField && inputRef?.current) {
       inputRef?.current?.focus();
       setReplyField(false);
+      setCommentField(false);
     }
     if (replyField && replyRef?.current) {
       replyRef?.current?.focus();
@@ -78,7 +79,6 @@ const PopupTextarea = ({
 
   const handleTextareaChange = (event) => {
     const comment = event.target.value.replace(/^\s+|\s+(?=\s)/g, "");
-    console.log("comment -----> ", comment);
     setTextCount(comment.length);
     setNewComment(comment);
   };
@@ -278,7 +278,7 @@ const PopupTextarea = ({
           />
         )}
         <div className="absolute right-0 bottom-[2px] xl:bottom-1 flex gap-3 items-center justify-end pr-2 pb-1">
-          <div className="md:flex  hidden ">
+          <div className="md:flex items-center gap-1  hidden ">
             <FaKeyboard
               data-te-toggle="tooltip"
               title={`${!keyboardVisible ? "View Keyboard" : "Hide Keyboard"}`}
@@ -287,11 +287,13 @@ const PopupTextarea = ({
               } cursor-pointer hover:text-[#33B0CA]`}
               onClick={onClickKeyboard}
             />
-            <LanguageSelector
-              setSelectedLanguage={setSelectedLanguage}
-              selectedLanguage={selectedLanguage}
-              setKeyboardVisible={setKeyboardVisible}
-            />
+            <div className="w-[110px] ">
+              <LanguageSelector
+                setSelectedLanguage={setSelectedLanguage}
+                selectedLanguage={selectedLanguage}
+                setKeyboardVisible={setKeyboardVisible}
+              />
+            </div>
           </div>
 
           {isLoading ? (
@@ -340,7 +342,7 @@ const PopupTextarea = ({
                   <button
                     onClick={() => {
                       setKeyboardVisible(false);
-                      setSelectedLanguage("");
+                      // setSelectedLanguage("");
                     }}
                     className="font-bold w-full h-full"
                   >

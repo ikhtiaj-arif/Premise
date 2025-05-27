@@ -16,7 +16,7 @@ const ProjectInfo = ({ premiseData }) => {
     source_language,
   } = premiseData;
   return (
-    <div className="flex items-center gap-2 lg:px-6">
+    <div className="flex items-center gap-2 lg:px-6 my-3">
       <div>
         <div className="mr-4">
           <img

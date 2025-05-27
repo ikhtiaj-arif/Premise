@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { MdKeyboardBackspace } from "react-icons/md";
 import { ToastContainer } from "react-toastify";
+import { MyContext } from "../../../App";
 import {
   useGetOnePremiseQuery,
   useTranslatePremiseV2Mutation,
@@ -9,7 +10,6 @@ import {
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import PaymentInvoicePopup from "../../Payment/PaymentInvoicePopup";
 import { sortedLanguages } from "../../Premisepool/Languages";
-import { MyContext } from "../../../App";
 
 const TransInOtherLang = ({
   popClose,
@@ -28,8 +28,8 @@ const TransInOtherLang = ({
   useEffect(() => {
     if (id) premiseRefetch();
   }, [id]);
-  
-  const { projectRefetch } = useContext(MyContext); 
+
+  const { projectRefetch } = useContext(MyContext);
   const [targetLanguage, setTargetLanguage] = useState("");
   const [translatePremise] = useTranslatePremiseV2Mutation();
   const [isPayment, setPayment] = useState(false);
@@ -51,7 +51,7 @@ const TransInOtherLang = ({
         transaction_id: transaction_id,
       };
 
-      const res = await translatePremise(data)
+      const res = await translatePremise(data);
 
       if (res) {
         projectRefetch();
@@ -123,7 +123,7 @@ const TransInOtherLang = ({
             </p>
             <p className="text-left text-[12px] leading-[14.5px] font-[400]  text-[#616161] ">
               You will be able to brainstorm further on the translated Premise
-              and add comment etc to the Beat Sheet.
+              and add comment etc to the Beat (event) Sheet.
             </p>
           </div>
           <div className="mt-[6px] pl-[8px] pr-[18px] flex gap-[4px]">
@@ -158,7 +158,7 @@ const TransInOtherLang = ({
         </div>
 
         <div
-          className={`h-[31px] mt-[18px] relative col-span-6 md:col-span-4  bg-[#fafafa]  rounded-[8px] border-[2px] w-[76%] mx-auto`}
+          className={`h-[31px] mt-[18px] relative col-span-6 md:col-span-4  bg-[#fafafa]  rounded-[8px] border-[2px]  w-[82%] xxs:w-[74%] mx-auto`}
         >
           <select
             className="block appearance-none bg-[#fafafa] pl-[21px] h-[27px] rounded-[8px]  w-full px-[8px] text-[12px] text-[#616161] leading-[18px] focus:outline-none"
@@ -177,7 +177,7 @@ const TransInOtherLang = ({
               ) : null
             )}
           </select>
-          <div className="absolute inset-y-0 right-[30px] bg-[#fafafa] flex items-center pointer-events-none">
+          <div className="absolute inset-y-0 right-[10px] md:right-[30px] bg-[#fafafa] flex items-center pointer-events-none">
             <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
           </div>
         </div>

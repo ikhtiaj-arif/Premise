@@ -53,6 +53,7 @@ const CardHeadOptions = ({
   available_for_translation,
   premise_source_id,
   translation_request_count,
+  no_of_times_translated,
   sale_request_count,
   is_requested_for_sale,
   is_translated_languages,
@@ -179,8 +180,6 @@ const CardHeadOptions = ({
     }
   };
 
-  console.log("is_read_only", is_read_only);
-
   return (
     <div>
       <div>
@@ -205,6 +204,7 @@ const CardHeadOptions = ({
               </div>
             )}
             {is_translated_languages > 0 && (
+            
               <img
                 data-te-toggle="tooltip"
                 title="Translated Languages"
@@ -213,6 +213,7 @@ const CardHeadOptions = ({
                 alt=""
                 onClick={() => handleViewTransaction(id)}
               />
+            
             )}
 
             {premise_source_id && (
@@ -385,6 +386,12 @@ const CardHeadOptions = ({
         ) : (
           <div className="flex gap-[3px] items-center  mr-[2px] relative ">
             {available_for_translation && (
+                <div className="relative">
+                <span className="absolute top-[-27px] right-[-3] text-[12px] font-[700] text-[#252525]">
+                  {no_of_times_translated >1  && (
+                    <>{no_of_times_translated}</>
+                  )}
+                </span>
               <img
                 data-te-toggle="tooltip"
                 title="Available for Translation"
@@ -398,6 +405,7 @@ const CardHeadOptions = ({
                   // setOpenDotMenu(null);
                 }}
               />
+              </div>
             )}
             <div className="relative">
               <img

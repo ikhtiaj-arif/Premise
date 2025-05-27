@@ -90,7 +90,7 @@ const UserNamePopBeat = ({
                 required
                 id=""
                 maxLength={50}
-                className="px-4 w-full h-[45px] text-[16px] text-[#616161] bg-[#fafafa] border border-[#eaeaea] rounded-[8px] focus:outline-none"
+                className="px-4 w-full h-[45px] text-[16px] text-[#616161] bg-[#fafafa] border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none"
                 onChange={handleFirstNameChange}
               />
 
@@ -101,7 +101,7 @@ const UserNamePopBeat = ({
                 placeholder="Enter your last name"
                 id=""
                 maxLength={50}
-                className="px-4 w-full h-[45px] text-[16px] text-[#616161] bg-[#fafafa] border border-[#eaeaea] rounded-[8px] focus:outline-none "
+                className="px-4 w-full h-[45px] text-[16px] text-[#616161] bg-[#fafafa] border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none "
                 onChange={handleLastNameChange}
               />
             </div>

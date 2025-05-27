@@ -44,8 +44,7 @@ const SingleCharacterAdd = ({
   const [professionalrelationship, setProfessionalrelationship] = useState(
     editData?.professional_relationship || ""
   );
-
-  console.log("editData?.gender", editData?.gender, gender);
+  const [genderDropdownOpen, setGenderDropdownOpen] = useState(false);
 
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
 
@@ -336,14 +335,14 @@ const SingleCharacterAdd = ({
               className="w-[90%] md:w-[398px] mt-[12px] md:mt-0 mx-auto"
             >
               <div className="block mb-0 md:mb-[12px] md:flex gap-[18px] ">
-                <div className="relative w-full md:w-[171px]">
+                {/* <div className="relative w-full md:w-[171px]">
                   <label
                     className={`absolute left-2 top-[1px] lg:top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500]  transition-all z-[2]
                      `}
                   >
                     Role
                   </label>
-                  {/* {console.log(role)} */}
+                  {console.log(role)} 
                   <select
                     required
                     // onChange={(e) => setRole(e.target.value)}
@@ -362,7 +361,7 @@ const SingleCharacterAdd = ({
                         {roleOption}
                       </option>
                     ))}
-                    {/*                     
+                                       
                     <option className="text-[14px]" value="" selected disabled>
                       Role
                     </option>
@@ -410,10 +409,21 @@ const SingleCharacterAdd = ({
                     </option>
                     <option className=" text-[#252525] text-[14px]">
                       Others
-                    </option> */}
+                    </option> 
                   </select>
-                </div>
+                </div>  */}
+                <div className="relative w-full md:w-[171px]">
+                  <label className="absolute left-2 top-[1px] lg:top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-[2]">
+                    Role
+                  </label>
 
+                  <div
+                    className="text-[14px] leading-[18px] pt-[6px] bg-[#FAFAFA] border-[2px] text-[#252525] outline-[#EAEAEA] rounded-[8px] my-[12px] md:my-0 w-full md:w-[171px] h-[42px] indent-1 flex items-center pl-2 cursor-not-allowed select-none"
+                    style={{ backgroundColor: "#f5f5f5", opacity: 0.8 }}
+                  >
+                    {getRole() || "Role"}
+                  </div>
+                </div>
                 <div className="relative w-full mt-[4px] md:mt-0  md:w-[171px]">
                   <label
                     className={`absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all `}
@@ -444,11 +454,12 @@ const SingleCharacterAdd = ({
                               ? "text-[#33B0CA]"
                               : "text-[#616161]"
                           }`}`
-                    }  px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[42px]   `}
+                    }  px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[208px] h-[42px]   `}
                     disabled={isDisabled}
                   />
                 </div>
               </div>
+
               <div>
                 {role === "Others" && (
                   <input
@@ -460,13 +471,13 @@ const SingleCharacterAdd = ({
                     onChange={(e) => setCustomRole(e.target.value)}
                     type="text"
                     placeholder="Describe the role"
-                    className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  mt-[5px] mb-[15px] rounded-[8px] border-2   w-full md:w-[398px] h-[42px] "
+                    className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  mt-[5px] mb-[15px] rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-[42px] "
                   />
                 )}
               </div>
 
               <div className="flex flex-col mb-0 md:mb-[12px] md:flex-row mt-[8px] md:mt-[24px] gap-[8px]">
-                <div
+                {/* <div
                   className={`relative w-full ${
                     isDisabled ? "md:w-[128px]" : "md:w-[97px]"
                   } `}
@@ -510,6 +521,48 @@ const SingleCharacterAdd = ({
                       )}
                     </select>
                   )}
+                </div> */}
+                <div
+                  className={`relative w-full ${
+                    gender === inanimateObjectOptions(sourceLanguageName)
+                      ? "md:w-[155px]"
+                      : "md:w-[97px]"
+                  }`}
+                >
+                  <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                    Gender
+                  </label>
+
+                  <button
+                    type="button"
+                    onClick={() => setGenderDropdownOpen(!genderDropdownOpen)}
+                    className={`text-left px-2 text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] mb-[22px] mt-[12px] md:my-0 h-[41px] w-full indent-1 ${
+                      gender === inanimateObjectOptions(sourceLanguageName)
+                        ? "md:w-[172px]"
+                        : "md:w-[97px]"
+                    }`}
+                  >
+                    {gender || "Gender"}
+                  </button>
+
+                  {genderDropdownOpen && (
+                    <ul className="absolute z-10 mt-0 w-full border bg-[#fafafa] max-h-[27vh] md:max-h-[20vh] overflow-y-auto rounded-md shadow-sm">
+                      {getGenderOptions(sourceLanguageName).map(
+                        (option, index) => (
+                          <li
+                            key={index}
+                            className="cursor-pointer text-[14px] leading-5 text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] px-2 py-2"
+                            onClick={() => {
+                              setGender(option.props.value); // `option` is a JSX element, like <option value="Male">Male</option>
+                              setGenderDropdownOpen(false);
+                            }}
+                          >
+                            {option.props.children}
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  )}
                 </div>
                 {gender !== inanimateObjectOptions(sourceLanguageName) && (
                   <div className="relative w-full md:w-[49px]">
@@ -551,7 +604,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="occupation"
                     ref={occupationRef}
-                    className={`text-[14px] bg-[#FAFAFA] mb-[12px] leading-[20px] md:mb-0 px-3 pt-[8px] pb-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[42px]    overflow-y-auto text-[#616161] resize-none "
+                    className={`text-[14px] bg-[#FAFAFA] mb-[12px] leading-[20px] md:mb-0 px-3 pt-[8px] pb-[12px] outline-[#EAEAEA]  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[208px] h-[42px]    overflow-y-auto text-[#616161] resize-none "
                        `}
                   />
                 </div>
@@ -575,7 +628,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Background"
                     ref={backgroundRef}
-                    className={`text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] overflow-y-hidden border-2   w-full md:w-[398px]
+                    className={`text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] overflow-y-hidden border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px]
                     h-auto resize-none ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     } h-auto resize-none leading-[20px]`}
@@ -600,7 +653,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Personality"
                     ref={personalityRef}
-                    className={`text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none   ${
+                    className={`text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none   ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     } `}
                   />
@@ -624,7 +677,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Individual want"
                     ref={individualWantRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none  ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px] h-auto resize-none  ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     }  `}
                   />
@@ -649,7 +702,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Character's journey"
                     ref={characterJourneyRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none   ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px] h-auto resize-none   ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     } `}
                   />
@@ -673,7 +726,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Blood relationship"
                     ref={bloodRelationshipRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none    ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none    ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     }`}
                   />
@@ -699,7 +752,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Family relationship"
                     ref={familyRelationshipRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none     ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none     ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     }`}
                   />
@@ -732,7 +785,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Professional relationship"
                     ref={professionalRelationshipRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2   w-full md:w-[398px] h-auto resize-none   ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none   ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     }`}
                   />

@@ -161,7 +161,7 @@ const NoAccessLbPopUp = ({
 
             <div className="ml-2 block text-[#616161] text-[16px] leading-6 font-[400] no_access_input">
               {/* 1st option */}
-              {noAccessLbPopup?.ShowFreeTrialActavation == "Yes" && (
+              {noAccessLbPopup?.ShowFreeTrialActavation === "Yes" && (
                 <div className="mb-1">
                   <label className="flex items-start gap-2 ">
                     <input

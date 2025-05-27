@@ -60,7 +60,7 @@ const PaySalePopup = ({
         {/* Description */}
         <p className="text-center text-[12px] leading-[14.5px] font-[400] my-[12px] text-[#616161] w-[80%] mx-auto">
           The Ownership of this Premise Project is available for a price of $
-          {sellingValue}
+          {sellingValue *1.5}
         </p>
 
         {/* Note Section */}

@@ -85,7 +85,7 @@ const ReqSalePop = ({ popClose, id, user, source_language, project_id }) => {
           <div>
             <p className="text-center text-[12px] leading-[14.5px] font-[400] my-[12px] text-[#616161] w-[80%] mx-auto">
               You may request the owner of this Premise Project to transfer its
-              ownership to you for a price.
+              ownership to you.
             </p>
 
             <h2 className="font-[400] text-[12px] leading-[14.5px] text-[#616161] text-left mt-[16px]">

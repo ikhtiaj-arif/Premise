@@ -22,6 +22,7 @@ import { baseURL } from "../utils";
 import PremiseCardV2 from "./Card/PremiseCardV2";
 import FilterSearchSort from "./Header/FiltersSearchSort/FilterSearchSort";
 import TestPopup from "./sequalPopup/TestPopup";
+import AddPremiseTutorialPop from "./sequalPopup/singlePop/AddPremiseTutorialPop";
 
 export const loadingData = [
   "Initializing..",
@@ -312,8 +313,17 @@ const PremiseV2 = () => {
     setActiveSearch(false);
     setTransPopClose(null);
   };
+  const [checkedAddPremise, setCheckedAddPremise] = useState(false);
 
+  console.log("checkedAddPremise",checkedAddPremise);
   const handleAddPopup = async () => {
+    const notShowAddPremise = localStorage.getItem("NotShowAddPremise");
+
+    if ((!notShowAddPremise ||notShowAddPremise === "false")  && !checkedAddPremise) {
+      
+      setCheckedAddPremise(true);
+    }
+
     if (userFirstName) {
       //&& userLastName
       const res = await fetchUserAccess(`${currentUser?.id}/PP_PostPremise`);
@@ -506,7 +516,7 @@ const PremiseV2 = () => {
             />
           ) : (
             addPopup === "Yes" && (
-              <AddPremise2 setAddPopup={setAddPopup} refetch={refetch} />
+              <AddPremise2 setAddPopup={setAddPopup} refetch={refetch} checkedAddPremise={checkedAddPremise} setCheckedAddPremise={setCheckedAddPremise} />
             )
           )}
 

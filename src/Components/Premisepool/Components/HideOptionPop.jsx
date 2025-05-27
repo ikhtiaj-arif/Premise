@@ -183,7 +183,7 @@ const HideOptionPop = ({
                         placeholder="Search buddies..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full text-[14px] px-3  focus:outline-none rounded-md"
+                        className="w-full text-[14px] px-3  border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none rounded-md"
                       />
                       <CgSearch
                         // onClick={handleFilterSubmit}

@@ -204,7 +204,7 @@ const NewTabTextArea = ({
           className ? "bg-[#fff]" : "bg-[#f8f8f8]"
         } relative md:mb-[16px] pl-3 md:flex-row ${
           fromNew ? "w-full" : "w-[90%]"
-        }  mx-auto  border border-[#EAEAEA] rounded-[8px] mt-[8px] md:h-[92px] xl:h-[126px]`}
+        }  mx-auto  border-2 border-[#616161] rounded-[8px] mt-[8px] md:h-[92px] xl:h-[126px]`}
       >
         {premiseOwner?.id === user ? (
           <textarea
@@ -213,8 +213,8 @@ const NewTabTextArea = ({
             name=""
             maxLength={250}
             id=""
-            className={`bg-[#f8f8f8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic ${className2}`}
-            placeholder="OR Brainstorm with Ida by sharing your thoughts"
+            className={`bg-[#f8f8f8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:text-[#616161] placeholder:italic ${className2}`}
+            placeholder="OR share your thoughts"
             value={newComment}
             required
             onChange={handleTextareaChange}
@@ -234,8 +234,8 @@ const NewTabTextArea = ({
             id=""
             className={`${
               className ? "bg-[#fff]" : "bg-[#f8f8f8]"
-            } resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic`}
-            placeholder="OR Brainstorm with Ida by sharing your thoughts"
+            } resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:font-[500] placeholder:text-[#33B0CA]`}
+            placeholder="OR type your thoughts here!!"
             value={newComment}
             required
             onChange={handleTextareaChange}
@@ -249,7 +249,7 @@ const NewTabTextArea = ({
           />
         )}
         <div className="absolute right-0 bottom-[2px] xl:bottom-1 flex gap-3 items-center justify-end pr-2 pb-1">
-          <div className="md:flex  hidden ">
+          <div className="md:flex gap-1 items-center hidden ">
             <FaKeyboard
               data-te-toggle="tooltip"
               title={`${!keyboardVisible ? "View Keyboard" : "Hide Keyboard"}`}
