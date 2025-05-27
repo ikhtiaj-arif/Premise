@@ -84,7 +84,7 @@ const ReqTranslationPop = ({
           <TypingLoader />
         </div>
       ) : (
-        <div className=" h-[70vh] lg:h-[407px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[466px]  md:mx-auto relative lg:rounded-[8px]">
+        <div className=" h-[74vh] xxs:h-[68vh] lg:h-[407px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[466px]  md:mx-auto relative lg:rounded-[8px]">
           {/* close popup */}
           <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
             <img
@@ -156,7 +156,7 @@ const ReqTranslationPop = ({
           </div>
 
           <div
-            className={`h-[31px] mt-[18px] relative col-span-6 md:col-span-4  bg-[#fafafa]  rounded-[8px] border-[2px] w-[76%] mx-auto`}
+            className={`h-[31px] mt-[18px] relative col-span-6 md:col-span-4  bg-[#fafafa]  rounded-[8px] border-[2px] w-[82%] xxs:w-[74%] mx-auto`}
           >
             <select
               className="block appearance-none bg-[#fafafa] pl-[21px] h-[27px] rounded-[8px]  w-full px-[8px] text-[12px] text-[#616161] leading-[18px] focus:outline-none"
@@ -175,7 +175,7 @@ const ReqTranslationPop = ({
                 ) : null
               )}
             </select>
-            <div className="absolute inset-y-0 right-[30px] bg-[#fafafa] flex items-center pointer-events-none">
+            <div className="absolute inset-y-0 right-[10px] md:right-[30px] bg-[#fafafa] flex items-center pointer-events-none">
               <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
             </div>
           </div>

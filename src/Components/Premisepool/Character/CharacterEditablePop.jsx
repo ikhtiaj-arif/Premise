@@ -13,7 +13,6 @@ import ConfirmationModal from "../Comments/ConfirmationModal";
 import CharacterShowCard from "./Card";
 import SingleCharacterAdd from "./SingleCharacterAdd";
 import SingleCharacterEdit from "./SingleCharacterEdit";
-import OnSaveCharacterPop from "../../PremiseV2/sequalPopup/OnSaveCharacterPop";
 
 const CharacterEditablePop = ({
   setCharacterEditPop,
@@ -298,6 +297,7 @@ const CharacterEditablePop = ({
                   onlyAdd,
                   deleteCharacterFun,
                   isAddedByMe: true,
+                  source_language,
                 }}
               />
             ))}

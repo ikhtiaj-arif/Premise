@@ -20,7 +20,7 @@ const BrainstormEngagementsPop = ({ popClose, id, commonPopup }) => {
         />
 
         {/* Table */}
-        <div className="overflow-x-auto mt-10 px-8">
+        <div className="ml-[-12px] mt-10 px-8">
           {commonPopup === "brainstorms" ? (
             <BrainstromTable {...{ id }} headerText="Brainstorm" />
           ) : (

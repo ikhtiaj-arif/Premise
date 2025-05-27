@@ -17,8 +17,8 @@ const PreviewNextDemoPop = ({ popClose }) => {
   return (
     <div>
       <div className="fixed top-0  left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
-        <div className="lg:static absolute lg:mt-[50px] bottom-0 bg-white rounded-[12px] w-[100%] lg:w-[643px]">
-          <div className="relative rounded-[8px] py-3 md:py-8 bg-[#fff] ">
+        <div className="lg:static absolute lg:mt-[90px] bottom-0 bg-white rounded-[12px] w-[100%] lg:w-[623px]">
+          <div className="relative rounded-[8px] py-3   bg-[#fff] ">
             <div className="absolute right-[45%] top-[-70px] lg:top-[-17px] lg:right-[-18px]">
               <img
                 src={crossIcon}
@@ -33,10 +33,10 @@ const PreviewNextDemoPop = ({ popClose }) => {
                 <img
                   src={`https://uidemos.s3.ap-south-1.amazonaws.com/smiley.jpg`}
                   alt="Smile doodle"
-                  className="w-[90px] md:w-[110px] h-[78px] md:h-[98px]"
+                  className="w-[70px]"
                 />
                 {/* <h1 className="absolute left-3">{currentPopup}</h1> */}
-                <p className="text-center text-[14px] md:text-[16px] font-medium text-[#33b0ca] translate-y-2">
+                <p className="text-center text-[14px] md:text-[16px] font-medium text-[#33b0ca] ">
                   Do You Know?
                 </p>
               </div>
@@ -57,8 +57,8 @@ const PreviewNextDemoPop = ({ popClose }) => {
 
                 <img
                   src={premise_sr_01}
-                  alt="Popup Image"
-                  className=" max-w-[380.58px] h-[180px] max-h-[230px] shadow shadow-md rounded-md mt-4"
+                  alt="Popup-Image"
+                  className=" max-w-[230px]  shadow-md rounded-md mt-4"
                 />
               </div>
 

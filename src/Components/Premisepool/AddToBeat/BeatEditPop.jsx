@@ -1,6 +1,6 @@
 // import "./BeatCss.css";
 import axios from "axios";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
 import { IoIosArrowRoundBack } from "react-icons/io";
@@ -660,7 +660,7 @@ const BeatEditPop = ({
     //   <ProjectNotfound setProjectNotFound={setProjectNotFound}/> // Conditionally render ProjectNotFound component
     // ) :(
     <>
-      <div className="fixed top-[17px] md:top-[-50px] left-0 w-full h-full flex mt-[71px] xl:mt-[80px] lg:mt-[0px] items-center bg-[#252525b0] justify-center z-[1]  o ">
+      <div className="fixed top-[17px] left-0 w-full h-full flex mt-[71px] xl:mt-[80px] lg:mt-[0px] items-center bg-[#252525b0] justify-center z-[1]  o ">
         {beatSuggestLoading ? (
           <div className="h-auto w-full lg:w-[40%] xl:w-[35%]">
             <TypingLoader />
@@ -668,9 +668,9 @@ const BeatEditPop = ({
         ) : (
           <div
             className={`${
-              !doNotShowBox ? "h-full md:h-[525px]" : "h-[80%] md:h-[411px] "
+              !doNotShowBox ? "h-full lg:h-[525px]" : "h-[80%] lg:h-[411px] "
             }
-          h-[100vh] md:mt-[88px] xl:mt-[-40px]  w-full lg:w-[920px] md:mx-auto bg-[#fff]  lg:bg-[#fadda] md:rounded-[8px] relative    ${
+          h-[100vh] lg:mt-[88px] xl:mt-[-40px]  w-full lg:w-[920px] md:mx-auto bg-[#fff]  lg:bg-[#fadda] md:rounded-[8px] relative    ${
             doNotShowBox ? "h-auto pb-[10px]" : "mb-[20px] pb-[20px]"
           }`}
           >
@@ -679,15 +679,15 @@ const BeatEditPop = ({
                 <div
                   className={`rounded-[8px] relative ${
                     isSmallDevice && "overflow-y-scroll"
-                  } md:w-[920px] mx-auto ${
+                  } lg:w-[920px] mx-auto ${
                     !doNotShowBox
-                      ? "h-[90vh] md:h-[525px]"
-                      : "h-[80%] md:h-[411px]"
-                  } bg-white md:bg-[#FAFAFA]`}
+                      ? "h-[90vh] lg:h-[525px]"
+                      : "h-[80%] lg:h-[411px]"
+                  } bg-white lg:bg-[#FAFAFA]`}
                 >
                   {!beatPostLoading && (
                     <button
-                      className="absolute left-0 top-0 md:hidden "
+                      className="absolute left-0 top-0 lg:hidden "
                       onClick={() => {
                         popClose();
                         commentRefetch();
@@ -696,7 +696,7 @@ const BeatEditPop = ({
                       <IoIosArrowRoundBack className="text-[50px] text-[#33B0CA]" />
                     </button>
                   )}
-                  <div className="relative text-right hidden md:flex justify-end h-0 ">
+                  <div className="relative text-right hidden lg:flex justify-end h-0 ">
                     {!beatPostLoading && (
                       <img
                         src={crossIcon}
@@ -887,6 +887,8 @@ const BeatEditPop = ({
                         >
                           <div className="relative ">
                             <button
+                              data-te-toggle="tooltip"
+                              title="Translate"
                               className={`cursor-pointer hover:text-[#33B0CA] `}
                               onClick={() => setTranslatedPop(!translatedPop)}
                             >
@@ -953,6 +955,8 @@ const BeatEditPop = ({
                           </div>
                           {!showKeyboard && (
                             <button
+                              data-te-toggle="tooltip"
+                              title="Keyboard"
                               className="hidden md:block"
                               onClick={() => setShowKeyboard(!showKeyboard)}
                             >

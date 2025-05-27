@@ -371,7 +371,7 @@ const SingleCharacterAdd = ({
                       ))}
                     </ul>
                   )}
-                  <div className="absolute  md:inset-y-2 right-[2px] bg-[#fafafa] flex items-center h-[25px] px-2 pointer-events-none">
+                  <div className="absolute inset-y-5  md:inset-y-2 right-[2px] bg-[#fafafa] flex items-center h-[25px] px-2 pointer-events-none">
                     {roleDropdownOpen ? (
                       <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[15px]" />
                     ) : (

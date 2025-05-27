@@ -9,14 +9,12 @@ const CongratsPopup = ({
   selectedRequests,
   selectedUserNames,
 }) => {
- 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
       <div className=" h-[50vh] lg:h-[375px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[605px]  md:mx-auto relative lg:rounded-[8px]">
- 
-             {/* close popup */}
-             <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
+        {/* close popup */}
+        <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
           <img
             src={crossIcon}
             alt=""

@@ -239,8 +239,7 @@ const Popup = ({
           console.log("actTwoEnd:", actTwo[actTwo.length - 1]); // Check if actTwoEnd is being set correctly
         } else {
           // If setC is already an object, handle it directly
-          const setCObject = setCString; // No need to parse
-          console.log("Direct setCObject:", setCObject);
+          const setCObject = setCString; // No need to parse;
 
           const actOne = setCObject["Forward the Act One"];
           const actTwo = setCObject["Forward the Act Two"];
@@ -254,9 +253,7 @@ const Popup = ({
     }
   }, [isPremiseLoading, premiseData]); // Ensure premiseData is available before running the effect
 
-  console.log("actOneThreshold:", actOneThreshold); // Check if actOneThreshold is being set correctly
-  console.log("actTwoEnd:", actTwoEnd); // Check if actTwoEnd is being set correctly
-
+ 
   useEffect(() => {}, [actOneThreshold, actTwoEnd]);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import { FaPlus } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
@@ -71,29 +71,21 @@ const LeftSideBar = ({
     created_by_name,
   } = premiseData;
 
-  const { charactersPopupMobile } = useContext(GlobalContext);
-
+  const { charactersPopupMobile, setCharactersPopupMobile } =
+    useContext(GlobalContext);
   const { currentUser, allspProjectJSON } = useContext(MyContext);
-
   const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
   const [deleteCharacter] = useDeleteCharacterMutation();
   const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
-
   const [openHidePop, setOpenHidePop] = useState(null);
   const [transPopClose, setTransPopClose] = useState({});
-
   const [commentField, setCommentField] = useState(false);
-
   const [isLoading, setIsLoading] = useState(false);
-
   const finalCount = commentsData?.counts;
-
   const user = useSelector((state) => state?.user?.id);
   const dispatch = useDispatch();
-
   const [noAccessPopup, setNoAccessPopup] = useState(null);
   const [service, setService] = useState(null);
-
   // for characters
   const [characterArray, setCharacterArray] = useState(characters || []);
   const [editData, setEditData] = useState({});
@@ -233,6 +225,7 @@ const LeftSideBar = ({
   };
 
   const handleAddNewChar = async () => {
+    setCharactersPopupMobile(false);
     const res = await fetchUserAccess(`${currentUser?.id}/PP_AddCharacters`);
     console.log("add char res", res);
     if (res?.access === "No") {
@@ -243,6 +236,7 @@ const LeftSideBar = ({
   };
 
   const handleVisibility = async () => {
+    setCharactersPopupMobile(false);
     const res = await fetchUserAccess(`${currentUser?.id}/PP_Privacy`);
     console.log("visibility res", res);
     if (res?.access === "No") {
@@ -260,7 +254,7 @@ const LeftSideBar = ({
       characterRefetch();
     }
   };
-
+  console.log("source_language", source_language);
   // console.log("characters", characters);
   // console.log("finalCharacters", finalCharacters);
   const currentProjectData = allspProjectJSON?.projects?.find(
@@ -377,113 +371,6 @@ const LeftSideBar = ({
           </div>
           {/* Details scroll div */}
           <div className="flex-1 pb-4 overflow-y-auto flex flex-col justify-between">
-            {window.innerWidth < 1150 && charactersPopupMobile && (
-              <div className="bg-[#fff] px-3 absolute top-[47px] right-[12px] w-[290px] rounded-[8px] p-[8px] z-30 shadow-[0px_0px_26px_0px_rgba(0,0,0,0.3)]">
-                <div className="mt-[17px]">
-                  <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
-                    {" "}
-                    <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
-                      Created By
-                    </h2>
-                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
-                      : {created_by_name}
-                    </p>
-                  </div>
-                  <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
-                    {" "}
-                    <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
-                      Created On
-                    </h2>
-                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
-                      : {formatDate(created_at)}
-                    </p>
-                  </div>
-                  <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
-                    <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
-                      Last Worked On
-                    </h2>
-                    <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
-                      : {formatDate(last_worked_on)}
-                    </p>
-                  </div>
-                </div>
-
-                {/* visible to  */}
-                {premiseOwner?.id === user && (
-                  <div className="mt-1">
-                    <div className="  w-full  flex justify-between items-center">
-                      <p className="text-[#616161] font-[700] text-[16px] leading-6">
-                        Visible to
-                      </p>
-
-                      <MdOutlineEdit
-                        onClick={handleVisibility}
-                        className="text-[#33B0CA] cursor-pointer"
-                      />
-                    </div>
-                    <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
-                    <p className="text-[#33B0CA] text-[16px] font-[500] leading-6 capitalize">
-                      {filter_flag === 0
-                        ? "All Buddies"
-                        : filter_flag === 1
-                        ? "Only Me"
-                        : filter_flag === 2
-                        ? visible_to?.length > 0
-                          ? visible_to
-                              .filter((v) => v?.id !== currentUser?.id) // Exclude current user
-                              .map((v) => `${v?.first_name} ${v?.last_name} `) // Format names properly
-                              .join(", ")
-                          : "No one"
-                          ? filter_flag === 3
-                          : "Everyone"
-                        : "Everyone"}
-                    </p>
-                  </div>
-                )}
-
-                {/* characters */}
-                {premiseOwner?.id === user && (
-                  <div className="mt-1">
-                    <div className="  w-full flex justify-between items-center">
-                      <p className="text-[#616161] font-[700] text-[16px] leading-6">
-                        Characters
-                      </p>
-                      <div className=" flex gap-2 items-center ">
-                        <FaPlus
-                          className="text-[14px] cursor-pointer"
-                          onClick={handleAddNewChar}
-                        />
-                        <MdOutlineEdit
-                          onClick={() => {
-                            setOpenCharacterChart(project_id);
-                          }}
-                          className="text-[#33B0CA] cursor-pointer"
-                        />
-                      </div>
-                    </div>
-                    <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full lg:max-h-[83px] overflow-auto">
-                      {finalCharacters?.map((character, index) => (
-                        <CharacterShowCard
-                          {...{
-                            character,
-                            index,
-                            setEditData,
-                            setEditIdx,
-                            setDeleteIdx,
-                            setEditPopupOpen,
-                            setDeleteChar,
-                            onlyAdd,
-                            deleteCharacterFun,
-                            source_language,
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
             {window.innerWidth > 1150 && (
               <div className="bg-[#fff] px-3">
                 <div>
@@ -812,6 +699,114 @@ const LeftSideBar = ({
             </div>
           </div>
         </Draggable>
+      )}
+
+      {window.innerWidth < 1150 && charactersPopupMobile && (
+        <div className="bg-[#fff] px-3 absolute top-[47px] right-[12px] w-[290px] rounded-[8px] p-[8px] z-30 shadow-[0px_0px_26px_0px_rgba(0,0,0,0.3)]">
+          <div className="mt-[17px]">
+            <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
+              {" "}
+              <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
+                Created By
+              </h2>
+              <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
+                : {created_by_name}
+              </p>
+            </div>
+            <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
+              {" "}
+              <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
+                Created On
+              </h2>
+              <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
+                : {formatDate(created_at)}
+              </p>
+            </div>
+            <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
+              <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
+                Last Worked On
+              </h2>
+              <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
+                : {formatDate(last_worked_on)}
+              </p>
+            </div>
+          </div>
+
+          {/* visible to  */}
+          {premiseOwner?.id === user && (
+            <div className="mt-1">
+              <div className="  w-full  flex justify-between items-center">
+                <p className="text-[#616161] font-[700] text-[16px] leading-6">
+                  Visible to
+                </p>
+
+                <MdOutlineEdit
+                  onClick={handleVisibility}
+                  className="text-[#33B0CA] cursor-pointer"
+                />
+              </div>
+              <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
+              <p className="text-[#33B0CA] text-[16px] font-[500] leading-6 capitalize">
+                {filter_flag === 0
+                  ? "All Buddies"
+                  : filter_flag === 1
+                  ? "Only Me"
+                  : filter_flag === 2
+                  ? visible_to?.length > 0
+                    ? visible_to
+                        .filter((v) => v?.id !== currentUser?.id) // Exclude current user
+                        .map((v) => `${v?.first_name} ${v?.last_name} `) // Format names properly
+                        .join(", ")
+                    : "No one"
+                    ? filter_flag === 3
+                    : "Everyone"
+                  : "Everyone"}
+              </p>
+            </div>
+          )}
+
+          {/* characters */}
+          {premiseOwner?.id === user && (
+            <div className="mt-1">
+              <div className="  w-full flex justify-between items-center">
+                <p className="text-[#616161] font-[700] text-[16px] leading-6">
+                  Characters
+                </p>
+                <div className=" flex gap-2 items-center ">
+                  <FaPlus
+                    className="text-[14px] cursor-pointer"
+                    onClick={handleAddNewChar}
+                  />
+                  <MdOutlineEdit
+                    onClick={() => {
+                      setOpenCharacterChart(project_id);
+                      setCharactersPopupMobile(false);
+                    }}
+                    className="text-[#33B0CA] cursor-pointer"
+                  />
+                </div>
+              </div>
+              <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full lg:max-h-[83px] overflow-auto">
+                {finalCharacters?.map((character, index) => (
+                  <CharacterShowCard
+                    {...{
+                      character,
+                      index,
+                      setEditData,
+                      setEditIdx,
+                      setDeleteIdx,
+                      setEditPopupOpen,
+                      setDeleteChar,
+                      onlyAdd,
+                      deleteCharacterFun,
+                      source_language,
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       )}
     </>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaRegEye } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
@@ -40,15 +40,12 @@ const CharacterShowCard = ({
     return null; // Return null if no value is found
   };
 
-  console.log(
-    "Is anmimate in toher language",
-    source_language,
-    ":",
-    character?.gender,
-    ":",
-    character?.gender !== inanimateObjectOptions(sourceLanguageName) &&
-      character?.age
-  );
+  // console.log(
+  //   character?.gender,
+
+  //   character?.age
+  // );
+  // console.log("iiiiiii",source_language, inanimateObjectOptions(sourceLanguageName));
 
   return (
     <div className="flex text-[#252525] h-auto max-h-[36px] gap-[3px] justify-between items-center w-full">
@@ -113,8 +110,8 @@ const CharacterShowCard = ({
 
         {index >= 2 ? (
           <RiDeleteBinLine
-          data-te-toggle="tooltip"
-          title={`${`Delete`}`}
+            data-te-toggle="tooltip"
+            title={`${`Delete`}`}
             onClick={() => {
               handleDeleteClick();
             }}

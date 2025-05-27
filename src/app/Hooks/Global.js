@@ -31,6 +31,7 @@ const GlobalProvider = ({ children }) => {
 
   const contextValue = {
     charactersPopupMobile,
+    setCharactersPopupMobile,
     toggleCharactersPopup,
     // isLiked, setIsLiked
   };

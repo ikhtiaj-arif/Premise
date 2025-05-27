@@ -472,9 +472,9 @@ const PremisePreview2 = ({
     const languageKey =
       languageOptions.find((option) => option.label === premiseLanguage) ||
       null;
-      console.log("languageKey", languageKey);
+    console.log("languageKey", languageKey);
     setSelectedSpProjectLanguage(languageKey.value);
-    setLanguage(languageKey.value)
+    setLanguage(languageKey.value);
   }, [premiseLanguage]);
 
   useEffect(() => {
@@ -721,10 +721,10 @@ const PremisePreview2 = ({
   const submitPremise = async (e) => {
     e.preventDefault();
 
-      const languageKey =
+    const languageKey =
       languageOptions.find((option) => option.label === premiseLanguage) ||
       null;
-      
+
     //demo popup
     const newProjectNextDemoPop = localStorage.getItem("newProjectNextDemoPop");
     if (
@@ -806,15 +806,29 @@ const PremisePreview2 = ({
       // const res = data?.id
       //   ? await previewEdit(previewData)
       //   : await previewPremise(formData);
+      let generaValue;
+      let subGeneraValue;
+      if (generaItem === "Other") {
+        generaValue = "Drama";
+        subGeneraValue = subGeneraItemTxt;
+      } else if (
+        generaItem === "Superhero" ||
+        generaItem === "Adventure" ||
+        generaItem === "Mystery" ||
+        generaItem === "Documentary"
+      ) {
+        generaValue = "Drama";
+        subGeneraValue = subGeneraItem;
+      }
 
       const data = {
         name: spProjectName,
-        language:  languageKey.value,
+        language: languageKey.value,
         ownername: authorName,
         nature_project: natureOfProject,
         duration: duration,
-        genre: generaItem,
-        sub_genre: subGeneraItem || subGeneraItemTxt,
+        genre: generaValue,
+        sub_genre: subGeneraValue,
         geography: geographyItem,
         period: periodSetIn,
         protagonist_type: protagonist,
@@ -1364,9 +1378,9 @@ const PremisePreview2 = ({
 
   // Calculate the percentage points
   useEffect(() => {
-    setActOneThreshold(Math.floor(0.25 * mValue));
+    setActOneThreshold(Math.round(0.15 * mValue) + 4);
 
-    setActTwoEnd(Math.floor(0.8 * mValue));
+    setActTwoEnd(Math.round(0.85 * mValue));
   }, [premiseData, mValue]);
 
   // const projectOptions = filteredSpProjects?.map((project) => ({
@@ -1383,8 +1397,6 @@ const PremisePreview2 = ({
       value: project.pro_uuid,
       label: project.name,
     }));
-
-
 
   const customTheme = (theme) => ({
     ...theme,
@@ -1408,6 +1420,47 @@ const PremisePreview2 = ({
 
     setCharacterEditPop(true);
   };
+
+  const [openUpward, setOpenUpward] = useState(false);
+
+  // Check space and decide dropdown direction
+  useEffect(() => {
+    if (isProjectOpen && spProjectRef.current) {
+      const rect = spProjectRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      setOpenUpward(spaceBelow < 220 && spaceAbove > spaceBelow);
+    }
+  }, [isProjectOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        spProjectRef.current &&
+        !spProjectRef.current.contains(event.target)
+      ) {
+        setIsProjectOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
+
+useEffect(() => {
+  if (isProjectOpen && spProjectRef.current) {
+    const rect = spProjectRef.current.getBoundingClientRect();
+    const dropdownHeight = 170; // px
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const openUpward = spaceBelow < dropdownHeight;
+
+    setDropdownPos({
+      left: rect.left,
+      top: openUpward ? rect.top - dropdownHeight - 6 : rect.bottom + 2,
+    });
+  }
+}, [isProjectOpen]);
 
   if (isLoading) {
     return (
@@ -1722,116 +1775,64 @@ const PremisePreview2 = ({
                     <>
                       <div
                         ref={spProjectRef}
-                        className={`h-[31px] relative w-[144px] md:w-[206px] bg-[#fafafa] ${
+                        className={`h-[31px] overflow-visible relative w-[144px] md:w-[206px] bg-[#fafafa] ${
                           selectedSpProjectID
                             ? "border-[#33B0CA]"
                             : "border-[#EAEAEA]"
-                        } rounded-[4px] border-[2px]`}
+                        } rounded-[4px] border-[2px] cursor-pointer`}
+                        onClick={() => setIsProjectOpen((prev) => !prev)}
                       >
-                        <Select
-                          options={projectOptions}
-                          value={
-                            projectOptions?.find(
-                              (option) => option.value === selectedSpProjectID
-                            ) || null
-                          }
-                          onChange={(selectedOption) => {
-                            setSelectedSpProjectID(selectedOption?.value || "");
-                            setIsProjectOpen(false);
-                          }}
-                          onMenuOpen={() => setIsProjectOpen(true)}
-                          onMenuClose={() => setIsProjectOpen(false)}
-                          placeholder="Select A Project"
-                          theme={customTheme}
-                          menuPortalTarget={document.body} // This is crucial - renders menu to document.body
-                          menuPosition="fixed" // Use fixed positioning
-                          styles={{
-                            menuPortal: (base) => ({
-                              ...base,
-                              zIndex: 9,
-                              // Very high z-index to ensure it's on top
-                            }),
-                            control: (base) => ({
-                              ...base,
-                              height: "27px",
-                              minHeight: "27px",
-                              fontSize: "12px",
-                              "@media (min-width: 768px)": {
-                                fontSize: "14px",
-                              },
-                              border: "none",
-                              backgroundColor: "#fafafa",
-                              boxShadow: "none",
-                              padding: "0",
-                              margin: "0",
-                              width: "100%",
-                            }),
-                            valueContainer: (base) => ({
-                              ...base,
-                              padding: "0 8px",
-                              height: "27px",
-                              display: "flex",
-                              alignItems: "center",
-                            }),
-                            input: (base) => ({
-                              ...base,
-                              margin: "0",
-                              padding: "0",
-                            }),
-                            indicatorsContainer: () => ({
-                              display: "none", // hide default dropdown arrow
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              fontSize: "14px",
-                              marginTop: "2px",
-                              zIndex: 9, // Very high z-index
-                              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              fontSize: "14px",
-                              padding: "0px 8px",
-                              backgroundColor: state.isFocused
-                                ? "#33b0ca"
-                                : "#fafafa",
-                              color: state.isFocused ? "#ffffff" : "#000000",
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              height: "32px",
-                              lineHeight: "20px",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              fontSize: "12px",
-                              "@media (min-width: 768px)": {
-                                fontSize: "14px",
-                              },
-                              whiteSpace: "nowrap",
-                              textOverflow: "ellipsis",
-                            }),
-                            singleValue: (base) => ({
-                              ...base,
-                              fontSize: "12px",
-                              "@media (min-width: 768px)": {
-                                fontSize: "14px",
-                              },
-                              margin: "0",
-                              padding: "0",
-                              lineHeight: "27px",
-                            }),
-                          }}
-                          classNamePrefix="custom-select"
-                        />
-
-                        <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
-                          {isProjectOpen ? (
-                            <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
-                          ) : (
-                            <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                        <div className="h-[27px] px-[8px] text-[12px] md:!text-[14px] flex items-center justify-between">
+                          {filteredSpProjects.find(
+                            (p) => p.pro_uuid === selectedSpProjectID
+                          )?.name || (
+                            <span className="text-gray-400">
+                              Select A Project
+                            </span>
                           )}
+                          <div className="flex items-center">
+                            {isProjectOpen ? (
+                              <IoIosArrowUp className="text-[14px] md:text-[18px]" />
+                            ) : (
+                              <IoIosArrowDown className="text-[14px] md:text-[18px]" />
+                            )}
+                          </div>
                         </div>
+
+                        {/* Dropdown List */}
+                        {isProjectOpen && (
+                          <div
+                            className={`fixed z-[9999] bg-white border border-[#EAEAEA] rounded-[4px] shadow-md max-h-[200px] overflow-y-auto w-[144px] md:w-[206px]`}
+                            style={{
+                              top: dropdownPos.top,
+                              left: dropdownPos.left,
+                            }}
+                          >
+                            {filteredSpProjects.length === 0 ? (
+                              <div className="px-4 text-sm text-gray-400">
+                                No Projects Found
+                              </div>
+                            ) : (
+                              filteredSpProjects.map((option) => (
+                                <div
+                                  title={option.name}
+                                  key={option.pro_uuid}
+                                  onClick={() => {
+                                    setIsProjectOpen(false);
+                                    setSelectedSpProjectID(option.pro_uuid);
+                                  }}
+                                  className={`px-4 py-[2px] text-[12px] md:text-[14px] hover:bg-[#33b0ca] hover:text-white ${
+                                    selectedSpProjectID === option.pro_uuid
+                                      ? "bg-[#e6f7fa]"
+                                      : ""
+                                  }`}
+                                >
+                                  {option.name.slice(0, 15)}
+                                </div>
+                              ))
+                            )}
+                          </div>
+                        )}
                       </div>
                     </>
                   )}
@@ -1862,115 +1863,66 @@ const PremisePreview2 = ({
                     {filteredSpProjects.length !== 0 && (
                       <div
                         ref={spProjectRef}
-                        className={`h-[31px] relative w-[144px] md:w-[206px] bg-[#fafafa] ${
+                        className={`h-[31px] overflow-visible relative w-[144px] md:w-[206px] bg-[#fafafa] ${
                           selectedSpProjectID
                             ? "border-[#33B0CA]"
                             : "border-[#EAEAEA]"
-                        } rounded-[4px] border-[2px]`}
+                        } rounded-[4px] border-[2px] cursor-pointer`}
+                        onClick={() =>{ 
+                          setIsProjectOpen((prev) => !prev)
+                        }}
                       >
-                        <Select
-                          options={projectOptions}
-                          value={
-                            projectOptions?.find(
-                              (option) => option.value === selectedSpProjectID
-                            ) || null
-                          }
-                          onChange={(selectedOption) => {
-                            setSelectedSpProjectID(selectedOption?.value || "");
-                            setIsProjectOpen(false);
-                          }}
-                          onMenuOpen={() => setIsProjectOpen(true)}
-                          onMenuClose={() => setIsProjectOpen(false)}
-                          placeholder="Select A Project"
-                          theme={customTheme}
-                          menuPortalTarget={document.body} // This is crucial - renders menu to document.body
-                          menuPosition="fixed" // Use fixed positioning
-                          styles={{
-                            menuPortal: (base) => ({
-                              ...base,
-                              zIndex: 9,
-                              // Very high z-index to ensure it's on top
-                            }),
-                            control: (base) => ({
-                              ...base,
-                              height: "27px",
-                              minHeight: "27px",
-                              fontSize: "12px",
-                              "@media (min-width: 768px)": {
-                                fontSize: "14px",
-                              },
-                              border: "none",
-                              backgroundColor: "#fafafa",
-                              boxShadow: "none",
-                              padding: "0",
-                              margin: "0",
-                              width: "100%",
-                            }),
-                            valueContainer: (base) => ({
-                              ...base,
-                              padding: "0 8px",
-                              height: "27px",
-                              display: "flex",
-                              alignItems: "center",
-                            }),
-                            input: (base) => ({
-                              ...base,
-                              margin: "0",
-                              padding: "0",
-                            }),
-                            indicatorsContainer: () => ({
-                              display: "none", // hide default dropdown arrow
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              fontSize: "14px",
-                              marginTop: "2px",
-                              zIndex: 9, // Very high z-index
-                              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              fontSize: "14px",
-                              padding: "0px 8px",
-                              backgroundColor: state.isFocused
-                                ? "#33b0ca"
-                                : "#fafafa",
-                              color: state.isFocused ? "#ffffff" : "#000000",
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              height: "32px",
-                              lineHeight: "20px",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              fontSize: "12px",
-                              "@media (min-width: 768px)": {
-                                fontSize: "14px",
-                              },
-                              whiteSpace: "nowrap",
-                              textOverflow: "ellipsis",
-                            }),
-                            singleValue: (base) => ({
-                              ...base,
-                              fontSize: "12px",
-                              "@media (min-width: 768px)": {
-                                fontSize: "14px",
-                              },
-                              margin: "0",
-                              padding: "0",
-                              lineHeight: "27px",
-                            }),
-                          }}
-                          classNamePrefix="custom-select"
-                        />
-                        <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center   pointer-events-none">
-                          {isProjectOpen ? (
-                            <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
-                          ) : (
-                            <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
+                        <div className="h-[27px] px-[8px] text-[12px] md:!text-[14px] flex items-center justify-between">
+                          {filteredSpProjects.find(
+                            (p) => p.pro_uuid === selectedSpProjectID
+                          )?.name || (
+                            <span className="text-gray-400">
+                              Select A Project
+                            </span>
                           )}
+                          <div className="flex items-center">
+                            {isProjectOpen ? (
+                              <IoIosArrowUp className="text-[14px] md:text-[18px]" />
+                            ) : (
+                              <IoIosArrowDown className="text-[14px] md:text-[18px]" />
+                            )}
+                          </div>
                         </div>
+
+                        {/* Dropdown List */}
+                        {isProjectOpen && (
+                          <div
+                            className={`fixed z-[9999] bg-white border border-[#EAEAEA] rounded-[4px] shadow-md max-h-[200px] overflow-y-auto w-[144px] md:w-[206px]`}
+                            style={{
+                              top: dropdownPos.top,
+                              left: dropdownPos.left,
+                            }}
+                          >
+                            {filteredSpProjects.length === 0 ? (
+                              <div className="px-4 text-sm text-gray-400">
+                                No Projects Found
+                              </div>
+                            ) : (
+                              filteredSpProjects.map((option) => (
+                                <div
+                                  title={option.name}
+                                  key={option.pro_uuid}
+                                  onClick={() => {
+                                    setSelectedSpProjectID(option.pro_uuid);
+                                    setIsProjectOpen(false);
+                                  }}
+                                  className={`px-4 py-[2px] text-[12px] md:text-[14px] hover:bg-[#33b0ca] hover:text-white ${
+                                    selectedSpProjectID === option.pro_uuid
+                                      ? "bg-[#e6f7fa]"
+                                      : ""
+                                  }`}
+                                >
+                                  {option.name.slice(0, 15)}
+                                </div>
+                              ))
+                            )}
+                          </div>
+                        )}
                       </div>
                     )}
                     {!createNewProject && (
@@ -2199,8 +2151,6 @@ const PremisePreview2 = ({
                         }}
                         classNamePrefix="custom-select"
                       />
-
-                   
                     </div>
                     {/* <div
                       ref={languageRef}
@@ -3578,7 +3528,7 @@ const PremisePreview2 = ({
         </div>
         {openPreviewDemoPop && (
           <PreviewPremiseTutorialPop
-            popClose={() =>setOpenPreviewDemoPop(false)}
+            popClose={() => setOpenPreviewDemoPop(false)}
           />
         )}
         {openPreviewNextDemoPop && (

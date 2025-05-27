@@ -224,7 +224,7 @@ const TestPopup = () => {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
-      <div className="lg:static absolute lg:mt-[50px] bottom-0 bg-white rounded-[12px] w-[100%] lg:w-[643px]">
+      <div className="lg:static absolute lg:mt-[90px] bottom-0 bg-white rounded-[12px] w-[100%] lg:w-[623px]">
         <div className="relative rounded-[8px] py-2 xs:py-8 bg-[#fff]">
           <div className="absolute right-[45%] top-[-60px] lg:top-[-17px] lg:right-[-18px]">
             <img
@@ -240,27 +240,27 @@ const TestPopup = () => {
               <img
                 src={`https://uidemos.s3.ap-south-1.amazonaws.com/smiley.jpg`}
                 alt="Smile doodle"
-                className="w-[90px] xs:w-[110px] h-[78px] xs:h-[98px]"
+                className="w-[70px]"
               />
               {/* <h1 className="absolute left-3">{currentPopup}</h1> */}
-              <p className="text-center text-[16px] font-medium text-[#33b0ca] translate-y-3">
+              <p className="text-center text-[16px] font-medium text-[#33b0ca]">
                 Do You Know?
               </p>
             </div>
 
             <div className="flex flex-col items-center gap-[6px] mb-5 mt-1">
-              <h2 className="text-[16px] leading-5 px-4 font-medium text-[#252525] translate-y-3 text-center">
+              <h2 className="text-[16px] leading-5 px-4 font-medium text-[#252525] text-center">
                 {currentPopupData.message}
               </h2>
 
               <img
                 src={currentPopupData.imgUrl}
-                alt="Popup Image"
-                className="max-w-[380.58px] w-[90%]  max-h-[230px] shadow shadow-md rounded-md mt-4"
+                alt="Popup_Image"
+                className="max-w-[230px] w-[90%] shadow rounded-md "
               />
             </div>
 
-            <div className="flex flex-col items-center gap-[6px] mb-5 w-full">
+            <div className="flex flex-col items-center gap-[6px] mb-2 w-full">
               {currentPopup < 14 ? (
                 <div className="flex items-center justify-around w-full">
                   {
