@@ -431,7 +431,7 @@ const PremiseV2 = () => {
                 <img
                   alt="monetize your creativity"
                   src={headText}
-                  className="w-[70%] lg:w-[443px] ml-auto lg:mx-auto h-[42px] lg:h-[52px]"
+                  className="w-[60%] xxs:w-[70%] lg:w-[443px] ml-auto lg:mx-auto h-[42px] lg:h-[52px]"
                 />
                 {/* <h2 className="text-[30px] font-figma-hand text-[#33B0CA] leading-[41.37px] font-[700] mt-[0px]">
                   Monetize Your Creativity!

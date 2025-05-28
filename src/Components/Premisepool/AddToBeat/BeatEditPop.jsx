@@ -25,7 +25,6 @@ import TypingLoader from "../../TypingLoader";
 import { URL } from "../../utils";
 import ConfirmationModal from "../Comments/ConfirmationModal";
 import KeyboardB from "../KeyboardB";
-import { keyboardOptions } from "../KeyboardOption";
 import { sortedLanguages } from "../Languages";
 import ProjectNotfound from "./ProjectNotfound";
 const BeatEditPop = ({
@@ -968,7 +967,7 @@ const BeatEditPop = ({
                               <button
                                 onClick={() => setShowKeyboard(!showKeyboard)}
                               >
-                                <FaKeyboard className="w-full" />
+                                <FaKeyboard className="w-8" />
                               </button>
                               {/* <select
                                 disabled={selectedLanguage}
@@ -986,7 +985,7 @@ const BeatEditPop = ({
                                     </option>
                                   ))}
                               </select> */}
-                              <div className="absolute top-[32px] left-0 z-50 w-[135px]  h-[27vh] overflow-x-hidden md:h-[20vh] overflow-y-auto border bg-[#fafafa]">
+                              {/* <div className="absolute top-[32px] left-0 z-50 w-[135px]  h-[27vh] overflow-x-hidden md:h-[20vh] overflow-y-auto border bg-[#fafafa]">
                                 {Object.entries(keyboardOptions)
                                   ?.sort(([, a], [, b]) => a.localeCompare(b))
                                   ?.map(([code, name]) => (
@@ -1003,7 +1002,7 @@ const BeatEditPop = ({
                                       {name}
                                     </li>
                                   ))}
-                              </div>
+                              </div> */}
                             </div>
                           )}
 
