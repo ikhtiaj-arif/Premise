@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -61,15 +61,15 @@ const SingleCharacterAddNewTab = ({
 
   useEffect(() => {
     let isAgeValid;
-    if (gender === "Inanimate Object") {
+    if (
+      gender === "Inanimate Object" ||
+      inanimateObjectOptions(sourceLanguageName)
+    ) {
       isAgeValid = true;
-      setAge("0");
     } else {
       isAgeValid = age;
     }
-
     const isFormComplete = role && name && occupation && gender && isAgeValid;
-
     setIsSaveDisabled(!isFormComplete);
   }, [
     role,
@@ -86,17 +86,6 @@ const SingleCharacterAddNewTab = ({
     professionalrelationship,
     customRole,
   ]);
-
-  useEffect(() => {
-    let isAgeValid;
-    if (gender === "Inanimate Object") {
-      isAgeValid = true;
-    } else {
-      isAgeValid = age;
-    }
-    const isFormComplete = role && name && occupation && gender && isAgeValid;
-    setDisabled(!isFormComplete);
-  }, [role, age, occupation, name, gender]);
 
   const handleAddClick = async (e) => {
     e.preventDefault();
@@ -403,7 +392,7 @@ const SingleCharacterAddNewTab = ({
                       ))}
                     </ul>
                   )}
-                  <div className="absolute inset-y-2 right-[2px] bg-[#fafafa] flex items-center px-2 pointer-events-none">
+                  <div className="absolute  inset-y-5  md:inset-y-2 right-[2px] bg-[#fafafa] flex items-center px-2 pointer-events-none">
                     {roleDropdownOpen ? (
                       <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[15px]" />
                     ) : (
