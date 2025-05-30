@@ -255,6 +255,7 @@ const PremiseTopAccess = ({
         <ViewTranslationPop
           popClose={setOpenViewTranslationsPop}
           premiseId={id}
+        
         />
       )}
       {openMonetizingPreferencesPop && premiseData && (
@@ -293,6 +294,7 @@ const PremiseTopAccess = ({
         <ViewTranslationPop
           popClose={setOpenViewTranslationsPop}
           premiseId={viewTransactionPId}
+          
         />
       )}
       {userMail === "Yes" && (
@@ -362,6 +364,7 @@ const PremiseTopAccess = ({
         <ViewTranslationPop
           popClose={setOpenViewTranslationsPop}
           premiseId={viewTransactionPId}
+          
           popCloseCmnt={() => setOpenPop(false)}
           {...{
             handleVisibility,
