@@ -10,6 +10,7 @@ const EachTranslateeCard = ({
   handleMonetizing,
   refetch,
   viewText,
+  project_id,
 }) => {
   // console.log("transaction", transaction);
   // const { data: userData, isLoading } = useGetUserByUserIdQuery(
@@ -32,6 +33,26 @@ const EachTranslateeCard = ({
     setPopUp(false);
   };
 
+  const formattedDate = new Date(premiseData?.created_at).toLocaleDateString(
+    "en-US",
+    {
+      // timeZone: "GMT",
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      // weekday: "short",
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    }
+  );
+  const formattedTime = new Date(premiseData?.created_at).toLocaleTimeString(
+    "en-US",
+    {
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      hour: "numeric",
+      minute: "numeric",
+    }
+  );
+
   const data = premiseData
     ? {
         stylings: premiseData?.text?.includes("+")
@@ -52,11 +73,13 @@ const EachTranslateeCard = ({
         // viewText: premiseData?.text?.includes("+")
         //   ? premiseData?.text?.split("+")[1]
         //   : "",
-        project_id: premiseData?.pro_uuid || "",
+        project_id: premiseData?.project_id || "",
         m_value: premiseData?.m_value || "",
+        formattedTime,
+        formattedDate,
       }
     : {};
-  console.log(data);
+
   return (
     <React.Fragment>
       {popup && (

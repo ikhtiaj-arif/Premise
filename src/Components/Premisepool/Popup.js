@@ -508,7 +508,7 @@ const Popup = ({
                             user_type={premiseOwner?.centraldatabase?.user_type}
                           />
                         </div>
-                        <p className="text-[#616161] text-[10px] flex flex-col font-[400] leading-[12px] mt-[-3px]">
+                        <p className="text-[#616161] text-[10px] flex flex-col font-[400] leading-[12px] min-w-[120px] mt-[-3px]">
                           <p>
                             {formattedDate}, {formattedTime}
                           </p>
@@ -829,6 +829,7 @@ const Popup = ({
             <ViewTranslationPop
               popClose={setOpenViewTranslationsPop}
               premiseId={viewTransactionPId}
+             
             />
           )}
           {userMail === "Yes" && (
@@ -898,6 +899,7 @@ const Popup = ({
             <ViewTranslationPop
               popClose={setOpenViewTranslationsPop}
               premiseId={viewTransactionPId}
+               
               popCloseCmnt={() => setOpenPop(false)}
               {...{
                 handleVisibility,
