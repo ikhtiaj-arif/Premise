@@ -819,6 +819,9 @@ const PremisePreview2 = ({
       ) {
         generaValue = "Drama";
         subGeneraValue = subGeneraItem;
+      } else {
+        generaValue = generaItem;
+        subGeneraValue = subGeneraItem;
       }
 
       const data = {
@@ -1448,19 +1451,19 @@ const PremisePreview2 = ({
 
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
 
-useEffect(() => {
-  if (isProjectOpen && spProjectRef.current) {
-    const rect = spProjectRef.current.getBoundingClientRect();
-    const dropdownHeight = 170; // px
-    const spaceBelow = window.innerHeight - rect.bottom;
-    const openUpward = spaceBelow < dropdownHeight;
+  useEffect(() => {
+    if (isProjectOpen && spProjectRef.current) {
+      const rect = spProjectRef.current.getBoundingClientRect();
+      const dropdownHeight = 170; // px
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const openUpward = spaceBelow < dropdownHeight;
 
-    setDropdownPos({
-      left: rect.left,
-      top: openUpward ? rect.top - dropdownHeight - 6 : rect.bottom + 2,
-    });
-  }
-}, [isProjectOpen]);
+      setDropdownPos({
+        left: rect.left,
+        top: openUpward ? rect.top - dropdownHeight - 6 : rect.bottom + 2,
+      });
+    }
+  }, [isProjectOpen]);
 
   if (isLoading) {
     return (
@@ -1868,8 +1871,8 @@ useEffect(() => {
                             ? "border-[#33B0CA]"
                             : "border-[#EAEAEA]"
                         } rounded-[4px] border-[2px] cursor-pointer`}
-                        onClick={() =>{ 
-                          setIsProjectOpen((prev) => !prev)
+                        onClick={() => {
+                          setIsProjectOpen((prev) => !prev);
                         }}
                       >
                         <div className="h-[27px] px-[8px] text-[12px] md:!text-[14px] flex items-center justify-between">

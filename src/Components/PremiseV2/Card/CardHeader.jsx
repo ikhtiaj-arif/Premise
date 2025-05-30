@@ -68,7 +68,11 @@ const CardHeader = ({
                   {formattedDate}, {formattedTime}
                 </p>
                 {premiseOwner?.id === user && (
-                  <p className="text-[#252525] text-[12px]">
+                  <p
+                    data-te-toggle="tooltip"
+                    title={`${`${currentProjectName} `}`}
+                    className="notranslate"
+                  >
                     {currentProjectName?.slice(0, 20)}
                   </p>
                 )}
