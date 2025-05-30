@@ -248,7 +248,13 @@ const CharacterEditablePop = ({
             {getTextFromValue(currentProjectData?.duration)}
           </span>{" "}
           <span className="">{currentProjectData?.nature_project}</span>{" "}
-          <span className="">{currentProjectData?.name}</span>
+          <span
+            data-te-toggle="tooltip"
+            title={`${`${currentProjectData?.name} `}`}
+            className="notranslate"
+          >
+            {currentProjectData?.name.slice(0, 20)}
+          </span>
         </h3>
 
         {/* 3 Column Layout */}

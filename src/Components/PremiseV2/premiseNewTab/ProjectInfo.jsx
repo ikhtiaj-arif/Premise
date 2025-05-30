@@ -1,6 +1,9 @@
 import React from "react";
 import newTabDoodle from "../../../img/new-tab-doodle.png";
-import { getLanguageName, getTextFromValue } from "../utilityFuncitons/functions";
+import {
+  getLanguageName,
+  getTextFromValue,
+} from "../utilityFuncitons/functions";
 
 const ProjectInfo = ({ premiseData }) => {
   const {
@@ -27,7 +30,13 @@ const ProjectInfo = ({ premiseData }) => {
         </div>
       </div>
       <h3 className="text-[14px] md:text-[18px] text-[#252525] font-normal w-[80%] md:w-auto">
-        <span className="text-[#252525] font-bold">{project_name} </span>
+        <span
+          className="text-[#252525] font-bold notranslate"
+          data-te-toggle="tooltip"
+          title={`${`${project_name} `}`}
+        >
+          {project_name.slice(0, 15)}{" "}
+        </span>
         of {}
         <span className="text-[#252525] font-bold">
           {" "}

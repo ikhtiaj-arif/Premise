@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -68,8 +68,17 @@ const DeletePremise = ({
         <div className="w-[90%] mx-auto max-w-[510px] bg-[#fafafa]  rounded-xl ">
           <div className="flex flex-col justify-between h-auto px-[18px]">
             <p className="text-[14px] lg:text-[24px] text-[#252525] text-center lg:leading-10 font-[500] mt-10">
-              If you delete premise, related project {projectName} will also get
-              deleted?
+              If you delete premise, related project{" "}
+              {
+                <span
+                  data-te-toggle="tooltip"
+                  title={`${`${projectName} `}`}
+                  className="notranslate "
+                >
+                  {projectName?.slice(0, 20)}
+                </span>
+              }{" "}
+              will also get deleted?
               {/* If you delete
               premise, related project <span className="font-bold">{projectName}</span> will also get deleted?  */}
             </p>
