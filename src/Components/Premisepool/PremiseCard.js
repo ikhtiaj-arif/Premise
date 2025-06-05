@@ -277,6 +277,7 @@ const PremiseCard = ({
   };
 
   // console.log(created_by);
+  const [isDraft, setIsDraft] = useState(true)
 
   return (
     <div className="w-[358px] lg:w-[100%] mx-auto border border-[#EAEAEA] hover:shadow-lg rounded-[8px]  ">

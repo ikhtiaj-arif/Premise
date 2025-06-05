@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import backgroundImg from "../../../img/Icons/download.jpg";
@@ -395,6 +395,7 @@ const PremiseCardV2 = ({
   // premiseOwner,
   // handleUserMail,
   // setOwnerMail,
+  const [isDraft, setIsDraft] = useState(true);
 
   return (
     <div className="w-[358px] lg:w-[100%] mx-auto border border-[#EAEAEA] hover:shadow-lg rounded-[8px]  ">
@@ -540,7 +541,7 @@ const PremiseCardV2 = ({
                   backgroundPosition: "center",
                   width: "92%",
                   borderRadius: "8px",
-                  // boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
                 }
               : { backgroundColor: bg_color }
           }
@@ -571,66 +572,132 @@ const PremiseCardV2 = ({
           </div>
           <div></div>
         </div>
+        {/* {
+          isDraft ?
+          <PremiseBadge stamp={"Draft"} color={`bg-[#616161]`} />
+          :<PremiseBadge stamp={p?.stamp} />
+        } */}
         <PremiseBadge stamp={p?.stamp} />
       </div>
+
       {/* lower div */}
       <div className="flex justify-between items-center bg-[#FAFAFA] rounded-b-[8px] px-[15px] pb-[15px] pt-[25px] relative">
-        {/* 1st div */}
-        <div className="flex items-center">
-          <LikePremise
-            data={{
-              likes,
-              id,
-              user,
-            }}
-            refetch={refetch}
-          />
-          <CommentPremise
-            data={{
-              // finalCount,
-              comments,
-              bg_color,
-              bg_img,
-              dText,
-              premiseOwner,
-              id,
-              stylings,
-              likes,
-              isLiked,
-              shouldBlink,
-              source_language,
-              user,
-              setOpenDotMenu,
-              handleUserMail,
-              handleHideUnhidePremise,
-              setOwnerMail,
-              formattedTime,
-              formattedDate,
-              hidden,
-              index,
-              openDotMenu,
-              setHideDisable,
-              hideDisable,
-              project_id,
-            }}
-            refetch={refetch}
-            setIsLiked={setIsLiked}
-            p={p}
-          />
-        </div>
-        {/* 2nd div */}
-
-        <div className="ml-[15px] flex gap-2 items-center">
-          <TranslatePremise
-            {...{ transPopClose, setTransPopClose, setViewText }}
-            data={{
-              id,
-              dText,
-              source_language,
-              project_id,
-            }}
-          />
-        </div>
+        {/* {!isDraft && (
+          <>
+            {" "}
+           
+            <div className="flex items-center">
+              <LikePremise
+                data={{
+                  likes,
+                  id,
+                  user,
+                }}
+                refetch={refetch}
+              />
+              <CommentPremise
+                data={{
+                  // finalCount,
+                  comments,
+                  bg_color,
+                  bg_img,
+                  dText,
+                  premiseOwner,
+                  id,
+                  stylings,
+                  likes,
+                  isLiked,
+                  shouldBlink,
+                  source_language,
+                  user,
+                  setOpenDotMenu,
+                  handleUserMail,
+                  handleHideUnhidePremise,
+                  setOwnerMail,
+                  formattedTime,
+                  formattedDate,
+                  hidden,
+                  index,
+                  openDotMenu,
+                  setHideDisable,
+                  hideDisable,
+                  project_id,
+                }}
+                refetch={refetch}
+                setIsLiked={setIsLiked}
+                p={p}
+              />
+            </div>
+         
+            <div className="ml-[15px] flex gap-2 items-center">
+              <TranslatePremise
+                {...{ transPopClose, setTransPopClose, setViewText }}
+                data={{
+                  id,
+                  dText,
+                  source_language,
+                  project_id,
+                }}
+              />
+            </div>
+          </>
+        )} */}
+        <>
+          {" "}
+          <div className="flex items-center">
+            <LikePremise
+              data={{
+                likes,
+                id,
+                user,
+              }}
+              refetch={refetch}
+            />
+            <CommentPremise
+              data={{
+                // finalCount,
+                comments,
+                bg_color,
+                bg_img,
+                dText,
+                premiseOwner,
+                id,
+                stylings,
+                likes,
+                isLiked,
+                shouldBlink,
+                source_language,
+                user,
+                setOpenDotMenu,
+                handleUserMail,
+                handleHideUnhidePremise,
+                setOwnerMail,
+                formattedTime,
+                formattedDate,
+                hidden,
+                index,
+                openDotMenu,
+                setHideDisable,
+                hideDisable,
+                project_id,
+              }}
+              refetch={refetch}
+              setIsLiked={setIsLiked}
+              p={p}
+            />
+          </div>
+          <div className="ml-[15px] flex gap-2 items-center">
+            <TranslatePremise
+              {...{ transPopClose, setTransPopClose, setViewText }}
+              data={{
+                id,
+                dText,
+                source_language,
+                project_id,
+              }}
+            />
+          </div>
+        </>
       </div>
 
       {/* Background image selection */}
@@ -725,7 +792,6 @@ const PremiseCardV2 = ({
         <ViewTranslationPop
           popClose={setOpenViewTranslationsPop}
           premiseId={viewTransactionPId}
-         
           popupData
           popCloseCmnt={() => setOpenPop(false)}
           {...{

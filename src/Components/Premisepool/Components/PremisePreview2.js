@@ -28,6 +28,7 @@ import {
 import {
   useCreateProjectMutation,
   useDeleteProjectMutation,
+  useGetStoryToScriptProjectQuery,
   useUpdateSpProjectMutation,
 } from "../../../app/EndPoints/ScriptPad/project";
 import { setUser } from "../../../app/Slices/userSlice";
@@ -434,6 +435,7 @@ const PremisePreview2 = ({
   // const [selectedSpProjectID, setSelectedSpProjectID] = useState("");
   // const [createdSpProjectID, setCreatedSpProjectID] = useState("");
   const [spProjectName, setSpProjectName] = useState("");
+    const { data: storyToScriptData } = useGetStoryToScriptProjectQuery()
   const [matchingProject, setMatchingProject] = useState(null);
   const [characterArray, setCharacterArray] = useState([]);
   // const [characters, setCharacters] = useState(characterArray);
@@ -850,7 +852,12 @@ const PremisePreview2 = ({
         const nameExists = allspProjectJSON?.projects?.some(
           (item) => item.name.toLowerCase() === trimmedName
         );
-        if (nameExists) {
+
+          const nameSTExists = storyToScriptData?.some(
+            (item) => item?.project_name?.toLowerCase() === trimmedName
+          );
+
+        if (nameExists || nameSTExists) {
           setIsLoading(false);
           setSameNamePop(true);
           return;
@@ -1074,7 +1081,7 @@ const PremisePreview2 = ({
               setHideDisable,
               hideDisable,
               openDotMenu,
-              project_id: response?.data?.projects?.pro_uuid,
+              project_id: selectedSpProjectID,
               m_value: res?.data?.m_value,
               hidden: res?.data?.hidden,
               index: 0,
@@ -1284,11 +1291,12 @@ const PremisePreview2 = ({
       });
       const charArr = JSON.stringify(characterArray);
       const data = {
-        // id: premiseID,
+        // premise_id: premiseID,
+        is_draft:true,
         id: spID,
         body: { char_data: charArr },
       };
-
+ 
       const response = await saveCharacter(data);
 
       if (response) {
@@ -1306,6 +1314,41 @@ const PremisePreview2 = ({
       // console.error("Error updating characters:", error);
     }
   };
+  //   const handleSaveAsDraft = async () => {
+  //   setCharacterLoading(true);
+  //   try {
+  //     characterArray.forEach((character) => {
+  //       if (character.is_ai_generated === undefined) {
+  //         character.is_ai_generated = false;
+  //       }
+  //     });
+  //     const charArr = JSON.stringify(characterArray);
+  //     const data = {
+  //       premise_id: premiseID,
+  //       id: spID,
+  //       body: { char_data: charArr, is_draft: true,  premise_id: premiseID, },
+  //       is_draft: true
+  //     };
+
+     
+  //     const response = await saveCharacter(data);
+
+  //     if (response) {
+  //       // setAddNewCharacter(false)
+  //       // setEditPopupOpen(false)
+  //       // setOpenCharacterChart(false);
+  //       // setCharSaveDisable(true);
+  //       setCharacterLoading(false);
+  //          setAddPopup(null)
+
+  //       // toast.success("characters updated!")
+  //     }
+  //     return response;
+  //   } catch (error) {
+  //     setCharacterLoading(false);
+  //     // console.error("Error updating characters:", error);
+  //   }
+  // };
 
   const [finalPostPremiseDemoPop, setFinalPostPremiseDemoPop] = useState(false);
   const [afterFinalPostPremiseDemoPop, setAfterFinalPostPremiseDemoPop] =
@@ -1820,9 +1863,10 @@ const PremisePreview2 = ({
                                 <div
                                   title={option.name}
                                   key={option.pro_uuid}
-                                  onClick={() => {
+                                  onMouseDown={() => {
                                     setIsProjectOpen(false);
                                     setSelectedSpProjectID(option.pro_uuid);
+                                    
                                   }}
                                   className={`px-4 py-[2px] text-[12px] md:text-[14px] hover:bg-[#33b0ca] hover:text-white ${
                                     selectedSpProjectID === option.pro_uuid
@@ -1910,9 +1954,10 @@ const PremisePreview2 = ({
                                 <div
                                   title={option.name}
                                   key={option.pro_uuid}
-                                  onClick={() => {
+                                  onMouseDown={() => {
                                     setSelectedSpProjectID(option.pro_uuid);
                                     setIsProjectOpen(false);
+                              
                                   }}
                                   className={`px-4 py-[2px] text-[12px] md:text-[14px] hover:bg-[#33b0ca] hover:text-white ${
                                     selectedSpProjectID === option.pro_uuid
@@ -3452,6 +3497,7 @@ const PremisePreview2 = ({
             currentProjectData={currentProjectData}
             setCharacterArray={setCharacterArray}
             handleUpdateSavedChar={handleUpdateSavedChar}
+            // handleSaveAsDraft={handleSaveAsDraft}
             characterLoading={characterLoading}
             source_language={premiseData?.source_language}
             project_id={selectedSpProjectID || createdSpProjectID}

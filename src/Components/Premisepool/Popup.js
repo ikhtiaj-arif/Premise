@@ -147,6 +147,40 @@ const Popup = ({
       // console.error("Error updating characters:", error);
     }
   };
+  // const handleSaveAsDraft = async () => {
+  //   setCharacterLoading(true);
+  //   try {
+  //     characterArray.forEach((character) => {
+  //       if (character.is_ai_generated === undefined) {
+  //         character.is_ai_generated = false;
+  //       }
+  //     });
+  //     const charArr = JSON.stringify(characterArray);
+  //     const data = {
+  //       // id: premiseID,
+  //       id: project_id,
+  //       body: { char_data: charArr },
+  //       is_draft: true
+  //     };
+
+  //     const response = await saveCharacter(data);
+
+  //     if (response) {
+  //       // setAddNewCharacter(false)
+  //       // setEditPopupOpen(false)
+  //       setOpenCharacterChart(false);
+  //       // setCharSaveDisable(true);
+  //       setCharacterLoading(false);
+  //       popClose()
+
+  //       // toast.success("characters updated!")
+  //     }
+  //     return response;
+  //   } catch (error) {
+  //     setCharacterLoading(false);
+  //     // console.error("Error updating characters:", error);
+  //   }
+  // };
   const lastCommentRef = useRef(null);
 
   const replyRef = useRef(null);
@@ -189,6 +223,7 @@ const Popup = ({
   const currentProjectData = allspProjectJSON?.projects?.find(
     (item) => item.pro_uuid === project_id
   );
+  console.log("ALLPROJECT", project_id);
 
   const currentProjectName = currentProjectData?.name;
   const isProjectLocked = currentProjectData?.locked;
@@ -820,6 +855,7 @@ const Popup = ({
               setCharacterArray={setCharacterArray}
               onlyAdd={onlyAdd}
               handleUpdateSavedChar={handleUpdateSavedChar}
+              // handleSaveAsDraft={handleSaveAsDraft}
               characterLoading={isCharLoading}
               project_id={project_id}
               source_language={premiseData?.source_language}
@@ -870,6 +906,7 @@ const Popup = ({
               setCharacterArray={setCharacterArray}
               onlyAdd={onlyAdd}
               handleUpdateSavedChar={handleUpdateSavedChar}
+              // handleSaveAsDraft={handleSaveAsDraft}
               characterLoading={isCharLoading}
               project_id={premiseData?.project_id}
               source_language={premiseData?.source_language}

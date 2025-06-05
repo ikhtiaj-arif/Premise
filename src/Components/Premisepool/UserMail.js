@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoMdSend } from "react-icons/io";
 import { MdKeyboardBackspace } from "react-icons/md";
 import {
@@ -33,7 +33,7 @@ const UserMail = ({ setUserMail, data, recipient }) => {
     data: messages,
     isMessageLoading,
     refetch: msgRefetch,
-  } = useGetMessageByPremiseIdQuery(broadcastId);
+  } = useGetMessageByPremiseIdQuery(broadcastId, {skip:!broadcastId});
 
   //console.log(broadcastId);
   useEffect(() => {}, [messages]);
@@ -55,7 +55,7 @@ const UserMail = ({ setUserMail, data, recipient }) => {
     if (user && id) {
       fetchData();
     }
-    msgRefetch();
+    // msgRefetch();
   }, [user, id, broadcastPost, recipient]);
 
   // button disable for blank field

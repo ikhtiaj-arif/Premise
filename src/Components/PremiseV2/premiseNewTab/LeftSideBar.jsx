@@ -79,7 +79,7 @@ const LeftSideBar = ({
   const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
   const [openHidePop, setOpenHidePop] = useState(null);
   const [transPopClose, setTransPopClose] = useState({});
-  const [commentField, setCommentField] = useState(false);
+  const [commentField, setCommentField] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const finalCount = commentsData?.counts;
   const user = useSelector((state) => state?.user?.id);

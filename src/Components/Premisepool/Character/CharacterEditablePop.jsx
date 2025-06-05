@@ -21,6 +21,7 @@ const CharacterEditablePop = ({
   // characters,
   // setCharacters,
   handleUpdateSavedChar,
+  handleSaveAsDraft,
   setCharacterArray,
   characterLoading,
   onlyAdd,
@@ -319,7 +320,7 @@ const CharacterEditablePop = ({
                 onChange={() => setSaveCheckUser(!saveCheckUser)}
                 className="w-4 h-4 mt-1 shrink-0 noAccessRadio"
               />
-              <span className="text-[12px] leading-snug md:w-[70%]">
+              <span className="text-[12px] leading-snug md:w-[58%]">
                 I understand that after saving this character list: <br />
                 1. I will not be able to edit these characters.
                 <br />
@@ -343,20 +344,58 @@ const CharacterEditablePop = ({
             </button>
           )}
           {!onlyAdd ? (
+            <>
+              {/* {saveCheckUser ? (
+                <button
+                  disabled={!saveCheckUser || characterLoading}
+                  onClick={() => {
+                    handleUpdateSavedChar();
+                  }}
+                  className={`${
+                    saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
+                  } text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
+                >
+                  Save
+                </button>
+              ) : (
+                <button
+                  // disabled={saveCheckUser || characterLoading}
+                  onClick={() => {
+                    handleSaveAsDraft();
+                  }}
+                  className={`${
+                    saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
+                  } text-white w-[119px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
+                >
+                  Save As Draft
+                </button>
+              )} */}
+              <button
+                disabled={!saveCheckUser || characterLoading}
+                onClick={() => {
+                  handleUpdateSavedChar();
+                }}
+                className={`${
+                  saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
+                } text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
+              >
+                Save
+              </button>
+            </>
+          ) : (
+            // <button
+            //   disabled={!saveCheckUser || characterLoading}
+            //   onClick={() => {
+            //     handleUpdateSavedChar();
+            //   }}
+            //   className={`${
+            //     saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
+            //   } text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
+            // >
+            //   Save
+            // </button>
             <button
               disabled={!saveCheckUser || characterLoading}
-              onClick={() => {
-                handleUpdateSavedChar();
-              }}
-              className={`${
-                saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
-              } text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
-            >
-              Save
-            </button>
-          ) : (
-            <button
-              disabled={characterLoading}
               onClick={() => {
                 handleUpdateSavedChar();
               }}
