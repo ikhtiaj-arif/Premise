@@ -10,8 +10,8 @@ import {
   useGetPremiseUserQuery,
 } from "../../app/EndPoints/premisePoolApi";
 import { setUser } from "../../app/Slices/userSlice";
-import headText from "../../img/headText.png";
-import walletDoodle from "../../img/wallet_doodle.png";
+import headText from "../../img/headText.webp";
+import walletDoodle from "../../img/wallet_doodle.webp";
 import AddPremise2 from "../Premisepool/Components/AddPremise2";
 import Popup from "../Premisepool/Popup";
 import UserNamePopup from "../Premisepool/UserNamePopup";
@@ -106,7 +106,7 @@ const PremiseV2 = () => {
 
   const { data: premiseData, isLoading, refetch } = res;
 
-  // console.log("matchingPremiseData", premiseData?.results);
+  console.log("matchingPremiseData", premiseData?.results);
 
   const {
     data: hiddenCountRes,

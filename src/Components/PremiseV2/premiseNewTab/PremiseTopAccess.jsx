@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchUserAccess, MyContext } from "../../../App";
 import {
@@ -101,7 +101,41 @@ const PremiseTopAccess = ({
       const data = {
         // id: premiseID,
         id: project_id,
-        body: { char_data: charArr },
+        // body: { char_data: charArr },
+        body: { char_data: charArr, is_draft: false, premise_id: id },
+      };
+
+      const response = await saveCharacter(data);
+
+      if (response) {
+        // setAddNewCharacter(false)
+        // setEditPopupOpen(false)
+        setOpenCharacterChart(false);
+        // setCharSaveDisable(true);
+        setCharacterLoading(false);
+
+        // toast.success("characters updated!")
+      }
+      return response;
+    } catch (error) {
+      setCharacterLoading(false);
+      // console.error("Error updating characters:", error);
+    }
+  };
+  const handleSaveAsDraft = async () => {
+    setCharacterLoading(true);
+    try {
+      characterArray.forEach((character) => {
+        if (character.is_ai_generated === undefined) {
+          character.is_ai_generated = false;
+        }
+      });
+      const charArr = JSON.stringify(characterArray);
+      const data = {
+        // id: premiseID,
+        id: project_id,
+
+        body: { char_data: charArr, is_draft: false, premise_id: id },
       };
 
       const response = await saveCharacter(data);
@@ -129,9 +163,7 @@ const PremiseTopAccess = ({
     setOpenDotMenu(null);
   };
   const handleDelete = async (id) => {
-    
     setIsDelete(id);
-    
   };
 
   const handleOpenSp = () => {
@@ -255,7 +287,6 @@ const PremiseTopAccess = ({
         <ViewTranslationPop
           popClose={setOpenViewTranslationsPop}
           premiseId={id}
-        
         />
       )}
       {openMonetizingPreferencesPop && premiseData && (
@@ -294,7 +325,6 @@ const PremiseTopAccess = ({
         <ViewTranslationPop
           popClose={setOpenViewTranslationsPop}
           premiseId={viewTransactionPId}
-          
         />
       )}
       {userMail === "Yes" && (
@@ -364,7 +394,6 @@ const PremiseTopAccess = ({
         <ViewTranslationPop
           popClose={setOpenViewTranslationsPop}
           premiseId={viewTransactionPId}
-          
           popCloseCmnt={() => setOpenPop(false)}
           {...{
             handleVisibility,

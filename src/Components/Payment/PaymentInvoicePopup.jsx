@@ -10,8 +10,8 @@ import {
   usePaymentSucessMutation,
 } from "../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../img/croos_icon.png";
-import logo from "../../img/MNF_Logo_Final.png";
-import Valid from "../../img/valid_upto.png";
+import logo from "../../img/MNF_Logo_Final.webp";
+import Valid from "../../img/valid_upto.webp";
 import TypingLoader from "../TypingLoader";
 import { Amount } from "./Amount";
 import { HeaderOptions } from "./HeaderOptions";

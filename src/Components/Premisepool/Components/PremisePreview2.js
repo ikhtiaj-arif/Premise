@@ -1292,9 +1292,9 @@ const PremisePreview2 = ({
       const charArr = JSON.stringify(characterArray);
       const data = {
         // premise_id: premiseID,
-        is_draft:true,
+
         id: spID,
-        body: { char_data: charArr },
+         body: { char_data: charArr, is_draft: false,  premise_id: premiseID, },
       };
  
       const response = await saveCharacter(data);
@@ -1314,41 +1314,41 @@ const PremisePreview2 = ({
       // console.error("Error updating characters:", error);
     }
   };
-  //   const handleSaveAsDraft = async () => {
-  //   setCharacterLoading(true);
-  //   try {
-  //     characterArray.forEach((character) => {
-  //       if (character.is_ai_generated === undefined) {
-  //         character.is_ai_generated = false;
-  //       }
-  //     });
-  //     const charArr = JSON.stringify(characterArray);
-  //     const data = {
-  //       premise_id: premiseID,
-  //       id: spID,
-  //       body: { char_data: charArr, is_draft: true,  premise_id: premiseID, },
-  //       is_draft: true
-  //     };
+    const handleSaveAsDraft = async () => {
+    setCharacterLoading(true);
+    try {
+      characterArray.forEach((character) => {
+        if (character.is_ai_generated === undefined) {
+          character.is_ai_generated = false;
+        }
+      });
+      const charArr = JSON.stringify(characterArray);
+      const data = {
+        premise_id: premiseID,
+        id: spID,
+        body: { char_data: charArr, is_draft: true,  premise_id: premiseID, },
+        is_draft: true
+      };
 
      
-  //     const response = await saveCharacter(data);
+      const response = await saveCharacter(data);
 
-  //     if (response) {
-  //       // setAddNewCharacter(false)
-  //       // setEditPopupOpen(false)
-  //       // setOpenCharacterChart(false);
-  //       // setCharSaveDisable(true);
-  //       setCharacterLoading(false);
-  //          setAddPopup(null)
+      if (response) {
+        // setAddNewCharacter(false)
+        // setEditPopupOpen(false)
+        // setOpenCharacterChart(false);
+        // setCharSaveDisable(true);
+        setCharacterLoading(false);
+           setAddPopup(null)
 
-  //       // toast.success("characters updated!")
-  //     }
-  //     return response;
-  //   } catch (error) {
-  //     setCharacterLoading(false);
-  //     // console.error("Error updating characters:", error);
-  //   }
-  // };
+        // toast.success("characters updated!")
+      }
+      return response;
+    } catch (error) {
+      setCharacterLoading(false);
+      // console.error("Error updating characters:", error);
+    }
+  };
 
   const [finalPostPremiseDemoPop, setFinalPostPremiseDemoPop] = useState(false);
   const [afterFinalPostPremiseDemoPop, setAfterFinalPostPremiseDemoPop] =
@@ -3497,7 +3497,7 @@ const PremisePreview2 = ({
             currentProjectData={currentProjectData}
             setCharacterArray={setCharacterArray}
             handleUpdateSavedChar={handleUpdateSavedChar}
-            // handleSaveAsDraft={handleSaveAsDraft}
+            handleSaveAsDraft={handleSaveAsDraft}
             characterLoading={characterLoading}
             source_language={premiseData?.source_language}
             project_id={selectedSpProjectID || createdSpProjectID}

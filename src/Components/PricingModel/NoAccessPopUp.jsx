@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import crossIcon from "../../img/croos_icon.png";
-import oopsImg from "../../img/oopsImg.png";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { URL } from "../utils";
+import { toast } from "react-toastify";
 import { MyContext } from "../../App";
 import { useActivateFreeMutation } from "../../app/EndPoints/premisePoolApi";
-import { toast } from "react-toastify";
-import welcomeImg from "../../img/welcome.png";
+import crossIcon from "../../img/croos_icon.png";
+import oopsImg from "../../img/oopsImg.webp";
+import welcomeImg from "../../img/welcome.webp";
+import { URL } from "../utils";
 
 const NoAccessPopUp = ({ setNoAccessPopup, noAccessPopup }) => {
   const navigate = useNavigate();

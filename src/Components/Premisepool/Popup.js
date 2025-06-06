@@ -127,7 +127,8 @@ const Popup = ({
       const data = {
         // id: premiseID,
         id: project_id,
-        body: { char_data: charArr },
+        // body: { char_data: charArr },
+         body: { char_data: charArr, is_draft: false,  premise_id: id, },
       };
 
       const response = await saveCharacter(data);
@@ -147,40 +148,40 @@ const Popup = ({
       // console.error("Error updating characters:", error);
     }
   };
-  // const handleSaveAsDraft = async () => {
-  //   setCharacterLoading(true);
-  //   try {
-  //     characterArray.forEach((character) => {
-  //       if (character.is_ai_generated === undefined) {
-  //         character.is_ai_generated = false;
-  //       }
-  //     });
-  //     const charArr = JSON.stringify(characterArray);
-  //     const data = {
-  //       // id: premiseID,
-  //       id: project_id,
-  //       body: { char_data: charArr },
-  //       is_draft: true
-  //     };
+  const handleSaveAsDraft = async () => {
+    setCharacterLoading(true);
+    try {
+      characterArray.forEach((character) => {
+        if (character.is_ai_generated === undefined) {
+          character.is_ai_generated = false;
+        }
+      });
+      const charArr = JSON.stringify(characterArray);
+      const data = {
+        // id: premiseID,
+        id: project_id,
+        body: { char_data: charArr, is_draft: true,  premise_id: id, },
+        is_draft: true
+      };
 
-  //     const response = await saveCharacter(data);
+      const response = await saveCharacter(data);
 
-  //     if (response) {
-  //       // setAddNewCharacter(false)
-  //       // setEditPopupOpen(false)
-  //       setOpenCharacterChart(false);
-  //       // setCharSaveDisable(true);
-  //       setCharacterLoading(false);
-  //       popClose()
+      if (response) {
+        // setAddNewCharacter(false)
+        // setEditPopupOpen(false)
+        setOpenCharacterChart(false);
+        // setCharSaveDisable(true);
+        setCharacterLoading(false);
+        popClose()
 
-  //       // toast.success("characters updated!")
-  //     }
-  //     return response;
-  //   } catch (error) {
-  //     setCharacterLoading(false);
-  //     // console.error("Error updating characters:", error);
-  //   }
-  // };
+        // toast.success("characters updated!")
+      }
+      return response;
+    } catch (error) {
+      setCharacterLoading(false);
+      // console.error("Error updating characters:", error);
+    }
+  };
   const lastCommentRef = useRef(null);
 
   const replyRef = useRef(null);
@@ -906,7 +907,7 @@ const Popup = ({
               setCharacterArray={setCharacterArray}
               onlyAdd={onlyAdd}
               handleUpdateSavedChar={handleUpdateSavedChar}
-              // handleSaveAsDraft={handleSaveAsDraft}
+              handleSaveAsDraft={handleSaveAsDraft}
               characterLoading={isCharLoading}
               project_id={premiseData?.project_id}
               source_language={premiseData?.source_language}
