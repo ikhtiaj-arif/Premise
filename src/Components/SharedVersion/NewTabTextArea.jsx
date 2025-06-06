@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaKeyboard } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
 import { toast } from "react-toastify";
@@ -72,6 +72,7 @@ const NewTabTextArea = ({
     if (commentField && inputRef?.current) {
       inputRef?.current?.focus();
       setReplyField(false);
+      setCommentField(false);
     }
     if (replyField && replyRef?.current) {
       replyRef?.current?.focus();

@@ -7,7 +7,7 @@ import {
   useUpdateRequestForSaleOrTranslateMutation,
 } from "../../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
-import walletDoodle from "../../../../img/wallet_doodle.png";
+import walletDoodle from "../../../../img/wallet_doodle.webp";
 import TypingLoader from "../../../TypingLoader";
 import { getLanguageName } from "../../utilityFuncitons/functions";
 import ApproveTranslationPop from "./ApproveTranslation";

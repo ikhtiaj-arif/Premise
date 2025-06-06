@@ -79,7 +79,7 @@ const LeftSideBar = ({
   const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
   const [openHidePop, setOpenHidePop] = useState(null);
   const [transPopClose, setTransPopClose] = useState({});
-  const [commentField, setCommentField] = useState(false);
+  const [commentField, setCommentField] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const finalCount = commentsData?.counts;
   const user = useSelector((state) => state?.user?.id);
@@ -212,7 +212,8 @@ const LeftSideBar = ({
       const data = {
         // id: premiseID,
         id: project_id,
-        body: { char_data: charArr },
+        // body: { char_data: charArr },
+         body: { char_data: charArr, is_draft: false,  premise_id: id, },
       };
 
       const response = await saveCharacter(data);
@@ -223,6 +224,33 @@ const LeftSideBar = ({
       return response;
     } catch (error) {}
   };
+  const handleSaveAsDraft = async () => {
+    try {
+      characterArray.forEach((character) => {
+        if (character.is_ai_generated === undefined) {
+          character.is_ai_generated = false;
+        }
+      });
+      const charArr = JSON.stringify(characterArray);
+      const data = {
+        // id: premiseID,
+        id: project_id,
+        // body: { char_data: charArr },
+         body: { char_data: charArr, is_draft: true,  premise_id: id, },
+      };
+
+      const response = await saveCharacter(data);
+
+      if (response) {
+        setOpenCharacterChart(false);
+      }
+      return response;
+    } catch (error) {}
+  };
+
+
+  
+
 
   const handleAddNewChar = async () => {
     setCharactersPopupMobile(false);

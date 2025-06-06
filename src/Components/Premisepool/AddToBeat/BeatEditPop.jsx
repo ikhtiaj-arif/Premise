@@ -900,7 +900,7 @@ const BeatEditPop = ({
 
                             {translatedPop && (
                               <>
-                                <ul className="absolute top-[42px] right-0 z-50 w-[135px] max-h-[27vh] overflow-y-auto border bg-[#fafafa] shadow-md">
+                                <ul className="absolute bottom-[42px] right-0 z-50 w-[135px] max-h-[27vh] overflow-y-auto border bg-[#fafafa] shadow-md">
                                   {Object.entries(sortedLanguages).map(
                                     ([key, name]) => (
                                       <li

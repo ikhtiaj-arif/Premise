@@ -1,6 +1,6 @@
 import React from "react";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
-import oppsPopup from "../../../../img/oopsImg.png";
+import oppsPopup from "../../../../img/oopsImg.webp";
 
 const WentWrongPop = ({ popClose }) => {
   return (

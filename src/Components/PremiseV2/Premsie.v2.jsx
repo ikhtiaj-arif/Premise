@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,8 +10,8 @@ import {
   useGetPremiseUserQuery,
 } from "../../app/EndPoints/premisePoolApi";
 import { setUser } from "../../app/Slices/userSlice";
-import headText from "../../img/headText.png";
-import walletDoodle from "../../img/wallet_doodle.png";
+import headText from "../../img/headText.webp";
+import walletDoodle from "../../img/wallet_doodle.webp";
 import AddPremise2 from "../Premisepool/Components/AddPremise2";
 import Popup from "../Premisepool/Popup";
 import UserNamePopup from "../Premisepool/UserNamePopup";
@@ -22,7 +22,6 @@ import { baseURL } from "../utils";
 import PremiseCardV2 from "./Card/PremiseCardV2";
 import FilterSearchSort from "./Header/FiltersSearchSort/FilterSearchSort";
 import TestPopup from "./sequalPopup/TestPopup";
-import AddPremiseTutorialPop from "./sequalPopup/singlePop/AddPremiseTutorialPop";
 
 export const loadingData = [
   "Initializing..",
@@ -106,6 +105,8 @@ const PremiseV2 = () => {
   });
 
   const { data: premiseData, isLoading, refetch } = res;
+
+  console.log("matchingPremiseData", premiseData?.results);
 
   const {
     data: hiddenCountRes,
@@ -192,7 +193,7 @@ const PremiseV2 = () => {
     }
   }, [id, premiseData]);
 
-  console.log("matchingPremiseData", premiseData);
+  // console.log("matchingPremiseData", premiseData);
 
   const userFirstName = userQuery?.first_name;
   const userLastName = userQuery?.last_name;
@@ -255,10 +256,11 @@ const PremiseV2 = () => {
   //   setViewData(premiseData?.results);
   //   refetch();
   // }, [premiseData, dataCount, totalPages, itemsToShow, refetch]);
+
   useEffect(() => {
     if (premiseData) {
       let filterPremiseData = premiseData?.results?.filter(
-        (items) => items.ai_comments_generated
+        (items) => items.ai_comments_generated 
       );
       // console.log("filterPremiseData",filterPremiseData);
       setDataCount(filterPremiseData?.length);
@@ -315,12 +317,14 @@ const PremiseV2 = () => {
   };
   const [checkedAddPremise, setCheckedAddPremise] = useState(false);
 
-  console.log("checkedAddPremise",checkedAddPremise);
+  console.log("checkedAddPremise", checkedAddPremise);
   const handleAddPopup = async () => {
     const notShowAddPremise = localStorage.getItem("NotShowAddPremise");
 
-    if ((!notShowAddPremise ||notShowAddPremise === "false")  && !checkedAddPremise) {
-      
+    if (
+      (!notShowAddPremise || notShowAddPremise === "false") &&
+      !checkedAddPremise
+    ) {
       setCheckedAddPremise(true);
     }
 
@@ -516,7 +520,12 @@ const PremiseV2 = () => {
             />
           ) : (
             addPopup === "Yes" && (
-              <AddPremise2 setAddPopup={setAddPopup} refetch={refetch} checkedAddPremise={checkedAddPremise} setCheckedAddPremise={setCheckedAddPremise} />
+              <AddPremise2
+                setAddPopup={setAddPopup}
+                refetch={refetch}
+                checkedAddPremise={checkedAddPremise}
+                setCheckedAddPremise={setCheckedAddPremise}
+              />
             )
           )}
 

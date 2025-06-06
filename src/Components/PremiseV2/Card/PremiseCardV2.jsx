@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import backgroundImg from "../../../img/Icons/download.jpg";
@@ -88,6 +88,7 @@ const PremiseCardV2 = ({
     sale_request_count,
     is_requested_for_sale,
     is_translated_languages,
+    is_draft,
   } = p;
 
   const { currentUser } = useContext(MyContext);
@@ -259,7 +260,8 @@ const PremiseCardV2 = ({
       const data = {
         // id: premiseID,
         id: project_id,
-        body: { char_data: charArr },
+        // body: { char_data: charArr },
+        body: { char_data: charArr, is_draft: false, premise_id: id },
       };
 
       const response = await saveCharacter(data);
@@ -280,6 +282,41 @@ const PremiseCardV2 = ({
     }
   };
 
+  const handleSaveAsDraft = async () => {
+    setCharacterLoading(true);
+    try {
+      characterArray.forEach((character) => {
+        if (character.is_ai_generated === undefined) {
+          character.is_ai_generated = false;
+        }
+      });
+      const charArr = JSON.stringify(characterArray);
+      const data = {
+        id: project_id,
+        body: { char_data: charArr, is_draft: true, premise_id: id },
+        is_draft: true,
+      };
+
+      const response = await saveCharacter(data);
+
+      if (response) {
+        // setAddNewCharacter(false)
+        // setEditPopupOpen(false)
+        // setOpenCharacterChart(false);
+        // setCharSaveDisable(true);
+        setOpenCharacterChart(false);
+        // setCharSaveDisable(true);
+        setCharacterLoading(false);
+
+        // toast.success("characters updated!")
+      }
+      return response;
+    } catch (error) {
+      setCharacterLoading(false);
+      // console.error("Error updating characters:", error);
+    }
+  };
+
   // console.log(created_by);
   const [translationRequestPop, setTranslationRequestPop] = useState("");
   const [noAccessLbPopUp, setNoAccessLbPopUp] = useState(null);
@@ -287,6 +324,20 @@ const PremiseCardV2 = ({
   const [viewTrnRequests, setViewTrnRequests] = useState("");
   const [viewSaleRequests, setViewSaleRequests] = useState("");
 
+  const handleCardClick = () => {
+    setTransPopClose(null);
+    setShowRefine(false);
+    setOpenDotMenu(null);
+    setSelectedPremiseObj(p);
+    dispatch(setPremise(p));
+    setSelectedPremiseSpProjectId(project_id);
+    setTransPopup(false);
+    if (is_draft) {
+      setOpenCharacterChart(project_id);
+    } else {
+      setOpenPop(true);
+    }
+  };
   const checkAllowance = async (state, id) => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_AllowInteraction`);
     console.log("AllowInteraction res", res);
@@ -395,9 +446,10 @@ const PremiseCardV2 = ({
   // premiseOwner,
   // handleUserMail,
   // setOwnerMail,
+  // const [isDraft, setIsDraft] = useState(true);
 
   return (
-    <div className="w-[358px] lg:w-[100%] mx-auto border border-[#EAEAEA] hover:shadow-lg rounded-[8px]  ">
+    <div className="w-[358px] lg:w-[100%] mx-auto border border-[#EAEAEA] bg-[#fafafa] hover:shadow-lg rounded-[8px]  ">
       {/* upper div */}
       <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-[15px] pt-[15px] pb-[6px]">
         <div className="block ">
@@ -471,56 +523,60 @@ const PremiseCardV2 = ({
             </div>
           </a>
         </div>
-        <CardHeadOptions
-          owner={owner}
-          index={index}
-          refetch={refetch}
-          viewTrnRequests={viewTrnRequests}
-          setViewTrnRequests={setViewTrnRequests}
-          viewTransactionPId={viewTransactionPId}
-          setViewTransactionPId={setViewTransactionPId}
-          setViewSaleRequests={setViewSaleRequests}
-          openTransOtherPop={openTransOtherPop}
-          setOpenTransOtherPop={setOpenTransOtherPop}
-          handleDelete={handleDelete}
-          setOpenCharacterChart={setOpenCharacterChart}
-          openViewTranslationsPop={openViewTranslationsPop}
-          openAvailableForTranslationPop={openAvailableForTranslationPop}
-          setOpenAvailableForTranslationPop={setOpenAvailableForTranslationPop}
-          setOpenViewTranslationsPop={setOpenViewTranslationsPop}
-          setOpenMonetizingPreferencesPop={setOpenMonetizingPreferencesPop}
-          setNoAccessLbPopUp={setNoAccessLbPopUp}
-          setUserMail={setUserMail}
-          setSaleId={setSaleId}
-          setViewSale={setViewSale}
-          setSaleRequestPop={setSaleRequestPop}
-          setTranslationRequestPop={setTranslationRequestPop}
-          isProjectLocked={isProjectLocked}
-          id={id}
-          premiseOwner={premiseOwner}
-          filter_flag={filter_flag}
-          visible_to={visible_to}
-          comment_filter_flag={comment_filter_flag}
-          project_id={project_id}
-          available_for_sale={available_for_sale}
-          available_for_translation={available_for_translation}
-          premise_source_id={premise_source_id}
-          translation_request_count={translation_request_count}
-          no_of_times_translated={no_of_times_translated}
-          sale_request_count={sale_request_count}
-          is_requested_for_sale={is_requested_for_sale}
-          is_translated_languages={is_translated_languages}
-          dotPopupRef={dotPopupRef}
-          setOpenDotMenu={setOpenDotMenu}
-          setOpenHidePop={setOpenHidePop}
-          openHidePop={openHidePop}
-          openDotMenu={openDotMenu}
-          addPopup={addPopup}
-          setAddPopup={setAddPopup}
-          notifyPopup={notifyPopup}
-          setNotifyPopup={setNotifyPopup}
-          is_read_only={p?.is_read_only}
-        />
+        {!is_draft && (
+          <CardHeadOptions
+            owner={owner}
+            index={index}
+            refetch={refetch}
+            viewTrnRequests={viewTrnRequests}
+            setViewTrnRequests={setViewTrnRequests}
+            viewTransactionPId={viewTransactionPId}
+            setViewTransactionPId={setViewTransactionPId}
+            setViewSaleRequests={setViewSaleRequests}
+            openTransOtherPop={openTransOtherPop}
+            setOpenTransOtherPop={setOpenTransOtherPop}
+            handleDelete={handleDelete}
+            setOpenCharacterChart={setOpenCharacterChart}
+            openViewTranslationsPop={openViewTranslationsPop}
+            openAvailableForTranslationPop={openAvailableForTranslationPop}
+            setOpenAvailableForTranslationPop={
+              setOpenAvailableForTranslationPop
+            }
+            setOpenViewTranslationsPop={setOpenViewTranslationsPop}
+            setOpenMonetizingPreferencesPop={setOpenMonetizingPreferencesPop}
+            setNoAccessLbPopUp={setNoAccessLbPopUp}
+            setUserMail={setUserMail}
+            setSaleId={setSaleId}
+            setViewSale={setViewSale}
+            setSaleRequestPop={setSaleRequestPop}
+            setTranslationRequestPop={setTranslationRequestPop}
+            isProjectLocked={isProjectLocked}
+            id={id}
+            premiseOwner={premiseOwner}
+            filter_flag={filter_flag}
+            visible_to={visible_to}
+            comment_filter_flag={comment_filter_flag}
+            project_id={project_id}
+            available_for_sale={available_for_sale}
+            available_for_translation={available_for_translation}
+            premise_source_id={premise_source_id}
+            translation_request_count={translation_request_count}
+            no_of_times_translated={no_of_times_translated}
+            sale_request_count={sale_request_count}
+            is_requested_for_sale={is_requested_for_sale}
+            is_translated_languages={is_translated_languages}
+            dotPopupRef={dotPopupRef}
+            setOpenDotMenu={setOpenDotMenu}
+            setOpenHidePop={setOpenHidePop}
+            openHidePop={openHidePop}
+            openDotMenu={openDotMenu}
+            addPopup={addPopup}
+            setAddPopup={setAddPopup}
+            notifyPopup={notifyPopup}
+            setNotifyPopup={setNotifyPopup}
+            is_read_only={p?.is_read_only}
+          />
+        )}
       </div>
       {/* middle div */}
       <div className="bg-[#FAFAFA] h-[189px] border !border-[#f8f8f8] relative">
@@ -540,23 +596,14 @@ const PremiseCardV2 = ({
                   backgroundPosition: "center",
                   width: "92%",
                   borderRadius: "8px",
-                  // boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
                 }
               : { backgroundColor: bg_color }
           }
           onLoad={() => setImageLoaded(true)}
         >
           <div
-            onClick={() => {
-              setTransPopClose(null);
-              setOpenPop(true);
-              setShowRefine(false);
-              setOpenDotMenu(null);
-              setSelectedPremiseObj(p);
-              dispatch(setPremise(p));
-              setSelectedPremiseSpProjectId(project_id);
-              setTransPopup(false);
-            }}
+            onClick={handleCardClick}
             // className={`absolute inset-0 w-[100%] mx-auto backdrop-filter flex items-center justify-center backdrop-blur-sm px-[14px] text-[16px] rounded-[8px] text-[#616161] leading-5 font-[400] overflow-hidden `}
             className="absolute cursor-pointer inset-0 backdrop-blur-sm  text-[16px] leading-[19.83px] rounded-[8px] overflow-hidden break-words px-[14px] py-[12px]"
           >
@@ -571,67 +618,132 @@ const PremiseCardV2 = ({
           </div>
           <div></div>
         </div>
-        <PremiseBadge stamp={p?.stamp} />
+        {is_draft ? (
+          <PremiseBadge stamp={"Draft"} color={`bg-[#616161]`} />
+        ) : (
+          <PremiseBadge stamp={p?.stamp} />
+        )}
+        {/* <PremiseBadge stamp={p?.stamp} /> */}
       </div>
-      {/* lower div */}
-      <div className="flex justify-between items-center bg-[#FAFAFA] rounded-b-[8px] px-[15px] pb-[15px] pt-[25px] relative">
-        {/* 1st div */}
-        <div className="flex items-center">
-          <LikePremise
-            data={{
-              likes,
-              id,
-              user,
-            }}
-            refetch={refetch}
-          />
-          <CommentPremise
-            data={{
-              // finalCount,
-              comments,
-              bg_color,
-              bg_img,
-              dText,
-              premiseOwner,
-              id,
-              stylings,
-              likes,
-              isLiked,
-              shouldBlink,
-              source_language,
-              user,
-              setOpenDotMenu,
-              handleUserMail,
-              handleHideUnhidePremise,
-              setOwnerMail,
-              formattedTime,
-              formattedDate,
-              hidden,
-              index,
-              openDotMenu,
-              setHideDisable,
-              hideDisable,
-              project_id,
-            }}
-            refetch={refetch}
-            setIsLiked={setIsLiked}
-            p={p}
-          />
-        </div>
-        {/* 2nd div */}
 
-        <div className="ml-[15px] flex gap-2 items-center">
-          <TranslatePremise
-            {...{ transPopClose, setTransPopClose, setViewText }}
-            data={{
-              id,
-              dText,
-              source_language,
-              project_id,
-            }}
-          />
+      {/* lower div */}
+      {!is_draft && (
+        <div className="flex justify-between items-center bg-[#FAFAFA] rounded-b-[8px] px-[15px] pb-[15px] mt-[1px] pt-[25px] relative">
+          <>
+            {" "}
+            <div className="flex items-center">
+              <LikePremise
+                data={{
+                  likes,
+                  id,
+                  user,
+                }}
+                refetch={refetch}
+              />
+              <CommentPremise
+                data={{
+                  // finalCount,
+                  comments,
+                  bg_color,
+                  bg_img,
+                  dText,
+                  premiseOwner,
+                  id,
+                  stylings,
+                  likes,
+                  isLiked,
+                  shouldBlink,
+                  source_language,
+                  user,
+                  setOpenDotMenu,
+                  handleUserMail,
+                  handleHideUnhidePremise,
+                  setOwnerMail,
+                  formattedTime,
+                  formattedDate,
+                  hidden,
+                  index,
+                  openDotMenu,
+                  setHideDisable,
+                  hideDisable,
+                  project_id,
+                }}
+                refetch={refetch}
+                setIsLiked={setIsLiked}
+                p={p}
+              />
+            </div>
+            <div className="ml-[15px] flex gap-2 items-center">
+              <TranslatePremise
+                {...{ transPopClose, setTransPopClose, setViewText }}
+                data={{
+                  id,
+                  dText,
+                  source_language,
+                  project_id,
+                }}
+              />
+            </div>
+          </>
+
+          {/* <>
+          {" "}
+          <div className="flex items-center">
+            <LikePremise
+              data={{
+                likes,
+                id,
+                user,
+              }}
+              refetch={refetch}
+            />
+            <CommentPremise
+              data={{
+                // finalCount,
+                comments,
+                bg_color,
+                bg_img,
+                dText,
+                premiseOwner,
+                id,
+                stylings,
+                likes,
+                isLiked,
+                shouldBlink,
+                source_language,
+                user,
+                setOpenDotMenu,
+                handleUserMail,
+                handleHideUnhidePremise,
+                setOwnerMail,
+                formattedTime,
+                formattedDate,
+                hidden,
+                index,
+                openDotMenu,
+                setHideDisable,
+                hideDisable,
+                project_id,
+              }}
+              refetch={refetch}
+              setIsLiked={setIsLiked}
+              p={p}
+            />
+          </div>
+          <div className="ml-[15px] flex gap-2 items-center">
+            <TranslatePremise
+              {...{ transPopClose, setTransPopClose, setViewText }}
+              data={{
+                id,
+                dText,
+                source_language,
+                project_id,
+              }}
+            />
+          </div>
+        </> */}
         </div>
-      </div>
+      )}
 
       {/* Background image selection */}
       <input
@@ -725,7 +837,6 @@ const PremiseCardV2 = ({
         <ViewTranslationPop
           popClose={setOpenViewTranslationsPop}
           premiseId={viewTransactionPId}
-         
           popupData
           popCloseCmnt={() => setOpenPop(false)}
           {...{

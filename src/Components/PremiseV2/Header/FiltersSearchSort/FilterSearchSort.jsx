@@ -14,7 +14,7 @@ import calG from "../../../../img/Icons/calG.png";
 import langB from "../../../../img/Icons/langB.png";
 import langG from "../../../../img/Icons/langG.png";
 import cartSale from "../../../../img/Icons/saleBgLess.png";
-import cartTrans from "../../../../img/Icons/tranBgLess.png";
+import cartTrans from "../../../../img/Icons/tranBgLess.webp";
 import RefineFilters from "../../../Premisepool/SortPagination/RefineFilters";
 
 const FilterSearchSort = ({

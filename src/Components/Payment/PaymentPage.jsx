@@ -3,8 +3,8 @@ import { MyContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
 import TypingLoader from "../TypingLoader";
-import logo from "../../img/MNF_Logo_Final.png";
-import Valid from "../../img/valid_upto.png";
+import logo from "../../img/MNF_Logo_Final.webp";
+import Valid from "../../img/valid_upto.webp";
 
 import { HeaderOptions } from "./HeaderOptions";
 import { Package } from "./Package";

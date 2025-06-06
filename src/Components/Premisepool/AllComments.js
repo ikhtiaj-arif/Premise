@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { IoIosUndo, IoMdSend } from "react-icons/io";
@@ -97,23 +97,32 @@ const AllComments = ({
   } = useGetMyAllProjectQuery();
 
   // console.log("commetts", comments);
-  // console.log("selectedSpProjectID", selectedSpProjectID);
   // console.log("allspProjectJSON", allspProjectJSON);
-  // console.log("selectedProject", selectedProject);
+  // console.log("selectedSpProjectID", selectedSpProjectID);
+  // console.log("SelectedProject", selectedProject);
+  // console.log("selectedPremiseObj", selectedPremiseObj);
 
   useEffect(() => {
-    const allProject = allspProjectJSON?.projects?.filter(
-      (item) => !item.locked
-    );
+ 
+      
+    const allProject = allspProjectJSON?.projects
+      
+    // const allProject = allspProjectJSON?.projects?.filter(
+    //   (item) => !item.locked
+    // );
+    
 
     if (selectedSpProjectID) {
+        
       projectRefetch();
       const currentPremiseProject = allProject?.find(
         (p) => p?.pro_uuid === selectedSpProjectID
       );
 
       setSelectedProject(currentPremiseProject);
+
     } else if (createdSpProjectID) {
+   
       projectRefetch();
       const currentPremiseProject = allProject?.find(
         (p) => p?.pro_uuid === createdSpProjectID
@@ -121,13 +130,15 @@ const AllComments = ({
 
       setSelectedProject(currentPremiseProject);
     } else if (selectedPremiseObj) {
+
       projectRefetch();
       const currentPremiseProject = allProject?.find(
         (p) => p?.pro_uuid === selectedPremiseObj?.project_id
       );
-
+    
       setSelectedProject(currentPremiseProject);
     } else {
+     
       projectRefetch();
       const currentPremiseProject = allProject?.find(
         (p) => p?.pro_uuid === project_id

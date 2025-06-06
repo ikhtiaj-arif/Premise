@@ -1,7 +1,7 @@
 import React from "react";
 import { ToastContainer } from "react-toastify";
 import crossIcon from "../../../img/Icons/crossIcon.png";
-import Congrats from "../../../img/thumb.png";
+import Congrats from "../../../img/thumb.webp";
 
 const SuccessPop = ({ popClose, requestType,parentClose }) => {
   const handleClose = () => {

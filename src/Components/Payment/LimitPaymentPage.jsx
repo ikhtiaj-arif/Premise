@@ -7,8 +7,8 @@ import {
   usePaymentUintDetailsMutation,
   usePayNowPackageMutation,
 } from "../../app/EndPoints/premisePoolApi";
-import logo from "../../img/MNF_Logo_Final.png";
-import Valid from "../../img/valid_upto.png";
+import logo from "../../img/MNF_Logo_Final.webp";
+import Valid from "../../img/valid_upto.webp";
 import SimpleAlertPop from "../PremiseV2/Popups/alerts/SimpleAlertPop";
 import TypingLoader from "../TypingLoader";
 import { Amount } from "./Amount";

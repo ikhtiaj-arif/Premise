@@ -6,10 +6,10 @@ import {
   useActivateFreeMutation,
   useGetCalculateProductPriceQuery,
 } from "../../app/EndPoints/premisePoolApi";
-import congratsImg from "../../img/congratulations.png";
+import congratsImg from "../../img/congratulations.webp";
 import crossIcon from "../../img/croos_icon.png";
-import oopsImg from "../../img/oopsImg.png";
-import welcomeImg from "../../img/welcome.png";
+import oopsImg from "../../img/oopsImg.webp";
+import welcomeImg from "../../img/welcome.webp";
 import { URL } from "../utils";
 
 const NoAccessLbPopUp = ({

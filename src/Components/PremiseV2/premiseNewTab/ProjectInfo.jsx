@@ -1,5 +1,5 @@
 import React from "react";
-import newTabDoodle from "../../../img/new-tab-doodle.png";
+import newTabDoodle from "../../../img/new-tab-doodle.webp";
 import {
   getLanguageName,
   getTextFromValue,

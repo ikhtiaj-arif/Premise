@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
-import walletDoodle from "../../../../img/wallet_doodle.png";
+import walletDoodle from "../../../../img/wallet_doodle.webp";
 import { getLanguageName } from "../../utilityFuncitons/functions";
 import CongratsPopup from "../CongratsPopup";
 

@@ -47,6 +47,13 @@ export const projectEndPoint = apiSlice.injectEndpoints({
       },
     }),
 
+    getStoryToScriptProject: builder.query({
+      query: (id) => ({
+        url: `/storytoscript/storytoscript`,
+        method: "GET",
+      }),
+    }),
+
     updateAddedToBeat: builder.mutation({
       query: (data) => {
         return {
@@ -89,4 +96,5 @@ export const {
   useUpdateSpProjectMutation,
   useUpdateAddedToBeatMutation,
   useDeleteProjectMutation,
+  useGetStoryToScriptProjectQuery
 } = projectEndPoint;
