@@ -18,6 +18,7 @@ const CharacterShowCard = ({
   deleteCharacterFun,
   isAddedByMe,
   source_language,
+  is_draft,
 }) => {
   //console.log("character", character?.is_ai_generated,index);
   const sourceLanguageName = getLanguageName(source_language);
@@ -40,11 +41,11 @@ const CharacterShowCard = ({
     return null; // Return null if no value is found
   };
 
-  // console.log(
-  //   character?.gender,
+  console.log(
+    onlyAdd,
 
-  //   character?.age
-  // );
+    is_draft
+  );
   // console.log("iiiiiii",source_language, inanimateObjectOptions(sourceLanguageName));
 
   return (
@@ -66,7 +67,7 @@ const CharacterShowCard = ({
         <p className="text-[12px] font-[400]"></p> */}
       </div>
       <div className="flex items-center gap-[10px]">
-        {!onlyAdd ? (
+        {!onlyAdd || is_draft ? (
           <>
             {index === 0 && (
               <FaRegEye

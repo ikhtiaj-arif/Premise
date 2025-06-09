@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
@@ -536,7 +536,9 @@ const SingleCharacterAdd = ({
                   <button
                     type="button"
                     onClick={() => setGenderDropdownOpen(!genderDropdownOpen)}
-                    className={`text-left px-2 text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] mb-[22px] mt-[12px] md:my-0 h-[41px] w-full indent-1 ${
+                    className={`text-left px-2 text-[14px] ${
+                      isDisabled ? "cursor-default" : "cursor-pointer"
+                    } bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] mb-[22px] mt-[12px] md:my-0 h-[41px] w-full indent-1 ${
                       gender === inanimateObjectOptions(sourceLanguageName)
                         ? "md:w-[172px]"
                         : "md:w-[97px]"
@@ -545,7 +547,7 @@ const SingleCharacterAdd = ({
                     {gender || "Gender"}
                   </button>
 
-                  {genderDropdownOpen && (
+                  {genderDropdownOpen && !isDisabled && (
                     <ul className="absolute z-10 mt-0 w-full border bg-[#fafafa] max-h-[27vh] md:max-h-[20vh] overflow-y-auto rounded-md shadow-sm">
                       {getGenderOptions(sourceLanguageName).map(
                         (option, index) => (
@@ -829,7 +831,7 @@ const SingleCharacterAdd = ({
       <div>
         {selectedLanguage && keyboardVisible && (
           <Draggable handle=".movable-handle">
-            <div className="absolute z-20 w-[650px] top-[194px] right-[-85px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
+            <div className="absolute z-20 w-[650px] top-[194px] right-[-145px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
               <div className="grid grid-cols-12">
                 <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
                   Drag me!!{" "}
