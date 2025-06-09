@@ -435,7 +435,7 @@ const PremisePreview2 = ({
   // const [selectedSpProjectID, setSelectedSpProjectID] = useState("");
   // const [createdSpProjectID, setCreatedSpProjectID] = useState("");
   const [spProjectName, setSpProjectName] = useState("");
-    const { data: storyToScriptData } = useGetStoryToScriptProjectQuery()
+  const { data: storyToScriptData } = useGetStoryToScriptProjectQuery();
   const [matchingProject, setMatchingProject] = useState(null);
   const [characterArray, setCharacterArray] = useState([]);
   // const [characters, setCharacters] = useState(characterArray);
@@ -853,9 +853,9 @@ const PremisePreview2 = ({
           (item) => item.name.toLowerCase() === trimmedName
         );
 
-          const nameSTExists = storyToScriptData?.some(
-            (item) => item?.project_name?.toLowerCase() === trimmedName
-          );
+        const nameSTExists = storyToScriptData?.some(
+          (item) => item?.project_name?.toLowerCase() === trimmedName
+        );
 
         if (nameExists || nameSTExists) {
           setIsLoading(false);
@@ -1294,9 +1294,9 @@ const PremisePreview2 = ({
         // premise_id: premiseID,
 
         id: spID,
-         body: { char_data: charArr, is_draft: false,  premise_id: premiseID, },
+        body: { char_data: charArr, is_draft: false, premise_id: premiseID },
       };
- 
+
       const response = await saveCharacter(data);
 
       if (response) {
@@ -1314,7 +1314,7 @@ const PremisePreview2 = ({
       // console.error("Error updating characters:", error);
     }
   };
-    const handleSaveAsDraft = async () => {
+  const handleSaveAsDraft = async () => {
     setCharacterLoading(true);
     try {
       characterArray.forEach((character) => {
@@ -1326,11 +1326,10 @@ const PremisePreview2 = ({
       const data = {
         premise_id: premiseID,
         id: spID,
-        body: { char_data: charArr, is_draft: true,  premise_id: premiseID, },
-        is_draft: true
+        body: { char_data: charArr, is_draft: true, premise_id: premiseID },
+        is_draft: true,
       };
 
-     
       const response = await saveCharacter(data);
 
       if (response) {
@@ -1339,8 +1338,8 @@ const PremisePreview2 = ({
         // setOpenCharacterChart(false);
         // setCharSaveDisable(true);
         setCharacterLoading(false);
-           setAddPopup(null)
-
+        setAddPopup(null);
+        refetch();
         // toast.success("characters updated!")
       }
       return response;
@@ -1866,7 +1865,6 @@ const PremisePreview2 = ({
                                   onMouseDown={() => {
                                     setIsProjectOpen(false);
                                     setSelectedSpProjectID(option.pro_uuid);
-                                    
                                   }}
                                   className={`px-4 py-[2px] text-[12px] md:text-[14px] hover:bg-[#33b0ca] hover:text-white ${
                                     selectedSpProjectID === option.pro_uuid
@@ -1957,7 +1955,6 @@ const PremisePreview2 = ({
                                   onMouseDown={() => {
                                     setSelectedSpProjectID(option.pro_uuid);
                                     setIsProjectOpen(false);
-                              
                                   }}
                                   className={`px-4 py-[2px] text-[12px] md:text-[14px] hover:bg-[#33b0ca] hover:text-white ${
                                     selectedSpProjectID === option.pro_uuid

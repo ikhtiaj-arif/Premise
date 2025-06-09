@@ -92,7 +92,7 @@ const TransInOtherLang = ({
         <div>
           <p className="text-center text-[12px] leading-[14.5px] font-[400] my-[12px] text-[#616161] w-[80%] mx-auto">
             You can translate this Premise Project in any number of languages
-            for a price of ${premiseData?.translatePrice} per Language.
+            for a price of ${premiseData?.pqr_value} per Language.
           </p>
 
           <h2 className="font-[700] text-[12px] leading-[14.5px] text-left mt-[24px]">

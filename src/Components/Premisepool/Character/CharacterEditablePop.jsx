@@ -30,6 +30,8 @@ const CharacterEditablePop = ({
   isOldProject,
   openOnSaveCharactersDemoPop,
   setOpenOnSaveCharactersDemoPop,
+  is_draft,
+  setPreviewAfterDraft,
 }) => {
   const [modifiedCharacters, setModifiedCharacters] = useState([]);
 
@@ -219,8 +221,6 @@ const CharacterEditablePop = ({
     }
   };
 
-  console.log("onlyAdd", onlyAdd);
-
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[2]">
       <div className="fixed inset-0 bg-black opacity-50"></div>
@@ -280,6 +280,7 @@ const CharacterEditablePop = ({
                   deleteCharacterFun,
                   isAddedByMe: false,
                   source_language,
+                  is_draft,
                 }}
               />
             ))}
@@ -305,6 +306,7 @@ const CharacterEditablePop = ({
                   deleteCharacterFun,
                   isAddedByMe: true,
                   source_language,
+                  is_draft,
                 }}
               />
             ))}
@@ -346,17 +348,34 @@ const CharacterEditablePop = ({
           {!onlyAdd ? (
             <>
               {saveCheckUser ? (
-                <button
-                  disabled={!saveCheckUser || characterLoading}
-                  onClick={() => {
-                    handleUpdateSavedChar();
-                  }}
-                  className={`${
-                    saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
-                  } text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
-                >
-                  Save
-                </button>
+                <>
+                  {is_draft ? (
+                    <button
+                      disabled={!saveCheckUser || characterLoading}
+                      onClick={() => {
+                        handleUpdateSavedChar();
+                        setPreviewAfterDraft(true);
+                      }}
+                      className={`${
+                        saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
+                      } text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
+                    >
+                      Save
+                    </button>
+                  ) : (
+                    <button
+                      disabled={!saveCheckUser || characterLoading}
+                      onClick={() => {
+                        handleUpdateSavedChar();
+                      }}
+                      className={`${
+                        saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
+                      } text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
+                    >
+                      Save
+                    </button>
+                  )}
+                </>
               ) : (
                 <button
                   // disabled={saveCheckUser || characterLoading}
@@ -364,17 +383,15 @@ const CharacterEditablePop = ({
                     handleSaveAsDraft();
                   }}
                   className={`${
-                    saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
+                    !saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
                   } text-white w-[119px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
                 >
                   Save As Draft
                 </button>
               )}
-            
             </>
           ) : (
-      
-              <button
+            <button
               disabled={characterLoading}
               onClick={() => {
                 handleUpdateSavedChar();

@@ -18,6 +18,7 @@ import { setPremise } from "../../../app/Slices/premiseSlice";
 import CharacterEditablePop from "../../Premisepool/Character/CharacterEditablePop";
 import CommentPremise from "../../Premisepool/CommentPremise";
 import AddPremise2 from "../../Premisepool/Components/AddPremise2";
+import PreviewPopAfterDraft from "../../Premisepool/Components/PreviewPopAfterDraft";
 import DeletePremise from "../../Premisepool/DeletePremise";
 import LikePremise from "../../Premisepool/LikePremise";
 import OwnerMail from "../../Premisepool/OwnerMail";
@@ -118,6 +119,9 @@ const PremiseCardV2 = ({
   const [onlyAdd, setOnlyAdd] = useState(true);
   const [characterLoading, setCharacterLoading] = useState(true);
   const [notifyPopup, setNotifyPopup] = useState(false);
+  useEffect(() => {
+    if (is_draft) setOnlyAdd(false);
+  }, [is_draft]);
 
   useEffect(() => {
     if (characters) setCharacterArray(characters);
@@ -307,7 +311,7 @@ const PremiseCardV2 = ({
         setOpenCharacterChart(false);
         // setCharSaveDisable(true);
         setCharacterLoading(false);
-
+        refetch();
         // toast.success("characters updated!")
       }
       return response;
@@ -447,6 +451,7 @@ const PremiseCardV2 = ({
   // handleUserMail,
   // setOwnerMail,
   // const [isDraft, setIsDraft] = useState(true);
+  const [previewAfterDraft, setPreviewAfterDraft] = useState(false);
 
   return (
     <div className="w-[358px] lg:w-[100%] mx-auto border border-[#EAEAEA] bg-[#fafafa] hover:shadow-lg rounded-[8px]  ">
@@ -808,9 +813,12 @@ const PremiseCardV2 = ({
           setCharacterArray={setCharacterArray}
           onlyAdd={onlyAdd}
           handleUpdateSavedChar={handleUpdateSavedChar}
+          handleSaveAsDraft={handleSaveAsDraft}
           characterLoading={isCharLoading}
           project_id={p?.project_id}
           source_language={source_language}
+          is_draft={is_draft}
+          setPreviewAfterDraft={setPreviewAfterDraft}
         />
       )}
       {openTransOtherPop && (
@@ -941,6 +949,16 @@ const PremiseCardV2 = ({
           popClose={setNotifyPopup}
           premiseId={id}
           title={`This is currently unavailable for sale as there is a pending sale request from another User. Would you like us to notify you when this becomes available?`}
+        />
+      )}
+
+      {previewAfterDraft && (
+        <PreviewPopAfterDraft
+          popClose={() => setPreviewAfterDraft(false)}
+          premise={p}
+          setOpenPop={setOpenPop}
+          setOpenCharacterChart={setOpenCharacterChart}
+          refetch={refetch}
         />
       )}
     </div>
