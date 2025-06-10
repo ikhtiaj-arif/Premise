@@ -1,6 +1,5 @@
-import React from "react";
-
 export const Package = ({ data, typeOfRequest, fromLimit }) => {
+  console.log(data?.project_name);
   return (
     <div className="w-full lg:w-[80%] h-full">
       <p
@@ -26,10 +25,10 @@ export const Package = ({ data, typeOfRequest, fromLimit }) => {
               <h3>Project Name :</h3>
               <p
                 data-te-toggle="tooltip"
-                title={`${`${data?.project_name.name} `}`}
+                title={`${`${data?.project_name} `}`}
                 className="text-right font-semibold text-[#252525]"
               >
-                {data?.project_name.name.slice(0, 20)}
+                {data?.project_name?.slice(0, 20)}
               </p>
             </div>
             {/* <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] font-[400] text-[#616161]">
