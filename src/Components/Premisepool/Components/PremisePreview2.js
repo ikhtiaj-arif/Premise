@@ -332,6 +332,8 @@ const PremisePreview2 = ({
   // const [isLoading, setIsLoading] = useState(false);
   const [createNewProject, setCreateNewProject] = useState(false);
   const [premiseID, setPremiseId] = useState("");
+  const [postedPremiseData, setPostedPremiseData] = useState(null);
+  console.log(postedPremiseData, "xxxxxxxxxx");
   const [spID, setspID] = useState("");
   const [spDeleteID, setSpDeleteID] = useState();
 
@@ -896,6 +898,7 @@ const PremisePreview2 = ({
             } = res?.data;
             setSelectedPremiseSpProjectId(response?.data?.projects?.pro_uuid);
             setPremiseId(res?.data?.id);
+            setPostedPremiseData(res?.data)
             // setMValue(res?.data?.m_value)
 
             const deletePreID = res?.data?.id;
@@ -1034,6 +1037,7 @@ const PremisePreview2 = ({
             console.log("source_language", source_language);
             setSelectedPremiseSpProjectId(response?.data?.projects?.pro_uuid);
             setPremiseId(res?.data?.id);
+            setPostedPremiseData(res?.data)
             const deletePreID = res?.data?.id;
             // setMValue(res?.data?.m_value)
 
@@ -1271,6 +1275,7 @@ const PremisePreview2 = ({
 
   const [openOnSaveCharactersDemoPop, setOpenOnSaveCharactersDemoPop] =
     useState(false);
+
   const handleUpdateSavedChar = async () => {
     const newProposedCharDemoPop = localStorage.getItem(
       "onSavedCharacterDemoPop"

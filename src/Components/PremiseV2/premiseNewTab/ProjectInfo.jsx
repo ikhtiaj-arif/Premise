@@ -1,4 +1,3 @@
-import React from "react";
 import newTabDoodle from "../../../img/new-tab-doodle.webp";
 import {
   getLanguageName,
@@ -9,6 +8,8 @@ const ProjectInfo = ({ premiseData }) => {
   const {
     nature_of_project,
     minutes,
+    text,
+    last_worked_on,
     period,
     duration,
     geography,
@@ -18,6 +19,8 @@ const ProjectInfo = ({ premiseData }) => {
     sub_genre,
     source_language,
   } = premiseData;
+  const splitText = text.split("+");
+  const dText = splitText[1];
   return (
     <div className="flex items-center gap-2 lg:px-6 my-3">
       <div>
@@ -29,7 +32,8 @@ const ProjectInfo = ({ premiseData }) => {
           />
         </div>
       </div>
-      <h3 className="text-[14px] md:text-[18px] text-[#252525] font-normal w-[80%] md:w-auto">
+    <div>
+        <h3 className="text-[14px]  text-[#252525] font-normal w-[80%] md:w-full">
         <span
           className="text-[#252525] font-bold notranslate"
           data-te-toggle="tooltip"
@@ -46,6 +50,7 @@ const ProjectInfo = ({ premiseData }) => {
         in {getLanguageName(source_language)} language set in {period}{" "}
         {geography}.
       </h3>
+    </div>
     </div>
   );
 };

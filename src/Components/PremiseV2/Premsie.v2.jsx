@@ -21,6 +21,7 @@ import TypingLoader from "../TypingLoader";
 import { baseURL } from "../utils";
 import PremiseCardV2 from "./Card/PremiseCardV2";
 import FilterSearchSort from "./Header/FiltersSearchSort/FilterSearchSort";
+import PricingPopup from "./sequalPopup/PricingPopup";
 import TestPopup from "./sequalPopup/TestPopup";
 
 export const loadingData = [
@@ -260,7 +261,8 @@ const PremiseV2 = () => {
   useEffect(() => {
     if (premiseData) {
       let filterPremiseData = premiseData?.results?.filter(
-        (items) => items.ai_comments_generated 
+        // (items) => items.ai_comments_generated
+        (item) => item?.ai_comments_generated === true || item?.is_draft === true
       );
       // console.log("filterPremiseData",filterPremiseData);
       setDataCount(filterPremiseData?.length);
@@ -383,6 +385,8 @@ const PremiseV2 = () => {
     }
   }, [stored]);
 
+  const [pricingPopup, setPricingPopup] = useState(false);
+
   return (
     //   <div
     //   className="fixed left-0 top-[60px] w-full"
@@ -430,6 +434,7 @@ const PremiseV2 = () => {
                 </p>
               }
             </div>
+            {/* <button onClick={() => setPricingPopup(true)}>p</button> */}
             <div className="md:w-[50%] flex items-center justify-between h-[124px]">
               <div className="mr-[20px] md:mr-[0px] text-center w-[360px] md:mt-[-30px] lg:w-[440px] ml-[-186px] mb-0 lg:ml-[-171px] xl:ml-[-229px">
                 <img
@@ -437,7 +442,7 @@ const PremiseV2 = () => {
                   src={headText}
                   className="w-[60%] xxs:w-[70%] lg:w-[443px] ml-auto lg:mx-auto h-[42px] lg:h-[52px]"
                 />
-                {/* <h2 className="text-[30px] font-figma-hand text-[#33B0CA] leading-[41.37px] font-[700] mt-[0px]">
+                {/* <h2 className="text-[30px] font-figma-hand text-[#] leading-[41.37px] font-[700] mt-[0px]">
                   Monetize Your Creativity!
                 </h2> */}
                 <button
@@ -695,6 +700,7 @@ const PremiseV2 = () => {
       </div>
 
       {openSequalPop && <TestPopup />}
+      {pricingPopup && <PricingPopup setPricingPopup={setPricingPopup} />}
 
       {/* footer */}
       {/* <Footer></Footer> */}
