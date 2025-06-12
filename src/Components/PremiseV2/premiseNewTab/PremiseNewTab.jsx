@@ -266,372 +266,373 @@ const PremiseNewTab = () => {
   return (
     <div className="w-[95%] max-w-[1445px] mx-auto">
       {!isPremiseLoading && !isCommentLoading && premiseData && commentsData ? (
-        <>
-          <ProjectInfo {...{ premiseData }} />
-          {/* <ProjectInfo
-            {...{
-              premiseData,
-              premiseRefetch,
-              setOpenReplyField,
-              commentsData,
-            }}
-          /> */}
-          <div className="w-full lg:hidden relative">
-            {/* Left Sidebar */}
-            <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex ">
-              {/* <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex lg:h-[calc(100vh-75px)]"> */}
-              <LeftSideBar
-                {...{
-                  filteredCommentsData,
-                  premiseData,
-                  premiseRefetch,
-                  commentRefetch,
-                  commentsData,
-                  setOpenReplyField,
-                  lastCommentRef,
-                  replyField,
-                  setReplyField,
-                  setOpenReplyFieldID,
-                  setOpenAllReplies,
-                  characters,
-                  characterRefetch,
-                  isCharLoading,
-                  handleSearch,
-                  currentCommentRef,
-                  handleOpenAllReplies,
-                  setSearchTerm,
-                }}
-              />
-              <VerticalBar
-                replyRef={replyRef}
-                comments={filteredCommentsData?.comments}
-                currentCommentRef={currentCommentRef}
-                handleOpenAllReplies={handleOpenAllReplies}
-                // setReplyField={setReplyField}
-                // replyField={replyField}
-                // onFocusComment={handleFocusComment}
-              />
-            </div>
-
-            <div
-              ref={lastCommentRef}
-              className="w-full relative lg:h-[83vh] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl"
-            >
-              {isSearchLoading || isCommentLoading ? (
-                <div>
-                  <TypingLoader />
-                </div>
-              ) : (
-                <div className="pb-[160px] pt-[18px] lg:pb-[18px]">
-                  {filteredCommentsData?.comments?.length > 0 ? (
-                    <>
-                      <div>
-                        {[...(filteredCommentsData?.comments || [])]
-                          .sort((a, b) => a.c_value - b.c_value)
-                          .map((comment, index) => (
-                            <motion.div
-                              key={comment.id + index}
-                              initial={{ opacity: 0, y: 70 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0, y: -50 }}
-                              transition={{ duration: 0.5 }}
-                              ref={(el) =>
-                                (currentCommentRef.current[comment.id] = el)
-                              }
-                            >
-                              <AllComments
-                                fromNew
-                                commentIdx={index + 1}
-                                comments={comment}
-                                data={premiseData}
-                                refetch={premiseRefetch}
-                                openReplyField={openReplyField}
-                                setOpenReplyField={setOpenReplyField}
-                                replyToCommentID={replyToCommentID}
-                                setReplyToCommentID={setReplyToCommentID}
-                                replyResStat={replyResStat}
-                                setCommentOwner={setCommentOwner}
-                                setOpenAllReplies={setOpenAllReplies}
-                                openAllReplies={openAllReplies}
-                                commentRefetch={commentRefetch}
-                                proImgUrl={proImgUrl}
-                                setReplyField={setReplyField}
-                                replyField={replyField}
-                                replyRef={replyRef}
-                                handleOpenAllReplies={handleOpenAllReplies}
-                                handleReplyTextChange={handleReplyTextChange}
-                                handlePostReplyToComment={
-                                  handlePostReplyToComment
-                                }
-                                replyLoading={replyLoading}
-                                premiseData={premiseData}
-                                replyTextCount={replyTextCount}
-                                setReplyTextCount={setReplyTextCount}
-                                actTwoEnd={actTwoEnd}
-                                actOneThreshold={actOneThreshold}
-                                openReplyFieldID={openReplyFieldID}
-                                setOpenReplyFieldID={setOpenReplyFieldID}
-                                project_id={premiseData?.project_id}
-                                focusedCValue={focusedCValue}
-                                iconWidth={"w-[87%] md:w-[90%]"}
-                                inpRightMargin={"mr-[47px] md:mr-[120px]"}
-                                addBeatTutorialPop={addBeatTutorialPop}
-                                setAddBeatTutorialPop={setAddBeatTutorialPop}
-                              />
-                            </motion.div>
-                          ))}
-                      </div>
-                    </>
-                  ) : filteredCommentsData?.counts > 0 &&
-                    filteredCommentsData?.comments?.length === 0 ? (
-                    <p className=" text-center my-4">Comments Are Private.</p>
-                  ) : (
-                    <p className=" text-center my-4">No Comments Available</p>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="w-full hidden lg:flex relative">
-            <div className="w-full mr-4 ">
-              <div
-                ref={lastCommentRef}
-                className="w-full relative lg:h-[83vh] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl"
-              >
-                {isSearchLoading || isCommentLoading ? (
-                  <div>
-                    <TypingLoader />
-                  </div>
-                ) : (
-                  <div className="pb-[160px] pt-[18px] lg:pb-[18px]">
-                    {filteredCommentsData?.comments?.length > 0 ? (
-                      <>
-                        <div>
-                          {[...(filteredCommentsData?.comments || [])]
-                            .sort((a, b) => a.c_value - b.c_value)
-                            .map((comment, index) => (
-                              <motion.div
-                                key={comment.id + index}
-                                initial={{ opacity: 0, y: 70 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -50 }}
-                                transition={{ duration: 0.5 }}
-                                ref={(el) =>
-                                  (currentCommentRef.current[comment.id] = el)
-                                }
-                              >
-                                <AllComments
-                                  fromNew
-                                  commentIdx={index + 1}
-                                  comments={comment}
-                                  data={premiseData}
-                                  refetch={premiseRefetch}
-                                  openReplyField={openReplyField}
-                                  setOpenReplyField={setOpenReplyField}
-                                  replyToCommentID={replyToCommentID}
-                                  setReplyToCommentID={setReplyToCommentID}
-                                  replyResStat={replyResStat}
-                                  setCommentOwner={setCommentOwner}
-                                  setOpenAllReplies={setOpenAllReplies}
-                                  openAllReplies={openAllReplies}
-                                  commentRefetch={commentRefetch}
-                                  proImgUrl={proImgUrl}
-                                  setReplyField={setReplyField}
-                                  replyField={replyField}
-                                  replyRef={replyRef}
-                                  handleOpenAllReplies={handleOpenAllReplies}
-                                  handleReplyTextChange={handleReplyTextChange}
-                                  handlePostReplyToComment={
-                                    handlePostReplyToComment
-                                  }
-                                  replyLoading={replyLoading}
-                                  premiseData={premiseData}
-                                  replyTextCount={replyTextCount}
-                                  setReplyTextCount={setReplyTextCount}
-                                  actTwoEnd={actTwoEnd}
-                                  actOneThreshold={actOneThreshold}
-                                  openReplyFieldID={openReplyFieldID}
-                                  setOpenReplyFieldID={setOpenReplyFieldID}
-                                  project_id={premiseData?.project_id}
-                                  focusedCValue={focusedCValue}
-                                  iconWidth={"w-[87%] md:w-[90%]"}
-                                  inpRightMargin={"mr-[47px] md:mr-[120px]"}
-                                  addBeatTutorialPop={addBeatTutorialPop}
-                                  setAddBeatTutorialPop={setAddBeatTutorialPop}
-                                />
-                              </motion.div>
-                            ))}
-                        </div>
-                      </>
-                    ) : filteredCommentsData?.counts > 0 &&
-                      filteredCommentsData?.comments?.length === 0 ? (
-                      <p className=" text-center my-4">Comments Are Private.</p>
-                    ) : (
-                      <p className=" text-center my-4">No Comments Available</p>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Left Sidebar */}
-            <div className=" bg-[#fff] lg:w-[500px] w-full  flex ">
-              <VerticalBar
-                replyRef={replyRef}
-                comments={filteredCommentsData?.comments}
-                currentCommentRef={currentCommentRef}
-                handleOpenAllReplies={handleOpenAllReplies}
-                // setReplyField={setReplyField}
-                // replyField={replyField}
-                // onFocusComment={handleFocusComment}
-              />
-              {/* <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex lg:h-[calc(100vh-75px)]"> */}
-              <LeftSideBar
-                {...{
-                  filteredCommentsData,
-                  premiseData,
-                  premiseRefetch,
-                  commentRefetch,
-                  commentsData,
-                  setOpenReplyField,
-                  lastCommentRef,
-                  replyField,
-                  setReplyField,
-                  setOpenReplyFieldID,
-                  setOpenAllReplies,
-                  characters,
-                  characterRefetch,
-                  isCharLoading,
-                  handleSearch,
-                  currentCommentRef,
-                  handleOpenAllReplies,
-                  setSearchTerm,
-                }}
-              />
-            </div>
-          </div>
-        </>
-      ) : (
         // <>
-        //         <ProjectInfo {...{ premiseData }} />
-        //         <div className="w-full lg:flex relative">
-        //           {/* Left Sidebar */}
-        //           <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex ">
-        //             {/* <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex lg:h-[calc(100vh-75px)]"> */}
-        //             <LeftSideBar
-        //               {...{
-        //                 filteredCommentsData,
-        //                 premiseData,
-        //                 premiseRefetch,
-        //                 commentRefetch,
-        //                 commentsData,
-        //                 setOpenReplyField,
-        //                 lastCommentRef,
-        //                 replyField,
-        //                 setReplyField,
-        //                 setOpenReplyFieldID,
-        //                 setOpenAllReplies,
-        //                 characters,
-        //                 characterRefetch,
-        //                 isCharLoading,
-        //                 handleSearch,
-        //                 currentCommentRef,
-        //                 handleOpenAllReplies,
-        //                 setSearchTerm,
-        //               }}
-        //             />
-        //             <VerticalBar
-        //               replyRef={replyRef}
-        //               comments={filteredCommentsData?.comments}
-        //               currentCommentRef={currentCommentRef}
-        //               handleOpenAllReplies={handleOpenAllReplies}
-        //               // setReplyField={setReplyField}
-        //               // replyField={replyField}
-        //               // onFocusComment={handleFocusComment}
-        //             />
-        //           </div>
+        //   <ProjectInfo {...{ premiseData }} />
+        //   {/* <ProjectInfo
+        //     {...{
+        //       premiseData,
+        //       premiseRefetch,
+        //       setOpenReplyField,
+        //       commentsData,
+        //     }}
+        //   /> */}
+        //   <div className="w-full lg:hidden relative">
+        //     {/* Left Sidebar */}
+        //     <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex ">
+        //       {/* <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex lg:h-[calc(100vh-75px)]"> */}
+        //       <LeftSideBar
+        //         {...{
+        //           filteredCommentsData,
+        //           premiseData,
+        //           premiseRefetch,
+        //           commentRefetch,
+        //           commentsData,
+        //           setOpenReplyField,
+        //           lastCommentRef,
+        //           replyField,
+        //           setReplyField,
+        //           setOpenReplyFieldID,
+        //           setOpenAllReplies,
+        //           characters,
+        //           characterRefetch,
+        //           isCharLoading,
+        //           handleSearch,
+        //           currentCommentRef,
+        //           handleOpenAllReplies,
+        //           setSearchTerm,
+        //         }}
+        //       />
+        //       <VerticalBar
+        //         replyRef={replyRef}
+        //         comments={filteredCommentsData?.comments}
+        //         currentCommentRef={currentCommentRef}
+        //         handleOpenAllReplies={handleOpenAllReplies}
+        //         // setReplyField={setReplyField}
+        //         // replyField={replyField}
+        //         // onFocusComment={handleFocusComment}
+        //       />
+        //     </div>
 
-        //           <div
-        //             ref={lastCommentRef}
-        //             className="w-full relative lg:h-[83vh] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl"
-        //           >
-        //             {isSearchLoading || isCommentLoading ? (
+        //     <div
+        //       ref={lastCommentRef}
+        //       className="w-full relative lg:h-[83vh] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl"
+        //     >
+        //       {isSearchLoading || isCommentLoading ? (
+        //         <div>
+        //           <TypingLoader />
+        //         </div>
+        //       ) : (
+        //         <div className="pb-[160px] pt-[18px] lg:pb-[18px]">
+        //           {filteredCommentsData?.comments?.length > 0 ? (
+        //             <>
         //               <div>
-        //                 <TypingLoader />
+        //                 {[...(filteredCommentsData?.comments || [])]
+        //                   .sort((a, b) => a.c_value - b.c_value)
+        //                   .map((comment, index) => (
+        //                     <motion.div
+        //                       key={comment.id + index}
+        //                       initial={{ opacity: 0, y: 70 }}
+        //                       animate={{ opacity: 1, y: 0 }}
+        //                       exit={{ opacity: 0, y: -50 }}
+        //                       transition={{ duration: 0.5 }}
+        //                       ref={(el) =>
+        //                         (currentCommentRef.current[comment.id] = el)
+        //                       }
+        //                     >
+        //                       <AllComments
+        //                         fromNew
+        //                         commentIdx={index + 1}
+        //                         comments={comment}
+        //                         data={premiseData}
+        //                         refetch={premiseRefetch}
+        //                         openReplyField={openReplyField}
+        //                         setOpenReplyField={setOpenReplyField}
+        //                         replyToCommentID={replyToCommentID}
+        //                         setReplyToCommentID={setReplyToCommentID}
+        //                         replyResStat={replyResStat}
+        //                         setCommentOwner={setCommentOwner}
+        //                         setOpenAllReplies={setOpenAllReplies}
+        //                         openAllReplies={openAllReplies}
+        //                         commentRefetch={commentRefetch}
+        //                         proImgUrl={proImgUrl}
+        //                         setReplyField={setReplyField}
+        //                         replyField={replyField}
+        //                         replyRef={replyRef}
+        //                         handleOpenAllReplies={handleOpenAllReplies}
+        //                         handleReplyTextChange={handleReplyTextChange}
+        //                         handlePostReplyToComment={
+        //                           handlePostReplyToComment
+        //                         }
+        //                         replyLoading={replyLoading}
+        //                         premiseData={premiseData}
+        //                         replyTextCount={replyTextCount}
+        //                         setReplyTextCount={setReplyTextCount}
+        //                         actTwoEnd={actTwoEnd}
+        //                         actOneThreshold={actOneThreshold}
+        //                         openReplyFieldID={openReplyFieldID}
+        //                         setOpenReplyFieldID={setOpenReplyFieldID}
+        //                         project_id={premiseData?.project_id}
+        //                         focusedCValue={focusedCValue}
+        //                         iconWidth={"w-[87%] md:w-[90%]"}
+        //                         inpRightMargin={"mr-[47px] md:mr-[120px]"}
+        //                         addBeatTutorialPop={addBeatTutorialPop}
+        //                         setAddBeatTutorialPop={setAddBeatTutorialPop}
+        //                       />
+        //                     </motion.div>
+        //                   ))}
         //               </div>
+        //             </>
+        //           ) : filteredCommentsData?.counts > 0 &&
+        //             filteredCommentsData?.comments?.length === 0 ? (
+        //             <p className=" text-center my-4">Comments Are Private.</p>
+        //           ) : (
+        //             <p className=" text-center my-4">No Comments Available</p>
+        //           )}
+        //         </div>
+        //       )}
+        //     </div>
+        //   </div>
+        //   <div className="w-full hidden lg:flex relative">
+        //     <div className="w-full mr-4 ">
+        //       <div
+        //         ref={lastCommentRef}
+        //         className="w-full relative lg:h-[83vh] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl"
+        //       >
+        //         {isSearchLoading || isCommentLoading ? (
+        //           <div>
+        //             <TypingLoader />
+        //           </div>
+        //         ) : (
+        //           <div className="pb-[160px] pt-[18px] lg:pb-[18px]">
+        //             {filteredCommentsData?.comments?.length > 0 ? (
+        //               <>
+        //                 <div>
+        //                   {[...(filteredCommentsData?.comments || [])]
+        //                     .sort((a, b) => a.c_value - b.c_value)
+        //                     .map((comment, index) => (
+        //                       <motion.div
+        //                         key={comment.id + index}
+        //                         initial={{ opacity: 0, y: 70 }}
+        //                         animate={{ opacity: 1, y: 0 }}
+        //                         exit={{ opacity: 0, y: -50 }}
+        //                         transition={{ duration: 0.5 }}
+        //                         ref={(el) =>
+        //                           (currentCommentRef.current[comment.id] = el)
+        //                         }
+        //                       >
+        //                         <AllComments
+        //                           fromNew
+        //                           commentIdx={index + 1}
+        //                           comments={comment}
+        //                           data={premiseData}
+        //                           refetch={premiseRefetch}
+        //                           openReplyField={openReplyField}
+        //                           setOpenReplyField={setOpenReplyField}
+        //                           replyToCommentID={replyToCommentID}
+        //                           setReplyToCommentID={setReplyToCommentID}
+        //                           replyResStat={replyResStat}
+        //                           setCommentOwner={setCommentOwner}
+        //                           setOpenAllReplies={setOpenAllReplies}
+        //                           openAllReplies={openAllReplies}
+        //                           commentRefetch={commentRefetch}
+        //                           proImgUrl={proImgUrl}
+        //                           setReplyField={setReplyField}
+        //                           replyField={replyField}
+        //                           replyRef={replyRef}
+        //                           handleOpenAllReplies={handleOpenAllReplies}
+        //                           handleReplyTextChange={handleReplyTextChange}
+        //                           handlePostReplyToComment={
+        //                             handlePostReplyToComment
+        //                           }
+        //                           replyLoading={replyLoading}
+        //                           premiseData={premiseData}
+        //                           replyTextCount={replyTextCount}
+        //                           setReplyTextCount={setReplyTextCount}
+        //                           actTwoEnd={actTwoEnd}
+        //                           actOneThreshold={actOneThreshold}
+        //                           openReplyFieldID={openReplyFieldID}
+        //                           setOpenReplyFieldID={setOpenReplyFieldID}
+        //                           project_id={premiseData?.project_id}
+        //                           focusedCValue={focusedCValue}
+        //                           iconWidth={"w-[87%] md:w-[90%]"}
+        //                           inpRightMargin={"mr-[47px] md:mr-[120px]"}
+        //                           addBeatTutorialPop={addBeatTutorialPop}
+        //                           setAddBeatTutorialPop={setAddBeatTutorialPop}
+        //                         />
+        //                       </motion.div>
+        //                     ))}
+        //                 </div>
+        //               </>
+        //             ) : filteredCommentsData?.counts > 0 &&
+        //               filteredCommentsData?.comments?.length === 0 ? (
+        //               <p className=" text-center my-4">Comments Are Private.</p>
         //             ) : (
-        //               <div className="pb-[160px] pt-[18px] lg:pb-[18px]">
-        //                 {filteredCommentsData?.comments?.length > 0 ? (
-        //                   <>
-        //                     <div>
-        //                       {[...(filteredCommentsData?.comments || [])]
-        //                         .sort((a, b) => a.c_value - b.c_value)
-        //                         .map((comment, index) => (
-        //                           <motion.div
-        //                             key={comment.id + index}
-        //                             initial={{ opacity: 0, y: 70 }}
-        //                             animate={{ opacity: 1, y: 0 }}
-        //                             exit={{ opacity: 0, y: -50 }}
-        //                             transition={{ duration: 0.5 }}
-        //                             ref={(el) =>
-        //                               (currentCommentRef.current[comment.id] = el)
-        //                             }
-        //                           >
-        //                             <AllComments
-        //                               fromNew
-        //                               commentIdx={index + 1}
-        //                               comments={comment}
-        //                               data={premiseData}
-        //                               refetch={premiseRefetch}
-        //                               openReplyField={openReplyField}
-        //                               setOpenReplyField={setOpenReplyField}
-        //                               replyToCommentID={replyToCommentID}
-        //                               setReplyToCommentID={setReplyToCommentID}
-        //                               replyResStat={replyResStat}
-        //                               setCommentOwner={setCommentOwner}
-        //                               setOpenAllReplies={setOpenAllReplies}
-        //                               openAllReplies={openAllReplies}
-        //                               commentRefetch={commentRefetch}
-        //                               proImgUrl={proImgUrl}
-        //                               setReplyField={setReplyField}
-        //                               replyField={replyField}
-        //                               replyRef={replyRef}
-        //                               handleOpenAllReplies={handleOpenAllReplies}
-        //                               handleReplyTextChange={handleReplyTextChange}
-        //                               handlePostReplyToComment={
-        //                                 handlePostReplyToComment
-        //                               }
-        //                               replyLoading={replyLoading}
-        //                               premiseData={premiseData}
-        //                               replyTextCount={replyTextCount}
-        //                               setReplyTextCount={setReplyTextCount}
-        //                               actTwoEnd={actTwoEnd}
-        //                               actOneThreshold={actOneThreshold}
-        //                               openReplyFieldID={openReplyFieldID}
-        //                               setOpenReplyFieldID={setOpenReplyFieldID}
-        //                               project_id={premiseData?.project_id}
-        //                               focusedCValue={focusedCValue}
-        //                               iconWidth={"w-[87%] md:w-[90%]"}
-        //                               inpRightMargin={"mr-[47px] md:mr-[120px]"}
-        //                               addBeatTutorialPop={addBeatTutorialPop}
-        //                               setAddBeatTutorialPop={setAddBeatTutorialPop}
-        //                             />
-        //                           </motion.div>
-        //                         ))}
-        //                     </div>
-        //                   </>
-        //                 ) : filteredCommentsData?.counts > 0 &&
-        //                   filteredCommentsData?.comments?.length === 0 ? (
-        //                   <p className=" text-center my-4">Comments Are Private.</p>
-        //                 ) : (
-        //                   <p className=" text-center my-4">No Comments Available</p>
-        //                 )}
-        //               </div>
+        //               <p className=" text-center my-4">No Comments Available</p>
         //             )}
         //           </div>
-        //         </div>
+        //         )}
+        //       </div>
+        //     </div>
 
-        //       </>
+        //     {/* Left Sidebar */}
+        //     <div className=" bg-[#fff] lg:w-[500px] w-full  flex ">
+        //       <VerticalBar
+        //         replyRef={replyRef}
+        //         comments={filteredCommentsData?.comments}
+        //         currentCommentRef={currentCommentRef}
+        //         handleOpenAllReplies={handleOpenAllReplies}
+        //         // setReplyField={setReplyField}
+        //         // replyField={replyField}
+        //         // onFocusComment={handleFocusComment}
+        //       />
+        //       {/* <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex lg:h-[calc(100vh-75px)]"> */}
+        //       <LeftSideBar
+        //         {...{
+        //           filteredCommentsData,
+        //           premiseData,
+        //           premiseRefetch,
+        //           commentRefetch,
+        //           commentsData,
+        //           setOpenReplyField,
+        //           lastCommentRef,
+        //           replyField,
+        //           setReplyField,
+        //           setOpenReplyFieldID,
+        //           setOpenAllReplies,
+        //           characters,
+        //           characterRefetch,
+        //           isCharLoading,
+        //           handleSearch,
+        //           currentCommentRef,
+        //           handleOpenAllReplies,
+        //           setSearchTerm,
+        //         }}
+        //       />
+        //     </div>
+        //   </div>
+        // </>
+         <>
+                <ProjectInfo {...{ premiseData }} />
+                <div className="w-full lg:flex relative">
+                  {/* Left Sidebar */}
+                  <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex ">
+                    {/* <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex lg:h-[calc(100vh-75px)]"> */}
+                    <LeftSideBar
+                      {...{
+                        filteredCommentsData,
+                        premiseData,
+                        premiseRefetch,
+                        commentRefetch,
+                        commentsData,
+                        setOpenReplyField,
+                        lastCommentRef,
+                        replyField,
+                        setReplyField,
+                        setOpenReplyFieldID,
+                        setOpenAllReplies,
+                        characters,
+                        characterRefetch,
+                        isCharLoading,
+                        handleSearch,
+                        currentCommentRef,
+                        handleOpenAllReplies,
+                        setSearchTerm,
+                      }}
+                    />
+                    <VerticalBar
+                      replyRef={replyRef}
+                      comments={filteredCommentsData?.comments}
+                      currentCommentRef={currentCommentRef}
+                      handleOpenAllReplies={handleOpenAllReplies}
+                      // setReplyField={setReplyField}
+                      // replyField={replyField}
+                      // onFocusComment={handleFocusComment}
+                    />
+                  </div>
+
+                  <div
+                    ref={lastCommentRef}
+                    className="w-full relative lg:h-[83vh] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl"
+                  >
+                    {isSearchLoading || isCommentLoading ? (
+                      <div>
+                        <TypingLoader />
+                      </div>
+                    ) : (
+                      <div className="pb-[160px] pt-[18px] lg:pb-[18px]">
+                        {filteredCommentsData?.comments?.length > 0 ? (
+                          <>
+                            <div>
+                              {[...(filteredCommentsData?.comments || [])]
+                                .sort((a, b) => a.c_value - b.c_value)
+                                .map((comment, index) => (
+                                  <motion.div
+                                    key={comment.id + index}
+                                    initial={{ opacity: 0, y: 70 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -50 }}
+                                    transition={{ duration: 0.5 }}
+                                    ref={(el) =>
+                                      (currentCommentRef.current[comment.id] = el)
+                                    }
+                                  >
+                                    <AllComments
+                                      fromNew
+                                      commentIdx={index + 1}
+                                      comments={comment}
+                                      data={premiseData}
+                                      refetch={premiseRefetch}
+                                      openReplyField={openReplyField}
+                                      setOpenReplyField={setOpenReplyField}
+                                      replyToCommentID={replyToCommentID}
+                                      setReplyToCommentID={setReplyToCommentID}
+                                      replyResStat={replyResStat}
+                                      setCommentOwner={setCommentOwner}
+                                      setOpenAllReplies={setOpenAllReplies}
+                                      openAllReplies={openAllReplies}
+                                      commentRefetch={commentRefetch}
+                                      proImgUrl={proImgUrl}
+                                      setReplyField={setReplyField}
+                                      replyField={replyField}
+                                      replyRef={replyRef}
+                                      handleOpenAllReplies={handleOpenAllReplies}
+                                      handleReplyTextChange={handleReplyTextChange}
+                                      handlePostReplyToComment={
+                                        handlePostReplyToComment
+                                      }
+                                      replyLoading={replyLoading}
+                                      premiseData={premiseData}
+                                      replyTextCount={replyTextCount}
+                                      setReplyTextCount={setReplyTextCount}
+                                      actTwoEnd={actTwoEnd}
+                                      actOneThreshold={actOneThreshold}
+                                      openReplyFieldID={openReplyFieldID}
+                                      setOpenReplyFieldID={setOpenReplyFieldID}
+                                      project_id={premiseData?.project_id}
+                                      focusedCValue={focusedCValue}
+                                      iconWidth={"w-[87%] md:w-[90%]"}
+                                      inpRightMargin={"mr-[47px] md:mr-[120px]"}
+                                      addBeatTutorialPop={addBeatTutorialPop}
+                                      setAddBeatTutorialPop={setAddBeatTutorialPop}
+                                    />
+                                  </motion.div>
+                                ))}
+                            </div>
+                          </>
+                        ) : filteredCommentsData?.counts > 0 &&
+                          filteredCommentsData?.comments?.length === 0 ? (
+                          <p className=" text-center my-4">Comments Are Private.</p>
+                        ) : (
+                          <p className=" text-center my-4">No Comments Available</p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+              </>
+      ) : (
+       
 
         <div className="fixed inset-0 flex items-center justify-center mx-auto z-50">
           <div className="fixed inset-0 bg-black opacity-50"></div>
