@@ -321,7 +321,6 @@ const LeftSideBarUpdate = ({
   // console.log("characters", characters);
   // console.log("finalCharacters", finalCharacters);
 
-
   useEffect(() => {
     const closeMenu = (e) => {
       if (!dotPopupRef?.current?.contains(e.target)) {
@@ -379,23 +378,6 @@ const LeftSideBarUpdate = ({
   return (
     <>
       <div className="fixed bottom-8 z-[1] w-[96%] mx-auto md:hidden">
-        <AskIda
-          {...{
-            id,
-            source_language,
-            user,
-            premiseOwner,
-            commentRefetch,
-            setOpenAllReplies,
-            setOpenReplyFieldID,
-            lastCommentRef,
-            isLoading,
-            setIsLoading,
-            setNoAccessPopup,
-            setService,
-          }}
-        />
-
         <NewTabTextArea
           fromNew
           premiseId={id}
@@ -424,10 +406,30 @@ const LeftSideBarUpdate = ({
             inputRef,
           }}
         />
+
+        <div className="flex gap-1 items-center w-2/4 mt-[-4px] mx-auto">
+          <h3 className="text-[12px]">or,</h3>
+          <AskIda
+            {...{
+              id,
+              source_language,
+              user,
+              premiseOwner,
+              commentRefetch,
+              setOpenAllReplies,
+              setOpenReplyFieldID,
+              lastCommentRef,
+              isLoading,
+              setIsLoading,
+              setNoAccessPopup,
+              setService,
+            }}
+          />
+        </div>
       </div>
       <div className="lg:w-[368px] w-full relative h-full shadow-md  rounded-md">
         {/* main div */}
-        <div className="h-full lg:h-[83vh] overflow-hidden relative flex flex-col">
+        <div className="h-full lg:h-[83vh]  relative flex flex-col">
           <div className="flex-none px-3">
             {/* header */}
             <PremiseTopHeaderUpdate
@@ -524,7 +526,7 @@ const LeftSideBarUpdate = ({
           </div>
           {/* Details scroll div */}
           <div className="flex-1 pb-4 overflow-y-auto flex flex-col justify-between">
-            {window.innerWidth > 1150 && (
+            {
               <div className="bg-[#fff] px-3">
                 <div>
                   {/* <div className="grid grid-cols-[40%_minmax(60%,_1fr)] items-center ">
@@ -585,7 +587,7 @@ const LeftSideBarUpdate = ({
                         />
                       </div>
                     </div>
-                    <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full lg:max-h-[348px] overflow-auto">
+                    <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full max-h-[248px] h-[50vh] lg:max-h-[448px] overflow-y-auto">
                       {finalCharacters?.map((character, index) => (
                         <CharacterShowCard
                           {...{
@@ -606,7 +608,7 @@ const LeftSideBarUpdate = ({
                   </div>
                 )}
               </div>
-            )}
+            }
             {/* ask ida desk */}
             <div className="hidden md:block px-3  w-full  mt-4">
               <NewTabTextArea

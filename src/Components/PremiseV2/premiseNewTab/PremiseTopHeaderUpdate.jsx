@@ -192,7 +192,7 @@ const PremiseTopHeaderUpdate = ({
 
   return (
     <div className="flex items-center gap-2">
-      <div className="w-1/2 flex items-center gap-2">
+      <div className="w-3/5 flex items-center gap-2">
         <div
           data-te-toggle="tooltip"
           title="Share"
@@ -389,86 +389,11 @@ const PremiseTopHeaderUpdate = ({
             </div>
           ) : (
             <div className="flex gap-[3px] items-center  mr-[2px] relative ">
-              {available_for_translation && (
-                <div className="relative">
-                  <span className="absolute top-[-27px] right-[-3px] text-[12px] font-[700] text-[#252525]">
-                    {no_of_times_translated > 1 && (
-                      <>{no_of_times_translated}</>
-                    )}
-                  </span>
                   <img
-                    data-te-toggle="tooltip"
-                    title="Available for Translation"
-                    src={translateCart}
-                    className="w-8 h-8 mt-[-13px] cursor-pointer"
-                    alt=""
-                    onClick={() => {
-                      setOpenAvailableForTranslationPop(
-                        !openAvailableForTranslationPop
-                      );
-                      // setOpenDotMenu(null);
-                    }}
-                  />
-                </div>
-              )}
-              <div className="relative">
-                <img
-                  data-te-toggle="tooltip"
-                  title="Send Translation Request"
-                  src={transCartQ}
-                  className="w-8 h-8 mt-[-13px] cursor-pointer"
-                  alt=""
-                  onClick={() => checkAllowance(setTranslationRequestPop, id)}
-                />
-              </div>
-
-              {available_for_sale ? (
-                <img
-                  data-te-toggle="tooltip"
-                  title="Available for Sale"
-                  src={mailCart}
-                  className="w-8 h-8 mt-[-13px] cursor-pointer"
-                  onClick={() => handleSale(id)}
-                  alt="for sale"
-                />
-              ) : (
-                <>
-                  {
-                    <button
-                      className={`cursor-pointer`}
-                      data-te-toggle="tooltip"
-                      title="Send Purchase Request"
-                      // disabled={is_requested_for_sale}
-                      // onClick={() => {
-                      //   checkAllowance(setSaleRequestPop, id);
-                      //   refetch();
-                      // }}
-                      onClick={handleSendSaleRequest}
-                    >
-                      <img
-                        src={sendSaleReq}
-                        className={`w-8 h-8 mt-[-13px]`}
-                        alt="Send Purchase request"
-                      />
-                    </button>
-                  }
-                </>
-              )}
-              {premise_source_id && (
-                <img
-                  data-te-toggle="tooltip"
-                  title="View Source"
-                  src={sourceIcn}
-                  className="w-8 h-8 mt-[-13px] cursor-pointer"
-                  alt=""
-                  onClick={() => handlePremiseOpenNewTab(premise_source_id)}
-                />
-              )}
-              <img
                 data-te-toggle="tooltip"
                 title="Send Message"
                 src={msgIcon}
-                className="w-8 h-8 mt-[-13px] cursor-pointer"
+                className="w-8 h-8  cursor-pointer"
                 alt=""
                 onClick={handleUserMail}
               />
@@ -477,12 +402,12 @@ const PremiseTopHeaderUpdate = ({
         </div>
       </div>
       <div
-        className={` border w-[146px] border-[#B4B4B4] mx-auto px-[14px] h-[32px] my-2 rounded-full`}
+        className={` border w-[110px] md:w-[146px] border-[#B4B4B4] mx-auto px-[14px] h-[32px] my-2 rounded-full`}
       >
         <form className="flex items-center" onSubmit={handleSearch}>
           <input
             type="text"
-            className="w-full flex-1 px-2  h-[28px] text-[14px]  focus:outline-none"
+            className="w-full flex-1 px-2 h-[28px] text-[14px]  focus:outline-none"
             name="search"
             id=""
             maxLength="30"
@@ -496,12 +421,12 @@ const PremiseTopHeaderUpdate = ({
         </form>
       </div>
 
-      <img
+      {/* <img
         src={GridIcon}
         alt="char_image"
         className="inline md:hidden w-[22px] h-[22px] cursor-pointer"
         onClick={toggleCharactersPopup}
-      />
+      /> */}
 
       {beatsPopup && <BeatsPop popClose={setBeatsPopup} id={id} />}
 

@@ -152,7 +152,7 @@ const AskIda = ({
         <button
           disabled={isLoading}
           onClick={handleButtonClick}
-          className={` border-none rounded-[6px] px-4 py-1 text-white text-[14px] font-[600] leading-[21px] ${
+          className={` border-none rounded-[6px] px-4 py-1 text-white text-[12px] md:text-[14px] font-[600] leading-[21px] ${
             isLoading ? "bg-[#ACDDE7]   cursor-default" : "bg-[#33B0CA]"
           }`}
         >

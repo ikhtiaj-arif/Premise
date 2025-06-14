@@ -469,7 +469,6 @@ const Popup = ({
     setCommentOwner(commenterName);
   };
 
-  // console.log("is_read_only", premiseData?.is_read_only)
 
   const [addBeatTutorialPop, setAddBeatTutorialPop] = useState(false)
 
@@ -570,14 +569,17 @@ const Popup = ({
                 </div> */}
                 </div>
                 <div className="flex gap-[3px] items-center">
+                  {
+                     premiseOwner?.id === user && 
                   <img
-                    data-te-toggle="tooltip"
-                    title="Open In New Tab"
-                    src={newTabIcn}
-                    className="w-7 h-7 cursor-pointer mt-[-8px]"
-                    alt=""
-                    onClick={() => handlePremiseOpenNewTab(premiseId)}
-                  />{" "}
+                  data-te-toggle="tooltip"
+                  title="Open In New Tab"
+                  src={newTabIcn}
+                  className="w-7 h-7 cursor-pointer mt-[-8px]"
+                  alt=""
+                  onClick={() => handlePremiseOpenNewTab(premiseId)}
+                  />
+                }
                   <CardHeadOptions
                     // owner={owner}
                     // index={index}
