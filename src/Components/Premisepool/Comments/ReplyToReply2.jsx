@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { IoIosUndo, IoMdSend } from "react-icons/io";
@@ -16,6 +16,7 @@ import TimeAgo from "../../../features/TimeAgo";
 import userIcon from "../../../img/Icons/userImg.png";
 import BtnLoading from "../../../shared/BtnLoading";
 import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
+import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
@@ -24,8 +25,6 @@ import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyLike from "./ReplyLike";
 import ReplyToReply3 from "./ReplyToReply3";
-import SimpleAlertPop from "../../PremiseV2/Popups/alerts/SimpleAlertPop";
-import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
 
 const ReplyToReply2 = ({
   fromNew,
@@ -142,9 +141,8 @@ const ReplyToReply2 = ({
     }
     if (childReplyText.length === 0) {
       // alert("You can't send an empty reply!");
-
-            setAlert(true)
-            return;
+      setAlert(true);
+      return;
     }
 
     setDisableBtn(true);
@@ -160,6 +158,7 @@ const ReplyToReply2 = ({
     if (response) {
       childReplyRef.current.value = "";
       // setReplyChildTextCount(0);
+     setChildReplyText("")
       replyRefetch();
 
       toast.success("Reply added!", {
@@ -197,7 +196,7 @@ const ReplyToReply2 = ({
       `${currentUser?.id}/PP_AllowBrainstoming`
     );
     console.log(`PP_AllowBrainstoming res`, res);
-    if (res?.access == "No") {
+    if (res?.access === "No") {
       setSuggestDisable(false);
       setNoAccessLbPopup(res);
     } else {
@@ -753,6 +752,7 @@ const ReplyToReply2 = ({
                   <ReplyToReply3
                     // data-reply-reply
                     fromNew={fromNew}
+                    key={childReply?.id}
                     commentIdx={commentIdx}
                     replyToCommentID={replyToCommentID}
                     childReply={childReply}
@@ -783,7 +783,12 @@ const ReplyToReply2 = ({
           service={`PP_Brainstrom`}
         />
       )}
-       {alert && <SameNamePop popClose={setAlert} title={`You can't send an empty reply!`} />}
+      {alert && (
+        <SameNamePop
+          popClose={setAlert}
+          title={`You can't send an empty reply!`}
+        />
+      )}
     </>
   );
 };

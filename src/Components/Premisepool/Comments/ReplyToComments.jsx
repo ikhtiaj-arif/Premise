@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { IoIosUndo, IoMdSend } from "react-icons/io";
@@ -16,6 +16,7 @@ import TimeAgo from "../../../features/TimeAgo";
 import userIcon from "../../../img/Icons/userImg.png";
 import BtnLoading from "../../../shared/BtnLoading";
 import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
+import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
@@ -24,8 +25,6 @@ import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyLike from "./ReplyLike";
 import ReplyToReply from "./ReplyToReply";
-import SimpleAlertPop from "../../PremiseV2/Popups/alerts/SimpleAlertPop";
-import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
 
 const ReplyToComments = ({
   commentIdx,
@@ -55,6 +54,7 @@ const ReplyToComments = ({
   const [replyText, setReplyText] = useState(reply?.text);
   const [replyTextPrefix, setReplyTextPrefix] = useState(reply?.text_prefix);
   const [childReplyText, setChildReplyText] = useState("");
+  // console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", childReplyText);
   const [isTextareaDisabled, setIsTextareaDisabled] = useState(false);
 
   const [noAccessLbPopup, setNoAccessLbPopup] = useState(null);
@@ -172,7 +172,7 @@ const ReplyToComments = ({
     }
     if (childReplyText?.length === 0) {
       // alert("You can't send an empty reply!");
-      setAlert(true)
+      setAlert(true);
       return;
     }
 
@@ -187,6 +187,7 @@ const ReplyToComments = ({
 
     const response = await createReplyMutation(data);
     if (response) {
+      setChildReplyText("");
       replyRef.current.value = "";
       setReplyChildTextCount(0);
       replyRefetch();
@@ -775,7 +776,12 @@ const ReplyToComments = ({
           service={`PP_Brainstrom`}
         />
       )}
-       {alert && <SameNamePop popClose={setAlert} title={`You can't send an empty reply!`} />}
+      {alert && (
+        <SameNamePop
+          popClose={setAlert}
+          title={`You can't send an empty reply!`}
+        />
+      )}
     </div>
   );
 };

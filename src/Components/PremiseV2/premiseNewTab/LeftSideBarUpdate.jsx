@@ -3,6 +3,7 @@ import Draggable from "react-draggable";
 import { FaPlus } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { fetchUserAccess, MyContext } from "../../../App";
 import {
   useDeleteCharacterMutation,
@@ -18,20 +19,14 @@ import SingleCharacterEdit from "../../Premisepool/Character/SingleCharacterEdit
 import ConfirmationModal from "../../Premisepool/Comments/ConfirmationModal";
 import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
 import Keyboard from "../../Premisepool/Keyboard";
-import TranslatePremiseNewTab from "../../Premisepool/TranslatePremiseNewTab";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import AskIda from "../../SharedVersion/AskIda";
 import NewTabTextArea from "../../SharedVersion/NewTabTextArea";
-import PopupComment from "../../SharedVersion/PopupComment";
-import PopupLike from "../../SharedVersion/PopupLike";
-import PopupPremiseText from "../../SharedVersion/PopupPremiseText";
-import PremiseBadge from "../Card/PremiseBadge";
-import PremiseTopAccess from "./PremiseTopAccess";
-import PremiseTopHeader from "./PremiseTopHeader";
-import VisibilitySection from "./VisibilitySection";
+import { baseURL } from "../../utils";
+import PremiseTopHeaderUpdate from "./PremiseTopHeaderUpdate";
 
-const LeftSideBar = ({
+const LeftSideBarUpdate = ({
   filteredCommentsData,
   premiseData,
   premiseRefetch,
@@ -100,6 +95,50 @@ const LeftSideBar = ({
   const [keyboardVisible, setKeyboardVisible] = useState(false);
   const [newComment, setNewComment] = useState("");
   const inputRef = useRef(null);
+
+  const [addPopup, setAddPopup] = useState(null);
+
+  const userFirstName = userQuery?.first_name;
+  const userLastName = userQuery?.last_name;
+
+  const [userMail, setUserMail] = useState(false);
+  const [openDotMenu, setOpenDotMenu] = useState(false);
+  const [openTransOtherPop, setOpenTransOtherPop] = useState(false);
+  const [openMonetizingPreferencesPop, setOpenMonetizingPreferencesPop] =
+    useState(false);
+  const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);
+  const [viewTransactionPId, setViewTransactionPId] = useState("");
+  const [isDelete, setIsDelete] = useState(false);
+
+  const [characterLoading, setCharacterLoading] = useState(true);
+
+  const [ownerMail, setOwnerMail] = useState(false);
+
+  const currentProjectData = allspProjectJSON?.projects?.find(
+    (item) => item.pro_uuid === project_id
+  );
+
+  const currentProjectName = currentProjectData?.name;
+  const isProjectLocked = currentProjectData?.locked;
+
+  const [translationRequestPop, setTranslationRequestPop] = useState("");
+  const [noAccessLbPopUp, setNoAccessLbPopUp] = useState(null);
+
+  const [viewTrnRequests, setViewTrnRequests] = useState("");
+  const [viewSaleRequests, setViewSaleRequests] = useState("");
+  const [saleRequestedOwner, setSaleRequestedOwner] = useState(true);
+  const [openPop, setOpenPop] = useState(false);
+  const [openAvailableForTranslationPop, setOpenAvailableForTranslationPop] =
+    useState(false);
+  const [saleId, setSaleId] = useState("");
+  const [viewSale, setViewSale] = useState(false);
+
+  const [saleRequestPop, setSaleRequestPop] = useState("");
+
+  //console.log("currentProjectName", currentProjectName, isProjectLocked);
+
+  const dotPopupRef = useRef();
+  const navigate = useNavigate();
 
   // const lastCommentRef = useRef(null);
 
@@ -278,12 +317,64 @@ const LeftSideBar = ({
       characterRefetch();
     }
   };
-  console.log("source_language", source_language);
+  // console.log("source_language", source_language);
   // console.log("characters", characters);
   // console.log("finalCharacters", finalCharacters);
-  const currentProjectData = allspProjectJSON?.projects?.find(
-    (item) => item.pro_uuid === project_id
-  );
+
+
+  useEffect(() => {
+    const closeMenu = (e) => {
+      if (!dotPopupRef?.current?.contains(e.target)) {
+        if (!e.target.closest(".absolute")) {
+          setOpenDotMenu(false);
+        }
+      }
+    };
+    document.body.addEventListener("mousedown", closeMenu);
+
+    return () => document.body.removeEventListener("mousedown", closeMenu);
+  }, []);
+
+  const handleViewTransaction = (id) => {
+    // console.log(id);
+    setViewTransactionPId(id);
+    setOpenViewTranslationsPop(!openViewTranslationsPop);
+    setOpenDotMenu(null);
+  };
+  const handleDelete = async (id) => {
+    setIsDelete(id);
+  };
+
+  const handleOpenSp = () => {
+    // console.log("object", p);
+    if (isProjectLocked) {
+      window.open(`${baseURL}/scriptpad2/#/myscript`);
+    }
+    window.open(
+      `${baseURL}/scriptpad2/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
+    );
+  };
+
+  const handleUserMail = async () => {
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_MessageOwner`);
+    console.log("message res", res);
+    if (res?.access == "No") {
+      setUserMail(res);
+    } else {
+      setUserMail("Yes");
+    }
+  };
+
+  const handleMonetizing = async () => {
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_Monitize`);
+
+    if (res?.access === "No") {
+      setOpenMonetizingPreferencesPop(res);
+    } else {
+      setOpenMonetizingPreferencesPop("Yes");
+    }
+    setOpenDotMenu(null);
+  };
 
   return (
     <>
@@ -339,19 +430,60 @@ const LeftSideBar = ({
         <div className="h-full lg:h-[83vh] overflow-hidden relative flex flex-col">
           <div className="flex-none px-3">
             {/* header */}
-            <PremiseTopHeader {...{ handleSearch, id, setSearchTerm }} />
+            <PremiseTopHeaderUpdate
+              {...{ handleSearch, id, setSearchTerm }}
+              owner={{ user, userFirstName, userLastName }}
+              // index={index}
+              refetch={premiseRefetch}
+              viewTrnRequests={viewTrnRequests}
+              setViewTrnRequests={setViewTrnRequests}
+              viewTransactionPId={viewTransactionPId}
+              setViewTransactionPId={setViewTransactionPId}
+              setViewSaleRequests={setViewSaleRequests}
+              openTransOtherPop={openTransOtherPop}
+              setOpenTransOtherPop={setOpenTransOtherPop}
+              handleDelete={handleDelete}
+              setOpenCharacterChart={setOpenCharacterChart}
+              openViewTranslationsPop={openViewTranslationsPop}
+              openAvailableForTranslationPop={openAvailableForTranslationPop}
+              setOpenAvailableForTranslationPop={
+                setOpenAvailableForTranslationPop
+              }
+              setOpenViewTranslationsPop={setOpenViewTranslationsPop}
+              setOpenMonetizingPreferencesPop={setOpenMonetizingPreferencesPop}
+              setNoAccessLbPopUp={setNoAccessLbPopUp}
+              setUserMail={setUserMail}
+              setSaleId={setSaleId}
+              setViewSale={setViewSale}
+              setSaleRequestPop={setSaleRequestPop}
+              setTranslationRequestPop={setTranslationRequestPop}
+              isProjectLocked={isProjectLocked}
+              id={id}
+              premiseOwner={premiseOwner}
+              filter_flag={premiseData?.filter_flag}
+              visible_to={premiseData?.visible_to}
+              comment_filter_flag={premiseData?.comment_filter_flag}
+              project_id={project_id}
+              available_for_sale={premiseData?.available_for_sale}
+              available_for_translation={premiseData?.available_for_translation}
+              premise_source_id={premiseData?.premise_source_id}
+              translation_request_count={premiseData?.translation_request_count}
+              no_of_times_translated={premiseData?.no_of_times_translated}
+              sale_request_count={premiseData?.sale_request_count}
+              is_requested_for_sale={premiseData?.is_requested_for_sale}
+              is_translated_languages={premiseData?.is_translated_languages}
+              dotPopupRef={dotPopupRef}
+              setOpenDotMenu={setOpenDotMenu}
+              openDotMenu={openDotMenu}
+              setOpenHidePop={setOpenHidePop}
+              openHidePop={openHidePop}
+              addPopup={addPopup}
+              setAddPopup={setAddPopup}
+              is_read_only={premiseData?.is_read_only}
+            />
             <div>
               {/* premise card top */}
-              <PremiseTopAccess
-                {...{
-                  premiseOwner,
-                  user,
-                  id,
-                  project_id,
-                  premiseData,
-                  premiseRefetch,
-                }}
-              />
+
               {/* center */}
               {/* <div className="relative">
                 <PopupPremiseText
@@ -453,7 +585,7 @@ const LeftSideBar = ({
                         />
                       </div>
                     </div>
-                    <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full lg:max-h-[398px] overflow-auto">
+                    <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full lg:max-h-[348px] overflow-auto">
                       {finalCharacters?.map((character, index) => (
                         <CharacterShowCard
                           {...{
@@ -670,7 +802,7 @@ const LeftSideBar = ({
       {window.innerWidth < 1150 && charactersPopupMobile && (
         <div className="bg-[#fff] px-3 absolute top-[47px] right-[12px] w-[290px] rounded-[8px] p-[8px] z-30 shadow-[0px_0px_26px_0px_rgba(0,0,0,0.3)]">
           <div className="mt-[17px]">
-            <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
+            {/* <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
               {" "}
               <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                 Created By
@@ -687,7 +819,7 @@ const LeftSideBar = ({
               <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
                 : {formatDate(created_at)}
               </p>
-            </div>
+            </div> */}
             <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center">
               <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                 Last Worked On
@@ -778,4 +910,4 @@ const LeftSideBar = ({
   );
 };
 
-export default LeftSideBar;
+export default LeftSideBarUpdate;

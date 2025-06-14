@@ -20,7 +20,7 @@ const NewTabTutorialPop = ({ popClose }) => {
     else localStorage.setItem("newTabTutorialPop", false);
   }, [dontShowPop]);
 
-  console.log(dontShowPop);
+  // console.log(dontShowPop);
   //   const {
   //     currentPopup,
   //     incrementPopup,

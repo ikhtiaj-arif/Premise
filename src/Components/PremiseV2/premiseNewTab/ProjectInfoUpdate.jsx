@@ -8,8 +8,9 @@ import {
   getLanguageName,
   getTextFromValue,
 } from "../utilityFuncitons/functions";
+import PremiseTopAccess from "./PremiseTopAccess";
 
-const ProjectInfo = ({
+const ProjectInfoUpdate = ({
   premiseData,
   premiseRefetch,
   setOpenReplyField,
@@ -67,38 +68,50 @@ const ProjectInfo = ({
           in {getLanguageName(source_language)} language set in {period}{" "}
           {geography} on the premise {dText}.
         </h3>
-        <div className="flex justify-between items-center  rounded-b-[8px] px-[4px] pb-[8px] pt-[4px] lg:w-[350px]">
-          {/* 1st div */}
-          <div className="flex gap-1 space-x-4 items-center">
-            {/* like */}
-            <PopupLike {...{ user, id, premiseRefetch, premiseData }} />
-            {/* comment */}
-            <PopupComment
-              {...{
-                setOpenReplyField,
-                setCommentField,
-                commentField,
-                finalCount,
-              }}
-            />
-          </div>
+        <div>
+          <div className="flex justify-between items-center mt-[14px] rounded-b-[8px] px-[4px] pb-[8px] pt-[4px] lg:w-[300px]">
+            {/* 1st div */}
+            <div className="flex gap-1 space-x-4 items-center">
+              {/* like */}
+              <PopupLike {...{ user, id, premiseRefetch, premiseData }} />
+              {/* comment */}
+              <PopupComment
+                {...{
+                  setOpenReplyField,
+                  setCommentField,
+                  commentField,
+                  finalCount,
+                }}
+              />
+            </div>
 
-          <div className="ml-[15px] flex gap-2 items-center ">
-            <TranslatePremiseNewTab
-              {...{ transPopClose, setTransPopClose, setViewText }}
-              data={{
-                id,
-                dText,
-                source_language,
-                project_id,
-              }}
-              className="premise-translate-wh-24"
-            />
+            <div className="ml-[15px] flex gap-2 items-center ">
+              <TranslatePremiseNewTab
+                {...{ transPopClose, setTransPopClose, setViewText }}
+                data={{
+                  id,
+                  dText,
+                  source_language,
+                  project_id,
+                }}
+                className="premise-translate-wh-24"
+              />
+            </div>
           </div>
+          <PremiseTopAccess
+            {...{
+              premiseOwner,
+              user,
+              id,
+              project_id,
+              premiseData,
+              premiseRefetch,
+            }}
+          />
         </div>
       </div>
     </div>
   );
 };
 
-export default ProjectInfo;
+export default ProjectInfoUpdate;
