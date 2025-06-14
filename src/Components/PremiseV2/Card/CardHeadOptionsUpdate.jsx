@@ -185,7 +185,7 @@ const CardHeadOptionsUpdate = ({
       <div>
         {" "}
         {premiseOwner?.id === user ? (
-          <div className="flex gap-[3px] items-center mt-[-13px] mr-[2px] relative ">
+          <div className="flex gap-[3px] items-center md:mt-[-13px] mr-[2px] relative ">
             {translation_request_count > 0 && (
               <div className="relative">
                 <span className="absolute top-[-17px] right-0 text-[12px] font-[700] text-[#252525]">
@@ -197,7 +197,7 @@ const CardHeadOptionsUpdate = ({
                   data-te-toggle="tooltip"
                   title="Translation Requests"
                   src={transReqQ}
-                  className="w-8 h-8 cursor-pointer"
+                  className=" w-7 md:w-8 h-7 md:h-8 cursor-pointer"
                   alt=""
                   onClick={() => setViewTrnRequests(id)}
                 />
@@ -208,7 +208,7 @@ const CardHeadOptionsUpdate = ({
                 data-te-toggle="tooltip"
                 title="Translated Languages"
                 src={translateCart}
-                className="w-8 h-8 cursor-pointer"
+                className=" w-7 md:w-8 h-7 md:h-8 cursor-pointer"
                 alt=""
                 onClick={() => handleViewTransaction(id)}
               />
@@ -219,7 +219,7 @@ const CardHeadOptionsUpdate = ({
                 data-te-toggle="tooltip"
                 title="View Source"
                 src={sourceIcn}
-                className="w-8 h-8 cursor-pointer"
+                className=" w-7 md:w-8 h-7 md:h-8 cursor-pointer"
                 alt=""
                 onClick={() => handlePremiseOpenNewTab(premise_source_id)}
               />
@@ -379,7 +379,7 @@ const CardHeadOptionsUpdate = ({
             )}
           </div>
         ) : (
-          <div className="flex gap-[3px] items-center  mr-[2px] relative ">
+          <div className="flex gap-[3px] items-center mt-3  mr-[2px] relative ">
             {available_for_translation && (
               <div className="relative">
                 <span className="absolute top-[-27px] right-[-3px] text-[12px] font-[700] text-[#252525]">
@@ -389,7 +389,7 @@ const CardHeadOptionsUpdate = ({
                   data-te-toggle="tooltip"
                   title="Available for Translation"
                   src={translateCart}
-                  className="w-8 h-8 mt-[-13px] cursor-pointer"
+                  className=" w-7 md:w-8 h-7 md:h-8 mt-[-13px] cursor-pointer"
                   alt=""
                   onClick={() => {
                     setOpenAvailableForTranslationPop(
@@ -405,7 +405,7 @@ const CardHeadOptionsUpdate = ({
                 data-te-toggle="tooltip"
                 title="Send Translation Request"
                 src={transCartQ}
-                className="w-8 h-8 mt-[-13px] cursor-pointer"
+                className=" w-7 md:w-8 h-7 md:h-8 mt-[-13px] cursor-pointer"
                 alt=""
                 onClick={() => checkAllowance(setTranslationRequestPop, id)}
               />
@@ -416,7 +416,7 @@ const CardHeadOptionsUpdate = ({
                 data-te-toggle="tooltip"
                 title="Available for Sale"
                 src={mailCart}
-                className="w-8 h-8 mt-[-13px] cursor-pointer"
+                className=" w-7 md:w-8 h-7 md:h-8 mt-[-13px] cursor-pointer"
                 onClick={() => handleSale(id)}
                 alt="for sale"
               />
@@ -436,7 +436,7 @@ const CardHeadOptionsUpdate = ({
                   >
                     <img
                       src={sendSaleReq}
-                      className={`w-8 h-8 mt-[-13px]`}
+                      className={` w-7 md:w-8 h-7 md:h-8 mt-[-13px]`}
                       alt="Send Purchase request"
                     />
                   </button>
@@ -448,19 +448,19 @@ const CardHeadOptionsUpdate = ({
                 data-te-toggle="tooltip"
                 title="View Source"
                 src={sourceIcn}
-                className="w-8 h-8 mt-[-13px] cursor-pointer"
+                className=" w-7 md:w-8 h-7 md:h-8 mt-[-13px] cursor-pointer"
                 alt=""
                 onClick={() => handlePremiseOpenNewTab(premise_source_id)}
               />
             )}
-            <img
+            {/* <img
               data-te-toggle="tooltip"
               title="Send Message"
               src={msgIcon}
-              className="w-8 h-8 mt-[-13px] cursor-pointer"
+              className=" w-7 md:w-8 h-7 md:h-8 mt-[-13px] cursor-pointer"
               alt=""
               onClick={handleUserMail}
-            />
+            /> */}
           </div>
         )}
       </div>

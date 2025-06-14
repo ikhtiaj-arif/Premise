@@ -17,7 +17,7 @@ import UserNamePopup from "../../Premisepool/UserNamePopup";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { baseURL } from "../../utils";
-import CardHeadOptions from "../Card/CardHeadOptions";
+import CardHeadOptionsUpdate from "../Card/CardHeadOptionsUpdate";
 import AvailableForTranslationPop from "../Popups/AvailableForTranslationPop";
 import BankDetailsPop from "../Popups/BankDetails/BankDetailsPop";
 import MonetizePreferencePop from "../Popups/MonetizePreferencePop";
@@ -27,7 +27,6 @@ import ReqTranslationPop from "../Popups/ReqTranslationPop";
 import SaleRequestedOwner from "../Popups/SaleRequestedOwner";
 import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
-import CardHeadOptionsUpdate from "../Card/CardHeadOptionsUpdate";
 
 const PremiseTopAccess = ({
   user,
@@ -180,7 +179,7 @@ const PremiseTopAccess = ({
   const handleUserMail = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_MessageOwner`);
     console.log("message res", res);
-    if (res?.access == "No") {
+    if (res?.access === "No") {
       setUserMail(res);
     } else {
       setUserMail("Yes");
@@ -224,13 +223,9 @@ const PremiseTopAccess = ({
 
   const [saleRequestPop, setSaleRequestPop] = useState("");
 
-
-
   return (
-    <div className="flex gap-[3px] items-center justify-between pb-1 mt-2">
-      <p className=" text-[16px] font-semibold leading-6 text-[#616161]">
-      
-      </p>
+    <div className="flex gap-[3px] items-center justify-between pb-1 md:mt-2">
+      <p className=" text-[16px] font-semibold leading-6 text-[#616161]"></p>
 
       <CardHeadOptionsUpdate
         owner={{ user, userFirstName, userLastName }}
