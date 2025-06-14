@@ -27,6 +27,7 @@ import ReqTranslationPop from "../Popups/ReqTranslationPop";
 import SaleRequestedOwner from "../Popups/SaleRequestedOwner";
 import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
+import CardHeadOptionsUpdate from "../Card/CardHeadOptionsUpdate";
 
 const PremiseTopAccess = ({
   user,
@@ -223,15 +224,15 @@ const PremiseTopAccess = ({
 
   const [saleRequestPop, setSaleRequestPop] = useState("");
 
-  console.log("currentUser", currentUser);
+
 
   return (
     <div className="flex gap-[3px] items-center justify-between pb-1 mt-2">
       <p className=" text-[16px] font-semibold leading-6 text-[#616161]">
-        Premise
+      
       </p>
 
-      <CardHeadOptions
+      <CardHeadOptionsUpdate
         owner={{ user, userFirstName, userLastName }}
         // index={index}
         refetch={premiseRefetch}

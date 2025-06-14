@@ -180,7 +180,7 @@ const PreviewPopAfterDraft = ({
                 <div
                   onClick={() => {
                     // setFinalSubmitLoading(false);
-                    // setCharacterEditPop(true);
+                    setCharacterEditPop(true);
                     popClose();
                   }}
                   // disabled={}
@@ -191,9 +191,9 @@ const PreviewPopAfterDraft = ({
                 </div>
 
                 <button
-                    disabled={!agreeToPost}
-                        onClick={handlePremisePostToGetComments}
-                        className={` text-white flex justify-center items-center  rounded-[8px] h-[32px] px-[28px] text-[14px] 
+                  disabled={!agreeToPost}
+                  onClick={handlePremisePostToGetComments}
+                  className={` text-white flex justify-center items-center  rounded-[8px] h-[32px] px-[28px] text-[14px] 
                           font-[600] ${
                             agreeToPost ? "bg-[#33B0CA] " : "bg-[#ACDDE7]"
                           }`}

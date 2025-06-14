@@ -773,6 +773,7 @@ const Popup = ({
                             inpRightMargin={"mr-[47px] md:mr-[88px]"}
                             loading={loading}
                             replyText={replyText}
+                            setReplyText={setReplyText}
                             addBeatTutorialPop={addBeatTutorialPop} setAddBeatTutorialPop={setAddBeatTutorialPop}
                           />
                         </motion.div>

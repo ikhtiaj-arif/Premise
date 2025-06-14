@@ -68,7 +68,7 @@ const AllComments = ({
   commentField,
   setCommentField,
   addBeatTutorialPop,
-  setAddBeatTutorialPop,
+  setAddBeatTutorialPop,setReplyText
 }) => {
   // const actTwoStart = Math.floor(0.25 * m_value);
 
@@ -99,7 +99,7 @@ const AllComments = ({
   // console.log("commetts", comments);
   // console.log("allspProjectJSON", allspProjectJSON);
   // console.log("selectedSpProjectID", selectedSpProjectID);
-  // console.log("SelectedProject", selectedProject);
+
   // console.log("selectedPremiseObj", selectedPremiseObj);
 
   useEffect(() => {
@@ -111,46 +111,67 @@ const AllComments = ({
     //   (item) => !item.locked
     // );
     
-
-    if (selectedSpProjectID) {
-        
-      projectRefetch();
-      const currentPremiseProject = allProject?.find(
-        (p) => p?.pro_uuid === selectedSpProjectID
-      );
-
-      setSelectedProject(currentPremiseProject);
-
-    } else if (createdSpProjectID) {
-   
-      projectRefetch();
-      const currentPremiseProject = allProject?.find(
-        (p) => p?.pro_uuid === createdSpProjectID
-      );
-
-      setSelectedProject(currentPremiseProject);
-    } else if (selectedPremiseObj) {
-
-      projectRefetch();
-      const currentPremiseProject = allProject?.find(
-        (p) => p?.pro_uuid === selectedPremiseObj?.project_id
-      );
-    
-      setSelectedProject(currentPremiseProject);
-    } else {
-     
-      projectRefetch();
+         projectRefetch();
       const currentPremiseProject = allProject?.find(
         (p) => p?.pro_uuid === project_id
       );
-      setSelectedProject(currentPremiseProject);
-    }
+   
+      setSelectedProject(currentPremiseProject)
+
   }, [
-    allspProjectJSON,
-    selectedPremiseObj,
-    createdSpProjectID,
-    selectedSpProjectID,
+project_id,allspProjectJSON
   ]);
+  // useEffect(() => {
+ 
+      
+  //   const allProject = allspProjectJSON?.projects
+      
+  //   // const allProject = allspProjectJSON?.projects?.filter(
+  //   //   (item) => !item.locked
+  //   // );
+    
+
+  //   if (selectedSpProjectID) {
+        
+  //     projectRefetch();
+  //     const currentPremiseProject = allProject?.find(
+  //       (p) => p?.pro_uuid === selectedSpProjectID
+  //     );
+
+  //     setSelectedProject(currentPremiseProject);
+
+  //   } else if (createdSpProjectID) {
+   
+  //     projectRefetch();
+  //     const currentPremiseProject = allProject?.find(
+  //       (p) => p?.pro_uuid === createdSpProjectID
+  //     );
+
+  //     setSelectedProject(currentPremiseProject);
+
+  //   } else if (selectedPremiseObj) {
+
+  //     projectRefetch();
+  //     const currentPremiseProject = allProject?.find(
+  //       (p) => p?.pro_uuid === selectedPremiseObj?.project_id
+  //     );
+    
+  //     setSelectedProject(currentPremiseProject);
+      
+  //   } else {
+     
+  //     projectRefetch();
+  //     const currentPremiseProject = allProject?.find(
+  //       (p) => p?.pro_uuid === project_id
+  //     );
+  //     setSelectedProject(currentPremiseProject);
+  //   }
+  // }, [
+  //   allspProjectJSON,
+  //   selectedPremiseObj,
+  //   createdSpProjectID,
+  //   selectedSpProjectID,
+  // ]);
 
   const replyRef = useRef(null);
   const latestReplyRef = useRef(null);
@@ -327,6 +348,7 @@ const AllComments = ({
 
       if (response) {
         replyRef.current.value = ""; // Clear the textarea
+        setReplyText("")
         setReplyTextCount(0);
         replyRefetch();
         setOpenAllReplies(true);

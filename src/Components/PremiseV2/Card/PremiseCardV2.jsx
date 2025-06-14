@@ -959,6 +959,7 @@ const PremiseCardV2 = ({
           setOpenPop={setOpenPop}
           setOpenCharacterChart={setOpenCharacterChart}
           refetch={refetch}
+          setCharacterEditPop={setOpenCharacterChart}
         />
       )}
     </div>

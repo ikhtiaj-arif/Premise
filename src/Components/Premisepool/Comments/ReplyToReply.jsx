@@ -163,6 +163,7 @@ const ReplyToReply = ({
     if (response) {
       childReplyRef.current.value = "";
       setReplyChildTextCount(0);
+       setChildReplyText("")
       replyRefetch();
       toast.success("Reply added!", {
         position: toast.POSITION.TOP_CENTER,
@@ -738,7 +739,7 @@ const ReplyToReply = ({
                   depth < 2 && (
                     <ReplyToReply2
                       handleAddToBeat={handleAddToBeat}
-                      key={idx}
+                      key={childReply?.id}
                       setCommentText={setCommentText}
                       setBeatCommentText={setBeatCommentText}
                       childReplyIDNext={childReply?.id}
