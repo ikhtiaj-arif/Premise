@@ -1,53 +1,49 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaThumbsUp } from "react-icons/fa";
 import {
   useDeleteLikeMutation,
-  useGetLikesByPremiseIdQuery,
-  useIsLikePremiseMutation,
-  useLikePremiseMutation,
+  useLikePremiseMutation
 } from "../../app/EndPoints/premisePoolApi";
 import LikePopup from "./LikePopup";
 import "./Premise.css";
 
 const LikePremise = ({ data, refetch }) => {
-  const { likes, id, user } = data;
+  const { likes, id, user,user_liked } = data;
+
 
   const [isLiked, setIsLiked] = useState();
   const [postLike, resInfo] = useLikePremiseMutation();
-  const [postIsLike, isResInfo] = useIsLikePremiseMutation();
   const [deletePremise, deleteInfo] = useDeleteLikeMutation();
-  const {
-    data: likedUsersList,
-    isLoading,
-    refetch: likedUserRefetch,
-  } = useGetLikesByPremiseIdQuery(id);
+  // const {
+  //   data: likedUsersList,
+  //   isLoading,
+  //   refetch: likedUserRefetch,
+  // } = useGetLikesByPremiseIdQuery(id);
   // console.log("id", id);
 
-  useEffect(() => {
-    likedUserRefetch();
-  }, [likes]);
 
-  useEffect(() => {
-    if (likedUsersList?.results) {
-      const likedUsersIds = likedUsersList.results.map(
-        (user) => user?.user?.id
-      );
-      if (likedUsersIds.includes(user)) {
-        setIsLiked(true);
-      } else {
-        setIsLiked(false);
-      }
-    }
-  }, [likedUsersList, user?.id]);
+
+  // useEffect(() => {
+  //   if (likedUsersList?.results) {
+  //     const likedUsersIds = likedUsersList.results.map(
+  //       (user) => user?.user?.id
+  //     );
+  //     if (likedUsersIds.includes(user)) {
+  //       setIsLiked(true);
+  //     } else {
+  //       setIsLiked(false);
+  //     }
+  //   }
+  // }, [likedUsersList, user?.id]);
 
   const [likePopup, setLikePopup] = useState(false);
   const [disable, setDisable] = useState(false);
 
-  useEffect(() => {
-    if (!likePopup) {
-      refetch();
-    }
-  }, [likePopup, refetch]);
+  // useEffect(() => {
+  //   if (!likePopup) {
+  //     refetch();
+  //   }
+  // }, [likePopup, refetch]);
 
   useEffect(() => {
     async function fetchData() {
@@ -55,14 +51,14 @@ const LikePremise = ({ data, refetch }) => {
         premise: id,
         user: user,
       };
-      const isLikeRes = await postIsLike(body);
+      // const isLikeRes = await postIsLike(body);
       //console.log(isLikeRes?.data?.message);
-      setIsLiked(isLikeRes?.data?.message);
+      // setIsLiked(isLikeRes?.data?.message);
     }
     if (user && id) {
       fetchData();
     }
-  }, [user, id, postIsLike, setIsLiked]);
+  }, [user, id, setIsLiked]);
 
   const body = {
     premise: id,
@@ -92,7 +88,7 @@ const LikePremise = ({ data, refetch }) => {
   return (
     <div className="">
       <div className=" flex gap-2">
-        {isLiked ? (
+        {user_liked ? (
           <button disabled={disable}>
             <FaThumbsUp
               onClick={handleDisLikeClick}

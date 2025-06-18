@@ -13,7 +13,7 @@ const LikePremise = ({ data, setIsLiked, refetch }) => {
   // console.log(likes);
 
   const [postLike, resInfo] = useLikePremiseMutation();
-  const [postIsLike, isResInfo] = useIsLikePremiseMutation();
+  // const [postIsLike, isResInfo] = useIsLikePremiseMutation();
   const [deletePremise, deleteInfo] = useDeleteLikeMutation();
 
   const [likePopup, setLikePopup] = useState(false);

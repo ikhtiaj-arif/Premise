@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -18,7 +18,6 @@ import Popup from "./Popup";
 import PremiseCard from "./PremiseCard";
 import SortPagination from "./SortPagination/SortPagination";
 import UserNamePopup from "./UserNamePopup";
-import PremiseCardV2 from "../PremiseV2/Card/PremiseCardV2";
 
 const Premisepool = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -102,7 +101,6 @@ const Premisepool = () => {
    
   
       const data = await response.json();
-      console.log("Response data:", data);
   
       setUserAccess(data?.msg || ""); // Handle cases where msg might be undefined
   
@@ -113,20 +111,20 @@ const Premisepool = () => {
       console.error("Error in checkUserAccess:", error);
     }
   }
-console.log("userAccess", userAccess);
-  // setTimeout(() => {
-  //   checkUserAccess();
-  // }, 300);
-
-  const res = useGetPremiseQuery(query);
-
-  const { data: premiseData, isLoading, refetch } = res;
-
   const {
     data: hiddenCountRes,
     countLoading,
     refetch: hiddenCountRefetch,
   } = useGetHiddenPremiseCountQuery(query);
+  // setTimeout(() => {
+  //   checkUserAccess();
+  // }, 300);
+
+  const res = useGetPremiseQuery(query, { skip: false});
+
+  const { data: premiseData, isLoading, refetch } = res;
+
+
 
   const [openPopBySp, setOpenPopBySp] = useState(false);
   const [premiseDataForUser, setPremiseDataForUser] = useState([]);
