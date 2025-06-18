@@ -179,18 +179,18 @@ const PaymentInvoicePopup = ({
       const paymentSalt = result?.data?.merchant_salt;
       const sUrl = result?.data?.surl;
       const fUrl = result?.data?.furl;
-      console.log(
-        "Payment",
-        tnxId,
-        merchantKey,
-        amount,
-        productInfo,
-        userFirstName,
-        userEmail,
-        paymentSalt,
-        sUrl,
-        fUrl
-      );
+      // console.log(
+      //   "Payment",
+      //   tnxId,
+      //   merchantKey,
+      //   amount,
+      //   productInfo,
+      //   userFirstName,
+      //   userEmail,
+      //   paymentSalt,
+      //   sUrl,
+      //   fUrl
+      // );
       // Generate Hash String
       const hashString = `${merchantKey}|${tnxId}|${amount}|${productInfo}|${userFirstName}|${userEmail}|||||||||||${paymentSalt}`;
       const hash = CryptoJS.SHA512(hashString).toString(CryptoJS.enc.Hex);

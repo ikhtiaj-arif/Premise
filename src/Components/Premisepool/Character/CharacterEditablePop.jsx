@@ -195,7 +195,7 @@ const CharacterEditablePop = ({
   };
 
   const deleteCharacterFun = async (character) => {
-    console.log(character);
+    // console.log(character);
     const res = await deleteCharacter(character?.id);
     if (res) {
       characterRefetch();

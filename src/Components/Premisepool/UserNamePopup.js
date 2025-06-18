@@ -58,7 +58,7 @@ const UserNamePopup = ({ refetch, setAddPopup ,addPremise}) => {
       toast.success(`Username added successfully!`, {
         position: toast.POSITION.TOP_CENTER,autoClose: 800,
       });
-      console.log('addPremise',addPremise);
+      // console.log('addPremise',addPremise);
       userRefetch()
       refetch()
       dispatch(setUser(userQuery));
@@ -77,7 +77,7 @@ const UserNamePopup = ({ refetch, setAddPopup ,addPremise}) => {
 
   const handleAddPopup = async () => {
       const res = await fetchUserAccess(`${currentUser?.id}/PP_PostPremise`);
-      console.log("add premise res", res);
+      // console.log("add premise res", res);
       if (res?.access === "No") {
         setAddPrePop(res);
       } else {

@@ -45,10 +45,10 @@ const LimitPaymentPage = () => {
       };
       try {
         const res = await paymentUintDetails(data);
-        console.log("payment res", res?.data);
+        // console.log("payment res", res?.data);
         setPaymentData(res?.data);
       } catch (error) {
-        console.error("payment Error:", error);
+        // console.error("payment Error:", error);
       }
     }
     if (Object.keys(counts).length > 0) {
