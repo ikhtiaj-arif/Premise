@@ -1,5 +1,5 @@
 export const Package = ({ data, typeOfRequest, fromLimit }) => {
-  console.log(data?.project_name);
+  // console.log(data?.project_name);
   return (
     <div className="w-full lg:w-[80%] h-full">
       <p

@@ -122,7 +122,7 @@ const SingleCharacterAddNewTab = ({
       setAddNewCharacter(null);
     }
 
-    console.log(response, "response");
+    // console.log(response, "response");
     // If this function returns a promise, await it
     // await handleAddNewCharacter(newCharacter);
     // handleUpdateSavedChar();

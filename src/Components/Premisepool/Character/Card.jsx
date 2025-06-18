@@ -41,11 +41,11 @@ const CharacterShowCard = ({
     return null; // Return null if no value is found
   };
 
-  console.log(
-    onlyAdd,
+  // console.log(
+  //   onlyAdd,
 
-    is_draft
-  );
+  //   is_draft
+  // );
   // console.log("iiiiiii",source_language, inanimateObjectOptions(sourceLanguageName));
 
   return (

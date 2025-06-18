@@ -280,7 +280,7 @@ project_id,allspProjectJSON
     const res = await fetchUserAccess(
       `${currentUser?.id}/PP_AllowBrainstoming`
     );
-    console.log(`PP_AllowBrainstoming res`, res);
+    // console.log(`PP_AllowBrainstoming res`, res);
     if (res?.access === "No") {
       setSuggestDisable(false);
       setNoAccessLbPopup(res);
@@ -476,7 +476,7 @@ project_id,allspProjectJSON
       (c?.user?.id === 1 || c?.user?.id === 79)
     ) {
       const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
-      console.log("reply brainstorm res", res);
+      // console.log("reply brainstorm res", res);
       if (res?.access === "No") {
         setNoAccessLbPopup(res);
       } else {

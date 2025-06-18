@@ -224,7 +224,7 @@ const Popup = ({
   const currentProjectData = allspProjectJSON?.projects?.find(
     (item) => item.pro_uuid === project_id
   );
-  console.log("ALLPROJECT", project_id);
+  // console.log("ALLPROJECT", project_id);
 
   const currentProjectName = currentProjectData?.name;
   const isProjectLocked = currentProjectData?.locked;
@@ -247,14 +247,14 @@ const Popup = ({
     isPremiseLoading,
     refetch: premiseRefetch,
   } = useGetOnePremiseQuery(premiseId);
-  console.log("premiseId", premiseData?.available_for_sale);
+  // console.log("premiseId", premiseData?.available_for_sale);
   const [actOneThreshold, setActOneThreshold] = useState(null);
   const [actTwoEnd, setActTwoEnd] = useState(null);
 
   useEffect(() => {
     if (!isPremiseLoading && premiseData?.setC) {
       // Step 1: Log premiseData.setC to verify it
-      console.log("premiseData setC:", premiseData?.setC); // Check what setC looks like
+      // console.log("premiseData setC:", premiseData?.setC); // Check what setC looks like
 
       try {
         const setCString = premiseData?.setC;
@@ -262,7 +262,7 @@ const Popup = ({
         // Step 2: Check if setC is already an object or a string
         if (typeof setCString === "string") {
           const setCObject = JSON.parse(setCString.replace(/'/g, '"')); // Parse if it's a string
-          console.log("Parsed setCObject:", setCObject); // Log parsed object to ensure it's correct
+          // console.log("Parsed setCObject:", setCObject); // Log parsed object to ensure it's correct
 
           const actOne = setCObject["Forward the Act One"];
           const actTwo = setCObject["Forward the Act Two"];
@@ -271,8 +271,8 @@ const Popup = ({
           setActOneThreshold(actOne); // Last number of Act One
           setActTwoEnd(actTwo[actTwo.length - 1]); // Last number of Act Two
 
-          console.log("actOneThreshold:", actOne); // Check if actOneThreshold is being set correctly
-          console.log("actTwoEnd:", actTwo[actTwo.length - 1]); // Check if actTwoEnd is being set correctly
+          // console.log("actOneThreshold:", actOne); // Check if actOneThreshold is being set correctly
+          // console.log("actTwoEnd:", actTwo[actTwo.length - 1]); // Check if actTwoEnd is being set correctly
         } else {
           // If setC is already an object, handle it directly
           const setCObject = setCString; // No need to parse;
@@ -334,7 +334,7 @@ const Popup = ({
 
   const handleReplyTextChange = (event) => {
     const reply = event?.target?.value?.replace(/^\s+|\s+(?=\s)/g, "");
-    console.log("reply----->", reply);
+    // console.log("reply----->", reply);
     setReplyTextCount(reply.length);
     setReplyText(reply);
   };

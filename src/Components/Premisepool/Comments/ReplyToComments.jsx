@@ -210,12 +210,12 @@ const ReplyToComments = ({
   };
 
   const checkSuggestAllowance = async (text) => {
-    console.log(text);
+    // console.log(text);
     setSuggestDisable(true);
     const res = await fetchUserAccess(
       `${currentUser?.id}/PP_AllowBrainstoming`
     );
-    console.log(`PP_AllowBrainstoming res`, res);
+    // console.log(`PP_AllowBrainstoming res`, res);
     if (res?.access === "No") {
       setSuggestDisable(false);
       setNoAccessLbPopup(res);
@@ -289,13 +289,13 @@ const ReplyToComments = ({
   };
 
   const handleChildReply = async () => {
-    console.log("reply child1 comment", currentUser?.id, owner, reply);
+    // console.log("reply child1 comment", currentUser?.id, owner, reply);
     if (
       currentUser?.id !== owner &&
       (reply?.user?.id === 1 || reply?.user?.id === 79)
     ) {
       const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
-      console.log("reply child 1 brainstorm res", res);
+      // console.log("reply child 1 brainstorm res", res);
       if (res?.access === "No") {
         setNoAccessLbPopup(res);
       } else {
