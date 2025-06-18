@@ -658,7 +658,9 @@ const Popup = ({
                 <div className="lg:ml-3 hidden lg:block py-[2px] ">
                   <div className=" flex gap-1 space-x-4 items-center px-3 ">
                     {/* like */}
-                    <PopupLike {...{ user, id, premiseRefetch, premiseData }} />
+                    <PopupLike
+                     {...{ user, id, premiseRefetch, premiseData }} 
+                     />
                     {/* comment */}
                     <PopupComment
                       {...{

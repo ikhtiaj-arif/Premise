@@ -33,6 +33,8 @@ const CharacterEditablePop = ({
   is_draft,
   setPreviewAfterDraft,
 }) => {
+
+  
   const [modifiedCharacters, setModifiedCharacters] = useState([]);
 
   const { currentUser } = useContext(MyContext);

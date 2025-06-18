@@ -100,15 +100,6 @@ const PremiseV2 = () => {
   }, [user, activeAddedByMe]);
 
   const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
-
-  const res = useGetPremiseQuery(query, {
-    skip,
-  });
-
-  const { data: premiseData, isLoading, refetch } = res;
-
-  console.log("matchingPremiseData", premiseData?.results);
-
   const {
     data: hiddenCountRes,
     countLoading,
@@ -116,6 +107,13 @@ const PremiseV2 = () => {
   } = useGetHiddenPremiseCountQuery(query, {
     skip,
   });
+
+  const res = useGetPremiseQuery(query, {
+    skip: !hiddenCountRes,
+  });
+
+  const { data: premiseData, isLoading, refetch } = res;
+
 
   const [openPopBySp, setOpenPopBySp] = useState(false);
   const [premiseDataForUser, setPremiseDataForUser] = useState([]);
@@ -262,7 +260,8 @@ const PremiseV2 = () => {
     if (premiseData) {
       let filterPremiseData = premiseData?.results?.filter(
         // (items) => items.ai_comments_generated
-        (item) => item?.ai_comments_generated === true || item?.is_draft === true
+        (item) =>
+          item?.ai_comments_generated === true || item?.is_draft === true
       );
       // console.log("filterPremiseData",filterPremiseData);
       setDataCount(filterPremiseData?.length);
@@ -278,7 +277,7 @@ const PremiseV2 = () => {
 
       refetch();
     }
-  }, [premiseData, itemsToShow, refetch]);
+  }, [premiseData, itemsToShow]);
 
   // delete premise card
   // const handleDelete = (id) => {

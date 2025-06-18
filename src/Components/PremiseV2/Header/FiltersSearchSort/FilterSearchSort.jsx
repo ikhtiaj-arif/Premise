@@ -296,7 +296,7 @@ const FilterSearchSort = ({
 
     return () => document.body.removeEventListener("mousedown", closeMenu);
   }, []);
-  
+
   return (
     <div className={``}>
       <div className="flex gap-[16px] w-full xl:justify-end items-center  ">

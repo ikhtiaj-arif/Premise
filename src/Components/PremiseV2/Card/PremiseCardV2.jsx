@@ -42,6 +42,7 @@ import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
 import CardHeadOptions from "./CardHeadOptions";
 import PremiseBadge from "./PremiseBadge";
+import CharacterEditableWrapper from "../../Premisepool/Character/CharacterEditableWrapper";
 
 const PremiseCardV2 = ({
   setShowRefine,
@@ -110,8 +111,9 @@ const PremiseCardV2 = ({
     setActTwoEnd(Math.floor(0.8 * m_value));
   }, [m_value]);
 
-  const { data: characters, isCharLoading } =
-    useGetSavedCharactersQuery(project_id);
+  // const { data: characters, isCharLoading } =
+  //   useGetSavedCharactersQuery(project_id);
+
   const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
 
   const [characterArray, setCharacterArray] = useState([]);
@@ -123,9 +125,9 @@ const PremiseCardV2 = ({
     if (is_draft) setOnlyAdd(false);
   }, [is_draft]);
 
-  useEffect(() => {
-    if (characters) setCharacterArray(characters);
-  }, [characters]);
+  // useEffect(() => {
+  //   if (characters) setCharacterArray(characters);
+  // }, [characters]);
 
   const {
     data: profileImg,
@@ -376,8 +378,8 @@ const PremiseCardV2 = ({
     id,
     type: "Sale",
   };
-  const { data: saleRequest, isTransLoading } =
-    useGetSaleTranslationRequestQuery(data);
+  // const { data: saleRequest, isTransLoading } =
+  //   useGetSaleTranslationRequestQuery(data);
 
   const [saleId, setSaleId] = useState("");
   const [viewSale, setViewSale] = useState(false);
@@ -638,10 +640,9 @@ const PremiseCardV2 = ({
             {" "}
             <div className="flex items-center">
               <LikePremise
-                data={{
-                  likes,
-                  id,
+                data={{             
                   user,
+                  ...p
                 }}
                 refetch={refetch}
               />
@@ -806,7 +807,7 @@ const PremiseCardV2 = ({
         />
       )}
       {openCharacterChart && (
-        <CharacterEditablePop
+        <CharacterEditableWrapper
           setCharacterEditPop={setOpenCharacterChart}
           characterArray={characterArray}
           currentProjectData={currentProjectData}
@@ -814,7 +815,7 @@ const PremiseCardV2 = ({
           onlyAdd={onlyAdd}
           handleUpdateSavedChar={handleUpdateSavedChar}
           handleSaveAsDraft={handleSaveAsDraft}
-          characterLoading={isCharLoading}
+          // characterLoading={isCharLoading}
           project_id={p?.project_id}
           source_language={source_language}
           is_draft={is_draft}
