@@ -213,7 +213,7 @@ const LeftSideBar = ({
         // id: premiseID,
         id: project_id,
         // body: { char_data: charArr },
-         body: { char_data: charArr, is_draft: false,  premise_id: id, },
+        body: { char_data: charArr, is_draft: false, premise_id: id },
       };
 
       const response = await saveCharacter(data);
@@ -236,7 +236,7 @@ const LeftSideBar = ({
         // id: premiseID,
         id: project_id,
         // body: { char_data: charArr },
-         body: { char_data: charArr, is_draft: true,  premise_id: id, },
+        body: { char_data: charArr, is_draft: true, premise_id: id },
       };
 
       const response = await saveCharacter(data);
@@ -247,10 +247,6 @@ const LeftSideBar = ({
       return response;
     } catch (error) {}
   };
-
-
-  
-
 
   const handleAddNewChar = async () => {
     setCharactersPopupMobile(false);
@@ -629,6 +625,7 @@ const LeftSideBar = ({
             characterArray,
             editIdx,
             editPopupOpen,
+            source_language,
             onlyAdd,
           }}
         />

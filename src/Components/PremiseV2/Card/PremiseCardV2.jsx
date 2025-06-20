@@ -6,16 +6,10 @@ import backgroundImg from "../../../img/Icons/download.jpg";
 import userImg from "../../../img/Icons/userImg.png";
 
 import { fetchUserAccess, MyContext } from "../../../App";
-import {
-  useGetSavedCharactersQuery,
-  useSaveCharactersMutation,
-} from "../../../app/EndPoints/Characters/Characters";
-import {
-  useGetPremiseUserPictureQuery,
-  useGetSaleTranslationRequestQuery,
-} from "../../../app/EndPoints/premisePoolApi";
+import { useSaveCharactersMutation } from "../../../app/EndPoints/Characters/Characters";
+import { useGetPremiseUserPictureQuery } from "../../../app/EndPoints/premisePoolApi";
 import { setPremise } from "../../../app/Slices/premiseSlice";
-import CharacterEditablePop from "../../Premisepool/Character/CharacterEditablePop";
+import CharacterEditableWrapper from "../../Premisepool/Character/CharacterEditableWrapper";
 import CommentPremise from "../../Premisepool/CommentPremise";
 import AddPremise2 from "../../Premisepool/Components/AddPremise2";
 import PreviewPopAfterDraft from "../../Premisepool/Components/PreviewPopAfterDraft";
@@ -42,7 +36,6 @@ import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
 import CardHeadOptions from "./CardHeadOptions";
 import PremiseBadge from "./PremiseBadge";
-import CharacterEditableWrapper from "../../Premisepool/Character/CharacterEditableWrapper";
 
 const PremiseCardV2 = ({
   setShowRefine,
@@ -640,9 +633,9 @@ const PremiseCardV2 = ({
             {" "}
             <div className="flex items-center">
               <LikePremise
-                data={{             
+                data={{
                   user,
-                  ...p
+                  ...p,
                 }}
                 refetch={refetch}
               />

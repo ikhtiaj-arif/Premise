@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { fetchUserAccess, MyContext } from "../../App";
 import { useTranslatePremiseMutation } from "../../app/EndPoints/premisePoolApi";
@@ -12,6 +12,8 @@ const TranslatePremiseNewTab = ({
   setTransPopClose,
   setViewText,
   className,
+  setTransText,
+  transText,
 }) => {
   const { id, dText, source_language, project_id } = data;
 
@@ -21,13 +23,13 @@ const TranslatePremiseNewTab = ({
   const [translatePremise, translateInfo] = useTranslatePremiseMutation();
   const [selectedOption, setSelectedOption] = useState("");
   const [transPopup, setTransPopup] = useState(false);
-  const [transText, setTransText] = useState("");
+  // const [transText, setTransText] = useState("");
   const [loading, setLoading] = useState(false);
   const [noAccessPopup, setNoAccessPopup] = useState(false);
   const btnRef = useRef();
   // console.log("translatePremise", project_id)
 
-  // console.log("translatePremise", transText)
+  // console.log("translatePremise", transText);
 
   const fetchData = async () => {
     const body = {
@@ -40,6 +42,7 @@ const TranslatePremiseNewTab = ({
     try {
       const res = await translatePremise(body);
       if (res?.data?.translated) {
+        // console.log(res?.data?.translated);
         setTransText(res?.data?.translated);
         setViewText(res?.data?.translated);
         setTransPopup(true);
@@ -53,7 +56,7 @@ const TranslatePremiseNewTab = ({
       }
     } catch (error) {
       // console.error("Translation error:", error);
-      toast.error("Translation failed", {
+      toast.error("Translation failed 2", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 800,
       });

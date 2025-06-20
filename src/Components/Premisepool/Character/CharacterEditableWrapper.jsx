@@ -8,9 +8,12 @@ const CharacterEditableWrapper = ({
   setCharacterArray,
   onlyAdd,
   handleUpdateSavedChar,
+  handleSaveAsDraft,
   characterArray,
   project_id,
   source_language,
+  setPreviewAfterDraft,
+  is_draft,
 }) => {
   const { data: characters, isCharLoading } =
     useGetSavedCharactersQuery(project_id);
@@ -26,12 +29,15 @@ const CharacterEditableWrapper = ({
           setCharacterEditPop={setCharacterEditPop}
           characterArray={characterArray}
           currentProjectData={currentProjectData}
-          setCharacterArray={setCharacterArray}
-          onlyAdd={onlyAdd}
           handleUpdateSavedChar={handleUpdateSavedChar}
+          handleSaveAsDraft={handleSaveAsDraft}
+          setCharacterArray={setCharacterArray}
           characterLoading={isCharLoading}
+          onlyAdd={onlyAdd}
           project_id={project_id}
           source_language={source_language}
+          is_draft={is_draft}
+          setPreviewAfterDraft={setPreviewAfterDraft}
         />
       )}
     </div>

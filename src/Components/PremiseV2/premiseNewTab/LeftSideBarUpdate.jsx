@@ -701,6 +701,7 @@ const LeftSideBarUpdate = ({
             characterArray,
             editIdx,
             editPopupOpen,
+            source_language,
             onlyAdd,
           }}
         />

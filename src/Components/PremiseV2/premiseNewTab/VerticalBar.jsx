@@ -1,20 +1,19 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const VerticalBar = ({ comments, currentCommentRef, handleOpenAllReplies }) => {
   const [focusedComment, setFocusedComment] = useState(null);
 
   const handleFocusComment = (id, index) => {
-    
-    const currentCommentId = comments.filter(commit => commit.id === id)
+    const currentCommentId = comments.filter((commit) => commit.id === id);
     const commentOwnerName = `${currentCommentId[0]?.user?.first_name} ${currentCommentId[0]?.user?.last_name}`;
     setFocusedComment(id);
 
-    handleOpenAllReplies(id, commentOwnerName)
+    handleOpenAllReplies(id, commentOwnerName);
     const ref = currentCommentRef.current[id];
     if (ref) {
       ref.scrollIntoView({
         behavior: "smooth",
-        block: 'center'
+        block: "center",
       });
     }
   };
@@ -23,9 +22,16 @@ const VerticalBar = ({ comments, currentCommentRef, handleOpenAllReplies }) => {
       {[...(comments || [])]
         .sort((a, b) => a.c_value - b.c_value)
         .map((comment, index) => (
-          <div className={`px-3 ${focusedComment === comment.id ? 'text-[#33b0ca]' : 'text-[#252525]'}`}>
+          <div
+            className={`px-3 ${
+              focusedComment === comment.id
+                ? "text-[#33b0ca]"
+                : "text-[#252525]"
+            }`}
+          >
             <button
               key={comment.c_value}
+              disabled={comment?.is_deleted}
               onClick={() => handleFocusComment(comment.id, index)}
               className="text-[14px]"
             >
