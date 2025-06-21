@@ -476,7 +476,7 @@ const SingleCharacterAdd = ({
                 )}
               </div>
 
-              <div className="flex flex-col mb-0 md:mb-[12px] md:flex-row mt-[8px] md:mt-[24px] gap-[8px]">
+              <div className="flex flex-col mb-0 md:mb-[12px] md:flex-row mt-[8px] md:mt-[24px] gap-[14px]">
                 {/* <div
                   className={`relative w-full ${
                     isDisabled ? "md:w-[128px]" : "md:w-[97px]"
@@ -566,6 +566,7 @@ const SingleCharacterAdd = ({
                     </ul>
                   )}
                 </div>
+
                 {gender !== inanimateObjectOptions(sourceLanguageName) && (
                   <div className="relative w-full md:w-[49px]">
                     <label className="absolute left-2 top-[-12px] z-[2] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
@@ -589,7 +590,7 @@ const SingleCharacterAdd = ({
                   </div>
                 )}
 
-                <div className="relative w-full md:w-[206px] md:left-3 ">
+                <div className="relative w-full md:w-[206px] md:left-5 ">
                   <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Occupation
                   </label>

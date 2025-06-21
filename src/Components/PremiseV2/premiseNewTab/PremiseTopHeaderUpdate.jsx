@@ -5,42 +5,30 @@ import { useSelector } from "react-redux";
 import { fetchUserAccess, MyContext } from "../../../App";
 import { useGetPremiseUserQuery } from "../../../app/EndPoints/premisePoolApi";
 import { GlobalContext } from "../../../app/Hooks/Global";
+import admin from "../../../img/Icons/Admin.png";
 import engagementImg from "../../../img/Icons/Engagements.png";
 import beatsImg from "../../../img/Icons/beats.png";
-import admin from "../../../img/Icons/Admin.png";
 import brainImg from "../../../img/Icons/brainstorme.png";
-import mailCart from "../../../img/Icons/mailCart.png";
 import msgIcon from "../../../img/Icons/msgIcon.png";
-import sendSaleReq from "../../../img/Icons/sendSaleReq.png";
-import sourceIcn from "../../../img/Icons/sourceIcn.png";
-import transCartQ from "../../../img/Icons/transCartQ.png";
-import translateCart from "../../../img/Icons/translateCart.png";
-import GridIcon from "../../../img/grid-icon.png";
 import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
+import { URL } from "../../utils";
 import BeatsPop from "../Popups/newTab/BeatsPop";
 import BrainstormEngagementsPop from "../Popups/newTab/BrainstormEngagementsPop";
 import SharePopup from "../Popups/newTab/SharePopup";
-import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
 
 const PremiseTopHeaderUpdate = ({
   handleSearch,
   id,
   setSearchTerm,
   refetch,
-  viewTrnRequests,
-  setViewTrnRequests,
-  viewTransactionPId,
   setViewTransactionPId,
-  setViewSaleRequests,
   openTransOtherPop,
   setOpenTransOtherPop,
   handleDelete,
   setOpenCharacterChart,
   openViewTranslationsPop,
-  openAvailableForTranslationPop,
-  setOpenAvailableForTranslationPop,
   setOpenViewTranslationsPop,
   setOpenMonetizingPreferencesPop,
   setNoAccessLbPopUp,
@@ -48,28 +36,18 @@ const PremiseTopHeaderUpdate = ({
   setSaleId,
   setViewSale,
   setSaleRequestPop,
-  setTranslationRequestPop,
   isProjectLocked,
-
   premiseOwner,
   filter_flag,
   visible_to,
   comment_filter_flag,
   project_id,
-  available_for_sale,
-  available_for_translation,
-  premise_source_id,
-  translation_request_count,
-  no_of_times_translated,
-  sale_request_count,
   is_requested_for_sale,
-  is_translated_languages,
   dotPopupRef,
   setOpenDotMenu,
   setOpenHidePop,
   openHidePop,
   openDotMenu,
-  addPopup,
   setAddPopup,
   setNotifyPopup,
   is_read_only,
@@ -248,7 +226,9 @@ const PremiseTopHeaderUpdate = ({
         <div>
           {" "}
           {premiseOwner?.id === user ? (
-            <div   className={`h-[32px] w-[32px] rounded-full cursor-pointer relative  border border-[#eaeaea]`}>
+            <div
+              className={`h-[32px] w-[32px] rounded-full cursor-pointer relative  border border-[#eaeaea]`}
+            >
               <img
                 src={admin}
                 alt=""
@@ -389,7 +369,7 @@ const PremiseTopHeaderUpdate = ({
             </div>
           ) : (
             <div className="flex gap-[3px] items-center  mr-[2px] relative ">
-                  <img
+              <img
                 data-te-toggle="tooltip"
                 title="Send Message"
                 src={msgIcon}
