@@ -18,12 +18,16 @@ import SingleCharacterAddNewTab from "../../Premisepool/Character/SingleCharacte
 import SingleCharacterEdit from "../../Premisepool/Character/SingleCharacterEdit";
 import ConfirmationModal from "../../Premisepool/Comments/ConfirmationModal";
 import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
+import DeletePremise from "../../Premisepool/DeletePremise";
 import Keyboard from "../../Premisepool/Keyboard";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import AskIda from "../../SharedVersion/AskIda";
 import NewTabTextArea from "../../SharedVersion/NewTabTextArea";
 import { baseURL } from "../../utils";
+import MonetizePreferencePop from "../Popups/MonetizePreferencePop";
+import TransInOtherLang from "../Popups/TransInOtherLang.pop";
+import ViewTranslationPop from "../Popups/ViewTranslation.pop";
 import PremiseTopHeaderUpdate from "./PremiseTopHeaderUpdate";
 
 const LeftSideBarUpdate = ({
@@ -109,6 +113,7 @@ const LeftSideBarUpdate = ({
   const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);
   const [viewTransactionPId, setViewTransactionPId] = useState("");
   const [isDelete, setIsDelete] = useState(false);
+  console.log(isDelete);
 
   const [characterLoading, setCharacterLoading] = useState(true);
 
@@ -909,6 +914,66 @@ const LeftSideBarUpdate = ({
           )}
         </div>
       )}
+        {openTransOtherPop && (
+              <TransInOtherLang
+                refetch={premiseRefetch}
+                popClose={setOpenTransOtherPop}
+                id={id}
+                user={user}
+                source_language={source_language}
+                project_id={project_id}
+              />
+            )}
+
+            {openMonetizingPreferencesPop?.msg === "ShowBecomePrivilege" ? (
+                    <NoAccessPopUp
+                      noAccessPopup={openMonetizingPreferencesPop}
+                      setNoAccessPopup={setOpenMonetizingPreferencesPop}
+                    />
+                  ) : openMonetizingPreferencesPop?.msg === "LB" ||
+                    openMonetizingPreferencesPop?.msg === "ShowBuyPackage_and_Allacarte" ? (
+                    <NoAccessLbPopUp
+                      noAccessLbPopUp={openMonetizingPreferencesPop}
+                      setNoAccessPopup={setOpenMonetizingPreferencesPop}
+                      service="PP_Monitizes"
+                    />
+                  ) : (
+                    openMonetizingPreferencesPop === "Yes" && (
+                      <MonetizePreferencePop
+                        popClose={setOpenMonetizingPreferencesPop}
+                        id={id}
+                        user={user}
+                      />
+                    )
+                  )}
+                   {openViewTranslationsPop && (
+                          <ViewTranslationPop
+                            popClose={setOpenViewTranslationsPop}
+                            premiseId={viewTransactionPId}
+                            popupData
+                            refetch={premiseRefetch}
+                            popCloseCmnt={() => setOpenPop(false)}
+                            {...{
+                              handleVisibility,
+                              handleMonetizing,
+                              // setIsLiked,
+                              
+                              viewText,
+                            }}
+                          />
+                        )}
+                         {isDelete && (
+                                <DeletePremise
+                                  setIsDelete={setIsDelete}
+                                  refetch={premiseRefetch}
+                                  hiddenCountRefetch={()=>{
+                                    navigate("/")
+                                  }}
+                                  deleteId={premiseData?.id}
+                                  projectName={currentProjectName?.slice(0, 20)}
+                                  isDelete={isDelete}
+                                />
+                              )}
     </>
   );
 };
