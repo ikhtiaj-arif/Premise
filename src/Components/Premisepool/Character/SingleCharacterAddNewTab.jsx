@@ -58,7 +58,8 @@ const SingleCharacterAddNewTab = ({
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [keyboardVisible, setKeyboardVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
-
+  const sourceLanguageName = getLanguageName(source_language);
+  
   useEffect(() => {
     let isAgeValid;
     if (
@@ -273,7 +274,7 @@ const SingleCharacterAddNewTab = ({
     }
     setKeyboardVisible(!keyboardVisible);
   };
-  const sourceLanguageName = getLanguageName(source_language);
+
 
   const getGenderOptions = (language) => {
     if (genderJson[language]) {

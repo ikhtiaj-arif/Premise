@@ -318,7 +318,7 @@ const PremiseV2 = () => {
   };
   const [checkedAddPremise, setCheckedAddPremise] = useState(false);
 
-  console.log("checkedAddPremise", checkedAddPremise);
+  // console.log("checkedAddPremise", checkedAddPremise);
   const handleAddPopup = async () => {
     const notShowAddPremise = localStorage.getItem("NotShowAddPremise");
 

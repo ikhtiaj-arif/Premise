@@ -333,7 +333,6 @@ const PremisePreview2 = ({
   const [createNewProject, setCreateNewProject] = useState(false);
   const [premiseID, setPremiseId] = useState("");
   const [postedPremiseData, setPostedPremiseData] = useState(null);
-  console.log(postedPremiseData, "xxxxxxxxxx");
   const [spID, setspID] = useState("");
   const [spDeleteID, setSpDeleteID] = useState();
 
@@ -443,7 +442,7 @@ const PremisePreview2 = ({
   // const [characters, setCharacters] = useState(characterArray);
 
   const [language, setLanguage] = useState("");
-  console.log("language", language);
+  // console.log("language", language);
   const handleNatureOfProjectChange = (e) => {
     const selectedProject = e.target.value;
     setNatureOfProject(selectedProject);
@@ -877,6 +876,7 @@ const PremisePreview2 = ({
           setCreatedSpProjectID(response?.data?.projects?.pro_uuid);
           setspID(response?.data?.projects?.pro_uuid);
           formData.append("project_id", response?.data?.projects?.pro_uuid);
+          formData.append("PremiseLimitCheck", 'NO')
           projectRefetch();
 
           const deleteId = response?.data?.projects?.pro_uuid;
@@ -1014,6 +1014,7 @@ const PremisePreview2 = ({
         setCurrentProjectData(data);
         if (response) {
           formData.append("project_id", selectedSpProjectID);
+          formData.append("PremiseLimitCheck", 'NO')
           setspID(selectedSpProjectID);
           projectRefetch();
 

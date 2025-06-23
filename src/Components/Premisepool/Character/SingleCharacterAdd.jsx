@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -51,7 +51,7 @@ const SingleCharacterAdd = ({
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [keyboardVisible, setKeyboardVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
-
+  const sourceLanguageName = getLanguageName(source_language);
   // useEffect(() => {
   //   let isAgeValid;
   //   if (gender === "Inanimate Object") {
@@ -89,10 +89,7 @@ const SingleCharacterAdd = ({
 
   useEffect(() => {
     let isAgeValid;
-    if (
-      gender === "Inanimate Object" ||
-      inanimateObjectOptions(sourceLanguageName)
-    ) {
+    if (gender === inanimateObjectOptions(sourceLanguageName)) {
       isAgeValid = true;
     } else {
       isAgeValid = age;
@@ -283,7 +280,6 @@ const SingleCharacterAdd = ({
     }
     setKeyboardVisible(!keyboardVisible);
   };
-  const sourceLanguageName = getLanguageName(source_language);
 
   // console.log("sourceLanguageName", sourceLanguageName === "English");
 
