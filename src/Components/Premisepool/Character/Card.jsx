@@ -69,7 +69,7 @@ const CharacterShowCard = ({
       <div className="flex items-center gap-[10px]">
         {!onlyAdd || is_draft ? (
           <>
-            {index === 0 && (
+            {/* {index === 0 && (
               <FaRegEye
                 data-te-toggle="tooltip"
                 title={`${`View`}`}
@@ -78,10 +78,11 @@ const CharacterShowCard = ({
                   setEditData(character);
                   setEditIdx(index);
                 }}
-                className="h-[16px] w-[16px] text-[#616161] cursor-pointer"
+                className="h-[16px] w-[16px] text-[#0ee3ff] cursor-pointer"
               />
-            )}
-            {index >= 1 && (
+
+            )} */}
+            {index >= 0 && (
               <MdOutlineEdit
                 data-te-toggle="tooltip"
                 title={`${`Edit`}`}
