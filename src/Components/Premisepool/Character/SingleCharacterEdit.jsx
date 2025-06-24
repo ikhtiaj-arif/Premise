@@ -796,7 +796,7 @@ const SingleCharacterAdd = ({
               </div>
             </form>
           </div>
-          {onlyAdd || isDisabled ? (
+          {/* {onlyAdd || isDisabled ? (
             <div className="absolute bottom-0 left-0 right-0 bg-[#FAFAFA] py-4 px-8 flex justify-end gap-[18px]  rounded-[8px]">
               <button
                 onClick={() => setEditPopupOpen(false)}
@@ -805,28 +805,28 @@ const SingleCharacterAdd = ({
                 Close
               </button>
             </div>
-          ) : (
-            <div className="absolute bottom-0 left-0 right-0 bg-[#FAFAFA] py-4 px-8 flex justify-end gap-[18px]  rounded-[8px]">
-              <button
-                onClick={() => setEditPopupOpen(false)}
-                className="bg-[#fafafa] flex items-center gap-[14px] justify-center text-[14px] text-[#33B0CA] border border-[#33B0CA] w-[69px] h-[28px] md:h-[32px] xl:h-[38px] rounded-[4px] py-[4px] px-[2px]"
-              >
-                Cancel
-              </button>
+          ) : ( */}
+          <div className="absolute bottom-0 left-0 right-0 bg-[#FAFAFA] py-4 px-8 flex justify-end gap-[18px]  rounded-[8px]">
+            <button
+              onClick={() => setEditPopupOpen(false)}
+              className="bg-[#fafafa] flex items-center gap-[14px] justify-center text-[14px] text-[#33B0CA] border border-[#33B0CA] w-[69px] h-[28px] md:h-[32px] xl:h-[38px] rounded-[4px] py-[4px] px-[2px]"
+            >
+              Cancel
+            </button>
 
-              <button
-                onClick={handleAddClick}
-                className={`text-[14px] font-[600] text-white w-[69px] h-[28px] md:h-[32px] xl:h-[38px] rounded-[4px] ${
-                  isSaveDisabled || disabledEdit
-                    ? "bg-[#ACDDE7]  "
-                    : "bg-[#33B0CA] "
-                }`}
-                disabled={isSaveDisabled || disabledEdit}
-              >
-                Save
-              </button>
-            </div>
-          )}
+            <button
+              onClick={handleAddClick}
+              className={`text-[14px] font-[600] text-white w-[69px] h-[28px] md:h-[32px] xl:h-[38px] rounded-[4px] ${
+                isSaveDisabled || disabledEdit
+                  ? "bg-[#ACDDE7]  "
+                  : "bg-[#33B0CA] "
+              }`}
+              disabled={isSaveDisabled || disabledEdit}
+            >
+              Save
+            </button>
+          </div>
+          {/* )} */}
         </div>
       </div>
       <div>

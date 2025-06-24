@@ -55,6 +55,7 @@ const FilterSearchSort = ({
     availableForSale,
     setAvailableForSale,
   } = useContext(MyContext);
+  // console.log("availableForTranslation", availableForTranslation);
 
   const searchInputRef = useRef(null);
   const handlePageClick = (data) => {

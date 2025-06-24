@@ -18,13 +18,10 @@ import AllComments from "../../Premisepool/AllComments";
 import TypingLoader from "../../TypingLoader";
 import { baseURL } from "../../utils";
 import { loadingData } from "../Premsie.v2";
-import NewTabTutorialOtherUser from "../sequalPopup/NewTabTutorialOtherUser";
 import NewTabTutorialPop from "../sequalPopup/NewTabTutorialPop";
-import LeftSideBar from "./LeftSideBar";
-import ProjectInfo from "./ProjectInfo";
-import VerticalBar from "./VerticalBar";
 import LeftSideBarUpdate from "./LeftSideBarUpdate";
 import ProjectInfoUpdate from "./ProjectInfoUpdate";
+import VerticalBar from "./VerticalBar";
 
 const PremiseNewTab = () => {
   const { id } = useParams(); // Extract the ID from the route
@@ -131,7 +128,6 @@ const PremiseNewTab = () => {
   useEffect(() => {
     if (!isPremiseLoading && premiseData?.setC) {
       // Step 1: Log premiseData.setC to verify it
-      console.log("premiseData setC:", premiseData?.setC); // Check what setC looks like
 
       try {
         const setCString = premiseData?.setC;
@@ -139,7 +135,6 @@ const PremiseNewTab = () => {
         // Step 2: Check if setC is already an object or a string
         if (typeof setCString === "string") {
           const setCObject = JSON.parse(setCString.replace(/'/g, '"')); // Parse if it's a string
-          console.log("Parsed setCObject:", setCObject); // Log parsed object to ensure it's correct
 
           const actOne = setCObject["Forward the Act One"];
           const actTwo = setCObject["Forward the Act Two"];
@@ -147,13 +142,9 @@ const PremiseNewTab = () => {
           // Step 3: Set the thresholds
           setActOneThreshold(actOne); // Last number of Act One
           setActTwoEnd(actTwo[actTwo.length - 1]); // Last number of Act Two
-
-          console.log("actOneThreshold:", actOne); // Check if actOneThreshold is being set correctly
-          console.log("actTwoEnd:", actTwo[actTwo.length - 1]); // Check if actTwoEnd is being set correctly
         } else {
           // If setC is already an object, handle it directly
           const setCObject = setCString; // No need to parse
-          console.log("Direct setCObject:", setCObject);
 
           const actOne = setCObject["Forward the Act One"];
           const actTwo = setCObject["Forward the Act Two"];
@@ -198,30 +189,15 @@ const PremiseNewTab = () => {
   // }, [newTabTutorialOtherUser, user, premiseData]);
 
   useEffect(() => {
-    const isOwner = premiseData?.premiseOwner?.id === user;
-
-    if (isOwner) {
-      const newTabTutorialPop = localStorage.getItem("newTabTutorialPop");
-      if (
-        (!newTabTutorialPop || newTabTutorialPop === "false") &&
-        !openNewTabTutorialPop
-      ) {
-        setOpenNewTabTutorialPopOtherUser(false);
-        setOpenNewTabTutorialPop(true);
-      }
-    } else {
-      const newTabTutorialOtherUser = localStorage.getItem(
-        "newTabTutorialPopOtherUser"
-      );
-      if (
-        (!newTabTutorialOtherUser || newTabTutorialOtherUser === "false") &&
-        !openNewTabTutorialPopOtherUser
-      ) {
-        setOpenNewTabTutorialPop(false);
-        setOpenNewTabTutorialPopOtherUser(true);
-      }
+    const newTabTutorialPop = localStorage.getItem("newTabTutorialPop");
+    if (
+      (!newTabTutorialPop || newTabTutorialPop === "false") &&
+      !openNewTabTutorialPop
+    ) {
+      setOpenNewTabTutorialPopOtherUser(false);
+      setOpenNewTabTutorialPop(true);
     }
-  }, [user, premiseData]);
+  }, [user]);
 
   const replyRef = useRef(null);
 
@@ -643,11 +619,11 @@ const PremiseNewTab = () => {
       {openNewTabTutorialPop && !openNewTabTutorialPopOtherUser && (
         <NewTabTutorialPop popClose={() => setOpenNewTabTutorialPop(false)} />
       )}
-      {openNewTabTutorialPopOtherUser && !openNewTabTutorialPop && (
+      {/* {openNewTabTutorialPopOtherUser && !openNewTabTutorialPop && (
         <NewTabTutorialOtherUser
           popClose={() => setOpenNewTabTutorialPopOtherUser(false)}
         />
-      )}
+      )} */}
       {<></>}
     </div>
   );

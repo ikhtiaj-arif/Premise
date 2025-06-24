@@ -1,11 +1,9 @@
 import { useContext } from "react";
-import { FaEllipsisV } from "react-icons/fa";
 
 import mailCart from "../../../img/Icons/mailCart.png";
 import mailCartQ from "../../../img/Icons/mailCartQ.png";
 import sendSaleReq from "../../../img/Icons/sendSaleReq.png";
 // import transCartQ from "../../../img/Icons/transCartQ.png";
-import msgIcon from "../../../img/Icons/msgIcon.png";
 import sourceIcn from "../../../img/Icons/sourceIcn.png";
 import transCartQ from "../../../img/Icons/transCartQ.png";
 import translateCart from "../../../img/Icons/translateCart.png";
@@ -138,7 +136,7 @@ const CardHeadOptionsUpdate = ({
   const handleOpenSp = () => {
     // console.log("object", p);
     if (isProjectLocked) {
-      window.open(`${URL}/scriptpad2/#/myscript`);
+      window.open(`${URL}/scriptpad2/#/generated-scripts`);
     }
     window.open(
       `${URL}/scriptpad2/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
@@ -351,7 +349,7 @@ const CardHeadOptionsUpdate = ({
              
               </div>
             )} */}
-           
+
             {openHidePop?.msg === "ShowBecomePrivilege" ? (
               <NoAccessPopUp
                 noAccessPopup={openHidePop}
