@@ -17,6 +17,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
         const shared = query?.shared;
         const available_for_translation = query?.translation;
         const available_for_sale = query?.sale;
+     
 
         let url = `ideamall/premise?page=${pn}&page_size=${ps}&current_user=${user_id}&shared=${shared}`;
 
@@ -55,10 +56,10 @@ export const premiseSlice = apiSlice.injectEndpoints({
         } else if (sort === "date&popularity") {
           url = `${url}&likes=-likes&created=created_at`;
         }
-        else if (available_for_sale) {
+         if (available_for_sale) {
           url = `${url}&available_for_sale=${available_for_sale}`;
         }
-        else if (available_for_translation) {
+         if (available_for_translation) {
           url = `${url}&available_for_translation=${available_for_translation}`;
         }
 

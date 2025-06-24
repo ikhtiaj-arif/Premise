@@ -352,7 +352,7 @@ const LeftSideBarUpdate = ({
   const handleOpenSp = () => {
     // console.log("object", p);
     if (isProjectLocked) {
-      window.open(`${baseURL}/scriptpad2/#/myscript`);
+      window.open(`${baseURL}/scriptpad2/#/generated-scripts`);
     }
     window.open(
       `${baseURL}/scriptpad2/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
@@ -914,66 +914,66 @@ const LeftSideBarUpdate = ({
           )}
         </div>
       )}
-        {openTransOtherPop && (
-              <TransInOtherLang
-                refetch={premiseRefetch}
-                popClose={setOpenTransOtherPop}
-                id={id}
-                user={user}
-                source_language={source_language}
-                project_id={project_id}
-              />
-            )}
+      {openTransOtherPop && (
+        <TransInOtherLang
+          refetch={premiseRefetch}
+          popClose={setOpenTransOtherPop}
+          id={id}
+          user={user}
+          source_language={source_language}
+          project_id={project_id}
+        />
+      )}
 
-            {openMonetizingPreferencesPop?.msg === "ShowBecomePrivilege" ? (
-                    <NoAccessPopUp
-                      noAccessPopup={openMonetizingPreferencesPop}
-                      setNoAccessPopup={setOpenMonetizingPreferencesPop}
-                    />
-                  ) : openMonetizingPreferencesPop?.msg === "LB" ||
-                    openMonetizingPreferencesPop?.msg === "ShowBuyPackage_and_Allacarte" ? (
-                    <NoAccessLbPopUp
-                      noAccessLbPopUp={openMonetizingPreferencesPop}
-                      setNoAccessPopup={setOpenMonetizingPreferencesPop}
-                      service="PP_Monitizes"
-                    />
-                  ) : (
-                    openMonetizingPreferencesPop === "Yes" && (
-                      <MonetizePreferencePop
-                        popClose={setOpenMonetizingPreferencesPop}
-                        id={id}
-                        user={user}
-                      />
-                    )
-                  )}
-                   {openViewTranslationsPop && (
-                          <ViewTranslationPop
-                            popClose={setOpenViewTranslationsPop}
-                            premiseId={viewTransactionPId}
-                            popupData
-                            refetch={premiseRefetch}
-                            popCloseCmnt={() => setOpenPop(false)}
-                            {...{
-                              handleVisibility,
-                              handleMonetizing,
-                              // setIsLiked,
-                              
-                              viewText,
-                            }}
-                          />
-                        )}
-                         {isDelete && (
-                                <DeletePremise
-                                  setIsDelete={setIsDelete}
-                                  refetch={premiseRefetch}
-                                  hiddenCountRefetch={()=>{
-                                    navigate("/")
-                                  }}
-                                  deleteId={premiseData?.id}
-                                  projectName={currentProjectName?.slice(0, 20)}
-                                  isDelete={isDelete}
-                                />
-                              )}
+      {openMonetizingPreferencesPop?.msg === "ShowBecomePrivilege" ? (
+        <NoAccessPopUp
+          noAccessPopup={openMonetizingPreferencesPop}
+          setNoAccessPopup={setOpenMonetizingPreferencesPop}
+        />
+      ) : openMonetizingPreferencesPop?.msg === "LB" ||
+        openMonetizingPreferencesPop?.msg === "ShowBuyPackage_and_Allacarte" ? (
+        <NoAccessLbPopUp
+          noAccessLbPopUp={openMonetizingPreferencesPop}
+          setNoAccessPopup={setOpenMonetizingPreferencesPop}
+          service="PP_Monitizes"
+        />
+      ) : (
+        openMonetizingPreferencesPop === "Yes" && (
+          <MonetizePreferencePop
+            popClose={setOpenMonetizingPreferencesPop}
+            id={id}
+            user={user}
+          />
+        )
+      )}
+      {openViewTranslationsPop && (
+        <ViewTranslationPop
+          popClose={setOpenViewTranslationsPop}
+          premiseId={viewTransactionPId}
+          popupData
+          refetch={premiseRefetch}
+          popCloseCmnt={() => setOpenPop(false)}
+          {...{
+            handleVisibility,
+            handleMonetizing,
+            // setIsLiked,
+
+            viewText,
+          }}
+        />
+      )}
+      {isDelete && (
+        <DeletePremise
+          setIsDelete={setIsDelete}
+          refetch={premiseRefetch}
+          hiddenCountRefetch={() => {
+            navigate("/");
+          }}
+          deleteId={premiseData?.id}
+          projectName={currentProjectName?.slice(0, 20)}
+          isDelete={isDelete}
+        />
+      )}
     </>
   );
 };
