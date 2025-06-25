@@ -55,7 +55,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
     if (formData.transferOwnership && formData.price.trim() !== "") {
       const data = {
         id,
-        body: { ...premiseData, sellingPrice: price },
+        body: { sellingPrice: price },
       };
 
       const res = await updatePremise(data);
