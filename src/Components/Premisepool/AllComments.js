@@ -68,12 +68,12 @@ const AllComments = ({
   commentField,
   setCommentField,
   addBeatTutorialPop,
-  setAddBeatTutorialPop,setReplyText
+  setAddBeatTutorialPop,
+  setReplyText,
 }) => {
   // const actTwoStart = Math.floor(0.25 * m_value);
 
   // const resolutionStart = Math.floor(0.8 * m_value);
-
 
   const premiseID = data?.id;
   const user = useSelector((state) => state?.user?.id);
@@ -103,36 +103,29 @@ const AllComments = ({
   // console.log("selectedPremiseObj", selectedPremiseObj);
 
   useEffect(() => {
- 
-      
-    const allProject = allspProjectJSON?.projects
-      
+    const allProject = allspProjectJSON?.projects;
+
     // const allProject = allspProjectJSON?.projects?.filter(
     //   (item) => !item.locked
     // );
-    
-         projectRefetch();
-      const currentPremiseProject = allProject?.find(
-        (p) => p?.pro_uuid === project_id
-      );
-   
-      setSelectedProject(currentPremiseProject)
 
-  }, [
-project_id,allspProjectJSON
-  ]);
+    projectRefetch();
+    const currentPremiseProject = allProject?.find(
+      (p) => p?.pro_uuid === project_id
+    );
+
+    setSelectedProject(currentPremiseProject);
+  }, [project_id, allspProjectJSON]);
   // useEffect(() => {
- 
-      
+
   //   const allProject = allspProjectJSON?.projects
-      
+
   //   // const allProject = allspProjectJSON?.projects?.filter(
   //   //   (item) => !item.locked
   //   // );
-    
 
   //   if (selectedSpProjectID) {
-        
+
   //     projectRefetch();
   //     const currentPremiseProject = allProject?.find(
   //       (p) => p?.pro_uuid === selectedSpProjectID
@@ -141,7 +134,7 @@ project_id,allspProjectJSON
   //     setSelectedProject(currentPremiseProject);
 
   //   } else if (createdSpProjectID) {
-   
+
   //     projectRefetch();
   //     const currentPremiseProject = allProject?.find(
   //       (p) => p?.pro_uuid === createdSpProjectID
@@ -155,11 +148,11 @@ project_id,allspProjectJSON
   //     const currentPremiseProject = allProject?.find(
   //       (p) => p?.pro_uuid === selectedPremiseObj?.project_id
   //     );
-    
+
   //     setSelectedProject(currentPremiseProject);
-      
+
   //   } else {
-     
+
   //     projectRefetch();
   //     const currentPremiseProject = allProject?.find(
   //       (p) => p?.pro_uuid === project_id
@@ -324,6 +317,7 @@ project_id,allspProjectJSON
 
   // console.log("suggestDisable", suggestDisable);
   const [alert, setAlert] = useState(false);
+
   const handlePostReplyToComment = async (e, isEnterKey = false) => {
     if (e) {
       e.preventDefault();
@@ -348,7 +342,7 @@ project_id,allspProjectJSON
 
       if (response) {
         replyRef.current.value = ""; // Clear the textarea
-        setReplyText("")
+        setReplyText("");
         setReplyTextCount(0);
         replyRefetch();
         setOpenAllReplies(true);
@@ -357,6 +351,7 @@ project_id,allspProjectJSON
           position: toast.POSITION.TOP_CENTER,
           autoClose: 800,
         });
+        
       } else {
         // Handle case where response is not successful
         toast.error("Failed to add reply. Please try again.", {
@@ -382,12 +377,12 @@ project_id,allspProjectJSON
   const [addToBeatDisable, setAddToBeatDisable] = useState(false);
   // console.log("comments",comments);
   const handleAddToBeat = async (comment) => {
-    const addBeatTutorialCheck  = localStorage.getItem("addBeatTutorialPop")
-     if (
+    const addBeatTutorialCheck = localStorage.getItem("addBeatTutorialPop");
+    if (
       (!addBeatTutorialCheck || addBeatTutorialCheck === "false") &&
       !addBeatTutorialPop
     ) {
-      setAddBeatTutorialPop(true)
+      setAddBeatTutorialPop(true);
     }
     const res = await fetchUserAccess(`${currentUser?.id}/PP_BeatSheet`);
     // console.log("add to beat res", res);
@@ -469,7 +464,6 @@ project_id,allspProjectJSON
   const hasAReply = replyData?.length >= 1;
 
   const handleReplyToggle = async (c, commentOwnerName) => {
-    //console.log('reply comment',c,commentOwnerName,c?.user?.first_name==='Ida',currentUser,data?.premiseOwner);
 
     if (
       currentUser?.id !== data?.premiseOwner?.id &&
