@@ -281,6 +281,7 @@ const PremiseCardV2 = ({
     }
   };
 
+  // console.log("premiseData?.visible_to", p?.visible_to);
   const handleSaveAsDraft = async () => {
     setCharacterLoading(true);
     try {

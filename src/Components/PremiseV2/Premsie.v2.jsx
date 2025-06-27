@@ -114,7 +114,6 @@ const PremiseV2 = () => {
 
   const { data: premiseData, isLoading, refetch } = res;
 
-
   const [openPopBySp, setOpenPopBySp] = useState(false);
   const [premiseDataForUser, setPremiseDataForUser] = useState([]);
   const [matchingPremiseData, setMatchingPremiseData] = useState({});
