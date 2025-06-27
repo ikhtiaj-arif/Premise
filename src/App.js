@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { useGetMyAllProjectQuery } from "./app/EndPoints/ScriptPad/project";
 import LimitPaymentPage from "./Components/Payment/LimitPaymentPage";
-import PremiseNewTab from "./Components/PremiseV2/premiseNewTab/PremiseNewTab";
+import PremiseNewTabAccessChecker from "./Components/PremiseV2/premiseNewTab/PremiseNewTabAccessChecker";
 import PremiseV2 from "./Components/PremiseV2/Premsie.v2";
 import { URL } from "./Components/utils";
 
@@ -166,7 +166,8 @@ function App() {
           <Routes>
             <Route path="/" element={<PremiseV2 />} />
             <Route path="/payment" element={<LimitPaymentPage />} />
-            <Route path="/new-tab/:id" element={<PremiseNewTab />} />
+            {/* <Route path="/new-tab/:id" element={<PremiseNewTab />} /> */}
+            <Route path="/new-tab/:id" element={<PremiseNewTabAccessChecker />} />
             <Route path="/:__id/:service" element={<PremiseV2 />} />
           </Routes>
         </TranslationContext.Provider>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { HiMiniUserMinus, HiMiniUsers } from "react-icons/hi2";
 import { IoLockClosed } from "react-icons/io5";
 import {
@@ -11,11 +11,11 @@ import lockImg from "../../../img/lockImg.png";
 
 import { BsGlobeCentralSouthAsia } from "react-icons/bs";
 import { CgSearch } from "react-icons/cg";
+import { MyContext } from "../../../App";
 import { useGetHiddenPremiseCountQuery } from "../../../app/EndPoints/premisePoolApi";
+import WentWrongPop from "../../PremiseV2/Popups/alerts/WentWrongPop";
 import { hideUnhidePremiseCustom } from "../hideUnhidePremiseCustom";
 import HideUnhideUesr from "./HideUnhideUesr";
-import { MyContext } from "../../../App";
-import WentWrongPop from "../../PremiseV2/Popups/alerts/WentWrongPop";
 
 const HideOptionPop = ({
   openHidePop,
@@ -28,6 +28,7 @@ const HideOptionPop = ({
   comment_filter_flag,
 }) => {
   // const user = useSelector((state) => state?.user?.id)
+  console.log("visible_to", visible_to);
   const { addedByMeCondition, currentUser } = useContext(MyContext);
   const {
     data: hiddenCountRes,
@@ -166,7 +167,7 @@ const HideOptionPop = ({
                   </p>
 
                   <p className="text-[14px] text-center leading-4 pt-[3px] pb-[5px] px-[8px] font-[400] text-[#616161] ">
-                    Who can see the premise and the comments ?
+                    Who can see the premise and the comments?
                   </p>
                   <div className="h-[1px] w-[353px] bg-[#616161] mx-auto" />
                 </div>

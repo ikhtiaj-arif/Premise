@@ -2,127 +2,77 @@ import { useEffect, useState } from "react";
 import { FaThumbsUp } from "react-icons/fa";
 import {
   useDeleteLikeMutation,
-  useLikePremiseMutation
+  useLikePremiseMutation,
 } from "../../app/EndPoints/premisePoolApi";
 import LikePopup from "./LikePopup";
 import "./Premise.css";
 
 const LikePremise = ({ data, refetch }) => {
-  const { likes, id, user,user_liked } = data;
-
-
-  const [isLiked, setIsLiked] = useState();
-  const [postLike, resInfo] = useLikePremiseMutation();
-  const [deletePremise, deleteInfo] = useDeleteLikeMutation();
-  // const {
-  //   data: likedUsersList,
-  //   isLoading,
-  //   refetch: likedUserRefetch,
-  // } = useGetLikesByPremiseIdQuery(id);
-  // console.log("id", id);
-
-
-
-  // useEffect(() => {
-  //   if (likedUsersList?.results) {
-  //     const likedUsersIds = likedUsersList.results.map(
-  //       (user) => user?.user?.id
-  //     );
-  //     if (likedUsersIds.includes(user)) {
-  //       setIsLiked(true);
-  //     } else {
-  //       setIsLiked(false);
-  //     }
-  //   }
-  // }, [likedUsersList, user?.id]);
+  const { likes, id, user, user_liked } = data;
 
   const [likePopup, setLikePopup] = useState(false);
   const [disable, setDisable] = useState(false);
-
-  // useEffect(() => {
-  //   if (!likePopup) {
-  //     refetch();
-  //   }
-  // }, [likePopup, refetch]);
+  const [isLiked, setIsLiked] = useState(user_liked);
+  const [postLike, postRes] = useLikePremiseMutation();
+  const [deletePremise, deleteRes] = useDeleteLikeMutation();
 
   useEffect(() => {
-    async function fetchData() {
-      const body = {
-        premise: id,
-        user: user,
-      };
-      // const isLikeRes = await postIsLike(body);
-      //console.log(isLikeRes?.data?.message);
-      // setIsLiked(isLikeRes?.data?.message);
-    }
-    if (user && id) {
-      fetchData();
-    }
-  }, [user, id, setIsLiked]);
+    setIsLiked(user_liked);
+  }, [user_liked]);
 
-  const body = {
-    premise: id,
-    user: user,
+  const handleLikeClick = async () => {
+    if (disable || isLiked) return;
+    setDisable(true);
+    try {
+      const response = await postLike({ premise: id, user });
+      if (response?.data) {
+        setIsLiked(true);
+        await refetch(); // Ensures fresh like count
+      }
+    } finally {
+      setDisable(false);
+    }
   };
 
   const handleDisLikeClick = async () => {
+    if (disable || !isLiked) return;
     setDisable(true);
-    const deleteResponse = await deletePremise(body);
-    if (deleteResponse?.data?.message === true) {
+    try {
+      const response = await deletePremise({ premise: id, user });
+      if (response?.data?.message === true) {
+        setIsLiked(false);
+        await refetch();
+      }
+    } finally {
       setDisable(false);
-      setIsLiked(!isLiked);
-      refetch();
     }
   };
 
-  const handleLikeClick = async () => {
-    setDisable(true);
-    const postLikeResponse = await postLike(body);
-    if (postLikeResponse?.data) {
-      setDisable(false);
-      setIsLiked(!isLiked);
-      refetch();
+  const handlePopupOpen = () => {
+    if (likes > 0) {
+      setLikePopup(true);
     }
   };
 
   return (
-    <div className="">
-      <div className=" flex gap-2">
-        {user_liked ? (
-          <button disabled={disable}>
-            <FaThumbsUp
-              onClick={handleDisLikeClick}
-              className={`w-8 h-8 text-[#33B0CA]  ${
-                disable ? "cursor-default" : "cursor-pointer "
-              }`}
-            />
-          </button>
-        ) : (
-          <button disabled={disable}>
-            <FaThumbsUp
-              onClick={handleLikeClick}
-              className={`w-8 h-8 text-[#252525]  ${
-                disable ? "cursor-default" : "cursor-pointer "
-              }`}
-            />
-          </button>
-        )}
+    <div>
+      <div className="flex gap-2 items-center">
+        <button onClick={isLiked ? handleDisLikeClick : handleLikeClick} disabled={disable}>
+          <FaThumbsUp
+            className={`w-8 h-8 transition-colors ${
+              isLiked ? "text-[#33B0CA]" : "text-[#252525]"
+            } ${disable ? "cursor-default" : "cursor-pointer"}`}
+          />
+        </button>
+
         <div
-          className={`flex items-center  text-[14px] font-[500] ${
-            likes > 0
-              ? "cursor-pointer  text-[14px] font-[500]"
-              : "defaultCursor  text-[14px] font-[500]"
+          className={`flex items-center text-[14px] font-[500] ${
+            likes > 0 ? "cursor-pointer" : "defaultCursor"
           }`}
-          onClick={() => likes > 0 && setLikePopup(true)}
+          onClick={handlePopupOpen}
         >
           {likes}
-          <span className="ml-[2px] ">
-            {likes > 1 ? (
-              <span className="like-m">Likes</span>
-            ) : (
-              <span className="like-m">Like</span>
-            )}
-          </span>
+          <span className="ml-[2px] like-m">{likes === 1 ? "Like" : "Likes"}</span>
         </div>
       </div>
 

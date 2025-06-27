@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import newTabDoodle from "../../../img/new-tab-doodle.webp";
+import LikePremise from "../../Premisepool/LikePremise";
 import TranslatePremiseNewTab from "../../Premisepool/TranslatePremiseNewTab";
 import PopupComment from "../../SharedVersion/PopupComment";
 import PopupLike from "../../SharedVersion/PopupLike";
@@ -76,7 +77,14 @@ const ProjectInfoUpdate = ({
               {/* 1st div */}
               <div className="flex gap-1 space-x-4 items-center">
                 {/* like */}
-                <PopupLike {...{ user, id, premiseRefetch, premiseData }} />
+                {/* <PopupLike {...{ user, id, premiseRefetch, premiseData }} /> */}
+                <LikePremise
+                  data={{
+                    user,
+                    ...premiseData,
+                  }}
+                  refetch={premiseRefetch}
+                />
                 {/* comment */}
                 <PopupComment
                   {...{
@@ -124,7 +132,14 @@ const ProjectInfoUpdate = ({
         {/* 1st div */}
         <div className="flex gap-1 space-x-4 items-center">
           {/* like */}
-          <PopupLike {...{ user, id, premiseRefetch, premiseData }} />
+          {/* <PopupLike {...{ user, id, premiseRefetch, premiseData }} /> */}
+          <LikePremise
+            data={{
+              user,
+              ...premiseData,
+            }}
+            refetch={premiseRefetch}
+          />
           {/* comment */}
           <PopupComment
             {...{

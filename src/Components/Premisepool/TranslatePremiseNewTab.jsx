@@ -99,7 +99,7 @@ const TranslatePremiseNewTab = ({
   };
 
   return (
-    <div ref={btnRef} className="">
+    <div ref={btnRef} className="relative">
       {loading ? (
         <span className="loading loading-spinner text-[#33B0CA] h-[20px] w-[20px] my-auto "></span>
       ) : (
@@ -114,7 +114,7 @@ const TranslatePremiseNewTab = ({
         />
       )}
       {transPopClose === id && (
-        <div className="absolute top-[4px] right-0 z-50 w-[135px]  h-[27vh] overflow-x-hidden md:h-[40vh] overflow-y-auto border bg-[#fafafa]">
+        <div className="absolute top-[24px] right-0 z-50 w-[135px]  h-[27vh] overflow-x-hidden md:h-[40vh] overflow-y-auto border bg-[#fafafa]">
           {Object.entries(sortedLanguages)?.map(([key, name]) =>
             key !== source_language ? (
               <li

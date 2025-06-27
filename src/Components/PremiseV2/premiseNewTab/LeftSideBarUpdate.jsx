@@ -268,6 +268,7 @@ const LeftSideBarUpdate = ({
       return response;
     } catch (error) {}
   };
+  
   const handleSaveAsDraft = async () => {
     try {
       characterArray.forEach((character) => {
@@ -295,7 +296,7 @@ const LeftSideBarUpdate = ({
   const handleAddNewChar = async () => {
     setCharactersPopupMobile(false);
     const res = await fetchUserAccess(`${currentUser?.id}/PP_AddCharacters`);
-    console.log("add char res", res);
+
     if (res?.access === "No") {
       setAddNewCharacter(res);
     } else {

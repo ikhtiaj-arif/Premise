@@ -41,7 +41,6 @@ import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 import AskIda from "../SharedVersion/AskIda";
 import PopupComment from "../SharedVersion/PopupComment";
-import PopupLike from "../SharedVersion/PopupLike";
 import PopupPremiseText from "../SharedVersion/PopupPremiseText";
 import PopupTextarea from "../SharedVersion/PopupTextarea";
 import TypingLoader from "../TypingLoader";
@@ -49,6 +48,7 @@ import { baseURL, URL } from "../utils";
 import AllComments from "./AllComments";
 import CharacterEditablePop from "./Character/CharacterEditablePop";
 import DeletePremise from "./DeletePremise";
+import LikePremise from "./LikePremise";
 import OwnerMail from "./OwnerMail";
 import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
@@ -200,7 +200,6 @@ const Popup = ({
 
   const [cValue, setCvalue] = useState(null);
 
-  // console.log(project_id)
 
   const [openReplyField, setOpenReplyField] = useState(null);
   const [replyLoading, setReplyLoading] = useState(false);
@@ -250,6 +249,8 @@ const Popup = ({
   // console.log("premiseId", premiseData?.available_for_sale);
   const [actOneThreshold, setActOneThreshold] = useState(null);
   const [actTwoEnd, setActTwoEnd] = useState(null);
+
+  // console.log("premiseData?.visible_to",premiseData?.visible_to)
 
   useEffect(() => {
     if (!isPremiseLoading && premiseData?.setC) {
@@ -583,7 +584,7 @@ const Popup = ({
                   <CardHeadOptions
                     // owner={owner}
                     // index={index}
-                    refetch={refetch}
+                    refetch={premiseRefetch}
                     viewTrnRequests={viewTrnRequests}
                     setViewTrnRequests={setViewTrnRequests}
                     viewTransactionPId={viewTransactionPId}
@@ -658,9 +659,17 @@ const Popup = ({
                 <div className="lg:ml-3 hidden lg:block py-[2px] ">
                   <div className=" flex gap-1 space-x-4 items-center px-3 ">
                     {/* like */}
-                    <PopupLike
+                    {/* <PopupLike
                      {...{ user, id, premiseRefetch, premiseData }} 
-                     />
+                     /> */}
+
+                           <LikePremise
+                data={{
+                  user,
+                  ...premiseData,
+                }}
+                refetch={premiseRefetch}
+              />
                     {/* comment */}
                     <PopupComment
                       {...{
