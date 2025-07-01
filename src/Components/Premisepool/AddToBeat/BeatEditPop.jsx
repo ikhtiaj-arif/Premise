@@ -659,7 +659,7 @@ const BeatEditPop = ({
     //   <ProjectNotfound setProjectNotFound={setProjectNotFound}/> // Conditionally render ProjectNotFound component
     // ) :(
     <>
-      <div className="fixed top-[17px] left-0 w-full h-full flex mt-[71px] xl:mt-[80px] lg:mt-[0px] items-center bg-[#252525b0] justify-center z-[1]  o ">
+      <div className="fixed top-[17px] md:top-0 left-0 w-full h-full flex mt-[71px] xl:mt-[80px] lg:mt-[0px] items-center bg-[#252525b0] justify-center z-[1]  o ">
         {beatSuggestLoading ? (
           <div className="h-auto w-full lg:w-[40%] xl:w-[35%]">
             <TypingLoader />
@@ -709,7 +709,7 @@ const BeatEditPop = ({
                     )}
                   </div>
                   <div className="pb-[8px] mt-[12px]">
-                    <h1 className="text-[14px] md:text-[18px] font-[500] text-center">
+                    <h1 className="text-[14px] leading-4 md:leading-5 md:text-[18px] max-w-[68%] mx-auto font-[500] text-center">
                       Adding a Brainstorm to Beat (event) Sheet
                     </h1>
                   </div>

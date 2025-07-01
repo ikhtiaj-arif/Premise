@@ -50,7 +50,6 @@ import CharacterEditablePop from "./Character/CharacterEditablePop";
 import DeletePremise from "./DeletePremise";
 import LikePremise from "./LikePremise";
 import OwnerMail from "./OwnerMail";
-import PopupSource from "./PopupSource";
 import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
 import UserMail from "./UserMail";
@@ -129,7 +128,7 @@ const Popup = ({
         // id: premiseID,
         id: project_id,
         // body: { char_data: charArr },
-         body: { char_data: charArr, is_draft: false,  premise_id: id, },
+        body: { char_data: charArr, is_draft: false, premise_id: id },
       };
 
       const response = await saveCharacter(data);
@@ -161,8 +160,8 @@ const Popup = ({
       const data = {
         // id: premiseID,
         id: project_id,
-        body: { char_data: charArr, is_draft: true,  premise_id: id, },
-        is_draft: true
+        body: { char_data: charArr, is_draft: true, premise_id: id },
+        is_draft: true,
       };
 
       const response = await saveCharacter(data);
@@ -173,7 +172,7 @@ const Popup = ({
         setOpenCharacterChart(false);
         // setCharSaveDisable(true);
         setCharacterLoading(false);
-        popClose()
+        popClose();
 
         // toast.success("characters updated!")
       }
@@ -200,7 +199,6 @@ const Popup = ({
   const [replyField, setReplyField] = useState(false);
 
   const [cValue, setCvalue] = useState(null);
-
 
   const [openReplyField, setOpenReplyField] = useState(null);
   const [replyLoading, setReplyLoading] = useState(false);
@@ -291,7 +289,6 @@ const Popup = ({
     }
   }, [isPremiseLoading, premiseData]); // Ensure premiseData is available before running the effect
 
- 
   useEffect(() => {}, [actOneThreshold, actTwoEnd]);
 
   useEffect(() => {
@@ -471,74 +468,7 @@ const Popup = ({
     setCommentOwner(commenterName);
   };
 
-  const [openPopSource, setOpenPopSource] = useState(false);
-  const [addBeatTutorialPop, setAddBeatTutorialPop] = useState(false)
-    const [previewAfterDraft, setPreviewAfterDraft] = useState(false);
-    const [sourcePopData, setSourcePopData] = useState();
-    const handleCheckPremiseData = async (id) => {
-      try {
-        const data = await axios.get(`${URL}/ideamall/api/v2/premise/${id}`, {
-          headers: header,
-        });
-        const premiseData = data?.data;
-        // setSourcePopData(premiseData)
-  
-        if (premiseData) {
-          const formattedDate = new Date(
-            premiseData?.created_at
-          ).toLocaleDateString("en-US", {
-            // timeZone: "GMT",
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            // weekday: "short",
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-          });
-          const formattedTime = new Date(
-            premiseData?.created_at
-          ).toLocaleTimeString("en-US", {
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            hour: "numeric",
-            minute: "numeric",
-          });
-  
-          const data = {
-            stylings: premiseData?.text?.includes("+")
-              ? JSON.parse(premiseData?.text?.split("+")[0])
-              : {}, // Default to an empty object if `text` is undefined or improperly formatted
-            bg_color: premiseData?.bg_color || "",
-            premiseOwner: premiseData?.premiseOwner,
-            bg_img: premiseData?.bg_img || "",
-            comments: premiseData?.comments || [],
-            created_at: premiseData?.created_at || "",
-            likes: premiseData?.likes || 0,
-            id: premiseData?.id || "",
-            source_language: premiseData?.source_language || "",
-            updated_at: premiseData?.updated_at || "",
-            dText: premiseData?.text?.includes("+")
-              ? premiseData?.text?.split("+")[1]
-              : "",
-            // viewText: premiseData?.text?.includes("+")
-            //   ? premiseData?.text?.split("+")[1]
-            //   : "",
-            project_id: premiseData?.project_id || "",
-            m_value: premiseData?.m_value || "",
-            formattedTime,
-            formattedDate,
-          };
-  
-          setSourcePopData(data);
-        }
-  
-        if (premiseData?.premiseOwner?.id === user) {
-          handlePremiseOpenNewTab(premiseData?.id);
-        } else {
-          setOpenPopSource(true);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const [addBeatTutorialPop, setAddBeatTutorialPop] = useState(false);
 
   if (isPremiseLoading) {
     return <>Loading...</>;
@@ -637,17 +567,16 @@ const Popup = ({
                 </div> */}
                 </div>
                 <div className="flex gap-[3px] items-center">
-                  {
-                     premiseOwner?.id === user && 
-                  <img
-                  data-te-toggle="tooltip"
-                  title="Open In New Tab"
-                  src={newTabIcn}
-                  className="w-7 h-7 cursor-pointer mt-[-8px]"
-                  alt=""
-                  onClick={() => handlePremiseOpenNewTab(premiseId)}
-                  />
-                }
+                  {premiseOwner?.id === user && (
+                    <img
+                      data-te-toggle="tooltip"
+                      title="Open In New Tab"
+                      src={newTabIcn}
+                      className="w-7 h-7 cursor-pointer mt-[-8px]"
+                      alt=""
+                      onClick={() => handlePremiseOpenNewTab(premiseId)}
+                    />
+                  )}
                   <CardHeadOptions
                     // owner={owner}
                     // index={index}
@@ -712,7 +641,6 @@ const Popup = ({
                     notifyPopup={notifyPopup}
                     setNotifyPopup={setNotifyPopup}
                     is_read_only={premiseData?.is_read_only}
-                     handleCheckPremiseData={handleCheckPremiseData}
                   />
                 </div>
               </div>
@@ -731,13 +659,13 @@ const Popup = ({
                      {...{ user, id, premiseRefetch, premiseData }} 
                      /> */}
 
-                           <LikePremise
-                data={{
-                  user,
-                  ...premiseData,
-                }}
-                refetch={premiseRefetch}
-              />
+                    <LikePremise
+                      data={{
+                        user,
+                        ...premiseData,
+                      }}
+                      refetch={premiseRefetch}
+                    />
                     {/* comment */}
                     <PopupComment
                       {...{
@@ -855,7 +783,8 @@ const Popup = ({
                             loading={loading}
                             replyText={replyText}
                             setReplyText={setReplyText}
-                            addBeatTutorialPop={addBeatTutorialPop} setAddBeatTutorialPop={setAddBeatTutorialPop}
+                            addBeatTutorialPop={addBeatTutorialPop}
+                            setAddBeatTutorialPop={setAddBeatTutorialPop}
                           />
                         </motion.div>
                       ))}
@@ -948,7 +877,6 @@ const Popup = ({
             <ViewTranslationPop
               popClose={setOpenViewTranslationsPop}
               premiseId={viewTransactionPId}
-             
             />
           )}
           {userMail === "Yes" && (
@@ -1019,7 +947,6 @@ const Popup = ({
             <ViewTranslationPop
               popClose={setOpenViewTranslationsPop}
               premiseId={viewTransactionPId}
-               
               popCloseCmnt={() => setOpenPop(false)}
               {...{
                 handleVisibility,
@@ -1144,20 +1071,9 @@ const Popup = ({
               popClose={() => setAfterFinalPostPremiseDemoPop(false)}
             />
           )}
-          {
-            addBeatTutorialPop && <AddBeatTutorialPop popClose={()=> setAddBeatTutorialPop(false)} />
-          }
-                {openPopSource && (
-                  <PopupSource
-                    popClose={() => setOpenPopSource(false)}
-                    refetch={refetch}
-                    data={sourcePopData}
-                    {...{
-                      handleVisibility,
-                      handleMonetizing,
-                    }}
-                  />
-                )}
+          {addBeatTutorialPop && (
+            <AddBeatTutorialPop popClose={() => setAddBeatTutorialPop(false)} />
+          )}
         </div>
       </div>
     );

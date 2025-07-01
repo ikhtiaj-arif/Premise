@@ -27,6 +27,8 @@ import ReqTranslationPop from "../Popups/ReqTranslationPop";
 import SaleRequestedOwner from "../Popups/SaleRequestedOwner";
 import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
+import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
+import axios from "axios";
 
 const PremiseTopAccess = ({
   user,
@@ -222,6 +224,81 @@ const PremiseTopAccess = ({
   const [viewSale, setViewSale] = useState(false);
 
   const [saleRequestPop, setSaleRequestPop] = useState("");
+  const token = localStorage.getItem("accessToken");
+
+  const header = {
+    Authorization: `Bearer ${token}`,
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+
+  const [openPopSource, setOpenPopSource] = useState(false);
+  const [previewAfterDraft, setPreviewAfterDraft] = useState(false);
+  const [sourcePopData, setSourcePopData] = useState();
+  const handleCheckPremiseData = async (id) => {
+    try {
+      const data = await axios.get(`${URL}/ideamall/api/v2/premise/${id}`, {
+        headers: header,
+      });
+      const premiseData = data?.data;
+      // setSourcePopData(premiseData)
+
+      if (premiseData) {
+        const formattedDate = new Date(
+          premiseData?.created_at
+        ).toLocaleDateString("en-US", {
+          // timeZone: "GMT",
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          // weekday: "short",
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        });
+        const formattedTime = new Date(
+          premiseData?.created_at
+        ).toLocaleTimeString("en-US", {
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          hour: "numeric",
+          minute: "numeric",
+        });
+
+        const data = {
+          stylings: premiseData?.text?.includes("+")
+            ? JSON.parse(premiseData?.text?.split("+")[0])
+            : {}, // Default to an empty object if `text` is undefined or improperly formatted
+          bg_color: premiseData?.bg_color || "",
+          premiseOwner: premiseData?.premiseOwner,
+          bg_img: premiseData?.bg_img || "",
+          comments: premiseData?.comments || [],
+          created_at: premiseData?.created_at || "",
+          likes: premiseData?.likes || 0,
+          id: premiseData?.id || "",
+          source_language: premiseData?.source_language || "",
+          updated_at: premiseData?.updated_at || "",
+          dText: premiseData?.text?.includes("+")
+            ? premiseData?.text?.split("+")[1]
+            : "",
+          // viewText: premiseData?.text?.includes("+")
+          //   ? premiseData?.text?.split("+")[1]
+          //   : "",
+          project_id: premiseData?.project_id || "",
+          m_value: premiseData?.m_value || "",
+          formattedTime,
+          formattedDate,
+        };
+
+        setSourcePopData(data);
+      }
+
+      if (premiseData?.premiseOwner?.id === user) {
+        handlePremiseOpenNewTab(premiseData?.id);
+      } else {
+        setOpenPopSource(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="flex gap-[3px] items-center justify-between pb-1 md:mt-2">
@@ -274,6 +351,7 @@ const PremiseTopAccess = ({
         addPopup={addPopup}
         setAddPopup={setAddPopup}
         is_read_only={premiseData?.is_read_only}
+        handleCheckPremiseData={handleCheckPremiseData}
       />
 
       {openTransOtherPop && (
@@ -483,7 +561,17 @@ const PremiseTopAccess = ({
       {addPopup === "noUserName" && (
         <UserNamePopup refetch={premiseRefetch} setAddPopup={setAddPopup} />
       )}
-
+      {/* {openPopSource && (
+        <PopupSource
+          popClose={() => setOpenPopSource(false)}
+          refetch={premiseRefetch}
+          data={sourcePopData}
+          {...{
+            handleVisibility,
+            handleMonetizing,
+          }}
+        />
+      )} */}
       {/* {isDelete && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center bg-[#252525b0] justify-center z-[21]">
           <div className="modal_css fixed inset-0 flex items-center justify-center z-50">
