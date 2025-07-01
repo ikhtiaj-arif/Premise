@@ -96,7 +96,7 @@ const AllComments = ({
     refetch: projectRefetch,
   } = useGetMyAllProjectQuery();
 
-  // console.log("commetts", comments);
+  // console.log("commetts", comments?.replies_count);
   // console.log("allspProjectJSON", allspProjectJSON);
   // console.log("selectedSpProjectID", selectedSpProjectID);
 
@@ -211,12 +211,15 @@ const AllComments = ({
   const [beatSuggestions, isBeatSuggRes, isBeatSuggLoading] =
     useBeatSuggestionMutation();
 
+  // const [getReplies, setGetReplies] = useState(false);
   const {
     data: replyData,
     isLoading: isReplyLoading,
     isError,
     refetch: replyRefetch,
-  } = useGetAllReplyOfACommentQuery(comments?.id);
+  } = useGetAllReplyOfACommentQuery(comments?.id, { skip: !openAllReplies });
+
+  console.log(replyData);
 
   useEffect(() => {
     if (replyField && replyRef.current) {
@@ -224,9 +227,9 @@ const AllComments = ({
     }
   }, [replyField, replyToCommentID]);
 
-  useEffect(() => {
-    replyRefetch();
-  }, [replyResStat]);
+  // useEffect(() => {
+  //   replyRefetch();
+  // }, [replyResStat]);
 
   useEffect(() => {
     setReplyToCommentID(comments?.id);
@@ -351,7 +354,6 @@ const AllComments = ({
           position: toast.POSITION.TOP_CENTER,
           autoClose: 800,
         });
-        
       } else {
         // Handle case where response is not successful
         toast.error("Failed to add reply. Please try again.", {
@@ -459,12 +461,11 @@ const AllComments = ({
     }
   };
 
-  const hasManyReplies = replyData?.length >= 3;
+  const hasManyReplies = comments?.replies_count >= 3;
 
   const hasAReply = replyData?.length >= 1;
 
   const handleReplyToggle = async (c, commentOwnerName) => {
-
     if (
       currentUser?.id !== data?.premiseOwner?.id &&
       (c?.user?.id === 1 || c?.user?.id === 79)
@@ -647,7 +648,7 @@ const AllComments = ({
                   className={`flex justify-between items-center ${iconWidth} my-[2px]`}
                 >
                   <div className="  flex mb-[4px] items-center gap-[12px] text-sm ml-10 mt-[2px] leading-[20px]">
-                    {replyData?.length > 0 ? (
+                    {comments?.replies_count > 0 ? (
                       <>
                         {openAllReplies && openReplyFieldID === comments?.id ? (
                           <button
@@ -667,15 +668,18 @@ const AllComments = ({
                                   : "text-[#252525]"
                               } font-[400] leading-[14.52px] `}
                             >
-                              {replyData?.length}{" "}
+                              {comments?.replies_count}{" "}
                               <span className="hidden lg:block">
-                                {replyData?.length > 1 ? "Replies " : "Reply "}
+                                {comments?.replies_count > 1
+                                  ? "Replies "
+                                  : "Reply "}
                               </span>
                             </p>
                           </button>
                         ) : (
                           <button
                             onClick={() => {
+                              // setGetReplies(true);
                               handleOpenAllReplies(
                                 comments?.id,
                                 commentOwnerName
@@ -683,14 +687,13 @@ const AllComments = ({
                             }}
                             className="flex items-center gap-[2px]"
                           >
-                            <BiPlusCircle
-                              // onClick={() => setChildReplies(!childReplies)}
-                              className="text-[16px] font-[500] cursor-pointer text-[#252525]"
-                            />
+                            <BiPlusCircle className="text-[16px] font-[500] cursor-pointer text-[#252525]" />
                             <p className="text-[12px] text-[#616161] font-[400] leading-[14.52px] flex items-center gap-[4px]">
-                              {replyData?.length}{" "}
+                              {comments?.replies_count}{" "}
                               <span className="hidden lg:block">
-                                {replyData?.length > 1 ? "Replies " : "Reply "}
+                                {comments?.replies_count > 1
+                                  ? "Replies "
+                                  : "Reply "}
                               </span>
                             </p>
                           </button>
@@ -737,7 +740,7 @@ const AllComments = ({
                             <div className=" flex items-center justify-between">
                               {comments?.c_value === 1 ? (
                                 <>
-                                  {replyData?.length === 0 ? (
+                                  {comments?.replies_count === 0 ? (
                                     <>
                                       {comments?.suggested ? (
                                         <button
@@ -861,7 +864,7 @@ const AllComments = ({
                             <div className=" flex items-center justify-between">
                               {comments?.c_value === 1 ? (
                                 <>
-                                  {!replyData?.length >= 1 && (
+                                  {!comments?.replies_count >= 1 && (
                                     <button
                                       disabled={suggestDisable}
                                       onClick={() => {
@@ -1149,7 +1152,7 @@ const AllComments = ({
                   : ""
               }`}
             >
-              {replyData
+              {!isReplyLoading && replyData?.replies
                 ?.slice() // Create a shallow copy to avoid mutating the original array
                 ?.sort(
                   (a, b) => new Date(b.created_at) - new Date(a.created_at)
@@ -1159,7 +1162,9 @@ const AllComments = ({
                     // data-reply
                     key={reply.id + index}
                     ref={
-                      index === replyData?.length - 1 ? latestReplyRef : null
+                      index === comments?.replies_count - 1
+                        ? latestReplyRef
+                        : null
                     }
                     initial={{ opacity: 0, y: 70 }} // Start from slightly below the final position
                     animate={{ opacity: 1, y: 0 }} // Move to the final position

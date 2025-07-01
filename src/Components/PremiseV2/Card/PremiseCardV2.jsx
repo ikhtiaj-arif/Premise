@@ -5,9 +5,9 @@ import backgroundImg from "../../../img/Icons/download.jpg";
 // import transCartQ from "../../../img/Icons/transCartQ.png";
 import userImg from "../../../img/Icons/userImg.png";
 
+import axios from "axios";
 import { fetchUserAccess, MyContext } from "../../../App";
 import { useSaveCharactersMutation } from "../../../app/EndPoints/Characters/Characters";
-import { useGetPremiseUserPictureQuery } from "../../../app/EndPoints/premisePoolApi";
 import { setPremise } from "../../../app/Slices/premiseSlice";
 import CharacterEditableWrapper from "../../Premisepool/Character/CharacterEditableWrapper";
 import CommentPremise from "../../Premisepool/CommentPremise";
@@ -17,6 +17,7 @@ import DeletePremise from "../../Premisepool/DeletePremise";
 import LikePremise from "../../Premisepool/LikePremise";
 import OwnerMail from "../../Premisepool/OwnerMail";
 import Popup from "../../Premisepool/Popup";
+import PopupSource from "../../Premisepool/PopupSource";
 import { hideUnhidePremise } from "../../Premisepool/PreiseUtils";
 import TranslatePremise from "../../Premisepool/TranslatePremise";
 import UserMail from "../../Premisepool/UserMail";
@@ -34,6 +35,7 @@ import ReqTranslationPop from "../Popups/ReqTranslationPop";
 import SaleRequestedOwner from "../Popups/SaleRequestedOwner";
 import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
+import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
 import CardHeadOptions from "./CardHeadOptions";
 import PremiseBadge from "./PremiseBadge";
 
@@ -84,7 +86,9 @@ const PremiseCardV2 = ({
     is_requested_for_sale,
     is_translated_languages,
     is_draft,
+    profile_details,
   } = p;
+  // console.log("object", premiseOwner?.centraldatabase?.profile_photo);
 
   const { currentUser } = useContext(MyContext);
 
@@ -122,12 +126,14 @@ const PremiseCardV2 = ({
   //   if (characters) setCharacterArray(characters);
   // }, [characters]);
 
-  const {
-    data: profileImg,
-    profileImgLoading,
-    refetch: profileRefetch,
-  } = useGetPremiseUserPictureQuery(premiseOwner?.id);
-  const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
+  // const {
+  //   data: profileImg,
+  //   profileImgLoading,
+  //   refetch: profileRefetch,
+  // } = useGetPremiseUserPictureQuery(premiseOwner?.id);
+  // const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
+  // const proImgUrl = URL.concat(profile_details[0]?.profile_photo);
+  const proImgUrl =premiseOwner?.centraldatabase?.profile_photo;
 
   // console.log("xcvvdfawsedfdsfgfgd", p);
   const {
@@ -166,6 +172,7 @@ const PremiseCardV2 = ({
   const [ownerMail, setOwnerMail] = useState(false);
   const dispatch = useDispatch();
   const [openPop, setOpenPop] = useState(false);
+  const [openPopSource, setOpenPopSource] = useState(false);
   const [openTransOtherPop, setOpenTransOtherPop] = useState(false);
   const [openAvailableForTranslationPop, setOpenAvailableForTranslationPop] =
     useState(false);
@@ -448,6 +455,71 @@ const PremiseCardV2 = ({
   // setOwnerMail,
   // const [isDraft, setIsDraft] = useState(true);
   const [previewAfterDraft, setPreviewAfterDraft] = useState(false);
+  const [sourcePopData, setSourcePopData] = useState();
+  const handleCheckPremiseData = async (id) => {
+    try {
+      const data = await axios.get(`${URL}/ideamall/api/v2/premise/${id}`, {
+        headers: header,
+      });
+      const premiseData = data?.data;
+      // setSourcePopData(premiseData)
+
+      if (premiseData) {
+        const formattedDate = new Date(
+          premiseData?.created_at
+        ).toLocaleDateString("en-US", {
+          // timeZone: "GMT",
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          // weekday: "short",
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        });
+        const formattedTime = new Date(
+          premiseData?.created_at
+        ).toLocaleTimeString("en-US", {
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          hour: "numeric",
+          minute: "numeric",
+        });
+
+        const data = {
+          stylings: premiseData?.text?.includes("+")
+            ? JSON.parse(premiseData?.text?.split("+")[0])
+            : {}, // Default to an empty object if `text` is undefined or improperly formatted
+          bg_color: premiseData?.bg_color || "",
+          premiseOwner: premiseData?.premiseOwner,
+          bg_img: premiseData?.bg_img || "",
+          comments: premiseData?.comments || [],
+          created_at: premiseData?.created_at || "",
+          likes: premiseData?.likes || 0,
+          id: premiseData?.id || "",
+          source_language: premiseData?.source_language || "",
+          updated_at: premiseData?.updated_at || "",
+          dText: premiseData?.text?.includes("+")
+            ? premiseData?.text?.split("+")[1]
+            : "",
+          // viewText: premiseData?.text?.includes("+")
+          //   ? premiseData?.text?.split("+")[1]
+          //   : "",
+          project_id: premiseData?.project_id || "",
+          m_value: premiseData?.m_value || "",
+          formattedTime,
+          formattedDate,
+        };
+
+        setSourcePopData(data);
+      }
+
+      if (premiseData?.premiseOwner?.id === user) {
+        handlePremiseOpenNewTab(premiseData?.id);
+      } else {
+        setOpenPopSource(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="w-[358px] lg:w-[100%] mx-auto border border-[#EAEAEA] bg-[#fafafa] hover:shadow-lg rounded-[8px]  ">
@@ -466,7 +538,7 @@ const PremiseCardV2 = ({
             }
           >
             <div className="flex-1 flex gap-1 items-center">
-              {profileImg?.[0]?.profile_photo ? (
+              {premiseOwner?.centraldatabase?.profile_photo ? (
                 <img
                   src={proImgUrl}
                   className="w-[36px] h-[35.9px] border
@@ -576,6 +648,7 @@ const PremiseCardV2 = ({
             notifyPopup={notifyPopup}
             setNotifyPopup={setNotifyPopup}
             is_read_only={p?.is_read_only}
+            handleCheckPremiseData={handleCheckPremiseData}
           />
         )}
       </div>
@@ -798,6 +871,17 @@ const PremiseCardV2 = ({
           }}
           data={popupData}
           p={p}
+        />
+      )}
+      {openPopSource && (
+        <PopupSource
+          popClose={() => setOpenPopSource(false)}
+          refetch={refetch}
+          data={sourcePopData}
+          {...{
+            handleVisibility,
+            handleMonetizing,
+          }}
         />
       )}
       {openCharacterChart && (

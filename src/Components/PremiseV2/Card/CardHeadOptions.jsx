@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 
 import mailCart from "../../../img/Icons/mailCart.png";
@@ -11,6 +11,7 @@ import transCartQ from "../../../img/Icons/transCartQ.png";
 import translateCart from "../../../img/Icons/translateCart.png";
 import transReqQ from "../../../img/Icons/transReqQ.png";
 
+import axios from "axios";
 import { useSelector } from "react-redux";
 import { fetchUserAccess, MyContext } from "../../../App";
 import { useGetPremiseUserQuery } from "../../../app/EndPoints/premisePoolApi";
@@ -65,7 +66,7 @@ const CardHeadOptions = ({
   addPopup,
   setAddPopup,
   setNotifyPopup,
-  is_read_only,
+  is_read_only,handleCheckPremiseData
 }) => {
   // const {
 
@@ -180,6 +181,8 @@ const CardHeadOptions = ({
     }
   };
 
+
+
   return (
     <div>
       <div>
@@ -204,7 +207,6 @@ const CardHeadOptions = ({
               </div>
             )}
             {is_translated_languages > 0 && (
-            
               <img
                 data-te-toggle="tooltip"
                 title="Translated Languages"
@@ -213,7 +215,6 @@ const CardHeadOptions = ({
                 alt=""
                 onClick={() => handleViewTransaction(id)}
               />
-            
             )}
 
             {premise_source_id && (
@@ -223,7 +224,8 @@ const CardHeadOptions = ({
                 src={sourceIcn}
                 className="w-8 h-8 cursor-pointer"
                 alt=""
-                onClick={() => handlePremiseOpenNewTab(premise_source_id)}
+                onClick={() => handleCheckPremiseData(premise_source_id)}
+                // onClick={() => handlePremiseOpenNewTab(premise_source_id)}
               />
             )}
             {sale_request_count > 0 && (
@@ -386,25 +388,23 @@ const CardHeadOptions = ({
         ) : (
           <div className="flex gap-[3px] items-center  mr-[2px] relative ">
             {available_for_translation && (
-                <div className="relative">
+              <div className="relative">
                 <span className="absolute top-[-27px] right-[-3px] text-[12px] font-[700] text-[#252525]">
-                  {no_of_times_translated >1  && (
-                    <>{no_of_times_translated}</>
-                  )}
+                  {no_of_times_translated > 1 && <>{no_of_times_translated}</>}
                 </span>
-              <img
-                data-te-toggle="tooltip"
-                title="Available for Translation"
-                src={translateCart}
-                className="w-8 h-8 mt-[-13px] cursor-pointer"
-                alt=""
-                onClick={() => {
-                  setOpenAvailableForTranslationPop(
-                    !openAvailableForTranslationPop
-                  );
-                  // setOpenDotMenu(null);
-                }}
-              />
+                <img
+                  data-te-toggle="tooltip"
+                  title="Available for Translation"
+                  src={translateCart}
+                  className="w-8 h-8 mt-[-13px] cursor-pointer"
+                  alt=""
+                  onClick={() => {
+                    setOpenAvailableForTranslationPop(
+                      !openAvailableForTranslationPop
+                    );
+                    // setOpenDotMenu(null);
+                  }}
+                />
               </div>
             )}
             <div className="relative">
