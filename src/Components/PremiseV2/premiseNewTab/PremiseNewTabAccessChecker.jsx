@@ -19,8 +19,8 @@ const PremiseNewTabAccessChecker = () => {
   } = useGetOnePremiseQuery(id);
   const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
 
-  console.log("premiseData", premiseData?.premiseOwner?.id);
-  console.log("user", userQuery?.id);
+  // console.log("premiseData", premiseData?.premiseOwner?.id);
+  // console.log("user", userQuery?.id);
 
   useEffect(() => {
     if (
@@ -39,7 +39,7 @@ const PremiseNewTabAccessChecker = () => {
     return <div>Loading...</div>;
   }
 
-  return <PremiseNewTab id={id} />;
+  return <PremiseNewTab id={id} user={userQuery?.id} />;
 };
 
 export default PremiseNewTabAccessChecker;

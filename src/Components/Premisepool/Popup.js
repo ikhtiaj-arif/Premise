@@ -31,6 +31,7 @@ import PaySalePopup from "../PremiseV2/Popups/PaySalePopup";
 import ReqSalePop from "../PremiseV2/Popups/ReqSalePop";
 import ReqTranslationPop from "../PremiseV2/Popups/ReqTranslationPop";
 
+import NoPremisePop from "../PremiseV2/Popups/alerts/NoPremisePop";
 import NotifyPopup from "../PremiseV2/Popups/alerts/NotifyPopup";
 import SaleRequestedOwner from "../PremiseV2/Popups/SaleRequestedOwner";
 import TransInOtherLang from "../PremiseV2/Popups/TransInOtherLang.pop";
@@ -129,7 +130,7 @@ const Popup = ({
         // id: premiseID,
         id: project_id,
         // body: { char_data: charArr },
-         body: { char_data: charArr, is_draft: false,  premise_id: id, },
+        body: { char_data: charArr, is_draft: false, premise_id: id },
       };
 
       const response = await saveCharacter(data);
@@ -161,8 +162,8 @@ const Popup = ({
       const data = {
         // id: premiseID,
         id: project_id,
-        body: { char_data: charArr, is_draft: true,  premise_id: id, },
-        is_draft: true
+        body: { char_data: charArr, is_draft: true, premise_id: id },
+        is_draft: true,
       };
 
       const response = await saveCharacter(data);
@@ -173,7 +174,7 @@ const Popup = ({
         setOpenCharacterChart(false);
         // setCharSaveDisable(true);
         setCharacterLoading(false);
-        popClose()
+        popClose();
 
         // toast.success("characters updated!")
       }
@@ -200,7 +201,6 @@ const Popup = ({
   const [replyField, setReplyField] = useState(false);
 
   const [cValue, setCvalue] = useState(null);
-
 
   const [openReplyField, setOpenReplyField] = useState(null);
   const [replyLoading, setReplyLoading] = useState(false);
@@ -291,7 +291,6 @@ const Popup = ({
     }
   }, [isPremiseLoading, premiseData]); // Ensure premiseData is available before running the effect
 
- 
   useEffect(() => {}, [actOneThreshold, actTwoEnd]);
 
   useEffect(() => {
@@ -472,73 +471,74 @@ const Popup = ({
   };
 
   const [openPopSource, setOpenPopSource] = useState(false);
-  const [addBeatTutorialPop, setAddBeatTutorialPop] = useState(false)
-    const [previewAfterDraft, setPreviewAfterDraft] = useState(false);
-    const [sourcePopData, setSourcePopData] = useState();
-    const handleCheckPremiseData = async (id) => {
-      try {
-        const data = await axios.get(`${URL}/ideamall/api/v2/premise/${id}`, {
-          headers: header,
+  const [addBeatTutorialPop, setAddBeatTutorialPop] = useState(false);
+  const [sourcePremiseNotAvailabl, setSourcePremiseNotAvailable] =
+    useState(false);
+  const [sourcePopData, setSourcePopData] = useState();
+  const handleCheckPremiseData = async (id) => {
+    try {
+      const data = await axios.get(`${URL}/ideamall/api/v2/premise/${id}`, {
+        headers: header,
+      });
+      const premiseData = data?.data;
+      setSourcePopData("premiseData", premiseData);
+
+      if (premiseData) {
+        const formattedDate = new Date(
+          premiseData?.created_at
+        ).toLocaleDateString("en-US", {
+          // timeZone: "GMT",
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          // weekday: "short",
+          day: "numeric",
+          month: "short",
+          year: "numeric",
         });
-        const premiseData = data?.data;
-        // setSourcePopData(premiseData)
-  
-        if (premiseData) {
-          const formattedDate = new Date(
-            premiseData?.created_at
-          ).toLocaleDateString("en-US", {
-            // timeZone: "GMT",
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            // weekday: "short",
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-          });
-          const formattedTime = new Date(
-            premiseData?.created_at
-          ).toLocaleTimeString("en-US", {
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            hour: "numeric",
-            minute: "numeric",
-          });
-  
-          const data = {
-            stylings: premiseData?.text?.includes("+")
-              ? JSON.parse(premiseData?.text?.split("+")[0])
-              : {}, // Default to an empty object if `text` is undefined or improperly formatted
-            bg_color: premiseData?.bg_color || "",
-            premiseOwner: premiseData?.premiseOwner,
-            bg_img: premiseData?.bg_img || "",
-            comments: premiseData?.comments || [],
-            created_at: premiseData?.created_at || "",
-            likes: premiseData?.likes || 0,
-            id: premiseData?.id || "",
-            source_language: premiseData?.source_language || "",
-            updated_at: premiseData?.updated_at || "",
-            dText: premiseData?.text?.includes("+")
-              ? premiseData?.text?.split("+")[1]
-              : "",
-            // viewText: premiseData?.text?.includes("+")
-            //   ? premiseData?.text?.split("+")[1]
-            //   : "",
-            project_id: premiseData?.project_id || "",
-            m_value: premiseData?.m_value || "",
-            formattedTime,
-            formattedDate,
-          };
-  
-          setSourcePopData(data);
-        }
-  
-        if (premiseData?.premiseOwner?.id === user) {
-          handlePremiseOpenNewTab(premiseData?.id);
-        } else {
-          setOpenPopSource(true);
-        }
-      } catch (error) {
-        console.log(error);
+        const formattedTime = new Date(
+          premiseData?.created_at
+        ).toLocaleTimeString("en-US", {
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          hour: "numeric",
+          minute: "numeric",
+        });
+
+        const data = {
+          stylings: premiseData?.text?.includes("+")
+            ? JSON.parse(premiseData?.text?.split("+")[0])
+            : {}, // Default to an empty object if `text` is undefined or improperly formatted
+          bg_color: premiseData?.bg_color || "",
+          premiseOwner: premiseData?.premiseOwner,
+          bg_img: premiseData?.bg_img || "",
+          comments: premiseData?.comments || [],
+          created_at: premiseData?.created_at || "",
+          likes: premiseData?.likes || 0,
+          id: premiseData?.id || "",
+          source_language: premiseData?.source_language || "",
+          updated_at: premiseData?.updated_at || "",
+          dText: premiseData?.text?.includes("+")
+            ? premiseData?.text?.split("+")[1]
+            : "",
+          // viewText: premiseData?.text?.includes("+")
+          //   ? premiseData?.text?.split("+")[1]
+          //   : "",
+          project_id: premiseData?.project_id || "",
+          m_value: premiseData?.m_value || "",
+          formattedTime,
+          formattedDate,
+        };
+
+        setSourcePopData(data);
       }
-    };
+
+      if (premiseData?.premiseOwner?.id === user) {
+        handlePremiseOpenNewTab(premiseData?.id);
+      } else {
+        setOpenPopSource(true);
+      }
+    } catch (error) {
+      setSourcePremiseNotAvailable(true);
+    }
+  };
 
   if (isPremiseLoading) {
     return <>Loading...</>;
@@ -571,7 +571,7 @@ const Popup = ({
 
           <div className="flex flex-col gap-[21px] lg:gap-[32px] lg my-auto lg:flex-row lg:justify-center ">
             {/* left div */}
-            <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[94%] sm:w-[80%] md:w-[36%] max-w-[377px] h-[30vh] lg:h-[500px] xl:h-[546px] 2xl:h-[610px] lg:mt-[26px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[32px] xl:ml-[32px] rounded-[8px]">
+            <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[94%] sm:w-[80%] md:w-[36%] max-w-[377px] h-[33vh] lg:h-[500px] xl:h-[546px] 2xl:h-[610px] lg:mt-[26px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[32px] xl:ml-[32px] rounded-[8px]">
               {/* header */}
               <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-2 sm:px-[15px] pt-[15px] pb-[6px]">
                 <div className="block max-w-[140px]">
@@ -637,17 +637,16 @@ const Popup = ({
                 </div> */}
                 </div>
                 <div className="flex gap-[3px] items-center">
-                  {
-                     premiseOwner?.id === user && 
-                  <img
-                  data-te-toggle="tooltip"
-                  title="Open In New Tab"
-                  src={newTabIcn}
-                  className="w-7 h-7 cursor-pointer mt-[-8px]"
-                  alt=""
-                  onClick={() => handlePremiseOpenNewTab(premiseId)}
-                  />
-                }
+                  {premiseOwner?.id === user && (
+                    <img
+                      data-te-toggle="tooltip"
+                      title="Open In New Tab"
+                      src={newTabIcn}
+                      className="w-7 h-7 cursor-pointer mt-[-8px]"
+                      alt=""
+                      onClick={() => handlePremiseOpenNewTab(premiseId)}
+                    />
+                  )}
                   <CardHeadOptions
                     // owner={owner}
                     // index={index}
@@ -712,7 +711,7 @@ const Popup = ({
                     notifyPopup={notifyPopup}
                     setNotifyPopup={setNotifyPopup}
                     is_read_only={premiseData?.is_read_only}
-                     handleCheckPremiseData={handleCheckPremiseData}
+                    handleCheckPremiseData={handleCheckPremiseData}
                   />
                 </div>
               </div>
@@ -731,13 +730,13 @@ const Popup = ({
                      {...{ user, id, premiseRefetch, premiseData }} 
                      /> */}
 
-                           <LikePremise
-                data={{
-                  user,
-                  ...premiseData,
-                }}
-                refetch={premiseRefetch}
-              />
+                    <LikePremise
+                      data={{
+                        user,
+                        ...premiseData,
+                      }}
+                      refetch={premiseRefetch}
+                    />
                     {/* comment */}
                     <PopupComment
                       {...{
@@ -855,7 +854,8 @@ const Popup = ({
                             loading={loading}
                             replyText={replyText}
                             setReplyText={setReplyText}
-                            addBeatTutorialPop={addBeatTutorialPop} setAddBeatTutorialPop={setAddBeatTutorialPop}
+                            addBeatTutorialPop={addBeatTutorialPop}
+                            setAddBeatTutorialPop={setAddBeatTutorialPop}
                           />
                         </motion.div>
                       ))}
@@ -948,7 +948,6 @@ const Popup = ({
             <ViewTranslationPop
               popClose={setOpenViewTranslationsPop}
               premiseId={viewTransactionPId}
-             
             />
           )}
           {userMail === "Yes" && (
@@ -1019,7 +1018,6 @@ const Popup = ({
             <ViewTranslationPop
               popClose={setOpenViewTranslationsPop}
               premiseId={viewTransactionPId}
-               
               popCloseCmnt={() => setOpenPop(false)}
               {...{
                 handleVisibility,
@@ -1144,20 +1142,26 @@ const Popup = ({
               popClose={() => setAfterFinalPostPremiseDemoPop(false)}
             />
           )}
-          {
-            addBeatTutorialPop && <AddBeatTutorialPop popClose={()=> setAddBeatTutorialPop(false)} />
-          }
-                {openPopSource && (
-                  <PopupSource
-                    popClose={() => setOpenPopSource(false)}
-                    refetch={refetch}
-                    data={sourcePopData}
-                    {...{
-                      handleVisibility,
-                      handleMonetizing,
-                    }}
-                  />
-                )}
+          {addBeatTutorialPop && (
+            <AddBeatTutorialPop popClose={() => setAddBeatTutorialPop(false)} />
+          )}
+          {openPopSource && (
+            <PopupSource
+              popClose={() => setOpenPopSource(false)}
+              refetch={refetch}
+              data={sourcePopData}
+              {...{
+                handleVisibility,
+                handleMonetizing,
+              }}
+            />
+          )}
+
+          {sourcePremiseNotAvailabl && (
+            <NoPremisePop
+              popClose={() => setSourcePremiseNotAvailable(false)}
+            />
+          )}
         </div>
       </div>
     );

@@ -1926,7 +1926,7 @@ const PremisePreview2 = ({
                         <div className="h-[27px] px-[8px] text-[12px] md:!text-[14px] flex items-center justify-between">
                           {filteredSpProjects.find(
                             (p) => p.pro_uuid === selectedSpProjectID
-                          )?.name || (
+                          )?.name.slice(0,25) || (
                             <span className="text-gray-400">
                               Select A Project
                             </span>

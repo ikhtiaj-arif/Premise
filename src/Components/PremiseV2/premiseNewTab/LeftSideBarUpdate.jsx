@@ -50,6 +50,8 @@ const LeftSideBarUpdate = ({
   currentCommentRef,
   handleOpenAllReplies,
   setSearchTerm,
+  commentField,
+  setCommentField,
 }) => {
   const {
     bg_img,
@@ -78,7 +80,7 @@ const LeftSideBarUpdate = ({
   const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
   const [openHidePop, setOpenHidePop] = useState(null);
   const [transPopClose, setTransPopClose] = useState({});
-  const [commentField, setCommentField] = useState(true);
+
   const [isLoading, setIsLoading] = useState(false);
   const finalCount = commentsData?.counts;
   const user = useSelector((state) => state?.user?.id);
@@ -268,7 +270,7 @@ const LeftSideBarUpdate = ({
       return response;
     } catch (error) {}
   };
-  
+
   const handleSaveAsDraft = async () => {
     try {
       characterArray.forEach((character) => {
@@ -553,7 +555,7 @@ const LeftSideBarUpdate = ({
                       : {formatDate(created_at)}
                     </p>
                   </div> */}
-                  <div className=" grid grid-cols-[40%_minmax(60%,_1fr)] items-center ">
+                  <div className=" flex items-center ">
                     <h2 className="text-[#616161] text-[14px] leading-[20px] font-[700]">
                       Last Worked On
                     </h2>
@@ -593,7 +595,7 @@ const LeftSideBarUpdate = ({
                         />
                       </div>
                     </div>
-                    <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full max-h-[248px] h-[50vh] lg:max-h-[448px] overflow-y-auto">
+                    <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full max-h-[248px] h-[50vh] md:h-[38vh] xl:h-[50vh] lg:max-h-[428px] overflow-y-auto">
                       {finalCharacters?.map((character, index) => (
                         <CharacterShowCard
                           {...{
@@ -620,8 +622,8 @@ const LeftSideBarUpdate = ({
               <NewTabTextArea
                 fromNew
                 premiseId={id}
-                className="ls-textarea"
-                className2="ls-textareainput"
+                // className="ls-textarea"
+                // className2="ls-textareainput"
                 {...{
                   premiseOwner,
                   user,

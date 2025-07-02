@@ -214,7 +214,7 @@ const HideOptionPop = ({
                 }
               </div>
             ) : (
-              <div className="overflow-y-auto h-[50vh] md:h-[333px]">
+              <div className="overflow-y-auto h-[50vh] xxs:h-[37vh] md:h-[333px]">
                 <div
                   onClick={() => handleOptionSelect("visible_all")}
                   className={`flex justify-between items-center cursor-pointer font-[500] w-[90%] max-w-[374.86px] mx-auto px-[12px] my-[6px] py-[10px] rounded-[8px]  hover:bg-[#f8f8f8] `}

@@ -205,7 +205,7 @@ const NewTabTextArea = ({
           className ? "bg-[#fff]" : "bg-[#f8f8f8]"
         } relative md:mb-[16px] pl-3 md:flex-row ${
           fromNew ? "w-full" : "w-[90%]"
-        }  mx-auto  border-2 border-[#616161] rounded-[8px] mt-[8px] md:h-[92px] xl:h-[126px]`}
+        }  mx-auto  border-2 border-[#616161] rounded-[8px] mt-[8px] md:h-[92px] lg:h-[144px]`}
       >
         {premiseOwner?.id === user ? (
           <textarea
@@ -214,8 +214,8 @@ const NewTabTextArea = ({
             name=""
             maxLength={250}
             id=""
-            className={`bg-[#f8f8f8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:text-[#616161] placeholder:italic ${className2}`}
-            placeholder="share your thoughts"
+            className={`bg-[#f8f8f8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[108px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:text-[#616161] placeholder:italic ${className2}`}
+            placeholder="Share an action taken by any character in pursuit of its want OR describe a situation in which the chosen characters interact OR write anything you have in mind. "
             value={newComment}
             required
             onChange={handleTextareaChange}
@@ -235,8 +235,8 @@ const NewTabTextArea = ({
             id=""
             className={`${
               className ? "bg-[#fff]" : "bg-[#f8f8f8]"
-            } resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:font-[500] placeholder:text-[#33B0CA]`}
-            placeholder="OR type your thoughts here!!"
+            } resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[108px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:font-[500] placeholder:text-[#33B0CA]`}
+            placeholder="Share an action taken by any character in pursuit of its want OR describe a situation in which the chosen characters interact OR write anything you have in mind. "
             value={newComment}
             required
             onChange={handleTextareaChange}

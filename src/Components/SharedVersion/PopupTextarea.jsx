@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
@@ -233,7 +233,7 @@ const PopupTextarea = ({
           className ? "bg-[#fff]" : "bg-[#f8f8f8]"
         } relative md:mb-[16px] pl-3 md:flex-row ${
           fromNew ? "w-full" : "w-[90%]"
-        }  mx-auto  border border-[#EAEAEA] rounded-[8px] mt-[8px] md:h-[92px] xl:h-[126px]`}
+        }  mx-auto  border-2 border-[#616161] rounded-[8px] mt-[8px] md:h-[92px] xl:h-[144px]`}
       >
         {premiseOwner?.id === user ? (
           <textarea
@@ -242,8 +242,8 @@ const PopupTextarea = ({
             name=""
             maxLength={250}
             id=""
-            className={`bg-[#f8f8f8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic ${className2}`}
-            placeholder="OR Brainstorm with Ida by sharing your thoughts"
+            className={`bg-[#f8f8f8] placeholder:text-[#616161] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[108px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic ${className2}`}
+            placeholder="Share an action taken by any character in pursuit of its want OR describe a situation in which the chosen characters interact OR write anything you have in mind. "
             value={newComment}
             required
             onChange={handleTextareaChange}
@@ -263,8 +263,8 @@ const PopupTextarea = ({
             id=""
             className={`${
               className ? "bg-[#fff]" : "bg-[#f8f8f8]"
-            } resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[100px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic`}
-            placeholder="OR Brainstorm with Ida by sharing your thoughts"
+            } resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[108px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:text-[#616161] placeholder:italic`}
+            placeholder="Share an action taken by any character in pursuit of its want OR describe a situation in which the chosen characters interact OR write anything you have in mind. "
             value={newComment}
             required
             onChange={handleTextareaChange}

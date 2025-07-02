@@ -38,6 +38,7 @@ import ViewTranslationPop from "../Popups/ViewTranslation.pop";
 import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
 import CardHeadOptions from "./CardHeadOptions";
 import PremiseBadge from "./PremiseBadge";
+import NoPremisePop from "../Popups/alerts/NoPremisePop";
 
 const PremiseCardV2 = ({
   setShowRefine,
@@ -456,6 +457,7 @@ const PremiseCardV2 = ({
   // const [isDraft, setIsDraft] = useState(true);
   const [previewAfterDraft, setPreviewAfterDraft] = useState(false);
   const [sourcePopData, setSourcePopData] = useState();
+      const [sourcePremiseNotAvailabl,         setSourcePremiseNotAvailable] = useState(false);
   const handleCheckPremiseData = async (id) => {
     try {
       const data = await axios.get(`${URL}/ideamall/api/v2/premise/${id}`, {
@@ -518,6 +520,7 @@ const PremiseCardV2 = ({
       }
     } catch (error) {
       console.log(error);
+      setSourcePremiseNotAvailable(true)
     }
   };
 
@@ -1041,6 +1044,9 @@ const PremiseCardV2 = ({
           setCharacterEditPop={setOpenCharacterChart}
         />
       )}
+      {
+        sourcePremiseNotAvailabl && <NoPremisePop popClose={()=>setSourcePremiseNotAvailable(false)} />
+      }
     </div>
   );
 };

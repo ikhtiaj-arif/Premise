@@ -4,7 +4,6 @@ import newTabDoodle from "../../../img/new-tab-doodle.webp";
 import LikePremise from "../../Premisepool/LikePremise";
 import TranslatePremiseNewTab from "../../Premisepool/TranslatePremiseNewTab";
 import PopupComment from "../../SharedVersion/PopupComment";
-import PopupLike from "../../SharedVersion/PopupLike";
 import {
   getLanguageName,
   getTextFromValue,
@@ -16,6 +15,8 @@ const ProjectInfoUpdate = ({
   premiseRefetch,
   setOpenReplyField,
   commentsData,
+  commentField,
+  setCommentField,
 }) => {
   const {
     id,
@@ -37,7 +38,7 @@ const ProjectInfoUpdate = ({
   const splitText = text.split("+");
   const dText = splitText[1];
   const user = useSelector((state) => state?.user?.id);
-  const [commentField, setCommentField] = useState(true);
+  // const [commentField, setCommentField] = useState(true);
   const finalCount = commentsData?.counts;
   const [viewText, setViewText] = useState(splitText[1]);
   const [transPopClose, setTransPopClose] = useState({});
@@ -68,9 +69,10 @@ const ProjectInfoUpdate = ({
               {" "}
               {premiseOwner?.first_name} {premiseOwner?.last_name}:
             </span>{" "}
-            A {sub_genre} ({genre}) of {getTextFromValue(duration)} {}
-            in {getLanguageName(source_language)} language set in {period}{" "}
-            {geography} on the premise {viewText}.
+            A {sub_genre} ({genre}) of {getTextFromValue(duration)}, {}
+            in {getLanguageName(source_language)} language, set in {period}{" "}
+            {geography}, on the premise -{" "}
+            <span className="font-bold">{viewText}</span>
           </h3>
           <div>
             <div className="hidden lg:flex justify-between items-center mt-[14px] rounded-b-[8px] px-[4px] pb-[8px] pt-[4px] lg:w-[300px]">
