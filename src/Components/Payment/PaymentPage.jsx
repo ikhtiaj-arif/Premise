@@ -1,22 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
-import { MyContext } from "../../App";
-import { useNavigate } from "react-router-dom";
 import CryptoJS from "crypto-js";
-import TypingLoader from "../TypingLoader";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "../../img/MNF_Logo_Final.webp";
 import Valid from "../../img/valid_upto.webp";
+import TypingLoader from "../TypingLoader";
 
-import { HeaderOptions } from "./HeaderOptions";
-import { Package } from "./Package";
-import { Amount } from "./Amount";
+import { toast } from "react-toastify";
 import {
   usePaymentDataMutation,
   usePaymentSendMutation,
   usePaymentSucessMutation,
 } from "../../app/EndPoints/premisePoolApi";
-import { toast } from "react-toastify";
 import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 import { URL } from "../utils";
+import { Amount } from "./Amount";
+import { HeaderOptions } from "./HeaderOptions";
+import { Package } from "./Package";
 
 const PaymentPage = ({
   typeOfRequest,
@@ -282,7 +281,7 @@ const PaymentPage = ({
                   <a
                     target="_blank"
                     rel="noreferrer"
-                    href={`${URL}/templates/Tnc.html`}
+                    href={`https://mnf.ai/footer/terms-and-condition.html`}
                     className="text-[#5a83ef] underline"
                   >
                     Terms of Payment
@@ -307,8 +306,11 @@ const PaymentPage = ({
           </div>
         </section>
       )}
-         {termAlert && (
-        <SameNamePop popClose={setTermAlert} title={`You must agree to the terms of payment..!`} />
+      {termAlert && (
+        <SameNamePop
+          popClose={setTermAlert}
+          title={`You must agree to the terms of payment..!`}
+        />
       )}
     </div>
   );

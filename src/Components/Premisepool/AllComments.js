@@ -466,10 +466,10 @@ const AllComments = ({
   const hasAReply = replyData?.length >= 1;
 
   const handleReplyToggle = async (c, commentOwnerName) => {
-    if (
-      currentUser?.id !== data?.premiseOwner?.id &&
-      (c?.user?.id === 1 || c?.user?.id === 79)
-    ) {
+    // if (
+    //   currentUser?.id !== data?.premiseOwner?.id &&
+    //   (c?.user?.id === 1 || c?.user?.id === 79)
+    // ) {
       const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
       // console.log("reply brainstorm res", res);
       if (res?.access === "No") {
@@ -477,9 +477,9 @@ const AllComments = ({
       } else {
         applyReplyToggle(c, commentOwnerName);
       }
-    } else {
-      applyReplyToggle(c, commentOwnerName);
-    }
+    // } else {
+    //   applyReplyToggle(c, commentOwnerName);
+    // }
   };
   const applyReplyToggle = (c, commentOwnerName) => {
     // Check if the current reply ID matches the clicked comment ID

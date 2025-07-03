@@ -1,6 +1,3 @@
-import React from "react";
-import { URL } from "../utils";
-
 export const Amount = ({ data, isAgreementChecked, setAgreementChecked }) => {
   //console.log('amount data',data?.total_amount !='0');
   return (
@@ -21,7 +18,9 @@ export const Amount = ({ data, isAgreementChecked, setAgreementChecked }) => {
           <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
             <h3 className="">Price(USD)</h3>
             <p className="text-right">
-              {data?.total_price?.toFixed(2) || data?.total_amount?.toFixed(2) || 0.00}
+              {data?.total_price?.toFixed(2) ||
+                data?.total_amount?.toFixed(2) ||
+                0.0}
             </p>
           </div>
 
@@ -47,7 +46,7 @@ export const Amount = ({ data, isAgreementChecked, setAgreementChecked }) => {
             <h3>Taxes & Charges(USD)</h3>
 
             <p className="text-right">
-              {data?.gst_calculate?.toFixed(2) || 0.00}
+              {data?.gst_calculate?.toFixed(2) || 0.0}
             </p>
           </div>
           {data?.state_code == "07" ? (
@@ -55,13 +54,13 @@ export const Amount = ({ data, isAgreementChecked, setAgreementChecked }) => {
               <div className="flex items-center justify-between py-2 lg:text-[14px] text-[12px] text-[#616161] font-[400]">
                 <h3 className="">CGST-9%(Output)</h3>
                 <p className="text-right">
-                  {data?.cgst_calculate?.toFixed(2) || 0.00}
+                  {data?.cgst_calculate?.toFixed(2) || 0.0}
                 </p>
               </div>
               <div className="flex items-center justify-between py-2 lg:text-[14px] text-[12px] text-[#616161] font-[400]">
                 <h3>SGST-9%(Output)</h3>
                 <p className="text-right">
-                  {data?.sgst_calculate?.toFixed(2) || 0.00}
+                  {data?.sgst_calculate?.toFixed(2) || 0.0}
                 </p>
               </div>
             </>
@@ -69,20 +68,20 @@ export const Amount = ({ data, isAgreementChecked, setAgreementChecked }) => {
             <div className="flex items-center justify-between py-2 lg:text-[14px] text-[12px] text-[#616161] font-[400]">
               <h3 className="text-[14px]">IGST-18%(Output)</h3>
               <p className="text-right">
-                {data?.gst_calculate?.toFixed(2) || 0.00}
+                {data?.gst_calculate?.toFixed(2) || 0.0}
               </p>
             </div>
           )}
           <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
             <h3>Total Payable(USD)</h3>
-            <p className="text-right">{data?.net_payable?.toFixed(2) || 0.00}</p>
+            <p className="text-right">{data?.net_payable?.toFixed(2) || 0.0}</p>
           </div>
         </div>
 
         <div className="flex items-center text-white px-5 bg-[#33B0CA] lg:text-[16px] text-[14px] font-semibold justify-between py-2">
           <h3 className="">Total Payable({data?.currency_code})</h3>
           <p className="text-right">
-            {(data?.net_payable * data?.rate)?.toFixed(2) || 0.00}
+            {(data?.net_payable * data?.rate)?.toFixed(2) || 0.0}
           </p>
         </div>
       </div>
@@ -107,7 +106,7 @@ export const Amount = ({ data, isAgreementChecked, setAgreementChecked }) => {
             <a
               target="_blank"
               rel="noreferrer"
-              href={`${URL}/templates/Tnc.html`}
+              href={`https://mnf.ai/footer/terms-and-condition.html`}
               className="text-[#5a83ef] underline"
             >
               Terms of Payment
