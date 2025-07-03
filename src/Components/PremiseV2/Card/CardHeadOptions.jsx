@@ -66,7 +66,8 @@ const CardHeadOptions = ({
   addPopup,
   setAddPopup,
   setNotifyPopup,
-  is_read_only,handleCheckPremiseData
+  is_read_only,
+  handleCheckPremiseData
 }) => {
   // const {
 

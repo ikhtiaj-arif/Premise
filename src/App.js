@@ -14,6 +14,63 @@ export const MyContext = createContext();
 export const TranslationContext = createContext(); // Added global translation context
 
 function App() {
+  
+useEffect(() => {
+    const addScrollbarEffect = (el) => {
+      let hoverTimeout;
+
+      const onMouseMove = (e) => {
+        const rect = el.getBoundingClientRect();
+        const nearRight = e.clientX >= rect.right - 20;
+        const nearBottom = e.clientY >= rect.bottom - 20;
+
+        const needsVertical = el.scrollHeight > el.clientHeight;
+        const needsHorizontal = el.scrollWidth > el.clientWidth;
+
+        if ((needsVertical && nearRight) || (needsHorizontal && nearBottom)) {
+          el.classList.add("scrollbar-active");
+        } else {
+          clearTimeout(hoverTimeout);
+          hoverTimeout = setTimeout(() => {
+            el.classList.remove("scrollbar-active");
+          }, 100);
+        }
+      };
+
+      el.addEventListener("mousemove", onMouseMove);
+      el.addEventListener("mouseleave", () =>
+        el.classList.remove("scrollbar-active")
+      );
+    };
+
+    const applyToScrollables = () => {
+      document.querySelectorAll("*").forEach((el) => {
+        const style = getComputedStyle(el);
+        const overflowY = style.overflowY;
+        const overflowX = style.overflowX;
+
+        const hasScrollY =
+          (overflowY === "scroll" || overflowY === "auto") &&
+          el.scrollHeight > el.clientHeight;
+        const hasScrollX =
+          (overflowX === "scroll" || overflowX === "auto") &&
+          el.scrollWidth > el.clientWidth;
+
+        if (hasScrollY || hasScrollX) {
+          addScrollbarEffect(el);
+        }
+      });
+    };
+
+    applyToScrollables();
+    const observer = new MutationObserver(applyToScrollables);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, []);
+
+
+  
   const { data: allspProjectJSON, refetch: projectRefetch } =
     useGetMyAllProjectQuery();
   const currentUser = useSelector((state) => state?.user);

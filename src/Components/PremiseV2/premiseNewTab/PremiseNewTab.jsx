@@ -1,43 +1,45 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import {
   useGetCommentByPremiseIdQuery,
-  useGetOnePremiseQuery,
   useGetPremiseUserPictureQuery,
 } from "../../../app/EndPoints/premisePoolApi";
 
 import { motion } from "framer-motion";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { MyContext } from "../../../App";
 import { useGetSavedCharactersQuery } from "../../../app/EndPoints/Characters/Characters";
 import { useCreateReplyMutation } from "../../../app/EndPoints/commentReply/reply";
 import { useFindCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
-import { GlobalContext } from "../../../app/Hooks/Global";
 import AllComments from "../../Premisepool/AllComments";
 import TypingLoader from "../../TypingLoader";
 import { baseURL } from "../../utils";
-import { loadingData } from "../Premsie.v2";
+import NoPremisePop from "../Popups/alerts/NoPremisePop";
 import NewTabTutorialPop from "../sequalPopup/NewTabTutorialPop";
 import LeftSideBarUpdate from "./LeftSideBarUpdate";
 import ProjectInfoUpdate from "./ProjectInfoUpdate";
 import VerticalBar from "./VerticalBar";
 
-const PremiseNewTab = ({ id }) => {
+const PremiseNewTab = ({
+  id,
+  user,
+  premiseData,
+  premiseRefetch,
+  isPremiseLoading,
+}) => {
   // const { id } = useParams(); // Extract the ID from the route
   const { state } = useLocation();
   const currentCommentRef = useRef({});
-
 
   // const params = state || {};
   // const { project_id } = params;
   // console.log("project_id", project_id);
   const { setCurrentlyOpenedCommentID } = useContext(MyContext);
-  const {
-    data: premiseData,
-    isPremiseLoading,
-    refetch: premiseRefetch,
-  } = useGetOnePremiseQuery(id);
+  // const {
+  //   data: premiseData,
+  //   isPremiseLoading,
+  //   refetch: premiseRefetch,
+  // } = useGetOnePremiseQuery(id);
 
   const {
     data: profileImg,
@@ -45,7 +47,21 @@ const PremiseNewTab = ({ id }) => {
     refetch: profileRefetch,
   } = useGetPremiseUserPictureQuery(premiseData?.premiseOwner?.id);
 
-  const user = useSelector((state) => state?.user?.id);
+  // const user = useSelector((state) => state?.user?.id);
+
+  const [premiseDataR, setPremiseDataR] = useState(null);
+
+  useEffect(() => {
+    console.log("Premise", premiseData);
+    console.log(premiseData?.premiseOwner?.id, user);
+    if (!premiseData) return; // wait until data is available
+
+    if (premiseData?.premiseOwner?.id === user) {
+      setPremiseDataR(premiseData);
+    } else {
+      setPremiseDataR(null);
+    }
+  }, [premiseData, user]);
 
   const {
     data: commentsData,
@@ -83,7 +99,7 @@ const PremiseNewTab = ({ id }) => {
   const [replyTextCount, setReplyTextCount] = useState(0);
   const [addBeatTutorialPop, setAddBeatTutorialPop] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [commentField, setCommentField] = useState(true);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -239,13 +255,27 @@ const PremiseNewTab = ({ id }) => {
     setCurrentlyOpenedCommentID(id);
     setCommentOwner(commenterName);
   };
-  const { charactersPopupMobile } = useContext(GlobalContext);
 
-  // if (!premiseData && !isPremiseLoading) return <NoPremisePop />;
-  // else {
+  // if (isPremiseLoading || isCommentLoading) {
+  //   return <TypingLoader />;
+  // } else if (
+  //   !isPremiseLoading &&
+  //   !isCommentLoading &&
+  //   !premiseDataR &&
+  //   !commentsData
+  // ) {
+  //   return <NoPremisePop />;
+  // }
+  if (premiseData?.hidden || !premiseDataR) {
+    return <NoPremisePop />;
+  }
+
   return (
-      <div className="w-[95%] max-w-[1445px]  mx-auto">
-      {!isPremiseLoading && !isCommentLoading && premiseData && commentsData ? (
+    <div className="w-[95%] max-w-[1445px]  mx-auto">
+      {!isPremiseLoading &&
+      !isCommentLoading &&
+      premiseDataR &&
+      commentsData ? (
         <>
           {/* <ProjectInfo {...{ premiseData }} /> */}
           <ProjectInfoUpdate
@@ -254,6 +284,8 @@ const PremiseNewTab = ({ id }) => {
               premiseRefetch,
               setOpenReplyField,
               commentsData,
+              commentField,
+              setCommentField,
             }}
           />
           <div className="w-full lg:hidden relative">
@@ -280,6 +312,8 @@ const PremiseNewTab = ({ id }) => {
                   currentCommentRef,
                   handleOpenAllReplies,
                   setSearchTerm,
+                  commentField,
+                  setCommentField,
                 }}
               />
               <VerticalBar
@@ -488,6 +522,8 @@ const PremiseNewTab = ({ id }) => {
                   currentCommentRef,
                   handleOpenAllReplies,
                   setSearchTerm,
+                  commentField,
+                  setCommentField,
                 }}
               />
             </div>
@@ -615,9 +651,9 @@ const PremiseNewTab = ({ id }) => {
         // </>
         <div className="fixed inset-0 flex items-center justify-center mx-auto z-50">
           <div className="fixed inset-0 bg-black opacity-50"></div>
-          <div className="relative rounded-[8px] h-[100px] bg-[#fafafa] w-[90%] lg:w-[35%] flex items-center">
+          {/* <div className="relative rounded-[8px] h-[100px] bg-[#fafafa] w-[90%] lg:w-[35%] flex items-center">
             <TypingLoader data={loadingData} />
-          </div>
+          </div> */}
         </div>
       )}
       {openNewTabTutorialPop && !openNewTabTutorialPopOtherUser && (

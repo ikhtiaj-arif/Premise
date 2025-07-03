@@ -103,3 +103,22 @@ input[type="number"]::-webkit-outer-spin-button {
   overflow-wrap: anywhere !important;
   white-space: pre-wrap;
 }
+/* Global scrollbar styles */
+::-webkit-scrollbar {
+  width: 6px;
+  transition: width 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #33b0ca;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #eaeaea;
+}
+
+/* When active (hover/scroll), make scrollbar thick */
+.scrollbar-active::-webkit-scrollbar {
+  width: 12px;
+}

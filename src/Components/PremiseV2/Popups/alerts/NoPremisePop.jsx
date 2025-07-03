@@ -1,16 +1,17 @@
-import React from "react";
-import crossIcon from "../../../../img/Icons/crossIcon.png";
-import oppsPopup from "../../../../img/oopsImg.webp";
 import { useNavigate } from "react-router-dom";
+import oppsPopup from "../../../../img/oopsImg.webp";
 
-const NoPremisePop = () => {
-      const navigate = useNavigate();
+const NoPremisePop = ({ popClose }) => {
+  const navigate = useNavigate();
 
   const handleBack = () => {
-    navigate("/")
+    if (popClose) {
+      popClose();
+    }
+    navigate("/");
   };
   return (
-     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[65%] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[65%] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
       <div className="h-full lg:h-[332px] mb-[20px] px-[22px] bottom-0 lg:mb-0 lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA] lg:w-[634px] md:mx-auto relative lg:rounded-[8px]">
         <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
           {/* <img
@@ -34,7 +35,7 @@ const NoPremisePop = () => {
             <div className="flex justify-center space-x-4">
               <button
                 onClick={handleBack}
-                className="bg-[#33B0CA]  text-white text-[14px] font-bold py-2 px-4 rounded-md"
+                className="bg-[#33B0CA]  text-white text-[16px] font-[600] py-2 px-4 rounded-md"
               >
                 Back to Premise (idea) Pool
               </button>

@@ -153,7 +153,7 @@ const PreviewPopAfterDraft = ({
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-1 mt-[8px] ml-8 mr-2">
+          <div className="flex items-center gap-2 mt-[8px] ml-8 mr-2">
             <input
               className=" cursor-pointer"
               type="checkbox"
@@ -161,7 +161,7 @@ const PreviewPopAfterDraft = ({
               onChange={() => setAgreeToPost(!agreeToPost)}
               checked={agreeToPost}
             />
-            <p htmlFor="checkbox" className="text-[12px] leading-4">
+            <p htmlFor="checkbox" className="text-[12px] leading-4 max-w-[89%]">
               I understand that after posting the Premise, I will not be able to
               edit the proposed characters.
             </p>

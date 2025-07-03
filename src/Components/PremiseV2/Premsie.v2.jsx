@@ -21,6 +21,7 @@ import TypingLoader from "../TypingLoader";
 import { baseURL } from "../utils";
 import PremiseCardV2 from "./Card/PremiseCardV2";
 import FilterSearchSort from "./Header/FiltersSearchSort/FilterSearchSort";
+import NoPremisePop from "./Popups/alerts/NoPremisePop";
 import PricingPopup from "./sequalPopup/PricingPopup";
 import TestPopup from "./sequalPopup/TestPopup";
 
@@ -147,49 +148,110 @@ const PremiseV2 = () => {
     } catch (err) {}
   };
 
-  useEffect(() => {
-    if (id && id.service === "scriptpad") {
-      xyz();
-      const matchingPremiseData = premiseDataForUser?.find(
-        (item) => item.id === id.__id
-      );
+  // useEffect(() => {
+  //   // console.log(id);
+  //   if (id && id.service === "scriptpad") {
+  //     xyz();
+  //     const matchingPremiseData = premiseDataForUser?.find(
+  //       (item) => item.id === id.__id
+  //     );
+  //     console.log(matchingPremiseData);
+  //     if (matchingPremiseData) {
+  //       setOpenPopBySp(true);
+  //       setMatchingPremiseData(matchingPremiseData);
+  //       const splitText = matchingPremiseData?.text?.split("+");
+  //       const dText = splitText[1];
+  //       const stylings = JSON?.parse(splitText[0]);
 
-      if (matchingPremiseData) {
+  //       // Format the created_date
+  //       const formattedDate = new Date(
+  //         matchingPremiseData?.created_at
+  //       ).toLocaleDateString("en-US", {
+  //         // timeZone: "GMT",
+  //         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  //         // weekday: "short",
+  //         day: "numeric",
+  //         month: "short",
+  //         year: "numeric",
+  //       });
+  //       setFormattedDate(formattedDate);
+
+  //       const formattedTime = new Date(
+  //         matchingPremiseData?.created_at
+  //       ).toLocaleTimeString("en-US", {
+  //         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  //         hour: "numeric",
+  //         minute: "numeric",
+  //       });
+  //       setFormattedTime(formattedTime);
+
+  //       setdText(dText);
+  //       setStylings(stylings);
+  //       navigate("/");
+  //     }
+  //     // setActiveAddedByMe(true);
+  //   }
+  // }, [id, premiseData]);
+  const [hiddenPop, setHiddenPop] = useState(false);
+  const fetchPremiseById = async () => {
+    try {
+      const response = await axios({
+        url: `${baseURL}/ideamall/api/v2/premise/${id.__id}`,
+        method: "GET",
+        headers: headers,
+      });
+
+      const data = response?.data;
+
+      if (data) {
+        if (data?.hidden && data?.premiseOwner?.id !== user) {
+          setHiddenPop(true);
+          return;
+        }
         setOpenPopBySp(true);
-        setMatchingPremiseData(matchingPremiseData);
-        const splitText = matchingPremiseData?.text?.split("+");
+        setMatchingPremiseData(data);
+
+        const splitText = data?.text?.split("+");
         const dText = splitText[1];
         const stylings = JSON?.parse(splitText[0]);
 
-        // Format the created_date
-        const formattedDate = new Date(
-          matchingPremiseData?.created_at
-        ).toLocaleDateString("en-US", {
-          // timeZone: "GMT",
-          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          // weekday: "short",
-          day: "numeric",
-          month: "short",
-          year: "numeric",
-        });
+        const formattedDate = new Date(data?.created_at).toLocaleDateString(
+          "en-US",
+          {
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          }
+        );
         setFormattedDate(formattedDate);
 
-        const formattedTime = new Date(
-          matchingPremiseData?.created_at
-        ).toLocaleTimeString("en-US", {
-          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          hour: "numeric",
-          minute: "numeric",
-        });
+        const formattedTime = new Date(data?.created_at).toLocaleTimeString(
+          "en-US",
+          {
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            hour: "numeric",
+            minute: "numeric",
+          }
+        );
         setFormattedTime(formattedTime);
 
         setdText(dText);
         setStylings(stylings);
         navigate("/");
       }
-      // setActiveAddedByMe(true);
+
+      return data;
+    } catch (err) {
+      console.error("Failed to fetch premise by ID:", err);
     }
-  }, [id, premiseData]);
+  };
+
+  useEffect(() => {
+    if (id && id.service === "scriptpad") {
+      fetchPremiseById();
+    }
+  }, [id]);
 
   // console.log("matchingPremiseData", premiseData);
 
@@ -677,6 +739,9 @@ const PremiseV2 = () => {
                     refetch={refetch}
                     p={matchingPremiseData}
                   />
+                )}
+                {hiddenPop && (
+                  <NoPremisePop popClose={() => setHiddenPop(false)} />
                 )}
                 {/* {srcData.map((item, idx) => {
                 return (
