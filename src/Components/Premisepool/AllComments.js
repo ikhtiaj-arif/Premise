@@ -217,9 +217,9 @@ const AllComments = ({
     isLoading: isReplyLoading,
     isError,
     refetch: replyRefetch,
-  } = useGetAllReplyOfACommentQuery(comments?.id, { skip: !openAllReplies });
+  } = useGetAllReplyOfACommentQuery(comments?.id);
 
-  console.log(replyData);
+
 
   useEffect(() => {
     if (replyField && replyRef.current) {
@@ -342,14 +342,16 @@ const AllComments = ({
 
     try {
       const response = await createReplyMutation(data);
+      
 
       if (response) {
         replyRef.current.value = ""; // Clear the textarea
         setReplyText("");
         setReplyTextCount(0);
         replyRefetch();
-        setOpenAllReplies(true);
+        commentRefetch();
         setReplyField(false);
+        handleOpenAllReplies(comments?.id, commentOwnerName);
         toast.success("Reply added!", {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 800,
@@ -470,17 +472,18 @@ const AllComments = ({
     //   currentUser?.id !== data?.premiseOwner?.id &&
     //   (c?.user?.id === 1 || c?.user?.id === 79)
     // ) {
-      const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
-      // console.log("reply brainstorm res", res);
-      if (res?.access === "No") {
-        setNoAccessLbPopup(res);
-      } else {
-        applyReplyToggle(c, commentOwnerName);
-      }
+    const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
+    // console.log("reply brainstorm res", res);
+    if (res?.access === "No") {
+      setNoAccessLbPopup(res);
+    } else {
+      applyReplyToggle(c, commentOwnerName);
+    }
     // } else {
     //   applyReplyToggle(c, commentOwnerName);
     // }
   };
+
   const applyReplyToggle = (c, commentOwnerName) => {
     // Check if the current reply ID matches the clicked comment ID
     if (replyToCommentID === c?.id) {
@@ -1152,43 +1155,44 @@ const AllComments = ({
                   : ""
               }`}
             >
-              {!isReplyLoading && replyData?.replies
-                ?.slice() // Create a shallow copy to avoid mutating the original array
-                ?.sort(
-                  (a, b) => new Date(b.created_at) - new Date(a.created_at)
-                )
-                ?.map((reply, index) => (
-                  <motion.div
-                    // data-reply
-                    key={reply.id + index}
-                    ref={
-                      index === comments?.replies_count - 1
-                        ? latestReplyRef
-                        : null
-                    }
-                    initial={{ opacity: 0, y: 70 }} // Start from slightly below the final position
-                    animate={{ opacity: 1, y: 0 }} // Move to the final position
-                    exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
-                    transition={{ duration: 0.5 }} // Adjust the duration as needed
-                  >
-                    <ReplyToComments
-                      fromNew={fromNew}
-                      commentIdx={comments?.c_value}
-                      // Make sure to provide a unique key when mapping over an array
-                      reply={reply}
-                      index={index}
-                      owner={owner}
-                      setProjectBeatOpen={setProjectBeatOpen}
-                      setCommentText={setCommentText}
-                      setBeatCommentText={setBeatCommentText}
-                      replyRefetch={replyRefetch}
-                      replyToCommentID={replyToCommentID}
-                      user={user}
-                      handleAddToBeat={handleAddToBeat}
-                      commentRefetch={commentRefetch}
-                    />
-                  </motion.div>
-                ))}
+              {!isReplyLoading &&
+                replyData?.replies
+                  ?.slice() // Create a shallow copy to avoid mutating the original array
+                  ?.sort(
+                    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+                  )
+                  ?.map((reply, index) => (
+                    <motion.div
+                      // data-reply
+                      key={reply.id + index}
+                      ref={
+                        index === comments?.replies_count - 1
+                          ? latestReplyRef
+                          : null
+                      }
+                      initial={{ opacity: 0, y: 70 }} // Start from slightly below the final position
+                      animate={{ opacity: 1, y: 0 }} // Move to the final position
+                      exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
+                      transition={{ duration: 0.5 }} // Adjust the duration as needed
+                    >
+                      <ReplyToComments
+                        fromNew={fromNew}
+                        commentIdx={comments?.c_value}
+                        // Make sure to provide a unique key when mapping over an array
+                        reply={reply}
+                        index={index}
+                        owner={owner}
+                        setProjectBeatOpen={setProjectBeatOpen}
+                        setCommentText={setCommentText}
+                        setBeatCommentText={setBeatCommentText}
+                        replyRefetch={replyRefetch}
+                        replyToCommentID={replyToCommentID}
+                        user={user}
+                        handleAddToBeat={handleAddToBeat}
+                        commentRefetch={commentRefetch}
+                      />
+                    </motion.div>
+                  ))}
             </div>
           }{" "}
         </div>

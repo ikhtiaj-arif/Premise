@@ -53,7 +53,6 @@ const PremiseNewTab = ({
 
   useEffect(() => {
     console.log("Premise", premiseData);
-    console.log(premiseData?.premiseOwner?.id, user);
     if (!premiseData) return; // wait until data is available
 
     if (premiseData?.premiseOwner?.id === user) {
@@ -266,7 +265,10 @@ const PremiseNewTab = ({
   // ) {
   //   return <NoPremisePop />;
   // }
-  if (premiseData?.hidden || !premiseDataR) {
+  if (
+    (premiseData?.hidden && premiseDataR?.premiseOwner?.id !== user) ||
+    !premiseDataR
+  ) {
     return <NoPremisePop />;
   }
 

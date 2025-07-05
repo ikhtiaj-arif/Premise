@@ -4,28 +4,37 @@ import {
   useGetOnePremiseQuery,
   useGetPremiseUserQuery,
 } from "../../../app/EndPoints/premisePoolApi";
+import TypingLoader from "../../TypingLoader";
+import NoPremisePop from "../Popups/alerts/NoPremisePop";
 import PremiseNewTab from "./PremiseNewTab";
 
 const PremiseNewTabAccessChecker = () => {
   const [newTab, setNewTab] = useState(false);
+  const [newTabData, setNewTabData] = useState(null);
+  const [noPremise, setNoPremise] = useState(false);
   const navigate = useNavigate();
 
   const { id } = useParams(); // Extract the ID from the route
 
   const {
     data: premiseData,
-    isPremiseLoading,
+    isLoading: isPremiseLoading,
+    error,
     refetch: premiseRefetch,
   } = useGetOnePremiseQuery(id);
-  const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
+  const { data: userQuery, isLoading: isUserLoading } =
+    useGetPremiseUserQuery();
 
-  // console.log("premiseData", premiseData?.premiseOwner?.id);
+  // console.log("premiseData", premiseData);
   // console.log("user", userQuery?.id);
 
   useEffect(() => {
-    // console.log("user", userQuery?.id);
-    // console.log("owner", premiseData?.premiseOwner?.id);
-    // if (!isUserLoading && !isPremiseLoading) return;
+    if (error?.status === 404) {
+      console.log("Premise not found (404)");
+      setNoPremise(true);
+      return;
+    }
+
     if (
       !isUserLoading &&
       !isPremiseLoading &&
@@ -33,17 +42,19 @@ const PremiseNewTabAccessChecker = () => {
       premiseData?.premiseOwner?.id !== undefined
     ) {
       setNewTab(false);
+
       if (userQuery?.id !== premiseData?.premiseOwner?.id) {
+        console.log("Redirecting user...");
         navigate(`/${id}/scriptpad`);
-        // window.open(`${window.location.origin}/ideamall/#/${id}/scriptpad`);
       } else {
+        setNewTabData(premiseData);
         setNewTab(true);
       }
     }
-  }, [premiseData, userQuery]);
+  }, [premiseData, userQuery, isUserLoading, isPremiseLoading, error]);
 
   if (isPremiseLoading || isUserLoading) {
-    return <div>Loading...</div>;
+    return <TypingLoader />;
   }
   return (
     <div>
@@ -51,11 +62,12 @@ const PremiseNewTabAccessChecker = () => {
         <PremiseNewTab
           id={id}
           user={userQuery?.id}
-          premiseData={premiseData}
+          premiseData={newTabData}
           isPremiseLoading={isPremiseLoading}
           premiseRefetch={premiseRefetch}
         />
       )}
+      {noPremise && <NoPremisePop />}
     </div>
   );
 };

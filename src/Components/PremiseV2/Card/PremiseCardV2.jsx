@@ -25,6 +25,7 @@ import UserType from "../../Premisepool/UserType";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
+import NoPremisePop from "../Popups/alerts/NoPremisePop";
 import NotifyPopup from "../Popups/alerts/NotifyPopup";
 import AvailableForTranslationPop from "../Popups/AvailableForTranslationPop";
 import BankDetailsPop from "../Popups/BankDetails/BankDetailsPop";
@@ -38,7 +39,6 @@ import ViewTranslationPop from "../Popups/ViewTranslation.pop";
 import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
 import CardHeadOptions from "./CardHeadOptions";
 import PremiseBadge from "./PremiseBadge";
-import NoPremisePop from "../Popups/alerts/NoPremisePop";
 
 const PremiseCardV2 = ({
   setShowRefine,
@@ -89,7 +89,7 @@ const PremiseCardV2 = ({
     is_draft,
     profile_details,
   } = p;
-  // console.log("object", premiseOwner?.centraldatabase?.profile_photo);
+  // console.log("object", text);
 
   const { currentUser } = useContext(MyContext);
 
@@ -134,7 +134,7 @@ const PremiseCardV2 = ({
   // } = useGetPremiseUserPictureQuery(premiseOwner?.id);
   // const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
   // const proImgUrl = URL.concat(profile_details[0]?.profile_photo);
-  const proImgUrl =premiseOwner?.centraldatabase?.profile_photo;
+  const proImgUrl = premiseOwner?.centraldatabase?.profile_photo;
 
   // console.log("xcvvdfawsedfdsfgfgd", p);
   const {
@@ -151,7 +151,7 @@ const PremiseCardV2 = ({
   const isProjectLocked = currentProjectData?.locked;
   // console.log("object", currentProjectData);
 
-  const splitText = text.split("+");
+  const splitText = text?.split("+");
   const dText = splitText[1];
   const stylings = JSON?.parse(splitText[0]);
   const [viewText, setViewText] = useState(splitText[1]);
@@ -457,7 +457,8 @@ const PremiseCardV2 = ({
   // const [isDraft, setIsDraft] = useState(true);
   const [previewAfterDraft, setPreviewAfterDraft] = useState(false);
   const [sourcePopData, setSourcePopData] = useState();
-      const [sourcePremiseNotAvailabl,         setSourcePremiseNotAvailable] = useState(false);
+  const [sourcePremiseNotAvailabl, setSourcePremiseNotAvailable] =
+    useState(false);
   const handleCheckPremiseData = async (id) => {
     try {
       const data = await axios.get(`${URL}/ideamall/api/v2/premise/${id}`, {
@@ -520,7 +521,7 @@ const PremiseCardV2 = ({
       }
     } catch (error) {
       console.log(error);
-      setSourcePremiseNotAvailable(true)
+      setSourcePremiseNotAvailable(true);
     }
   };
 
@@ -1044,9 +1045,9 @@ const PremiseCardV2 = ({
           setCharacterEditPop={setOpenCharacterChart}
         />
       )}
-      {
-        sourcePremiseNotAvailabl && <NoPremisePop popClose={()=>setSourcePremiseNotAvailable(false)} />
-      }
+      {sourcePremiseNotAvailabl && (
+        <NoPremisePop popClose={() => setSourcePremiseNotAvailable(false)} />
+      )}
     </div>
   );
 };

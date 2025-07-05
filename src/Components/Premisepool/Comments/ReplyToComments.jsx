@@ -728,7 +728,7 @@ const ReplyToComments = ({
                             fromNew={fromNew}
                             // data-reply-reply
                             handleAddToBeat={handleAddToBeat}
-                            key={idx}
+                            key={idx+ childReply.id}
                             setCommentText={setCommentText}
                             setBeatCommentText={setBeatCommentText}
                             childReplyIDNext={childReply?.id}

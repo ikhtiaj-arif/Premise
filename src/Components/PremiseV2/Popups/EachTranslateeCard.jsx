@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { useGetOnePremiseQuery } from "../../../app/EndPoints/premisePoolApi";
 import Popup from "../../Premisepool/Popup";
 import { getLanguageName } from "../utilityFuncitons/functions";
@@ -12,6 +13,7 @@ const EachTranslateeCard = ({
   viewText,
   project_id,
 }) => {
+  const user = useSelector((state) => state.user.id);
   // console.log("transaction", transaction);
   // const { data: userData, isLoading } = useGetUserByUserIdQuery(
   //   transaction?.translatedFor.id?.id
@@ -64,6 +66,7 @@ const EachTranslateeCard = ({
         comments: premiseData?.comments || [],
         created_at: premiseData?.created_at || "",
         likes: premiseData?.likes || 0,
+        user,
         id: premiseData?.id || "",
         source_language: premiseData?.source_language || "",
         updated_at: premiseData?.updated_at || "",

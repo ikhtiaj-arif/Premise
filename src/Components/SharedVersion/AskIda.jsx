@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { toast } from "react-toastify";
 import { fetchUserAccess, MyContext } from "../../App";
 import { useCommentPremiseMutation } from "../../app/EndPoints/premisePoolApi";
@@ -39,7 +39,7 @@ const AskIda = ({
     }
   };
 
-  console.log(source_language);
+  // console.log(source_language);
 
   const checkAllowance = async (flag) => {
     const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);

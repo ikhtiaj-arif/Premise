@@ -204,12 +204,12 @@ const PremiseV2 = () => {
       const data = response?.data;
 
       if (data) {
-        if (data?.hidden && data?.premiseOwner?.id !== user) {
+        if (data?.premiseOwner?.id !== user && data?.hidden) {
           setHiddenPop(true);
           return;
         }
         setOpenPopBySp(true);
-        setMatchingPremiseData(data);
+        setMatchingPremiseData({ ...data, user });
 
         const splitText = data?.text?.split("+");
         const dText = splitText[1];
@@ -248,10 +248,10 @@ const PremiseV2 = () => {
   };
 
   useEffect(() => {
-    if (id && id.service === "scriptpad") {
+    if (id?.service === "scriptpad" && user) {
       fetchPremiseById();
     }
-  }, [id]);
+  }, [id, user]);
 
   // console.log("matchingPremiseData", premiseData);
 
