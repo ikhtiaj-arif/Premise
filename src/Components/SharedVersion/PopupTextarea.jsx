@@ -124,7 +124,7 @@ const PopupTextarea = ({
     }
   };
 
-  console.log("triggerSPPopup", triggerSPPopup);
+  // console.log("triggerSPPopup", triggerSPPopup);
 
   const checkAllowance = async (flag) => {
     const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);

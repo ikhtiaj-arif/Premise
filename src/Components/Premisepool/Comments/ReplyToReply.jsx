@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { IoIosUndo, IoMdSend } from "react-icons/io";
@@ -163,7 +163,7 @@ const ReplyToReply = ({
     if (response) {
       childReplyRef.current.value = "";
       setReplyChildTextCount(0);
-       setChildReplyText("")
+      setChildReplyText("");
       replyRefetch();
       toast.success("Reply added!", {
         position: toast.POSITION.TOP_CENTER,
@@ -634,7 +634,9 @@ const ReplyToReply = ({
                   </button>
                 )}
             </>
-            {!(childReply?.text?.includes("?") || childReply?.text?.includes("؟")) &&
+            {!(
+              childReply?.text?.includes("?") || childReply?.text?.includes("؟")
+            ) && (
               <div className="mt-[-8px]">
                 {childReply?.add_to_beat ? (
                   <>
@@ -665,7 +667,7 @@ const ReplyToReply = ({
                   </>
                 )}
               </div>
-            }
+            )}
           </div>
         </div>
 
@@ -739,7 +741,7 @@ const ReplyToReply = ({
                   depth < 2 && (
                     <ReplyToReply2
                       handleAddToBeat={handleAddToBeat}
-                      key={childReply?.id}
+                      key={childReply?.id + idx}
                       setCommentText={setCommentText}
                       setBeatCommentText={setBeatCommentText}
                       childReplyIDNext={childReply?.id}

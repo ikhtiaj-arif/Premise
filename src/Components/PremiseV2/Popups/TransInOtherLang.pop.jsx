@@ -66,7 +66,7 @@ const TransInOtherLang = ({
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-end md:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
       <ToastContainer />
-      <div className=" h-[98vh] lg:h-[520px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[430px]  md:mx-auto relative lg:rounded-[8px]">
+      <div className=" h-[98vh] lg:h-[536px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[430px]  md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
         {/* close popup */}
         <div className="hidden md:block absolute top-[-56px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
@@ -92,7 +92,8 @@ const TransInOtherLang = ({
         <div>
           <p className="text-center text-[12px] leading-[14.5px] font-[400] my-[12px] text-[#616161] w-[80%] mx-auto">
             You can translate this Premise Project in any number of languages
-            for a price of ${premiseData?.pqr_value} per Language.
+            for a price of ${Number(premiseData?.pqr_value).toFixed(2)} per
+            Language.
           </p>
 
           <h2 className="font-[700] text-[12px] leading-[14.5px] text-left mt-[24px]">
@@ -150,8 +151,9 @@ const TransInOtherLang = ({
             <p className="text-left text-[12px] leading-[14.5px] font-[400]  text-[#616161] ">
               You will also be entitled to monetize the translated Premise
               Project by allowing it’s further translation in any number of
-              languages for a minimum value of ${premiseData?.pqr_value}.
-              However, 1/3 of the sale proceeds above ${premiseData?.pqr_value}{" "}
+              languages for a minimum value of $
+              {Number(premiseData?.pqr_value).toFixed(2)}. However, 1/3 of the
+              sale proceeds above ${Number(premiseData?.pqr_value).toFixed(2)}{" "}
               will be retained by My Next Film.
             </p>
           </div>
@@ -181,7 +183,7 @@ const TransInOtherLang = ({
             <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
           </div>
         </div>
-        <div className="w-[100px] mx-auto mt-[12px]">
+        <div className="w-[100px] mx-auto py-[12px]">
           {targetLanguage ? (
             <button
               onClick={handlePayNow}
