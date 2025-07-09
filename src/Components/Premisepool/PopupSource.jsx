@@ -552,7 +552,10 @@ const Popup = ({
                               title={`${`${currentProjectName} `}`}
                               className="notranslate"
                             >
-                              {currentProjectName?.slice(0, 20)}
+                              {/* {currentProjectName?.slice(0, 20)} */}
+                              {currentProjectName?.length > 20
+                                ? `${currentProjectName.slice(0, 20)}...`
+                                : currentProjectName}
                             </p>
                           )}
                         </p>

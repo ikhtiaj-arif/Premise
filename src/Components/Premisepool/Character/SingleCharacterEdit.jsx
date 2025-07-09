@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { useSuggestCharactersMutation } from "../../../app/EndPoints/Characters/Characters";
 import { getLanguageName } from "../../PremiseV2/utilityFuncitons/functions";
@@ -294,21 +295,21 @@ const SingleCharacterAdd = ({
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="fixed inset-0 bg-black opacity-50"></div>
       {/* {console.log(editIdx)} */}
-      <div className="relative bg-[#FAFAFA] pt-[20px] px-[8px] rounded-lg shadow-lg w-full lg:w-[479px] h-[450px]">
-        <div className="h-[370px] overflow-auto">
+      <div className="relative bg-[#FAFAFA] pt-[20px] px-[8px] rounded-lg shadow-lg w-full md:mt-12 lg:w-[479px] h-[480px]">
+        <h3 className="text-center mb-0 md:mb-[12px] flex md:justify-center items-center gap-[9px] font-[500]">
+          <MdOutlineKeyboardBackspace
+            onClick={() => setEditPopupOpen(false)}
+            className="block md:hidden text-[#33B0CA] cursor-pointer h-[38px] w-[38px]"
+          />
+          <span className="text-[18px] md:text-[14px]">{`${
+            isDisabled ? "View Character" : "Edit Character"
+          }`}</span>
+        </h3>
+        <div className="h-[370px] overflow-auto pt-4 pb-8">
           <div>
             <div>
-              <h3 className="text-center mb-0 md:mb-[12px] flex md:justify-center items-center gap-[9px] font-[500]">
-                <MdOutlineKeyboardBackspace
-                  onClick={() => setEditPopupOpen(false)}
-                  className="block md:hidden text-[#33B0CA] cursor-pointer h-[38px] w-[38px]"
-                />
-                <span className="text-[18px] md:text-[14px]">{`${
-                  isDisabled ? "View Character" : "Edit Character"
-                }`}</span>
-              </h3>
               {!isDisabled && (
-                <div className="absolute top-[20px] right-[-7px] z-10">
+                <div className="absolute top-[20px] right-[0px] z-10">
                   <div className="text-[14px] mb-[-15px] hidden text-[#616161] w-full outline-[#EAEAEA] md:flex justify-center items-center">
                     <button
                       onClick={onClickKeyboard}
@@ -545,6 +546,13 @@ const SingleCharacterAdd = ({
                     }`}
                   >
                     {gender || "Gender"}
+                    <div className="absolute inset-y-5  md:inset-y-2 right-[2px] bg-[#fafafa] flex items-center h-[25px] px-2 pointer-events-none">
+                      {genderDropdownOpen && role !== "Protagonist" ? (
+                        <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[15px] " />
+                      ) : (
+                        <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px] " />
+                      )}
+                    </div>
                   </button>
 
                   {genderDropdownOpen && !isDisabled && (

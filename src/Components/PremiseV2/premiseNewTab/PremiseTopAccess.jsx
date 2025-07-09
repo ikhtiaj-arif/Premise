@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchUserAccess, MyContext } from "../../../App";
@@ -28,7 +29,6 @@ import SaleRequestedOwner from "../Popups/SaleRequestedOwner";
 import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
 import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
-import axios from "axios";
 
 const PremiseTopAccess = ({
   user,

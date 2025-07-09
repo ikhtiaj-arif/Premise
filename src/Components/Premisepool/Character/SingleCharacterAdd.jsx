@@ -302,16 +302,18 @@ const SingleCharacterAdd = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[2] ">
       <div className="fixed inset-0 bg-black opacity-50"></div>
-      <div className="relative bg-[#FAFAFA] pt-[20px] px-[8px] rounded-lg shadow-lg w-full lg:w-[479px] h-[73vh] md:h-[450px]">
-        <div className="h-[calc(100%-60px)] w-full overflow-auto">
+      <div className="relative bg-[#FAFAFA] pt-[20px] px-[8px] rounded-lg shadow-lg w-full lg:w-[479px] md:mt-12 h-[73vh] md:h-[490px]">
+        <div className=" w-full h-10 sticky">
+          <h3 className="text-center md:mb-[20px] font-[500]">
+            <span className="text-[18px] text-center md:text-[14px]">
+              Add Character
+            </span>
+          </h3>
+        </div>
+        <div className="h-[calc(100%-60px)] pt-4 pb-10 w-full overflow-auto">
           <div>
             <div>
-              <h3 className="text-center md:mb-[20px] font-[500]">
-                <span className="text-[18px] text-center md:text-[14px]">
-                  Add Character
-                </span>
-              </h3>
-              <div className="absolute top-[20px] right-[-7px] z-10">
+              <div className="absolute top-[20px] right-[0px] z-10">
                 <div className="text-[14px] mb-[-15px] hidden text-[#616161] w-full outline-[#EAEAEA] md:flex justify-center items-center">
                   <button
                     onClick={onClickKeyboard}
@@ -465,13 +467,20 @@ const SingleCharacterAdd = ({
                   <button
                     type="button"
                     onClick={() => setGenderDropdownOpen(!genderDropdownOpen)}
-                    className={`text-left px-2 text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] mb-[22px] mt-[12px] md:my-0 h-[41px] w-full indent-1 ${
+                    className={` text-left px-2 text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] mb-[22px] mt-[12px] md:my-0 h-[41px] w-full indent-1 ${
                       gender === inanimateObjectOptions(sourceLanguageName)
                         ? "md:w-[172px]"
                         : "md:w-[97px]"
                     }`}
                   >
                     {gender || "Gender"}
+                    <div className="absolute inset-y-5  md:inset-y-2 right-[2px] bg-[#fafafa] flex items-center h-[25px] px-2 pointer-events-none">
+                      {genderDropdownOpen ? (
+                        <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[15px] " />
+                      ) : (
+                        <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px] " />
+                      )}
+                    </div>
                   </button>
 
                   {genderDropdownOpen && (
