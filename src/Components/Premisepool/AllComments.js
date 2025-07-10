@@ -81,6 +81,7 @@ const AllComments = ({
   const [selectedProject, setSelectedProject] = useState(null);
   const [noAccessLbPopup, setNoAccessLbPopup] = useState(null);
 
+
   const {
     selectedPremiseObj,
     selectedSpProjectID,
@@ -219,8 +220,6 @@ const AllComments = ({
     refetch: replyRefetch,
   } = useGetAllReplyOfACommentQuery(comments?.id);
 
-
-
   useEffect(() => {
     if (replyField && replyRef.current) {
       replyRef.current.focus();
@@ -342,7 +341,6 @@ const AllComments = ({
 
     try {
       const response = await createReplyMutation(data);
-      
 
       if (response) {
         replyRef.current.value = ""; // Clear the textarea
@@ -520,6 +518,10 @@ const AllComments = ({
     setOpenDropdownId((prevDropdownId) => (prevDropdownId === id ? null : id)); // Toggle dropdown visibility
   };
 
+
+
+  // console.log(    "owners",      data?.premiseOwner?.id, user, comments?.user?.id );
+  // console.log(         comments?.text?.includes("?") );
   return (
     <div className=" flex flex-col justify-end w-full relative ">
       <div className="md:ml-10">
@@ -1218,7 +1220,7 @@ const AllComments = ({
           // currentPremiseProject={currentPremiseProject}
         />
       )}
-      {noAccessLbPopup?.msg === "ShowBecomePrivilege" && (
+      {/* {noAccessLbPopup?.msg === "ShowBecomePrivilege" && (
         <NoAccessPopUp
           noAccessPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
@@ -1231,6 +1233,22 @@ const AllComments = ({
           setNoAccessPopup={setNoAccessLbPopup}
           service={service}
         />
+      )} */}
+
+      {noAccessLbPopup?.msg === "ShowBecomePrivilege" ? (
+        <NoAccessPopUp
+          noAccessLbPopup={noAccessLbPopup}
+          setNoAccessPopup={setNoAccessLbPopup}
+        />
+      ) : (
+        (noAccessLbPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
+          noAccessLbPopup?.msg === "LB") && (
+          <NoAccessLbPopUp
+            noAccessLbPopup={noAccessLbPopup}
+            setNoAccessPopup={setNoAccessLbPopup}
+            service={service}
+          />
+        )
       )}
       <div className="h-[1px] w-[88%] mx-auto bg-[#eaeaea] mb-[4px]" />
       {openDltPop && (

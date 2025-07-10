@@ -59,7 +59,7 @@ const PricingPopup = ({ setPricingPopup }) => {
 
           <div className="flex flex-col justify-center items-center px-2 md:px-8">
             <h3 className="bg-[#33B0CA] px-8 py-2 rounded-b-xl text-[#fafafa] font-bold text-[18px]">
-             Const Estimate For {'{project name}'}
+              Const Estimate For {"{project name}"}
             </h3>
           </div>
 
@@ -127,6 +127,33 @@ const PricingPopup = ({ setPricingPopup }) => {
                   </div>
                 </div>
               </div>
+              <div className="text-[14px] flex items-center">
+                <p className="min-w-[55%] text-[#616161]">
+                  Referral Discount :-
+                </p>
+                <div className="flex items-center gap-1">
+                  <input type="radio" />
+                  <label htmlFor="" className="font-[500]">
+                    15%
+                  </label>
+                </div>
+              </div>
+
+              {/* Group Discount */}
+              <div className="text-[14px] flex items-center">
+                <div className="min-w-[55%] text-[#616161]">
+                  <p className="">Group Discount :-</p>
+                  <p className="text-[12px] leading-[16px]">
+                    (For 5 or more participants registering together)
+                  </p>
+                </div>
+                <div className="flex items-center gap-1">
+                  <input type="radio" />
+                  <label htmlFor="" className="font-[500]">
+                    25%
+                  </label>
+                </div>
+              </div>
             </div>
             <h4 className="text-[#33b0ca] font-semibold text-left px-3 text-[16px] mt-4">
               Discounted Cost
@@ -138,11 +165,11 @@ const PricingPopup = ({ setPricingPopup }) => {
                   <div className="flex items-center">
                     <div className="min-w-[50%]">
                       <p className="text-[#616161]">
-                        Ida Assisted {" "}
+                        Ida Assisted{" "}
                         <span className="font-[500] text-[#252525]">
-                        Screenplay Generation
+                          Screenplay Generation
                         </span>{" "}
-                       {/* {`No `} */}
+                        {/* {`No `} */}
                       </p>
                     </div>
                     <div className="min-w-[20%]">
@@ -273,7 +300,7 @@ const PricingPopup = ({ setPricingPopup }) => {
               </button>
             </div>
             <h2 className="text-[18px] font-bold mb-2">
-                {/* explore will be clickable */}
+              {/* explore will be clickable */}
               You may get greater benefits in the{" "}
               <span className="text-[#33b0ca]">'Explore'</span> package
             </h2>

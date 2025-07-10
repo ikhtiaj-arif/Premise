@@ -150,6 +150,10 @@ const Popup = ({
       // console.error("Error updating characters:", error);
     }
   };
+
+
+
+
   const handleSaveAsDraft = async () => {
     setCharacterLoading(true);
     try {

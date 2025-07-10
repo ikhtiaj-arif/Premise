@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { MyContext } from "../../App";
@@ -20,7 +20,7 @@ const NoAccessLbPopUp = ({
 }) => {
   const { counts, setCounts, currentUser } = useContext(MyContext);
 
-  // console.log("noAccessLbPopup", noAccessLbPopup);
+  console.log("Hello from lb");
 
   const {
     data: productPrice,
@@ -217,7 +217,7 @@ const NoAccessLbPopUp = ({
               {/* 2nd option */}
               <div>
                 <label className="flex items-start gap-2 mt-2">
-                  {(noAccessLbPopup?.ShowFreeTrialActavation == "Yes" ||
+                  {(noAccessLbPopup?.ShowFreeTrialActavation === "Yes" ||
                     service === "PP_Brainstrom") && (
                     <input
                       type="radio"

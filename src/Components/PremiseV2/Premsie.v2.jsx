@@ -42,10 +42,12 @@ const PremiseV2 = () => {
   const [hasMore, setHasMore] = useState(true);
   const [showRefine, setShowRefine] = useState(false);
   const [draftOpenFromSp, setDraftOpenFromSp] = useState(false);
-
-
+  const [previewAfterDraft, setPreviewAfterDraft] = useState(false);
   const [text, setText] = useState("");
   const [language, setLanguage] = useState("");
+  const [openCharacterChart, setOpenCharacterChart] = useState(null);
+  const [characterArray, setCharacterArray] = useState([]);
+
   const {
     isAddNew,
     activeAddedByMe,
@@ -58,6 +60,7 @@ const PremiseV2 = () => {
     currentUser,
     openSequalPop,
     currentPopup,
+    allspProjectJSON,
   } = useContext(MyContext);
 
   const [isFirstCardBlinking, setIsFirstCardBlinking] = useState(false);
@@ -206,7 +209,7 @@ const PremiseV2 = () => {
       });
 
       const data = response?.data;
-      console.log("fetched premise data", data);
+      // console.log("fetched premise data", data);
 
       if (data) {
         if (data?.premiseOwner?.id !== user && data?.hidden) {
@@ -214,7 +217,8 @@ const PremiseV2 = () => {
           return;
         }
         if (data?.is_draft === true) {
-          setDraftOpenFromSp(true);
+          setOpenCharacterChart(true);
+          setMatchingPremiseData({ ...data, user });
           return;
         }
 
@@ -457,6 +461,89 @@ const PremiseV2 = () => {
 
   const [pricingPopup, setPricingPopup] = useState(false);
 
+  const currentProjectData = allspProjectJSON?.projects?.find(
+    (item) => item.pro_uuid === matchingPremiseData?.project_id
+  );
+
+  // console.log("currentProjectData", matchingPremiseData);
+
+  const currentProjectName = currentProjectData?.name;
+  const isProjectLocked = currentProjectData?.locked;
+
+  // const handleUpdateSavedChar = async () => {
+  //   setCharacterLoading(true);
+  //   try {
+  //     characterArray.forEach((character) => {
+  //       if (character.is_ai_generated === undefined) {
+  //         character.is_ai_generated = false;
+  //       }
+  //     });
+  //     characterArray.forEach((character) => {
+  //       if (character.is_ai_generated === undefined) {
+  //         character.is_ai_generated = false;
+  //       }
+  //     });
+  //     const charArr = JSON.stringify(characterArray);
+  //     const data = {
+  //       // id: premiseID,
+  //       id: project_id,
+  //       // body: { char_data: charArr },
+  //       body: { char_data: charArr, is_draft: false, premise_id: id },
+  //     };
+
+  //     const response = await saveCharacter(data);
+
+  //     if (response) {
+  //       // setAddNewCharacter(false)
+  //       // setEditPopupOpen(false)
+  //       setOpenCharacterChart(false);
+  //       // setCharSaveDisable(true);
+  //       setCharacterLoading(false);
+
+  //       // toast.success("characters updated!")
+  //     }
+  //     return response;
+  //   } catch (error) {
+  //     setCharacterLoading(false);
+  //     // console.error("Error updating characters:", error);
+  //   }
+  // };
+
+  // const handleSaveAsDraft = async () => {
+  //   setCharacterLoading(true);
+  //   try {
+  //     characterArray.forEach((character) => {
+  //       if (character.is_ai_generated === undefined) {
+  //         character.is_ai_generated = false;
+  //       }
+  //     });
+  //     const charArr = JSON.stringify(characterArray);
+  //     const data = {
+  //       id: project_id,
+  //       body: { char_data: charArr, is_draft: true, premise_id: id },
+  //       is_draft: true,
+  //     };
+
+  //     const response = await saveCharacter(data);
+
+  //     if (response) {
+  //       // setAddNewCharacter(false)
+  //       // setEditPopupOpen(false)
+  //       // setOpenCharacterChart(false);
+  //       // setCharSaveDisable(true);
+  //       setOpenCharacterChart(false);
+  //       // setCharSaveDisable(true);
+  //       setCharacterLoading(false);
+  //       refetch();
+  //       // toast.success("characters updated!")
+  //     }
+  //     return response;
+  //   } catch (error) {
+  //     setCharacterLoading(false);
+  //     // console.error("Error updating characters:", error);
+  //   }
+  // };
+
   return (
     //   <div
     //   className="fixed left-0 top-[60px] w-full"
@@ -486,6 +573,9 @@ const PremiseV2 = () => {
                   className="w-[51px] h-[77px] absolute bottom-[3px] right-[-36px]"
                 />
               </div>
+
+              {/* <button onClick={() => setPricingPopup(true)}>pricing</button> */}
+
               {
                 <p className=" hidden md:flex w-[233px]  items-center text-[16px] leading-[19.5px] text-[#616161] h-[32px] font-[600]">
                   {hiddenCountRes?.total_premises === 1 ? (
@@ -504,7 +594,7 @@ const PremiseV2 = () => {
                 </p>
               }
             </div>
-            {/* <button onClick={() => setPricingPopup(true)}>p</button> */}
+
             <div className="md:w-[50%] flex items-center justify-between h-[124px]">
               <div className="mr-[20px] md:mr-[0px] text-center w-[360px] md:mt-[-30px] lg:w-[440px] ml-[-186px] mb-0 lg:ml-[-171px] xl:ml-[-229px">
                 <img
@@ -747,24 +837,30 @@ const PremiseV2 = () => {
                       m_value: matchingPremiseData?.m_value,
                       premiseOwner: matchingPremiseData?.premiseOwner,
                     }}
+                    setPreviewAfterDraft={setPreviewAfterDraft}
+                    previewAfterDraft={previewAfterDraft}
                     refetch={refetch}
                     p={matchingPremiseData}
                   />
                 )}
-                {draftOpenFromSp && (
+
+                {openCharacterChart && (
                   <CharacterEditableWrapper
-                  // setCharacterEditPop={setOpenCharacterChart}
-                  // characterArray={characterArray}
-                  // currentProjectData={currentProjectData}
-                  // setCharacterArray={setCharacterArray}
-                  // onlyAdd={onlyAdd}
-                  // handleUpdateSavedChar={handleUpdateSavedChar}
-                  // handleSaveAsDraft={handleSaveAsDraft}
-                  // // characterLoading={isCharLoading}
-                  // project_id={p?.project_id}
-                  // source_language={source_language}
-                  // is_draft={is_draft}
-                  // setPreviewAfterDraft={setPreviewAfterDraft}
+                    setCharacterEditPop={setOpenCharacterChart}
+                    characterArray={characterArray}
+                    currentProjectData={currentProjectData}
+                    setCharacterArray={setCharacterArray}
+                    onlyAdd={false}
+                    // handleUpdateSavedChar={handleUpdateSavedChar}
+                    // handleSaveAsDraft={handleSaveAsDraft}
+                    // characterLoading={isCharLoading}
+                    project_id={matchingPremiseData?.project_id}
+                    source_language={matchingPremiseData?.source_language}
+                    is_draft={matchingPremiseData?.is_draft}
+                    setPreviewAfterDraft={setPreviewAfterDraft}
+                    id={matchingPremiseData?.id}
+                    setOpenCharacterChart={setOpenCharacterChart}
+                    refetch={refetch}
                   />
                 )}
 
