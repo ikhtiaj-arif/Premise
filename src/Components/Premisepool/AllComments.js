@@ -81,6 +81,8 @@ const AllComments = ({
   const [selectedProject, setSelectedProject] = useState(null);
   const [noAccessLbPopup, setNoAccessLbPopup] = useState(null);
 
+  console.log("noAccessLbPopup",noAccessLbPopup);
+
   const {
     selectedPremiseObj,
     selectedSpProjectID,
@@ -219,8 +221,6 @@ const AllComments = ({
     refetch: replyRefetch,
   } = useGetAllReplyOfACommentQuery(comments?.id);
 
-
-
   useEffect(() => {
     if (replyField && replyRef.current) {
       replyRef.current.focus();
@@ -342,7 +342,6 @@ const AllComments = ({
 
     try {
       const response = await createReplyMutation(data);
-      
 
       if (response) {
         replyRef.current.value = ""; // Clear the textarea
@@ -1218,7 +1217,7 @@ const AllComments = ({
           // currentPremiseProject={currentPremiseProject}
         />
       )}
-      {noAccessLbPopup?.msg === "ShowBecomePrivilege" && (
+      {/* {noAccessLbPopup?.msg === "ShowBecomePrivilege" && (
         <NoAccessPopUp
           noAccessPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
@@ -1231,6 +1230,22 @@ const AllComments = ({
           setNoAccessPopup={setNoAccessLbPopup}
           service={service}
         />
+      )} */}
+
+      {noAccessLbPopup?.msg === "ShowBecomePrivilege" ? (
+        <NoAccessPopUp
+          noAccessLbPopup={noAccessLbPopup}
+          setNoAccessPopup={setNoAccessLbPopup}
+        />
+      ) : (
+        (noAccessLbPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
+          noAccessLbPopup?.msg === "LB") && (
+          <NoAccessLbPopUp
+            noAccessLbPopup={noAccessLbPopup}
+            setNoAccessPopup={setNoAccessLbPopup}
+            service={service}
+          />
+        )
       )}
       <div className="h-[1px] w-[88%] mx-auto bg-[#eaeaea] mb-[4px]" />
       {openDltPop && (

@@ -57,7 +57,8 @@ const PremiseCardV2 = ({
   hiddenCountRefetch,
   addPopup,
   setAddPopup,
-  draftOpenFromSp,
+  // previewAfterDraft,
+  // setPreviewAfterDraft,
 }) => {
   const { user, userFirstName, userLastName } = owner;
 
@@ -124,6 +125,17 @@ const PremiseCardV2 = ({
     if (is_draft) setOnlyAdd(false);
   }, [is_draft]);
 
+  // useEffect(() => {
+  //   if (characters) setCharacterArray(characters);
+  // }, [characters]);
+
+  // const {
+  //   data: profileImg,
+  //   profileImgLoading,
+  //   refetch: profileRefetch,
+  // } = useGetPremiseUserPictureQuery(premiseOwner?.id);
+  // const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
+  // const proImgUrl = URL.concat(profile_details[0]?.profile_photo);
   const proImgUrl = premiseOwner?.centraldatabase?.profile_photo;
 
   // console.log("xcvvdfawsedfdsfgfgd", p);
@@ -321,13 +333,8 @@ const PremiseCardV2 = ({
 
   const [viewTrnRequests, setViewTrnRequests] = useState("");
   const [viewSaleRequests, setViewSaleRequests] = useState("");
-  useEffect(() => {
-    if (draftOpenFromSp) handleCardClick();
-  }, [draftOpenFromSp]);
 
   const handleCardClick = () => {
-    // console.log("Character open");
-    // return;
     setTransPopClose(null);
     setShowRefine(false);
     setOpenDotMenu(null);
@@ -341,7 +348,6 @@ const PremiseCardV2 = ({
       setOpenPop(true);
     }
   };
-
   const checkAllowance = async (state, id) => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_AllowInteraction`);
     console.log("AllowInteraction res", res);
