@@ -17,7 +17,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
         const shared = query?.shared;
         const available_for_translation = query?.translation;
         const available_for_sale = query?.sale;
-     
+  
 
         let url = `ideamall/premise?page=${pn}&page_size=${ps}&current_user=${user_id}&shared=${shared}`;
 

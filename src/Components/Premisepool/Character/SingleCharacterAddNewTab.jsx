@@ -308,7 +308,7 @@ const SingleCharacterAddNewTab = ({
             </span>
           </h3>
         </div>
-        <div className="h-[calc(100%-60px)] w-full overflow-auto">
+        <div className="h-[calc(100%-60px)] pt-4 pb-10 w-full overflow-auto">
           <div>
             <div>
               <div className="absolute top-[20px] right-[0px] z-10">

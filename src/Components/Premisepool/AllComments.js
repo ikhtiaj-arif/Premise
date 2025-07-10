@@ -81,7 +81,6 @@ const AllComments = ({
   const [selectedProject, setSelectedProject] = useState(null);
   const [noAccessLbPopup, setNoAccessLbPopup] = useState(null);
 
-  console.log("noAccessLbPopup",noAccessLbPopup);
 
   const {
     selectedPremiseObj,
@@ -519,6 +518,10 @@ const AllComments = ({
     setOpenDropdownId((prevDropdownId) => (prevDropdownId === id ? null : id)); // Toggle dropdown visibility
   };
 
+
+
+  // console.log(    "owners",      data?.premiseOwner?.id, user, comments?.user?.id );
+  // console.log(         comments?.text?.includes("?") );
   return (
     <div className=" flex flex-col justify-end w-full relative ">
       <div className="md:ml-10">

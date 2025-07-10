@@ -900,13 +900,16 @@ const PremiseCardV2 = ({
           currentProjectData={currentProjectData}
           setCharacterArray={setCharacterArray}
           onlyAdd={onlyAdd}
-          handleUpdateSavedChar={handleUpdateSavedChar}
-          handleSaveAsDraft={handleSaveAsDraft}
+          // handleUpdateSavedChar={handleUpdateSavedChar}
+          // handleSaveAsDraft={handleSaveAsDraft}
           // characterLoading={isCharLoading}
           project_id={p?.project_id}
           source_language={source_language}
           is_draft={is_draft}
           setPreviewAfterDraft={setPreviewAfterDraft}
+          id={id}
+          setOpenCharacterChart={setOpenCharacterChart}
+          refetch={refetch}
         />
       )}
       {openTransOtherPop && (
