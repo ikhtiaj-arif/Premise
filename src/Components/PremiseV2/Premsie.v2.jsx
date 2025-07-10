@@ -12,6 +12,7 @@ import {
 import { setUser } from "../../app/Slices/userSlice";
 import headText from "../../img/headText.webp";
 import walletDoodle from "../../img/wallet_doodle.webp";
+import CharacterEditableWrapper from "../Premisepool/Character/CharacterEditableWrapper";
 import AddPremise2 from "../Premisepool/Components/AddPremise2";
 import Popup from "../Premisepool/Popup";
 import UserNamePopup from "../Premisepool/UserNamePopup";
@@ -40,6 +41,8 @@ const PremiseV2 = () => {
   const [sortOrder, setSortOrder] = useState("");
   const [hasMore, setHasMore] = useState(true);
   const [showRefine, setShowRefine] = useState(false);
+  const [draftOpenFromSp, setDraftOpenFromSp] = useState(false);
+
 
   const [text, setText] = useState("");
   const [language, setLanguage] = useState("");
@@ -193,6 +196,7 @@ const PremiseV2 = () => {
   //   }
   // }, [id, premiseData]);
   const [hiddenPop, setHiddenPop] = useState(false);
+
   const fetchPremiseById = async () => {
     try {
       const response = await axios({
@@ -202,12 +206,18 @@ const PremiseV2 = () => {
       });
 
       const data = response?.data;
+      console.log("fetched premise data", data);
 
       if (data) {
         if (data?.premiseOwner?.id !== user && data?.hidden) {
           setHiddenPop(true);
           return;
         }
+        if (data?.is_draft === true) {
+          setDraftOpenFromSp(true);
+          return;
+        }
+
         setOpenPopBySp(true);
         setMatchingPremiseData({ ...data, user });
 
@@ -692,6 +702,7 @@ const PremiseV2 = () => {
                     hiddenCountRefetch={hiddenCountRefetch}
                     addPopup={addPopup}
                     setAddPopup={setAddPopup}
+                    draftOpenFromSp={draftOpenFromSp}
                   />
                 ))}
                 {/* {isDelete && matchingPremiseData && (
@@ -740,6 +751,23 @@ const PremiseV2 = () => {
                     p={matchingPremiseData}
                   />
                 )}
+                {draftOpenFromSp && (
+                  <CharacterEditableWrapper
+                  // setCharacterEditPop={setOpenCharacterChart}
+                  // characterArray={characterArray}
+                  // currentProjectData={currentProjectData}
+                  // setCharacterArray={setCharacterArray}
+                  // onlyAdd={onlyAdd}
+                  // handleUpdateSavedChar={handleUpdateSavedChar}
+                  // handleSaveAsDraft={handleSaveAsDraft}
+                  // // characterLoading={isCharLoading}
+                  // project_id={p?.project_id}
+                  // source_language={source_language}
+                  // is_draft={is_draft}
+                  // setPreviewAfterDraft={setPreviewAfterDraft}
+                  />
+                )}
+
                 {hiddenPop && (
                   <NoPremisePop popClose={() => setHiddenPop(false)} />
                 )}

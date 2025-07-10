@@ -1,7 +1,5 @@
-import React from "react";
-
 export const HeaderOptions = ({ currentUser, data, mnf }) => {
-  //console.log("currentUser", currentUser);
+  console.log("currentUser", currentUser);
   const getFormattedDate = () => {
     const today = new Date();
     const day = String(today.getDate()).padStart(2, "0");
@@ -28,7 +26,7 @@ export const HeaderOptions = ({ currentUser, data, mnf }) => {
                     data?.firstName ||
                     "N/A"
                   } 
-              ${currentUser?.last_name || data?.last_name || data?.lastName}`}
+              ${currentUser?.lastName || data?.last_name || data?.lastName}`}
             </p>
           </div>
         </div>
@@ -79,7 +77,7 @@ export const HeaderOptions = ({ currentUser, data, mnf }) => {
           </div>
         ) : (
           <>
-            {data?.currency_code == "INR" ? (
+            {data?.currency_code === "INR" ? (
               <>
                 <div className="  grid grid-cols-[40%_minmax(60%,_1fr)] mb-1">
                   <p className=" w-[130px] md:w-[180px] text-[#000000]">

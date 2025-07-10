@@ -254,7 +254,10 @@ const CharacterEditablePop = ({
             title={`${`${currentProjectData?.name} `}`}
             className="notranslate"
           >
-            {currentProjectData?.name.slice(0, 20)}
+            {currentProjectData?.name?.slice(0, 20)}
+            {/* {currentProjectData?.name.length > 20
+              ? `${currentProjectData?.name.slice(0, 20)}...`
+              : currentProjectData} */}
           </span>
         </h3>
 

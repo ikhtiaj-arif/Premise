@@ -251,7 +251,6 @@ const Popup = ({
   const [actOneThreshold, setActOneThreshold] = useState(null);
   const [actTwoEnd, setActTwoEnd] = useState(null);
 
-
   // console.log("premiseData?.visible_to",premiseData?.visible_to)
 
   useEffect(() => {
@@ -462,7 +461,7 @@ const Popup = ({
   };
 
   const handleOpenAllReplies = (id, commenterName) => {
-     console.log('Open replyfield');
+    console.log("Open replyfield");
     setOpenAllReplies(true);
     setOpenReplyFieldID(id);
     setReplyToCommentID(id);
@@ -624,7 +623,10 @@ const Popup = ({
                               title={`${`${currentProjectName} `}`}
                               className="notranslate"
                             >
-                              {currentProjectName?.slice(0, 20)}
+                              {/* {currentProjectName?.slice(0, 20)} */}
+                              {currentProjectName?.length > 20
+                                ? `${currentProjectName.slice(0, 20)}...`
+                                : currentProjectName}
                             </p>
                           )}
                         </p>

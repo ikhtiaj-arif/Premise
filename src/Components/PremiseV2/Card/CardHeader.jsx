@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { FaEllipsisV } from "react-icons/fa";
 
 import mailCart from "../../../img/Icons/mailCart.png";
@@ -74,6 +74,9 @@ const CardHeader = ({
                     className="notranslate"
                   >
                     {currentProjectName?.slice(0, 20)}
+                    {currentProjectName?.length > 20
+                      ? `${currentProjectName.slice(0, 20)}...`
+                      : currentProjectName}
                   </p>
                 )}
               </div>

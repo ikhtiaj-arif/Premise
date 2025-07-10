@@ -1,5 +1,5 @@
 import CryptoJS from "crypto-js";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MdKeyboardBackspace } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -12,13 +12,12 @@ import {
 import crossIcon from "../../img/croos_icon.png";
 import logo from "../../img/MNF_Logo_Final.webp";
 import Valid from "../../img/valid_upto.webp";
+import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 import TypingLoader from "../TypingLoader";
+import { URL } from "../utils";
 import { Amount } from "./Amount";
 import { HeaderOptions } from "./HeaderOptions";
 import { Package } from "./Package";
-import SimpleAlertPop from "../PremiseV2/Popups/alerts/SimpleAlertPop";
-import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
-import { URL } from "../utils";
 
 const PaymentInvoicePopup = ({
   refetch,
@@ -226,6 +225,8 @@ const PaymentInvoicePopup = ({
     return today.toLocaleDateString(undefined, options);
   };
 
+  console.log("currentUser", currentUser);
+
   return (
     <div className="fixed top-[40px] left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
       <div className="h-[90vh] lg:static lg:mt-0 absolute bottom-0 bg-white md::rounded-[12px] w-[100%] lg:w-[1140px]">
@@ -273,10 +274,7 @@ const PaymentInvoicePopup = ({
                     <p className="text-[12px]  sm:text-[14px]">
                       CIN - U92419DL2021PTC381570
                     </p>
-                    <a
-                      className="text-[12px]  sm:text-[14px]"
-                      href={`${URL}`}
-                    >
+                    <a className="text-[12px]  sm:text-[14px]" href={`${URL}`}>
                       www.mnf.ai
                     </a>
                   </div>
@@ -346,7 +344,10 @@ const PaymentInvoicePopup = ({
         </div>
       </div>
       {termAlert && (
-        <SameNamePop popClose={setTermAlert} title={`You must agree to the terms of payment..!`} />
+        <SameNamePop
+          popClose={setTermAlert}
+          title={`You must agree to the terms of payment..!`}
+        />
       )}
     </div>
   );

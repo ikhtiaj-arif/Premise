@@ -3,8 +3,8 @@ import { FaEllipsisV } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { MyContext } from "../../App";
 import {
-    useGetSavedCharactersQuery,
-    useSaveCharactersMutation,
+  useGetSavedCharactersQuery,
+  useSaveCharactersMutation,
 } from "../../app/EndPoints/Characters/Characters";
 import { useGetPremiseUserPictureQuery } from "../../app/EndPoints/premisePoolApi";
 import { setUser } from "../../app/Slices/userSlice";
@@ -246,7 +246,7 @@ const PremiseCard = ({
   const handleUpdateSavedChar = async () => {
     setCharacterLoading(true);
     try {
-      characterArray.forEach(character => {
+      characterArray.forEach((character) => {
         if (character.is_ai_generated === undefined) {
           character.is_ai_generated = false;
         }
@@ -256,7 +256,7 @@ const PremiseCard = ({
         // id: premiseID,
         id: project_id,
         // body: { char_data: charArr },
-         body: { char_data: charArr, is_draft: true,  premise_id: id, },
+        body: { char_data: charArr, is_draft: true, premise_id: id },
       };
 
       const response = await saveCharacter(data);
@@ -277,8 +277,7 @@ const PremiseCard = ({
     }
   };
 
-
-      const handleSaveAsDraft = async () => {
+  const handleSaveAsDraft = async () => {
     setCharacterLoading(true);
     try {
       characterArray.forEach((character) => {
@@ -288,13 +287,11 @@ const PremiseCard = ({
       });
       const charArr = JSON.stringify(characterArray);
       const data = {
-    
         id: project_id,
-        body: { char_data: charArr, is_draft: true,  premise_id: id, },
-        is_draft: true
+        body: { char_data: charArr, is_draft: true, premise_id: id },
+        is_draft: true,
       };
 
-     
       const response = await saveCharacter(data);
 
       if (response) {
@@ -302,7 +299,7 @@ const PremiseCard = ({
         // setEditPopupOpen(false)
         // setOpenCharacterChart(false);
         // setCharSaveDisable(true);
-             setOpenCharacterChart(false);
+        setOpenCharacterChart(false);
         // setCharSaveDisable(true);
         setCharacterLoading(false);
 
@@ -316,7 +313,7 @@ const PremiseCard = ({
   };
 
   // console.log(created_by);
-  const [isDraft, setIsDraft] = useState(true)
+  const [isDraft, setIsDraft] = useState(true);
 
   return (
     <div className="w-[358px] lg:w-[100%] mx-auto border border-[#EAEAEA] hover:shadow-lg rounded-[8px]  ">
@@ -366,7 +363,10 @@ const PremiseCard = ({
                   </p>
                   {created_by?.id === user && (
                     <p className="notranslate text-[#252525] text-[12px]">
-                      {currentProjectName?.slice(0, 20)}
+                      {/* {currentProjectName?.slice(0, 20)} */}
+                      {currentProjectName?.length > 20
+                        ? `${currentProjectName.slice(0, 20)}...`
+                        : currentProjectName}
                     </p>
                   )}
                 </div>
@@ -619,13 +619,13 @@ const PremiseCard = ({
 
         <div className="ml-[15px] flex gap-2 items-center">
           <TranslatePremise
-            {...{transPopClose,setTransPopClose,setViewText}}
+            {...{ transPopClose, setTransPopClose, setViewText }}
             data={{
               id,
               dText,
               source_language,
               project_id,
-            }} 
+            }}
           />
         </div>
       </div>

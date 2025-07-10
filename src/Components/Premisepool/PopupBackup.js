@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   FaCommentDots,
   FaEllipsisV,
@@ -472,7 +472,12 @@ const Popup = ({ popClose, data, refetch, transText }) => {
                         </h4>
                         <p className="text-[#616161] text-[10px] flex flex-col font-[400] leading-[12px]">
                           {created_by?.id === user && (
-                            <p>{currentProjectName?.slice(0, 20)}</p>
+                            <p>
+                              {/* {currentProjectName?.slice(0, 20)} */}
+                              {currentProjectName?.length > 20
+                                ? `${currentProjectName.slice(0, 20)}...`
+                                : currentProjectName}
+                            </p>
                           )}
                           {formattedDate}, {formattedTime}
                         </p>

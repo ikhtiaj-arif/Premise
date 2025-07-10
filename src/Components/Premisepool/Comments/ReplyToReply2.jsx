@@ -67,6 +67,8 @@ const ReplyToReply2 = ({
   const [childReplies, setChildReplies] = useState(false);
 
   const [suggestDisable, setSuggestDisable] = useState(false);
+  const [replyChildTextCount, setReplyChildTextCount] = useState(0);
+  const [childReplyText, setChildReplyText] = useState("");
 
   const [noAccessLbPopup, setNoAccessLbPopup] = useState(null);
 
@@ -158,7 +160,7 @@ const ReplyToReply2 = ({
     if (response) {
       childReplyRef.current.value = "";
       // setReplyChildTextCount(0);
-     setChildReplyText("")
+      setChildReplyText("");
       replyRefetch();
 
       toast.success("Reply added!", {
@@ -170,8 +172,6 @@ const ReplyToReply2 = ({
     }
     setDisableBtn(false);
   };
-  const [replyChildTextCount, setReplyChildTextCount] = useState(0);
-  const [childReplyText, setChildReplyText] = useState("");
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && !disableBtn) {

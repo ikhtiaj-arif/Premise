@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import fbIcon from "../../../../img/fb_icon.png";
 import icon_3 from "../../../../img/icon_3.png";
 import icon_4 from "../../../../img/icon_4.png";
@@ -18,7 +19,8 @@ const SharePopup = ({ popClose }) => {
     try {
       await navigator.clipboard.writeText(link);
       setIsCopy(true);
-      console.log("Text copied to clipboard:", link);
+      toast.success("Copied successfully!");
+      // console.log("Text copied to clipboard:", link);
     } catch (err) {
       console.error("Error copying text to clipboard:", err);
     }
@@ -30,6 +32,7 @@ const SharePopup = ({ popClose }) => {
       messageSection.click();
     }
     handleCopyToClipboard();
+
     popClose(false);
   };
   return (
