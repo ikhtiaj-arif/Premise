@@ -84,7 +84,7 @@ const Popup = ({
     project_id,
   } = data;
   // console.log("popData", data);
-  const { data: characters, isCharLoading } =
+  const { data: characters, refetch: charRefetch, isCharLoading } =
     useGetSavedCharactersQuery(project_id);
   const [notifyPopup, setNotifyPopup] = useState(false);
   const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
@@ -138,9 +138,10 @@ const Popup = ({
       if (response) {
         // setAddNewCharacter(false)
         // setEditPopupOpen(false)
-        setOpenCharacterChart(false);
         // setCharSaveDisable(true);
         setCharacterLoading(false);
+        // setOpenCharacterChart(false);
+        charRefetch()
 
         // toast.success("characters updated!")
       }
@@ -150,9 +151,6 @@ const Popup = ({
       // console.error("Error updating characters:", error);
     }
   };
-
-
-
 
   const handleSaveAsDraft = async () => {
     setCharacterLoading(true);
@@ -950,6 +948,7 @@ const Popup = ({
               characterLoading={isCharLoading}
               project_id={project_id}
               source_language={premiseData?.source_language}
+              setOpenCharacterChart={setOpenCharacterChart}
             />
           )}
           {openViewTranslationsPop && (
@@ -1000,6 +999,7 @@ const Popup = ({
               characterLoading={isCharLoading}
               project_id={premiseData?.project_id}
               source_language={premiseData?.source_language}
+              setOpenCharacterChart={setOpenCharacterChart}
             />
           )}
           {openTransOtherPop && (
