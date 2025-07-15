@@ -341,7 +341,7 @@ const ReplyToReply2 = ({
                   }
                   className="flex items-center"
                 >
-                  {childReply?.user?.first_name &&
+                  {childReply?.user?.first_name ||
                   childReply?.user?.last_name ? (
                     <p className="notranslate text-[14px] font-[500] hover:text-[#33b0ca]">
                       {childReply?.user?.first_name}{" "}

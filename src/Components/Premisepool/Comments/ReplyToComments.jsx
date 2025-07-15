@@ -306,6 +306,8 @@ const ReplyToComments = ({
     }
   };
 
+  console.log("reply to comments", reply?.user);
+
   return (
     <div
       data-reply
@@ -366,7 +368,7 @@ const ReplyToComments = ({
                     }
                     className="flex items-center"
                   >
-                    {reply?.user?.first_name && reply?.user?.last_name ? (
+                    {reply?.user?.first_name || reply?.user?.last_name ? (
                       <p className="notranslate text-[14px] font-[500] hover:text-[#33b0ca] ">
                         {reply?.user?.first_name} {reply?.user?.last_name}
                       </p>
@@ -728,7 +730,7 @@ const ReplyToComments = ({
                             fromNew={fromNew}
                             // data-reply-reply
                             handleAddToBeat={handleAddToBeat}
-                            key={idx+ childReply.id}
+                            key={idx + childReply.id}
                             setCommentText={setCommentText}
                             setBeatCommentText={setBeatCommentText}
                             childReplyIDNext={childReply?.id}

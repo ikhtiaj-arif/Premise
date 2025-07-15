@@ -521,7 +521,7 @@ const AllComments = ({
 
 
   // console.log(    "owners",      data?.premiseOwner?.id, user, comments?.user?.id );
-  // console.log(         comments?.text?.includes("?") );
+  console.log(   "comment",    comments?.user );
   return (
     <div className=" flex flex-col justify-end w-full relative ">
       <div className="md:ml-10">

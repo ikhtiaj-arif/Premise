@@ -67,7 +67,7 @@ const PremisePreview2 = ({
 
   const options1 = {
     "Short film": [
-      { text: "About 2 Minutes", value: "Upto 2 Minutes" },
+      // { text: "About 2 Minutes", value: "Upto 2 Minutes" },
       { text: "About 5 Minutes", value: "2 to 4 Minutes" },
       { text: "About 15 Minutes", value: "5 to 14 Minutes" },
       { text: "About 25 Minutes", value: "15 to 29 Minutes" },
@@ -93,7 +93,7 @@ const PremisePreview2 = ({
 
   const options = {
     "Short film": [
-      { text: "About 2 Minutes", value: "Upto 2 Minutes", hi: "लगभग 2 मिनट" },
+      // { text: "About 2 Minutes", value: "Upto 2 Minutes", hi: "लगभग 2 मिनट" },
       { text: "About 5 Minutes", value: "2 to 4 Minutes", hi: "लगभग 5 मिनट" },
       {
         text: "About 15 Minutes",

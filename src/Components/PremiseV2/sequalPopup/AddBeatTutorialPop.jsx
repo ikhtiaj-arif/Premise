@@ -132,7 +132,20 @@ const AddBeatTutorialPop = ({ popClose }) => {
               <h2 className="text-[12px] md:text-[14px] leading-4 md:leading-5 px-2 font-medium text-[#252525]  text-center">
                 {currentPopupData.message}
               </h2>
-
+              <div className="flex items-center justify-center gap-2">
+                <input
+                  type="checkbox"
+                  id="do-not-show"
+                  className="cursor-pointer"
+                  onChange={() => setDontShowPop(!dontShowPop)}
+                />
+                <label
+                  htmlFor="do-not-show"
+                  className="cursor-pointer text-[12px] md:text-sm text-gray-700"
+                >
+                  Do not show this to me again.
+                </label>
+              </div>
               <img
                 src={currentPopupData.imgUrl}
                 alt="Popup0Image"
@@ -172,21 +185,6 @@ const AddBeatTutorialPop = ({ popClose }) => {
                   Let's start!
                 </button>
               )}
-            </div>
-
-            <div className="flex items-center justify-center gap-2">
-              <input
-                type="checkbox"
-                id="do-not-show"
-                className="cursor-pointer"
-                onChange={() => setDontShowPop(!dontShowPop)}
-              />
-              <label
-                htmlFor="do-not-show"
-                className="cursor-pointer text-[12px] md:text-sm text-gray-700"
-              >
-                Do not show this to me again.
-              </label>
             </div>
           </div>
         </div>

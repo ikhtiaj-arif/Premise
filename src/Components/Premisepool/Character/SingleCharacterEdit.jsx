@@ -603,6 +603,7 @@ const SingleCharacterAdd = ({
                     Occupation
                   </label>
                   <textarea
+                    disabled={onlyAdd && isDisabled}
                     autoComplete="off"
                     required
                     onChange={(e) => handleInputChange(e, setOccupation)}
@@ -635,7 +636,7 @@ const SingleCharacterAdd = ({
                     type="text"
                     maxLength={300}
                     name="background"
-                    // disabled={isDisabled}
+                    disabled={onlyAdd && isDisabled}
                     translate="no"
                     placeholder="Background"
                     ref={backgroundRef}
@@ -659,7 +660,7 @@ const SingleCharacterAdd = ({
                     required
                     type="text"
                     maxLength={300}
-                    // disabled={isDisabled}
+                    disabled={onlyAdd && isDisabled}
                     name="personality"
                     translate="no"
                     placeholder="Personality"
@@ -684,7 +685,7 @@ const SingleCharacterAdd = ({
                     type="text"
                     maxLength={300}
                     name="individualwant"
-                    // disabled={isDisabled}
+                    disabled={onlyAdd && isDisabled}
                     translate="no"
                     placeholder="Individual want"
                     ref={individualWantRef}
@@ -708,7 +709,7 @@ const SingleCharacterAdd = ({
                     required
                     type="text"
                     maxLength={300}
-                    // disabled={isDisabled}
+                    disabled={onlyAdd && isDisabled}
                     name="characterjourney"
                     translate="no"
                     placeholder="Character's journey"
@@ -733,7 +734,7 @@ const SingleCharacterAdd = ({
                     type="text"
                     maxLength={300}
                     name="Blood_relationship"
-                    // disabled={isDisabled}
+                    disabled={onlyAdd && isDisabled}
                     translate="no"
                     placeholder="Blood relationship"
                     ref={bloodRelationshipRef}
@@ -759,7 +760,7 @@ const SingleCharacterAdd = ({
                     type="text"
                     maxLength={300}
                     name="Family_relationship"
-                    // disabled={isDisabled}
+                    disabled={onlyAdd && isDisabled}
                     translate="no"
                     placeholder="Family relationship"
                     ref={familyRelationshipRef}
@@ -792,7 +793,7 @@ const SingleCharacterAdd = ({
                     type="text"
                     maxLength={300}
                     name="Professional_relationship"
-                    // disabled={isDisabled}
+                    disabled={onlyAdd && isDisabled}
                     translate="no"
                     placeholder="Professional relationship"
                     ref={professionalRelationshipRef}
