@@ -25,7 +25,6 @@ const AfterFinalPostPremisePop = ({ popClose }) => {
     else localStorage.setItem("afterFinalPostPremise", false);
   }, [dontShowPop]);
 
-
   //   const {
   //     currentPopup,
   //     incrementPopup,
@@ -219,7 +218,7 @@ const AfterFinalPostPremisePop = ({ popClose }) => {
             <div className="flex flex-col items-center gap-[6px] mb-5 mt-1">
               {currentPopupData?.multiMessage ? (
                 <ul className="w-full pl-10 list-disc mt-2 pr-2">
-                  {currentPopupData?.multiMessage.map((message) => (
+                  {currentPopupData?.multiMessage?.map((message) => (
                     <li className="text-[12px] md:text-[14px]  text-[#252525] leading-4 md:leading-5 ">
                       {message}
                     </li>
@@ -230,6 +229,21 @@ const AfterFinalPostPremisePop = ({ popClose }) => {
                   {currentPopupData.message}
                 </h2>
               )}
+
+              <div className="flex items-center justify-center gap-2">
+                <input
+                  type="checkbox"
+                  id="do-not-show"
+                  className="cursor-pointer"
+                  onChange={() => setDontShowPop(!dontShowPop)}
+                />
+                <label
+                  htmlFor="do-not-show"
+                  className="cursor-pointer text-[12px] md:text-sm text-gray-700"
+                >
+                  Do not show this to me again.
+                </label>
+              </div>
 
               <img
                 src={currentPopupData.imgUrl}
@@ -270,21 +284,6 @@ const AfterFinalPostPremisePop = ({ popClose }) => {
                   Let's start!
                 </button>
               )}
-            </div>
-
-            <div className="flex items-center justify-center gap-2">
-              <input
-                type="checkbox"
-                id="do-not-show"
-                className="cursor-pointer"
-                onChange={() => setDontShowPop(!dontShowPop)}
-              />
-              <label
-                htmlFor="do-not-show"
-                className="cursor-pointer text-[12px] md:text-sm text-gray-700"
-              >
-                Do not show this to me again.
-              </label>
             </div>
           </div>
         </div>

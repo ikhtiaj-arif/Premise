@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
 import { toast } from "react-toastify";
@@ -225,7 +225,7 @@ const ReplyToReply3 = ({
                   }
                   className="flex items-center"
                 >
-                  {childReply?.user?.first_name &&
+                  {childReply?.user?.first_name ||
                   childReply?.user?.last_name ? (
                     <p className="notranslate text-[14px] font-[500] hover:text-[#33b0ca]">
                       {childReply?.user?.first_name}{" "}

@@ -32,6 +32,7 @@ const CharacterEditablePop = ({
   setOpenOnSaveCharactersDemoPop,
   is_draft,
   setPreviewAfterDraft,
+  setOpenCharacterChart,
 }) => {
   const [modifiedCharacters, setModifiedCharacters] = useState([]);
 
@@ -284,6 +285,9 @@ const CharacterEditablePop = ({
                   isAddedByMe: false,
                   source_language,
                   is_draft,
+                  duplicateCharacterArray,
+                  characterArray,
+                  handleUpdateSavedChar,
                 }}
               />
             ))}
@@ -310,6 +314,9 @@ const CharacterEditablePop = ({
                   isAddedByMe: true,
                   source_language,
                   is_draft,
+                  duplicateCharacterArray,
+                  characterArray,
+                  handleUpdateSavedChar,
                 }}
               />
             ))}
@@ -355,9 +362,10 @@ const CharacterEditablePop = ({
                   {is_draft ? (
                     <button
                       disabled={!saveCheckUser || characterLoading}
-                      onClick={() => {
-                        handleUpdateSavedChar();
+                      onClick={async () => {
+                        await handleUpdateSavedChar();
                         setPreviewAfterDraft(true);
+                        setOpenCharacterChart(false);
                       }}
                       className={`${
                         saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
@@ -368,8 +376,9 @@ const CharacterEditablePop = ({
                   ) : (
                     <button
                       disabled={!saveCheckUser || characterLoading}
-                      onClick={() => {
-                        handleUpdateSavedChar();
+                      onClick={async () => {
+                        await handleUpdateSavedChar();
+                        setOpenCharacterChart(false);
                       }}
                       className={`${
                         saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
@@ -396,8 +405,9 @@ const CharacterEditablePop = ({
           ) : (
             <button
               disabled={characterLoading}
-              onClick={() => {
-                handleUpdateSavedChar();
+              onClick={async () => {
+                await handleUpdateSavedChar();
+                setOpenCharacterChart(false);
               }}
               className={`${
                 !characterLoading ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"

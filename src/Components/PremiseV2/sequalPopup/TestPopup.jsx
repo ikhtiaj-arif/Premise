@@ -252,6 +252,20 @@ const TestPopup = () => {
               <h2 className="text-[16px] leading-5 px-4 font-medium text-[#252525] text-center">
                 {currentPopupData.message}
               </h2>
+              <div className="flex items-center justify-center gap-2">
+                <input
+                  type="checkbox"
+                  id="do-not-show"
+                  className="cursor-pointer"
+                  onChange={handleCheckboxChange}
+                />
+                <label
+                  htmlFor="do-not-show"
+                  className="cursor-pointer text-sm text-gray-700"
+                >
+                  Do not show this to me again.
+                </label>
+              </div>
 
               <img
                 src={currentPopupData.imgUrl}
@@ -292,21 +306,6 @@ const TestPopup = () => {
                   Let's start!
                 </button>
               )}
-            </div>
-
-            <div className="flex items-center justify-center gap-2">
-              <input
-                type="checkbox"
-                id="do-not-show"
-                className="cursor-pointer"
-                onChange={handleCheckboxChange}
-              />
-              <label
-                htmlFor="do-not-show"
-                className="cursor-pointer text-sm text-gray-700"
-              >
-                Do not show this to me again.
-              </label>
             </div>
           </div>
         </div>

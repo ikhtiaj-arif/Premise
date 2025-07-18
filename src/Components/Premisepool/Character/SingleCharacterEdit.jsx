@@ -226,7 +226,7 @@ const SingleCharacterAdd = ({
   };
 
   // const isDisabled = editIdx === 0;
-  const isDisabled = onlyAdd || editIdx === 0;
+  const isDisabled = onlyAdd;
   const [suggestCharacters, updatePostPremiseResInfo] =
     useSuggestCharactersMutation();
   const [disabledEdit, setDisabledEdit] = useState(false);
@@ -456,7 +456,7 @@ const SingleCharacterAdd = ({
                               : "text-[#616161]"
                           }`}`
                     }  px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[208px] h-[42px]   `}
-                    disabled={isDisabled}
+                    disabled={isDisabled || editIdx === 0}
                   />
                 </div>
               </div>
@@ -538,12 +538,15 @@ const SingleCharacterAdd = ({
                     type="button"
                     onClick={() => setGenderDropdownOpen(!genderDropdownOpen)}
                     className={`text-left px-2 text-[14px] ${
-                      isDisabled ? "cursor-default" : "cursor-pointer"
+                      isDisabled || editIdx === 0
+                        ? "cursor-default"
+                        : "cursor-pointer"
                     } bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] mb-[22px] mt-[12px] md:my-0 h-[41px] w-full indent-1 ${
                       gender === inanimateObjectOptions(sourceLanguageName)
                         ? "md:w-[172px]"
                         : "md:w-[97px]"
                     }`}
+                    disabled={isDisabled || editIdx === 0}
                   >
                     {gender || "Gender"}
                     <div className="absolute inset-y-5  md:inset-y-2 right-[2px] bg-[#fafafa] flex items-center h-[25px] px-2 pointer-events-none">
@@ -593,7 +596,7 @@ const SingleCharacterAdd = ({
                       // className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[42px]"
                       placeholder="age"
                       required
-                      disabled={isDisabled}
+                      disabled={isDisabled || editIdx === 0}
                     />
                   </div>
                 )}
@@ -603,6 +606,7 @@ const SingleCharacterAdd = ({
                     Occupation
                   </label>
                   <textarea
+                    disabled={onlyAdd && isDisabled}
                     autoComplete="off"
                     required
                     onChange={(e) => handleInputChange(e, setOccupation)}
@@ -635,7 +639,7 @@ const SingleCharacterAdd = ({
                     type="text"
                     maxLength={300}
                     name="background"
-                    // disabled={isDisabled}
+                    disabled={onlyAdd && isDisabled}
                     translate="no"
                     placeholder="Background"
                     ref={backgroundRef}
@@ -659,7 +663,7 @@ const SingleCharacterAdd = ({
                     required
                     type="text"
                     maxLength={300}
-                    // disabled={isDisabled}
+                    disabled={onlyAdd && isDisabled}
                     name="personality"
                     translate="no"
                     placeholder="Personality"
@@ -684,7 +688,7 @@ const SingleCharacterAdd = ({
                     type="text"
                     maxLength={300}
                     name="individualwant"
-                    // disabled={isDisabled}
+                    disabled={onlyAdd && isDisabled}
                     translate="no"
                     placeholder="Individual want"
                     ref={individualWantRef}
@@ -708,7 +712,7 @@ const SingleCharacterAdd = ({
                     required
                     type="text"
                     maxLength={300}
-                    // disabled={isDisabled}
+                    disabled={onlyAdd && isDisabled}
                     name="characterjourney"
                     translate="no"
                     placeholder="Character's journey"
@@ -733,7 +737,7 @@ const SingleCharacterAdd = ({
                     type="text"
                     maxLength={300}
                     name="Blood_relationship"
-                    // disabled={isDisabled}
+                    disabled={onlyAdd && isDisabled}
                     translate="no"
                     placeholder="Blood relationship"
                     ref={bloodRelationshipRef}
@@ -759,7 +763,7 @@ const SingleCharacterAdd = ({
                     type="text"
                     maxLength={300}
                     name="Family_relationship"
-                    // disabled={isDisabled}
+                    disabled={onlyAdd && isDisabled}
                     translate="no"
                     placeholder="Family relationship"
                     ref={familyRelationshipRef}
@@ -792,7 +796,7 @@ const SingleCharacterAdd = ({
                     type="text"
                     maxLength={300}
                     name="Professional_relationship"
-                    // disabled={isDisabled}
+                    disabled={onlyAdd && isDisabled}
                     translate="no"
                     placeholder="Professional relationship"
                     ref={professionalRelationshipRef}

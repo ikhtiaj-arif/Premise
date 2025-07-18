@@ -171,7 +171,16 @@ const NoAccessLbPopUp = ({
                       onChange={handleRadioChange}
                       className="mt-1"
                     />
-                    <span className=" flex-1"> Activate Free Trial</span>
+                    <span
+                      className={`${
+                        selectedOption === "activate"
+                          ? "text-[#33B0CA] flex-1 cursor-pointer"
+                          : "text-[#252525] flex-1 cursor-pointer"
+                      }`}
+                    >
+                      {" "}
+                      Activate Free Trial
+                    </span>
                   </label>
                 </div>
               )}
@@ -227,7 +236,13 @@ const NoAccessLbPopUp = ({
                       className="mt-1"
                     />
                   )}
-                  <span className=" flex-1 ">
+                  <span
+                    className={`${
+                      selectedOption === "nextPackage"
+                        ? "text-[#33B0CA] flex-1 cursor-pointer"
+                        : "text-[#252525] flex-1 cursor-pointer"
+                    }`}
+                  >
                     Buy next Juggernaut Package (Please note that the unused
                     facilities of the existing package will be carried forward
                     in the next package).

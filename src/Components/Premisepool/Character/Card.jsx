@@ -4,6 +4,7 @@ import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { getLanguageName } from "../../PremiseV2/utilityFuncitons/functions";
 import ConfirmationModal from "../Comments/ConfirmationModal";
+import CharacterSaveAlert from "./CharacterSaveAlert";
 import { inanimateObject } from "./inanimateObject";
 
 const CharacterShowCard = ({
@@ -19,20 +20,24 @@ const CharacterShowCard = ({
   isAddedByMe,
   source_language,
   is_draft,
+  duplicateCharacterArray,
+  characterArray,
+  handleUpdateSavedChar,
 }) => {
   //console.log("character", character?.is_ai_generated,index);
   const sourceLanguageName = getLanguageName(source_language);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [alertSavePopup, setAlertSavePopup] = useState(false);
 
   // console.log(onlyAdd);
-  const handleDeleteClick = () => {
-    if (onlyAdd && character?.id) {
-      setConfirmDelete(true);
-    } else {
-      setDeleteChar(character.role);
-      setDeleteIdx(index);
-    }
-  };
+  // const handleDeleteClick = () => {
+  //   if (onlyAdd && character?.id) {
+  //     setConfirmDelete(true);
+  //   } else {
+  //     setDeleteChar(character.role);
+  //     setDeleteIdx(index);
+  //   }
+  // };
 
   const inanimateObjectOptions = (language) => {
     if (inanimateObject[language]) {
@@ -41,12 +46,28 @@ const CharacterShowCard = ({
     return null; // Return null if no value is found
   };
 
-  // console.log(
-  //   onlyAdd,
-
-  //   is_draft
-  // );
-  // console.log("iiiiiii",source_language, inanimateObjectOptions(sourceLanguageName));
+  const handleDeleteClick = () => {
+    if (onlyAdd && character?.id) {
+      if (characterArray.length > duplicateCharacterArray.length) {
+        setAlertSavePopup(true);
+        return;
+      }
+      setConfirmDelete(true);
+    } else {
+      setDeleteChar(character.role);
+      setDeleteIdx(index);
+    }
+  };
+  const handleDelete = () => {
+    if (onlyAdd && character?.id) {
+      setConfirmDelete(true);
+      setAlertSavePopup(false);
+    } else {
+      setAlertSavePopup(false);
+      setDeleteChar(character.role);
+      setDeleteIdx(index);
+    }
+  };
 
   return (
     <div className="flex text-[#252525] h-auto max-h-[36px] gap-[3px] justify-between items-center my-1 w-full">
@@ -130,6 +151,13 @@ const CharacterShowCard = ({
           onConfirm={() => deleteCharacterFun(character)}
           title="Are you sure you want to delete this Character?"
           content="Are you sure you want to delete this item?"
+        />
+      )}
+      {alertSavePopup && (
+        <CharacterSaveAlert
+          handleSaveBeforeDelete={handleUpdateSavedChar}
+          handleDelete={handleDelete}
+          popClose={() => setAlertSavePopup(false)}
         />
       )}
     </div>

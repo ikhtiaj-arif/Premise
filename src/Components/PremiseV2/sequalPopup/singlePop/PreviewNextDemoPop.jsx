@@ -54,28 +54,26 @@ const PreviewNextDemoPop = ({ popClose }) => {
                     <span className="font-[600]">Delete</span> Characters.
                   </li>
                 </ul>
-
+                <div className="flex items-center justify-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="do-not-show"
+                    className="cursor-pointer"
+                    // onChange={handleCheckboxChange}
+                    onChange={() => setDontShowPop(!dontShowPop)}
+                  />
+                  <label
+                    htmlFor="do-not-show"
+                    className="cursor-pointer text-[12px] md:text-sm text-gray-700"
+                  >
+                    Do not show this to me again.
+                  </label>
+                </div>
                 <img
                   src={premise_sr_01}
                   alt="Popup-Image"
                   className=" max-w-[230px]  shadow-md rounded-md mt-4"
                 />
-              </div>
-
-              <div className="flex items-center justify-center gap-2">
-                <input
-                  type="checkbox"
-                  id="do-not-show"
-                  className="cursor-pointer"
-                  // onChange={handleCheckboxChange}
-                  onChange={() => setDontShowPop(!dontShowPop)}
-                />
-                <label
-                  htmlFor="do-not-show"
-                  className="cursor-pointer text-[12px] md:text-sm text-gray-700"
-                >
-                  Do not show this to me again.
-                </label>
               </div>
             </div>
           </div>

@@ -147,6 +147,21 @@ const NewTabTutorialOtherUser = ({ popClose }) => {
                 </h2>
               )}
 
+              <div className="flex items-center justify-center gap-2">
+                <input
+                  type="checkbox"
+                  id="do-not-show"
+                  className="cursor-pointer"
+                  onChange={() => setDontShowPop(!dontShowPop)}
+                />
+                <label
+                  htmlFor="do-not-show"
+                  className="cursor-pointer text-[12px] md:text-sm text-gray-700"
+                >
+                  Do not show this to me again.
+                </label>
+              </div>
+
               <img
                 src={currentPopupData.imgUrl}
                 alt="Popup-Image"
@@ -186,21 +201,6 @@ const NewTabTutorialOtherUser = ({ popClose }) => {
                   Let's start!
                 </button>
               )}
-            </div>
-
-            <div className="flex items-center justify-center gap-2">
-              <input
-                type="checkbox"
-                id="do-not-show"
-                className="cursor-pointer"
-                onChange={() => setDontShowPop(!dontShowPop)}
-              />
-              <label
-                htmlFor="do-not-show"
-                className="cursor-pointer text-[12px] md:text-sm text-gray-700"
-              >
-                Do not show this to me again.
-              </label>
             </div>
           </div>
         </div>
