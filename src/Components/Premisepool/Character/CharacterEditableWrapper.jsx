@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { useGetSavedCharactersQuery, useSaveCharactersMutation } from "../../../app/EndPoints/Characters/Characters";
+import {
+  useGetSavedCharactersQuery,
+  useSaveCharactersMutation,
+} from "../../../app/EndPoints/Characters/Characters";
 import CharacterEditablePop from "./CharacterEditablePop";
 
 const CharacterEditableWrapper = ({
@@ -16,19 +19,21 @@ const CharacterEditableWrapper = ({
   is_draft,
   id,
   setOpenCharacterChart,
-  refetch
+  refetch,
 }) => {
-    const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
-    const [characterLoading, setCharacterLoading] = useState(true);
-  const { data: characters, isCharLoading } =
-    useGetSavedCharactersQuery(project_id);
+  const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
+  const [characterLoading, setCharacterLoading] = useState(true);
+  const {
+    data: characters,
+    isCharLoading,
+    refetch: charRefetch,
+  } = useGetSavedCharactersQuery(project_id);
 
   useEffect(() => {
     if (characters) setCharacterArray(characters);
   }, [characters]);
 
-
-    const handleUpdateSavedChar = async () => {
+  const handleUpdateSavedChar = async () => {
     setCharacterLoading(true);
     try {
       characterArray.forEach((character) => {
@@ -57,7 +62,7 @@ const CharacterEditableWrapper = ({
         setOpenCharacterChart(false);
         // setCharSaveDisable(true);
         setCharacterLoading(false);
-
+        charRefetch();
         // toast.success("characters updated!")
       }
       return response;
@@ -68,6 +73,7 @@ const CharacterEditableWrapper = ({
   };
 
   // console.log("premiseData?.visible_to", p?.visible_to);
+  console.log("ddddddddddd", characterArray);
   const handleSaveAsDraft = async () => {
     setCharacterLoading(true);
     try {
@@ -76,7 +82,11 @@ const CharacterEditableWrapper = ({
           character.is_ai_generated = false;
         }
       });
+
       const charArr = JSON.stringify(characterArray);
+
+      console.log(JSON.parse(charArr));
+
       const data = {
         id: project_id,
         body: { char_data: charArr, is_draft: true, premise_id: id },
@@ -94,6 +104,7 @@ const CharacterEditableWrapper = ({
         // setCharSaveDisable(true);
         setCharacterLoading(false);
         refetch();
+        charRefetch();
         // toast.success("characters updated!")
       }
       return response;
@@ -102,7 +113,6 @@ const CharacterEditableWrapper = ({
       // console.error("Error updating characters:", error);
     }
   };
-
 
   return (
     <div>

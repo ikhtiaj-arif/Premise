@@ -55,28 +55,32 @@ const AddCharDemoPop = ({ popClose }) => {
                     You can accept or edit above details.
                   </li>
                 </ul>
-
+                <div className="flex items-center justify-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="do-not-show"
+                    className="cursor-pointer"
+                    // onChange={handleCheckboxChange}
+                    onChange={() => setDontShowPop(!dontShowPop)}
+                  />
+                  <label
+                    htmlFor="do-not-show"
+                    className="cursor-pointer text-[12px] md:text-sm text-gray-700"
+                  >
+                    Do not show this to me again.
+                  </label>
+                </div>
                 <img
                   src={premise_sr_01}
                   alt="PopupImage"
                   className=" max-w-[230px]  shadow-md rounded-md mt-4"
                 />
-              </div>
-
-              <div className="flex items-center justify-center gap-2">
-                <input
-                  type="checkbox"
-                  id="do-not-show"
-                  className="cursor-pointer"
-                  // onChange={handleCheckboxChange}
-                  onChange={() => setDontShowPop(!dontShowPop)}
-                />
-                <label
-                  htmlFor="do-not-show"
-                  className="cursor-pointer text-[12px] md:text-sm text-gray-700"
+                <button
+                  onClick={() => popClose(false)}
+                  className="w-[100px] h-[32px]  bg-[#33b0ca] text-white rounded-[8px] px-[12px] text-[14px] font-[600] flex gap-[12px] items-center justify-center"
                 >
-                  Do not show this to me again.
-                </label>
+                  Let's start!
+                </button>
               </div>
             </div>
           </div>

@@ -934,6 +934,7 @@ const PremiseCardV2 = ({
       )}
       {openViewTranslationsPop && (
         <ViewTranslationPop
+        
           popClose={setOpenViewTranslationsPop}
           premiseId={viewTransactionPId}
           popupData

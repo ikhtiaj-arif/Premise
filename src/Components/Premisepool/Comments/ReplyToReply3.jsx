@@ -367,7 +367,7 @@ const ReplyToReply3 = ({
             </>
           ) : (
             <>
-              {(owner === user || childReply?.user?.id === user) && (
+              {(owner === user || childReply?.user?.id === owner) && (
                 <button
                   onClick={() => {
                     handleAddToBeat(childReply);
