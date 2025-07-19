@@ -13,10 +13,11 @@ const ViewTranslationPop = ({
   viewText,
   handleVisibility,
   handleMonetizing,
+  user
 }) => {
   const { data: transactionData, isLoading } =
     useGetPremiseTransactionQuery(premiseId);
-  console.log("transactionData", project_id);
+  // console.log("transactionData", project_id);
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
@@ -69,7 +70,8 @@ const ViewTranslationPop = ({
                       handleMonetizing,
                       refetch,
                       viewText,
-                      project_id
+                      project_id,
+                      user
                     }}
                     transaction={transaction}
                     key={index}

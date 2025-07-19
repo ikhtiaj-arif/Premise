@@ -119,7 +119,7 @@ const NoAccessLbPopUp = ({
             <img
               src={crossIcon}
               alt=""
-              className="w-[40px] h-[40px] z-[99999999] cursor-pointer"
+              className="w-[40px] h-[40px] z-[999] cursor-pointer"
               onClick={() => {
                 setNoAccessPopup(null);
               }}
@@ -195,7 +195,13 @@ const NoAccessLbPopUp = ({
                       onChange={handleRadioChange}
                       className="mt-1"
                     />
-                    <span className=" flex-1">
+                    <span
+                      className={`flex-1 ${
+                        selectedOption === "generate"
+                          ? "text-[#33B0CA] flex-1 cursor-pointer"
+                          : "text-[#252525] flex-1 cursor-pointer"
+                      }`}
+                    >
                       {"Commit to "}
                       <input
                         type="text"

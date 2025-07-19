@@ -74,6 +74,12 @@ const PreviewNextDemoPop = ({ popClose }) => {
                   alt="Popup-Image"
                   className=" max-w-[230px]  shadow-md rounded-md mt-4"
                 />
+                <button
+                  onClick={() => popClose(false)}
+                  className="w-[100px] h-[32px]  bg-[#33b0ca] text-white rounded-[8px] px-[12px] text-[14px] font-[600] flex gap-[12px] items-center justify-center"
+                >
+                  Let's start!
+                </button>
               </div>
             </div>
           </div>

@@ -48,7 +48,7 @@ const CharacterShowCard = ({
 
   const handleDeleteClick = () => {
     if (onlyAdd && character?.id) {
-      if (characterArray.length > duplicateCharacterArray.length) {
+      if (characterArray?.length > duplicateCharacterArray?.length) {
         setAlertSavePopup(true);
         return;
       }

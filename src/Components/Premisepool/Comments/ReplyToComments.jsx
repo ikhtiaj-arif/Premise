@@ -270,7 +270,6 @@ const ReplyToComments = ({
 
   const phrasesToBold = ["Do Think About:", "OR May be", "May be"];
 
-  console.log("ccc", owner === user);
   useEffect(() => {}, []);
 
   const formatText = (text, prefix) => {
@@ -306,7 +305,6 @@ const ReplyToComments = ({
     }
   };
 
-  console.log("reply to comments", reply?.user);
 
   return (
     <div
@@ -624,7 +622,7 @@ const ReplyToComments = ({
                     </>
                   ) : (
                     <>
-                      {(owner === user || reply?.user?.id === user) && (
+                      {(owner === user || reply?.user?.id === owner) && (
                         <button
                           onClick={() => {
                             handleAddToBeat(reply);

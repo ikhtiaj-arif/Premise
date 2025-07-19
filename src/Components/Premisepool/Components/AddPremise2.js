@@ -4,6 +4,9 @@ import { FaKeyboard } from "react-icons/fa";
 import { MdKeyboardBackspace } from "react-icons/md";
 import arrowRight from "../../../img/Icons/ArrowRicon.png";
 import crossIcon from "../../../img/Icons/crossIcon.png";
+import { autoCorrectText } from "../../../shared/utils/AutoCorrect";
+import { checkGrammar } from "../../../shared/utils/GrammerChecker";
+import { useCohereSuggest } from "../../../shared/utils/useCohereSuggest";
 import AddPremiseNextTutorialPop from "../../PremiseV2/sequalPopup/AddPremiseNextTutorialPop";
 import AddPremiseTutorialPop from "../../PremiseV2/sequalPopup/singlePop/AddPremiseTutorialPop";
 import Keyboard from "../Keyboard";
@@ -76,13 +79,40 @@ const AddPremise2 = ({
     setNewText(modifiedText);
     setPreview(true);
   };
+  // const { suggestion } = useSmartSuggest(text);
+  const suggestion = useCohereSuggest(text);
+
   const handleTextChange = (event) => {
     let value = event.target.value;
-
-    // Replace multiple spaces between words with a single space
     value = value.replace(/\s{2,}/g, " ");
+    setText(value);
+  };
 
-    setText(value); // Update the state with the sanitized value
+  const acceptSuggestion = () => {
+    if (suggestion) {
+      setText((prev) => prev + suggestion.replace(prev, ""));
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Tab" && suggestion) {
+      e.preventDefault();
+      acceptSuggestion();
+    }
+  };
+
+  const handleAutoCorrect = async () => {
+    const corrected = await autoCorrectText(text);
+    setText(corrected);
+  };
+
+  //   const suggestion = await autoCompleteSentence(text);
+  //   console.log("suggestion",suggestion);
+  //   setText((prev) => prev + " " + suggestion);
+  // };
+  const handleGrammarCheck = async () => {
+    const corrected = await checkGrammar(text);
+    setText(corrected);
   };
 
   const handleGoBack = () => {
@@ -220,14 +250,29 @@ const AddPremise2 = ({
                       </span>
                       ?
                     </p>
-                    <textarea
+                    {/* <textarea
                       onChange={handleTextChange}
+                      
                       ref={inputRef}
                       name="text"
                       className={`${boldStyle} ${italicStyle} ${underlineStyle} text-[16px] leading-[24px] md:leading-[28px] bg-[#fafafa] border border-[#eaeaea] shadow-md rounded-[8px] w-full md: h-[170px] xl:h-[200px] resize-none text-[#616161]  focus:outline-none px-[20px] py-[12px] overflow-hidden break-words`}
                       maxLength="200"
                       value={text}
-                    />
+                    /> */}
+                  
+
+                        <textarea
+                          onChange={handleTextChange}
+                          onKeyDown={handleKeyDown}
+                          ref={inputRef}
+                          name="text"
+                          className="text-[16px] leading-[24px] md:leading-[28px] bg-transparent border border-[#eaeaea] shadow-md rounded-[8px] w-full h-[170px] xl:h-[200px] resize-none text-[#616161] focus:outline-none px-[20px] py-[12px] overflow-hidden break-words relative z-10"
+                          maxLength={200}
+                          value={text}
+                          spellCheck={true}
+                          // placeholder="Start typing..."
+                        />
+             
                     <div className="text-[14px] leading-[18px] md:text-[12px] md:leading-[16px]  xl:text-[14px] xl:leading-[18px] font-[400] mt-[-4px]">
                       {/* <p className="text-right">?</p> */}
                       <div className="flex flex-row-reverse  items-center gap-5 mt-[-7px]">
