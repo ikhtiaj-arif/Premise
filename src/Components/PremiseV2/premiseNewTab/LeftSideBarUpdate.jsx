@@ -780,7 +780,7 @@ const LeftSideBarUpdate = ({
 
       {selectedLanguage && keyboardVisible && (
         <Draggable handle=".movable-handle">
-          <div className="absolute z-20 w-[650px] top-[230px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
+          <div className="absolute z-20 w-[650px] top-[230px] right-0  bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
             <div className="grid grid-cols-12">
               <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
                 Drag me!! <span className="font-[500]">{selectedLanguage}</span>{" "}
@@ -951,7 +951,6 @@ const LeftSideBarUpdate = ({
       )}
       {openViewTranslationsPop && (
         <ViewTranslationPop
-        
           popClose={setOpenViewTranslationsPop}
           premiseId={viewTransactionPId}
           popupData

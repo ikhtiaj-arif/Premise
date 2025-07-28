@@ -459,6 +459,7 @@ const PremiseCardV2 = ({
   // const [isDraft, setIsDraft] = useState(true);
   const [previewAfterDraft, setPreviewAfterDraft] = useState(false);
   const [sourcePopData, setSourcePopData] = useState();
+
   const [sourcePremiseNotAvailabl, setSourcePremiseNotAvailable] =
     useState(false);
   const handleCheckPremiseData = async (id) => {
@@ -467,9 +468,15 @@ const PremiseCardV2 = ({
         headers: header,
       });
       const premiseData = data?.data;
+      console.log("source data", premiseData);
       // setSourcePopData(premiseData)
 
       if (premiseData) {
+        if (premiseData?.hidden && premiseData?.premiseOwner?.id !== user) {
+          setSourcePremiseNotAvailable(true);
+          return;
+        }
+
         const formattedDate = new Date(
           premiseData?.created_at
         ).toLocaleDateString("en-US", {
@@ -528,7 +535,7 @@ const PremiseCardV2 = ({
   };
 
   return (
-    <div className="w-[358px] lg:w-[100%] mx-auto border border-[#EAEAEA] bg-[#fafafa] hover:shadow-lg rounded-[8px]  ">
+    <div className="w-[358px] lg:w-[100%] max-w-[360px] mx-auto border border-[#EAEAEA] bg-[#fafafa] hover:shadow-lg rounded-[8px]  ">
       {/* upper div */}
       <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-[15px] pt-[15px] pb-[6px]">
         <div className="block ">
@@ -934,7 +941,6 @@ const PremiseCardV2 = ({
       )}
       {openViewTranslationsPop && (
         <ViewTranslationPop
-        
           popClose={setOpenViewTranslationsPop}
           premiseId={viewTransactionPId}
           popupData

@@ -16,7 +16,7 @@ const AddPremiseTutorialPop = ({ popClose }) => {
 
   return (
     <div>
-      <div className="fixed top-0  left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
+      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[20]">
         <div className="lg:static absolute lg:mt-[100px] bottom-0 bg-white rounded-[12px] w-[100%] lg:w-[623px]">
           <div className="relative rounded-[8px] py-3  bg-[#fff] ">
             <div className="absolute right-[45%] top-[-70px] lg:top-[-17px] lg:right-[-18px]">

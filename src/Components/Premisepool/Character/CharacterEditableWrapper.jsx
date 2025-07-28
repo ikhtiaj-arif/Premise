@@ -73,7 +73,7 @@ const CharacterEditableWrapper = ({
   };
 
   // console.log("premiseData?.visible_to", p?.visible_to);
-  console.log("ddddddddddd", characterArray);
+ 
   const handleSaveAsDraft = async () => {
     setCharacterLoading(true);
     try {
@@ -84,8 +84,6 @@ const CharacterEditableWrapper = ({
       });
 
       const charArr = JSON.stringify(characterArray);
-
-      console.log(JSON.parse(charArr));
 
       const data = {
         id: project_id,
