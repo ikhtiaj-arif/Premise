@@ -131,6 +131,14 @@ export const premiseSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["premise"],
     }),
+    //get latest premise
+    getLatestPremise: builder.query({
+      query: (id) => ({
+        url: `ideamall/get_latest_premise/`,
+        method: "GET",
+      }),
+      providesTags: ["premise"],
+    }),
     //get premise revenue
     getPremiseRevenue: builder.query({
       query: (id) => ({
@@ -711,5 +719,6 @@ export const {
   useActivateFreeMutation,useDeleteMessageMutation,
   useDislikeCommentMutation,
   useDislikeCommentReplyMutation,
-  useGetBankDetailsQuery
+  useGetBankDetailsQuery,
+  useGetLatestPremiseQuery
 } = premiseSlice;

@@ -7,6 +7,7 @@ import "./App.css";
 import { useGetMyAllProjectQuery } from "./app/EndPoints/ScriptPad/project";
 import LimitPaymentPage from "./Components/Payment/LimitPaymentPage";
 import PremiseNewTabAccessChecker from "./Components/PremiseV2/premiseNewTab/PremiseNewTabAccessChecker";
+import PremiseSingleCard from "./Components/PremiseV2/PremiseSingleCard";
 import PremiseV2 from "./Components/PremiseV2/Premsie.v2";
 import { URL } from "./Components/utils";
 
@@ -225,6 +226,7 @@ useEffect(() => {
             <Route path="/payment" element={<LimitPaymentPage />} />
             {/* <Route path="/new-tab/:id" element={<PremiseNewTab />} /> */}
             <Route path="/new-tab/:id" element={<PremiseNewTabAccessChecker />} />
+            <Route path="/premise_view" element={<PremiseSingleCard />} />
             <Route path="/:__id/:service" element={<PremiseV2 />} />
           </Routes>
         </TranslationContext.Provider>

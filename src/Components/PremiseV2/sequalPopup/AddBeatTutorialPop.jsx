@@ -22,7 +22,7 @@ const AddBeatTutorialPop = ({ popClose }) => {
   //     decrementPopup,
   //   } = useContext(MyContext);
   const [currentPopup, setCurrentPopup] = useState(1); // Default to popup 1
-  const totalPopups = 3;
+  const totalPopups = 4;
 
   useEffect(() => {
     const savedPopupNumber = parseInt(
@@ -179,7 +179,10 @@ const AddBeatTutorialPop = ({ popClose }) => {
                 </div>
               ) : (
                 <button
-                  onClick={handleNextPopup}
+                  onClick={() => {
+                    handleNextPopup();
+                    setDontShowPop(true);
+                  }}
                   className="w-[100px] h-[32px]  bg-[#33b0ca] text-white rounded-[8px] px-[12px] text-[14px] font-[600] flex gap-[12px] items-center justify-center"
                 >
                   Let's start!

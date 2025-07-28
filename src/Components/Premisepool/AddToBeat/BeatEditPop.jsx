@@ -686,7 +686,7 @@ const BeatEditPop = ({
                 >
                   {!beatPostLoading && (
                     <button
-                      className="absolute left-0 top-0 lg:hidden "
+                      className="absolute left-0 md:left-4 top-0 lg:hidden "
                       onClick={() => {
                         popClose();
                         commentRefetch();
@@ -714,11 +714,11 @@ const BeatEditPop = ({
                     </h1>
                   </div>
 
-                  <div className="px-[12px] md:px-[33px] pb-[4px] ">
+                  <div className="px-[12px] md:px-[43px] lg:px-[33px] pb-[4px] ">
                     {!doNotShowBox && (
                       <div>
                         {readMore && (
-                          <div className="leading-[20px]">
+                          <div className="leading-[20px] mt-2">
                             <h5 className="text-[14px] font-[400] pb-[8px]">
                               <span className="pl-[20px] ">A</span> beat
                               describes a moment or event which forwards to
