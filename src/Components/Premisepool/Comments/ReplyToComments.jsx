@@ -305,18 +305,17 @@ const ReplyToComments = ({
     }
   };
 
-
   return (
     <div
       data-reply
       className={`w-[93%] ${
-        fromNew ? "w-[95%]" : "lg:w-[674px]"
+        fromNew ? "w-[94%]" : "lg:w-[674px]"
       }  ml-[5px] md:ml-[50px]  rounded-sm flex items-center gap-1`}
     >
       <div className=" md:w-[97%] ">
         <div
-          className={` w-full relative ml-[16px] ${
-            fromNew ? "md:ml-[33px]" : "md:ml-[45px]"
+          className={` w-[97%] relative ml-[16px] ${
+            fromNew ? "md:ml-[63px]" : "md:ml-[45px]"
           }`}
         >
           <div
@@ -701,13 +700,14 @@ const ReplyToComments = ({
               data-nest-reply
               className="w-[96%] md:w-[94%]  md:mr-[4px] mb-[8px] ml-auto"
             >
-              <div
+              <div className={``}>
+                {/* <div
                 className={`${
                   hasManyReplies
                     ? "w-full max-h-[300px] overflow-y-auto pr-2"
                     : ""
                 }`}
-              >
+              > */}
                 {reply?.child_replies &&
                   reply?.child_replies
                     ?.slice() // Create a shallow copy to avoid mutating the original array

@@ -1007,8 +1007,12 @@ const BeatEditPop = ({
                           )}
 
                           <button
-                            disabled={beatPostLoading}
-                            className="bg-[#33B0CA] text-[#FAFAFA] border border-[#33B0CA] text-[14px] font-[600]  rounded-[8px] min-w-[74px] min-h-[32px] px-[8px] hover:shadow-md shadow-[#252525] hover:bg-[#33B0CA] "
+                            disabled={beatPostLoading || transLoading}
+                            className={`${
+                              beatPostLoading || transLoading
+                                ? "bg-[#ACDDE7]"
+                                : "bg-[#33B0CA] border-[#33B0CA]"
+                            }  text-[#FAFAFA] border  text-[14px] font-[600]  rounded-[8px] min-w-[74px] min-h-[32px] px-[8px] hover:shadow-md shadow-[#252525]  `}
                             onClick={() => handleSubmitBeatToProject()}
                           >
                             Next

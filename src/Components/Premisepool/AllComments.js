@@ -1151,12 +1151,15 @@ const AllComments = ({
         <div>
           {
             <div
+              className={``}
+            >
+            {/* <div
               className={`${
                 hasManyReplies
                   ? "max-h-[40vh] overflow-y-auto pr-2 overflow-x-hidden"
                   : ""
               }`}
-            >
+            > */}
               {!isReplyLoading &&
                 replyData?.replies
                   ?.slice() // Create a shallow copy to avoid mutating the original array
