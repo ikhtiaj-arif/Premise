@@ -595,7 +595,55 @@ const LeftSideBarUpdate = ({
                         />
                       </div>
                     </div>
-                    <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full max-h-[248px] h-[50vh] md:h-[38vh] xl:h-[50vh] lg:max-h-[428px] overflow-y-auto">
+                    <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full h-auto max-h-[248px] lg:max-h-[313px] xl:max-h-[408px] overflow-y-auto">
+                      {finalCharacters?.map((character, index) => (
+                        <CharacterShowCard
+                          {...{
+                            character,
+                            index,
+                            setEditData,
+                            setEditIdx,
+                            setDeleteIdx,
+                            setEditPopupOpen,
+                            setDeleteChar,
+                            onlyAdd,
+                            deleteCharacterFun,
+                            source_language,
+                          }}
+                        />
+                      ))}
+                      {finalCharacters?.map((character, index) => (
+                        <CharacterShowCard
+                          {...{
+                            character,
+                            index,
+                            setEditData,
+                            setEditIdx,
+                            setDeleteIdx,
+                            setEditPopupOpen,
+                            setDeleteChar,
+                            onlyAdd,
+                            deleteCharacterFun,
+                            source_language,
+                          }}
+                        />
+                      ))}
+                      {finalCharacters?.map((character, index) => (
+                        <CharacterShowCard
+                          {...{
+                            character,
+                            index,
+                            setEditData,
+                            setEditIdx,
+                            setDeleteIdx,
+                            setEditPopupOpen,
+                            setDeleteChar,
+                            onlyAdd,
+                            deleteCharacterFun,
+                            source_language,
+                          }}
+                        />
+                      ))}
                       {finalCharacters?.map((character, index) => (
                         <CharacterShowCard
                           {...{

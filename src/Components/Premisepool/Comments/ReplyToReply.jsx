@@ -731,7 +731,7 @@ const ReplyToReply = ({
         </div>
       )}
       {childReplies && (
-        <div className="w-[96%] md:w-[88%] mr-0 md:mr-[22px] mb-[8px] ml-auto">
+        <div className="w-[96%] md:w-[91%] mr-0 md:mr-[22px] mb-[8px] ml-auto">
           {childReply?.child_replies &&
             childReply?.child_replies
               ?.slice() // Create a shallow copy to avoid mutating the original array
