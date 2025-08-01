@@ -273,7 +273,8 @@ const PremiseNewTab = ({
   }
 
   return (
-    <div className="w-[95%] max-w-[1445px]  mx-auto">
+   <div>
+     <div className="fixed top-[70px] left-1/2 -translate-x-1/2 w-[95%] max-w-[1445px] overflow-y-hidden">
       {!isPremiseLoading &&
       !isCommentLoading &&
       premiseDataR &&
@@ -331,7 +332,7 @@ const PremiseNewTab = ({
 
             <div
               ref={lastCommentRef}
-              className="w-full relative lg:h-[83vh] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl"
+              className="w-full relative lg:h-[81vh] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-2xl"
             >
               {isSearchLoading || isCommentLoading ? (
                 <div>
@@ -413,7 +414,7 @@ const PremiseNewTab = ({
             <div className="w-full mr-4 ">
               <div
                 ref={lastCommentRef}
-                className="w-full relative lg:h-[83vh] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl"
+                className="w-full relative lg:h-[81vh] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl"
               >
                 {isSearchLoading || isCommentLoading ? (
                   <div>
@@ -658,6 +659,7 @@ const PremiseNewTab = ({
           </div> */}
         </div>
       )}
+        </div>
       {openNewTabTutorialPop && !openNewTabTutorialPopOtherUser && (
         <NewTabTutorialPop popClose={() => setOpenNewTabTutorialPop(false)} />
       )}
@@ -667,7 +669,7 @@ const PremiseNewTab = ({
         />
       )} */}
       {<></>}
-    </div>
+   </div>
   );
 };
 
