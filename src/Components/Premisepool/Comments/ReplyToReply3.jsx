@@ -260,7 +260,7 @@ const ReplyToReply3 = ({
                 : replyText}
             </p>
           </div>{" "}
-          <div className="  flex flex-col md:flex-row justify-center gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
+          <div className="  flex flex-col lg:flex-row justify-center gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
             <CommentTranslator
               comment={childReply}
               translateComment={translateComment}

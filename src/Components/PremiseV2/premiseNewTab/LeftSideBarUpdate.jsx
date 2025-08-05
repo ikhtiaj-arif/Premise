@@ -437,7 +437,7 @@ const LeftSideBarUpdate = ({
       </div>
       <div className="lg:w-[368px] w-full relative h-full shadow-md  rounded-md">
         {/* main div */}
-        <div className="h-full lg:h-[81vh]  relative flex flex-col">
+        <div className="h-full lg:h-[80vh]  relative flex flex-col">
           <div className="flex-none px-3">
             {/* header */}
             <PremiseTopHeaderUpdate

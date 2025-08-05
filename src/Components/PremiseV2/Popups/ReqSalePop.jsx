@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { useRequestForSaleOrTranslateMutation } from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
@@ -61,14 +61,14 @@ const ReqSalePop = ({ popClose, id, user, source_language, project_id }) => {
   }
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-end md:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
+    <div className="fixed top-0 left-0 w-full h-full flex items-end md:items-center  lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
       {processing ? (
         <div className="w-full md:w-[400px]">
           <TypingLoader />
         </div>
       ) : (
-        <div className=" h-[60vh] lg:h-[314px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[436px]  md:mx-auto relative lg:rounded-[8px]">
+        <div className=" h-[60vh] sm:h-[314px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  max-w-[436px]  md:mx-auto relative  rounded-[8px]">
           {/* close popup */}
           <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
             <img

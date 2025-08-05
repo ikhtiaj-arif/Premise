@@ -73,8 +73,9 @@ const CharacterEditableWrapper = ({
   };
 
   // console.log("premiseData?.visible_to", p?.visible_to);
- 
+
   const handleSaveAsDraft = async () => {
+    console.log("inside function", characterArray);
     setCharacterLoading(true);
     try {
       characterArray.forEach((character) => {
@@ -111,6 +112,8 @@ const CharacterEditableWrapper = ({
       // console.error("Error updating characters:", error);
     }
   };
+
+  console.log("characterArray", characterArray);
 
   return (
     <div>

@@ -143,8 +143,12 @@ const CharacterEditablePop = ({
   //   console.log("After Deletion:", updatedCharacters);
   // };
 
-  const handleDeleteCharacter = (idx) => {
-    const updatedCharacters = characterArray.filter((char, i) => i !== idx);
+  const handleDeleteCharacter = (role) => {
+    console.log(role);
+
+    const updatedCharacters = characterArray.filter(
+      (char) => char.role !== role
+    );
     setCharacterArray(updatedCharacters);
     // console.log("After Deletion:", updatedCharacters);
   };
@@ -196,7 +200,7 @@ const CharacterEditablePop = ({
   };
 
   const deleteCharacterFun = async (character) => {
-    // console.log(character);
+    console.log("ddddddddddd", character);
     const res = await deleteCharacter(character?.id);
     if (res) {
       characterRefetch();
@@ -225,7 +229,7 @@ const CharacterEditablePop = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[2]">
       <div className="fixed inset-0 bg-black opacity-50"></div>
-      <div className="relative bg-[#fafafa] py-8 md:rounded-lg shadow-lg w-full lg:w-[950px] h-[91vh] lg:h-[500px] mt-[65px] ">
+      <div className="relative bg-[#fafafa] py-8 md:rounded-lg shadow-lg w-full sm:w-[90%] lg:w-[950px] h-[91vh] sm:h-[500px] mt-[65px] ">
         <button
           onClick={handleClosePopup}
           className="absolute hidden md:block right-[-13px] top-[-13px] bg-[#EE3C4D] text-white rounded-full w-8 h-8  items-center justify-center shadow"
@@ -478,7 +482,8 @@ const CharacterEditablePop = ({
         <ConfirmationModal
           isOpen={deleteChar}
           onClose={setDeleteChar}
-          onConfirm={() => handleDeleteCharacter(deleteIdx)}
+          onConfirm={() => handleDeleteCharacter(deleteChar)}
+          // onConfirm={() => handleDeleteCharacter(deleteIdx)}
           title={`Are you sure you want to Delete this Character?`}
         />
       )}

@@ -320,7 +320,7 @@ const ReplyToComments = ({
         >
           <div
             className={`flex gap-[8px] ${
-              fromNew ? "w-[104.5%] md:w-[94.5%]" : "w-[104.5%] max-w-[654px]"
+              fromNew ? "w-[104.5%] md:w-[94.5%]" : "w-[104.5%] md:w-[100%] max-w-[654px]"
             }  `}
           >
             <a
@@ -401,7 +401,7 @@ const ReplyToComments = ({
                   : replyText}
               </p>
             </div>
-            <div className="  flex flex-col md:flex-row justify-center gap-1 items-center right-[8.5px] md:right-[6.5px] top-[28%]">
+            <div className="  flex flex-col lg:flex-row justify-center gap-1 items-center right-[8.5px] md:right-[6.5px] top-[28%]">
               <CommentTranslator
                 comment={reply}
                 translateComment={translateComment}
