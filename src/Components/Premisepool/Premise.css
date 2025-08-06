@@ -141,7 +141,7 @@ select::-webkit-scrollbar {
   display: block;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1154px) {
   .shortM-hidden {
     display: none;
   }
@@ -172,7 +172,7 @@ select::-webkit-scrollbar {
   display: none; /* Equivalent to Tailwind's hidden */
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1025px) {
   .lgVisible {
     display: block; /* Equivalent to Tailwind's lg:block */
   }
@@ -181,7 +181,7 @@ select::-webkit-scrollbar {
   display: block; /* Equivalent to Tailwind's hidden */
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1025px) {
   .lgHidden {
     display: none; /* Equivalent to Tailwind's lg:block */
   }

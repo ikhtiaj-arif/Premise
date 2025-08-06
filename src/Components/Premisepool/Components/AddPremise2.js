@@ -5,7 +5,6 @@ import { MdKeyboardBackspace } from "react-icons/md";
 import arrowRight from "../../../img/Icons/ArrowRicon.png";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import { autoCorrectText } from "../../../shared/utils/AutoCorrect";
-import GrammarChecker from "../../../shared/utils/GrammerChecker";
 import { useCohereSuggest } from "../../../shared/utils/useCohereSuggest";
 import AddPremiseNextTutorialPop from "../../PremiseV2/sequalPopup/AddPremiseNextTutorialPop";
 import AddPremiseTutorialPop from "../../PremiseV2/sequalPopup/singlePop/AddPremiseTutorialPop";
@@ -251,7 +250,7 @@ const AddPremise2 = ({
                       </span>
                       ?
                     </p>
-                    {/* <textarea
+                    <textarea
                       onChange={handleTextChange}
                       
                       ref={inputRef}
@@ -259,15 +258,15 @@ const AddPremise2 = ({
                       className={`${boldStyle} ${italicStyle} ${underlineStyle} text-[16px] leading-[24px] md:leading-[28px] bg-[#fafafa] border border-[#eaeaea] shadow-md rounded-[8px] w-full md: h-[170px] xl:h-[200px] resize-none text-[#616161]  focus:outline-none px-[20px] py-[12px] overflow-hidden break-words`}
                       maxLength="200"
                       value={text}
-                    /> */}
+                    />
 
-                    <GrammarChecker
+                    {/* <GrammarChecker
                       text={text}
                       setText={setText}
                       correctedText={correctedText}
                       setCorrectedText={setCorrectedText}
                       inputRef={inputRef}
-                    />
+                    /> */}
                     {/* <textarea
                           onChange={handleTextChange}
                           onKeyDown={handleKeyDown}

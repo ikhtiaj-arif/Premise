@@ -291,9 +291,9 @@ const PremiseNewTab = ({
                 setCommentField,
               }}
             />
-            <div className="w-full lg:hidden relative">
+            <div className="w-full lgHidden relative">
               {/* Left Sidebar */}
-              <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex ">
+              <div className=" bg-[#fff] xl:w-[500px] w-full pr-0 flex ">
                 {/* <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex lg:h-[calc(100vh-75px)]"> */}
                 <LeftSideBarUpdate
                   {...{

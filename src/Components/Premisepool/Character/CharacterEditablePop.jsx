@@ -369,7 +369,7 @@ const CharacterEditablePop = ({
                       onClick={async () => {
                         await handleUpdateSavedChar();
                         setPreviewAfterDraft(true);
-                        setOpenCharacterChart(false);
+                        // setOpenCharacterChart(false);
                       }}
                       className={`${
                         saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
@@ -411,7 +411,7 @@ const CharacterEditablePop = ({
               disabled={characterLoading}
               onClick={async () => {
                 await handleUpdateSavedChar();
-                setOpenCharacterChart(false);
+                // setOpenCharacterChart(false);
               }}
               className={`${
                 !characterLoading ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
@@ -478,15 +478,15 @@ const CharacterEditablePop = ({
           />
         )}
       </div>
-      {deleteChar && (
+      {/* {deleteChar && (
         <ConfirmationModal
           isOpen={deleteChar}
           onClose={setDeleteChar}
           onConfirm={() => handleDeleteCharacter(deleteChar)}
           // onConfirm={() => handleDeleteCharacter(deleteIdx)}
-          title={`Are you sure you want to Delete this Character?`}
+          title={`Are you sure you want to Delete this Character 111?`}
         />
-      )}
+      )} */}
 
       {openAddCharDemoPop && (
         <AddCharDemoPop popClose={() => setOpenAddCharDemoPop(false)} />

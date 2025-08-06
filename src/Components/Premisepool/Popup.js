@@ -140,7 +140,7 @@ const Popup = ({
         // setEditPopupOpen(false)
         // setCharSaveDisable(true);
         setCharacterLoading(false);
-        // setOpenCharacterChart(false);
+        setOpenCharacterChart(false);
         charRefetch()
 
         // toast.success("characters updated!")
@@ -549,7 +549,7 @@ const Popup = ({
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
         <ToastContainer />
-        <div className=" h-[100vh] lg:h-[554px] xl:h-[608px] mb-[20px] lg:mb-0 2xl:h-[673px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1140px] xl:w-[1220px] md:mx-auto relative lg:rounded-[8px]">
+        <div className=" h-[100vh] lg:h-[554px] xl:h-[608px] mb-[20px] lg:mb-0 2xl:h-[673px]  xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1080px] xl:w-[1220px] md:mx-auto relative lg:rounded-[8px]">
           {/* close popup */}
           <img
             src={crossIcon}

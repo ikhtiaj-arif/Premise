@@ -549,7 +549,7 @@ const AllComments = ({
         <div>
           <div
             className={` mt-[10px] w-[97%] ${
-              fromNew ? "lg:w-[98%] xl:w-[97%]" : "lg:w-[704px]"
+              fromNew ? "lg:w-[98%] xl:w-[97%]" : "lg:w-[654px] xl:w-[704px]"
             }  mx-auto  rounded-sm flex gap-1`}
           >
             {/* comment like */}
