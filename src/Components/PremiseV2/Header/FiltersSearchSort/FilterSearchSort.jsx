@@ -304,7 +304,7 @@ const FilterSearchSort = ({
         {/* <img src={premiseImage} alt="premise image" className="w-[103.07px] md:w-[115.07px]"/> */}
         <div
           className={`flex relative items-center gap-[16px] w-full  justify-end py-2 md:bg-none  ${
-            activeSearch ? "bg-none" : "bg-[#EAEAEA] md:bg-[#fff]"
+            activeSearch ? "bg-none" : "bg-[#EAEAEA] lg:bg-[#fff]"
           }`}
         >
           <div
@@ -485,8 +485,7 @@ const FilterSearchSort = ({
             </button> */}
 
             <button
-              className={`custom-searchBtn lg:hidden h-[32px] w-[32px] rounded-full 
-             bg-[#252525] 
+              className={`custom-searchBtn xl:hidden h-[32px] w-[32px] rounded-full bg-[#252525] 
             `}
               onClick={() => handleButtonClick()}
               // onBlur={() =>  setActiveSearch(false)}

@@ -5,7 +5,6 @@ import { MdKeyboardBackspace } from "react-icons/md";
 import arrowRight from "../../../img/Icons/ArrowRicon.png";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import { autoCorrectText } from "../../../shared/utils/AutoCorrect";
-import { checkGrammar } from "../../../shared/utils/GrammerChecker";
 import { useCohereSuggest } from "../../../shared/utils/useCohereSuggest";
 import AddPremiseNextTutorialPop from "../../PremiseV2/sequalPopup/AddPremiseNextTutorialPop";
 import AddPremiseTutorialPop from "../../PremiseV2/sequalPopup/singlePop/AddPremiseTutorialPop";
@@ -25,6 +24,7 @@ const AddPremise2 = ({
   const [preview, setPreview] = useState(false);
   const [newText, setNewText] = useState("");
   const [text, setText] = useState(data?.dText);
+  const [correctedText, setCorrectedText] = useState("");
   const [confirmDisable, setConfirmDisable] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState("English");
   const [keyboardVisible, setKeyboardVisible] = useState(false);
@@ -110,10 +110,10 @@ const AddPremise2 = ({
   //   console.log("suggestion",suggestion);
   //   setText((prev) => prev + " " + suggestion);
   // };
-  const handleGrammarCheck = async () => {
-    const corrected = await checkGrammar(text);
-    setText(corrected);
-  };
+  // const handleGrammarCheck = async () => {
+  //   const corrected = await checkGrammar(text);
+  //   setText(corrected);
+  // };
 
   const handleGoBack = () => {
     setNewText("");
@@ -250,7 +250,7 @@ const AddPremise2 = ({
                       </span>
                       ?
                     </p>
-                    {/* <textarea
+                    <textarea
                       onChange={handleTextChange}
                       
                       ref={inputRef}
@@ -258,10 +258,16 @@ const AddPremise2 = ({
                       className={`${boldStyle} ${italicStyle} ${underlineStyle} text-[16px] leading-[24px] md:leading-[28px] bg-[#fafafa] border border-[#eaeaea] shadow-md rounded-[8px] w-full md: h-[170px] xl:h-[200px] resize-none text-[#616161]  focus:outline-none px-[20px] py-[12px] overflow-hidden break-words`}
                       maxLength="200"
                       value={text}
-                    /> */}
-                  
+                    />
 
-                        <textarea
+                    {/* <GrammarChecker
+                      text={text}
+                      setText={setText}
+                      correctedText={correctedText}
+                      setCorrectedText={setCorrectedText}
+                      inputRef={inputRef}
+                    /> */}
+                    {/* <textarea
                           onChange={handleTextChange}
                           onKeyDown={handleKeyDown}
                           ref={inputRef}
@@ -271,10 +277,10 @@ const AddPremise2 = ({
                           value={text}
                           spellCheck={true}
                           // placeholder="Start typing..."
-                        />
-             
-                    <div className="text-[14px] leading-[18px] md:text-[12px] md:leading-[16px]  xl:text-[14px] xl:leading-[18px] font-[400] mt-[-4px]">
-                      {/* <p className="text-right">?</p> */}
+                        /> */}
+
+                    {/* <div className="text-[14px] leading-[18px] md:text-[12px] md:leading-[16px]  xl:text-[14px] xl:leading-[18px] font-[400] mt-[-4px]">
+                    
                       <div className="flex flex-row-reverse  items-center gap-5 mt-[-7px]">
                         <p className="text-right pt-[10px] md:pt-[1.5px]">
                           {text?.length || 0}/200
@@ -289,7 +295,7 @@ const AddPremise2 = ({
                           </p>
                         )}
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="md:bg-[#FAFAFA] flex gap-4 justify-end  my-[8px] text-center mx-[28px]">
                     <button

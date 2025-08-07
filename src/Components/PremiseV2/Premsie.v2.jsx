@@ -551,10 +551,10 @@ const PremiseV2 = () => {
     //   id="premisePool"
     // >
     <div
-      className="fixed left-0 top-[60px] w-full md:w-[calc(100vw-35px)]"
+      className="fixed left-0  top-[60px] w-full md:w-[calc(100vw-35px)]"
       id="premisePool"
     >
-      <div className=" overflow-y-hidden overflow-x-hidden lg:px-5 mx-auto w-full md:w-[95%] xl:w-full h-auto max-w-[1580px] ">
+      <div className=" overflow-y-hidden overflow-x-hidden lg:px-5 mx-auto w-full h-auto max-w-[1580px] ">
         {/* <div className="md:px-5 mx-auto w-full md:w-[95%] xl:w-full h-70vh max-w-[1462px] mt-[22px] "> */}
         <div className="">
           <div className="flex  justify-between items-center h-[124px] ">
@@ -577,7 +577,7 @@ const PremiseV2 = () => {
               {/* <button onClick={() => setPricingPopup(true)}>pricing</button> */}
 
               {
-                <p className=" hidden md:flex w-[233px]  items-center text-[16px] leading-[19.5px] text-[#616161] h-[32px] font-[600]">
+                <p className=" hidden lg:flex w-[233px]  items-center text-[16px] leading-[19.5px] text-[#616161] h-[32px] font-[600]">
                   {hiddenCountRes?.total_premises === 1 ? (
                     <p>
                       {hiddenCountRes?.total_premises}{" "}
@@ -595,8 +595,8 @@ const PremiseV2 = () => {
               }
             </div>
 
-            <div className="md:w-[50%] flex items-center justify-between h-[124px]">
-              <div className="mr-[20px] md:mr-[0px] text-center w-[360px] md:mt-[-30px] lg:w-[440px] ml-[-186px] mb-0 lg:ml-[-171px] xl:ml-[-229px">
+            <div className="lg:w-[50%] flex items-center justify-between h-[124px]">
+              <div className="mr-[20px] md:mr-[0px] text-center w-[360px] md:mt-[21px] xl:mt-[-30px] lg:w-[440px] ml-[-186px] mb-0 lg:ml-[-171px] xl:ml-[-229px">
                 <img
                   alt="monetize your creativity"
                   src={headText}
@@ -616,7 +616,7 @@ const PremiseV2 = () => {
                     <span className="addNewPremise-m">Add A New Premise</span>
                   </div>
                 </button>
-                <div className="md:hidden flex justify-end text-[14px] text-[#252525] h-[32px] font-[500]">
+                <div className="lg:hidden flex justify-end text-[14px] text-[#252525] h-[32px] font-[500]">
                   <p>
                     {hiddenCountRes?.total_premises === 1 ? (
                       <span>
@@ -635,7 +635,7 @@ const PremiseV2 = () => {
                 </div>
               </div>
 
-              <div className="mt-[36px] hidden md:block">
+              <div className="mt-[36px] hidden lg:block">
                 <FilterSearchSort
                   data={{
                     totalPages,
@@ -749,7 +749,7 @@ const PremiseV2 = () => {
           </div>
         )}
         <div
-          className="h-[70vh] 2xl:h-[73vh] 3xl:h-[75vh] overflow-y-scroll"
+          className="h-[calc(100vh - 189px)] overflow-y-scroll"
           id="scrollableDiv"
           onScroll={handleScroll}
         >
@@ -773,7 +773,7 @@ const PremiseV2 = () => {
             >
               <div
                 //  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:w-[1400px] 2xl:w-[97%] gap-[22px] xl:gap-[20px] 2xl:gap-[48px] my-[22px] md:my-10 w-full md:w-[720px] lg:w-[1060px]  justify-center mx-auto"
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4  2xl:w-[97%] gap-[32px] md:gap-x-[30px] xl:gap-[15px] xxl:gap-[30px] 2xl:gap-[24px] my-[22px] md:my-10 w-full md:w-[720px] lg:min-w-[1060px] lg:max-w-[1440px] justify-center mx-auto pb-20"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5 sm:gap-6 lg:gap-8 px-4 sm:px-6 lg:px-8 mx-auto justify-center w-full max-w-screen-2xl my-6 md:my-10 pb-20"
               >
                 {viewData?.map((premise, index) => (
                   <PremiseCardV2

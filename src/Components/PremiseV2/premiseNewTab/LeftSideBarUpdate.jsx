@@ -435,9 +435,9 @@ const LeftSideBarUpdate = ({
           />
         </div>
       </div>
-      <div className="lg:w-[368px] w-full relative h-full shadow-md  rounded-md">
+      <div className="xl:w-[368px] w-full relative h-full shadow-md  rounded-md">
         {/* main div */}
-        <div className="h-full lg:h-[83vh]  relative flex flex-col">
+        <div className="h-full lg:h-[80vh]  relative flex flex-col">
           <div className="flex-none px-3">
             {/* header */}
             <PremiseTopHeaderUpdate
@@ -533,7 +533,7 @@ const LeftSideBarUpdate = ({
             </div>
           </div>
           {/* Details scroll div */}
-          <div className="flex-1 pb-4 overflow-y-auto flex flex-col justify-between">
+          <div className="flex-1 lg:pb-24 overflow-y-auto flex flex-col ">
             {
               <div className="bg-[#fff] px-3">
                 <div>
@@ -595,55 +595,7 @@ const LeftSideBarUpdate = ({
                         />
                       </div>
                     </div>
-                    <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full h-auto max-h-[248px] lg:max-h-[313px] xl:max-h-[408px] overflow-y-auto">
-                      {finalCharacters?.map((character, index) => (
-                        <CharacterShowCard
-                          {...{
-                            character,
-                            index,
-                            setEditData,
-                            setEditIdx,
-                            setDeleteIdx,
-                            setEditPopupOpen,
-                            setDeleteChar,
-                            onlyAdd,
-                            deleteCharacterFun,
-                            source_language,
-                          }}
-                        />
-                      ))}
-                      {finalCharacters?.map((character, index) => (
-                        <CharacterShowCard
-                          {...{
-                            character,
-                            index,
-                            setEditData,
-                            setEditIdx,
-                            setDeleteIdx,
-                            setEditPopupOpen,
-                            setDeleteChar,
-                            onlyAdd,
-                            deleteCharacterFun,
-                            source_language,
-                          }}
-                        />
-                      ))}
-                      {finalCharacters?.map((character, index) => (
-                        <CharacterShowCard
-                          {...{
-                            character,
-                            index,
-                            setEditData,
-                            setEditIdx,
-                            setDeleteIdx,
-                            setEditPopupOpen,
-                            setDeleteChar,
-                            onlyAdd,
-                            deleteCharacterFun,
-                            source_language,
-                          }}
-                        />
-                      ))}
+                    <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full h-auto max-h-[248px] lg:max-h-[313px] overflow-y-auto">
                       {finalCharacters?.map((character, index) => (
                         <CharacterShowCard
                           {...{

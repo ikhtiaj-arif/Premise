@@ -73,7 +73,7 @@ const CharacterEditableWrapper = ({
   };
 
   // console.log("premiseData?.visible_to", p?.visible_to);
- 
+
   const handleSaveAsDraft = async () => {
     setCharacterLoading(true);
     try {
@@ -111,6 +111,7 @@ const CharacterEditableWrapper = ({
       // console.error("Error updating characters:", error);
     }
   };
+
 
   return (
     <div>

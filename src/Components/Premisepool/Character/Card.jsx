@@ -56,6 +56,7 @@ const CharacterShowCard = ({
     } else {
       setDeleteChar(character.role);
       setDeleteIdx(index);
+      setConfirmDelete(true);
     }
   };
   const handleDelete = () => {

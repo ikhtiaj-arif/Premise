@@ -2,7 +2,7 @@
     display: block; /* Equivalent to Tailwind's block */
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 1026px) {
     .custom-searchBtn {
       display: none; /* Equivalent to Tailwind's md:hidden */
     }

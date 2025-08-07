@@ -549,7 +549,7 @@ const AllComments = ({
         <div>
           <div
             className={` mt-[10px] w-[97%] ${
-              fromNew ? "lg:w-[97%]" : "lg:w-[704px]"
+              fromNew ? "lg:w-[98%] xl:w-[97%]" : "lg:w-[654px] xl:w-[704px]"
             }  mx-auto  rounded-sm flex gap-1`}
           >
             {/* comment like */}
@@ -993,8 +993,8 @@ const AllComments = ({
               )}
 
               <div
-                className={`absolute flex flex-col md:flex-row gap-2 items-center ${
-                  fromNew ? "right-[8.5px] xl:right-[38.5px]" : "right-0"
+                className={`absolute flex flex-col md:flex-row gap-[0.15rem] xl:gap-2 items-center ${
+                  fromNew ? "right-[8.5px] sm:right-0 xl:right-[38.5px]" : "right-0"
                 }  top-[18%] md:top-[28%]`}
               >
                 <CommentTranslator
@@ -1150,16 +1150,16 @@ const AllComments = ({
       {openAllReplies && openReplyFieldID === comments?.id && (
         <div>
           {
+            // <div
+            //   className={``}
+            // >
             <div
-              className={``}
-            >
-            {/* <div
               className={`${
-                hasManyReplies
+                hasManyReplies && !fromNew
                   ? "max-h-[40vh] overflow-y-auto pr-2 overflow-x-hidden"
                   : ""
               }`}
-            > */}
+            >
               {!isReplyLoading &&
                 replyData?.replies
                   ?.slice() // Create a shallow copy to avoid mutating the original array

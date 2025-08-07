@@ -287,7 +287,7 @@ const LeftSideBar = ({
 
   return (
     <>
-      <div className="fixed bottom-8 z-[1] w-[96%] mx-auto md:hidden">
+      <div className="fixed bottom-8 z-[1] w-[96%] mx-auto xl:hidden">
         <AskIda
           {...{
             id,
@@ -334,7 +334,7 @@ const LeftSideBar = ({
           }}
         />
       </div>
-      <div className="lg:w-[368px] w-full relative h-full shadow-md  rounded-md">
+      <div className="xl:w-[368px] w-full relative h-full shadow-md  rounded-md">
         {/* main div */}
         <div className="h-full lg:h-[83vh] overflow-hidden relative flex flex-col">
           <div className="flex-none px-3">

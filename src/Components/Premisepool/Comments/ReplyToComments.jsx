@@ -320,7 +320,7 @@ const ReplyToComments = ({
         >
           <div
             className={`flex gap-[8px] ${
-              fromNew ? "w-[104.5%] md:w-[94.5%]" : "w-[104.5%] max-w-[654px]"
+              fromNew ? "w-[104.5%] md:w-[94.5%]" : "w-[104.5%] md:w-[100%] max-w-[654px]"
             }  `}
           >
             <a
@@ -401,7 +401,7 @@ const ReplyToComments = ({
                   : replyText}
               </p>
             </div>
-            <div className="  flex flex-col md:flex-row justify-center gap-1 items-center right-[8.5px] md:right-[6.5px] top-[28%]">
+            <div className="  flex flex-col lg:flex-row justify-center gap-1 items-center right-[8.5px] md:right-[6.5px] top-[28%]">
               <CommentTranslator
                 comment={reply}
                 translateComment={translateComment}
@@ -700,14 +700,14 @@ const ReplyToComments = ({
               data-nest-reply
               className="w-[96%] md:w-[94%]  md:mr-[4px] mb-[8px] ml-auto"
             >
-              <div className={``}>
-                {/* <div
+              {/* <div className={``}> */}
+              <div
                 className={`${
-                  hasManyReplies
+                  hasManyReplies && !fromNew
                     ? "w-full max-h-[300px] overflow-y-auto pr-2"
                     : ""
                 }`}
-              > */}
+              >
                 {reply?.child_replies &&
                   reply?.child_replies
                     ?.slice() // Create a shallow copy to avoid mutating the original array

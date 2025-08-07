@@ -13,16 +13,16 @@ const ViewTranslationPop = ({
   viewText,
   handleVisibility,
   handleMonetizing,
-  user
+  user,
 }) => {
   const { data: transactionData, isLoading } =
     useGetPremiseTransactionQuery(premiseId);
   // console.log("transactionData", project_id);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center xl:mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
-      <div className=" h-[40vh] lg:h-[315px] mb-[20px]  lg:mb-0 xl:h-[313px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[617px] xl:w-[617px] md:mx-auto relative lg:rounded-[8px]">
+      <div className=" h-[40vh] lg:h-[315px] mb-[20px]  lg:mb-0 xl:h-[313px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA] sm:w-[90%] rounded-md lg:w-[617px] xl:w-[617px] md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
         <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
           <img
@@ -71,7 +71,7 @@ const ViewTranslationPop = ({
                       refetch,
                       viewText,
                       project_id,
-                      user
+                      user,
                     }}
                     transaction={transaction}
                     key={index}
