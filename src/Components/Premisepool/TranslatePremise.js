@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { fetchUserAccess, MyContext } from "../../App";
 import { useTranslatePremiseMutation } from "../../app/EndPoints/premisePoolApi";
 import transIcon from "../../img/Icons/transIcon.png";
 import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 import { sortedLanguages } from "./Languages";
+import TranslateLangDrop from "./TranslateLangDrop";
 
 const TranslatePremise = ({
   data,
@@ -12,6 +13,8 @@ const TranslatePremise = ({
   setTransPopClose,
   setViewText,
   className,
+  selectedOption,
+  setSelectedOption,
 }) => {
   const { id, dText, source_language, project_id } = data;
 
@@ -19,7 +22,7 @@ const TranslatePremise = ({
     useContext(MyContext);
 
   const [translatePremise, translateInfo] = useTranslatePremiseMutation();
-  const [selectedOption, setSelectedOption] = useState("");
+  // const [selectedOption, setSelectedOption] = useState("");
   const [transPopup, setTransPopup] = useState(false);
   const [transText, setTransText] = useState("");
   const [loading, setLoading] = useState(false);
@@ -110,26 +113,15 @@ const TranslatePremise = ({
           alt=""
         />
       )}
-      {transPopClose === id && (
-        <div className="absolute top-[32px] right-0 z-50 w-[135px]  h-[27vh] overflow-x-hidden md:h-[40vh] overflow-y-auto border bg-[#fafafa]">
-          {Object.entries(sortedLanguages)?.map(([key, name]) =>
-            key !== source_language ? (
-              <li
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedOption(key);
-                  setTransPopClose(null);
-                }}
-                className="cursor-pointer  text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] list-none pl-[8px] border-b"
-                key={key}
-                value={key}
-              >
-                {name}
-              </li>
-            ) : null
-          )}
-        </div>
-      )}
+      {/* {transPopClose === id && (
+        <TranslateLangDrop
+          sortedLanguages={sortedLanguages}
+          source_language={source_language}
+          setSelectedOption={setSelectedOption}
+          setTransPopClose={setTransPopClose}
+        />
+
+      )} */}
       {noAccessPopup?.msg === "ShowBecomePrivilege" && (
         <NoAccessPopUp
           noAccessPopup={noAccessPopup}

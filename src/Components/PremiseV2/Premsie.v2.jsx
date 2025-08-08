@@ -551,7 +551,7 @@ const PremiseV2 = () => {
     //   id="premisePool"
     // >
     <div
-      className="fixed left-0  top-[60px] w-full md:w-[calc(100vw-35px)]"
+      className="fixed left-0  top-[60px] w-full md:w-[calc(100vw-35px)] "
       id="premisePool"
     >
       <div className=" overflow-y-hidden bg-white overflow-x-hidden lg:px-5 mx-auto w-full h-auto max-w-[1580px] ">

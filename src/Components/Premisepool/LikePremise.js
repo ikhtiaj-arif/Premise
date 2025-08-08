@@ -8,9 +8,9 @@ import LikePopup from "./LikePopup";
 import "./Premise.css";
 
 const LikePremise = ({ data, refetch }) => {
-  const { likes, id, user, user_liked } = data;
+  const { likes, id, user, user_liked,setLikePopup,likePopup } = data;
 
-  const [likePopup, setLikePopup] = useState(false);
+  // const [likePopup, setLikePopup] = useState(false);
   const [disable, setDisable] = useState(false);
   const [isLiked, setIsLiked] = useState(user_liked);
   const [postLike, postRes] = useLikePremiseMutation();
@@ -56,7 +56,7 @@ const LikePremise = ({ data, refetch }) => {
 
   return (
     <div>
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-2 items-center pointer-events-auto">
         <button onClick={isLiked ? handleDisLikeClick : handleLikeClick} disabled={disable}>
           <FaThumbsUp
             className={`w-8 h-8 transition-colors ${
@@ -76,7 +76,7 @@ const LikePremise = ({ data, refetch }) => {
         </div>
       </div>
 
-      {likePopup && <LikePopup setLikePopup={setLikePopup} id={id} />}
+      {/* {likePopup && <LikePopup setLikePopup={setLikePopup} id={id} />} */}
     </div>
   );
 };

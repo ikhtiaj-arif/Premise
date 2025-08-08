@@ -1,25 +1,19 @@
 import { motion, useAnimation } from "framer-motion";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { FaComment } from "react-icons/fa";
 import { MyContext } from "../../App";
-import Popup from "./Popup";
 
 const CommentPremise = ({ data, setIsLiked, refetch, p }) => {
-
-  const {project_id} = p
-  const {
-    comments,
-  } = data;
-  const { setSelectedPremiseObj, setSelectedPremiseSpProjectId } = useContext(MyContext);
-  const [cmntPopup, setCmntPopup] = useState(false);
+  const { project_id } = p;
+  const { comments, cmntPopup, setCmntPopup } = data;
+  const { setSelectedPremiseObj, setSelectedPremiseSpProjectId } =
+    useContext(MyContext);
+  // const [cmntPopup, setCmntPopup] = useState(false);
   const controls = useAnimation();
-  
 
-
-  useEffect(()=>{
-    setSelectedPremiseSpProjectId(p?.project_id)
-  },[p])
-
+  useEffect(() => {
+    setSelectedPremiseSpProjectId(p?.project_id);
+  }, [p]);
 
   //console.log('in comment',shouldBlink);
   // useEffect(() => {
@@ -66,18 +60,19 @@ const CommentPremise = ({ data, setIsLiked, refetch, p }) => {
 
         <div className="flex items-center cursor-pointer text-[14px] font-[500]">
           <span className="mr-1">{comments}</span>
-          <span className="comments-m">{comments > 1 ? "Brainstorms" : "Brainstorm"}</span>
-          
+          <span className="comments-m">
+            {comments > 1 ? "Brainstorms" : "Brainstorm"}
+          </span>
         </div>
       </motion.div>
-      {cmntPopup && (
+      {/* {cmntPopup && (
         <Popup
           popClose={() => setCmntPopup(false)}
           setIsLiked={setIsLiked}
           data={data}
           refetch={refetch}
         />
-      )}
+      )} */}
     </div>
   );
 };
