@@ -464,17 +464,6 @@ const PremiseCard = ({
                 onClick={() => setOpenHidePop(!openHidePop)}
                 className="w-5 h-5 cursor-pointer"
               /> */}
-              {openHidePop && (
-                <HideOptionPop
-                  setOpenHidePop={setOpenHidePop}
-                  id={id}
-                  refetch={refetch}
-                  user={user}
-                  filter_flag={filter_flag}
-                  comment_filter_flag={comment_filter_flag}
-                  visible_to={visible_to}
-                />
-              )}
             </div>
           ) : (
             <img
@@ -637,6 +626,7 @@ const PremiseCard = ({
         style={{ display: "none" }}
         onChange={handleBackgroundChange}
       />
+
       {/* owner edit premise */}
 
       {editMode && (
@@ -654,6 +644,7 @@ const PremiseCard = ({
           refetch={refetch}
         />
       )}
+
       {userMail && (
         <UserMail
           recipient={created_by}
@@ -722,6 +713,17 @@ const PremiseCard = ({
           content="Beat added would you like to open script now "
         />
       )} */}
+      {openHidePop && (
+        <HideOptionPop
+          setOpenHidePop={setOpenHidePop}
+          id={id}
+          refetch={refetch}
+          user={user}
+          filter_flag={filter_flag}
+          comment_filter_flag={comment_filter_flag}
+          visible_to={visible_to}
+        />
+      )}
     </div>
   );
 };

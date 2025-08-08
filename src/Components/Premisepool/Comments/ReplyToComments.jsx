@@ -309,10 +309,10 @@ const ReplyToComments = ({
     <div
       data-reply
       className={`w-[93%] ${
-        fromNew ? "w-[94%]" : "lg:w-[674px]"
+        fromNew ? "w-[93%]" : "lg:w-[636px] xl:w-[674px]"
       }  ml-[5px] md:ml-[50px]  rounded-sm flex items-center gap-1`}
     >
-      <div className=" md:w-[97%] ">
+      <div className=" md:w-[95%] xl:w-[97%]">
         <div
           className={` w-[97%] relative ml-[16px] ${
             fromNew ? "md:ml-[63px]" : "md:ml-[45px]"
@@ -320,7 +320,9 @@ const ReplyToComments = ({
         >
           <div
             className={`flex gap-[8px] ${
-              fromNew ? "w-[104.5%] md:w-[94.5%]" : "w-[104.5%] md:w-[100%] max-w-[654px]"
+              fromNew
+                ? "w-[104.5%] md:w-[94.5%]"
+                : "w-[104.5%] md:w-[100%] max-w-[654px]"
             }  `}
           >
             <a
@@ -559,7 +561,7 @@ const ReplyToComments = ({
               </div>
             </div>
 
-            <div className="flex items-center justify-end gap-[14px] leading-[16px] md:w-[28%] ">
+            <div className="flex items-center justify-end gap-[14px] leading-[16px] md:w-[30%] ">
               <div className="flex md:hidden">
                 <ReplyLike {...{ reply, setLikePopup, replyRefetch }} />
               </div>

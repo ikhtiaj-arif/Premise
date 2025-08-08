@@ -11,7 +11,6 @@ import transCartQ from "../../../img/Icons/transCartQ.png";
 import translateCart from "../../../img/Icons/translateCart.png";
 import transReqQ from "../../../img/Icons/transReqQ.png";
 
-import axios from "axios";
 import { useSelector } from "react-redux";
 import { fetchUserAccess, MyContext } from "../../../App";
 import { useGetPremiseUserQuery } from "../../../app/EndPoints/premisePoolApi";
@@ -22,6 +21,7 @@ import { URL } from "../../utils";
 import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
 
 const CardHeadOptions = ({
+  
   refetch,
   viewTrnRequests,
   setViewTrnRequests,
@@ -67,7 +67,7 @@ const CardHeadOptions = ({
   setAddPopup,
   setNotifyPopup,
   is_read_only,
-  handleCheckPremiseData
+  handleCheckPremiseData,
 }) => {
   // const {
 
@@ -181,8 +181,6 @@ const CardHeadOptions = ({
       refetch();
     }
   };
-
-
 
   return (
     <div>
@@ -360,31 +358,33 @@ const CardHeadOptions = ({
                 onClick={() => setOpenHidePop(!openHidePop)}
                 className="w-5 h-5 cursor-pointer"
               /> */}
-            {openHidePop?.msg === "ShowBecomePrivilege" ? (
-              <NoAccessPopUp
-                noAccessPopup={openHidePop}
-                setNoAccessPopup={setOpenHidePop}
-              />
-            ) : openHidePop?.msg === "LB" ||
-              openHidePop?.msg === "ShowBuyPackage_and_Allacarte" ? (
-              <NoAccessLbPopUp
-                noAccessLbPopup={openHidePop}
-                setNoAccessPopup={setOpenHidePop}
-                service="PP_Private"
-              />
-            ) : (
-              openHidePop === "Yes" && (
-                <HideOptionPop
-                  setOpenHidePop={setOpenHidePop}
-                  id={id}
-                  refetch={refetch}
-                  user={user}
-                  filter_flag={filter_flag}
-                  comment_filter_flag={comment_filter_flag}
-                  visible_to={visible_to}
+            <>
+              {openHidePop?.msg === "ShowBecomePrivilege" ? (
+                <NoAccessPopUp
+                  noAccessPopup={openHidePop}
+                  setNoAccessPopup={setOpenHidePop}
                 />
-              )
-            )}
+              ) : openHidePop?.msg === "LB" ||
+                openHidePop?.msg === "ShowBuyPackage_and_Allacarte" ? (
+                <NoAccessLbPopUp
+                  noAccessLbPopup={openHidePop}
+                  setNoAccessPopup={setOpenHidePop}
+                  service="PP_Private"
+                />
+              ) : (
+                openHidePop === "Yes" && (
+                  <HideOptionPop
+                    setOpenHidePop={setOpenHidePop}
+                    id={id}
+                    refetch={refetch}
+                    user={user}
+                    filter_flag={filter_flag}
+                    comment_filter_flag={comment_filter_flag}
+                    visible_to={visible_to}
+                  />
+                )
+              )}
+            </>
           </div>
         ) : (
           <div className="flex gap-[3px] items-center  mr-[2px] relative ">

@@ -535,255 +535,253 @@ const PremiseCardV2 = ({
   };
 
   return (
-    <div className="relative w-[358px] lg:w-[100%] max-w-[360px] mx-auto">
-      <div className="border-2 border-[#EAEAEA] bg-[#fafafa] rounded-[8px] transition-all duration-300 ease-in-out hover:shadow-xl hover:border-[#33B0CA] hover:scale-[1.03] hover:-translate-y-1">
-        {/* all card UI (upper, middle, lower divs) goes here */}
-        {/* <div className="w-[358px] lg:w-[100%] max-w-[360px] mx-auto border border-[#EAEAEA] bg-[#fafafa] hover:shadow-lg hover:border-[#616161] hover:scale-105 transition duration-300 ease-in-out rounded-[8px]  "> */}
-        {/* upper div */}
-        <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-[15px] pt-[15px] pb-[6px]">
-          <div className="block ">
-            <a
-              target="_blank"
-              rel="noreferrer"
-              // href={`${URL}/memberpage/#/user/${created_by?.id}`}
+    <div className="w-[358px] lg:w-[100%] max-w-[360px] mx-auto border-2 border-[#EAEAEA] bg-[#fafafa] hover:shadow-lg hover:border-[#33B0CA]  ease-in-out rounded-[8px]  ">
+      {/* <div className="border-2 border-[#EAEAEA] bg-[#fafafa] rounded-[8px] transition-all duration-300 ease-in-out hover:shadow-xl hover:border-[#33B0CA] hover:scale-[1.03] hover:-translate-y-1"> */}
 
-              href={
-                premiseOwner?.id === user
-                  ? `${URL}/memberpage/#/personaldetails`
-                  : `${URL}/memberpage/#/user/${premiseOwner?.id}/personaldetails`
-              }
-            >
-              <div className="flex-1 flex gap-1 items-center">
-                {premiseOwner?.centraldatabase?.profile_photo ? (
-                  <img
-                    src={proImgUrl}
-                    className="w-[36px] h-[35.9px] border
+      <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-[15px] pt-[15px] pb-[6px]">
+        <div className="block ">
+          <a
+            target="_blank"
+            rel="noreferrer"
+            // href={`${URL}/memberpage/#/user/${created_by?.id}`}
+
+            href={
+              premiseOwner?.id === user
+                ? `${URL}/memberpage/#/personaldetails`
+                : `${URL}/memberpage/#/user/${premiseOwner?.id}/personaldetails`
+            }
+          >
+            <div className="flex-1 flex gap-1 items-center">
+              {premiseOwner?.centraldatabase?.profile_photo ? (
+                <img
+                  src={proImgUrl}
+                  className="w-[36px] h-[35.9px] border
                 border-[#eaeaea] rounded-full object-cover"
-                    alt=""
-                  />
-                ) : (
-                  <img
-                    src={userImg}
-                    className="w-[36px] h-[35.9px] rounded-full border
+                  alt=""
+                />
+              ) : (
+                <img
+                  src={userImg}
+                  className="w-[36px] h-[35.9px] rounded-full border
                 border-[#eaeaea]"
-                    alt=""
-                  />
-                )}
-                <div>
+                  alt=""
+                />
+              )}
+              <div>
+                <div
+                  className={`flex items-center relative ${
+                    premise_source_id ? "w-[90px]" : "w-[110px]"
+                  }`}
+                >
+                  <h4
+                    className={`notranslate text-[#252525] font-[600] text-[14px] leading-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
+                    title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
+                  >
+                    {premiseOwner?.first_name} {premiseOwner?.last_name}
+                  </h4>
                   <div
-                    className={`flex items-center relative ${
-                      premise_source_id ? "w-[90px]" : "w-[110px]"
+                    className={`${
+                      premise_source_id ? "right-0" : "right-[-4px]"
                     }`}
                   >
-                    <h4
-                      className={`notranslate text-[#252525] font-[600] text-[14px] leading-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
-                      title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
-                    >
-                      {premiseOwner?.first_name} {premiseOwner?.last_name}
-                    </h4>
-                    <div
-                      className={`${
-                        premise_source_id ? "right-0" : "right-[-4px]"
-                      }`}
-                    >
-                      <UserType
-                        type={premiseOwner?.centraldatabase?.type}
-                        user_type={premiseOwner?.centraldatabase?.user_type}
-                      />
-                    </div>
-                  </div>
-                  <div className="text-[#616161] text-[9.5px] flex flex-col gap-[1px] font-[400]  ">
-                    <p className="leading-[12px]">
-                      {formattedDate}, {formattedTime}
-                    </p>
-                    {premiseOwner?.id === user && currentProjectName ? (
-                      <p
-                        data-te-toggle="tooltip"
-                        title={`${`${currentProjectName} `}`}
-                        className="notranslate text-[#252525] text-[12px] leading-[12px]"
-                      >
-                        {/* {currentProjectName?.slice(0, 20)} */}
-                        {currentProjectName?.length > 20
-                          ? `${currentProjectName.slice(0, 20)}...`
-                          : currentProjectName}
-                      </p>
-                    ) : (
-                      <></>
-                    )}
+                    <UserType
+                      type={premiseOwner?.centraldatabase?.type}
+                      user_type={premiseOwner?.centraldatabase?.user_type}
+                    />
                   </div>
                 </div>
+                <div className="text-[#616161] text-[9.5px] flex flex-col gap-[1px] font-[400]  ">
+                  <p className="leading-[12px]">
+                    {formattedDate}, {formattedTime}
+                  </p>
+                  {premiseOwner?.id === user && currentProjectName ? (
+                    <p
+                      data-te-toggle="tooltip"
+                      title={`${`${currentProjectName} `}`}
+                      className="notranslate text-[#252525] text-[12px] leading-[12px]"
+                    >
+                      {/* {currentProjectName?.slice(0, 20)} */}
+                      {currentProjectName?.length > 20
+                        ? `${currentProjectName.slice(0, 20)}...`
+                        : currentProjectName}
+                    </p>
+                  ) : (
+                    <></>
+                  )}
+                </div>
               </div>
-            </a>
-          </div>
-          {!is_draft && (
-            <CardHeadOptions
-              owner={owner}
-              index={index}
-              refetch={refetch}
-              viewTrnRequests={viewTrnRequests}
-              setViewTrnRequests={setViewTrnRequests}
-              viewTransactionPId={viewTransactionPId}
-              setViewTransactionPId={setViewTransactionPId}
-              setViewSaleRequests={setViewSaleRequests}
-              openTransOtherPop={openTransOtherPop}
-              setOpenTransOtherPop={setOpenTransOtherPop}
-              handleDelete={handleDelete}
-              setOpenCharacterChart={setOpenCharacterChart}
-              openViewTranslationsPop={openViewTranslationsPop}
-              openAvailableForTranslationPop={openAvailableForTranslationPop}
-              setOpenAvailableForTranslationPop={
-                setOpenAvailableForTranslationPop
-              }
-              setOpenViewTranslationsPop={setOpenViewTranslationsPop}
-              setOpenMonetizingPreferencesPop={setOpenMonetizingPreferencesPop}
-              setNoAccessLbPopUp={setNoAccessLbPopUp}
-              setUserMail={setUserMail}
-              setSaleId={setSaleId}
-              setViewSale={setViewSale}
-              setSaleRequestPop={setSaleRequestPop}
-              setTranslationRequestPop={setTranslationRequestPop}
-              isProjectLocked={isProjectLocked}
-              id={id}
-              premiseOwner={premiseOwner}
-              filter_flag={filter_flag}
-              visible_to={visible_to}
-              comment_filter_flag={comment_filter_flag}
-              project_id={project_id}
-              available_for_sale={available_for_sale}
-              available_for_translation={available_for_translation}
-              premise_source_id={premise_source_id}
-              translation_request_count={translation_request_count}
-              no_of_times_translated={no_of_times_translated}
-              sale_request_count={sale_request_count}
-              is_requested_for_sale={is_requested_for_sale}
-              is_translated_languages={is_translated_languages}
-              dotPopupRef={dotPopupRef}
-              setOpenDotMenu={setOpenDotMenu}
-              setOpenHidePop={setOpenHidePop}
-              openHidePop={openHidePop}
-              openDotMenu={openDotMenu}
-              addPopup={addPopup}
-              setAddPopup={setAddPopup}
-              notifyPopup={notifyPopup}
-              setNotifyPopup={setNotifyPopup}
-              is_read_only={p?.is_read_only}
-              handleCheckPremiseData={handleCheckPremiseData}
-            />
-          )}
+            </div>
+          </a>
         </div>
-        {/* middle div */}
-        <div className="bg-[#FAFAFA] h-[189px] border !border-[#f8f8f8] relative">
-          <div
-            className={` w-[93%] bg-[#FAFAFA]  h-[189px] rounded-[8px]  mx-auto   border border-[#eaeaea] relative
+        {!is_draft && (
+          <CardHeadOptions
+            owner={owner}
+            index={index}
+            refetch={refetch}
+            viewTrnRequests={viewTrnRequests}
+            setViewTrnRequests={setViewTrnRequests}
+            viewTransactionPId={viewTransactionPId}
+            setViewTransactionPId={setViewTransactionPId}
+            setViewSaleRequests={setViewSaleRequests}
+            openTransOtherPop={openTransOtherPop}
+            setOpenTransOtherPop={setOpenTransOtherPop}
+            handleDelete={handleDelete}
+            setOpenCharacterChart={setOpenCharacterChart}
+            openViewTranslationsPop={openViewTranslationsPop}
+            openAvailableForTranslationPop={openAvailableForTranslationPop}
+            setOpenAvailableForTranslationPop={
+              setOpenAvailableForTranslationPop
+            }
+            setOpenViewTranslationsPop={setOpenViewTranslationsPop}
+            setOpenMonetizingPreferencesPop={setOpenMonetizingPreferencesPop}
+            setNoAccessLbPopUp={setNoAccessLbPopUp}
+            setUserMail={setUserMail}
+            setSaleId={setSaleId}
+            setViewSale={setViewSale}
+            setSaleRequestPop={setSaleRequestPop}
+            setTranslationRequestPop={setTranslationRequestPop}
+            isProjectLocked={isProjectLocked}
+            id={id}
+            premiseOwner={premiseOwner}
+            filter_flag={filter_flag}
+            visible_to={visible_to}
+            comment_filter_flag={comment_filter_flag}
+            project_id={project_id}
+            available_for_sale={available_for_sale}
+            available_for_translation={available_for_translation}
+            premise_source_id={premise_source_id}
+            translation_request_count={translation_request_count}
+            no_of_times_translated={no_of_times_translated}
+            sale_request_count={sale_request_count}
+            is_requested_for_sale={is_requested_for_sale}
+            is_translated_languages={is_translated_languages}
+            dotPopupRef={dotPopupRef}
+            setOpenDotMenu={setOpenDotMenu}
+            setOpenHidePop={setOpenHidePop}
+            openHidePop={openHidePop}
+            openDotMenu={openDotMenu}
+            addPopup={addPopup}
+            setAddPopup={setAddPopup}
+            notifyPopup={notifyPopup}
+            setNotifyPopup={setNotifyPopup}
+            is_read_only={p?.is_read_only}
+            handleCheckPremiseData={handleCheckPremiseData}
+          />
+        )}
+      </div>
+      {/* middle div */}
+      <div className="bg-[#FAFAFA] h-[189px] border !border-[#f8f8f8] relative">
+        <div
+          className={` w-[93%] bg-[#FAFAFA]  h-[189px] rounded-[8px]  mx-auto   border border-[#eaeaea] relative
           ${
             imageLoaded && bg_img
               ? "premiseBg-loaded rounded-[8px]"
               : "rounded-[8px]"
           }`}
-            style={
-              bg_img
-                ? {
-                    backgroundImage: `url(${bg_img})`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    width: "92%",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-                  }
-                : { backgroundColor: bg_color }
-            }
-            onLoad={() => setImageLoaded(true)}
+          style={
+            bg_img
+              ? {
+                  backgroundImage: `url(${bg_img})`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  width: "92%",
+                  borderRadius: "8px",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+                }
+              : { backgroundColor: bg_color }
+          }
+          onLoad={() => setImageLoaded(true)}
+        >
+          <div
+            onClick={handleCardClick}
+            // className={`absolute inset-0 w-[100%] mx-auto backdrop-filter flex items-center justify-center backdrop-blur-sm px-[14px] text-[16px] rounded-[8px] text-[#616161] leading-5 font-[400] overflow-hidden `}
+            className="absolute cursor-pointer inset-0 backdrop-blur-sm  text-[18px]  leading-[21.83px] rounded-[8px] overflow-hidden break-words px-[14px] py-[12px]  shadow-md overflow-y-auto"
           >
             <div
-              onClick={handleCardClick}
-              // className={`absolute inset-0 w-[100%] mx-auto backdrop-filter flex items-center justify-center backdrop-blur-sm px-[14px] text-[16px] rounded-[8px] text-[#616161] leading-5 font-[400] overflow-hidden `}
-              className="absolute cursor-pointer inset-0 backdrop-blur-sm  text-[18px]  leading-[21.83px] rounded-[8px] overflow-hidden break-words px-[14px] py-[12px]  shadow-md overflow-y-auto"
+              className="h-full opacity-20 hover:opacity-100"
+              data-te-toggle="tooltip"
+              data-te-placement="top"
+              title={`Click to view more!`}
             >
-              <div
-                className="h-full opacity-20 hover:opacity-100"
-                data-te-toggle="tooltip"
-                data-te-placement="top"
-                title={`Click to view more!`}
+              <p
+                className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} notranslate`}
+                style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
               >
-                <p
-                  className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} notranslate`}
-                  style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
-                >
-                  {viewText}
-                </p>
-              </div>
+                {viewText}
+              </p>
             </div>
-            <div></div>
           </div>
-          {is_draft ? (
-            <PremiseBadge stamp={"Draft"} color={`bg-[#616161]`} />
-          ) : (
-            <PremiseBadge stamp={p?.stamp} />
-          )}
-          {/* <PremiseBadge stamp={p?.stamp} /> */}
+          <div></div>
         </div>
+        {is_draft ? (
+          <PremiseBadge stamp={"Draft"} color={`bg-[#616161]`} />
+        ) : (
+          <PremiseBadge stamp={p?.stamp} />
+        )}
+        {/* <PremiseBadge stamp={p?.stamp} /> */}
+      </div>
 
-        {/* lower div */}
-        {!is_draft ? (
-          <div className="flex justify-between items-center bg-[#FAFAFA] rounded-b-[8px] px-[15px] pb-[15px] mt-[1px] pt-[25px] relative">
-            <>
-              {" "}
-              <div className="flex items-center">
-                <LikePremise
-                  data={{
-                    user,
-                    ...p,
-                  }}
-                  refetch={refetch}
-                />
-                <CommentPremise
-                  data={{
-                    // finalCount,
-                    comments,
-                    bg_color,
-                    bg_img,
-                    dText,
-                    premiseOwner,
-                    id,
-                    stylings,
-                    likes,
-                    isLiked,
-                    shouldBlink,
-                    source_language,
-                    user,
-                    setOpenDotMenu,
-                    handleUserMail,
-                    handleHideUnhidePremise,
-                    setOwnerMail,
-                    formattedTime,
-                    formattedDate,
-                    hidden,
-                    index,
-                    openDotMenu,
-                    setHideDisable,
-                    hideDisable,
-                    project_id,
-                  }}
-                  refetch={refetch}
-                  setIsLiked={setIsLiked}
-                  p={p}
-                />
-              </div>
-              <div className="ml-[15px] flex gap-2 items-center">
-                <TranslatePremise
-                  {...{ transPopClose, setTransPopClose, setViewText }}
-                  data={{
-                    id,
-                    dText,
-                    source_language,
-                    project_id,
-                  }}
-                />
-              </div>
-            </>
+      {/* lower div */}
+      {!is_draft ? (
+        <div className="flex justify-between items-center bg-[#FAFAFA] rounded-b-[8px] px-[15px] pb-[15px] mt-[1px] pt-[25px] relative">
+          <>
+            {" "}
+            <div className="flex items-center">
+              <LikePremise
+                data={{
+                  user,
+                  ...p,
+                }}
+                refetch={refetch}
+              />
+              <CommentPremise
+                data={{
+                  // finalCount,
+                  comments,
+                  bg_color,
+                  bg_img,
+                  dText,
+                  premiseOwner,
+                  id,
+                  stylings,
+                  likes,
+                  isLiked,
+                  shouldBlink,
+                  source_language,
+                  user,
+                  setOpenDotMenu,
+                  handleUserMail,
+                  handleHideUnhidePremise,
+                  setOwnerMail,
+                  formattedTime,
+                  formattedDate,
+                  hidden,
+                  index,
+                  openDotMenu,
+                  setHideDisable,
+                  hideDisable,
+                  project_id,
+                }}
+                refetch={refetch}
+                setIsLiked={setIsLiked}
+                p={p}
+              />
+            </div>
+            <div className="ml-[15px] flex gap-2 items-center">
+              <TranslatePremise
+                {...{ transPopClose, setTransPopClose, setViewText }}
+                data={{
+                  id,
+                  dText,
+                  source_language,
+                  project_id,
+                }}
+              />
+            </div>
+          </>
 
-            {/* <>
+          {/* <>
           {" "}
           <div className="flex items-center">
             <LikePremise
@@ -839,22 +837,22 @@ const PremiseCardV2 = ({
             />
           </div>
         </> */}
-          </div>
-        ) : (
-          <>
-            <div className="flex justify-between items-center bg-[#FAFAFA] rounded-b-[8px] pb-[15px] mt-[1px] pt-[52px] "></div>
-          </>
-        )}
+        </div>
+      ) : (
+        <>
+          <div className="flex justify-between items-center bg-[#FAFAFA] rounded-b-[8px] pb-[15px] mt-[1px] pt-[52px] "></div>
+        </>
+      )}
 
-        {/* Background image selection */}
-        <input
-          type="file"
-          accept="image/*"
-          id="file-input-bg"
-          style={{ display: "none" }}
-          onChange={handleBackgroundChange}
-        />
-      </div>
+      {/* Background image selection */}
+      <input
+        type="file"
+        accept="image/*"
+        id="file-input-bg"
+        style={{ display: "none" }}
+        onChange={handleBackgroundChange}
+      />
+
       {/* owner edit premise */}
 
       {editMode && (
