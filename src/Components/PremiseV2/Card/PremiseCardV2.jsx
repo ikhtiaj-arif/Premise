@@ -536,7 +536,10 @@ const PremiseCardV2 = ({
 
   return (
     <div className="w-[358px] lg:w-[100%] max-w-[360px] mx-auto border-2 border-[#EAEAEA] bg-[#fafafa] hover:shadow-lg hover:border-[#33B0CA]  ease-in-out rounded-[8px]  ">
-      {/* <div className="border-2 border-[#EAEAEA] bg-[#fafafa] rounded-[8px] transition-all duration-300 ease-in-out hover:shadow-xl hover:border-[#33B0CA] hover:scale-[1.03] hover:-translate-y-1"> */}
+      {/*"w-[358px] lg:w-[100%] max-w-[360px] mx-auto border-2 border-[#EAEAEA] bg-[#fafafa] 
+    hover:shadow-lg hover:border-[#33B0CA] 
+    ease-in-out duration-300 transform hover:scale-[1.03] hover:-translate-y-1 
+    rounded-[8px] transition" */}
 
       <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-[15px] pt-[15px] pb-[6px]">
         <div className="block ">
