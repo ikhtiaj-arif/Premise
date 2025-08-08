@@ -554,7 +554,7 @@ const PremiseV2 = () => {
       className="fixed left-0  top-[60px] w-full md:w-[calc(100vw-35px)]"
       id="premisePool"
     >
-      <div className=" overflow-y-hidden overflow-x-hidden lg:px-5 mx-auto w-full h-auto max-w-[1580px] ">
+      <div className=" overflow-y-hidden bg-white overflow-x-hidden lg:px-5 mx-auto w-full h-auto max-w-[1580px] ">
         {/* <div className="md:px-5 mx-auto w-full md:w-[95%] xl:w-full h-70vh max-w-[1462px] mt-[22px] "> */}
         <div className="">
           <div className="flex  justify-between items-center h-[124px] ">
@@ -749,7 +749,8 @@ const PremiseV2 = () => {
           </div>
         )}
         <div
-          className="h-[calc(100vh - 189px)] overflow-y-scroll"
+          className="overflow-y-scroll bg-white"
+          style={{ height: "calc(100vh - 189px)" }}
           id="scrollableDiv"
           onScroll={handleScroll}
         >
