@@ -21,7 +21,7 @@ import { URL } from "../../utils";
 import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
 
 const CardHeadOptions = ({
-  
+  fromCard,
   refetch,
   viewTrnRequests,
   setViewTrnRequests,
@@ -358,33 +358,35 @@ const CardHeadOptions = ({
                 onClick={() => setOpenHidePop(!openHidePop)}
                 className="w-5 h-5 cursor-pointer"
               /> */}
-            <>
-              {openHidePop?.msg === "ShowBecomePrivilege" ? (
-                <NoAccessPopUp
-                  noAccessPopup={openHidePop}
-                  setNoAccessPopup={setOpenHidePop}
-                />
-              ) : openHidePop?.msg === "LB" ||
-                openHidePop?.msg === "ShowBuyPackage_and_Allacarte" ? (
-                <NoAccessLbPopUp
-                  noAccessLbPopup={openHidePop}
-                  setNoAccessPopup={setOpenHidePop}
-                  service="PP_Private"
-                />
-              ) : (
-                openHidePop === "Yes" && (
-                  <HideOptionPop
-                    setOpenHidePop={setOpenHidePop}
-                    id={id}
-                    refetch={refetch}
-                    user={user}
-                    filter_flag={filter_flag}
-                    comment_filter_flag={comment_filter_flag}
-                    visible_to={visible_to}
+            {!fromCard && (
+              <>
+                {openHidePop?.msg === "ShowBecomePrivilege" ? (
+                  <NoAccessPopUp
+                    noAccessPopup={openHidePop}
+                    setNoAccessPopup={setOpenHidePop}
                   />
-                )
-              )}
-            </>
+                ) : openHidePop?.msg === "LB" ||
+                  openHidePop?.msg === "ShowBuyPackage_and_Allacarte" ? (
+                  <NoAccessLbPopUp
+                    noAccessLbPopup={openHidePop}
+                    setNoAccessPopup={setOpenHidePop}
+                    service="PP_Private"
+                  />
+                ) : (
+                  openHidePop === "Yes" && (
+                    <HideOptionPop
+                      setOpenHidePop={setOpenHidePop}
+                      id={id}
+                      refetch={refetch}
+                      user={user}
+                      filter_flag={filter_flag}
+                      comment_filter_flag={comment_filter_flag}
+                      visible_to={visible_to}
+                    />
+                  )
+                )}
+              </>
+            )}
           </div>
         ) : (
           <div className="flex gap-[3px] items-center  mr-[2px] relative ">
