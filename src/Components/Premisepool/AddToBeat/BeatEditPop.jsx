@@ -659,7 +659,7 @@ const BeatEditPop = ({
     //   <ProjectNotfound setProjectNotFound={setProjectNotFound}/> // Conditionally render ProjectNotFound component
     // ) :(
     <>
-      <div className="fixed top-[17px] md:top-0 left-0 w-full h-full flex mt-[71px] xl:pt-[80px] lg:mt-[0px] items-center bg-[#252525b0] justify-center z-[1]  o ">
+      <div className="fixed top-[17px] md:top-0 left-0 w-full h-full flex mt-0 xl:pt-[80px]  items-center bg-[#252525b0] justify-center z-[1] pt-8 ">
         {beatSuggestLoading ? (
           <div className="h-auto w-full lg:w-[40%] xl:w-[35%]">
             <TypingLoader />
@@ -669,7 +669,7 @@ const BeatEditPop = ({
             className={`${
               !doNotShowBox ? "h-full lg:h-[525px]" : "h-[80%] lg:h-[411px] "
             }
-          h-[100vh] lg:mt-[88px] xl:mt-[-40px]  w-full lg:w-[920px] md:mx-auto bg-[#fff]  lg:bg-[#fadda] md:rounded-[8px] relative    ${
+          h-[100vh] lg:mt-0 xl:mt-[-40px]  w-full lg:w-[920px] md:mx-auto bg-[#fff]  lg:bg-[#fadda] md:rounded-[8px] relative    ${
             doNotShowBox ? "h-auto pb-[10px]" : "mb-[20px] pb-[20px]"
           }`}
           >

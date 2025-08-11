@@ -336,7 +336,9 @@ const PremiseV2 = () => {
       let filterPremiseData = premiseData?.results?.filter(
         // (items) => items.ai_comments_generated
         (item) =>
-          item?.ai_comments_generated === true || item?.is_draft === true
+          item?.ai_comments_generated === true ||
+          item?.current_status === "is_draft"
+        // item?.ai_comments_generated === true || item?.is_draft === true
       );
       // console.log("filterPremiseData",filterPremiseData);
       setDataCount(filterPremiseData?.length);

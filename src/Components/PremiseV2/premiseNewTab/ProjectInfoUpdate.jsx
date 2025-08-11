@@ -75,7 +75,7 @@ const ProjectInfoUpdate = ({
             <span className="font-bold">{viewText}</span>
           </h3>
           <div>
-            <div className="hidden lg:flex justify-between items-center mt-[14px] rounded-b-[8px] px-[4px] pb-[8px] pt-[4px] lg:w-[300px]">
+            <div className="hidden lg:flex justify-between items-center mt-[14px] rounded-b-[8px] pl-1 pr-4 pb-2 pt-1 lg:w-[300px]">
               {/* 1st div */}
               <div className="flex gap-1 space-x-4 items-center">
                 {/* like */}
@@ -117,7 +117,8 @@ const ProjectInfoUpdate = ({
                 />
               </div>
             </div>
-            <PremiseTopAccess
+      <div className="pr-3 ">
+              <PremiseTopAccess
               {...{
                 premiseOwner,
                 user,
@@ -127,6 +128,7 @@ const ProjectInfoUpdate = ({
                 premiseRefetch,
               }}
             />
+      </div>
           </div>
         </div>
       </div>

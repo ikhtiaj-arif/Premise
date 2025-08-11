@@ -841,6 +841,7 @@ const PremisePreview2 = ({
         protagonist_name: protagonistName,
         protagonist_age: protaAge,
         service_name: "premisePool",
+        current_status: "is_draft"
       };
 
       if (createNewProject) {
