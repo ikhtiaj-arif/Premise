@@ -541,6 +541,8 @@ const PremiseCardV2 = ({
     }
   };
 
+
+  // console.log("premise",p);
   return (
     <div className="relative w-[358px] lg:w-[100%] max-w-[360px] mx-auto">
       <div

@@ -629,7 +629,7 @@ const ReplyToComments = ({
                             handleAddToBeat(reply);
                             setBeatCommentText(reply?.text);
                           }}
-                          className="w-[74px]"
+                          className="w-[83px]"
                         >
                           <p className="text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
                             Add as Beat

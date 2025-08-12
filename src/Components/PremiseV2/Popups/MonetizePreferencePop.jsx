@@ -128,7 +128,8 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
               <div>
                 <p className="text-left !text-[14px] !leading-[21px] font-[400] text-[#616161]">
                   By allowing translation of the Premise Project in a language
-                  to MNF users for a price of ${premiseData?.pqr_value}.
+                  to MNF users for a price of $
+                  {premiseData?.pqr_value?.toFixed(2)}.
                 </p>
                 <p className="text-left !text-[12px] mt-[8px] !leading-[18px] italic font-[400] text-[#616161]">
                   (Please Note that 1/3 of the amount received for translating

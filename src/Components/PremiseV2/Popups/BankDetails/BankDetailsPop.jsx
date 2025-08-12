@@ -173,7 +173,7 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
               </p>
               <ul className="ml-[24px]">
                 <li className="text-left text-[14px] leading-[21px] font-[400]  text-[#616161] list-disc">
-                  You will receive $<span>{premiseData?.pqr_value}</span> for
+                  You will receive $<span>{premiseData?.pqr_value?.toFixed(2)}</span> for
                   each translation
                 </li>
                 <li className="text-left text-[14px] leading-[21px] font-[400]  text-[#616161] list-disc">
