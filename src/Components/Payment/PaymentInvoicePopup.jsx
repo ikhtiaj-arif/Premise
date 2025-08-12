@@ -225,10 +225,9 @@ const PaymentInvoicePopup = ({
     return today.toLocaleDateString(undefined, options);
   };
 
-  console.log("currentUser", currentUser);
 
   return (
-    <div className="fixed top-[40px] left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
+    <div className="fixed top-[-144px] xl:top-[40px] left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
       <div className="h-[90vh] lg:static lg:mt-0 absolute bottom-0 bg-white md::rounded-[12px] w-[100%] sm:w-[90%] rounded-md lg:w-[1140px]">
         <div className="relative">
           <div className="hidden md:block absolute right-[45%] top-[-60px] md:top-[-62px] md:right-[-12px]">

@@ -357,12 +357,12 @@ const PremiseTopAccess = ({
       {openTransOtherPop && (
         <TransInOtherLang popClose={setOpenTransOtherPop} />
       )}
-      {openViewTranslationsPop && (
+      {/* {openViewTranslationsPop && (
         <ViewTranslationPop
           popClose={setOpenViewTranslationsPop}
           premiseId={id}
         />
-      )}
+      )} */}
       {openMonetizingPreferencesPop && premiseData && (
         <MonetizePreferencePop
           popClose={setOpenMonetizingPreferencesPop}
@@ -395,12 +395,12 @@ const PremiseTopAccess = ({
           source_language={premiseData?.source_language}
         />
       )}
-      {openViewTranslationsPop && (
+      {/* {openViewTranslationsPop && (
         <ViewTranslationPop
           popClose={setOpenViewTranslationsPop}
           premiseId={viewTransactionPId}
         />
-      )}
+      )} */}
       {userMail === "Yes" && (
         <UserMail
           recipient={premiseOwner}

@@ -9,7 +9,6 @@ import {
 import AddCharDemoPop from "../../PremiseV2/sequalPopup/singlePop/AddCharDemoPop";
 import { getTextFromValue } from "../../PremiseV2/utilityFuncitons/functions";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
-import ConfirmationModal from "../Comments/ConfirmationModal";
 import CharacterShowCard from "./Card";
 import SingleCharacterAdd from "./SingleCharacterAdd";
 import SingleCharacterEdit from "./SingleCharacterEdit";
@@ -276,6 +275,8 @@ const CharacterEditablePop = ({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[54px] gap-y-[8px] justify-center">
             {finalAICharacters?.map((character, index) => (
               <CharacterShowCard
+                key={index + character?.id}
+                index={index + finalAICharacters?.length}
                 {...{
                   character,
                   index,
@@ -305,6 +306,7 @@ const CharacterEditablePop = ({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[54px] gap-y-[8px] justify-center ">
             {finalByMeCharacters?.map((character, index) => (
               <CharacterShowCard
+                key={index + character?.id}
                 index={index + finalAICharacters?.length}
                 {...{
                   character,

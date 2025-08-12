@@ -336,6 +336,8 @@ const PremiseV2 = () => {
       let filterPremiseData = premiseData?.results?.filter(
         // (items) => items.ai_comments_generated
         (item) =>
+          // item?.ai_comments_generated === true ||
+          // item?.current_status === "is_draft"
           item?.ai_comments_generated === true || item?.is_draft === true
       );
       // console.log("filterPremiseData",filterPremiseData);
@@ -613,7 +615,7 @@ const PremiseV2 = () => {
                 >
                   <div className="flex gap-[6px] min-h-[34px] items-center">
                     <span className=" text-[24px]">+</span>{" "}
-                    <span className="addNewPremise-m">Add A New Premise</span>
+                    <span className="addNewPremise-m" >Add A New Premise</span>
                   </div>
                 </button>
                 <div className="lg:hidden flex justify-end text-[14px] text-[#252525] h-[32px] font-[500]">

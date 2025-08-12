@@ -9,14 +9,14 @@ import LimitPaymentPage from "./Components/Payment/LimitPaymentPage";
 import PremiseNewTabAccessChecker from "./Components/PremiseV2/premiseNewTab/PremiseNewTabAccessChecker";
 import PremiseSingleCard from "./Components/PremiseV2/PremiseSingleCard";
 import PremiseV2 from "./Components/PremiseV2/Premsie.v2";
+import UserGuidance from "./Components/PremiseV2/Provider/UserGuidance";
 import { URL } from "./Components/utils";
 
 export const MyContext = createContext();
 export const TranslationContext = createContext(); // Added global translation context
 
 function App() {
-  
-useEffect(() => {
+  useEffect(() => {
     const addScrollbarEffect = (el) => {
       let hoverTimeout;
 
@@ -70,8 +70,6 @@ useEffect(() => {
     return () => observer.disconnect();
   }, []);
 
-
-  
   const { data: allspProjectJSON, refetch: projectRefetch } =
     useGetMyAllProjectQuery();
   const currentUser = useSelector((state) => state?.user);
@@ -126,12 +124,12 @@ useEffect(() => {
   };
   const decrementPopup = () => {
     const nextPopup = currentPopup - 1;
-    if (nextPopup >= 1) { // Ensure the popup number doesn't go below 1
+    if (nextPopup >= 1) {
+      // Ensure the popup number doesn't go below 1
       localStorage.setItem("popupNumber", nextPopup); // Store next popup number
       setCurrentPopup(nextPopup); // Update state
     }
   };
-  
 
   const resetPopups = () => {
     localStorage.removeItem("popupNumber"); // Reset saved popup number
@@ -212,7 +210,8 @@ useEffect(() => {
     setDoNotShowAgain,
     removeDoNotShowAgain,
     openSequalPop,
-    setOpenSequalPop,decrementPopup
+    setOpenSequalPop,
+    decrementPopup,
   };
 
   return (
@@ -221,14 +220,19 @@ useEffect(() => {
         <TranslationContext.Provider
           value={{ openDropdownId, setOpenDropdownId }}
         >
-          <Routes>
-            <Route path="/" element={<PremiseV2 />} />
-            <Route path="/payment" element={<LimitPaymentPage />} />
-            {/* <Route path="/new-tab/:id" element={<PremiseNewTab />} /> */}
-            <Route path="/new-tab/:id" element={<PremiseNewTabAccessChecker />} />
-            <Route path="/premise_view" element={<PremiseSingleCard />} />
-            <Route path="/:__id/:service" element={<PremiseV2 />} />
-          </Routes>
+          <UserGuidance>
+            <Routes>
+              <Route path="/" element={<PremiseV2 />} />
+              <Route path="/payment" element={<LimitPaymentPage />} />
+              {/* <Route path="/new-tab/:id" element={<PremiseNewTab />} /> */}
+              <Route
+                path="/new-tab/:id"
+                element={<PremiseNewTabAccessChecker />}
+              />
+              <Route path="/premise_view" element={<PremiseSingleCard />} />
+              <Route path="/:__id/:service" element={<PremiseV2 />} />
+            </Routes>
+          </UserGuidance>
         </TranslationContext.Provider>
       </MyContext.Provider>
       <ToastContainer style={{ zIndex: "1000" }} />

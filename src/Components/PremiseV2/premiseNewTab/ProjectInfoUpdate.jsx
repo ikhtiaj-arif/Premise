@@ -56,7 +56,7 @@ const ProjectInfoUpdate = ({
           </div>
         </div>
         <div className="lg:flex items-center justify-between gap-12">
-          <h3 className="text-[14px]  text-[#252525] leading-[21px] font-normal w-[100%] md:w-[70%] lg:w-[67%]">
+          <h3 className="text-[12px] leading-4 xl:text-[14px]  text-[#252525] xl:leading-[21px] font-normal w-[100%] md:w-[70%] lg:w-[67%]">
             <span
               className="text-[#252525] font-bold notranslate"
               data-te-toggle="tooltip"
@@ -75,7 +75,7 @@ const ProjectInfoUpdate = ({
             <span className="font-bold">{viewText}</span>
           </h3>
           <div>
-            <div className="hidden lg:flex justify-between items-center mt-[14px] rounded-b-[8px] px-[4px] pb-[8px] pt-[4px] lg:w-[300px]">
+            <div className="hidden lg:flex justify-between items-center mt-[14px] rounded-b-[8px] pl-1 pr-4 pb-2 pt-1 lg:w-[300px]">
               {/* 1st div */}
               <div className="flex gap-1 space-x-4 items-center">
                 {/* like */}
@@ -117,16 +117,18 @@ const ProjectInfoUpdate = ({
                 />
               </div>
             </div>
-            <PremiseTopAccess
-              {...{
-                premiseOwner,
-                user,
-                id,
-                project_id,
-                premiseData,
-                premiseRefetch,
-              }}
-            />
+            <div className="pr-3 ">
+              <PremiseTopAccess
+                {...{
+                  premiseOwner,
+                  user,
+                  id,
+                  project_id,
+                  premiseData,
+                  premiseRefetch,
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>
