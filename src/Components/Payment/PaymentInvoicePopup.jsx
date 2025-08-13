@@ -225,12 +225,11 @@ const PaymentInvoicePopup = ({
     return today.toLocaleDateString(undefined, options);
   };
 
-
   return (
-    <div className="fixed top-[-144px] xl:top-[40px] left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
+    <div className="fixed top-[-144px] lg:top-0 xl:top-[40px] left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
       <div className="h-[90vh] lg:static lg:mt-0 absolute bottom-0 bg-white md::rounded-[12px] w-[100%] sm:w-[90%] rounded-md lg:w-[1140px]">
         <div className="relative">
-          <div className="hidden md:block absolute right-[45%] top-[-60px] md:top-[-62px] md:right-[-12px]">
+          <div className="hidden xl:block absolute right-[45%] top-[-60px] md:top-[-62px] md:right-[-12px]">
             <img
               src={crossIcon}
               alt=""
@@ -240,10 +239,11 @@ const PaymentInvoicePopup = ({
               }}
             />
           </div>
-          <div className="md:hidden absolute top-[-38px] left-[-18px] ml-4 sm:ml-0 sm:right-[-15px]">
+       
+          <div className="xl:hidden absolute top-[-38px] left-[-18px] ml-4 sm:ml-0 sm:right-[-15px]">
             <MdKeyboardBackspace
               alt=""
-              className="text-[#33B0CA] ml-[20px] text-left text-[38px] z-[1] absolute cursor-pointer mdHidden"
+              className="text-[#33B0CA] ml-[20px] text-left text-[38px] z-[1] absolute cursor-pointer "
               onClick={() => {
                 setPayment(false);
               }}

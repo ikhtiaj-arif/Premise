@@ -8,7 +8,7 @@ const SuccessPop = ({ popClose, requestType, parentClose }) => {
     parentClose(null);
   };
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center xl:mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center   bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
       <div className=" h-[50vh] sm:h-[300px] p-5 mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full sm:w-[90%] bg-[#fff] max-w-[605px]  md:mx-auto relative rounded-[8px]">
         {/* close popup */}
