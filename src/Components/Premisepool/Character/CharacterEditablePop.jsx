@@ -10,9 +10,9 @@ import AddCharDemoPop from "../../PremiseV2/sequalPopup/singlePop/AddCharDemoPop
 import { getTextFromValue } from "../../PremiseV2/utilityFuncitons/functions";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import CharacterShowCard from "./Card";
-import SingleCharacterAdd from "./SingleCharacterAdd";
-import SingleCharacterEdit from "./SingleCharacterEdit";
 import SingleCharacterAddNewTab from "./SingleCharacterAddNewTab";
+import SingleCharacterEdit from "./SingleCharacterEdit";
+import SingleCharacterAdd from "./SingleCharacterAdd";
 
 const CharacterEditablePop = ({
   setCharacterEditPop,
@@ -109,6 +109,7 @@ const CharacterEditablePop = ({
     skip: isOldProject,
   });
 
+
   useEffect(() => {
     if (characters) {
       setCharacterArray(characters);
@@ -152,7 +153,19 @@ const CharacterEditablePop = ({
     setCharacterArray(updatedCharacters);
     // console.log("After Deletion:", updatedCharacters);
   };
-
+  const deleteCharacterFun = async (character) => {
+    if (character?.id) {
+      const res = await deleteCharacter(character?.id);
+      if (res) {
+        characterRefetch();
+      }
+    }else{
+      const updatedCharacters = characterArray.filter(
+      (char) => char.role !== character?.role
+    );
+    setCharacterArray(updatedCharacters);
+    }
+  };
   const handleAddNewCharacter = (newCharacter) => {
     const updatedCharacters = [...characterArray, newCharacter];
     // console.log("After Adding New Character:", updatedCharacters);
@@ -196,14 +209,6 @@ const CharacterEditablePop = ({
       }
     } else {
       setCharacterEditPop(false);
-    }
-  };
-
-  const deleteCharacterFun = async (character) => {
-    console.log("ddddddddddd", character);
-    const res = await deleteCharacter(character?.id);
-    if (res) {
-      characterRefetch();
     }
   };
 
@@ -472,26 +477,26 @@ const CharacterEditablePop = ({
           />
         )}
         {addNewCharacter === "Yes" && (
-          // <SingleCharacterAdd
+          <SingleCharacterAdd
+            setAddNewCharacter={setAddNewCharacter}
+            editData={editData}
+            handleAddNewCharacter={handleAddNewCharacter}
+            characterArray={characterArray}
+            source_language={source_language}
+          />
+          // <SingleCharacterAddNewTab
+          //   setCharacterEditPop={setOpenCharacterChart}
           //   setAddNewCharacter={setAddNewCharacter}
-          //   editData={editData}
-          //   handleAddNewCharacter={handleAddNewCharacter}
           //   characterArray={characterArray}
+          //   // currentProjectData={premiseData}
+          //   setCharacterArray={setCharacterArray}
+          //   onlyAdd={onlyAdd}
+          //   handleUpdateSavedChar={handleUpdateSavedChar}
+          //   characterLoading={isCharLoading}
+          //   project_id={project_id}
           //   source_language={source_language}
+          //   characterRefetch={characterRefetch}
           // />
-               <SingleCharacterAddNewTab
-                    setCharacterEditPop={setOpenCharacterChart}
-                    setAddNewCharacter={setAddNewCharacter}
-                    characterArray={characterArray}
-                    // currentProjectData={premiseData}
-                    setCharacterArray={setCharacterArray}
-                    onlyAdd={onlyAdd}
-                    handleUpdateSavedChar={handleUpdateSavedChar}
-                    characterLoading={isCharLoading}
-                    project_id={project_id}
-                    source_language={source_language}
-                    characterRefetch={characterRefetch}
-                  />
         )}
       </div>
       {/* {deleteChar && (
