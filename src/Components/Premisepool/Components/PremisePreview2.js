@@ -877,7 +877,7 @@ const PremisePreview2 = ({
           setCreatedSpProjectID(response?.data?.projects?.pro_uuid);
           setspID(response?.data?.projects?.pro_uuid);
           formData.append("project_id", response?.data?.projects?.pro_uuid);
-          formData.append("PremiseLimitCheck", 'NO')
+          formData.append("PremiseLimitCheck", "NO");
           projectRefetch();
 
           const deleteId = response?.data?.projects?.pro_uuid;
@@ -899,7 +899,7 @@ const PremisePreview2 = ({
             } = res?.data;
             setSelectedPremiseSpProjectId(response?.data?.projects?.pro_uuid);
             setPremiseId(res?.data?.id);
-            setPostedPremiseData(res?.data)
+            setPostedPremiseData(res?.data);
             // setMValue(res?.data?.m_value)
 
             const deletePreID = res?.data?.id;
@@ -985,7 +985,7 @@ const PremisePreview2 = ({
               })
               .catch((error) => {
                 setIsLoading(false);
-                deleteProject(deleteId);
+                deleteProject({ project: deleteId });
                 deletePremiseWhenFailed(deletePreID);
                 toast.error("Failed to create Premise", {
                   position: toast.POSITION.TOP_CENTER,
@@ -1010,12 +1010,16 @@ const PremisePreview2 = ({
       } else {
         data.id = selectedSpProjectID;
         data.name = selectedSpProject;
+      
+        if(matchingProject?.current_status === "without_premise"){
+          data.current_status = null
+        }
         // return
         const response = await updateProject(data);
         setCurrentProjectData(data);
         if (response) {
           formData.append("project_id", selectedSpProjectID);
-          formData.append("PremiseLimitCheck", 'NO')
+          formData.append("PremiseLimitCheck", "NO");
           setspID(selectedSpProjectID);
           projectRefetch();
 
@@ -1036,10 +1040,10 @@ const PremisePreview2 = ({
               // project_id,
             } = res?.data;
 
-            console.log("source_language", source_language);
+          
             setSelectedPremiseSpProjectId(response?.data?.projects?.pro_uuid);
             setPremiseId(res?.data?.id);
-            setPostedPremiseData(res?.data)
+            setPostedPremiseData(res?.data);
             const deletePreID = res?.data?.id;
             // setMValue(res?.data?.m_value)
 
@@ -1925,9 +1929,9 @@ const PremisePreview2 = ({
                         }}
                       >
                         <div className="h-[27px] px-[8px] text-[12px] md:!text-[14px] flex items-center justify-between">
-                          {filteredSpProjects.find(
-                            (p) => p.pro_uuid === selectedSpProjectID
-                          )?.name.slice(0,25) || (
+                          {filteredSpProjects
+                            .find((p) => p.pro_uuid === selectedSpProjectID)
+                            ?.name.slice(0, 25) || (
                             <span className="text-gray-400">
                               Select A Project
                             </span>
@@ -3436,7 +3440,10 @@ const PremisePreview2 = ({
                     onChange={() => setAgreeToPost(!agreeToPost)}
                     checked={agreeToPost}
                   />
-                  <p htmlFor="checkbox" className="text-[12px] leading-4 max-w-[90%]">
+                  <p
+                    htmlFor="checkbox"
+                    className="text-[12px] leading-4 max-w-[90%]"
+                  >
                     I understand that after posting the Premise, I will not be
                     able to edit the proposed characters.
                   </p>

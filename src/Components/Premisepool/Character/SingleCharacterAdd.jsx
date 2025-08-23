@@ -302,7 +302,7 @@ const SingleCharacterAdd = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[2] ">
       <div className="fixed inset-0 bg-black opacity-50"></div>
-      <div className="relative bg-[#FAFAFA] pt-[20px] px-[8px] rounded-lg shadow-lg w-full lg:w-[479px] md:mt-12 h-[73vh] md:h-[490px]">
+      <div className="relative bg-[#FAFAFA] pt-[20px] px-[8px] rounded-lg shadow-lg w-full max-w-[479px] md:mt-12 h-[73vh] md:h-[490px]">
         <div className=" w-full h-10 sticky">
           <h3 className="text-center md:mb-[20px] font-[500]">
             <span className="text-[18px] text-center md:text-[14px]">

@@ -12,6 +12,7 @@ import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import CharacterShowCard from "./Card";
 import SingleCharacterAdd from "./SingleCharacterAdd";
 import SingleCharacterEdit from "./SingleCharacterEdit";
+import SingleCharacterAddNewTab from "./SingleCharacterAddNewTab";
 
 const CharacterEditablePop = ({
   setCharacterEditPop,
@@ -471,13 +472,26 @@ const CharacterEditablePop = ({
           />
         )}
         {addNewCharacter === "Yes" && (
-          <SingleCharacterAdd
-            setAddNewCharacter={setAddNewCharacter}
-            editData={editData}
-            handleAddNewCharacter={handleAddNewCharacter}
-            characterArray={characterArray}
-            source_language={source_language}
-          />
+          // <SingleCharacterAdd
+          //   setAddNewCharacter={setAddNewCharacter}
+          //   editData={editData}
+          //   handleAddNewCharacter={handleAddNewCharacter}
+          //   characterArray={characterArray}
+          //   source_language={source_language}
+          // />
+               <SingleCharacterAddNewTab
+                    setCharacterEditPop={setOpenCharacterChart}
+                    setAddNewCharacter={setAddNewCharacter}
+                    characterArray={characterArray}
+                    // currentProjectData={premiseData}
+                    setCharacterArray={setCharacterArray}
+                    onlyAdd={onlyAdd}
+                    handleUpdateSavedChar={handleUpdateSavedChar}
+                    characterLoading={isCharLoading}
+                    project_id={project_id}
+                    source_language={source_language}
+                    characterRefetch={characterRefetch}
+                  />
         )}
       </div>
       {/* {deleteChar && (

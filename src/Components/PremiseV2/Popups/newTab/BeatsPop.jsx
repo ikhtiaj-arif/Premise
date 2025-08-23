@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { FaArrowLeft } from "react-icons/fa6";
 import { ToastContainer } from "react-toastify";
 import { useGetPremiseBeatsDataQuery } from "../../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
-import ShowBeats from "./ShowBeats";
-import { FaArrowLeft } from "react-icons/fa6";
-import Loading from "../../../../shared/Loading";
 import TypingLoader from "../../../TypingLoader";
+import ShowBeats from "./ShowBeats";
 
 const BeatsPop = ({ popClose, id }) => {
   const {
@@ -37,7 +36,7 @@ const BeatsPop = ({ popClose, id }) => {
   );
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] md:mt-[0px] bg-[#252525b0] justify-center z-[21]">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center  md:mt-[0px] bg-[#252525b0] justify-center z-[21]">
       <ToastContainer />
       <div className="h-[100vh] md:h-[80vh] mb-[20px] px-[12px] md:px-[32px] md:mb-0 md:mt-[100px] xl:mt-[85px] w-full bg-[#fff] md:bg-[#FAFAFA] md:w-[1052px] md:max-w-[95%] md:mx-auto relative md:rounded-[8px]">
         {/* close popup */}
@@ -58,7 +57,9 @@ const BeatsPop = ({ popClose, id }) => {
         />
 
         {isPremiseLoading ? (
-          <div><TypingLoader /></div>
+          <div>
+            <TypingLoader />
+          </div>
         ) : (
           <div>
             {/* header */}

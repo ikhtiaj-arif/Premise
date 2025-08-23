@@ -57,6 +57,7 @@ const SingleCharacterAddNewTab = ({
     useSuggestCharactersMutation();
   const [selectedLanguage, setSelectedLanguage] = useState("");
   const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const [isSaveLoading, setIsSaveLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const sourceLanguageName = getLanguageName(source_language);
 
@@ -90,7 +91,7 @@ const SingleCharacterAddNewTab = ({
 
   const handleAddClick = async (e) => {
     e.preventDefault();
-
+    setIsSaveLoading(true);
     const assignedRole = role === "Others" ? customRole : role;
 
     const newCharacter = {
@@ -121,6 +122,9 @@ const SingleCharacterAddNewTab = ({
     if (response) {
       characterRefetch();
       setAddNewCharacter(null);
+      setIsSaveLoading(false);
+    } else {
+      setIsSaveLoading(true);
     }
 
     // console.log(response, "response");
@@ -300,7 +304,7 @@ const SingleCharacterAddNewTab = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[2] ">
       <div className="fixed inset-0 bg-black opacity-50"></div>
-      <div className="relative bg-[#FAFAFA] pt-[20px] px-[8px] rounded-lg shadow-lg w-full lg:w-[479px] md:mt-12 h-[73vh] md:h-[490px]">
+      <div className="relative bg-[#FAFAFA] pt-[20px] px-[8px] rounded-lg shadow-lg w-full max-w-[479px] md:mt-12 h-[73vh] md:h-[490px]">
         <div className=" w-full h-10 sticky">
           <h3 className="text-center md:mb-[20px] font-[500]">
             <span className="text-[18px] text-center md:text-[14px]">
@@ -721,7 +725,7 @@ const SingleCharacterAddNewTab = ({
           </button>
           <button
             onClick={handleAddClick}
-            disabled={isSaveDisabled}
+            disabled={isSaveDisabled || isSaveLoading}
             className={`${
               isSaveDisabled ? "bg-[#ACDDE7]  " : "bg-[#33B0CA] "
             } text-[14px] font-[600] text-white w-[69px] h-[32px] rounded-[4px]`}

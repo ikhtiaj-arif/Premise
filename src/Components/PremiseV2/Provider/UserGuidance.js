@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { stepSets } from "./joyrideSteps";
+import Joyride from "react-joyride";
 function CustomTooltip({
   step,
   index,

@@ -50,13 +50,13 @@ const NoAccessPopUp = ({ setNoAccessPopup, noAccessPopup }) => {
   };
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
-      <div className=" lg:static lg:mt-0 absolute bottom-0 bg-white rounded-[12px] w-[100%] lg:w-[643px]">
+      <div className=" md:static lg:mt-0 absolute bottom-0 bg-white rounded-[12px] w-[100%] md:w-[643px]">
         <div className="relative">
           <div className="absolute right-[45%] top-[-60px] md:top-[-10px] md:right-[-10px]">
             <img
               src={crossIcon}
               alt=""
-              className="w-[40px] h-[40px] z-[99999999] cursor-pointer"
+              className="w-[40px] h-[40px] z-[99] cursor-pointer"
               onClick={() => {
                 setNoAccessPopup(null);
               }}

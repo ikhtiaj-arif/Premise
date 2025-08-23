@@ -9,6 +9,7 @@ import {
   getTextFromValue,
 } from "../utilityFuncitons/functions";
 import PremiseTopAccess from "./PremiseTopAccess";
+import LikePopup from "../../Premisepool/LikePopup";
 
 const ProjectInfoUpdate = ({
   premiseData,
@@ -34,7 +35,9 @@ const ProjectInfoUpdate = ({
     source_language,
     project_id,
   } = premiseData;
+  const [likePopup, setLikePopup] = useState(false);
   const [transText, setTransText] = useState("");
+
   const splitText = text.split("+");
   const dText = splitText[1];
   const user = useSelector((state) => state?.user?.id);
@@ -84,6 +87,8 @@ const ProjectInfoUpdate = ({
                   data={{
                     user,
                     ...premiseData,
+                    likePopup,
+                    setLikePopup,
                   }}
                   refetch={premiseRefetch}
                 />
@@ -141,6 +146,8 @@ const ProjectInfoUpdate = ({
             data={{
               user,
               ...premiseData,
+              likePopup,
+              setLikePopup,
             }}
             refetch={premiseRefetch}
           />
@@ -174,6 +181,8 @@ const ProjectInfoUpdate = ({
           />
         </div>
       </div>
+      
+      {likePopup && <LikePopup setLikePopup={setLikePopup} id={id} />}
     </div>
   );
 };

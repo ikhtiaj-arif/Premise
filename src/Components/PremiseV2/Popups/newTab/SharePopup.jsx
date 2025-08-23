@@ -36,8 +36,8 @@ const SharePopup = ({ popClose }) => {
     popClose(false);
   };
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
-      <div className="h-[253px] mb-[20px] lg:px-[22px] lg:mb-0 lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:w-auto md:mx-auto absolute bottom-[60px] left-0 lg:relative lg:bottom-0 lg:rounded-[8px] rounded-t-[12px]">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center  bg-[#252525b0] justify-center z-[21]">
+      <div className="h-[253px]  lg:px-[22px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:w-auto md:mx-auto absolute left-0 lg:relative  lg:rounded-[8px] rounded-t-[12px]">
         {/* Close Popup */}
         <img
           src={crossIcon}
