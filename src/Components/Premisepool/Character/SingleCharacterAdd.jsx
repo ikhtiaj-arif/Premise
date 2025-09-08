@@ -550,7 +550,7 @@ const SingleCharacterAdd = ({
                     isSaveDisabled || disabled
                       ? "bg-[#ACDDE7]  "
                       : "bg-[#33B0CA] "
-                  } text-white text-[12px] font-[700] md:h-[38px] rounded-[6px] px-3 py-1`}
+                  } text-white text-[14px] font-[700] md:h-[32px] rounded-[8px] px-3 `}
                 >
                   Suggest the following
                 </button>
@@ -720,7 +720,7 @@ const SingleCharacterAdd = ({
         <div className="absolute bottom-0 left-0 right-0 bg-[#FAFAFA] py-4 px-8 flex justify-end gap-[18px] rounded-[8px]">
           <button
             onClick={() => setAddNewCharacter(false)}
-            className="bg-[#fafafa] flex items-center gap-[14px] justify-center text-[14px] text-[#33B0CA] border border-[#33B0CA] w-[69px] h-[32px] rounded-[4px] py-[4px] px-[2px] "
+            className="bg-[#fafafa] flex items-center gap-[14px] justify-center text-[14px] text-[#33B0CA] border border-[#33B0CA]  h-[32px] rounded-[8px] py-[4px] px-3"
           >
             Cancel
           </button>
@@ -729,9 +729,9 @@ const SingleCharacterAdd = ({
             disabled={isSaveDisabled}
             className={`${
               isSaveDisabled ? "bg-[#ACDDE7] " : "bg-[#33B0CA] "
-            } text-[14px] font-[600] text-white w-[69px] h-[32px] rounded-[4px]`}
+            } text-[14px] font-[600] text-white px-3 h-[32px] rounded-[8px]`}
           >
-            Save
+            Save Character
           </button>
         </div>
         {selectedLanguage && keyboardVisible && (

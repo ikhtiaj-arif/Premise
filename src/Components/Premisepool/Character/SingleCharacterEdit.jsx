@@ -19,32 +19,74 @@ const SingleCharacterAdd = ({
   onlyAdd,
   source_language,
 }) => {
-  const [role, setRole] = useState(editData?.role || "");
-  const [selectedLanguage, setSelectedLanguage] = useState("");
-  const [keyboardVisible, setKeyboardVisible] = useState(false);
-  const [name, setName] = useState(editData?.name || "");
-  const [age, setAge] = useState(editData?.age || "");
+  // const [role, setRole] = useState(editData?.role || "");
+  // const [name, setName] = useState(editData?.name || "");
+  // const [age, setAge] = useState(editData?.age || "");
   const [focusedFieldName, setFocusedFieldName] = useState("");
-  const [occupation, setOccupation] = useState(editData?.occupation || "");
-  const [gender, setGender] = useState(editData?.gender || "");
-  const [background, setBackGround] = useState(editData?.background || "");
-  const [personality, setPersonality] = useState(editData?.personality || "");
-  const [individualWant, setIndividualWant] = useState(
-    editData?.individual_want || ""
-  );
+  // const [occupation, setOccupation] = useState(editData?.occupation || "");
+  // const [gender, setGender] = useState(editData?.gender || "");
+  // const [background, setBackGround] = useState(editData?.background || "");
+  // const [personality, setPersonality] = useState(editData?.personality || "");
+  // const [individualWant, setIndividualWant] = useState(
+  //   editData?.individual_want || ""
+  // );
+  // const [bloodrelationship, setBloodrelationship] = useState(
+  //   editData?.blood_relationship || ""
+  // );
+  // const [familyrelationship, setFamilyrelationship] = useState(
+  //   editData?.family_relationship || ""
+  // );
+  // const [professionalrelationship, setProfessionalrelationship] = useState(
+  //   editData?.professional_relationship || ""
+  // );
+
+  const initialValues = {
+    role: editData?.role || "",
+    name: editData?.name || "",
+    age: editData?.age || "",
+    occupation: editData?.occupation || "",
+    gender: editData?.gender || "",
+    background: editData?.background || "",
+    personality: editData?.personality || "",
+    individualWant: editData?.individual_want || "",
+    characterJourney: editData?.character_journey || "",
+    bloodRelationship: editData?.blood_relationship || "",
+    familyRelationship: editData?.family_relationship || "",
+    professionalRelationship: editData?.professional_relationship || "",
+  };
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [customRole, setCustomRole] = useState("");
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
   const [characterjourney, setCharacterjourney] = useState(
     editData?.character_journey || ""
   );
-  const [customRole, setCustomRole] = useState("");
+
+  // 2. States
+  const [role, setRole] = useState(initialValues.role);
+  const [name, setName] = useState(initialValues.name);
+  const [age, setAge] = useState(initialValues.age);
+  const [occupation, setOccupation] = useState(initialValues.occupation);
+  const [gender, setGender] = useState(initialValues.gender);
+  const [background, setBackGround] = useState(initialValues.background);
+  const [personality, setPersonality] = useState(initialValues.personality);
+  const [individualWant, setIndividualWant] = useState(
+    initialValues.individualWant
+  );
+  const [characterJourney, setCharacterJourney] = useState(
+    initialValues.characterJourney
+  );
   const [bloodrelationship, setBloodrelationship] = useState(
-    editData?.blood_relationship || ""
+    initialValues.bloodRelationship
   );
   const [familyrelationship, setFamilyrelationship] = useState(
-    editData?.family_relationship || ""
+    initialValues.familyRelationship
   );
   const [professionalrelationship, setProfessionalrelationship] = useState(
-    editData?.professional_relationship || ""
+    initialValues.professionalRelationship
   );
+
+  const [isUndoEnabled, setIsUndoEnabled] = useState(false);
+
   const [genderDropdownOpen, setGenderDropdownOpen] = useState(false);
 
   const [isSaveDisabled, setIsSaveDisabled] = useState(true);
@@ -60,6 +102,53 @@ const SingleCharacterAdd = ({
   const familyRelationshipRef = useRef(null);
   const professionalRelationshipRef = useRef(null);
 
+  useEffect(() => {
+    const hasChanged =
+      role !== initialValues.role ||
+      name !== initialValues.name ||
+      age !== initialValues.age ||
+      occupation !== initialValues.occupation ||
+      gender !== initialValues.gender ||
+      background !== initialValues.background ||
+      personality !== initialValues.personality ||
+      individualWant !== initialValues.individualWant ||
+      characterJourney !== initialValues.characterJourney ||
+      bloodrelationship !== initialValues.bloodRelationship ||
+      familyrelationship !== initialValues.familyRelationship ||
+      professionalrelationship !== initialValues.professionalRelationship;
+
+    setIsUndoEnabled(hasChanged);
+  }, [
+    role,
+    name,
+    age,
+    occupation,
+    gender,
+    background,
+    personality,
+    individualWant,
+    characterJourney,
+    bloodrelationship,
+    familyrelationship,
+    professionalrelationship,
+  ]);
+
+  const handleUndo = () => {
+    setRole(initialValues.role);
+    setName(initialValues.name);
+    setAge(initialValues.age);
+    setOccupation(initialValues.occupation);
+    setGender(initialValues.gender);
+    setBackGround(initialValues.background);
+    setPersonality(initialValues.personality);
+    setIndividualWant(initialValues.individualWant);
+    setCharacterJourney(initialValues.characterJourney);
+    setBloodrelationship(initialValues.bloodRelationship);
+    setFamilyrelationship(initialValues.familyRelationship);
+    setProfessionalrelationship(initialValues.professionalRelationship);
+
+    setIsUndoEnabled(false); // disable Undo after restoring
+  };
   // useAutosizeTextArea(textAreaRef.current, familyrelationship);
 
   useEffect(() => {
@@ -312,8 +401,17 @@ const SingleCharacterAdd = ({
                 <div className="absolute top-[20px] right-[0px] z-10">
                   <div className="text-[14px] mb-[-15px] hidden text-[#616161] w-full outline-[#EAEAEA] md:flex justify-center items-center">
                     <button
+                      onClick={handleUndo}
+                      disabled={!isUndoEnabled}
+                      className={`text-[14px] font-[600] text-white px-3 h-[32px]  rounded-[8px] ${
+                        !isUndoEnabled ? "bg-[#ACDDE7]  " : "bg-[#33B0CA] "
+                      }`}
+                    >
+                      Undo
+                    </button>
+                    <button
                       onClick={onClickKeyboard}
-                      className={` w-full h-[32px] md:h-[30px] flex justify-between gap-10 px-5 items-center rounded-[6px]`}
+                      className={` w-full h-[32px] md:h-[30px] flex justify-between gap-10 px-5 items-center rounded-[8px]`}
                     >
                       <FaKeyboard
                         data-te-toggle="tooltip"
@@ -336,83 +434,6 @@ const SingleCharacterAdd = ({
               className="w-[90%] md:w-[398px] mt-[12px] md:mt-0 mx-auto"
             >
               <div className="block mb-0 md:mb-[12px] md:flex gap-[18px] ">
-                {/* <div className="relative w-full md:w-[171px]">
-                  <label
-                    className={`absolute left-2 top-[1px] lg:top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500]  transition-all z-[2]
-                     `}
-                  >
-                    Role
-                  </label>
-                  {console.log(role)} 
-                  <select
-                    required
-                    // onChange={(e) => setRole(e.target.value)}
-                    value={getRole()}
-                    className=" text-[14px] bg-[#FAFAFA] border-[2px] text-[#252525] outline-[#EAEAEA]  rounded-[8px] my-[12px] md:my-0   w-full md:w-[171px] h-[42px]  indent-1 "
-                    disabled
-                  >
-                    {characterRoles?.map((roleOption) => (
-                      <option
-                        key={roleOption}
-                        value={roleOption}
-                        selected
-                        disabled
-                        className="bg-white text-[#252525] text-[14px] "
-                      >
-                        {roleOption}
-                      </option>
-                    ))}
-                                       
-                    <option className="text-[14px]" value="" selected disabled>
-                      Role
-                    </option>
-                    <option className="bg-white text-[#252525] text-[14px]">
-                      Protagonist
-                    </option>
-                    <option className=" text-[#252525] text-[14px]">
-                      Antagonist
-                    </option>
-                    <option className=" text-[#252525] text-[14px]">
-                      Narrator
-                    </option>
-                    <option className=" text-[#252525] text-[14px]">
-                      Co-Star
-                    </option>
-                    <option className=" text-[#252525] text-[14px]">
-                    Mediator
-                    </option>
-                    <option className=" text-[#252525] text-[14px]">
-                      Confidant
-                    </option>
-                    <option className=" text-[#252525] text-[14px]">
-                      Love Interest
-                    </option>
-                    <option className=" text-[#252525] text-[14px]">
-                      Antagonist's Right Hand
-                    </option>
-                    <option className=" text-[#252525] text-[14px]">
-                      Foil
-                    </option>
-                    <option className=" text-[#252525] text-[14px]">
-                      Mentor
-                    </option>
-                    <option className=" text-[#252525] text-[14px]">
-                      Comic Relief
-                    </option>
-                    <option className=" text-[#252525] text-[14px]">
-                      Rival
-                    </option>
-                    <option className=" text-[#252525] text-[14px]">
-                      Sidekick
-                    </option>
-                    <option className=" text-[#252525] text-[14px]">
-                      Symbolic character
-                    </option>
-                    <option className=" text-[#252525] text-[14px]">
-                      Others
-                    </option> 
-                  </select>
-                </div>  */}
                 <div className="relative w-full md:w-[171px]">
                   <label className="absolute left-2 top-[1px] lg:top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-[2]">
                     Role
@@ -478,51 +499,6 @@ const SingleCharacterAdd = ({
               </div>
 
               <div className="flex flex-col mb-0 md:mb-[12px] md:flex-row mt-[8px] md:mt-[24px] gap-[14px]">
-                {/* <div
-                  className={`relative w-full ${
-                    isDisabled ? "md:w-[128px]" : "md:w-[97px]"
-                  } `}
-                >
-                  <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-10">
-                    Gender
-                  </label>
-                  {isDisabled ? (
-                    <div className=" text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA]  rounded-[8px] mt-[12px] md:my-0   w-full md:w-[128px] h-[42px]  indent-1 overflow-x-hidden">
-                      {gender.split(" ")}
-                    </div>
-                  ) : (
-                    <select
-                      required
-                      disabled={isDisabled}
-                      value={gender}
-                      onChange={(e) => setGender(e.target.value)}
-                      className=" text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA]  rounded-[8px] mt-[12px] md:my-0   w-full md:w-[97px] h-[42px]  indent-1"
-                      // className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[42px]"
-                      // style={{ width: "97px" }}
-                    >
-                      <option
-                        value=""
-                        className="text-[14px] "
-                        selected
-                        disabled
-                      >
-                        Gender
-                      </option>
-                      {sourceLanguageName === "English" ? (
-                        <>
-                          <option className="text-[14px]">Male</option>
-                          <option className="text-[14px]">Female</option>
-                          <option className="text-[14px]">Animal</option>
-                          <option className="text-[14px]">
-                            Inanimate Object
-                          </option>
-                        </>
-                      ) : (
-                        <>{getGenderOptions(sourceLanguageName)}</>
-                      )}
-                    </select>
-                  )}
-                </div> */}
                 <div
                   className={`relative w-full ${
                     gender === inanimateObjectOptions(sourceLanguageName)
@@ -808,34 +784,25 @@ const SingleCharacterAdd = ({
               </div>
             </form>
           </div>
-          {/* {onlyAdd || isDisabled ? (
-            <div className="absolute bottom-0 left-0 right-0 bg-[#FAFAFA] py-4 px-8 flex justify-end gap-[18px]  rounded-[8px]">
-              <button
-                onClick={() => setEditPopupOpen(false)}
-                className="bg-[#fafafa] flex items-center gap-[14px] justify-center text-[14px] text-[#33B0CA] border border-[#33B0CA] w-[69px] h-[32px] rounded-[4px] py-[4px] px-[2px]"
-              >
-                Close
-              </button>
-            </div>
-          ) : ( */}
+
           <div className="absolute bottom-0 left-0 right-0 bg-[#FAFAFA] py-4 px-8 flex justify-end gap-[18px]  rounded-[8px]">
             <button
               onClick={() => setEditPopupOpen(false)}
-              className="bg-[#fafafa] flex items-center gap-[14px] justify-center text-[14px] text-[#33B0CA] border border-[#33B0CA] w-[69px] h-[28px] md:h-[32px] xl:h-[38px] rounded-[4px] py-[4px] px-[2px]"
+              className="bg-[#fafafa] flex items-center gap-[14px] justify-center text-[14px] text-[#33B0CA] border border-[#33B0CA] h-[32px]  rounded-[8px]  px-3"
             >
               Cancel
             </button>
 
             <button
               onClick={handleAddClick}
-              className={`text-[14px] font-[600] text-white w-[69px] h-[28px] md:h-[32px] xl:h-[38px] rounded-[4px] ${
+              className={`text-[14px] font-[600] text-white px-3 h-[32px]  rounded-[8px] ${
                 isSaveDisabled || disabledEdit
                   ? "bg-[#ACDDE7]  "
                   : "bg-[#33B0CA] "
               }`}
               disabled={isSaveDisabled || disabledEdit}
             >
-              Save
+              Save Character
             </button>
           </div>
           {/* )} */}

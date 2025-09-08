@@ -202,7 +202,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
                 )
                   ? "bg-[#ACDDE7] "
                   : "bg-[#33B0CA]"
-              } text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] py-[2px] text-[13px] font-[600]`}
+              } text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] h-[32px] text-[13px] font-[600]`}
             >
               Update
             </button>
