@@ -258,7 +258,7 @@ const CharacterEditablePop = ({
               className="notranslate"
             >
               {currentProjectData?.name?.slice(0, 20)}
-              {currentProjectData?.name.length > 20
+              {/* {currentProjectData?.name.length > 20
               ? `${currentProjectData?.name.slice(0, 20)}...`
               : currentProjectData} */}
             </span>
