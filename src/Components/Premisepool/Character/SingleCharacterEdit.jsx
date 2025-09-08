@@ -390,7 +390,7 @@ const SingleCharacterAdd = ({
             onClick={() => setEditPopupOpen(false)}
             className="block md:hidden text-[#33B0CA] cursor-pointer h-[38px] w-[38px]"
           />
-          <span className="text-[18px] md:text-[14px]">{`${
+          <span className="text-[18px] md:text-[18px]">{`${
             isDisabled ? "View Character" : "Edit Character"
           }`}</span>
         </h3>
@@ -435,12 +435,12 @@ const SingleCharacterAdd = ({
             >
               <div className="block mb-0 md:mb-[12px] md:flex gap-[18px] ">
                 <div className="relative w-full md:w-[171px]">
-                  <label className="absolute left-2 top-[1px] lg:top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-[2]">
+                  <label className="absolute left-2 top-[1px] lg:top-[-10px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all z-[2]">
                     Role
                   </label>
 
                   <div
-                    className="text-[14px] leading-[18px] pt-[6px] bg-[#FAFAFA] border-[2px] text-[#252525] outline-[#EAEAEA] rounded-[8px] my-[12px] md:my-0 w-full md:w-[171px] h-[42px] indent-1 flex items-center pl-2 cursor-not-allowed select-none"
+                    className="text-[14px] leading-[18px] pt-[6px] bg-[#FAFAFA] border-[2px] text-[#252525] outline-[#EAEAEA] rounded-[8px] my-[12px] md:my-0 w-full md:w-[171px] h-[44px] indent-1 flex items-center pl-2 cursor-not-allowed select-none"
                     style={{ backgroundColor: "#f5f5f5", opacity: 0.8 }}
                   >
                     {getRole() || "Role"}
@@ -448,7 +448,7 @@ const SingleCharacterAdd = ({
                 </div>
                 <div className="relative w-full mt-[4px] md:mt-0  md:w-[171px]">
                   <label
-                    className={`absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all `}
+                    className={`absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all `}
                   >
                     Name
                   </label>
@@ -476,7 +476,7 @@ const SingleCharacterAdd = ({
                               ? "text-[#33B0CA]"
                               : "text-[#616161]"
                           }`}`
-                    }  px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[208px] h-[42px]   `}
+                    }  px-3 py-[6px] outline-[#EAEAEA]  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[208px] h-[44px]   `}
                     disabled={isDisabled || editIdx === 0}
                   />
                 </div>
@@ -493,7 +493,7 @@ const SingleCharacterAdd = ({
                     onChange={(e) => setCustomRole(e.target.value)}
                     type="text"
                     placeholder="Describe the role"
-                    className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  mt-[5px] mb-[15px] rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-[42px] "
+                    className="text-[14px] bg-[#FAFAFA] px-3 py-[6px] outline-[#EAEAEA]  mt-[5px] mb-[15px] rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-[44px] "
                   />
                 )}
               </div>
@@ -506,7 +506,7 @@ const SingleCharacterAdd = ({
                       : "md:w-[97px]"
                   }`}
                 >
-                  <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
                     Gender
                   </label>
 
@@ -556,7 +556,7 @@ const SingleCharacterAdd = ({
 
                 {gender !== inanimateObjectOptions(sourceLanguageName) && (
                   <div className="relative w-full md:w-[49px]">
-                    <label className="absolute left-2 top-[-12px] z-[2] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                    <label className="absolute left-2 top-[-12px] z-[2] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
                       Age
                     </label>
                     <input
@@ -566,7 +566,7 @@ const SingleCharacterAdd = ({
                       id="protaAge"
                       min="0"
                       maxLength={5}
-                      className={`h-[42px] relative text-[12px] md:!text-[14px] leading-tight w-full px-[8px]  md:w-[64px] bg-[#fafafa] rounded-[8px] border-[2px] focus:outline-none ${
+                      className={`h-[44px] relative text-[12px] md:!text-[14px] leading-tight w-full px-[8px]  md:w-[64px] bg-[#fafafa] rounded-[8px] border-[2px] focus:outline-none ${
                         isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                       }`}
                       // className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[42px]"
@@ -578,7 +578,7 @@ const SingleCharacterAdd = ({
                 )}
 
                 <div className="relative w-full md:w-[206px] md:left-5 ">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
                     Occupation
                   </label>
                   <textarea
@@ -595,7 +595,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="occupation"
                     ref={occupationRef}
-                    className={`text-[14px] bg-[#FAFAFA] mb-[12px] leading-[20px] md:mb-0 px-3 pt-[8px] pb-[12px] outline-[#EAEAEA]  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[208px] h-[42px]    overflow-y-auto text-[#616161] resize-none "
+                    className={`text-[14px] bg-[#FAFAFA] mb-[12px] leading-[20px] md:mb-0 px-3 pt-[8px] pb-[12px] outline-[#EAEAEA]  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[208px] h-[44px]    overflow-y-auto text-[#616161] resize-none "
                        `}
                   />
                 </div>
@@ -603,7 +603,7 @@ const SingleCharacterAdd = ({
 
               <div className="mb-[12px] mt-6">
                 <div className="relative w-full md:w-[171px]">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
                     Background
                   </label>
                   <textarea
@@ -628,7 +628,7 @@ const SingleCharacterAdd = ({
               </div>
               <div className="mb-[12px] mt-6">
                 <div className="relative w-full md:w-[171px]">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
                     Personality
                   </label>
                   <textarea
@@ -652,7 +652,7 @@ const SingleCharacterAdd = ({
               </div>
               <div className="mb-[12px] mt-6">
                 <div className="relative w-full md:w-[171px]">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
                     Individual&nbsp;want
                   </label>
                   <textarea
@@ -676,7 +676,7 @@ const SingleCharacterAdd = ({
               </div>
               <div className="mb-[12px] mt-6">
                 <div className="relative w-full md:w-[171px]">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
                     Character's&nbsp;journey
                   </label>
 
@@ -701,7 +701,7 @@ const SingleCharacterAdd = ({
               </div>
               <div className="mb-[12px] mt-6">
                 <div className="relative w-full md:w-[171px]">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
                     Blood&nbsp;relationship
                   </label>
                   <textarea
@@ -724,7 +724,7 @@ const SingleCharacterAdd = ({
                 </div>
               </div>
               <div className="relative w-full md:w-[171px] mt-6">
-                <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
                   Family&nbsp;relationship
                 </label>
                 <div className="mb-[12px]">
@@ -754,7 +754,7 @@ const SingleCharacterAdd = ({
                 <div className="relative w-full md:w-[171px]">
                   <label
                     htmlFor="professional_relationship_input"
-                    className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all"
+                    className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all"
                   >
                     Professional&nbsp;relationship
                   </label>

@@ -674,7 +674,7 @@ const BeatEditPop = ({
           }`}
           >
             <div className="h-[49vh]  md:h-[525px] ">
-              <div className="z-10 top-26 ">
+              <div className="z-10 ">
                 <div
                   className={`rounded-[8px] relative ${
                     isSmallDevice && "overflow-y-scroll"
@@ -682,7 +682,7 @@ const BeatEditPop = ({
                     !doNotShowBox
                       ? "h-[90vh] lg:h-[525px]"
                       : "h-[80%] lg:h-[411px]"
-                  } bg-white lg:bg-[#FAFAFA]`}
+                  } bg-white lg:bg-[#FAFAFA] mt-20 lg:mt-0`}
                 >
                   {!beatPostLoading && (
                     <button

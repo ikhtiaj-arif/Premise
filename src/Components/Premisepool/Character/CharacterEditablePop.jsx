@@ -246,7 +246,7 @@ const CharacterEditablePop = ({
               onClick={() => setCharacterEditPop(false)}
               className=" md:hidden text-[#33B0CA] cursor-pointer h-[36px] w-[36px]"
             />{" "}
-            {!onlyAdd && "Proposed"} Characters in about{" "}
+            {/* {!onlyAdd && "Proposed"} Characters in about{" "}
             <span className="">
               {getTextFromValue(currentProjectData?.duration)}
             </span>{" "}
@@ -257,10 +257,10 @@ const CharacterEditablePop = ({
               className="notranslate"
             >
               {currentProjectData?.name?.slice(0, 20)}
-              {/* {currentProjectData?.name.length > 20
+              {currentProjectData?.name.length > 20
               ? `${currentProjectData?.name.slice(0, 20)}...`
-              : currentProjectData} */}
-            </span>
+              : currentProjectData}
+            </span> */}
           </h3>
         </div>
 
