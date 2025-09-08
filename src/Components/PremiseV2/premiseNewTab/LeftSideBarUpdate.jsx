@@ -385,7 +385,7 @@ const LeftSideBarUpdate = ({
 
   return (
     <>
-      <div className="fixed  top-[65%] xxs:top-[73%] sm:top-[80%] z-[1] w-[96%] mx-auto md:hidden">
+      <div className="fixed  top-[80%] xxs:top-[73%] sm:top-[80%] z-[1] w-[96%] mx-auto md:hidden">
         <NewTabTextArea
           fromNew
           premiseId={id}
