@@ -57,6 +57,7 @@ import "./Premise.css";
 import UserMail from "./UserMail";
 import UserNamePopup from "./UserNamePopup";
 import UserType from "./UserType";
+import LikePopup from "./LikePopup";
 
 const Popup = ({
   popClose,
@@ -218,7 +219,7 @@ const Popup = ({
   const [openCharacterChart, setOpenCharacterChart] = useState(null);
 
   const [replyTextCount, setReplyTextCount] = useState(0);
-
+  const [likePopup, setLikePopup] = useState(false);
   const handleClear = () => {
     // setText("");
   };
@@ -741,6 +742,8 @@ const Popup = ({
                       data={{
                         user,
                         ...premiseData,
+                          likePopup,
+                    setLikePopup,
                       }}
                       refetch={premiseRefetch}
                     />
@@ -1172,6 +1175,7 @@ const Popup = ({
             />
           )}
 
+      {likePopup && <LikePopup setLikePopup={setLikePopup} id={id} />}
           
         </div>
       </div>

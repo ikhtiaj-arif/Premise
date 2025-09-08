@@ -84,7 +84,7 @@ const ReqTranslationPop = ({
           <TypingLoader />
         </div>
       ) : (
-        <div className=" h-[74vh] xxs:h-[68vh] lg:h-[407px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[466px]  md:mx-auto relative lg:rounded-[8px]">
+        <div className=" h-[74vh] xxs:h-[68vh] md:h-[407px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  md:w-[466px]  md:mx-auto relative md:rounded-[8px]">
           {/* close popup */}
           <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
             <img

@@ -520,8 +520,7 @@ const AllComments = ({
 
 
 
-  // console.log(    "owners",      data?.premiseOwner?.id, user, comments?.user?.id );
-  console.log(   "comment",    comments?.user );
+  
   return (
     <div className=" flex flex-col justify-end w-full relative ">
       <div className="md:ml-10">
@@ -743,7 +742,7 @@ const AllComments = ({
                           (comments?.user?.id === 1 ||
                             comments?.user?.id === 79) && (
                             <div className=" flex items-center justify-between">
-                              {comments?.c_value === 1 ? (
+                              {comments?.c_value === 2 ? (
                                 <>
                                   {comments?.replies_count === 0 ? (
                                     <>
@@ -867,7 +866,7 @@ const AllComments = ({
                           (comments?.user?.id === 1 ||
                             comments?.user?.id === 79) && (
                             <div className=" flex items-center justify-between">
-                              {comments?.c_value === 1 ? (
+                              {comments?.c_value === 2 ? (
                                 <>
                                   {!comments?.replies_count >= 1 && (
                                     <button
@@ -886,6 +885,7 @@ const AllComments = ({
                                           Suggestion
                                         </p>
                                       )}
+                                      {}
                                     </button>
                                   )}
                                 </>

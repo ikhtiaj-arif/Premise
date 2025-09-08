@@ -64,9 +64,9 @@ const TransInOtherLang = ({
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-end md:items-center xl:mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
+    <div className="fixed top-0 left-0 w-full h-full flex items-end md:items-center lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
       <ToastContainer />
-      <div className=" h-[98vh] rounded-md sm:h-[536px] mb-[20px] px-[22px] lg:mb-0 sm:mt-[140px] lg:mt-[18px] xxl:mt-[80px] xl:mt-[85px] w-full sm:w-[90%] bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[430px]  md:mx-auto relative lg:rounded-[8px]">
+      <div className=" h-screen rounded-md sm:h-[536px] mb-[20px] px-[22px] lg:mb-0 sm:mt-[140px] lg:mt-[18px] xxl:mt-[80px] xl:mt-[85px] w-full sm:w-[90%] bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[430px]  md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
         {/* close popup */}
         <div className="hidden md:block absolute top-[-56px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">

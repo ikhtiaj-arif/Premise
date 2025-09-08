@@ -9,10 +9,10 @@ import {
 import AddCharDemoPop from "../../PremiseV2/sequalPopup/singlePop/AddCharDemoPop";
 import { getTextFromValue } from "../../PremiseV2/utilityFuncitons/functions";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
-import ConfirmationModal from "../Comments/ConfirmationModal";
 import CharacterShowCard from "./Card";
-import SingleCharacterAdd from "./SingleCharacterAdd";
+import SingleCharacterAddNewTab from "./SingleCharacterAddNewTab";
 import SingleCharacterEdit from "./SingleCharacterEdit";
+import SingleCharacterAdd from "./SingleCharacterAdd";
 
 const CharacterEditablePop = ({
   setCharacterEditPop,
@@ -152,7 +152,19 @@ const CharacterEditablePop = ({
     setCharacterArray(updatedCharacters);
     // console.log("After Deletion:", updatedCharacters);
   };
-
+  const deleteCharacterFun = async (character) => {
+    if (character?.id) {
+      const res = await deleteCharacter(character?.id);
+      if (res) {
+        characterRefetch();
+      }
+    } else {
+      const updatedCharacters = characterArray.filter(
+        (char) => char.role !== character?.role
+      );
+      setCharacterArray(updatedCharacters);
+    }
+  };
   const handleAddNewCharacter = (newCharacter) => {
     const updatedCharacters = [...characterArray, newCharacter];
     // console.log("After Adding New Character:", updatedCharacters);
@@ -199,14 +211,6 @@ const CharacterEditablePop = ({
     }
   };
 
-  const deleteCharacterFun = async (character) => {
-    console.log("ddddddddddd", character);
-    const res = await deleteCharacter(character?.id);
-    if (res) {
-      characterRefetch();
-    }
-  };
-
   const [openAddCharDemoPop, setOpenAddCharDemoPop] = useState(false);
 
   const handleAddNewChar = async () => {
@@ -242,8 +246,20 @@ const CharacterEditablePop = ({
               onClick={() => setCharacterEditPop(false)}
               className=" md:hidden text-[#33B0CA] cursor-pointer h-[36px] w-[36px]"
             />{" "}
-            <span className="text-[16px] md:text-[14px]">
-              Scene Generation from Beat{" "}
+            {!onlyAdd && "Proposed"} Characters in about{" "}
+            <span className="">
+              {getTextFromValue(currentProjectData?.duration)}
+            </span>{" "}
+            <span className="">{currentProjectData?.nature_project}</span>{" "}
+            <span
+              data-te-toggle="tooltip"
+              title={`${`${currentProjectData?.name} `}`}
+              className="notranslate"
+            >
+              {currentProjectData?.name?.slice(0, 20)}
+              {/* {currentProjectData?.name.length > 20
+              ? `${currentProjectData?.name.slice(0, 20)}...`
+              : currentProjectData} */}
             </span>
           </h3>
         </div>
@@ -276,6 +292,8 @@ const CharacterEditablePop = ({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[54px] gap-y-[8px] justify-center">
             {finalAICharacters?.map((character, index) => (
               <CharacterShowCard
+                key={index + character?.id}
+                index={index + finalAICharacters?.length}
                 {...{
                   character,
                   index,
@@ -305,6 +323,7 @@ const CharacterEditablePop = ({
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-[54px] gap-y-[8px] justify-center ">
             {finalByMeCharacters?.map((character, index) => (
               <CharacterShowCard
+                key={index + character?.id}
                 index={index + finalAICharacters?.length}
                 {...{
                   character,
@@ -373,9 +392,9 @@ const CharacterEditablePop = ({
                       }}
                       className={`${
                         saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
-                      } text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
+                      } text-white px-3 h-[32px] text-[14px] font-[600] rounded-[8px]`}
                     >
-                      Save
+                      Save Character
                     </button>
                   ) : (
                     <button
@@ -386,9 +405,9 @@ const CharacterEditablePop = ({
                       }}
                       className={`${
                         saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
-                      } text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
+                      } text-white px-3 h-[32px] text-[14px] font-[600] rounded-[8px]`}
                     >
-                      Save
+                      Save Character
                     </button>
                   )}
                 </>
@@ -415,9 +434,9 @@ const CharacterEditablePop = ({
               }}
               className={`${
                 !characterLoading ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
-              } text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
+              } text-white px-3 h-[32px] text-[14px] font-[600] rounded-[8px]`}
             >
-              Save
+              Save Character
             </button>
           )}
           {/* {!onlyAdd ? (
@@ -476,6 +495,19 @@ const CharacterEditablePop = ({
             characterArray={characterArray}
             source_language={source_language}
           />
+          // <SingleCharacterAddNewTab
+          //   setCharacterEditPop={setOpenCharacterChart}
+          //   setAddNewCharacter={setAddNewCharacter}
+          //   characterArray={characterArray}
+          //   // currentProjectData={premiseData}
+          //   setCharacterArray={setCharacterArray}
+          //   onlyAdd={onlyAdd}
+          //   handleUpdateSavedChar={handleUpdateSavedChar}
+          //   characterLoading={isCharLoading}
+          //   project_id={project_id}
+          //   source_language={source_language}
+          //   characterRefetch={characterRefetch}
+          // />
         )}
       </div>
       {/* {deleteChar && (

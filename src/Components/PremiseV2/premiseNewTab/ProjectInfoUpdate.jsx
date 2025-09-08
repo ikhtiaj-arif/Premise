@@ -9,6 +9,7 @@ import {
   getTextFromValue,
 } from "../utilityFuncitons/functions";
 import PremiseTopAccess from "./PremiseTopAccess";
+import LikePopup from "../../Premisepool/LikePopup";
 
 const ProjectInfoUpdate = ({
   premiseData,
@@ -34,7 +35,9 @@ const ProjectInfoUpdate = ({
     source_language,
     project_id,
   } = premiseData;
+  const [likePopup, setLikePopup] = useState(false);
   const [transText, setTransText] = useState("");
+
   const splitText = text.split("+");
   const dText = splitText[1];
   const user = useSelector((state) => state?.user?.id);
@@ -56,7 +59,7 @@ const ProjectInfoUpdate = ({
           </div>
         </div>
         <div className="lg:flex items-center justify-between gap-12">
-          <h3 className="text-[14px]  text-[#252525] leading-[21px] font-normal w-[100%] md:w-[70%] lg:w-[67%]">
+          <h3 className="text-[12px] leading-4 xl:text-[14px]  text-[#252525] xl:leading-[21px] font-normal w-[100%] md:w-[70%] lg:w-[67%]">
             <span
               className="text-[#252525] font-bold notranslate"
               data-te-toggle="tooltip"
@@ -84,6 +87,8 @@ const ProjectInfoUpdate = ({
                   data={{
                     user,
                     ...premiseData,
+                    likePopup,
+                    setLikePopup,
                   }}
                   refetch={premiseRefetch}
                 />
@@ -117,18 +122,18 @@ const ProjectInfoUpdate = ({
                 />
               </div>
             </div>
-      <div className="pr-3 ">
+            <div className="pr-3 ">
               <PremiseTopAccess
-              {...{
-                premiseOwner,
-                user,
-                id,
-                project_id,
-                premiseData,
-                premiseRefetch,
-              }}
-            />
-      </div>
+                {...{
+                  premiseOwner,
+                  user,
+                  id,
+                  project_id,
+                  premiseData,
+                  premiseRefetch,
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -141,6 +146,8 @@ const ProjectInfoUpdate = ({
             data={{
               user,
               ...premiseData,
+              likePopup,
+              setLikePopup,
             }}
             refetch={premiseRefetch}
           />
@@ -174,6 +181,8 @@ const ProjectInfoUpdate = ({
           />
         </div>
       </div>
+      
+      {likePopup && <LikePopup setLikePopup={setLikePopup} id={id} />}
     </div>
   );
 };

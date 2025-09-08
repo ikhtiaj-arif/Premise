@@ -274,7 +274,7 @@ const PremiseNewTab = ({
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      <div className=" fixed top-[70px] left-1/2 -translate-x-1/2 w-full h-[calc(98vh)] overflow-y-auto">
+      <div className=" fixed top-[70px] left-1/2 -translate-x-1/2 w-full  ">
         {!isPremiseLoading &&
         !isCommentLoading &&
         premiseDataR &&
@@ -291,7 +291,7 @@ const PremiseNewTab = ({
                 setCommentField,
               }}
             />
-            <div className="w-full lgHidden relative">
+            <div className="w-full lgHidden h-[90vh] overflow-y-auto relative">
               {/* Left Sidebar */}
               <div className=" bg-[#fff] xl:w-[500px] w-full pr-0 flex ">
                 {/* <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex lg:h-[calc(100vh-75px)]"> */}
@@ -414,7 +414,7 @@ const PremiseNewTab = ({
               <div className="w-full mr-4 ">
                 <div
                   ref={lastCommentRef}
-                  className="w-full relative lg:h-[80vh] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 lg:rounded-t-2xl"
+                  className="w-full relative lg:h-[80vh] lg:overflow-y-auto lg:shadow-[0px_0px_20.6px_0px_rgba(0,0,0,0.15)] lg:ml-3 pb-12 lg:rounded-t-2xl"
                 >
                   {isSearchLoading || isCommentLoading ? (
                     <div>

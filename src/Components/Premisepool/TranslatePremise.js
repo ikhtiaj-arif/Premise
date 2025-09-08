@@ -15,6 +15,8 @@ const TranslatePremise = ({
   className,
   selectedOption,
   setSelectedOption,
+  noAccessPopup,
+  setNoAccessPopup,
 }) => {
   const { id, dText, source_language, project_id } = data;
 
@@ -26,7 +28,7 @@ const TranslatePremise = ({
   const [transPopup, setTransPopup] = useState(false);
   const [transText, setTransText] = useState("");
   const [loading, setLoading] = useState(false);
-  const [noAccessPopup, setNoAccessPopup] = useState(false);
+  // const [noAccessPopup, setNoAccessPopup] = useState(false);
   const btnRef = useRef();
   // console.log("translatePremise", project_id)
 
@@ -122,12 +124,12 @@ const TranslatePremise = ({
         />
 
       )} */}
-      {noAccessPopup?.msg === "ShowBecomePrivilege" && (
+      {/* {noAccessPopup?.msg === "ShowBecomePrivilege" && (
         <NoAccessPopUp
           noAccessPopup={noAccessPopup}
           setNoAccessPopup={setNoAccessPopup}
         />
-      )}
+      )} */}
     </div>
   );
 };

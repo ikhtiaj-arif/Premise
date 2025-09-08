@@ -336,9 +336,9 @@ const PremiseV2 = () => {
       let filterPremiseData = premiseData?.results?.filter(
         // (items) => items.ai_comments_generated
         (item) =>
-          item?.ai_comments_generated === true ||
-          item?.current_status === "is_draft"
-        // item?.ai_comments_generated === true || item?.is_draft === true
+          // item?.ai_comments_generated === true ||
+          // item?.current_status === "is_draft"
+          item?.ai_comments_generated === true || item?.is_draft === true
       );
       // console.log("filterPremiseData",filterPremiseData);
       setDataCount(filterPremiseData?.length);
@@ -611,7 +611,8 @@ const PremiseV2 = () => {
                   id="addNewPremise"
                   onClick={handleAddPopup}
                   // className="btn btn"
-                  className="bg-[#33B0CA] flex items-center justify-center gap-[8px] text-[#FAFAFA] text-[14px] font-[600] rounded-[8px] min-w-[196px] min-h-[34px] mt-[14px] px-[12px] ml-auto lg:mx-auto"
+                  className="  bg-gradient-to-r from-[#33B0CA] to-[#FF5C8B]
+                 hover:opacity-90 transition flex items-center justify-center gap-[8px] text-[#FAFAFA] text-[14px] font-[600] rounded-[8px] min-w-[196px] min-h-[34px] mt-[14px] px-5 ml-auto lg:mx-auto"
                 >
                   <div className="flex gap-[6px] min-h-[34px] items-center">
                     <span className=" text-[24px]">+</span>{" "}

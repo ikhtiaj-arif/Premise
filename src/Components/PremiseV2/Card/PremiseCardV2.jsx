@@ -189,6 +189,7 @@ const PremiseCardV2 = ({
   const [likePopup, setLikePopup] = useState(false);
   const [cmntPopup, setCmntPopup] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
+  const [noAccessPopup, setNoAccessPopup] = useState(false);
 
   const handleBackgroundChange = (e) => {
     const file = e.target.files[0];
@@ -541,7 +542,6 @@ const PremiseCardV2 = ({
     }
   };
 
-
   // console.log("premise",p);
   return (
     <div className="relative w-[358px] lg:w-[100%] max-w-[360px] mx-auto">
@@ -766,19 +766,21 @@ const PremiseCardV2 = ({
                   p={p}
                 />
               </div>
-                <div className="flex ml-4 justify-end gap-2 items-center">
-                  <TranslatePremise
-                    {...{ transPopClose, setTransPopClose, setViewText }}
-                    data={{
-                      id,
-                      dText,
-                      source_language,
-                      project_id,
-                    }}
-                    setSelectedOption={setSelectedOption}
-                    selectedOption={selectedOption}
-                  />
-                </div>
+              <div className="flex ml-4 justify-end gap-2 items-center">
+                <TranslatePremise
+                  {...{ transPopClose, setTransPopClose, setViewText }}
+                  data={{
+                    id,
+                    dText,
+                    source_language,
+                    project_id,
+                  }}
+                  setSelectedOption={setSelectedOption}
+                  selectedOption={selectedOption}
+                  noAccessPopup={noAccessPopup}
+                  setNoAccessPopup={setNoAccessPopup}
+                />
+              </div>
             </>
 
             {/* <>
@@ -1148,6 +1150,12 @@ const PremiseCardV2 = ({
               visible_to={visible_to}
             />
           )
+        )}
+        {noAccessPopup?.msg === "ShowBecomePrivilege" && (
+          <NoAccessPopUp
+            noAccessPopup={noAccessPopup}
+            setNoAccessPopup={setNoAccessPopup}
+          />
         )}
       </>
     </div>

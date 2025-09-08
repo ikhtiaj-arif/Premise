@@ -686,7 +686,7 @@ const BeatEditPop = ({
                 >
                   {!beatPostLoading && (
                     <button
-                      className="absolute left-0 md:left-4 top-0 lg:hidden "
+                      className="absolute left-0 md:left-4 top-0 xl:hidden "
                       onClick={() => {
                         popClose();
                         commentRefetch();
@@ -695,7 +695,7 @@ const BeatEditPop = ({
                       <IoIosArrowRoundBack className="text-[50px] text-[#33B0CA]" />
                     </button>
                   )}
-                  <div className="relative text-right hidden lg:flex justify-end h-0 ">
+                  <div className="relative text-right hidden xl:flex justify-end h-0 ">
                     {!beatPostLoading && (
                       <img
                         src={crossIcon}
@@ -708,7 +708,7 @@ const BeatEditPop = ({
                       />
                     )}
                   </div>
-                  <div className="pb-[8px] mt-[12px]">
+                  <div className="pb-[8px] mt-6">
                     <h1 className="text-[14px] leading-4 md:leading-5 md:text-[18px] max-w-[68%] mx-auto font-[500] text-center">
                       Adding a Brainstorm to Beat (event) Sheet
                     </h1>
