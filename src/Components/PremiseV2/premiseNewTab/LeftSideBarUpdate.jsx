@@ -416,7 +416,7 @@ const LeftSideBarUpdate = ({
         />
 
         <div className="flex gap-1 items-center w-2/4 mt-[-4px] mx-auto">
-          <h3 className="text-[12px]">orrr,</h3>
+          <h3 className="text-[12px]">or,</h3>
           <AskIda
             {...{
               id,

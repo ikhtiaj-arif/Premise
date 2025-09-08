@@ -674,7 +674,7 @@ const BeatEditPop = ({
           }`}
           >
             <div className="h-[49vh]  md:h-[525px] ">
-              <div className="z-10 ">
+              <div className="z-10 top-26 ">
                 <div
                   className={`rounded-[8px] relative ${
                     isSmallDevice && "overflow-y-scroll"

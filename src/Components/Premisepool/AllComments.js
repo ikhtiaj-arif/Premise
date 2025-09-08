@@ -81,7 +81,6 @@ const AllComments = ({
   const [selectedProject, setSelectedProject] = useState(null);
   const [noAccessLbPopup, setNoAccessLbPopup] = useState(null);
 
-
   const {
     selectedPremiseObj,
     selectedSpProjectID,
@@ -518,9 +517,6 @@ const AllComments = ({
     setOpenDropdownId((prevDropdownId) => (prevDropdownId === id ? null : id)); // Toggle dropdown visibility
   };
 
-
-
-  
   return (
     <div className=" flex flex-col justify-end w-full relative ">
       <div className="md:ml-10">
@@ -975,14 +971,15 @@ const AllComments = ({
                               disabled={addToBeatDisable}
                               className="text-right"
                             >
-                              {data?.premiseOwner?.id === user && (
-                                <p
-                                  onClick={() => handleAddToBeat(comments)}
-                                  className={` text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] `}
-                                >
-                                  Add as Beat
-                                </p>
-                              )}
+                              {data?.premiseOwner?.id === user &&
+                                ![1, 2, 3].includes(commentIdx) && (
+                                  <p
+                                    onClick={() => handleAddToBeat(comments)}
+                                    className={` text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] `}
+                                  >
+                                    Add as Beat
+                                  </p>
+                                )}
                             </button>
                           </>
                         )}
@@ -994,7 +991,9 @@ const AllComments = ({
 
               <div
                 className={`absolute flex flex-col md:flex-row gap-[0.15rem] xl:gap-2 items-center ${
-                  fromNew ? "right-[8.5px] sm:right-0 xl:right-[38.5px]" : "right-0"
+                  fromNew
+                    ? "right-[8.5px] sm:right-0 xl:right-[38.5px]"
+                    : "right-0"
                 }  top-[18%] md:top-[28%]`}
               >
                 <CommentTranslator

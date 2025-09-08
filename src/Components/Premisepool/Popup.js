@@ -49,6 +49,7 @@ import { baseURL, URL } from "../utils";
 import AllComments from "./AllComments";
 import CharacterEditablePop from "./Character/CharacterEditablePop";
 import DeletePremise from "./DeletePremise";
+import LikePopup from "./LikePopup";
 import LikePremise from "./LikePremise";
 import OwnerMail from "./OwnerMail";
 import PopupSource from "./PopupSource";
@@ -57,7 +58,6 @@ import "./Premise.css";
 import UserMail from "./UserMail";
 import UserNamePopup from "./UserNamePopup";
 import UserType from "./UserType";
-import LikePopup from "./LikePopup";
 
 const Popup = ({
   popClose,
@@ -85,8 +85,11 @@ const Popup = ({
     project_id,
   } = data;
   // console.log("popData", data);
-  const { data: characters, refetch: charRefetch, isCharLoading } =
-    useGetSavedCharactersQuery(project_id);
+  const {
+    data: characters,
+    refetch: charRefetch,
+    isCharLoading,
+  } = useGetSavedCharactersQuery(project_id);
   const [notifyPopup, setNotifyPopup] = useState(false);
   const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
 
@@ -142,7 +145,7 @@ const Popup = ({
         // setCharSaveDisable(true);
         setCharacterLoading(false);
         setOpenCharacterChart(false);
-        charRefetch()
+        charRefetch();
 
         // toast.success("characters updated!")
       }
@@ -657,7 +660,7 @@ const Popup = ({
                   <CardHeadOptions
                     // owner={owner}
                     // index={index}
-                    
+
                     refetch={premiseRefetch}
                     viewTrnRequests={viewTrnRequests}
                     setViewTrnRequests={setViewTrnRequests}
@@ -742,8 +745,8 @@ const Popup = ({
                       data={{
                         user,
                         ...premiseData,
-                          likePopup,
-                    setLikePopup,
+                        likePopup,
+                        setLikePopup,
                       }}
                       refetch={premiseRefetch}
                     />
@@ -760,22 +763,25 @@ const Popup = ({
                 </div>{" "}
               </div>
               <div className="hidden lg:block md:absolute bottom-3 w-full">
-                <AskIda
-                  id={premiseId}
-                  source_language={premiseData?.source_language}
-                  {...{
-                    user,
-                    premiseOwner,
-                    commentRefetch,
-                    setOpenAllReplies,
-                    setOpenReplyFieldID,
-                    lastCommentRef,
-                    isLoading,
-                    setIsLoading,
-                    setNoAccessPopup,
-                    setService,
-                  }}
-                />
+                <div className="flex gap-1 items-center w-[54%] mt-[-18px] mx-auto">
+                  <AskIda
+                    id={premiseId}
+                    source_language={premiseData?.source_language}
+                    {...{
+                      user,
+                      premiseOwner,
+                      commentRefetch,
+                      setOpenAllReplies,
+                      setOpenReplyFieldID,
+                      lastCommentRef,
+                      isLoading,
+                      setIsLoading,
+                      setNoAccessPopup,
+                      setService,
+                    }}
+                  />{" "}
+                  <h3>or,</h3>
+                </div>
                 {/* textarea */}
                 <PopupTextarea
                   {...{
@@ -882,22 +888,25 @@ const Popup = ({
               <div className="lg:hidden h-[10vh] md:h-[116px] flex flex-col justify-between">
                 <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" />{" "}
                 <div className="fixed bottom-[18px] left-0 w-[100%] md:relative md:bottom-0 md:w-auto px-2 ">
-                  <AskIda
-                    id={premiseId}
-                    source_language={premiseData?.source_language}
-                    {...{
-                      user,
-                      premiseOwner,
-                      commentRefetch,
-                      setOpenAllReplies,
-                      setOpenReplyFieldID,
-                      lastCommentRef,
-                      isLoading,
-                      setIsLoading,
-                      setNoAccessPopup,
-                      setService,
-                    }}
-                  />
+                  <div className="flex gap-1 items-center w-[50%] mt-[-18px] mx-auto">
+                    <AskIda
+                      id={premiseId}
+                      source_language={premiseData?.source_language}
+                      {...{
+                        user,
+                        premiseOwner,
+                        commentRefetch,
+                        setOpenAllReplies,
+                        setOpenReplyFieldID,
+                        lastCommentRef,
+                        isLoading,
+                        setIsLoading,
+                        setNoAccessPopup,
+                        setService,
+                      }}
+                    />
+                    <h3>or,</h3>
+                  </div>
                   <PopupTextarea
                     {...{
                       premiseOwner,
@@ -1175,8 +1184,7 @@ const Popup = ({
             />
           )}
 
-      {likePopup && <LikePopup setLikePopup={setLikePopup} id={id} />}
-          
+          {likePopup && <LikePopup setLikePopup={setLikePopup} id={id} />}
         </div>
       </div>
     );

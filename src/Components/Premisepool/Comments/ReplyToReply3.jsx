@@ -367,20 +367,21 @@ const ReplyToReply3 = ({
             </>
           ) : (
             <>
-              {(owner === user || childReply?.user?.id === owner) && (
-                <button
-                  onClick={() => {
-                    handleAddToBeat(childReply);
-                    setBeatCommentText(childReply?.text);
-                    replyRefetch();
-                  }}
-                  className="w-[30%] md:w-[22%]"
-                >
-                  <p className="text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
-                    Add as Beat
-                  </p>
-                </button>
-              )}
+              {(owner === user || childReply?.user?.id === owner) &&
+                ![1, 2, 3].includes(commentIdx) && (
+                  <button
+                    onClick={() => {
+                      handleAddToBeat(childReply);
+                      setBeatCommentText(childReply?.text);
+                      replyRefetch();
+                    }}
+                    className="w-[30%] md:w-[22%]"
+                  >
+                    <p className="text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
+                      Add as Beat
+                    </p>
+                  </button>
+                )}
             </>
           )}
         </div>
