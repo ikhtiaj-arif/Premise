@@ -623,19 +623,20 @@ const ReplyToComments = ({
                     </>
                   ) : (
                     <>
-                      {(owner === user || reply?.user?.id === owner) && (
-                        <button
-                          onClick={() => {
-                            handleAddToBeat(reply);
-                            setBeatCommentText(reply?.text);
-                          }}
-                          className="w-[83px]"
-                        >
-                          <p className="text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
-                            Add as Beat
-                          </p>
-                        </button>
-                      )}
+                      {(owner === user || reply?.user?.id === owner) &&
+                        ![1, 2, 3].includes(commentIdx) && (
+                          <button
+                            onClick={() => {
+                              handleAddToBeat(reply);
+                              setBeatCommentText(reply?.text);
+                            }}
+                            className="w-[83px]"
+                          >
+                            <p className="text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
+                              Add as Beat
+                            </p>
+                          </button>
+                        )}
                     </>
                   )}
                 </>

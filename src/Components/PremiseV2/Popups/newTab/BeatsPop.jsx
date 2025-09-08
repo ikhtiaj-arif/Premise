@@ -36,9 +36,9 @@ const BeatsPop = ({ popClose, id }) => {
   );
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center  md:mt-[0px] bg-[#252525b0] justify-center z-[21]">
+    <div className="fixed top-0 left-0 w-full h-screen flex items-center  md:mt-[0px] bg-[#252525b0] justify-center z-[21]">
       <ToastContainer />
-      <div className="h-[100vh] md:h-[80vh] mb-[20px] px-[12px] md:px-[32px] md:mb-0 md:mt-[100px] xl:mt-[85px] w-full bg-[#fff] md:bg-[#FAFAFA] md:w-[1052px] md:max-w-[95%] md:mx-auto relative md:rounded-[8px]">
+      <div className="h-[100vh] md:h-[80vh] max-h-[550px] mb-[20px] px-[12px] md:px-[32px] md:mb-0 w-full bg-[#fff] md:bg-[#FAFAFA] md:w-[1052px] md:max-w-[95%] md:mx-auto relative md:rounded-[8px]">
         {/* close popup */}
         <img
           src={crossIcon}
@@ -116,7 +116,7 @@ const BeatsPop = ({ popClose, id }) => {
             </div>
 
             {/* Table */}
-            <div className="w-[97%] mx-auto mt-3 overflow-auto h-[60vh] md:h-[62vh]">
+            <div className="w-[97%] mx-auto mt-3 overflow-auto h-[60vh] md:h-[62vh] max-h-[436px] overflow-y-auto ">
               <table className="border-collapse border-[#616161] border w-full">
                 <thead className="">
                   <tr className="bg-[#fafafa] flex flex-wrap justify-between md:table-row border border-[#616161]">

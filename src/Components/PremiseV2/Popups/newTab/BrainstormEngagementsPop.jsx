@@ -7,7 +7,7 @@ const BrainstormEngagementsPop = ({ popClose, id, commonPopup }) => {
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center  lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
       <ToastContainer />
-      <div className="h-[253px] mb-[20px] lg:px-[22px] lg:mb-0 xl:mt-[85px] w-full bg-[#fff] lg:w-[498px] md:mx-auto absolute top-[160px] left-0 lg:relative lg:bottom-0 lg:rounded-[8px] rounded-t-[12px]">
+      <div className="h-[253px] mb-[20px] lg:px-[22px] lg:mb-0 xl:mt-[85px] w-full bg-[#fff] lg:w-[498px] md:mx-auto absolute top-[160px] md:top-[60px] left-0 lg:relative lg:bottom-0 lg:rounded-[8px] rounded-t-[12px]">
         {/* Close Popup */}
         <img
           src={crossIcon}
