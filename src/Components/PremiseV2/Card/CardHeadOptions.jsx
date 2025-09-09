@@ -389,7 +389,7 @@ const CardHeadOptions = ({
             )}
           </div>
         ) : (
-          <div className="flex gap-[3px] items-center  mr-[2px] relative ">
+          <div className="flex gap-[3px] items-center pt-3 mr-[2px] relative ">
             {available_for_translation && (
               <div className="relative">
                 <span className="absolute top-[-27px] right-[-3px] text-[12px] font-[700] text-[#252525]">

@@ -104,7 +104,7 @@ const PreviewPopAfterDraft = ({
         <MdKeyboardBackspace
           src={crossIcon}
           alt=""
-          className="text-[#33B0CA] ml-[20px] text-left text-[38px] z-[1] absolute cursor-pointer mdHidden"
+          className="text-[#252525] ml-[20px] text-left text-[32px] z-[1] absolute cursor-pointer mdHidden"
           onClick={() => {
             popClose(null);
           }}

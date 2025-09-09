@@ -567,7 +567,7 @@ const Popup = ({
           <MdKeyboardBackspace
             src={crossIcon}
             alt=""
-            className="text-[#33B0CA] text-left text-[38px] my-[8px] mt-[30px] ml-[24px] z-[1] cursor-pointer lgHidden"
+            className="text-[#252525] text-left text-[32px] my-[8px] mt-[10px] ml-[24px] z-[1] cursor-pointer lgHidden"
             onClick={() => {
               popClose(false);
               // setOpenReplyField(null);
@@ -576,11 +576,11 @@ const Popup = ({
             }}
           />
 
-          <div className="flex flex-col gap-[21px] lg:gap-[16px] xl:gap-[32px] lg my-auto lg:flex-row lg:justify-center ">
+          <div className="flex flex-col gap-3 lg:gap-[16px] xl:gap-[32px] lg my-auto lg:flex-row lg:justify-center ">
             {/* left div */}
-            <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[94%] sm:w-[80%] lg:w-[36%] max-w-[377px] h-[33vh] lg:h-[500px] xl:h-[546px] 2xl:h-[610px] lg:mt-[26px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[16px] xl:ml-[32px] rounded-[8px]">
+            <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[94%] sm:w-[80%] lg:w-[36%] max-w-[377px] h-[33vh] max-h-[212px] lg:h-[500px] xl:h-[546px] 2xl:h-[610px] lg:mt-[26px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[16px] xl:ml-[32px] rounded-[8px]">
               {/* header */}
-              <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-2 sm:px-[15px] pt-[15px] pb-[6px]">
+              <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-2 sm:px-[15px] py-[6px]">
                 <div className="block max-w-[140px]">
                   <a
                     target="_blank"
@@ -731,7 +731,7 @@ const Popup = ({
                 {...{ data, bg_img, bg_color, stylings, viewText, dText }}
               />
 
-              <div className="hidden md:flex   mt-[8px]  flex-col justify-between">
+              <div className="hidden md:flex  mt-[8px]  flex-col justify-between">
                 {/* <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" /> */}
                 {/* icons */}
                 <div className="lg:ml-3 hidden lg:block py-[2px] ">
@@ -807,7 +807,7 @@ const Popup = ({
             {/* right div */}
             <div
               data-reply
-              className=" lg:border lg:mt-[26px] xl:mt-[32px]  bg-[#fff] lg:bg-[#fafafa] lg:shadow-lg border-[#eaeaea] w-[90%] sm:w-[68%] md:w-[88%] lg:w-[769px]  mx-auto lg:ml-0 h-[46vh] lg:h-[500px] xl:h-[546px] 2xl:h-[610px] rounded-[8px] flex flex-col gap-[5px] relative"
+              className=" lg:border lg:mt-[26px] xl:mt-[32px]  bg-[#fff] lg:bg-[#fafafa] lg:shadow-lg border-[#eaeaea] w-[97%] sm:w-[68%] md:w-[88%] lg:w-[769px]  mx-auto lg:ml-0 h-[46vh] lg:h-[500px] xl:h-[546px] 2xl:h-[610px] rounded-[8px] flex flex-col gap-[5px] relative"
             >
               {/* Fixed dynamic heading */}
               {/* <div className="fixed w-[90%] sm:w-[68%] md:w-[70%] lg:w-[769px] z-50 rounded-t-[8px] bg-[#33B0CA] py-1 text-center text-white font-bold text-[20px]">
@@ -816,7 +816,7 @@ const Popup = ({
               <div
                 ref={lastCommentRef}
                 // ref={commentsRef}
-                className="w-full h-[30vh] lg:h-[auto] py-[12px] overflow-x-hidden !overflow-y-auto lg:premiseScroll "
+                className="w-full h-full lg:h-[auto] py-[12px] overflow-x-hidden !overflow-y-auto lg:premiseScroll "
               >
                 {loading ? (
                   <div className="z-[1] lg:mt-[160px] xl:mt-[200px]">
@@ -865,7 +865,7 @@ const Popup = ({
                             openReplyFieldID={openReplyFieldID}
                             setOpenReplyFieldID={setOpenReplyFieldID}
                             project_id={project_id}
-                            iconWidth={"w-[87%] md:w-[91%]"}
+                            iconWidth={"w-full md:w-[91%]"}
                             inpRightMargin={"mr-[47px] md:mr-[88px]"}
                             loading={loading}
                             replyText={replyText}
@@ -887,7 +887,7 @@ const Popup = ({
               {/* comment and reply div mobile */}
               <div className="lg:hidden h-[10vh] md:h-[116px] flex flex-col justify-between">
                 <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" />{" "}
-                <div className="fixed bottom-[18px] left-0 w-[100%] md:relative md:bottom-0 md:w-auto px-2 ">
+                <div className="fixed bottom-[30px] left-0 w-[100%] md:relative md:bottom-0 md:w-auto px-2 ">
                   <div className="flex gap-1 items-center w-[50%] mt-[-18px] mx-auto">
                     <AskIda
                       id={premiseId}

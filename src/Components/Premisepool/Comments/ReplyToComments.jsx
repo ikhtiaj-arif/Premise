@@ -321,7 +321,7 @@ const ReplyToComments = ({
           <div
             className={`flex gap-[8px] ${
               fromNew
-                ? "w-[104.5%] md:w-[94.5%]"
+                ? "w-[100%] md:w-[94.5%]"
                 : "w-[104.5%] md:w-[100%] max-w-[654px]"
             }  `}
           >
@@ -354,8 +354,8 @@ const ReplyToComments = ({
               </div>{" "}
             </a>
 
-            <div className="border w-[78%] md:w-[86%] lg:w-[88%] border-[##EAEAEA] bg-[#fafafa] rounded-[8px] p-1 ">
-              <div className="flex justify-between my-1 relative">
+            <div className="border min-w-[256px] w-[96%]  md:w-[86%] lg:w-[88%] border-[##EAEAEA] bg-[#fafafa] rounded-[8px] p-1 ">
+              <div className="flex w-full justify-between my-1 relative">
                 <div className="text-[#1E1E1E] pl-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center">
                   <a
                     target="_blank"
@@ -393,7 +393,7 @@ const ReplyToComments = ({
                 </p>
               </div>
 
-              <p className="notranslate text-[#252525] text-[12px] lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
+              <p className="notranslate text-[#252525] text-[12px]  lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
                 {/* {reply?.text} */}
                 {/* {reply?.user?.id === 1 && reply?.text
                   ? formatText(reply?.text)
@@ -403,7 +403,7 @@ const ReplyToComments = ({
                   : replyText}
               </p>
             </div>
-            <div className="  flex flex-col lg:flex-row justify-center gap-1 items-center right-[8.5px] md:right-[6.5px] top-[28%]">
+            <div className="hidden  lg:flex flex-col lg:flex-row justify-center gap-1 items-center right-[8.5px] md:right-[6.5px] top-[28%]">
               <CommentTranslator
                 comment={reply}
                 translateComment={translateComment}
@@ -444,10 +444,10 @@ const ReplyToComments = ({
 
           <div
             data-nest-reply
-            className={`flex justify-between  max-w-[87%] ${
+            className={`flex justify-between  max-w-[90%] ${
               fromNew
-                ? "md:max-w-[86%]  mr-[41px] md:mr-[119px]"
-                : "md:max-w-[585px]  mr-[41px] md:mr-[58px]"
+                ? "md:max-w-[86%]  mr-[0px] md:mr-[119px]"
+                : "md:max-w-[585px]  mr-[0px] md:mr-[58px]"
             }   items-center my-[2px] ml-[39px]  mt-[2px]`}
           >
             <div className=" flex items-center gap-3 text-sm leading-[16px] mt-[2px] mb-[4px]">
@@ -641,6 +641,43 @@ const ReplyToComments = ({
                   )}
                 </>
               )}
+              <div className="  flex  lg:hidden justify-center gap-1 items-center right-[8.5px] md:right-[6.5px] top-[28%]">
+                <CommentTranslator
+                  comment={reply}
+                  translateComment={translateComment}
+                  loading={isTranslationCommentLoading}
+                  commentRefetch={replyRefetch}
+                  setCommentText={setReplyText}
+                  setCommentPrefix={setReplyTextPrefix}
+                />
+
+                {(owner === user || reply?.user?.id === user) &&
+                !reply?.reject_button &&
+                commentIdx !== 1 ? (
+                  <div className="flex gap-2  items-center pl-[2px]">
+                    {/* <button className={` "cursor-pointer"}`}>
+                <img src={editIcon} alt=" " className={`h-5 w-7`} />
+                </button> */}
+                    <button
+                      // disabled={disableD}
+                      onClick={() => {
+                        setIdToDlt(reply?.id);
+                        setOpenDltPop(true);
+                      }}
+                      // className={` ${disableD ? "cursor-default" : "cursor-pointer"}`}
+                    >
+                      <FaRegTrashAlt
+                        disabled={disableBtn}
+                        className="h-5 w-5 text-[#909090]"
+                      />
+                    </button>
+                  </div>
+                ) : (
+                  <div className={`px-3 'cursor-default'}`}>
+                    <div className="" />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           {/* nested replies */}

@@ -211,7 +211,7 @@ const PopFetch = ({ popClose, data, refetch }) => {
         <MdKeyboardBackspace
           src={crossIcon}
           alt=""
-          className="text-[#33B0CA] text-left text-[38px] ml-[24px] my-[8px] z-[1] cursor-pointer lgHidden"
+          className="text-[#252525] text-left text-[32px] ml-[24px] my-[8px] z-[1] cursor-pointer lgHidden"
           onClick={() => {
             popClose(false);
             // setOpenReplyField(null);
