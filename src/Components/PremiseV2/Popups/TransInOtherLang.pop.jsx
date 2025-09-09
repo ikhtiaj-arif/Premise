@@ -80,7 +80,7 @@ const TransInOtherLang = ({
         <div className="md:hidden absolute top-0 left-[-18px] ml-4 sm:ml-0 sm:right-[-15px]">
           <MdKeyboardBackspace
             alt=""
-            className="text-[#33B0CA] ml-[20px] text-left text-[38px] z-[1] absolute cursor-pointer mdHidden"
+            className="text-[#252525] ml-[20px] text-left text-[32px] z-[1] absolute cursor-pointer mdHidden"
             onClick={() => popClose(null)}
           />
         </div>

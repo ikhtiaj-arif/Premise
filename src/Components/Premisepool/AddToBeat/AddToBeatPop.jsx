@@ -65,7 +65,7 @@ const BeatSheetGenerating = ({setBeatSheetGenPop}) => {
               </div>
               <div className="flex justify-end items-center gap-[16px] mt-[20px]">
                 <button>
-                    <MdKeyboardBackspace/>
+                    <MdKeyboardBackspace  className="text-[#252525] ml-[20px] text-left text-[32px]  cursor-pointer mdHidden"/>
                 </button>
                 <button>
                     {/* <img src={keyboardIcon} alt="" /> */}

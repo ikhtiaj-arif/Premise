@@ -544,7 +544,7 @@ const PremiseCardV2 = ({
 
   // console.log("premise",p);
   return (
-    <div className="relative w-[358px] lg:w-[100%] max-w-[360px] mx-auto">
+    <div className="relative w-full max-w-[360px] mx-auto">
       <div
         className="
       border-2 border-[#EAEAEA] bg-[#fafafa] rounded-[8px] 
