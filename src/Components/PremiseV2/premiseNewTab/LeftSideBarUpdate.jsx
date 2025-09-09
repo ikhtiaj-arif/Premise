@@ -385,7 +385,7 @@ const LeftSideBarUpdate = ({
 
   return (
     <>
-      <div className="fixed  top-[80%] xxs:top-[73%] sm:top-[80%] z-[1] w-[96%] mx-auto md:hidden">
+      <div className="fixed bg-[#fff] top-[85%] z-[1] w-[96%] mx-auto md:hidden">
         <NewTabTextArea
           fromNew
           premiseId={id}
@@ -415,7 +415,7 @@ const LeftSideBarUpdate = ({
           }}
         />
 
-        <div className="flex gap-1 items-center w-2/4 mt-[-4px] mx-auto">
+        <div className="flex gap-1 items-center w-2/4 mt-[2px] mx-auto">
           <h3 className="text-[12px]">or,</h3>
           <AskIda
             {...{

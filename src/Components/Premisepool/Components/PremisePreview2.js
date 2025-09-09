@@ -48,6 +48,7 @@ import LanguageSelector from "../LanguageSelector";
 import Popup from "../Popup";
 import { hideUnhidePremise } from "../PreiseUtils";
 import PremisePreviewKeyboard from "./PremisePreviewKeyboard";
+import { FaArrowLeft } from "react-icons/fa6";
 
 const PremisePreview2 = ({
   newText,
@@ -1539,6 +1540,15 @@ const PremisePreview2 = ({
   } else {
     return (
       <div className="">
+        {charSaveDisable && (
+            <FaArrowLeft
+              className=" text-[20px] cursor-pointer mx-6"
+                onClick={() => {
+                setFinalSubmitLoading(false);
+                setCharacterEditPop(true);
+              }}
+            />
+        )}
         <p className=" md:hidden text-center my-[8px] text-[17px] mx-auto font-[500] text-[#252525] ">
           Preview your Imagination
         </p>
