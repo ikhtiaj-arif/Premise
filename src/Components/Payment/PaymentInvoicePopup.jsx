@@ -331,7 +331,7 @@ const PaymentInvoicePopup = ({
                       onClick={handleClick}
                       className={`${
                         paymentCondition ? "bg-[#ACDDE7]" : "bg-[#33b0ca] "
-                      } w-32 my-8 h-[40px] text-white  rounded-lg font-semibold`}
+                      } w-32 my-8 h-[32px] text-[16px] text-white  rounded-lg font-semibold`}
                     >
                       {paymentCondition ? "Processing" : "Pay Now"}
                     </button>
