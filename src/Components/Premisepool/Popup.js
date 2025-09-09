@@ -578,7 +578,7 @@ const Popup = ({
 
           <div className="flex flex-col gap-3 lg:gap-[16px] xl:gap-[32px] lg my-auto lg:flex-row lg:justify-center ">
             {/* left div */}
-            <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[94%] sm:w-[80%] lg:w-[36%] max-w-[377px] h-[33vh] max-h-[212px] lg:h-[500px] xl:h-[546px] 2xl:h-[610px] lg:mt-[26px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[16px] xl:ml-[32px] rounded-[8px]">
+            <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[94%] sm:w-[80%] lg:w-[36%] max-w-[377px] h-[33vh] max-h-[212px] lg:max-h-none lg:h-[500px] xl:h-[546px] 2xl:h-[610px] lg:mt-[26px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[16px] xl:ml-[32px] rounded-[8px]">
               {/* header */}
               <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-2 sm:px-[15px] py-[6px]">
                 <div className="block max-w-[140px]">
@@ -762,7 +762,7 @@ const Popup = ({
                   </div>
                 </div>{" "}
               </div>
-              <div className="hidden lg:block md:absolute bottom-3 w-full">
+              <div className="hidden lg:block mt-10 w-full">
                 <div className="flex gap-1 items-center w-[54%] mt-[-18px] mx-auto">
                   <AskIda
                     id={premiseId}
@@ -887,7 +887,7 @@ const Popup = ({
               {/* comment and reply div mobile */}
               <div className="lg:hidden h-[10vh] md:h-[116px] flex flex-col justify-between">
                 <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" />{" "}
-                <div className="fixed bottom-[30px] left-0 w-[100%] md:relative md:bottom-0 md:w-auto px-2 ">
+                <div className="fixed bottom-[30px] left-0 w-[100%]  px-2 ">
                   <div className="flex gap-1 items-center w-[50%] mt-[-18px] mx-auto">
                     <AskIda
                       id={premiseId}
