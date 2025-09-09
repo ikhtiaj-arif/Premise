@@ -232,18 +232,18 @@ const CharacterEditablePop = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center z-[2]">
       <div className="fixed inset-0 bg-black opacity-50"></div>
-      <div className="relative bg-[#fafafa] py-8 md:rounded-lg shadow-lg w-full sm:w-[90%] lg:w-[950px] h-[91vh] lg:h-[500px] mt-[65px] ">
+      <div className="relative bg-[#fafafa] py-8 md:rounded-lg shadow-lg w-full lg:w-[950px] h-[91vh] lg:h-[500px] mt-[65px] ">
         <button
           onClick={handleClosePopup}
-          className="absolute hidden md:block right-[-13px] top-[-13px] bg-[#EE3C4D] text-white rounded-full w-8 h-8  items-center justify-center shadow"
+          className="absolute hidden lg:block right-[-13px] top-[-13px] bg-[#EE3C4D] text-white rounded-full w-8 h-8  items-center justify-center shadow"
         >
           ✕
         </button>
-        <div className="mb-[17px] flex pl-2 md:hidden">
+        <div className="mb-[17px] flex pl-2 lg:hidden">
           <h3 className="text-center flex  gap-[9px] font-[500]">
             <MdOutlineKeyboardBackspace
               onClick={() => setCharacterEditPop(false)}
-              className=" md:hidden text-[#33B0CA] cursor-pointer h-[36px] w-[36px]"
+              className=" lg:hidden text-[#33B0CA] cursor-pointer h-[36px] w-[36px]"
             />{" "}
           </h3>
           <p className="text-[16px] leading-6  font-semibold mb-[20px] pl-4 ">
@@ -265,7 +265,7 @@ const CharacterEditablePop = ({
           </p>
         </div>
 
-        <h3 className="text-[16px] hidden md:block font-semibold mb-[20px] px-6 md:px-[56px]">
+        <h3 className="text-[16px] hidden lg:block font-semibold mb-[20px] px-6 md:px-[56px]">
           {!onlyAdd && "Proposed"} Characters in about{" "}
           <span className="">
             {getTextFromValue(currentProjectData?.duration)}
