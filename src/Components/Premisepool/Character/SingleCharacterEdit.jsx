@@ -381,10 +381,10 @@ const SingleCharacterAdd = ({
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="fixed inset-0 bg-black opacity-50"></div>
+    <div className="fixed top-0 left-0 bottom-0 right-0 w-full h-screen flex items-center bg-[#252525b0] justify-center z-[21]">
+      {/* <div className="fixed inset-0 bg-black opacity-50"></div> */}
       {/* {console.log(editIdx)} */}
-      <div className="relative bg-[#FAFAFA] pt-[20px] px-[8px] rounded-lg shadow-lg w-full md:mt-12 max-w-[479px] h-[480px]">
+      <div className="relative bg-[#fafafa] py-8 md:rounded-lg shadow-lg w-full h-[500px] md:max-w-[479px] ">
         <h3 className="text-center mb-0 md:mb-[12px] flex md:justify-center items-center gap-[9px] font-[500]">
           <MdOutlineKeyboardBackspace
             onClick={() => setEditPopupOpen(false)}
