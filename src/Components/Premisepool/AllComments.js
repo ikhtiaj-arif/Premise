@@ -523,17 +523,17 @@ const AllComments = ({
         {!loading && actOneThreshold && actTwoEnd && (
           <>
             {commentIdx === 1 && (
-              <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] setup-m">
+              <p className="pl-[22px] mb-[-4px] text-[16px] text-[#000]  font-[700] setup-m">
                 Setup:
               </p>
             )}
             {commentIdx === actOneThreshold + 1 && (
-              <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] conflict-m">
+              <p className="pl-[22px] mb-[-4px] text-[16px] text-[#000]  font-[700] conflict-m">
                 Conflict:
               </p>
             )}
             {commentIdx === actTwoEnd + 1 && (
-              <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] resolution-m">
+              <p className="pl-[22px] mb-[-4px] text-[16px] text-[#000]  font-[700] resolution-m">
                 Resolution:
               </p>
             )}
@@ -633,7 +633,7 @@ const AllComments = ({
                     </div>
                   ) : (
                     <div>
-                      <p className="notranslate text-[#252525] text-[12px]  lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
+                      <p className="notranslate text-[#252525] text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
                         {commentText}
                       </p>
                     </div>

@@ -308,13 +308,13 @@ const ReplyToComments = ({
   return (
     <div
       data-reply
-      className={`w-[93%] ${
-        fromNew ? "w-[93%]" : "lg:w-[636px] xl:w-[674px]"
+      className={`w-[99%] ${
+        fromNew ? "w-[99%]" : "lg:w-[636px] xl:w-[674px]"
       }  ml-[5px] md:ml-[50px]  rounded-sm flex items-center gap-1`}
     >
-      <div className=" md:w-[95%] xl:w-[97%]">
+      <div className="w-full md:w-[95%] xl:w-[97%]">
         <div
-          className={` w-[97%] relative ml-[16px] ${
+          className={` w-[97%] relative  ${
             fromNew ? "md:ml-[63px]" : "md:ml-[45px]"
           }`}
         >
@@ -322,7 +322,7 @@ const ReplyToComments = ({
             className={`flex gap-[8px] ${
               fromNew
                 ? "w-[100%] md:w-[94.5%]"
-                : "w-[104.5%] md:w-[100%] max-w-[654px]"
+                : "w-[100%] md:w-[100%] max-w-[654px]"
             }  `}
           >
             <a
@@ -393,7 +393,7 @@ const ReplyToComments = ({
                 </p>
               </div>
 
-              <p className="notranslate text-[#252525] text-[12px]  lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
+              <p className="notranslate text-[#252525] text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
                 {/* {reply?.text} */}
                 {/* {reply?.user?.id === 1 && reply?.text
                   ? formatText(reply?.text)
@@ -435,9 +435,7 @@ const ReplyToComments = ({
                   </button>
                 </div>
               ) : (
-                <div className={`px-3 'cursor-default'}`}>
-                  <div className="" />
-                </div>
+                <></>
               )}
             </div>
           </div>
@@ -559,9 +557,7 @@ const ReplyToComments = ({
               <div className="hidden md:block ">
                 <ReplyLike {...{ reply, setLikePopup, replyRefetch }} />
               </div>
-            </div>
 
-            <div className="flex items-center justify-end gap-[14px] leading-[16px] md:w-[30%] ">
               <div className="flex md:hidden">
                 <ReplyLike {...{ reply, setLikePopup, replyRefetch }} />
               </div>
@@ -608,6 +604,55 @@ const ReplyToComments = ({
                     </button>
                   )}
               </>
+            </div>
+
+            <div className="flex items-center  justify-end gap-[14px] leading-[16px] md:w-[30%] ">
+              {/* <div className="flex md:hidden">
+                <ReplyLike {...{ reply, setLikePopup, replyRefetch }} />
+              </div> */}
+
+              {/* {owner === user &&
+                (reply?.text?.includes("?") || reply?.text?.includes("؟")) &&
+                reply?.user?.id === 1 && (
+                  <>
+                    {reply?.suggested ? (
+                      <button className="px-2 md:hidden  rounded-[4px] py-[2px] bg-[#616161]">
+                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                          Suggested
+                        </p>
+                      </button>
+                    ) : (
+                      <button
+                        className="px-2 md:hidden rounded-[4px] py-[2px] bg-[#33B0CA]"
+                        onClick={() => checkSuggestAllowance(reply?.text)}
+                      >
+                        {suggestDisable ? (
+                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                            Suggesting...
+                          </p>
+                        ) : (
+                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                            Suggestion
+                          </p>
+                        )}
+                      </button>
+                    )}
+                  </>
+                )}
+
+              <>
+                {reply?.reject_button &&
+                  (owner === user || reply?.user?.id === user) && (
+                    <button className=" cursor-auto w-[60px]">
+                      <p
+                        onClick={() => handleReject(reply?.id)}
+                        className="text-[12px] bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400] leading-[14.52px] "
+                      >
+                        Reject
+                      </p>
+                    </button>
+                  )}
+              </> */}
 
               {!(reply?.text?.includes("?") || reply?.text?.includes("؟")) && (
                 <>
@@ -641,7 +686,7 @@ const ReplyToComments = ({
                   )}
                 </>
               )}
-              <div className="  flex  lg:hidden justify-center gap-1 items-center right-[8.5px] md:right-[6.5px] top-[28%]">
+              <div className="  flex  lg:hidden justify-center gap-1 items-center ">
                 <CommentTranslator
                   comment={reply}
                   translateComment={translateComment}
@@ -673,9 +718,7 @@ const ReplyToComments = ({
                     </button>
                   </div>
                 ) : (
-                  <div className={`px-3 'cursor-default'}`}>
-                    <div className="" />
-                  </div>
+                  <></>
                 )}
               </div>
             </div>
@@ -738,7 +781,7 @@ const ReplyToComments = ({
           {childReplyField && (
             <div
               data-nest-reply
-              className="w-[96%] md:w-[94%]  md:mr-[4px] mb-[8px] ml-auto"
+              className="w-full md:w-[94%]  md:mr-[4px] mb-[8px] md:ml-auto"
             >
               {/* <div className={``}> */}
               <div
