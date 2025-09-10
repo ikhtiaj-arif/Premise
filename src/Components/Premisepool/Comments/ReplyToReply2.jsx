@@ -379,7 +379,7 @@ const ReplyToReply2 = ({
                 : replyText}
             </p>
           </div>{" "}
-          <div className="  flex flex-col lg:flex-row justify-center gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
+          <div className="hidden lg:flex-row justify-center gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
             <CommentTranslator
               comment={childReply}
               translateComment={translateComment}
@@ -413,7 +413,7 @@ const ReplyToReply2 = ({
           </div>
         </div>
         <div
-          className={`flex justify-between items-center w-[81%] mr-[24px] ml-auto mb-[2px] md:mb-[2px] ${
+          className={`flex justify-between items-center w-[81%]  ml-auto mb-[2px] md:mb-[2px] ${
             fromNew ? " md:mr-[51px]" : " md:mr-[29px]"
           }  `}
         >
@@ -683,6 +683,36 @@ const ReplyToReply2 = ({
               </>
             )}
           </div>
+          <div className="  flex  lg:hidden justify-center gap-1 items-center ">
+            <CommentTranslator
+              comment={childReply}
+              translateComment={translateComment}
+              loading={isTranslationCommentLoading}
+              commentRefetch={replyRefetch}
+              setCommentText={setReplyText}
+              setCommentPrefix={setReplyTextPrefix}
+            />
+            {(owner === user || replyBy?.id === user) &&
+            !childReply?.reject_button ? (
+              <div className="flex gap-2 items-center pl-[2px]">
+                <button
+                  // data-reply-reply
+                  // disabled={disableD}
+                  onClick={() => {
+                    setIdToDlt(currentReplyId);
+                    setOpenDltPop(true);
+                  }}
+                >
+                  <FaRegTrashAlt
+                    //   disabled={disableBtn}
+                    className="h-5 w-5 text-[#909090]"
+                  />
+                </button>
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
 
         {openDltPop && (
@@ -764,7 +794,6 @@ const ReplyToReply2 = ({
                     owner={owner}
                     user={user}
                     replyRefetch={replyRefetch}
-                    
                     depth={depth + 1} // Increment the depth
                   />
                 )
