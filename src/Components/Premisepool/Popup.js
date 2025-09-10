@@ -567,7 +567,7 @@ const Popup = ({
           <MdKeyboardBackspace
             src={crossIcon}
             alt=""
-            className="text-[#252525] text-left text-[32px] my-[8px] mt-[10px] ml-[24px] z-[1] cursor-pointer lgHidden"
+            className="text-[#252525] text-left text-[32px] my-[8px] mt-1 ml-[24px] z-[1] cursor-pointer lgHidden"
             onClick={() => {
               popClose(false);
               // setOpenReplyField(null);

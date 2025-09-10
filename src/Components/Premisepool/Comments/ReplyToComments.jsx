@@ -314,7 +314,7 @@ const ReplyToComments = ({
     >
       <div className="w-full md:w-[95%] xl:w-[97%]">
         <div
-          className={` w-[97%] relative  ${
+          className={` w-[100%] relative  ${
             fromNew ? "md:ml-[63px]" : "md:ml-[45px]"
           }`}
         >
