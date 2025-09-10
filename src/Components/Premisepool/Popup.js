@@ -567,7 +567,7 @@ const Popup = ({
           <MdKeyboardBackspace
             src={crossIcon}
             alt=""
-            className="text-[#252525] text-left text-[32px] my-[8px] mt-[10px] ml-[24px] z-[1] cursor-pointer lgHidden"
+            className="text-[#252525] text-left text-[32px] my-[8px] mt-1 ml-[24px] z-[1] cursor-pointer lgHidden"
             onClick={() => {
               popClose(false);
               // setOpenReplyField(null);
@@ -816,7 +816,7 @@ const Popup = ({
               <div
                 ref={lastCommentRef}
                 // ref={commentsRef}
-                className="w-full h-full lg:h-[auto] py-[12px] overflow-x-hidden !overflow-y-auto lg:premiseScroll "
+                className="w-full h-full lg:h-auto py-[12px] overflow-x-hidden !overflow-y-auto lg:premiseScroll "
               >
                 {loading ? (
                   <div className="z-[1] lg:mt-[160px] xl:mt-[200px]">
@@ -888,7 +888,7 @@ const Popup = ({
               <div className="lg:hidden h-[10vh] md:h-[116px] flex flex-col justify-between">
                 <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" />{" "}
                 <div className="fixed bottom-[30px] left-0 w-[100%]  px-2 ">
-                  <div className="flex gap-1 items-center w-[50%] mt-[-18px] mx-auto">
+                  <div className="flex gap-1 items-center w-[50%] max-w-[170px] mt-[-18px] mx-auto">
                     <AskIda
                       id={premiseId}
                       source_language={premiseData?.source_language}
@@ -905,7 +905,7 @@ const Popup = ({
                         setService,
                       }}
                     />
-                    <h3>or,</h3>
+                    <h3 className="text-[16px] font-[500]">or,</h3>
                   </div>
                   <PopupTextarea
                     {...{
