@@ -302,9 +302,9 @@ const SingleCharacterAddNewTab = ({
   const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-[2] ">
-      <div className="fixed inset-0 bg-black opacity-50"></div>
-      <div className="relative bg-[#FAFAFA] pt-[20px] px-[8px] rounded-lg shadow-lg w-full max-w-[479px] md:mt-12 h-[73vh] md:h-[490px]">
+    <div className="fixed top-0 bottom-0 left-0 right-0 w-full h-screen flex items-center bg-[#252525b0] justify-center z-[21] ">
+      {/* <div className="fixed inset-0 bg-black opacity-50"></div> */}
+      <div className="relative bg-[#FAFAFA] py-[20px] px-[8px] rounded-lg shadow-lg w-full md:max-w-[479px] md:mt-12 h-[490px]">
         <div className=" w-full h-10 sticky">
           <h3 className="text-center md:mb-[20px] font-[500]">
             <span className="text-[18px] text-center md:text-[14px]">
@@ -573,7 +573,7 @@ const SingleCharacterAddNewTab = ({
                     translate="no"
                     placeholder="Background"
                     className={`text-[14px] bg-[#FAFAFA]   text-[#616161] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] overflow-y-hidden border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px]
-                    h-auto resize-none `}
+                    h-[44px] resize-none `}
                   />
                 </div>
               </div>
@@ -594,7 +594,7 @@ const SingleCharacterAddNewTab = ({
                     ref={personalityRef}
                     translate="no"
                     placeholder="Personality"
-                    className="text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none   text-[#616161]"
+                    className="text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-[44px] resize-none   text-[#616161]"
                   />
                 </div>
               </div>
@@ -616,7 +616,7 @@ const SingleCharacterAddNewTab = ({
                     name="individualwant"
                     translate="no"
                     placeholder="Individual want"
-                    className="text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none   text-[#616161] "
+                    className="text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-[44px] resize-none   text-[#616161] "
                   />
                 </div>
               </div>
@@ -637,7 +637,7 @@ const SingleCharacterAddNewTab = ({
                     name="characterjourney"
                     translate="no"
                     placeholder="Character's journey"
-                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] border-2 overflow-y-hidden border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px] h-auto resize-none    text-[#616161]  "
+                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] border-2 overflow-y-hidden border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px] h-[44px] resize-none    text-[#616161]  "
                   />
                 </div>
               </div>
@@ -658,7 +658,7 @@ const SingleCharacterAddNewTab = ({
                     name="Blood_relationship"
                     translate="no"
                     placeholder="Blood relationship"
-                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none   text-[#616161] "
+                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-[44px] resize-none   text-[#616161] "
                   />
                 </div>
               </div>
@@ -681,7 +681,7 @@ const SingleCharacterAddNewTab = ({
                     name="Family_relationship"
                     translate="no"
                     placeholder="Family relationship"
-                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none   text-[#616161]"
+                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-[44px] resize-none   text-[#616161]"
                   />
                 </div>
               </div>
@@ -709,7 +709,7 @@ const SingleCharacterAddNewTab = ({
                     name="Professional_relationship"
                     translate="no"
                     placeholder="Professional relationship"
-                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none      text-[#616161]"
+                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-[44px] resize-none      text-[#616161]"
                   />
                 </div>
               </div>

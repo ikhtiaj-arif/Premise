@@ -92,9 +92,9 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
     }
   };
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center xl:mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
+    <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-screen flex items-center xl:mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
       <ToastContainer />
-      <div className="lg:static absolute px-[22px] pb-4 lg:mt-[90px] bottom-0 bg-white rounded-[8px] w-[100%] lg:w-[623px]">
+      <div className="lg:static absolute px-[22px] pb-4 bottom-0 bg-white rounded-[8px] w-[100%] lg:w-[623px]">
         {/* close popup */}
         <div className="relative">
           <img
