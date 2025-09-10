@@ -230,9 +230,9 @@ const CharacterEditablePop = ({
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-[2]">
-      <div className="fixed inset-0 bg-black opacity-50"></div>
-      <div className="relative bg-[#fafafa] py-8 md:rounded-lg shadow-lg w-full lg:w-[950px] h-[91vh] lg:h-[500px] mt-[65px] ">
+    <div className="fixed bottom-0 top-0 left-0 w-full h-screen flex items-end md:items-center bg-[#252525b0] justify-center z-[21]">
+      {/* <div className="fixed inset-0 bg-black opacity-50"></div> */}
+      <div className="relative bg-[#fafafa] py-8 md:rounded-lg shadow-lg w-full lg:w-[950px] h-[91vh] lg:h-[500px]  ">
         <button
           onClick={handleClosePopup}
           className="absolute hidden lg:block right-[-13px] top-[-13px] bg-[#EE3C4D] text-white rounded-full w-8 h-8  items-center justify-center shadow"
