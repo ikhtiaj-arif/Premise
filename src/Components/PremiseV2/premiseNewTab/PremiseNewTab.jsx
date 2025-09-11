@@ -274,7 +274,7 @@ const PremiseNewTab = ({
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      <div className=" fixed top-[70px] left-1/2 -translate-x-1/2 w-full  ">
+      <div className="  fixed top-[70px] bottom-[120px] md:bottom-[170px] left-1/2 -translate-x-1/2 w-full  ">
         {!isPremiseLoading &&
         !isCommentLoading &&
         premiseDataR &&
@@ -339,7 +339,7 @@ const PremiseNewTab = ({
                     <TypingLoader />
                   </div>
                 ) : (
-                  <div className="pb-[160px] pt-[18px] lg:pb-[18px]">
+                  <div className="pt-[18px] pb-[18px]">
                     {filteredCommentsData?.comments?.length > 0 ? (
                       <>
                         <div>
@@ -421,7 +421,7 @@ const PremiseNewTab = ({
                       <TypingLoader />
                     </div>
                   ) : (
-                    <div className="pb-[160px] pt-[18px] lg:pb-[18px]">
+                    <div className=" pt-[18px] pb-[18px]">
                       {filteredCommentsData?.comments?.length > 0 ? (
                         <>
                           <div>
