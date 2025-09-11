@@ -175,10 +175,10 @@ const AddPremise2 = ({
                     }}
                   />
                 )}
-                <p className=" text-[16px] leading-[23px] w-full  text-center  font-[500] text-[#252525]">
+                <p className="text-[16px] leading-[23px] w-full  text-center  font-[500] text-[#252525]">
                   {!preview
                     ? "Describe your Imagination In Any Language"
-                    : "Preview your Imagination"}
+                    : <span className="md:hidden">Preview your Imagination</span>}
                 </p>
               </div>
               <div className="text-right flex justify-end"></div>
