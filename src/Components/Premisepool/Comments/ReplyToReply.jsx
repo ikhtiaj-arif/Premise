@@ -639,7 +639,7 @@ const ReplyToReply = ({
                 childReply?.text?.includes("?") ||
                 childReply?.text?.includes("؟")
               ) && (
-                <div className="mt-[-8px]">
+                <div className="mt-[0px]">
                   {childReply?.add_to_beat ? (
                     <>
                       {(owner === user || childReply?.user?.id === user) && (

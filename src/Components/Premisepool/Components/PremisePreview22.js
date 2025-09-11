@@ -217,6 +217,17 @@ const PremisePreview2 = ({
   const locationNameRef = useRef();
   const protagonistNameRef = useRef();
 
+  // const setText = (newText) => {
+  //   console.log('inputRefs',projectNameRef);
+  //   if (activeInput && inputRefs.current[activeInput]) {
+  //     const setterMap = {
+  //       authorName: setAuthorName,
+  //       geographyItem: setGeographyItem,
+  //       protagonistName: setProtagonistName,
+  //     };
+  //     setterMap[activeInput](newText);
+  //   }
+  // };
 
   const token = localStorage.getItem("accessToken");
 
@@ -226,6 +237,8 @@ const PremisePreview2 = ({
     "Content-Type": "application/json",
   };
 
+  // const [selectedSpProjectID, setSelectedSpProjectID] = useState("");
+  // const [createdSpProjectID, setCreatedSpProjectID] = useState("");
   const [spProjectName, setSpProjectName] = useState("");
   const { data: storyToScriptData } = useGetStoryToScriptProjectQuery();
   const [matchingProject, setMatchingProject] = useState(null);
@@ -233,12 +246,20 @@ const PremisePreview2 = ({
   // const [characters, setCharacters] = useState(characterArray);
 
   const [language, setLanguage] = useState("");
+  // console.log("language", language);
   const handleNatureOfProjectChange = (e) => {
     const selectedProject = e.target.value;
     setNatureOfProject(selectedProject);
     setDurationOptions(options[selectedProject] || []);
     setDuration("");
   };
+  //console.log(natureOfProject);
+  //console.log(durationOptions);
+  // const {
+  //   data: ProjectsObj,
+  //   isLoading: isProjectLoading,
+  //   refetch: projectRefetch,
+  // } = useGetMyAllProjectQuery();
 
   const filteredSpProjectsUnsorted = allProjects?.filter(
     (item) => !item.locked && item.premise_id === ""
@@ -1331,7 +1352,9 @@ const PremisePreview2 = ({
               }}
             />
         )}
-       
+        <p className=" md:hidden text-center my-[8px] text-[17px] mx-auto font-[500] text-[#252525] ">
+          Preview your Imagination
+        </p>
         {!finalEdit ? (
           <div className="bg-[#FAFAFA] flex justify-between items-center p-1 cursor-pointer  mx-[18px] md:mx-[24px] mb-[5px] sm:mb-[10px]  rounded-[8px]   px-3 border border-[#eaeaea] md:border-none">
             <div className="flex items-center gap-3 h-[25px] sm:h-auto">
@@ -1616,7 +1639,7 @@ const PremisePreview2 = ({
             </p>
             {!createNewProject && !selectedSpProjectID ? (
               <div className="col-span-12">
-                <div className="flex gap-[12px] items-center mt-2 lg:mt-[32px]">
+                <div className="flex gap-[12px] items-center mt-[32px]">
                   {filteredSpProjects?.length !== 0 && (
                     <>
                       <div
@@ -1863,7 +1886,7 @@ const PremisePreview2 = ({
               ) : (
                 <div className="text-[12px] grid grid-cols-12 gap-x-[6px] md:gap-x-[12px] gap-y-[4px]  px-[16px] md:px-0 lg:px-0 mt-[8px] md:mt-[-5px]">
                   {createNewProject && (
-                    <div className="flex h-[31px] col-span-12  md:col-span-4">
+                    <div className="flex h-[31px] col-span-5 md:col-span-4">
                       <input
                         type="text"
                         ref={projectNameRef}
@@ -1887,7 +1910,7 @@ const PremisePreview2 = ({
                     </div>
                   )}
                   <div
-                    className={` col-span-12 md:col-span-4 md:w-[191px] ${
+                    className={`col-span-7 md:col-span-4 md:w-[191px] ${
                       createNewProject && "md:ml-[-5px]"
                     }`}
                   >
@@ -2032,7 +2055,7 @@ const PremisePreview2 = ({
                       </div>
                     </div> */}
                   </div>
-                  <div className="flex h-[31px] col-span-12  md:col-span-4">
+                  <div className="flex h-[31px] col-span-5 md:col-span-4">
                     <input
                       type="text"
                       // id="authorName"
@@ -2055,7 +2078,7 @@ const PremisePreview2 = ({
                     />
                   </div>
                   <div
-                    className={`col-span-6  w-full ${
+                    className={` col-span-7 ${
                       createNewProject
                         ? "md:col-span-3  md:w-[163px] "
                         : "md:col-span-4"
@@ -2183,12 +2206,57 @@ const PremisePreview2 = ({
                         )}
                       </div>
                     </div>
-                    
+                    {/* <div
+                      ref={natureProjectRef}
+                      className={`h-[31px] relative  bg-[#fafafa] rounded-[4px] border-[2px] ${
+                        natureOfProject
+                          ? "border-[#33B0CA]"
+                          : "border-[#EAEAEA]"
+                      } `}
+                    >
+                      <select
+                        className={`block appearance-none bg-[#fafafa] h-[27px] rounded-[4px]   w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
+                        value={natureOfProject}
+                        onChange={handleNatureOfProjectChange}
+                        onClick={handleSelectClick}
+                        required
+                      >
+                        <option value="" disabled>
+                          Nature of project
+                        </option>
+                        {/* {Object.keys(options)?.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))} 
+
+                        {NProjectOpt?.map((option) => (
+                          <>
+                            {baseLanguage === "hi" ? (
+                              <option key={option?.value} value={option?.value}>
+                                {option?.hi}
+                              </option>
+                            ) : (
+                              <option key={option?.value} value={option?.value}>
+                                {option?.value}
+                              </option>
+                            )}
+                          </>
+                        ))}
+                      </select>
+                      <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center pointer-events-none">
+                        {isNatureProjectOpen ? (
+                          <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px] " />
+                        ) : (
+                          <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px] " />
+                        )}
+                      </div>
+                    </div> */}
                   </div>
                   <div
-                    className={`h-[31px] relative bg-[#fafafa] rounded-[4px] border-[2px] col-span-6  w-full ${
+                    className={`h-[31px] relative bg-[#fafafa] rounded-[4px] border-[2px] col-span-4 ${
                       createNewProject
-                        ? "md:col-span-3 md:w-[136px] md:ml-[16px]"
+                        ? "md:col-span-3 w-[108px] xxs:w-[120px] md:w-[136px] md:ml-[16px]"
                         : "md:col-span-4"
                     } ${duration ? "border-[#33B0CA]" : "border-[#EAEAEA]"}`}
                     ref={durationRef}
@@ -2303,13 +2371,57 @@ const PremisePreview2 = ({
                       )}
                     </div>
                   </div>
-                  
+                  {/* <div
+                    className={`h-[31px] relative  bg-[#fafafa] rounded-[4px] border-[2px] col-span-4 ${
+                      createNewProject
+                        ? "  md:col-span-3 w-[104px] xxs:w-[120px] md:w-[130px] md:ml-[8px] "
+                        : " md:col-span-4"
+                    }  ${duration ? "border-[#33B0CA]" : "border-[#EAEAEA]"} `}
+                  >
+                    <select
+                      ref={durationRef}
+                      className="block appearance-none bg-[#fafafa] h-[27px] rounded-[4px]  w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none"
+                      onClick={() => setIsdurationOpen(!isdurationOpen)}
+                      value={duration}
+                      onChange={(e) => setDuration(e.target.value)}
+                      required
+                    >
+                      <option className="" value="" selected disabled>
+                        Duration
+                      </option>
+
+                      {durationOptions?.map((option, index) => (
+                        <>
+                          {baseLanguage === "hi" ? (
+                            <option key={option?.value} value={option?.value}>
+                              {option?.hi}
+                            </option>
+                          ) : (
+                            <option key={option?.value} value={option?.value}>
+                              {option?.text}
+                            </option>
+                          )}
+                        </>
+
+                        // <option key={option.value} value={option.value}>
+                        //   {option.text}
+                        // </option>
+                      ))}
+                    </select>
+                    <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center  pointer-events-none">
+                      {isdurationOpen ? (
+                        <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
+                      ) : (
+                        <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
+                      )}
+                    </div>
+                  </div> */}
                   {generaItem === "Other" ? (
                     <>
                       <div
-                        className={`h-[31px] relative w-full col-span-6  ${
+                        className={`h-[31px] relative col-span-4 ${
                           createNewProject
-                            ? " md:col-span-3  md:ml-[4px]"
+                            ? " md:col-span-3  w-[130px] ml-[-10px] md:ml-[4px]"
                             : " md:col-span-4 "
                         } bg-[#fafafa] rounded-[4px] border-[2px] ${
                           generaItemTxt
@@ -2362,11 +2474,48 @@ const PremisePreview2 = ({
                     </>
                   ) : (
                     <>
+                      {/* <div
+                        className={`h-[31px] relative col-span-4 ${
+                          createNewProject
+                            ? " md:col-span-3 w-[104px] xxs:w-[119px] md:w-[126px] ml-[-6px] md:ml-[0px]"
+                            : " md:col-span-4 "
+                        } bg-[#fafafa] rounded-[4px] border-[2px] ${
+                          generaItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                        } `}
+                      >
+                        <select
+                          ref={genreRef}
+                          className="block appearance-none bg-[#fafafa] h-[27px] rounded-[4px]  w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none"
+                          onClick={() => setIsgenreOpen(!isgenreOpen)}
+                          value={generaItem}
+                          onChange={(e) => setGeneraItem(e.target.value)}
+                          required
+                        >
+                          <option value="" disabled>
+                            Genre
+                          </option>
+
+                          {genera?.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+
+                        <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center  pointer-events-none">
+                          {isgenreOpen ? (
+                            <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
+                          ) : (
+                            <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
+                          )}
+                        </div>
+                      </div> */}
+
                       <div
                         ref={genreRef}
-                        className={`h-[31px] relative w-full col-span-6  ${
+                        className={`h-[31px] relative col-span-4 ${
                           createNewProject
-                            ? "md:col-span-3  md:w-[130px]  md:ml-[4px]"
+                            ? "md:col-span-3 w-[106px] xxs:w-[122px] md:w-[130px] ml-[-7px] md:ml-[4px]"
                             : "md:col-span-4"
                         } bg-[#fafafa] rounded-[4px] border-[2px] ${
                           generaItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
@@ -2483,9 +2632,9 @@ const PremisePreview2 = ({
                       </div>
 
                       <div
-                        className={`h-[31px] relative w-full col-span-6  ${
+                        className={`h-[31px] relative col-span-4 ${
                           createNewProject
-                            ? "md:col-span-3 md:w-[154px]  md:ml-[-13px]"
+                            ? "md:col-span-3 xxs:w-[139px] md:w-[154px] ml-[-14px] md:ml-[-13px]"
                             : "md:col-span-4"
                         } bg-[#fafafa] rounded-[4px] border-[2px] ${
                           subGeneraItem
@@ -2645,7 +2794,7 @@ const PremisePreview2 = ({
                       </div>{" "} */}
                     </>
                   )}
-                  <div className="col-span-12 sm:col-span-6 md:col-span-6 mt-[-6px]">
+                  <div className="col-span-6 md:col-span-6 mt-[-6px]">
                     <label className="text-[12px] md:!text-[14px] font-[500]">
                       Location
                     </label>
@@ -2682,10 +2831,53 @@ const PremisePreview2 = ({
                       maxLength={100}
                     />
                   </div>
-                  
+                  {/* <div
+                    className={`h-[31px] mt-[21px] relative col-span-6 md:col-span-3 ${
+                      periodSetIn ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                    } rounded-[4px] border-[2px]`}
+                  >
+                    <select
+                      ref={setinPeriodRef}
+                      className={`block appearance-none bg-[#fafafa] h-[27px] rounded-[4px] w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
+                      onClick={() => setSetinPeriodOpen(!isSetinPeriodOpen)}
+                      onChange={(e) => setPeriodSetIn(e.target.value)}
+                      value={periodSetIn}
+                      required
+                    >
+                      <option className="" value="" selected disabled>
+                        Period of time
+                      </option>
+
+                      <option className="text-[12px] md:!text-[14px]">
+                        Ancient
+                      </option>
+                      <option className="text-[12px] md:!text-[14px]">
+                        Modern
+                      </option>
+                      <option className="text-[12px] md:!text-[14px]">
+                        Contemporary
+                      </option>
+                      <option className="text-[12px] md:!text-[14px]">
+                        Last Century
+                      </option>
+                      <option className="text-[12px] md:!text-[14px]">
+                        Medieval
+                      </option>
+                      <option className="text-[12px] md:!text-[14px]">
+                        Prehistortic
+                      </option>
+                    </select>
+                    <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center  pointer-events-none">
+                      {isSetinPeriodOpen ? (
+                        <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
+                      ) : (
+                        <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
+                      )}
+                    </div>
+                  </div> */}
                   <div
                     ref={setinPeriodRef}
-                    className={`h-[31px] sm:mt-[21px] relative col-span-12 sm:col-span-6 md:col-span-3 ${
+                    className={`h-[31px] mt-[21px] relative col-span-6 md:col-span-3 ${
                       periodSetIn ? "border-[#33B0CA]" : "border-[#EAEAEA]"
                     } rounded-[4px] border-[2px]`}
                   >
@@ -2804,7 +2996,7 @@ const PremisePreview2 = ({
                     </div>
                   </div>
                   <div
-                    className={`col-span-12 sm:col-span-6 md:col-span-5 gap-[12px] mt-[-6px]`}
+                    className={`col-span-6 md:col-span-5 gap-[12px] mt-[-6px]`}
                   >
                     <p className="text-[12px] md:!text-[14px] font-[500]">
                       Who Is Your Protagonist
@@ -2830,10 +3022,46 @@ const PremisePreview2 = ({
                       maxLength={100}
                     />
                   </div>{" "}
-                  
+                  {/* <div
+                    className={`h-[31px] mt-[21px] relative col-span-6 md:col-span-4  bg-[#fafafa] ${
+                      protagonist ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                    } rounded-[4px] border-[2px]`}
+                  >
+                    <select
+                      ref={protagonistRef}
+                      className="block appearance-none bg-[#fafafa]  h-[27px] rounded-[4px]  w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none"
+                      onClick={() => setIsProtagonistOpen(!isProtagonistOpen)}
+                      value={protagonist}
+                      onChange={(e) => setProtagonist(e.target.value)}
+                      required
+                    >
+                      <option className="" value="" selected disabled>
+                        Gender
+                      </option>
+                      <option className="text-[12px] md:!text-[14px]">
+                        Male
+                      </option>
+                      <option className="text-[12px] md:!text-[14px]">
+                        Female
+                      </option>
+                      <option className="text-[12px] md:!text-[14px]">
+                        Animal
+                      </option>
+                      <option className="text-[12px] md:!text-[14px]">
+                        Inanimate Object
+                      </option>
+                    </select>
+                    <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center pointer-events-none">
+                      {isProtagonistOpen ? (
+                        <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
+                      ) : (
+                        <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
+                      )}
+                    </div>
+                  </div> */}
                   <div
                     ref={protagonistRef}
-                    className={`h-[31px] sm:mt-[21px] relative col-span-12 sm:col-span-6 md:col-span-4 bg-[#fafafa] ${
+                    className={`h-[31px] mt-[21px] relative col-span-6 md:col-span-4 bg-[#fafafa] ${
                       protagonist ? "border-[#33B0CA]" : "border-[#EAEAEA]"
                     } rounded-[4px] border-[2px]`}
                   >
@@ -2990,7 +3218,7 @@ const PremisePreview2 = ({
             </div>
             {/* button part */}
             {!finalEdit ? (
-              <div className="lg:bg-[#FAFAFA] sticky right-0 bottom-5 flex justify-end py-1 text-center  mx-[28px] mt-[12px] mb-[10px]">
+              <div className="lg:bg-[#FAFAFA] absolute right-3 md:right-0 bottom-0  flex  justify-end py-1 text-center  md:mx-[28px] mt-[12px] md:mb-[10px]">
                 <button
                   disabled={isLoading}
                   className={`${

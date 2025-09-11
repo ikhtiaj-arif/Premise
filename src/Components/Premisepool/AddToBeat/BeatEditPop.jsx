@@ -3,7 +3,7 @@ import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
-import { IoIosArrowRoundBack } from "react-icons/io";
+import { MdKeyboardBackspace } from "react-icons/md";
 import { toast } from "react-toastify";
 import { MyContext } from "../../../App";
 import {
@@ -659,7 +659,7 @@ const BeatEditPop = ({
     //   <ProjectNotfound setProjectNotFound={setProjectNotFound}/> // Conditionally render ProjectNotFound component
     // ) :(
     <>
-      <div className="fixed top-[17px] md:top-0 left-0 w-full h-full flex mt-0 xl:pt-[80px]  items-center bg-[#252525b0] justify-center z-[1] pt-8 ">
+      <div className="fixed top-[17px] md:top-0 left-0 w-full h-full flex mt-0 xl:pt-[80px]  items-center bg-[#252525b0] justify-center z-[999] pt-8 ">
         {beatSuggestLoading ? (
           <div className="h-auto w-full lg:w-[40%] xl:w-[35%]">
             <TypingLoader />
@@ -677,12 +677,12 @@ const BeatEditPop = ({
               <div className="z-10 top-26 ">
                 <div
                   className={`rounded-[8px] relative ${
-                    isSmallDevice && "overflow-y-scroll"
+                    isSmallDevice && "overflow-y-scroll pb-12"
                   } lg:w-[920px] mx-auto ${
                     !doNotShowBox
                       ? "h-[90vh] lg:h-[525px]"
                       : "h-[80%] lg:h-[411px]"
-                  } bg-white lg:bg-[#FAFAFA] mt-20 lg:mt-0`}
+                  } bg-white lg:bg-[#FAFAFA] mt-14  lg:mt-0`}
                 >
                   {!beatPostLoading && (
                     <button
@@ -692,7 +692,7 @@ const BeatEditPop = ({
                         commentRefetch();
                       }}
                     >
-                      <IoIosArrowRoundBack className="text-[50px] text-[#33B0CA]" />
+                      <MdKeyboardBackspace className="text-[#252525] ml-3 text-left text-[32px] cursor-pointer mdHidden" />
                     </button>
                   )}
                   <div className="relative text-right hidden xl:flex justify-end h-0 ">
@@ -708,7 +708,7 @@ const BeatEditPop = ({
                       />
                     )}
                   </div>
-                  <div className="pb-[8px] mt-6">
+                  <div className="pb-[8px] mt-2">
                     <h1 className="text-[14px] leading-4 md:leading-5 md:text-[18px] max-w-[68%] mx-auto font-[500] text-center">
                       Adding a Brainstorm to Beat (event) Sheet
                     </h1>

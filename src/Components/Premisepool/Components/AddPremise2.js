@@ -133,11 +133,11 @@ const AddPremise2 = ({
   };
 
   return (
-    <div className="fixed top-[75px] md:top-0 left-0 w-full h-full flex items-center mt-80px] lg:mt-[0px] justify-center bg-[#252525b0] z-[1] ">
+    <div className="fixed top-[75px] md:top-0 left-0 w-full h-full flex items-center  lg:mt-[0px] justify-center bg-[#252525b0] z-[1] ">
       <div
         className={`w-full  ${
           !preview ? "md:w-[480px]" : "md:w-[676px]"
-        } mt-[-53px] md:mt-[90px] relative`}
+        } mt-[-67px] md:mt-[90px] relative`}
       >
         <div
           className={`bg-[#ffffff] lg:bg-[#FAFAFA] w-full ${
@@ -148,7 +148,7 @@ const AddPremise2 = ({
                     ? "h-[120px]"
                     : " h-[91vh] md:h-auto md:max-h-[81vh]"
                 }`
-          } mx-auto pt-[18px] md:rounded-[8px] shadow-lg h-[100vh overflow-y-auto premiseScroll overflow-x-hidden`}
+          } mx-auto pt-[18px] md:rounded-[8px] shadow-lg h-[100vh overflow-y-auto  overflow-x-hidden`}
         >
           {!isLoading && !finalEdit && (
             <img
@@ -161,12 +161,12 @@ const AddPremise2 = ({
 
           <div className="">
             <div className="pr-2">
-              <div className="text-center  mx-auto mt-[-12px] xl:mt-0">
+              <div className="text-center flex items-center mx-auto mt-[-12px] mb-2 xl:mt-0">
                 {!isLoading && !finalEdit && (
                   <MdKeyboardBackspace
                     src={crossIcon}
                     alt=""
-                    className="text-[#252525] ml-[20px] text-left text-[32px] z-[1] absolute cursor-pointer mdHidden"
+                    className="text-[#252525] ml-[20px] text-left text-[32px] cursor-pointer mdHidden"
                     onClick={() => {
                       setAddPopup(null);
                       setOpenPop(false);
@@ -175,8 +175,10 @@ const AddPremise2 = ({
                     }}
                   />
                 )}
-                <p className=" text-[17px] w-[242px] mt-[12px] md:mt-0 sm:w-full mx-auto font-[500] text-[#252525]">
-                  {!preview && "Describe your Imagination In Any Language"}
+                <p className=" text-[16px] leading-[23px] w-full  text-center  font-[500] text-[#252525]">
+                  {!preview
+                    ? "Describe your Imagination In Any Language"
+                    : "Preview your Imagination"}
                 </p>
               </div>
               <div className="text-right flex justify-end"></div>
@@ -200,7 +202,7 @@ const AddPremise2 = ({
             ) : (
               <form
                 onSubmit={handleSubmit}
-                className="mt-[18px] md:mt-0 xl:mt-[18px] h-[80vh] md:h-auto flex flex-col justify-between"
+                className="mt-1 md:mt-0 xl:mt-[18px] h-[80vh] md:h-auto flex flex-col justify-between"
               >
                 <div>
                   <div className="bg-[#FAFAFA] my-1 h-[38px] md:h-[32px] xl:h-[38px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-[8px] hidden lg:flex items-center mx-[28px] ">
@@ -252,7 +254,6 @@ const AddPremise2 = ({
                     </p>
                     <textarea
                       onChange={handleTextChange}
-                      
                       ref={inputRef}
                       name="text"
                       className={`${boldStyle} ${italicStyle} ${underlineStyle} text-[16px] leading-[24px] md:leading-[28px] bg-[#fafafa] border border-[#eaeaea] shadow-md rounded-[8px] w-full md: h-[170px] xl:h-[200px] resize-none text-[#616161]  focus:outline-none px-[20px] py-[12px] overflow-hidden break-words`}
