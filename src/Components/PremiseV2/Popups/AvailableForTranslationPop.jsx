@@ -133,9 +133,9 @@ const AvailableForTranslationPop = ({
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
+    <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-full flex items-center  bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
-      <div className=" h-[40vh] lg:h-[204px] mb-[20px] px-[22px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[461px]  md:mx-auto relative lg:rounded-[8px]">
+      <div className=" h-[40vh] lg:h-[250px] px-[22px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[461px]  md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
         <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
           <img
@@ -145,12 +145,12 @@ const AvailableForTranslationPop = ({
             onClick={() => popClose(null)}
           />
         </div>
-        <h2 className="font-[700] text-[14px] leading-[19.9px] text-center mt-[18px]">
+        <h2 className="font-[600] text-[16px] leading-[19.9px] text-center mt-[18px]">
           Translate the Premise Project in Language of your choice
         </h2>
         <div className="h-[1px] mt-[8px] w-full mx-auto bg-[#a1a1a1]" />
         <div>
-          <p className="text-center text-[12px] leading-[14.5px] font-[400] my-[12px] text-[#616161] w-[80%] mx-auto">
+          <p className="text-center text-[14px] leading-[14.5px] font-[400] my-[12px] text-[#616161] w-[80%] mx-auto">
             This Premise Project is available for translation and copying in
             many languages.
           </p>
@@ -160,7 +160,7 @@ const AvailableForTranslationPop = ({
           className={`h-[31px] mt-[18px] relative col-span-6 md:col-span-4  bg-[#fafafa]  rounded-[8px] border-[2px] w-[76%] mx-auto`}
         >
           <select
-            className="block appearance-none bg-[#fafafa] pl-[21px] h-[27px] rounded-[8px]  w-full px-[8px] text-[12px] text-[#616161] leading-[18px] focus:outline-none"
+            className="block appearance-none bg-[#fafafa] pl-[21px] h-[27px] rounded-[8px]  w-full px-[8px] text-[14px] text-[#616161] leading-[18px] focus:outline-none"
             required
             value={targetLanguage}
             onChange={handleOptionChange}
@@ -184,7 +184,7 @@ const AvailableForTranslationPop = ({
           <button
             onClick={handlePayNow}
             disabled={!targetLanguage || isProcessing} // Disable if no language is selected or already processing
-            className={`mx-auto text-center rounded-[8px] text-white leading-[32px] px-[24px] text-[12px] font-[700] ${
+            className={`mx-auto text-center rounded-[8px] text-white leading-[32px] px-[16px] text-[14px] font-[700] ${
               !targetLanguage || isProcessing
                 ? "bg-[#ACDDE7] cursor-not-allowed"
                 : "bg-[#33B0CA] "

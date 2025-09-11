@@ -384,11 +384,11 @@ const SingleCharacterAdd = ({
     <div className="fixed top-0 left-0 bottom-0 right-0 w-full h-screen flex items-center bg-[#252525b0] justify-center z-[21]">
       {/* <div className="fixed inset-0 bg-black opacity-50"></div> */}
       {/* {console.log(editIdx)} */}
-      <div className="relative bg-[#fafafa] py-8 md:rounded-lg shadow-lg w-full h-[500px] md:max-w-[479px] ">
+      <div className="relative bg-[#fafafa] py-2 md:py-8 md:rounded-lg shadow-lg w-full h-[500px] md:max-w-[479px] ">
         <h3 className="text-center mb-0 md:mb-[12px] flex md:justify-center items-center gap-[9px] font-[500]">
           <MdOutlineKeyboardBackspace
             onClick={() => setEditPopupOpen(false)}
-            className="block md:hidden text-[#33B0CA] cursor-pointer h-[38px] w-[38px]"
+            className="block md:hidden text-[#252525] cursor-pointer h-[38px] w-[38px]"
           />
           <span className="text-[18px] md:text-[14px]">{`${
             isDisabled ? "View Character" : "Edit Character"

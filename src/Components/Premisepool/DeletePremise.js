@@ -64,7 +64,7 @@ const DeletePremise = ({
   };
   return (
     <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-screen flex items-center bg-[#252525b0] justify-center z-[21]">
-      <div className="modal_css fixed inset-0 flex items-center justify-center z-50">
+      <div className="modal_css ">
         <div className="w-[90%] mx-auto max-w-[510px] bg-[#fafafa]  rounded-xl ">
           <div className="flex flex-col justify-between h-auto px-[18px]">
             <p className="text-[14px] lg:text-[24px] text-[#252525] text-center lg:leading-10 font-[500] mt-10">

@@ -304,7 +304,7 @@ const SingleCharacterAddNewTab = ({
   return (
     <div className="fixed top-0 bottom-0 left-0 right-0 w-full h-screen flex items-center bg-[#252525b0] justify-center z-[21] ">
       {/* <div className="fixed inset-0 bg-black opacity-50"></div> */}
-      <div className="relative bg-[#FAFAFA] py-[20px] px-[8px] rounded-lg shadow-lg w-full md:max-w-[479px] md:mt-12 h-[490px]">
+      <div className="relative bg-[#FAFAFA] py-[20px] px-[8px] rounded-lg shadow-lg w-full md:max-w-[479px] h-[490px]">
         <div className=" w-full h-10 sticky">
           <h3 className="text-center md:mb-[20px] font-[500]">
             <span className="text-[18px] text-center md:text-[14px]">

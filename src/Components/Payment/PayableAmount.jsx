@@ -16,14 +16,14 @@ const PayableAmount = ({ data, typeOfRequest }) => {
 
       <div className="flex flex-col rounded-[8px] justify-between border-2 border-[#ccc] min-h-[285px] w-full ">
         <div className="p-5 mt-5 py-[4px]">
-          <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+          <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[500]">
             <h3>Price(USD)</h3>
             <p className="text-right">{data?.total_amount?.toFixed(2) || 0}</p>
           </div>
           {typeOfRequest !== "sale" && (
             <>
               {data?.early_bird_calculate && (
-                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[500]">
                   <h3>Early Bird Discount(USD)</h3>
                   <p className="text-right">
                     {data?.early_bird_calculate?.toFixed(2) || 0}
@@ -31,7 +31,7 @@ const PayableAmount = ({ data, typeOfRequest }) => {
                 </div>
               )}
               {data?.staff_discount_calculate && (
-                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[500]">
                   <h3>Team Discount(USD)</h3>
                   <p className="text-right">
                     {data?.staff_discount_calculate?.toFixed(2) || 0}
@@ -39,7 +39,7 @@ const PayableAmount = ({ data, typeOfRequest }) => {
                 </div>
               )}
               {data?.membership_discount_calculate && (
-                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[500]">
                   <h3>Membership Discount(USD)</h3>
                   <p className="text-right">
                     {data?.membership_discount_calculate?.toFixed(2) || 0}
@@ -47,7 +47,7 @@ const PayableAmount = ({ data, typeOfRequest }) => {
                 </div>
               )}
               {data?.student_discount_calculate && (
-                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[500]">
                   <h3>Student Discount(USD)</h3>
                   <p className="text-right">
                     {data?.student_discount_calculate?.toFixed(2) || 0}
@@ -55,7 +55,7 @@ const PayableAmount = ({ data, typeOfRequest }) => {
                 </div>
               )}
               {data?.total_discount && (
-                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[500]">
                   <h3>Total Discount(USD)</h3>
                   <p className="text-right">
                     {data?.total_discount?.toFixed(2) || 0}
@@ -63,7 +63,7 @@ const PayableAmount = ({ data, typeOfRequest }) => {
                 </div>
               )}
               {data?.net_service_charge && (
-                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[500]">
                   <h3>Net Service Charges(USD)</h3>
                   <p className="text-right">
                     {data?.net_service_charge?.toFixed(2) || 0}
@@ -71,7 +71,7 @@ const PayableAmount = ({ data, typeOfRequest }) => {
                 </div>
               )}
               {data?.membership_amount && (
-                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+                <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[500]">
                   <h3>Monthly Subscription(USD)</h3>
                   <p className="text-right">
                     {data?.membership_amount?.toFixed(2) || 0}
@@ -79,7 +79,7 @@ const PayableAmount = ({ data, typeOfRequest }) => {
                 </div>
               )}
 
-              <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+              <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[500]">
                 <h3>Taxes & Charges(USD)</h3>
                 <p className="text-right">
                   {data?.gst_calculate?.toFixed(2) || 0}
@@ -109,7 +109,7 @@ const PayableAmount = ({ data, typeOfRequest }) => {
                 </div>
               )}
 
-              <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+              <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[500]">
                 <h3>Total Payable(USD)</h3>
                 <p className="text-right">
                   {data?.total_payable?.toFixed(2) || 0}

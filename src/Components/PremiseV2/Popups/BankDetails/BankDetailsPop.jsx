@@ -136,7 +136,7 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
           />
         </div>
 
-        <h2 className="font-[700] text-[14px] leading-[19.9px] text-center mt-[18px]">
+        <h2 className="font-[600] text-[16px] leading-[19.9px] text-center mt-[18px]">
           Your Premise Project is Up for Monetizing
         </h2>
         <div className="h-[1px] mt-[8px] w-[52%] mx-auto bg-[#a1a1a1]" />

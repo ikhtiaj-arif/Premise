@@ -6,7 +6,7 @@ const CommentLikePopup = ({ setLikePopup, allLikes }) => {
 
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-end sm:items-center justify-center bg-[#252525b0] bg-opacity-60 z-[21]">
+    <div className="fixed top-0 left-0 bottom-0 right-0 w-full h-screen flex items-center justify-center bg-[#252525b0] bg-opacity-60 z-[21]">
     <div className="bg-[#fafafa]  rounded-[8px]  shadow-lg w-full h-[65vh] sm:h-auto sm:w-[400px] relative">
       <div className="mt-[15px] mx-[30px]">
         <div className="font-[500] ">

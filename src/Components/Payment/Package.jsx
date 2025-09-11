@@ -14,7 +14,7 @@ export const Package = ({ data, typeOfRequest, fromLimit }) => {
       </p>
 
       <div className=" border-2 rounded-[8px] min-h-[285px] border-[#ccc] w-full p-5">
-        <h2 className="lg:text-[20px] text-[16px] font-[600] leading-6 text-[#252525] mt-3">
+        <h2 className="lg:text-[20px] text-[16px] font-[500] leading-6 text-[#252525] mt-3">
           The Premisepool (HSN : 998316){" "}
           {/* <span className=" capitalize">{typeOfRequest}</span> */}
         </h2>

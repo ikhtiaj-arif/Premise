@@ -36,9 +36,9 @@ const BeatsPop = ({ popClose, id }) => {
   );
 
   return (
-    <div className="fixed top-0 left-0 w-full h-screen flex items-center  md:mt-[0px] bg-[#252525b0] justify-center z-[21]">
+    <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-screen flex items-center bg-[#252525b0] justify-center z-[21]">
       <ToastContainer />
-      <div className="h-[100vh] md:h-[80vh] max-h-[550px] mb-[20px] px-[12px] md:px-[32px] md:mb-0 w-full bg-[#fff] md:bg-[#FAFAFA] md:w-[700px] lg:w-[1052px] lg:max-w-[90%] md:mx-auto relative md:rounded-[8px]">
+      <div className="h-[550px] px-[12px] md:px-[32px] w-full bg-[#fff] md:w-[700px] lg:w-[1052px] lg:max-w-[90%] md:mx-auto relative md:rounded-[8px]">
         {/* close popup */}
         <img
           src={crossIcon}
@@ -50,7 +50,7 @@ const BeatsPop = ({ popClose, id }) => {
         />
 
         <FaArrowLeft
-          className="inline md:hidden text-[#33b0ca] text-[20px] cursor-pointer"
+          className="inline md:hidden text-[#252525] text-[20px] cursor-pointer"
           onClick={() => {
             popClose(false);
           }}
@@ -63,7 +63,7 @@ const BeatsPop = ({ popClose, id }) => {
         ) : (
           <div>
             {/* header */}
-            <div className="flex flex-col gap-4 md:flex-row justify-between items-center mb-6 mt-8">
+            <div className="flex flex-col gap-4 md:flex-row justify-between items-center mb-6 md:mt-8">
               <h2 className="text-[16px] md:text-[24px] font-semibold">
                 Content added to Beat sheet :
               </h2>
@@ -116,7 +116,7 @@ const BeatsPop = ({ popClose, id }) => {
             </div>
 
             {/* Table */}
-            <div className="w-[97%] mx-auto mt-3 overflow-auto h-[60vh] md:h-[62vh] max-h-[436px] overflow-y-auto ">
+            <div className="w-[97%] mx-auto mt-3 overflow-auto h-[400px] overflow-y-auto ">
               <table className="border-collapse border-[#616161] border w-full">
                 <thead className="">
                   <tr className="bg-[#fafafa] flex flex-wrap justify-between md:table-row border border-[#616161]">
