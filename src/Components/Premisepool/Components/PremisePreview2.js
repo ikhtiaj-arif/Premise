@@ -65,6 +65,203 @@ const PremisePreview2 = ({
   premiseLanguage,
 }) => {
   const baseLanguage = sessionStorage.getItem("multilingualDropDownValue");
+  const options1 = {
+    "Short film": [
+      // { text: "About 2 Minutes", value: "Upto 2 Minutes" },
+      { text: "About 5 Minutes", value: "2 to 4 Minutes" },
+      { text: "About 15 Minutes", value: "5 to 14 Minutes" },
+      { text: "About 25 Minutes", value: "15 to 29 Minutes" },
+      { text: "About 30 Minutes", value: "30 Minutes" },
+    ],
+    "Feature film": [
+      { text: "About 1 Hour", value: "1 Hour" },
+      { text: "About 2 Hours", value: "2 Hours" },
+      { text: "About 3 Hours", value: "3 Hours" },
+    ],
+  };
+
+  const NProjectOpt = [
+    {
+      value: "Short film",
+      hi: "शॉर्ट फिल्म",
+    },
+    {
+      value: "Feature film",
+      hi: "फीचर फिल्म",
+    },
+  ];
+
+  const options = {
+    "Short film": [
+      // { text: "About 2 Minutes", value: "Upto 2 Minutes", hi: "लगभग 2 मिनट" },
+      { text: "About 5 Minutes", value: "2 to 4 Minutes", hi: "लगभग 5 मिनट" },
+      {
+        text: "About 15 Minutes",
+        value: "5 to 14 Minutes",
+        hi: "लगभग 15 मिनट",
+      },
+      {
+        text: "About 25 Minutes",
+        value: "15 to 29 Minutes",
+        hi: "लगभग 25 मिनट",
+      },
+      { text: "About 30 Minutes", value: "30 Minutes", hi: "लगभग 30 मिनट" },
+    ],
+    "Feature film": [
+      { text: "About 1 Hour", value: "1 Hour", hi: "लगभग 1 घंटा" },
+      { text: "About 2 Hours", value: "2 Hours", hi: "लगभग 2 घंटे" },
+      { text: "About 3 Hours", value: "3 Hours", hi: "लगभग 3 घंटे" },
+    ],
+  };
+
+  const genera = [
+    "Thriller",
+    "Horror",
+    "Drama",
+    "Action",
+    "Mystery",
+    "Documentary",
+    "Romantic",
+    "Adventure",
+    "Superhero",
+    "Comedy",
+    "Crime",
+    "Fantasy",
+    "Science_fiction",
+    "Other",
+  ];
+
+  const subGenraItems = {
+    Thriller: [
+      "Action Thriller",
+      "Crime Thriller",
+      "Legal thriller",
+      "Mystery Thriller",
+      "Romantic Thriller",
+      "Science fiction Thriller",
+      "Political Thriller",
+      "Spy Thriller",
+      "Psychological Thriller",
+      "Conspiracy Thriller",
+    ],
+    Horror: [
+      "B-Movie",
+      "Found footage",
+      "Monster",
+      "Paranormal film",
+      "Slasher",
+      "Vampire",
+      "Zombie",
+      "Folk Horror",
+      "Psychological Horror",
+      "Horror Comedy",
+    ],
+    Drama: [
+      "Biopic",
+      "Coming of age drama",
+      "Costume drama",
+      "Crime drama",
+      "Romantic drama",
+      "Tragedy",
+      "War movie",
+      "Legal Drama",
+      "Family Drama",
+      "Teen Drama",
+    ],
+    Action: [
+      "Superhero",
+      "Martial arts",
+      "Action Comedy",
+      "Military/War Action",
+      "Spy",
+      "Heist Action",
+      "Supernatural Action",
+    ],
+    Mystery: [
+      "Superhero",
+      "Martial arts",
+      "Action Comedy",
+      "Cozy Mystery",
+      "Noir",
+      "Psychological Mystery",
+      "Detective Procedural",
+      "Paranormal Mystery",
+    ],
+    Documentary: [
+      "True Crime",
+      "Biographical",
+      "Social Issue",
+      "Nature",
+      "Tech/Startup",
+    ],
+    Romantic: [
+      "Romantic Comedy",
+      "Chick flick",
+      "Historical romance",
+      "Gothic romance",
+      "Period Romance",
+      "Teen Romance",
+      "Love Triangle",
+    ],
+
+    Adventure: [
+      "Survival Adventure",
+      "Historical Adventure",
+      "Fantasy Adventure",
+      "Expedition/Quest",
+      "Swashbuckling",
+    ],
+
+    Superhero: [
+      "Classic Superhero",
+      "Anti-Hero",
+      "Teen Superhero",
+      "Superhero Comedy",
+      "Dark/Realistic ",
+    ],
+    Comedy: [
+      "Black Comedy",
+      "Buddy Comedy",
+      "Comedic Thriller",
+      "Farce",
+      "Mockumentary",
+      "Musical Comedy",
+      "Parody",
+      "Slapstick",
+      "Sports Comedy",
+      "Romantic Comedy",
+      "Workplace Comedy",
+    ],
+    Crime: [
+      "Film noir",
+      "Neo-noir",
+      "Mafia",
+      "Military Thriller",
+      "Psychological Thriller",
+    ],
+
+    Fantasy: [
+      "Dark fantasy",
+      "Epic fantasy",
+      "Low fantasy",
+      "Magical realism",
+      "Fables",
+      "Fairy tales",
+      "Superhero fiction",
+    ],
+
+    Science_fiction: [
+      "Cyberpunk",
+      "Disaster",
+      "Dystopian",
+      "Fairy tale",
+      "Fantasy",
+      "Space opera",
+      "Time travel",
+    ],
+
+    Other: ["", ""],
+  };
 
   // console.log("data", data);
   const {
@@ -216,7 +413,6 @@ const PremisePreview2 = ({
   const authorNameRef = useRef();
   const locationNameRef = useRef();
   const protagonistNameRef = useRef();
-
 
   const token = localStorage.getItem("accessToken");
 
@@ -793,9 +989,9 @@ const PremisePreview2 = ({
       } else {
         data.id = selectedSpProjectID;
         data.name = selectedSpProject;
-      
-        if(matchingProject?.current_status === "without_premise"){
-          data.current_status = null
+
+        if (matchingProject?.current_status === "without_premise") {
+          data.current_status = null;
         }
         // return
         const response = await updateProject(data);
@@ -823,7 +1019,6 @@ const PremisePreview2 = ({
               // project_id,
             } = res?.data;
 
-          
             setSelectedPremiseSpProjectId(response?.data?.projects?.pro_uuid);
             setPremiseId(res?.data?.id);
             setPostedPremiseData(res?.data);
@@ -1323,15 +1518,15 @@ const PremisePreview2 = ({
     return (
       <div className="">
         {charSaveDisable && (
-            <FaArrowLeft
-              className=" text-[20px] cursor-pointer mx-6"
-                onClick={() => {
-                setFinalSubmitLoading(false);
-                setCharacterEditPop(true);
-              }}
-            />
+          <FaArrowLeft
+            className=" text-[20px] cursor-pointer mx-6"
+            onClick={() => {
+              setFinalSubmitLoading(false);
+              setCharacterEditPop(true);
+            }}
+          />
         )}
-       
+
         {!finalEdit ? (
           <div className="bg-[#FAFAFA] flex justify-between items-center p-1 cursor-pointer  mx-[18px] md:mx-[24px] mb-[5px] sm:mb-[10px]  rounded-[8px]   px-3 border border-[#eaeaea] md:border-none">
             <div className="flex items-center gap-3 h-[25px] sm:h-auto">
@@ -2183,7 +2378,6 @@ const PremisePreview2 = ({
                         )}
                       </div>
                     </div>
-                    
                   </div>
                   <div
                     className={`h-[31px] relative bg-[#fafafa] rounded-[4px] border-[2px] col-span-6  w-full ${
@@ -2303,7 +2497,6 @@ const PremisePreview2 = ({
                       )}
                     </div>
                   </div>
-                  
                   {generaItem === "Other" ? (
                     <>
                       <div
@@ -2682,7 +2875,6 @@ const PremisePreview2 = ({
                       maxLength={100}
                     />
                   </div>
-                  
                   <div
                     ref={setinPeriodRef}
                     className={`h-[31px] sm:mt-[21px] relative col-span-12 sm:col-span-6 md:col-span-3 ${
@@ -2830,7 +3022,6 @@ const PremisePreview2 = ({
                       maxLength={100}
                     />
                   </div>{" "}
-                  
                   <div
                     ref={protagonistRef}
                     className={`h-[31px] sm:mt-[21px] relative col-span-12 sm:col-span-6 md:col-span-4 bg-[#fafafa] ${
