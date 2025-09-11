@@ -319,7 +319,7 @@ const ReplyToComments = ({
           }`}
         >
           <div
-            className={`flex gap-[8px] ${
+            className={`flex gap-[8px] lg:pr-[24px] ${
               fromNew
                 ? "w-[100%] md:w-[94.5%]"
                 : "w-[100%] md:w-[100%] max-w-[654px]"

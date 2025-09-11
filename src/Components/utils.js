@@ -12,11 +12,11 @@
 // const URL = `https://app.mnf.ai`;
 // const baseURL = `https://app.mnf.ai`;
 
-// const URL = window.location.origin;
-// const baseURL = window.location.origin;
+const URL = window.location.origin;
+const baseURL = window.location.origin;
 
-const URL = "http://1.6.141.108";
-const baseURL = "http://1.6.141.108";
+// const URL = "http://1.6.141.108";
+// const baseURL = "http://1.6.141.108";
 
 // const URL = "https://taj4o.mynextfilm.in";
 // const baseURL = "https://taj4o.mynextfilm.in";
@@ -221,5 +221,5 @@ const Natureoptions  = {
     };
 
 
-export { baseURL, URL,NProjectOpt,Natureoptions,genera,subGenraItems };
+export { baseURL, genera, Natureoptions, NProjectOpt, subGenraItems, URL };
 

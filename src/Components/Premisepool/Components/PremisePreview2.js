@@ -1331,9 +1331,7 @@ const PremisePreview2 = ({
               }}
             />
         )}
-        <p className=" md:hidden text-center my-[8px] text-[17px] mx-auto font-[500] text-[#252525] ">
-          Preview your Imagination
-        </p>
+       
         {!finalEdit ? (
           <div className="bg-[#FAFAFA] flex justify-between items-center p-1 cursor-pointer  mx-[18px] md:mx-[24px] mb-[5px] sm:mb-[10px]  rounded-[8px]   px-3 border border-[#eaeaea] md:border-none">
             <div className="flex items-center gap-3 h-[25px] sm:h-auto">
@@ -1618,7 +1616,7 @@ const PremisePreview2 = ({
             </p>
             {!createNewProject && !selectedSpProjectID ? (
               <div className="col-span-12">
-                <div className="flex gap-[12px] items-center mt-[32px]">
+                <div className="flex gap-[12px] items-center mt-2 lg:mt-[32px]">
                   {filteredSpProjects?.length !== 0 && (
                     <>
                       <div
