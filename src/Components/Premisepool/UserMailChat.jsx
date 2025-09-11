@@ -67,7 +67,7 @@ const UserMailChat = ({ mail, msgRefetch }) => {
               >
                 {mail?.sender?.first_name && mail?.sender?.last_name ? (
                   <div className="flex items-center">
-                    <h4 className="notranslate text-[#252525] font-[500] text-[14px] leading-[18px]">
+                    <h4 className="notranslate text-[#252525] font-[500] text-[16px] leading-[18px]">
                       {mail?.sender?.first_name} {mail?.sender?.last_name}
                     </h4>
                     <UserType
@@ -88,12 +88,12 @@ const UserMailChat = ({ mail, msgRefetch }) => {
                 )}
               </a>
             </div>
-            <p className="font-[400] text-[#616161] text-[12px] leading-[18px] text_format">
+            <p className="font-[500] text-[#616161] text-[14px] leading-[18px] text_format">
               {mail?.message}
               {/* {mail?.created_at} */}
             </p>
           </div>
-          <div className=" text-[#616161] font-[400] text-[10px] leading-[14px] ml-[3px]">
+          <div className=" text-[#616161] font-[400] text-[12px] leading-[14px] ml-[3px] mt-[2px]">
             {formattedDate}, {formattedTime}
           </div>
         </div>

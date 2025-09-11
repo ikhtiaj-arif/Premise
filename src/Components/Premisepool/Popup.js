@@ -591,7 +591,7 @@ const Popup = ({
                         : `${URL}/memberpage/#/user/${premiseOwner?.id}/personaldetails`
                     }
                   >
-                    <div className="flex-1 flex gap-1 items-center">
+                    <div className="flex-1 flex gap-1 items-start">
                       {profileImg?.[0]?.profile_photo ? (
                         <img
                           src={proImgUrl}
@@ -608,7 +608,7 @@ const Popup = ({
                       <div>
                         <div className="flex items-center">
                           <h4
-                            className={`notranslate w-[75px] max-w-[110px] text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
+                            className={`notranslate w-[75px] max-w-[110px] text-[#252525] font-[500] text-[16px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
                             title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
                           >
                             {premiseOwner?.first_name} {premiseOwner?.last_name}
@@ -618,7 +618,7 @@ const Popup = ({
                             user_type={premiseOwner?.centraldatabase?.user_type}
                           />
                         </div>
-                        <p className="text-[#616161] text-[10px] flex flex-col font-[400] leading-[12px] min-w-[120px] mt-[-3px]">
+                        <p className="text-[#616161] text-[12px] flex flex-col font-[400] leading-[12px] min-w-[120px] mt-[-3px]">
                           <p>
                             {formattedDate}, {formattedTime}
                           </p>

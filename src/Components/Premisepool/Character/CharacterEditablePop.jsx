@@ -230,7 +230,7 @@ const CharacterEditablePop = ({
   };
 
   return (
-    <div className="fixed bottom-0 top-0 left-0 w-full h-screen flex items-end md:items-center bg-[#252525b0] justify-center z-[21]">
+    <div className="fixed top-0 left-0 bottom-0 right-0 w-full h-screen flex items-center bg-[#252525b0] justify-center z-[21]">
       {/* <div className="fixed inset-0 bg-black opacity-50"></div> */}
       <div className="relative bg-[#fafafa] py-8 md:rounded-lg shadow-lg w-full lg:w-[950px] h-[91vh] lg:h-[500px]  ">
         <button
@@ -243,7 +243,7 @@ const CharacterEditablePop = ({
           <h3 className="text-center flex  gap-[9px] font-[500]">
             <MdOutlineKeyboardBackspace
               onClick={() => setCharacterEditPop(false)}
-              className=" lg:hidden text-[#33B0CA] cursor-pointer h-[36px] w-[36px]"
+              className=" lg:hidden text-[#252525] cursor-pointer h-[36px] w-[36px]"
             />{" "}
           </h3>
           <p className="text-[16px] leading-6  font-semibold mb-[20px] pl-4 ">

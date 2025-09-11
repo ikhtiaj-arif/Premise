@@ -32,7 +32,7 @@ const ViewTranslationPop = ({
             onClick={() => popClose(null)}
           />
         </div>
-        <h2 className="font-[700] text-[16px] leading-[19.4px] text-center my-[18px]">
+        <h2 className="font-[600] text-[16px] leading-[19.4px] text-center my-[18px]">
           View Translations
         </h2>
         {isLoading ? (
@@ -41,19 +41,19 @@ const ViewTranslationPop = ({
           <>
             <div className="grid grid-cols-12 mx-[12px] gap-2 overflow-y-auto">
               <div className="flex flex-col col-span-2 md:col-span-3 h-7">
-                <h2 className="font-[500] text-[12px] md:text-[14px] leading-[16px] md:leading-[21px] text-center ">
+                <h2 className="font-[500] text-[14px] md:text-[14px] leading-[16px] md:leading-[21px] text-center ">
                   Translated In
                 </h2>
                 <div className="h-[2px] mt-[4px] w-[86%] mx-auto bg-[#a1a1a1]" />
               </div>
               <div className="flex flex-col col-span-4 h-7">
-                <h2 className="font-[500] text-[12px] md:text-[14px] leading-[16px] md:leading-[21px] text-center ">
+                <h2 className="font-[500] text-[14px] md:text-[14px] leading-[16px] md:leading-[21px] text-center ">
                   Translation Allowed By
                 </h2>
                 <div className="h-[2px] mt-[4px] w-[86%] mx-auto bg-[#a1a1a1]" />
               </div>
               <div className="flex flex-col col-span-3 h-7">
-                <h2 className="font-[500] text-[12px] md:text-[14px] leading-[16px] md:leading-[21px] text-center ">
+                <h2 className="font-[500] text-[14px] md:text-[14px] leading-[16px] md:leading-[21px] text-center ">
                   Translated For
                 </h2>
                 <div className="h-[2px] mt-[4px] w-[86%] mx-auto bg-[#a1a1a1]" />

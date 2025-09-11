@@ -15,7 +15,7 @@ export const Amount = ({ data, isAgreementChecked, setAgreementChecked }) => {
 
       <div className="flex flex-col rounded-[8px] justify-between border-2 border-[#ccc] min-h-[285px] w-full ">
         <div className="p-5 mt-5 py-[4px]">
-          <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+          <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[500]">
             <h3 className="">Price(USD)</h3>
             <p className="text-right">
               {data?.total_price?.toFixed(2) ||
@@ -25,7 +25,7 @@ export const Amount = ({ data, isAgreementChecked, setAgreementChecked }) => {
           </div>
 
           {data?.discounted_amount > 0 && (
-            <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+            <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[500]">
               <h3 className="">Membership Discount(USD)</h3>
 
               <p className="text-right">
@@ -34,7 +34,7 @@ export const Amount = ({ data, isAgreementChecked, setAgreementChecked }) => {
             </div>
           )}
           {data?.early_bird_discount_amount > 0 && (
-            <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+            <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[500]">
               <h3 className="">Early Bird Discount(USD)</h3>
 
               <p className="text-right">
@@ -42,7 +42,7 @@ export const Amount = ({ data, isAgreementChecked, setAgreementChecked }) => {
               </p>
             </div>
           )}
-          <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+          <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[500]">
             <h3>Taxes & Charges(USD)</h3>
 
             <p className="text-right">
@@ -72,7 +72,7 @@ export const Amount = ({ data, isAgreementChecked, setAgreementChecked }) => {
               </p>
             </div>
           )}
-          <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[600]">
+          <div className="flex items-center justify-between py-2 lg:text-[16px] text-[14px] text-[#252525] font-[500]">
             <h3>Total Payable(USD)</h3>
             <p className="text-right">{data?.net_payable?.toFixed(2) || 0.0}</p>
           </div>

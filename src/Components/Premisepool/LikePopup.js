@@ -19,7 +19,7 @@ const LikePopup = ({ setLikePopup, id }) => {
 
   return (
     <div className="fixed top-0 left-0 bottom-0 right-0 w-full h-screen flex items-center justify-center bg-[#252525b0] z-[21]">
-      <div className="lg:static absolute bottom-16 bg-white rounded-[8px] w-[100%] lg:w-[623px] ">
+      <div className=" bg-white rounded-[8px] w-[100%] lg:w-[623px] ">
         <div className=" relative">
           <div className="absolute right-[45%] top-[-60px] lg:top-[-20px] lg:right-[-12px]">
             <img src={crossIcon} alt=""
@@ -40,7 +40,7 @@ const LikePopup = ({ setLikePopup, id }) => {
           {isLoading ? (
             <p className="text-center pb-6 font-bold">Loading...</p>
           ) : (
-            <div className="h-[53vh] md:h-[300px] premiseScroll overflow-y-auto pb-6 gap-5 mx-[30px]">
+            <div className="h-[300px] premiseScroll overflow-y-auto pb-6 gap-5 mx-[30px]">
               {allLikes?.results?.map((like) => (
               <LikeCount like={like} />
               ))}
