@@ -43,12 +43,12 @@ const ReplyLike = ({ reply, setLikePopup, replyRefetch }) => {
       {/* like */}
       <div
         disabled={isLLoading || isDLoading}
-        className="flex gap-[1.2px] items-center text-[12px]"
+        className="flex gap-[1.2px] items-center text-[14px]"
       >
         <button>
           <FaThumbsUp
             onClick={() => handleLikeUnlikeReply(reply?.id, "like")}
-            className={` w-3 h-3 ${
+            className={` w-6 h-5 ${
               isReplyLiked ? "text-[#33B0CA]" : "text-[#252525]"
             } ${
               isLLoading || isDLoading ? " cursor-default" : "cursor-pointer"
@@ -72,12 +72,12 @@ const ReplyLike = ({ reply, setLikePopup, replyRefetch }) => {
         disabled={isLLoading || isDLoading}
         className={` ${
           isReplyLiked ? " hidden" : "flex"
-        }  flex gap-[1.2px] items-center text-[12px]`}
+        }  flex gap-[1.2px] items-center text-[14px]`}
       >
         <button>
           <FaThumbsDown
             onClick={() => handleLikeUnlikeReply(reply?.id, "dislike")}
-            className={` w-3 h-3 ${
+            className={` w-6 h-5 ${
               isDisReplyLiked ? "text-[#33B0CA]" : "text-[#252525]"
             } ${
               isLLoading || isDLoading ? " cursor-default" : "cursor-pointer"

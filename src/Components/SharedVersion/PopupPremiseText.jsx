@@ -12,9 +12,9 @@ const PopupPremiseText = ({
   const { boldStyle, italicStyle, underlineStyle, hexColor } = stylings;
   return (
     <div
-      className={`mx-auto  h-[68%] md:h-[200px] w-[94%] ${
+      className={`mx-auto  h-[18vh] sm:h-[20vh] md:h-[22vh] lg:h-[200px] w-[94%] ${
         data && "lg:w-[88%]"
-      } lg:my-auto border border-[#eaeaea]  relative  rounded-[8px] ${className}`}
+      } lg:my-auto border-2 border-[#eaeaea]  relative  rounded-[8px] ${className}`}
       style={{
         background: `${
           bg_img

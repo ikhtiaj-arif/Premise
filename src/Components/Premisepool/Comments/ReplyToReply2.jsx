@@ -673,7 +673,7 @@ const ReplyToReply2 = ({
                           }}
                           className="w-[74px]"
                         >
-                          <p className="text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
+                          <p className="text-[12px] text-[#008000] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
                             Add as Beat
                           </p>
                         </button>

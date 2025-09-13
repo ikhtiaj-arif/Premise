@@ -519,7 +519,7 @@ const AllComments = ({
 
   return (
     <div className=" flex flex-col justify-end w-full relative ">
-      <div className="md:ml-10">
+      <div className="md:ml-2 xxl:ml-10">
         {!loading && actOneThreshold && actTwoEnd && (
           <>
             {commentIdx === 1 && (
@@ -619,7 +619,7 @@ const AllComments = ({
                     </div>
 
                     {!comments?.is_deleted && (
-                      <p className="text-[12px]  h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
+                      <p className="text-[14px]  h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
                         {" "}
                         <TimeAgo timestamp={createdTime} />
                       </p>
@@ -627,7 +627,7 @@ const AllComments = ({
                   </div>
                   {comments?.is_deleted ? (
                     <div>
-                      <p className="text-[#a4a4a4] text-[12px] italic lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
+                      <p className="text-[#a4a4a4] text-[14px] italic lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
                         Deleted
                       </p>
                     </div>
@@ -661,12 +661,12 @@ const AllComments = ({
                               className={`text-[16px] font-[500] cursor-pointer text-[#252525]`}
                             />
                             <p
-                              className={`text-[12px] flex gap-[4px] ${
+                              className={`text-[14px] flex gap-[4px] ${
                                 openAllReplies &&
                                 openReplyFieldID === comments?.id
                                   ? "text-[#33B0CA]"
                                   : "text-[#252525]"
-                              } font-[400] leading-[14.52px] `}
+                              } font-[400] leading-[16.52px] `}
                             >
                               {comments?.replies_count}{" "}
                               <span className="hidden lg:block">
@@ -687,8 +687,8 @@ const AllComments = ({
                             }}
                             className="flex items-center gap-[2px]"
                           >
-                            <BiPlusCircle className="text-[16px] font-[500] cursor-pointer text-[#252525]" />
-                            <p className="text-[12px] text-[#616161] font-[400] leading-[14.52px] flex items-center gap-[4px]">
+                            <BiPlusCircle className="text-[18px] font-[500] cursor-pointer text-[#252525]" />
+                            <p className="text-[14px] text-[#616161] font-[500] leading-[16.52px] flex items-center gap-[4px] mt-[2px] lg:mt-0">
                               {comments?.replies_count}{" "}
                               <span className="hidden lg:block">
                                 {comments?.replies_count > 1
@@ -715,18 +715,18 @@ const AllComments = ({
                           className="flex items-center gap-1"
                         >
                           <IoIosUndo
-                            className={`${
+                            className={`h-4 w-4 ${
                               replyToCommentID === comments?.id && replyField
                                 ? "text-[#33B0CA]"
                                 : "text-[#252525]"
                             }`}
                           />
                           <p
-                            className={`text-[12px] hidden lg:block ${
+                            className={`text-[14px] hidden lg:block ${
                               replyToCommentID === comments?.id && replyField
                                 ? "text-[#33B0CA]"
                                 : "text-[#252525]"
-                            }  hidden md:block font-[400] leading-[14.52px] cursor-pointer`}
+                            }  hidden md:block font-[400] leading-[16.52px] cursor-pointer`}
                           >
                             Reply
                           </p>
@@ -747,7 +747,7 @@ const AllComments = ({
                                           disabled={suggestDisable}
                                           className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[#616161]"
                                         >
-                                          <p className="text-[12px] text-[#fafafa]  font-[400] leading-[14.52px] ">
+                                          <p className="text-[14px] text-[#fafafa]  font-[400] leading-[16.52px] ">
                                             Suggested
                                           </p>
                                         </button>
@@ -762,11 +762,11 @@ const AllComments = ({
                                           className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
                                         >
                                           {suggestDisable ? (
-                                            <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                                            <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                               Suggesting...
                                             </p>
                                           ) : (
-                                            <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                                            <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                               Suggestion
                                             </p>
                                           )}
@@ -780,7 +780,7 @@ const AllComments = ({
                                           disabled={suggestDisable}
                                           className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[#616161]"
                                         >
-                                          <p className="text-[12px] text-[#fafafa]  font-[400] leading-[14.52px] ">
+                                          <p className="text-[14px] text-[#fafafa]  font-[400] leading-[16.52px] ">
                                             Suggested
                                           </p>
                                         </button>
@@ -797,7 +797,7 @@ const AllComments = ({
                                       disabled={suggestDisable}
                                       className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[#616161]"
                                     >
-                                      <p className="text-[12px] text-[#fafafa]  font-[400] leading-[14.52px] ">
+                                      <p className="text-[14px] text-[#fafafa]  font-[400] leading-[16.52px] ">
                                         Suggested
                                       </p>
                                     </button>
@@ -810,11 +810,11 @@ const AllComments = ({
                                       className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
                                     >
                                       {suggestDisable ? (
-                                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                                        <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                           Suggesting...
                                         </p>
                                       ) : (
-                                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                                        <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                           Suggestion
                                         </p>
                                       )}
@@ -839,18 +839,18 @@ const AllComments = ({
                             className="flex items-center gap-1"
                           >
                             <IoIosUndo
-                              className={`${
+                              className={`h-4 w-4 ${
                                 replyToCommentID === comments?.id && replyField
                                   ? "text-[#33B0CA]"
                                   : "text-[#252525]"
                               }`}
                             />
                             <p
-                              className={`text-[12px] hidden lg:block ${
+                              className={`text-[14px] hidden lg:block ${
                                 replyToCommentID === comments?.id && replyField
                                   ? "text-[#33B0CA]"
                                   : "text-[#252525]"
-                              }  hidden md:block font-[400] leading-[14.52px] cursor-pointer`}
+                              }  hidden md:block font-[400] leading-[16.52px] cursor-pointer`}
                             >
                               Reply
                             </p>
@@ -873,11 +873,11 @@ const AllComments = ({
                                       className="px-2  rounded-[4px]  pt-[2px] pb-[4px] bg-[#33B0CA]"
                                     >
                                       {suggestDisable ? (
-                                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                                        <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                           Suggesting...
                                         </p>
                                       ) : (
-                                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                                        <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                           Suggestion
                                         </p>
                                       )}
@@ -892,7 +892,7 @@ const AllComments = ({
                                       disabled={suggestDisable}
                                       className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[#616161]"
                                     >
-                                      <p className="text-[12px] text-[#fafafa]  font-[400] leading-[14.52px] ">
+                                      <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                         Suggested
                                       </p>
                                     </button>
@@ -905,11 +905,11 @@ const AllComments = ({
                                       className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
                                     >
                                       {suggestDisable ? (
-                                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                                        <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                           Suggesting...
                                         </p>
                                       ) : (
-                                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                                        <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                           Suggestion
                                         </p>
                                       )}
@@ -959,7 +959,7 @@ const AllComments = ({
                             <button className="cursor-auto text-right">
                               <p
                                 // onClick={() => handleAddToBeat(comments)}
-                                className=" text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] "
+                                className=" text-[14px] text-[#33B0CA] italic  font-[400] leading-[16.52px] "
                               >
                                 Added as Beat
                               </p>
@@ -975,7 +975,7 @@ const AllComments = ({
                                 ![1, 2, 3].includes(commentIdx) && (
                                   <p
                                     onClick={() => handleAddToBeat(comments)}
-                                    className={` text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] `}
+                                    className={` text-[14px] text-[#008000] hover:text-[#33B0CA] font-[400] leading-[16.52px] `}
                                   >
                                     Add as Beat
                                   </p>
@@ -1180,11 +1180,11 @@ const AllComments = ({
                 </motion.div>
                 <div className=" text-right">
                   {owner === user ? (
-                    <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
+                    <p className="text-[14px] font-[400] leading-[14px]  text-[#616161]">
                       {replyTextCount}/250
                     </p>
                   ) : (
-                    <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
+                    <p className="text-[14px] font-[400] leading-[14px]  text-[#616161]">
                       {replyTextCount}/150
                     </p>
                   )}

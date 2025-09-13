@@ -553,7 +553,7 @@ const Popup = ({
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
         <ToastContainer />
-        <div className=" h-[100vh] lg:h-[554px] xl:h-[608px] mb-[20px] lg:mb-0 2xl:h-[673px]  xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1080px] xl:w-[1220px] md:mx-auto relative lg:rounded-[8px]">
+        <div className=" h-[100vh] lg:h-auto   mb-[20px] lg:mb-0 2xl:h-[673px]  xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1090px] xl:w-[1220px] md:mx-auto relative lg:rounded-[8px] ">
           {/* close popup */}
           <img
             src={crossIcon}
@@ -576,11 +576,20 @@ const Popup = ({
             }}
           />
 
-          <div className="flex flex-col gap-3 lg:gap-[16px] xl:gap-[32px] lg my-auto lg:flex-row lg:justify-center ">
+          <div
+            className="flex flex-col lg:flex-row lg:justify-center 
+                gap-3 lg:gap-[16px] xl:gap-[32px] 
+                h-[calc(100vh-230px)] lg:h-[554px] xl:h-[620px] 2xl:h-[674px]
+                max-h-[100vh] overflow-hidden "
+          >
             {/* left div */}
-            <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[94%] sm:w-[80%] lg:w-[36%] max-w-[377px] h-[33vh] max-h-[212px] lg:max-h-none lg:h-[500px] xl:h-[546px] 2xl:h-[610px] lg:mt-[26px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[16px] xl:ml-[32px] rounded-[8px]">
+            <div
+              className=" border border-[#33B0CA] lg:border-[#eaeaea]  flex-shrink-0 w-[94%] sm:w-[80%] lg:w-[33%] 
+                max-w-[377px] mx-auto rounded-lg h-[28vh] lg:h-auto 
+               overflow-hidden lg:shadow-lg lg:my-4 xl:my-8 lg:ml-4"
+            >
               {/* header */}
-              <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-2 sm:px-[15px] py-[6px]">
+              <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-2 sm:px-[15px] py-[6px] mt-[1px]">
                 <div className="block max-w-[140px]">
                   <a
                     target="_blank"
@@ -806,8 +815,10 @@ const Popup = ({
 
             {/* right div */}
             <div
-              data-reply
-              className=" lg:border lg:mt-[26px] xl:mt-[32px]  bg-[#fff] lg:bg-[#fafafa] lg:shadow-lg border-[#eaeaea] w-[97%] sm:w-[68%] md:w-[88%] lg:w-[769px]  mx-auto lg:ml-0 h-[46vh] lg:h-[500px] xl:h-[546px] 2xl:h-[610px] rounded-[8px] flex flex-col gap-[5px] relative"
+              className="flex-1 w-[97%] sm:w-[68%] md:w-[88%] lg:w-[769px] 
+                mx-auto lg:ml-0 
+                bg-white lg:bg-[#fafafa] border border-[#eaeaea] lg:shadow-lg
+                rounded-[8px] flex flex-col overflow-hidden lg:my-4 xl:my-8 lg:mr-4"
             >
               {/* Fixed dynamic heading */}
               {/* <div className="fixed w-[90%] sm:w-[68%] md:w-[70%] lg:w-[769px] z-50 rounded-t-[8px] bg-[#33B0CA] py-1 text-center text-white font-bold text-[20px]">
@@ -816,7 +827,7 @@ const Popup = ({
               <div
                 ref={lastCommentRef}
                 // ref={commentsRef}
-                className="w-full h-full lg:h-auto py-[12px] overflow-x-hidden !overflow-y-auto lg:premiseScroll "
+                className="flex-1 overflow-y-auto  px-2 pt-3 pb-12"
               >
                 {loading ? (
                   <div className="z-[1] lg:mt-[160px] xl:mt-[200px]">
@@ -885,10 +896,9 @@ const Popup = ({
               </div>
 
               {/* comment and reply div mobile */}
-              <div className="lg:hidden h-[10vh] md:h-[116px] flex flex-col justify-between">
-                <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" />{" "}
-                <div className="fixed bottom-[30px] left-0 w-[100%]  px-2 ">
-                  <div className="flex gap-1 items-center w-[50%] max-w-[170px] mt-[-18px] mx-auto">
+              <div className="fixed  w-[100%] bottom-1   inset-x-0 flex flex-col items-center">
+                <div className="flex flex-col lg:hidden  w-full  border bg-white px-3 pb-4 shadow-md">
+                  <div className="flex gap-1 items-center w-[50%] max-w-[180px]  mx-auto">
                     <AskIda
                       id={premiseId}
                       source_language={premiseData?.source_language}

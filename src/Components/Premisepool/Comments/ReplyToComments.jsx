@@ -315,11 +315,11 @@ const ReplyToComments = ({
       <div className="w-full md:w-[95%] xl:w-[97%]">
         <div
           className={` w-[100%] relative  ${
-            fromNew ? "md:ml-[63px]" : "md:ml-[45px]"
+            fromNew ? "md:ml-[63px]" : "xl:ml-[25px] xxl:ml-[36px]"
           }`}
         >
           <div
-            className={`flex gap-[8px] lg:pr-[24px] ${
+            className={`flex gap-[8px]  ${
               fromNew
                 ? "w-[100%] md:w-[94.5%]"
                 : "w-[100%] md:w-[100%] max-w-[654px]"
@@ -387,7 +387,7 @@ const ReplyToComments = ({
                   </a>
                 </div>
 
-                <p className="text-[12px]  h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
+                <p className=" text-[14px]   h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
                   {" "}
                   <TimeAgo timestamp={createdTime} />
                 </p>
@@ -435,7 +435,9 @@ const ReplyToComments = ({
                   </button>
                 </div>
               ) : (
-                <></>
+                <>
+                  <div className="xl:pr-[24px] lg:pr-[16px]" />
+                </>
               )}
             </div>
           </div>
@@ -463,7 +465,7 @@ const ReplyToComments = ({
                         className="text-[16px] font-[500] cursor-pointer text-[#252525]"
                       />
                       <p
-                        className={`  text-[12px] text-[#616161] font-[400] leading-[14.52px]`}
+                        className={`   text-[14px]  text-[#616161] font-[400]   leading-[16.52px]  `}
                       >
                         <span className=" md:hidden">
                           {reply?.child_replies?.length}
@@ -484,7 +486,7 @@ const ReplyToComments = ({
                       className="flex items-center  gap-[2px]"
                     >
                       <BiMinusCircle className="  text-[16px] font-[500] cursor-pointer text-[#252525]" />
-                      <p className=" text-[12px] text-[#33B0CA] font-[400]  leading-[14.52px] ">
+                      <p className="  text-[14px]  text-[#33B0CA] font-[400]    leading-[16.52px]   ">
                         <span className="md:hidden">
                           {reply?.child_replies?.length}
                         </span>
@@ -515,7 +517,7 @@ const ReplyToComments = ({
                 <p
                   className={`${
                     openReplyField ? "text-[#33B0CA]" : "text-[#252525]"
-                  } text-[12px] hidden md:block font-[400] leading-[14.52px]`}
+                  }  text-[14px]  hidden md:block font-[400]   leading-[16.52px]  `}
                 >
                   Reply
                 </p>
@@ -527,7 +529,7 @@ const ReplyToComments = ({
                     <>
                       {reply?.suggested ? (
                         <button className="px-2  rounded-[4px] pb-[4px] pt-[2px] bg-[#616161] cursor-auto">
-                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                          <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                             Suggested
                           </p>
                         </button>
@@ -535,7 +537,7 @@ const ReplyToComments = ({
                         <>
                           {suggestDisable ? (
                             <button className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-auto">
-                              <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                              <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                                 Suggesting...
                               </p>
                             </button>
@@ -544,7 +546,7 @@ const ReplyToComments = ({
                               className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-pointer"
                               onClick={() => checkSuggestAllowance(reply?.text)}
                             >
-                              <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                              <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                                 Suggestion
                               </p>
                             </button>
@@ -568,7 +570,7 @@ const ReplyToComments = ({
                   <>
                     {reply?.suggested ? (
                       <button className="px-2 md:hidden  rounded-[4px] py-[2px] bg-[#616161]">
-                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                        <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                           Suggested
                         </p>
                       </button>
@@ -578,11 +580,11 @@ const ReplyToComments = ({
                         onClick={() => checkSuggestAllowance(reply?.text)}
                       >
                         {suggestDisable ? (
-                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                          <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                             Suggesting...
                           </p>
                         ) : (
-                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                          <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                             Suggestion
                           </p>
                         )}
@@ -597,7 +599,7 @@ const ReplyToComments = ({
                     <button className=" cursor-auto w-[60px]">
                       <p
                         onClick={() => handleReject(reply?.id)}
-                        className="text-[12px] bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400] leading-[14.52px] "
+                        className=" text-[14px]  bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400]   leading-[16.52px]   "
                       >
                         Reject
                       </p>
@@ -617,7 +619,7 @@ const ReplyToComments = ({
                   <>
                     {reply?.suggested ? (
                       <button className="px-2 md:hidden  rounded-[4px] py-[2px] bg-[#616161]">
-                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                        <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                           Suggested
                         </p>
                       </button>
@@ -627,11 +629,11 @@ const ReplyToComments = ({
                         onClick={() => checkSuggestAllowance(reply?.text)}
                       >
                         {suggestDisable ? (
-                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                          <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                             Suggesting...
                           </p>
                         ) : (
-                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                          <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                             Suggestion
                           </p>
                         )}
@@ -646,7 +648,7 @@ const ReplyToComments = ({
                     <button className=" cursor-auto w-[60px]">
                       <p
                         onClick={() => handleReject(reply?.id)}
-                        className="text-[12px] bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400] leading-[14.52px] "
+                        className=" text-[14px]  bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400]   leading-[16.52px]   "
                       >
                         Reject
                       </p>
@@ -660,7 +662,7 @@ const ReplyToComments = ({
                     <>
                       {(owner === user || reply?.user?.id === user) && (
                         <button className=" cursor-auto w-[89px]">
-                          <p className="text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] ">
+                          <p className=" text-[12px]  text-[#33B0CA] italic  font-[400]   leading-[16.52px]   ">
                             Added as Beat
                           </p>
                         </button>
@@ -677,7 +679,7 @@ const ReplyToComments = ({
                             }}
                             className="w-[83px]"
                           >
-                            <p className="text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
+                            <p className=" text-[12px]  text-[#008000] hover:text-[#33B0CA] font-[400]   leading-[16.52px]   ">
                               Add as Beat
                             </p>
                           </button>
@@ -771,7 +773,7 @@ const ReplyToComments = ({
                   )}
                 </form>
                 <div className=" text-right">
-                  <p className="text-[12px] font-[400] w-[86%] md:w-[94%] leading-[14px]  text-[#616161] md:mr-[13px]">
+                  <p className=" text-[14px]  font-[400] w-[86%] md:w-[94%] leading-[14px]  text-[#616161] md:mr-[13px]">
                     {replyChildTextCount}/150
                   </p>
                 </div>

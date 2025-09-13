@@ -1,347 +1,217 @@
-import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
-import {
-  FaCommentDots,
-  FaEllipsisV,
-  FaRegThumbsUp,
-  FaThumbsUp,
-} from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
+// import { IoMdSend } from "react-icons/io";
 import {
-  useCommentPremiseMutation,
-  useDeleteLikeMutation,
   useGetCommentByPremiseIdQuery,
   useGetOnePremiseQuery,
   useGetPremiseUserPictureQuery,
   useGetPremiseUserQuery,
-  useIsLikePremiseMutation,
-  useLikePremiseMutation,
 } from "../../app/EndPoints/premisePoolApi";
-import msgIcon from "../../img/Icons/msgIcon.png";
+import crossIcon from "../../img/Icons/crossIcon.png";
+import newTabIcn from "../../img/Icons/newTabIcn.png";
+import userImg from "../../img/Icons/userImg.png";
+// import transCartQ from "../../../img/Icons/transCartQ.png";
+
 // import backgroundImg from "../../img/Icons/download.jpg";
 import { motion } from "framer-motion";
 import { MdKeyboardBackspace } from "react-icons/md";
 import { MyContext } from "../../App";
+import {
+  useGetSavedCharactersQuery,
+  useSaveCharactersMutation,
+} from "../../app/EndPoints/Characters/Characters";
 import { useCreateReplyMutation } from "../../app/EndPoints/commentReply/reply";
-import crossIcon from "../../img/Icons/crossIcon.png";
-import forwardIcon from "../../img/Icons/forwardIcon.png";
-import userImg from "../../img/Icons/userImg.png";
-import BtnLoading from "../../shared/BtnLoading";
-import Loading from "../../shared/Loading";
+
+import axios from "axios";
+import CardHeadOptions from "../PremiseV2/Card/CardHeadOptions";
+import AvailableForTranslationPop from "../PremiseV2/Popups/AvailableForTranslationPop";
+import BankDetailsPop from "../PremiseV2/Popups/BankDetails/BankDetailsPop";
+import MonetizePreferencePop from "../PremiseV2/Popups/MonetizePreferencePop";
+import PaySalePopup from "../PremiseV2/Popups/PaySalePopup";
+import ReqSalePop from "../PremiseV2/Popups/ReqSalePop";
+import ReqTranslationPop from "../PremiseV2/Popups/ReqTranslationPop";
+
+import NoPremisePop from "../PremiseV2/Popups/alerts/NoPremisePop";
+import NotifyPopup from "../PremiseV2/Popups/alerts/NotifyPopup";
+import SaleRequestedOwner from "../PremiseV2/Popups/SaleRequestedOwner";
+import TransInOtherLang from "../PremiseV2/Popups/TransInOtherLang.pop";
+import ViewTranslationPop from "../PremiseV2/Popups/ViewTranslation.pop";
+import AddBeatTutorialPop from "../PremiseV2/sequalPopup/AddBeatTutorialPop";
+import AfterFinalPostPremisePop from "../PremiseV2/sequalPopup/AfterFinalPostPremisePop";
+import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
+import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
+import AskIda from "../SharedVersion/AskIda";
+import PopupComment from "../SharedVersion/PopupComment";
+import PopupPremiseText from "../SharedVersion/PopupPremiseText";
+import PopupTextarea from "../SharedVersion/PopupTextarea";
+import TypingLoader from "../TypingLoader";
 import { baseURL, URL } from "../utils";
 import AllComments from "./AllComments";
-import ViewCharacters from "./Comments/ViewCharacters";
-import HideOptionPop from "./Components/HideOptionPop";
+import CharacterEditablePop from "./Character/CharacterEditablePop";
 import DeletePremise from "./DeletePremise";
 import LikePopup from "./LikePopup";
+import LikePremise from "./LikePremise";
+import OwnerMail from "./OwnerMail";
+import PopupSource from "./PopupSource";
 import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
+import UserMail from "./UserMail";
+import UserNamePopup from "./UserNamePopup";
+import UserType from "./UserType";
 
-const Popup = ({ popClose, data, refetch, transText }) => {
+const Popup = ({
+  popClose,
+  data,
+  refetch,
+  transText,
+  viewText,
+  handleVisibility,
+  handleMonetizing,
+  afterFinalPostPremiseDemoPop,
+  setAfterFinalPostPremiseDemoPop,
+}) => {
   const {
     bg_img,
     bg_color,
-    comments,
     stylings,
     dText,
     id,
     user,
-    created_by,
-    setUserMail,
-    setOwnerMail,
+    premiseOwner,
+    handleUserMail,
     formattedTime,
     formattedDate,
-    hidden,
-    index,
     setHideDisable,
-    hideDisable,
-    hiddenCountRefetch,
-    projectRefetch,
     project_id,
-    m_value,
   } = data;
-  const { allspProjectJSON } = useContext(MyContext);
+  // console.log("popData", data);
+  const {
+    data: characters,
+    refetch: charRefetch,
+    isCharLoading,
+  } = useGetSavedCharactersQuery(project_id);
+  const [notifyPopup, setNotifyPopup] = useState(false);
+  const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
+
+  const [characterArray, setCharacterArray] = useState([]);
+  const [addPopup, setAddPopup] = useState(null);
+  const [onlyAdd, setOnlyAdd] = useState(true);
+  const [characterLoading, setCharacterLoading] = useState(true);
+
+  const [openTransOtherPop, setOpenTransOtherPop] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [openAvailableForTranslationPop, setOpenAvailableForTranslationPop] =
+    useState(false);
+  const [openMonetizingPreferencesPop, setOpenMonetizingPreferencesPop] =
+    useState(null);
+  const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);
+  const [noAccessLbPopUp, setNoAccessLbPopUp] = useState(null);
+  const [saleId, setSaleId] = useState("");
+  const [viewSale, setViewSale] = useState(false);
+  const [saleRequestPop, setSaleRequestPop] = useState("");
+  const [openPop, setOpenPop] = useState(false);
+  const [userMail, setUserMail] = useState(null);
+  const [ownerMail, setOwnerMail] = useState(false);
+  const [openHidePop, setOpenHidePop] = useState(null);
+
+  const [service, setService] = useState(null);
+  const [noAccessPopup, setNoAccessPopup] = useState(null);
+
+  useEffect(() => {
+    if (characters) setCharacterArray(characters);
+  }, [characters]);
+
+  const handleUpdateSavedChar = async () => {
+    setCharacterLoading(true);
+    try {
+      characterArray.forEach((character) => {
+        if (character.is_ai_generated === undefined) {
+          character.is_ai_generated = false;
+        }
+      });
+      const charArr = JSON.stringify(characterArray);
+      const data = {
+        // id: premiseID,
+        id: project_id,
+        // body: { char_data: charArr },
+        body: { char_data: charArr, is_draft: false, premise_id: id },
+      };
+
+      const response = await saveCharacter(data);
+
+      if (response) {
+        // setAddNewCharacter(false)
+        // setEditPopupOpen(false)
+        // setCharSaveDisable(true);
+        setCharacterLoading(false);
+        setOpenCharacterChart(false);
+        charRefetch();
+
+        // toast.success("characters updated!")
+      }
+      return response;
+    } catch (error) {
+      setCharacterLoading(false);
+      // console.error("Error updating characters:", error);
+    }
+  };
+
+  const handleSaveAsDraft = async () => {
+    setCharacterLoading(true);
+    try {
+      characterArray.forEach((character) => {
+        if (character.is_ai_generated === undefined) {
+          character.is_ai_generated = false;
+        }
+      });
+      const charArr = JSON.stringify(characterArray);
+      const data = {
+        // id: premiseID,
+        id: project_id,
+        body: { char_data: charArr, is_draft: true, premise_id: id },
+        is_draft: true,
+      };
+
+      const response = await saveCharacter(data);
+
+      if (response) {
+        // setAddNewCharacter(false)
+        // setEditPopupOpen(false)
+        setOpenCharacterChart(false);
+        // setCharSaveDisable(true);
+        setCharacterLoading(false);
+        popClose();
+
+        // toast.success("characters updated!")
+      }
+      return response;
+    } catch (error) {
+      setCharacterLoading(false);
+      // console.error("Error updating characters:", error);
+    }
+  };
+  const lastCommentRef = useRef(null);
+
+  const replyRef = useRef(null);
+
+  const {
+    allspProjectJSON,
+    currentlyOpenedCommentID,
+    setCurrentlyOpenedCommentID,
+  } = useContext(MyContext);
   const [openDotMenu, setOpenDotMenu] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [isLiked, setIsLiked] = useState(false);
-  const [postLike, resInfo] = useLikePremiseMutation();
-  const [postIsLike, isResInfo] = useIsLikePremiseMutation();
-  const [deletePremise, deleteInfo] = useDeleteLikeMutation();
-  const [likePopup, setLikePopup] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(true);
-  const [disable, setDisable] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const [commentField, setCommentField] = useState(false);
+  const [commentField, setCommentField] = useState(true);
   const [replyField, setReplyField] = useState(false);
-  const [openHidePop, setOpenHidePop] = useState(false);
-  const [isCommentQuestion, setIsCommentQuestion] = useState(false);
+
   const [cValue, setCvalue] = useState(null);
-
-  const [newComment, setNewComment] = useState("");
-  const commentRef = useRef(null);
-  const replyRef = useRef(null);
-
-  const token = localStorage.getItem("accessToken");
-  const header = {
-    Authorization: `Bearer ${token}`,
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  };
-  const currentProjectData = allspProjectJSON?.projects?.find(
-    (item) => item.pro_uuid === project_id
-  );
-  const currentProjectName = currentProjectData?.name;
-
-  useEffect(() => {
-    if (commentField && commentRef?.current) {
-      commentRef?.current?.focus();
-      setReplyField(false);
-    }
-    if (replyField && replyRef?.current) {
-      replyRef?.current?.focus();
-      setCommentField(false);
-    }
-  }, [replyField, commentField]);
-
-  const {
-    data: profileImg,
-    profileImgLoading,
-    refetch: profileRefetch,
-  } = useGetPremiseUserPictureQuery(created_by?.id);
-
-  const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
-
-  const { boldStyle, italicStyle, underlineStyle, hexColor } = stylings;
-  const premiseId = data?.id;
-  const {
-    data: premiseData,
-    isPremiseLoading,
-    refetch: premiseRefetch,
-  } = useGetOnePremiseQuery(premiseId);
-
-  const {
-    data: commentsData,
-    isCommentLoading,
-    refetch: commentRefetch,
-  } = useGetCommentByPremiseIdQuery(premiseId);
-
-  // console.log("commentsData",commentsData);
-
-  //filter Deleted Comment count
-  const deletedCount = commentsData?.comments?.filter(
-    (comment) => comment.is_deleted
-  ).length;
-  // const finalCount = commentsData?.counts - deletedCount;
-  const finalCount = commentsData?.counts;
-
-  const handleDelete = (id) => {
-    setIsDelete(id);
-  };
-
-  const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
-
-  const [postComment, isCommentResInfo] = useCommentPremiseMutation();
-
-  const userName = `${userQuery?.first_name} ${userQuery?.last_name}`;
-
-  useEffect(() => {
-    async function fetchData() {
-      const body = {
-        premise: id,
-        user: user,
-      };
-      const isLikeRes = await postIsLike(body);
-      setIsLiked(isLikeRes?.data?.message);
-    }
-    if (user && id) {
-      fetchData();
-    }
-  }, [user, id, postIsLike, setIsLiked]);
-
-  // useEffect(() => {
-  //   setCvalue(parseInt(commentsData?.comments?.length) + 1);
-  // }, [commentsData]);
-
-  const body = {
-    premise: id,
-    user: user,
-  };
-
-  const handleDisLikeClick = async () => {
-    setDisable(true);
-    const deleteResponse = await deletePremise(body);
-    if (deleteResponse?.data?.message === true) {
-      setDisable(false);
-      setIsLiked(!isLiked);
-      premiseRefetch();
-    }
-  };
-
-  const handleLikeClick = async () => {
-    setDisable(true);
-    const postLikeResponse = await postLike(body);
-    if (postLikeResponse?.data) {
-      setDisable(false);
-      setIsLiked(!isLiked);
-      premiseRefetch();
-    }
-  };
-
-  useEffect(() => {
-    if (newComment.endsWith("?")) {
-      setIsCommentQuestion(true);
-    } else {
-      setIsCommentQuestion(false);
-    }
-
-    if (newComment?.length > 0) {
-      setIsDisabled(false);
-    } else {
-      setIsDisabled(true);
-    }
-  }, [newComment]);
-
-  useEffect(() => {
-    if (commentsData) {
-      setLoading(false);
-    }
-  }, [commentsData]);
-  const [textCount, setTextCount] = useState(0);
-
-  const handleTextareaChange = (event) => {
-    const comment = event.target.value;
-    setTextCount(comment.length);
-    setNewComment(comment);
-  };
-
-  useEffect(() => {
-    // console.log(commentsData.comments.length);
-    commentRefetch();
-    const commentArray = commentsData?.comments?.length + 1;
-
-    setCvalue(commentArray);
-  }, [commentsData, commentRefetch]);
-
-  // const handleButtonClick = async () => {
-  //   if (newComment.length === 0) {
-  //     alert("You can't send an empty comment!");
-  //     return;
-  //   }
-  //   setIsLoading(true);
-
-  //   axios
-  //     .get(`${baseURL}/ideamall/GetCommentAPI/${premiseId}`, {
-  //       headers: header,
-  //     })
-  //     .then((response) => {
-  //       if (response) {
-
-  //         const body = {
-  //           premise: premiseId,
-  //           text: newComment,
-  //           user: user,
-  //           // C: cValue,
-  //           C: response?.data?.counts + 1,
-  //           is_question: isCommentQuestion,
-  //         };
-
-  //         try {
-  //           const res = await postComment(body);
-
-  //           if (res?.error) {
-  //             toast.error("Failed to add comment. Please try again.", {
-  //               position: toast.POSITION.TOP_CENTER,
-  //               autoClose: 800,
-  //             });
-  //             setIsLoading(false);
-  //           } else {
-  //             // refetch();
-  //             setNewComment("");
-  //             setIsLoading(false);
-  //             setTextCount(0);
-  //             toast.success("Comment added!", {
-  //               position: toast.POSITION.TOP_CENTER,
-  //               autoClose: 1600,
-  //             });
-  //             commentRefetch();
-  //           }
-  //         } catch (error) {
-  //           toast.error("Failed to add comment. Please try again.", {
-  //             position: toast.POSITION.TOP_CENTER,
-  //             autoClose: 800,
-  //           });
-  //           setIsLoading(false);
-  //         }
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       toast.error("Failed to add comment. Please try again.", {
-  //         position: toast.POSITION.TOP_CENTER,
-  //         autoClose: 1600,
-  //       });
-  //     });
-
-  // };
-
-  const handleButtonClick = async () => {
-    if (newComment.length === 0) {
-      alert("You can't send an empty comment!");
-      return;
-    }
-
-    setIsLoading(true);
-
-    try {
-      // Fetch the existing comment data
-      const response = await axios.get(
-        `${baseURL}/ideamall/GetCommentAPI/${premiseId}`,
-        {
-          headers: header,
-        }
-      );
-
-      if (response) {
-        const body = {
-          premise: premiseId,
-          text: newComment,
-          user: user,
-          C: response?.data?.counts + 1, // Update the comment count
-          is_question: isCommentQuestion,
-        };
-
-        // Post the new comment
-        const res = await postComment(body);
-
-        if (res?.error) {
-          toast.error("Failed to add comment. Please try again.", {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 800,
-          });
-        } else {
-          setNewComment("");
-          setIsLoading(false);
-          setTextCount(0);
-          toast.success("Comment added!", {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 1600,
-          });
-          commentRefetch(); // Refetch the comments after adding the new one
-        }
-      }
-    } catch (error) {
-      toast.error("Failed to add comment. Please try again.", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 1600,
-      });
-      setIsLoading(false);
-    }
-  };
 
   const [openReplyField, setOpenReplyField] = useState(null);
   const [replyLoading, setReplyLoading] = useState(false);
   const [replyToCommentID, setReplyToCommentID] = useState(null);
+  const [openReplyFieldID, setOpenReplyFieldID] = useState(null);
   const [commentOwner, setCommentOwner] = useState("");
 
   const [openAllReplies, setOpenAllReplies] = useState(false);
@@ -352,8 +222,126 @@ const Popup = ({ popClose, data, refetch, transText }) => {
   const [openCharacterChart, setOpenCharacterChart] = useState(null);
 
   const [replyTextCount, setReplyTextCount] = useState(0);
+  const [likePopup, setLikePopup] = useState(false);
+  const handleClear = () => {
+    // setText("");
+  };
+
+  const currentProjectData = allspProjectJSON?.projects?.find(
+    (item) => item.pro_uuid === project_id
+  );
+  // console.log("ALLPROJECT", project_id);
+
+  const currentProjectName = currentProjectData?.name;
+  const isProjectLocked = currentProjectData?.locked;
+  const currentProjectOwner = currentProjectData?.owner;
+
+  const {
+    data: profileImg,
+    profileImgLoading,
+    refetch: profileRefetch,
+  } = useGetPremiseUserPictureQuery(premiseOwner?.id);
+
+  const proImgUrl = baseURL.concat(profileImg?.[0]?.profile_photo);
+  // console.log(stylings);
+
+  const { boldStyle, italicStyle, underlineStyle, hexColor } = stylings;
+  const premiseId = data?.id;
+
+  const {
+    data: premiseData,
+    isPremiseLoading,
+    refetch: premiseRefetch,
+  } = useGetOnePremiseQuery(premiseId);
+  // console.log("premiseId", premiseData?.available_for_sale);
+  const [actOneThreshold, setActOneThreshold] = useState(null);
+  const [actTwoEnd, setActTwoEnd] = useState(null);
+
+  // console.log("premiseData?.visible_to",premiseData?.visible_to)
+
+  useEffect(() => {
+    if (!isPremiseLoading && premiseData?.setC) {
+      // Step 1: Log premiseData.setC to verify it
+      // console.log("premiseData setC:", premiseData?.setC); // Check what setC looks like
+
+      try {
+        const setCString = premiseData?.setC;
+
+        // Step 2: Check if setC is already an object or a string
+        if (typeof setCString === "string") {
+          const setCObject = JSON.parse(setCString.replace(/'/g, '"')); // Parse if it's a string
+          // console.log("Parsed setCObject:", setCObject); // Log parsed object to ensure it's correct
+
+          const actOne = setCObject["Forward the Act One"];
+          const actTwo = setCObject["Forward the Act Two"];
+
+          // Step 3: Set the thresholds
+          setActOneThreshold(actOne); // Last number of Act One
+          setActTwoEnd(actTwo[actTwo.length - 1]); // Last number of Act Two
+
+          // console.log("actOneThreshold:", actOne); // Check if actOneThreshold is being set correctly
+          // console.log("actTwoEnd:", actTwo[actTwo.length - 1]); // Check if actTwoEnd is being set correctly
+        } else {
+          // If setC is already an object, handle it directly
+          const setCObject = setCString; // No need to parse;
+
+          const actOne = setCObject["Forward the Act One"];
+          const actTwo = setCObject["Forward the Act Two"];
+
+          setActOneThreshold(actOne[actOne.length - 1]); // Last number of Act One
+          setActTwoEnd(actTwo[actTwo.length - 1]); // Last number of Act Two
+        }
+      } catch (error) {
+        console.error("Error parsing setC or setting thresholds:", error);
+      }
+    }
+  }, [isPremiseLoading, premiseData]); // Ensure premiseData is available before running the effect
+
+  useEffect(() => {}, [actOneThreshold, actTwoEnd]);
+
+  useEffect(() => {
+    premiseRefetch();
+  }, [premiseId]);
+
+  const {
+    data: commentsData,
+    isCommentLoading,
+    refetch: commentRefetch,
+  } = useGetCommentByPremiseIdQuery(premiseId);
+
+  const finalCount = commentsData?.counts;
+
+  const handleDelete = (id) => {
+    setIsDelete(id);
+  };
+
+  const { data: userQuery, isUserLoading } = useGetPremiseUserQuery();
+
+  const userName = `${userQuery?.first_name} ${userQuery?.last_name}`;
+  const userFirstName = userQuery?.first_name;
+  const userLastName = userQuery?.last_name;
+
+  // useEffect(() => {
+  //   setCvalue(parseInt(commentsData?.comments?.length) + 1);
+  // }, [commentsData]);
+
+  useEffect(() => {
+    if (commentsData) {
+      setLoading(false);
+    }
+  }, [commentsData]);
+
+  useEffect(() => {
+    // console.log(commentsData.comments.length);
+    commentRefetch();
+    const commentArray = commentsData?.comments?.length + 1;
+
+    setCvalue(commentArray);
+  }, [commentsData, commentRefetch]);
+
   const handleReplyTextChange = (event) => {
-    const reply = event.target.value;
+    const reply = event?.target?.value?.replace(/^\s+|\s+(?=\s)/g, "");
+    // console.log("reply----->", reply);
     setReplyTextCount(reply.length);
     setReplyText(reply);
   };
@@ -380,7 +368,7 @@ const Popup = ({ popClose, data, refetch, transText }) => {
       setReplyLoading(false);
     }
   };
-  useEffect(() => {}, [openDotMenu]);
+  // useEffect(() => {}, [openDotMenu]);
 
   const handleHideUnhidePremise = (id) => {
     hideUnhidePremise(id, setHideDisable, premiseRefetch, setOpenDotMenu);
@@ -389,32 +377,183 @@ const Popup = ({ popClose, data, refetch, transText }) => {
   const dotPopupRef = useRef();
   useEffect(() => {
     const closeMenu = (e) => {
-      if (!dotPopupRef?.current?.contains(e.target)) {
-        if (!e.target.closest(".absolute")) {
-          setOpenDotMenu(null);
-        }
+      if (
+        openDotMenu !== null && // Only close if a menu is open
+        !dotPopupRef?.current?.contains(e.target) && // Allow clicks inside the dot menu
+        !e.target.closest(".ellipsis-container") // Allow clicks inside the button
+      ) {
+        setOpenDotMenu(null);
       }
     };
-    document.body.addEventListener("mousedown", closeMenu);
 
+    document.body.addEventListener("mousedown", closeMenu);
     return () => document.body.removeEventListener("mousedown", closeMenu);
-  }, []);
+  }, [openDotMenu]);
 
   // console.log("commentsData", commentsData);
   const handleOpenSp = () => {
-    // console.log("object", data);
+    // console.log("object", p);
+    if (isProjectLocked) {
+      window.open(`${baseURL}/scriptpad2/#/generated-scripts`);
+    }
     window.open(
-      `${URL}/scriptpad2/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
+      `${baseURL}/scriptpad2/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
     );
+  };
+
+  // dynamic setup conflict resolution
+  const [headerText, setHeaderText] = useState("Setup");
+  const commentsRef = useRef(null);
+
+  useEffect(() => {}, [openDotMenu]);
+
+  const handlePremiseOpenNewTab = (id) => {
+    // let host = window.location.origin + `/#/new-tab/${id}`;
+    // window.open(host, "_blank");
+
+    // console.log(id);
+    // // const url = `${baseURL}/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
+    const url = `${window.location.origin}/ideamall/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
+
+    // // Open the URL in a new tab
+    window.open(url, "_blank");
+  };
+
+  const [translationRequestPop, setTranslationRequestPop] = useState("");
+
+  const [viewTrnRequests, setViewTrnRequests] = useState("");
+  const [viewSaleRequests, setViewSaleRequests] = useState("");
+
+  const handleTranslationRequest = (id) => {
+    setTranslationRequestPop(id);
+    // console.log("trans id", id);
+  };
+
+  const [viewTransactionPId, setViewTransactionPId] = useState("");
+  const handleViewTransaction = (id) => {
+    // console.log(id);
+    setViewTransactionPId(id);
+    setOpenViewTranslationsPop(!openViewTranslationsPop);
+    setOpenDotMenu(null);
+  };
+
+  const token = localStorage.getItem("accessToken");
+
+  const header = {
+    Authorization: `Bearer ${token}`,
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+  const [saleRequestedOwner, setSaleRequestedOwner] = useState(true);
+  const [names, setNames] = useState([]);
+  const handleSaleRequestedOwner = async () => {
+    try {
+      // console.log(id);
+      const data = await axios.get(
+        `${URL}/ideamall/premise/request/${id}/Sale`,
+        {
+          headers: header,
+        }
+      );
+
+      if (data?.data?.data?.length > 0) {
+        setSaleRequestedOwner(true);
+      }
+
+      setNames((prevNames) => [data]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleOpenAllReplies = (id, commenterName) => {
+    console.log("Open replyfield");
+    setOpenAllReplies(true);
+    setOpenReplyFieldID(id);
+    setReplyToCommentID(id);
+    // setReplyToCommentID(comments?.id);
+    // setCurrentlyOpenedCommentID(comments?.id);
+    setCurrentlyOpenedCommentID(id);
+    setCommentOwner(commenterName);
+  };
+
+  const [openPopSource, setOpenPopSource] = useState(false);
+  const [addBeatTutorialPop, setAddBeatTutorialPop] = useState(false);
+  const [sourcePremiseNotAvailabl, setSourcePremiseNotAvailable] =
+    useState(false);
+  const [sourcePopData, setSourcePopData] = useState();
+  const handleCheckPremiseData = async (id) => {
+    try {
+      const data = await axios.get(`${URL}/ideamall/api/v2/premise/${id}`, {
+        headers: header,
+      });
+      const premiseData = data?.data;
+      setSourcePopData("premiseData", premiseData);
+
+      if (premiseData) {
+        const formattedDate = new Date(
+          premiseData?.created_at
+        ).toLocaleDateString("en-US", {
+          // timeZone: "GMT",
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          // weekday: "short",
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        });
+        const formattedTime = new Date(
+          premiseData?.created_at
+        ).toLocaleTimeString("en-US", {
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          hour: "numeric",
+          minute: "numeric",
+        });
+
+        const data = {
+          stylings: premiseData?.text?.includes("+")
+            ? JSON.parse(premiseData?.text?.split("+")[0])
+            : {}, // Default to an empty object if `text` is undefined or improperly formatted
+          bg_color: premiseData?.bg_color || "",
+          premiseOwner: premiseData?.premiseOwner,
+          bg_img: premiseData?.bg_img || "",
+          comments: premiseData?.comments || [],
+          created_at: premiseData?.created_at || "",
+          likes: premiseData?.likes || 0,
+          id: premiseData?.id || "",
+          source_language: premiseData?.source_language || "",
+          updated_at: premiseData?.updated_at || "",
+          dText: premiseData?.text?.includes("+")
+            ? premiseData?.text?.split("+")[1]
+            : "",
+          // viewText: premiseData?.text?.includes("+")
+          //   ? premiseData?.text?.split("+")[1]
+          //   : "",
+          project_id: premiseData?.project_id || "",
+          m_value: premiseData?.m_value || "",
+          formattedTime,
+          formattedDate,
+        };
+
+        setSourcePopData(data);
+      }
+
+      if (premiseData?.premiseOwner?.id === user) {
+        handlePremiseOpenNewTab(premiseData?.id);
+      } else {
+        setOpenPopSource(true);
+      }
+    } catch (error) {
+      setSourcePremiseNotAvailable(true);
+    }
   };
 
   if (isPremiseLoading) {
     return <>Loading...</>;
   } else
     return (
-      <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
+      <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
         <ToastContainer />
-        <div className=" h-[100vh] lg:h-[490px] mb-[20px]  lg:mb-0 xl:h-[621px] lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1119px] xl:w-[1185px] md:mx-auto relative lg:rounded-[8px]">
+        <div className=" h-[100vh] lg:h-[554px] xl:h-[608px] mb-[20px] lg:mb-0 2xl:h-[673px]  xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1080px] xl:w-[1220px] md:mx-auto relative lg:rounded-[8px]">
           {/* close popup */}
           <img
             src={crossIcon}
@@ -428,7 +567,7 @@ const Popup = ({ popClose, data, refetch, transText }) => {
           <MdKeyboardBackspace
             src={crossIcon}
             alt=""
-            className="text-[#252525] text-left text-[32px] my-[8px] mt-[30px] ml-[24px] z-[1] cursor-pointer lgHidden"
+            className="text-[#252525] text-left text-[32px] my-[8px] mt-1 ml-[24px] z-[1] cursor-pointer lgHidden"
             onClick={() => {
               popClose(false);
               // setOpenReplyField(null);
@@ -437,22 +576,22 @@ const Popup = ({ popClose, data, refetch, transText }) => {
             }}
           />
 
-          <div className="flex flex-col gap-[21px] lg:gap-[32px] lg my-auto lg:flex-row lg:justify-center ">
+          <div className="flex flex-col gap-3 lg:gap-[16px] xl:gap-[32px] lg my-auto lg:flex-row lg:justify-center ">
             {/* left div */}
-            <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[86%] sm:w-[80%] md:w-[33%] max-w-[336px] h-[33vh] lg:h-[460px] xl:h-[563px] lg:mt-[18px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[32px] xl:ml-[32px] rounded-[8px]">
+            <div className="border border-[#eaeaea] relative bg-[#FAFAFA] shadow-lg w-[94%] sm:w-[80%] lg:w-[36%] max-w-[377px] h-[33vh] max-h-[212px] lg:max-h-none lg:h-[500px] xl:h-[546px] 2xl:h-[610px] lg:mt-[26px] xl:mt-[32px]  mx-auto lg:mx-0 lg:ml-[16px] xl:ml-[32px] rounded-[8px]">
               {/* header */}
-              <div className="flex w-full max-w-[383px] mx-auto justify-between items-center bg-[#FAFAFA] rounded-t-[8px]  p-[8px] md:py-[20px] md:px-[16px]">
-                <div className="block ml-[8px] mt-[4px]">
+              <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-2 sm:px-[15px] py-[6px]">
+                <div className="block max-w-[140px]">
                   <a
                     target="_blank"
                     rel="noreferrer"
                     href={
-                      created_by?.id === user
+                      premiseOwner?.id === user
                         ? `${URL}/memberpage/#/personaldetails`
-                        : `${URL}/memberpage/#/user/${created_by?.id}/personaldetails`
+                        : `${URL}/memberpage/#/user/${premiseOwner?.id}/personaldetails`
                     }
                   >
-                    <div className="flex-1 flex gap-1 items-center">
+                    <div className="flex-1 flex gap-1 items-start">
                       {profileImg?.[0]?.profile_photo ? (
                         <img
                           src={proImgUrl}
@@ -467,19 +606,35 @@ const Popup = ({ popClose, data, refetch, transText }) => {
                         />
                       )}
                       <div>
-                        <h4 className="text-[#252525] font-[600] text-[14px] capitalize cursor-pointer leading-[21px]  hover:text-[#33B0CA]">
-                          {created_by?.first_name} {created_by?.last_name}
-                        </h4>
-                        <p className="text-[#616161] text-[10px] flex flex-col font-[400] leading-[12px]">
-                          {created_by?.id === user && (
-                            <p>
+                        <div className="flex items-center">
+                          <h4
+                            className={`notranslate w-[75px] max-w-[110px] text-[#252525] font-[500] text-[16px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
+                            title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
+                          >
+                            {premiseOwner?.first_name} {premiseOwner?.last_name}
+                          </h4>
+                          <UserType
+                            type={premiseOwner?.centraldatabase?.type}
+                            user_type={premiseOwner?.centraldatabase?.user_type}
+                          />
+                        </div>
+                        <p className="text-[#616161] text-[12px] flex flex-col font-[400] leading-[12px] min-w-[120px] mt-[-3px]">
+                          <p>
+                            {formattedDate}, {formattedTime}
+                          </p>
+                          {(premiseOwner?.id === user ||
+                            premiseOwner?.id === currentProjectOwner) && (
+                            <p
+                              data-te-toggle="tooltip"
+                              title={`${`${currentProjectName} `}`}
+                              className="notranslate"
+                            >
                               {/* {currentProjectName?.slice(0, 20)} */}
                               {currentProjectName?.length > 20
                                 ? `${currentProjectName.slice(0, 20)}...`
                                 : currentProjectName}
                             </p>
                           )}
-                          {formattedDate}, {formattedTime}
                         </p>
                       </div>
                     </div>
@@ -491,337 +646,236 @@ const Popup = ({ popClose, data, refetch, transText }) => {
                   </p>
                 </div> */}
                 </div>
-                <div>
-                  {" "}
-                  {created_by?.id === user ? (
-                    <div className="flex gap-[3px] items-center mr-[2px] relative ">
-                      {/* <img
-                      data-te-toggle="tooltip"
-                      title="Check Mails"
-                      src={msgIcon}
-                      className="w-8 h-8 cursor-pointer"
-                      alt=""
-                      onClick={() => setOwnerMail(true)}
-                    /> */}
-                      {/* <FaRegTrashAlt
-                data-te-toggle="tooltip"
-                title="Delete"
-                
-                onClick={() => handleDelete(id)}
-                className="w-5 h-5 cursor-pointer "
-                alt=""
-              /> */}
-                      <FaEllipsisV
-                        onClick={() => setOpenDotMenu(!openHidePop)}
-                        className="w-5 h-5 cursor-pointer"
-                      />
-
-                      {openDotMenu && (
-                        <div
-                          ref={dotPopupRef}
-                          className="absolute w-[186.99px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px] z-10"
-                        >
-                          <button
-                            onClick={() => {
-                              setOpenHidePop(!openHidePop);
-                              setOpenDotMenu(null);
-                            }}
-                            className="cursor-pointer"
-                          >
-                            <p className="text-[14px] w-full font-[500] break-none hover:text-[#33B0CA] text-[#252525]">
-                              {" "}
-                              Visibility Settings
-                            </p>{" "}
-                          </button>
-                          <button
-                            onClick={() => {
-                              handleDelete(id);
-                              setOpenDotMenu(null);
-                            }}
-                            className="cursor-pointer "
-                          >
-                            <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
-                              {" "}
-                              Delete Premise
-                            </p>{" "}
-                          </button>
-                          <button
-                            onClick={() => {
-                              setOpenCharacterChart(id);
-                              setOpenDotMenu(null);
-                            }}
-                            className="cursor-pointer "
-                          >
-                            <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
-                              {" "}
-                              Characters and Roles
-                            </p>{" "}
-                          </button>
-                          <button
-                            onClick={() => {
-                              handleOpenSp();
-                              setOpenDotMenu(null);
-                            }}
-                            className="cursor-pointer "
-                          >
-                            <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
-                              {" "}
-                              Open Script
-                            </p>{" "}
-                          </button>
-
-                          {/* */}
-                        </div>
-                      )}
-                      {openHidePop && (
-                        <HideOptionPop
-                          setOpenHidePop={setOpenHidePop}
-                          id={premiseId}
-                          refetch={premiseRefetch}
-                          user={user}
-                          filter_flag={premiseData?.filter_flag}
-                          comment_filter_flag={premiseData?.comment_filter_flag}
-                          visible_to={premiseData?.visible_to}
-                        />
-                      )}
-                    </div>
-                  ) : (
+                <div className="flex gap-[3px] items-center">
+                  {premiseOwner?.id === user && (
                     <img
                       data-te-toggle="tooltip"
-                      title="Send Message"
-                      src={msgIcon}
-                      className="w-8 h-8 cursor-pointer"
+                      title="Open In New Tab"
+                      src={newTabIcn}
+                      className="w-7 h-7 cursor-pointer mt-[-8px]"
                       alt=""
-                      onClick={() => setUserMail(true)}
+                      onClick={() => handlePremiseOpenNewTab(premiseId)}
                     />
                   )}
+                  <CardHeadOptions
+                    // owner={owner}
+                    // index={index}
+
+                    refetch={premiseRefetch}
+                    viewTrnRequests={viewTrnRequests}
+                    setViewTrnRequests={setViewTrnRequests}
+                    viewTransactionPId={viewTransactionPId}
+                    setViewTransactionPId={setViewTransactionPId}
+                    setViewSaleRequests={setViewSaleRequests}
+                    openTransOtherPop={openTransOtherPop}
+                    setOpenTransOtherPop={setOpenTransOtherPop}
+                    handleDelete={handleDelete}
+                    setOpenCharacterChart={setOpenCharacterChart}
+                    openViewTranslationsPop={openViewTranslationsPop}
+                    openAvailableForTranslationPop={
+                      openAvailableForTranslationPop
+                    }
+                    setOpenAvailableForTranslationPop={
+                      setOpenAvailableForTranslationPop
+                    }
+                    setOpenViewTranslationsPop={setOpenViewTranslationsPop}
+                    setOpenMonetizingPreferencesPop={
+                      setOpenMonetizingPreferencesPop
+                    }
+                    setNoAccessLbPopUp={setNoAccessLbPopUp}
+                    // setUserMail={setUserMail}
+                    setSaleId={setSaleId}
+                    setViewSale={setViewSale}
+                    setSaleRequestPop={setSaleRequestPop}
+                    setTranslationRequestPop={setTranslationRequestPop}
+                    isProjectLocked={isProjectLocked}
+                    id={id}
+                    premiseOwner={premiseOwner}
+                    filter_flag={premiseData?.filter_flag}
+                    visible_to={premiseData?.visible_to}
+                    comment_filter_flag={premiseData?.comment_filter_flag}
+                    project_id={project_id}
+                    available_for_sale={premiseData?.available_for_sale}
+                    available_for_translation={
+                      premiseData?.available_for_translation
+                    }
+                    premise_source_id={premiseData?.premise_source_id}
+                    translation_request_count={
+                      premiseData?.translation_request_count
+                    }
+                    no_of_times_translated={premiseData?.no_of_times_translated}
+                    sale_request_count={premiseData?.sale_request_count}
+                    is_requested_for_sale={premiseData?.is_requested_for_sale}
+                    is_translated_languages={
+                      premiseData?.is_translated_languages
+                    }
+                    dotPopupRef={dotPopupRef}
+                    setOpenDotMenu={setOpenDotMenu}
+                    openDotMenu={openDotMenu}
+                    setOpenHidePop={setOpenHidePop}
+                    openHidePop={openHidePop}
+                    setUserMail={setUserMail}
+                    addPopup={addPopup}
+                    setAddPopup={setAddPopup}
+                    PremiseData={premiseData}
+                    premiseRefetch={premiseRefetch}
+                    notifyPopup={notifyPopup}
+                    setNotifyPopup={setNotifyPopup}
+                    is_read_only={premiseData?.is_read_only}
+                    handleCheckPremiseData={handleCheckPremiseData}
+                  />
                 </div>
               </div>
               {/* image */}
-              <div
-                className=" mx-auto h-[25.6vh] lg:h-[225px] xl:h-[270px]  w-full lg:w-[88%] lg:my-auto border border-[#eaeaea]  relative  rounded-[8px] "
-                style={{
-                  background: `${
-                    bg_img
-                      ? `url(${bg_img})`
-                      : bg_color
-                      ? bg_color
-                      : `url(${data?.backgroundImage})`
-                  }`,
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
-                  borderRadius: "8px",
-                  backgroundPosition: "center",
-                }}
-                //   style={{
-                //     background: `${
-                //       bg_color && bg_color
+              <PopupPremiseText
+                {...{ data, bg_img, bg_color, stylings, viewText, dText }}
+              />
 
-                //     }`,
-
-                //     borderRadius: "8px",
-
-                //   }}
-              >
-                {/* {bg_img &&  <img src={bg_img} alt="" className="rounded-[8px] bg-cover bg-no-repeat h-[25.6vh] lg:h-[270px]  w-full " />} */}
-                <div
-                  // className="absolute inset-0 flex items-center justify-center backdrop-blur-sm px-2 md:text-xl lg:text-xl border border-[#EAEAEA] bg-[#FAFAFA] rounded-[8px] max-w-[383px]"
-                  className={`${
-                    bg_img || bg_color !== "#FAFAFA" ? "p-[12px]" : "px-[18px] "
-                  } absolute inset-0  backdrop-blur-sm  text-[14px] rounded-[8px] overflow-hidden break-words`}
-                >
-                  {/* premise text */}
-                  {transText ? (
-                    <p
-                      className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} `}
-                    >
-                      {transText}
-                    </p>
-                  ) : (
-                    <p
-                      className={`${boldStyle} ${italicStyle} ${underlineStyle} ${hexColor} `}
-                    >
-                      {dText}
-                    </p>
-                  )}
-                </div>
-              </div>
-              <div className="hidden md:flex h-[10vh] md:h-[116px] mt-[8px]  flex-col justify-between">
+              <div className="hidden md:flex  mt-[8px]  flex-col justify-between">
                 {/* <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" /> */}
                 {/* icons */}
                 <div className="lg:ml-3 hidden lg:block py-[2px] ">
-                  <div className="notranslate flex gap-1 space-x-4 items-center px-3 ">
-                    <div className=" flex gap-2 ml-[3px]">
-                      {isLiked ? (
-                        <button>
-                          <FaThumbsUp
-                            onClick={handleDisLikeClick}
-                            className={`w-6 h-6 text-[#33B0CA]   
-                              `}
-                          />
-                        </button>
-                      ) : (
-                        <button>
-                          <FaRegThumbsUp
-                            onClick={handleLikeClick}
-                            className={`w-6 h-6 
-                              `}
-                          />
-                        </button>
-                      )}
-                      <p
-                        className={
-                          premiseData?.likes > 0
-                            ? "cursor-pointer  text-[14px] font-[500]"
-                            : "defaultCursor  text-[14px] font-[500]"
-                        }
-                        onClick={() =>
-                          premiseData?.likes > 0 && setLikePopup(true)
-                        }
-                      >
-                        {premiseData?.likes}{" "}
-                        {premiseData?.likes > 1 ? "Likes" : "Like"}
-                      </p>
-                    </div>
-                    <div className=" defaultCursor flex gap-2">
-                      <button
-                        onClick={() => {
-                          setOpenReplyField(null);
-                          setCommentField(!commentField);
-                        }}
-                      >
-                        <FaCommentDots className=" text-[24px]  " />
-                      </button>
-                      <p className=" text-[14px] font-[500]">
-                        {finalCount} {finalCount > 1 ? "Comments" : "Comment"}
-                      </p>
-                    </div>
+                  <div className=" flex gap-1 space-x-4 items-center px-3 ">
+                    {/* like */}
+                    {/* <PopupLike
+                     {...{ user, id, premiseRefetch, premiseData }} 
+                     /> */}
+
+                    <LikePremise
+                      data={{
+                        user,
+                        ...premiseData,
+                        likePopup,
+                        setLikePopup,
+                      }}
+                      refetch={premiseRefetch}
+                    />
+                    {/* comment */}
+                    <PopupComment
+                      {...{
+                        setOpenReplyField,
+                        setCommentField,
+                        commentField,
+                        finalCount,
+                      }}
+                    />
                   </div>
                 </div>{" "}
-                <div>
-                  <div className="bg-[#F8F8F8] relative flex justify-between items-stretch md:mb-[16px] pl-3 md:flex-row w-[90%] mx-auto border border-[#EAEAEA] rounded-[8px] mt-[8px]">
-                    {created_by?.id === user ? (
-                      <textarea
-                        ref={commentRef}
-                        type="text"
-                        name=""
-                        maxLength={250}
-                        id=""
-                        className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[83px] xl:h-[134px]  focus:border-none focus:outline-none text-[14px] py-[2px] pr-[55px] font-[400]"
-                        placeholder="Add a comment..."
-                        value={newComment}
-                        required
-                        onChange={handleTextareaChange}
-                        onKeyDown={(event) => {
-                          if (event.key === "Enter") {
-                            handleButtonClick();
-                            event.currentTarget.blur();
-                          }
-                        }}
-                      />
-                    ) : (
-                      <textarea
-                        ref={commentRef}
-                        type="text"
-                        name=""
-                        maxLength={150}
-                        id=""
-                        className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[83px] xl:h-[134px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[55px] font-[400]"
-                        placeholder="Add a comment..."
-                        value={newComment}
-                        required
-                        onChange={handleTextareaChange}
-                        onKeyDown={(event) => {
-                          // console.log('Key pressed:', event.key);
-                          if (event.key === "Enter") {
-                            handleButtonClick();
-                            event.currentTarget.blur();
-                          }
-                        }}
-                      />
-                    )}
-                    <div className="">
-                      {isLoading ? (
-                        <div className=" absolute top-[29%]  lg:top-[20px] xl:top-[104px] right-[20px]">
-                          <BtnLoading />
-                        </div>
-                      ) : (
-                        <button
-                          className="absolute top-[29%] lg:top-[20px] xl:top-[74px] right-[20px] md:w-[21px]"
-                          onClick={handleButtonClick}
-                        >
-                          <img
-                            src={forwardIcon}
-                            alt=""
-                            className=" w-full my-auto cursor-pointer lg:!mt-[32px]"
-                          />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
               </div>
-              <div className="hidden md:block absolute bottom-[8px] md:bottom-[2px] xl:bottom-[8px] right-[16px]">
-                {created_by?.id === user ? (
-                  <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
-                    {textCount}/250
-                  </p>
-                ) : (
-                  <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
-                    {textCount}/150
-                  </p>
-                )}
+              <div className="hidden lg:block mt-10 w-full">
+                <div className="flex gap-1 items-center w-[54%] mt-[-18px] mx-auto">
+                  <AskIda
+                    id={premiseId}
+                    source_language={premiseData?.source_language}
+                    {...{
+                      user,
+                      premiseOwner,
+                      commentRefetch,
+                      setOpenAllReplies,
+                      setOpenReplyFieldID,
+                      lastCommentRef,
+                      isLoading,
+                      setIsLoading,
+                      setNoAccessPopup,
+                      setService,
+                    }}
+                  />{" "}
+                  <h3>or,</h3>
+                </div>
+                {/* textarea */}
+                <PopupTextarea
+                  {...{
+                    premiseOwner,
+                    user,
+                    premiseId,
+                    commentRefetch,
+                    setOpenAllReplies,
+                    setOpenReplyFieldID,
+                    lastCommentRef,
+                    commentField,
+                    setCommentField,
+                    setReplyField,
+                    replyField,
+                    replyRef,
+                    isLoading,
+                    setIsLoading,
+                  }}
+                />
               </div>
             </div>
 
             {/* right div */}
             <div
               data-reply
-              className=" lg:border lg:mt-[18px] xl:mt-[32px]  bg-[#fff] lg:bg-[#fafafa] lg:shadow-lg border-[#eaeaea] w-[90%] sm:w-[68%] md:w-[70%] lg:w-[686px] xl:w-[753px] mx-auto lg:ml-0 h-[40vh] lg:h-[460px] xl:h-[563px] rounded-[8px] flex flex-col gap-[5px]"
+              className=" lg:border lg:mt-[26px] xl:mt-[32px]  bg-[#fff] lg:bg-[#fafafa] lg:shadow-lg border-[#eaeaea] w-[97%] sm:w-[68%] md:w-[88%] lg:w-[769px]  mx-auto lg:ml-0 h-[46vh] lg:h-[500px] xl:h-[546px] 2xl:h-[610px] rounded-[8px] flex flex-col gap-[5px] relative"
             >
-              <div className="w-full h-[35vh] lg:h-[auto] py-[12px] !overflow-y-auto lg:premiseScroll">
+              {/* Fixed dynamic heading */}
+              {/* <div className="fixed w-[90%] sm:w-[68%] md:w-[70%] lg:w-[769px] z-50 rounded-t-[8px] bg-[#33B0CA] py-1 text-center text-white font-bold text-[20px]">
+                {headerText}
+              </div> */}
+              <div
+                ref={lastCommentRef}
+                // ref={commentsRef}
+                className="w-full h-full lg:h-auto py-[12px] overflow-x-hidden !overflow-y-auto lg:premiseScroll "
+              >
                 {loading ? (
-                  <div className="z-[1]">
-                    <Loading />
+                  <div className="z-[1] lg:mt-[160px] xl:mt-[200px]">
+                    <TypingLoader />
                   </div>
                 ) : commentsData?.comments?.length > 0 ? (
-                  <>
-                    {commentsData?.comments?.map((comments, commentIdx) => (
-                      <motion.div
-                        initial={{ opacity: 0, y: 70 }} // Start from slightly below the final position
-                        animate={{ opacity: 1, y: 0 }} // Move to the final position
-                        exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
-                        transition={{ duration: 0.5 }} // Adjust the duration as needed
-                      >
-                        <AllComments
-                          commentIdx={commentIdx + 1}
-                          comments={comments}
-                          data={data}
-                          refetch={refetch}
-                          openReplyField={openReplyField}
-                          setOpenReplyField={setOpenReplyField}
-                          replyToCommentID={replyToCommentID}
-                          setReplyToCommentID={setReplyToCommentID}
-                          replyResStat={replyResStat}
-                          setCommentOwner={setCommentOwner}
-                          setOpenAllReplies={setOpenAllReplies}
-                          openAllReplies={openAllReplies}
-                          commentRefetch={commentRefetch}
-                          proImgUrl={proImgUrl}
-                          setReplyField={setReplyField}
-                          replyField={replyField}
-                          replyRef={replyRef}
-                          handleReplyTextChange={handleReplyTextChange}
-                          handlePostReplyToComment={handlePostReplyToComment}
-                          replyLoading={replyLoading}
-                          premiseData={premiseData}
-                          replyTextCount={replyTextCount}
-                          setReplyTextCount={setReplyTextCount}
-                          m_value={m_value}
-                        />
-                      </motion.div>
-                    ))}
-                  </>
+                  <div>
+                    {[...(commentsData?.comments || [])] // Create a shallow copy of the array to avoid modifying the original
+                      .sort((a, b) => a.c_value - b.c_value) // Sort comments by c_value in ascending order
+                      .map((comment, index) => (
+                        <motion.div
+                          key={comment.id + index}
+                          initial={{ opacity: 0, y: 70 }} // Start from slightly below the final position
+                          animate={{ opacity: 1, y: 0 }} // Move to the final position
+                          exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
+                          transition={{ duration: 0.5 }} // Adjust the duration as needed
+                        >
+                          <AllComments
+                            handleOpenAllReplies={handleOpenAllReplies}
+                            commentIdx={index + 1}
+                            comments={comment}
+                            data={data}
+                            refetch={refetch}
+                            openReplyField={openReplyField}
+                            setOpenReplyField={setOpenReplyField}
+                            replyToCommentID={replyToCommentID}
+                            setReplyToCommentID={setReplyToCommentID}
+                            replyResStat={replyResStat}
+                            setCommentOwner={setCommentOwner}
+                            setOpenAllReplies={setOpenAllReplies}
+                            openAllReplies={openAllReplies}
+                            commentRefetch={commentRefetch}
+                            proImgUrl={proImgUrl}
+                            setReplyField={setReplyField}
+                            replyField={replyField}
+                            // replyRef={replyRef}
+                            handleReplyTextChange={handleReplyTextChange}
+                            handlePostReplyToComment={handlePostReplyToComment}
+                            replyLoading={replyLoading}
+                            premiseData={premiseData}
+                            replyTextCount={replyTextCount}
+                            setReplyTextCount={setReplyTextCount}
+                            // m_value={m_value}
+                            actTwoEnd={actTwoEnd}
+                            actOneThreshold={actOneThreshold}
+                            openReplyFieldID={openReplyFieldID}
+                            setOpenReplyFieldID={setOpenReplyFieldID}
+                            project_id={project_id}
+                            iconWidth={"w-full md:w-[91%]"}
+                            inpRightMargin={"mr-[47px] md:mr-[88px]"}
+                            loading={loading}
+                            replyText={replyText}
+                            setReplyText={setReplyText}
+                            addBeatTutorialPop={addBeatTutorialPop}
+                            setAddBeatTutorialPop={setAddBeatTutorialPop}
+                          />
+                        </motion.div>
+                      ))}
+                  </div>
                 ) : commentsData?.counts > 0 &&
                   commentsData?.comments?.length === 0 ? (
                   <p className=" text-center my-4">Comments Are Private. </p>
@@ -830,102 +884,307 @@ const Popup = ({ popClose, data, refetch, transText }) => {
                 )}
               </div>
 
-              {/* comment and reply div */}
-              <div className="md:hidden h-[10vh] md:h-[116px] flex flex-col justify-between">
-                <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" />
-
-                <div className="  bg-[#F8F8F8] relative flex justify-between items-stretch md:mb-[12px] pl-3 md:flex-row w-[90%] mx-auto border border-[#EAEAEA] rounded-[8px]">
-                  {created_by?.id === user ? (
-                    <textarea
-                      ref={commentRef}
-                      type="text"
-                      name=""
-                      maxLength={250}
-                      id=""
-                      className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] w-[85%] md:w-[100%]  h-[49.27px]  lg:h-[65px]  focus:border-none focus:outline-none text-[14px] py-[2px] md:pr-[55px] font-[400]"
-                      placeholder="Add a comment..."
-                      value={newComment}
-                      required
-                      onChange={handleTextareaChange}
-                      onKeyDown={(event) => {
-                        // console.log('Key pressed:', event.key);
-                        if (event.key === "Enter") {
-                          handleButtonClick();
-                        }
+              {/* comment and reply div mobile */}
+              <div className="lg:hidden h-[10vh] md:h-[116px] flex flex-col justify-between">
+                <div className="w-[90%] mx-auto bg-[#eaeaea] h-[2px] hidden md:block" />{" "}
+                <div className="fixed bottom-[30px] left-0 w-[100%]  px-2 ">
+                  <div className="flex gap-1 items-center w-[50%] max-w-[170px] mt-[-18px] mx-auto">
+                    <AskIda
+                      id={premiseId}
+                      source_language={premiseData?.source_language}
+                      {...{
+                        user,
+                        premiseOwner,
+                        commentRefetch,
+                        setOpenAllReplies,
+                        setOpenReplyFieldID,
+                        lastCommentRef,
+                        isLoading,
+                        setIsLoading,
+                        setNoAccessPopup,
+                        setService,
                       }}
                     />
-                  ) : (
-                    <textarea
-                      ref={commentRef}
-                      type="text"
-                      name=""
-                      maxLength={150}
-                      id=""
-                      className="bg-[#F8F8F8] resize-none leading-[21px] rounded-[8px] w-[85%] md:w-[100%] h-[49.27px]  lg:h-[65px]  focus:border-none focus:outline-none text-[14px] py-[2px] md:pr-[55px] font-[400]"
-                      placeholder="Add a comment..."
-                      value={newComment}
-                      required
-                      onChange={handleTextareaChange}
-                      onKeyDown={(event) => {
-                        // console.log('Key pressed:', event.key);
-                        if (event.key === "Enter") {
-                          handleButtonClick();
-                        }
-                      }}
-                    />
-                  )}
-                  <div className="">
-                    {isLoading ? (
-                      <div className="md:w-[40px] absolute right-[16px] bottom-[50%] md:bottom-[20%] ">
-                        <BtnLoading />
-                      </div>
-                    ) : (
-                      <button
-                        className=" md:w-[21px] absolute right-[8px] md:right-[16px] bottom-[50%]"
-                        onClick={handleButtonClick}
-                        disabled={isDisabled}
-                      >
-                        <img
-                          src={forwardIcon}
-                          alt=""
-                          className=" w-full my-auto cursor-pointer lg:!mt-[32px]"
-                        />
-                      </button>
-                    )}
+                    <h3 className="text-[16px] font-[500]">or,</h3>
                   </div>
-                  <div className=" md:hidden absolute bottom-[4px] right-[2px]">
-                    {created_by?.id === user ? (
-                      <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
-                        {textCount}/250
-                      </p>
-                    ) : (
-                      <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
-                        {textCount}/150
-                      </p>
-                    )}
-                  </div>
+                  <PopupTextarea
+                    {...{
+                      premiseOwner,
+                      user,
+                      premiseId,
+                      commentRefetch,
+                      setOpenAllReplies,
+                      setOpenReplyFieldID,
+                      lastCommentRef,
+                      commentField,
+                      setCommentField,
+                      setReplyField,
+                      replyField,
+                      replyRef,
+                      setIsLoading,
+                    }}
+                  />
                 </div>
               </div>
             </div>
           </div>
+
           {isDelete && (
             <DeletePremise
               setIsDelete={setIsDelete}
               refetch={refetch}
               isDelete={isDelete}
               deleteId={project_id}
+              projectName={currentProjectName?.slice(0, 20)}
               popClose={popClose}
             />
           )}
-          {likePopup && (
-            <LikePopup setLikePopup={setLikePopup} id={premiseData?.id} />
+          {openTransOtherPop && (
+            <TransInOtherLang
+              refetch={refetch}
+              popClose={setOpenTransOtherPop}
+              id={id}
+              user={user}
+              source_language={premiseData?.source_language}
+              project_id={project_id}
+            />
           )}
           {openCharacterChart && (
-            <ViewCharacters
-              id={project_id}
+            <CharacterEditablePop
+              setCharacterEditPop={setOpenCharacterChart}
+              characterArray={characterArray}
+              currentProjectData={currentProjectData}
+              setCharacterArray={setCharacterArray}
+              onlyAdd={onlyAdd}
+              handleUpdateSavedChar={handleUpdateSavedChar}
+              // handleSaveAsDraft={handleSaveAsDraft}
+              characterLoading={isCharLoading}
+              project_id={project_id}
+              source_language={premiseData?.source_language}
               setOpenCharacterChart={setOpenCharacterChart}
             />
           )}
+          {openViewTranslationsPop && (
+            <ViewTranslationPop
+              popClose={setOpenViewTranslationsPop}
+              premiseId={viewTransactionPId}
+            />
+          )}
+          {userMail === "Yes" && (
+            <UserMail
+              recipient={premiseOwner}
+              data={{ user, id, userFirstName, userLastName }}
+              setUserMail={setUserMail}
+            />
+          )}
+          {userMail?.msg === "ShowBecomePrivilege" && (
+            <NoAccessPopUp
+              noAccessPopup={userMail}
+              setNoAccessPopup={setUserMail}
+            />
+          )}
+          {ownerMail && (
+            <OwnerMail data={{ user, id }} setOwnerMail={setOwnerMail} />
+          )}
+          {/* {openPop && (
+        <Popup
+          popClose={() => setOpenPop(false)}
+          {...{
+            handleVisibility,
+            handleMonetizing,
+            setIsLiked,
+            refetch,
+            viewText,
+          }}
+          data={popupData}
+          p={p}
+        />
+      )} */}
+          {openCharacterChart && (
+            <CharacterEditablePop
+              setCharacterEditPop={setOpenCharacterChart}
+              characterArray={characterArray}
+              currentProjectData={currentProjectData}
+              setCharacterArray={setCharacterArray}
+              onlyAdd={onlyAdd}
+              handleUpdateSavedChar={handleUpdateSavedChar}
+              handleSaveAsDraft={handleSaveAsDraft}
+              characterLoading={isCharLoading}
+              project_id={premiseData?.project_id}
+              source_language={premiseData?.source_language}
+              setOpenCharacterChart={setOpenCharacterChart}
+            />
+          )}
+          {openTransOtherPop && (
+            <TransInOtherLang
+              refetch={refetch}
+              popClose={setOpenTransOtherPop}
+              id={id}
+              user={user}
+              source_language={premiseData?.source_language}
+              project_id={project_id}
+            />
+          )}
+          {openAvailableForTranslationPop && (
+            <AvailableForTranslationPop
+              popClose={setOpenAvailableForTranslationPop}
+              id={id}
+              user={user}
+              source_language={premiseData?.source_language}
+              project_id={project_id}
+              refetch={refetch}
+            />
+          )}
+          {openViewTranslationsPop && (
+            <ViewTranslationPop
+              popClose={setOpenViewTranslationsPop}
+              premiseId={viewTransactionPId}
+              popCloseCmnt={() => setOpenPop(false)}
+              {...{
+                handleVisibility,
+                handleMonetizing,
+                // setIsLiked,
+                refetch,
+                viewText,
+              }}
+            />
+          )}
+          {openMonetizingPreferencesPop?.msg === "ShowBecomePrivilege" ? (
+            <NoAccessPopUp
+              noAccessPopup={openMonetizingPreferencesPop}
+              setNoAccessPopup={setOpenMonetizingPreferencesPop}
+            />
+          ) : openMonetizingPreferencesPop?.msg === "LB" ||
+            openMonetizingPreferencesPop?.msg ===
+              "ShowBuyPackage_and_Allacarte" ? (
+            <NoAccessLbPopUp
+              noAccessLbPopUp={openMonetizingPreferencesPop}
+              setNoAccessPopup={setOpenMonetizingPreferencesPop}
+              service="PP_Monitizes"
+            />
+          ) : (
+            openMonetizingPreferencesPop === "Yes" &&
+            premiseData && (
+              <MonetizePreferencePop
+                popClose={setOpenMonetizingPreferencesPop}
+                id={id}
+                user={user}
+              />
+            )
+          )}
+          {noAccessLbPopUp?.msg === "ShowBecomePrivilege" ? (
+            <NoAccessPopUp
+              noAccessPopup={noAccessLbPopUp}
+              setNoAccessPopup={setNoAccessLbPopUp}
+            />
+          ) : (
+            (noAccessLbPopUp?.msg === "LB" ||
+              noAccessLbPopUp?.msg === "ShowBuyPackage_and_Allacarte") && (
+              <NoAccessLbPopUp
+                noAccessLbPopup={noAccessLbPopUp}
+                setNoAccessPopup={setNoAccessLbPopUp}
+                service="PP_interactions"
+              />
+            )
+          )}
+          {translationRequestPop && (
+            <ReqTranslationPop
+              popClose={setTranslationRequestPop}
+              id={id}
+              user={user}
+              source_language={premiseData?.source_language}
+              project_id={project_id}
+            />
+          )}
+          {saleRequestPop && (
+            <ReqSalePop
+              popClose={setSaleRequestPop}
+              id={id}
+              user={user}
+              source_language={premiseData?.source_language}
+              project_id={project_id}
+            />
+          )}
+          {viewTrnRequests && (
+            <BankDetailsPop
+              // translationRequest={translationRequest}
+              popClose={setViewTrnRequests}
+              premiseId={viewTrnRequests}
+            />
+          )}
+          {viewSaleRequests && (
+            <SaleRequestedOwner
+              popClose={setViewSaleRequests}
+              setSaleIcon={setSaleRequestedOwner}
+              premiseId={id}
+            />
+          )}
+          {viewSale && (
+            <PaySalePopup
+              refetch={refetch}
+              premiseId={saleId}
+              popClose={setViewSale}
+              sellingValue={premiseData?.sellingPrice}
+              Userid={user}
+            />
+          )}
+          {addPopup === "noUserName" && (
+            <UserNamePopup {...{ refetch, setAddPopup }} />
+          )}
+
+          {noAccessPopup?.msg === "ShowBecomePrivilege" ? (
+            <NoAccessPopUp
+              noAccessPopup={noAccessPopup}
+              setNoAccessPopup={setNoAccessPopup}
+            />
+          ) : (
+            (noAccessPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
+              noAccessPopup?.msg === "LB") && (
+              <NoAccessLbPopUp
+                noAccessLbPopup={noAccessPopup}
+                setNoAccessPopup={setNoAccessPopup}
+                service={
+                  service === "PP_AllowBrainstoming"
+                    ? "PP_Brainstrom"
+                    : "PP_interactions"
+                }
+              />
+            )
+          )}
+          {notifyPopup && (
+            <NotifyPopup
+              popClose={setNotifyPopup}
+              premiseId={premiseId}
+              title={`This is currently unavailable for sale as there is a pending sale request from another User. Would you like us to notify you when this becomes available?`}
+            />
+          )}
+          {afterFinalPostPremiseDemoPop && (
+            <AfterFinalPostPremisePop
+              popClose={() => setAfterFinalPostPremiseDemoPop(false)}
+            />
+          )}
+          {addBeatTutorialPop && (
+            <AddBeatTutorialPop popClose={() => setAddBeatTutorialPop(false)} />
+          )}
+          {openPopSource && (
+            <PopupSource
+              popClose={() => setOpenPopSource(false)}
+              refetch={refetch}
+              data={sourcePopData}
+              {...{
+                handleVisibility,
+                handleMonetizing,
+              }}
+            />
+          )}
+
+          {sourcePremiseNotAvailabl && (
+            <NoPremisePop
+              popClose={() => setSourcePremiseNotAvailable(false)}
+            />
+          )}
+
+          {likePopup && <LikePopup setLikePopup={setLikePopup} id={id} />}
         </div>
       </div>
     );
