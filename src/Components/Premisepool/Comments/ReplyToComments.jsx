@@ -309,14 +309,12 @@ const ReplyToComments = ({
     <div
       data-reply
       className={`w-[99%] ${
-        fromNew ? "w-[99%]" : "lg:w-[636px] xl:w-[674px]"
-      }  ml-[5px] md:ml-[50px]  rounded-sm flex items-center gap-1`}
+        fromNew ? "w-[99%]" : "lg:w-[636px] xl:w-[726px]"
+      }   md:pl-[47px]   rounded-sm flex items-center gap-1`}
     >
-      <div className="w-full md:w-[95%] xl:w-[97%]">
+      <div className="w-full  xl:w-[97%]">
         <div
-          className={` w-[100%] relative  ${
-            fromNew ? "md:ml-[63px]" : "xl:ml-[25px] xxl:ml-[36px]"
-          }`}
+          className={` w-[100%] relative  ${fromNew ? "" : " xxl:ml-[36px]"}`}
         >
           <div
             className={`flex gap-[8px]  ${
@@ -783,7 +781,7 @@ const ReplyToComments = ({
           {childReplyField && (
             <div
               data-nest-reply
-              className="w-full md:w-[94%]  md:mr-[4px] mb-[8px] md:ml-auto"
+              className="w-full md:w-[94%]  mb-[8px] md:ml-auto"
             >
               {/* <div className={``}> */}
               <div

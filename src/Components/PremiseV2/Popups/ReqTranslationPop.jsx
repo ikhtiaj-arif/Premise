@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { toast, ToastContainer } from "react-toastify";
 import { useRequestForSaleOrTranslateMutation } from "../../../app/EndPoints/premisePoolApi";
@@ -77,14 +77,14 @@ const ReqTranslationPop = ({
     );
   }
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-screen flex items-center bg-[#252525b0] justify-center z-[21] ">
+    <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-screen   flex items-end sm:items-center bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
       {processing ? (
         <div className="w-full md:w-[400px]">
           <TypingLoader />
         </div>
       ) : (
-        <div className=" h-[74vh] xxs:h-[68vh] md:h-[450px] px-[22px] w-full bg-[#fff] md:w-[466px]  md:mx-auto relative md:rounded-[8px]">
+        <div className=" h-[74vh] xxs:h-[68vh] sm:h-[450px] px-[22px] w-full bg-[#fff] sm:w-[466px]  sm:mx-auto relative sm:rounded-[8px]">
           {/* close popup */}
           <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
             <img

@@ -317,7 +317,7 @@ const ReplyToReply = ({
               </div>
             </a>
           </div>
-          <div className="border w-full md:w-[86%] lg:w-[89%] border-[##EAEAEA] bg-[#f8f8f8] rounded-[8px] p-1 ">
+          <div className="border  w-full md:w-[86%] lg:w-[89%] border-[##EAEAEA] bg-[#f8f8f8] rounded-[8px] p-1 ">
             <div className="flex justify-between my-1 relative">
               <div className="text-[#1E1E1E] pl-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center">
                 <a
@@ -368,7 +368,7 @@ const ReplyToReply = ({
                 : replyText}
             </p>
           </div>{" "}
-          <div className="hidden  lg:flex-row justify-center gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
+          <div className="hidden lg:flex flex-row justify-center gap-1 items-center ">
             <CommentTranslator
               comment={childReply}
               translateComment={translateComment}
@@ -377,6 +377,7 @@ const ReplyToReply = ({
               setCommentText={setReplyText}
               setCommentPrefix={setReplyTextPrefix}
             />
+
             {(owner === user || replyBy?.id === user) &&
             !childReply?.reject_button ? (
               <div className="flex gap-2 items-center pl-[2px]">
@@ -390,7 +391,7 @@ const ReplyToReply = ({
                 </button>
               </div>
             ) : (
-              <div className={`px-3 'cursor-default'}`}>
+              <div className={` 'cursor-default'}`}>
                 <div className="" />
               </div>
             )}
@@ -674,7 +675,7 @@ const ReplyToReply = ({
             </div>
           </div>
 
-          {/* <div className="flex items-center justify-end gap-[4px]">
+          <div className="hidden md:flex items-center justify-end gap-[4px]">
             <div className="mt-[-4px] flex md:hidden">
               <ReplyLike
                 reply={childReply}
@@ -760,7 +761,7 @@ const ReplyToReply = ({
                 )}
               </div>
             )}
-          </div> */}
+          </div>
           <div className=" flex lg:hidden justify-center gap-1 items-center ">
             <CommentTranslator
               comment={childReply}

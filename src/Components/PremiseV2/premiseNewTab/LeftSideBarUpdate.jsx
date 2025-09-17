@@ -385,7 +385,7 @@ const LeftSideBarUpdate = ({
 
   return (
     <>
-      <div className="fixed bg-[#fff] top-[100%] z-[1] w-[96%] mx-auto lg:hidden">
+      <div className="fixed bg-[#fff] top-[100%] z-[1] w-[96%] mx-auto lgHidden">
         <NewTabTextArea
           fromNew
           premiseId={id}
@@ -618,7 +618,7 @@ const LeftSideBarUpdate = ({
               </div>
             }
             {/* ask ida desk */}
-            <div className="hidden lg:block px-3  w-full  mt-4">
+            <div className=" lgVisible px-3  w-full  mt-4">
               <NewTabTextArea
                 fromNew
                 premiseId={id}

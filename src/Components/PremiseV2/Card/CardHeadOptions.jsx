@@ -259,7 +259,7 @@ const CardHeadOptions = ({
             {openDotMenu === id && (
               <div
                 ref={dotPopupRef}
-                className="absolute flex flex-col w-[197px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[3px] py-[8px] z-10"
+                className="fixed sm:absolute w-[197px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea]  right-[12px] top-[46px] sm:top-[25px] sm:right-[3px]  py-[8px] z-50"
               >
                 <button
                   disabled={is_read_only}

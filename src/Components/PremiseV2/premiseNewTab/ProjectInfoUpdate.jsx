@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import newTabDoodle from "../../../img/new-tab-doodle.webp";
+import LikePopup from "../../Premisepool/LikePopup";
 import LikePremise from "../../Premisepool/LikePremise";
 import TranslatePremiseNewTab from "../../Premisepool/TranslatePremiseNewTab";
 import PopupComment from "../../SharedVersion/PopupComment";
@@ -9,7 +10,6 @@ import {
   getTextFromValue,
 } from "../utilityFuncitons/functions";
 import PremiseTopAccess from "./PremiseTopAccess";
-import LikePopup from "../../Premisepool/LikePopup";
 
 const ProjectInfoUpdate = ({
   premiseData,
@@ -59,7 +59,7 @@ const ProjectInfoUpdate = ({
           </div>
         </div>
         <div className="lg:flex items-center justify-between gap-12">
-          <h3 className="text-[12px] leading-4 xl:text-[14px]  text-[#252525] xl:leading-[21px] font-normal w-[100%] md:w-[70%] lg:w-[67%]">
+          <h3 className="text-[12px] leading-4 xl:text-[14px]  text-[#252525] xl:leading-[21px] font-normal w-[100%] md:w-[70%] lg:w-[63%] xl:w-[67%]">
             <span
               className="text-[#252525] font-bold notranslate"
               data-te-toggle="tooltip"
@@ -78,7 +78,7 @@ const ProjectInfoUpdate = ({
             <span className="font-bold">{viewText}</span>
           </h3>
           <div>
-            <div className="hidden lg:flex justify-between items-center mt-[14px] rounded-b-[8px] pl-1 pr-4 pb-2 pt-1 lg:w-[300px]">
+            <div className="hidden lgVisible lg:flex justify-between items-center mt-[14px] rounded-b-[8px] pl-1 pr-4 pb-2 pt-1 lg:w-full ">
               {/* 1st div */}
               <div className="flex gap-1 space-x-4 items-center">
                 {/* like */}
@@ -181,7 +181,7 @@ const ProjectInfoUpdate = ({
           />
         </div>
       </div>
-      
+
       {likePopup && <LikePopup setLikePopup={setLikePopup} id={id} />}
     </div>
   );

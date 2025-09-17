@@ -659,7 +659,7 @@ const BeatEditPop = ({
     //   <ProjectNotfound setProjectNotFound={setProjectNotFound}/> // Conditionally render ProjectNotFound component
     // ) :(
     <>
-      <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-screen flex  items-center bg-[#252525b0] justify-center z-[999] ">
+      <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-screen mt-[56px] flex  items-center bg-[#252525b0] justify-center z-[999] ">
         {beatSuggestLoading ? (
           <div className="h-auto w-full lg:w-[40%] xl:w-[35%]">
             <TypingLoader />
@@ -686,16 +686,16 @@ const BeatEditPop = ({
                 >
                   {!beatPostLoading && (
                     <button
-                      className="absolute left-0 md:left-4 top-0 xl:hidden "
+                      className="absolute left-0 md:left-6 top-0 lg:hidden "
                       onClick={() => {
                         popClose();
                         commentRefetch();
                       }}
                     >
-                      <MdKeyboardBackspace className="text-[#252525] ml-3 text-left text-[32px] cursor-pointer mdHidden" />
+                      <MdKeyboardBackspace className="text-[#252525] ml-3 text-left text-[32px] cursor-pointer " />
                     </button>
                   )}
-                  <div className="relative text-right hidden xl:flex justify-end h-0 ">
+                  <div className="relative text-right hidden lg:flex justify-end h-0 ">
                     {!beatPostLoading && (
                       <img
                         src={crossIcon}

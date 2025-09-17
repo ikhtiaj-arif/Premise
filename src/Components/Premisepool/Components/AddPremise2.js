@@ -142,13 +142,13 @@ const AddPremise2 = ({
         <div
           className={`bg-[#ffffff] lg:bg-[#FAFAFA] w-full ${
             !preview
-              ? "md:w-[450px] md:h-auto"
+              ? " h-[93vh] pt-[18px]  md:w-[450px] md:h-auto"
               : `md:w-[646px] ${
                   isLoading
                     ? "h-[120px]"
-                    : " h-[91vh] md:h-auto md:max-h-[81vh]"
+                    : " h-[93vh] pt-[18px] md:h-auto md:max-h-[81vh]"
                 }`
-          } mx-auto pt-[18px] md:rounded-[8px] shadow-lg h-[100vh overflow-y-auto  overflow-x-hidden`}
+          } mx-auto md:rounded-[8px] shadow-lg h-[100vh] overflow-y-auto  overflow-x-hidden`}
         >
           {!isLoading && !finalEdit && (
             <img
@@ -161,12 +161,14 @@ const AddPremise2 = ({
 
           <div className="">
             <div className="pr-2">
-              <div className="text-center flex items-center mx-auto mt-[-12px] mb-2 xl:mt-0">
+              <div className="text-center flex items-center mx-auto  mb-2 xl:mt-0">
                 {!isLoading && !finalEdit && (
                   <MdKeyboardBackspace
                     src={crossIcon}
                     alt=""
-                    className="text-[#252525] ml-[20px] text-left text-[32px] cursor-pointer mdHidden"
+                    className={`text-[#252525]  ml-[20px] text-left text-[32px] cursor-pointer mdHidden ${
+                      preview && "mt-3"
+                    }`}
                     onClick={() => {
                       setAddPopup(null);
                       setOpenPop(false);
@@ -175,11 +177,19 @@ const AddPremise2 = ({
                     }}
                   />
                 )}
-                <p className="text-[16px] leading-[23px] w-full  text-center  font-[500] text-[#252525]">
-                  {!preview
-                    ? "Describe your Imagination In Any Language"
-                    : <span className="md:hidden">Preview your Imagination</span>}
-                </p>
+                {!isLoading && (
+                  <>
+                    {!preview ? (
+                      <p className="text-[16px] leading-[23px] w-[88%]  mx-auto text-center  font-[500] text-[#252525] pt-4">
+                        Describe your Imagination In Any Language
+                      </p>
+                    ) : (
+                      <p className="block text-[16px] pt-4 leading-[23px] text-center mx-auto font-[500] text-[#252525]">
+                        Preview your Imagination
+                      </p>
+                    )}
+                  </>
+                )}
               </div>
               <div className="text-right flex justify-end"></div>
             </div>

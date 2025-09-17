@@ -379,7 +379,7 @@ const ReplyToReply2 = ({
                 : replyText}
             </p>
           </div>{" "}
-          <div className="hidden lg:flex-row justify-center gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
+          <div className="hidden lg:flex flex-row justify-center gap-1 items-center ">
             <CommentTranslator
               comment={childReply}
               translateComment={translateComment}
@@ -795,6 +795,7 @@ const ReplyToReply2 = ({
                     user={user}
                     replyRefetch={replyRefetch}
                     depth={depth + 1} // Increment the depth
+                    handleRejectReply={handleRejectReply}
                   />
                 )
             )}

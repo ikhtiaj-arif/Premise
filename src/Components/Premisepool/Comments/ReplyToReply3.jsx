@@ -33,6 +33,7 @@ const ReplyToReply3 = ({
   reply,
   replyToCommentID,
   commentIdx,
+  handleRejectReply,
 }) => {
   const replyBy = childReply?.user;
 
@@ -269,7 +270,8 @@ const ReplyToReply3 = ({
               setCommentText={setReplyText}
               setCommentPrefix={setReplyTextPrefix}
             />
-            {owner === user || replyBy?.id === user ? (
+            {(owner === user || replyBy?.id === user) &&
+            !childReply?.reject_button ? (
               <div className="flex gap-2 items-center pl-[2px]">
                 <button
                   // data-reply-reply
@@ -351,39 +353,54 @@ const ReplyToReply3 = ({
               </div> */}
             </>
           </div>
+
           <div className=" flex md:hidden">
             <ReplyLike reply={childReply} {...{ setLikePopup, replyRefetch }} />
           </div>
 
-          {childReply?.add_to_beat ? (
-            <>
-              {(owner === user || childReply?.user?.id === user) && (
-                <button className="w-[48%] cursor-auto md:w-[22%]">
-                  <p className="text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] ">
-                    Added as Beat
+          <div className="flex gap-[4px] items-center mt-[2px] justify-end">
+            {childReply?.reject_button &&
+              (owner === user || childReply?.user?.id === user) && (
+                <button className=" cursor-auto w-[60px]">
+                  <p
+                    onClick={() => handleRejectReply(childReply?.id)}
+                    className="text-[12px] bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400] leading-[14.52px] "
+                  >
+                    Reject
                   </p>
                 </button>
               )}
-            </>
-          ) : (
-            <>
-              {(owner === user || childReply?.user?.id === owner) &&
-                ![1, 2, 3].includes(commentIdx) && (
-                  <button
-                    onClick={() => {
-                      handleAddToBeat(childReply);
-                      setBeatCommentText(childReply?.text);
-                      replyRefetch();
-                    }}
-                    className="w-[30%] md:w-[22%]"
-                  >
-                    <p className="text-[12px] text-[#008000] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
-                      Add as Beat
+
+            {childReply?.add_to_beat ? (
+              <>
+                {(owner === user || childReply?.user?.id === user) && (
+                  <button className="cursor-auto ">
+                    <p className="text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] ">
+                      Added as Beat
                     </p>
                   </button>
                 )}
-            </>
-          )}
+              </>
+            ) : (
+              <>
+                {(owner === user || childReply?.user?.id === owner) &&
+                  ![1, 2, 3].includes(commentIdx) && (
+                    <button
+                      onClick={() => {
+                        handleAddToBeat(childReply);
+                        setBeatCommentText(childReply?.text);
+                        replyRefetch();
+                      }}
+                      className=""
+                    >
+                      <p className="text-[12px] text-[#008000] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
+                        Add as Beat
+                      </p>
+                    </button>
+                  )}
+              </>
+            )}
+          </div>
         </div>
 
         {openDltPop && (

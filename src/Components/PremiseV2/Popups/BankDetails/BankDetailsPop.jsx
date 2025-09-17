@@ -105,15 +105,15 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
   if (isTransLoading || isTransLoading) return <TypingLoader />;
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
+    <div className="fixed top-0 left-0 w-full h-full flex items-end sm:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
       <div
-        className={`h-[70vh] ${
-          showBankDetails ? " lg:h-[497px]" : " lg:h-[734px] max-h-[80vh]"
+        className={`h-[80vh] ${
+          showBankDetails ? " sm:h-[497px]" : " sm:h-[734px] max-h-[80vh]"
         } mb-[20px] px-[22px] lg:mb-0 pt-2 md:pt-8 lg:mt-[80px] xl:mt-[85px] w-full bg-[#fff] max-w-[625px]  mx-auto relative rounded-[8px] pb-3 `}
       >
         {/* close popup */}
-        <div className="absolute top-[-76px] lg:top-[-12px] right-[45%] ml-4 lg:ml-0 lg:right-[-15px]">
+        <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 lg:ml-0 sm:right-[-15px]">
           <img
             src={crossIcon}
             alt=""
@@ -141,7 +141,7 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
         </h2>
         <div className="h-[1px] mt-[8px] w-[52%] mx-auto bg-[#a1a1a1]" />
 
-        <div className="overflow-x-hidden overflow-y-auto h-[calc(100%-125px)]">
+        <div className="overflow-x-hidden overflow-y-auto  h-[calc(70vh-175px)] sm:h-[calc(70vh-75px)]">
           {!showBankDetails ? (
             <div className="pr-[12px] mt-[17px] w-[90%] mx-auto max-w-[542px]  md:ml-[40px]">
               <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">

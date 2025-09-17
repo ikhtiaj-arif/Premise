@@ -553,7 +553,7 @@ const Popup = ({
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
         <ToastContainer />
-        <div className=" h-[100vh] lg:h-auto   mb-[20px] lg:mb-0 2xl:h-[673px]  xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1090px] xl:w-[1220px] md:mx-auto relative lg:rounded-[8px] ">
+        <div className=" h-[100vh] lg:h-auto mb-[20px] lg:mb-0 2xl:h-[673px] lg:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1090px] xl:w-[1220px] md:mx-auto relative lg:rounded-[8px] ">
           {/* close popup */}
           <img
             src={crossIcon}
@@ -827,7 +827,7 @@ const Popup = ({
               <div
                 ref={lastCommentRef}
                 // ref={commentsRef}
-                className="flex-1 overflow-y-auto  px-2 pt-3 pb-12"
+                className="flex-1 overflow-y-auto px-2 pt-3 pb-12"
               >
                 {loading ? (
                   <div className="z-[1] lg:mt-[160px] xl:mt-[200px]">

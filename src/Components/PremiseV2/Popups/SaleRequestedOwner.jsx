@@ -143,7 +143,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-end md:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
+    <div className="fixed top-0 left-0 w-full h-full flex items-end sm:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
       <ToastContainer />
 
       <div
@@ -151,9 +151,9 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
           showCongratsPopup
             ? "lg:h-auto "
             : showBankDetails
-            ? " lg:h-[497px]"
-            : "lg:h-[670px] max-h-[86vh]"
-        } mb-[20px] px-[22px] lg:mb-0 pt-2 lg:mt-[80px] xl:mt-[85px] w-full bg-[#fff] lg:w-[625px] md:mx-auto relative lg:rounded-[8px]`}
+            ? " sm:h-[497px]"
+            : "sm:h-[670px] max-h-[86vh]"
+        } mb-[20px] px-[22px] lg:mb-0 pt-2 lg:mt-[80px] xl:mt-[85px] w-full bg-[#fff] sm:w-[625px] md:mx-auto relative sm:rounded-[8px]`}
       >
         <div className="absolute top-[-56px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
           <img
@@ -165,7 +165,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
         </div>
         {!showCongratsPopup && (
           <>
-            <div className="hidden md:block">
+            <div className="hidden sm:block">
               <div className="mx-auto w-[116px]">
                 <img
                   src={SaleDoodle}
@@ -178,7 +178,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
               </h2>
               <div className="h-[1px] mt-[8px] w-[52%] mx-auto bg-[#a1a1a1]" />
             </div>
-            <div className="md:hidden flex gap-2 justify-start w-3/4">
+            <div className="sm:hidden flex gap-2 justify-start w-3/4">
               <div className="mx-auto w-[64px]">
                 <img
                   src={SaleDoodle}
@@ -197,7 +197,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
         )}
         <div className="overflow-x-hidden overflow-y-auto h-[calc(100%-125px)]">
           {!showBankDetails ? (
-            <div className="md:pr-[12px] mt-2 md:mt-[17px] w-full sm:w-[542px] md:ml-[40px]">
+            <div className="sm:pr-[12px] sm:pl-4 mt-2 md:mt-[17px] w-full sm:w-[542px] md:ml-[40px]">
               <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
                 {fromUser?.first_name
                   ? `${fromUser.first_name} ${fromUser?.last_name || ""}`

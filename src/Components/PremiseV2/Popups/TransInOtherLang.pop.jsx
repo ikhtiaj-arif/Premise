@@ -64,13 +64,13 @@ const TransInOtherLang = ({
   };
 
   return (
-    <div className="fixed top-0 left-0 bottom-0 right-0 w-full h-screen flex items-center bg-[#252525b0] justify-center z-[21]">
+    <div className="fixed top-0 left-0 bottom-0 right-0 w-full h-screen flex items-end sm:items-center bg-[#252525b0] justify-center z-[21]">
       <ToastContainer />
-      <div className="h-[536px] px-[22px] w-full sm:w-[90%] bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[530px]  md:mx-auto rounded-[8px]">
+      <div className="h-[91vh] pt-2 sm:h-[476px] px-[22px] mt-[100px] w-full sm:w-[90%] bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[530px]  md:mx-auto rounded-[8px]">
         <div className=" relative">
           {/* close popup */}
           {/* close popup */}
-          <div className="hidden lg:block absolute top-[-30px] right-[-30px] ml-4 ">
+          <div className="hidden sm:block absolute top-[-24px] right-[-40px] ml-4 ">
             <img
               src={crossIcon}
               alt=""
@@ -78,16 +78,18 @@ const TransInOtherLang = ({
               onClick={() => popClose(null)}
             />
           </div>
-          <div className="lg:hidden ">
-            <MdKeyboardBackspace
-              alt=""
-              className="text-[#252525] text-left text-[32px] cursor-pointer "
-              onClick={() => popClose(null)}
-            />
+          <div className="flex items-center gap-1">
+            <div className="sm:hidden ">
+              <MdKeyboardBackspace
+                alt=""
+                className="text-[#252525] text-left text-[32px] cursor-pointer "
+                onClick={() => popClose(null)}
+              />
+            </div>
+            <h2 className="font-[600] text-[16px] leading-[19.9px] text-center mt-[18px]">
+              Translate the Premise Project in another Language
+            </h2>
           </div>
-          <h2 className="font-[600] text-[16px] leading-[19.9px] text-center mt-[18px]">
-            Translate the Premise Project in another Language
-          </h2>
           <div className="h-[1px] mt-[8px] w-full mx-auto bg-[#a1a1a1]" />
           <div className=" h-[300px] overflow-y-auto lg:h-full lg:overflow-y-hidden">
             <p className="text-center text-[14px] leading-[14.5px] font-[400] my-[12px] text-[#616161] w-[80%] mx-auto">
@@ -183,7 +185,7 @@ const TransInOtherLang = ({
               <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
             </div>
           </div>
-          <div className="w-[100px] mx-auto py-[12px]">
+          <div className="w-[110px] mx-auto py-[12px]">
             {targetLanguage ? (
               <button
                 onClick={handlePayNow}

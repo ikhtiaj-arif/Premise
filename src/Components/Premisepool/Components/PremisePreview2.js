@@ -8,7 +8,9 @@ import {
   FaRegTrashAlt,
   FaUnderline,
 } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa6";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { MdKeyboardBackspace } from "react-icons/md";
 import { PiTextAUnderlineBold } from "react-icons/pi";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
@@ -41,14 +43,13 @@ import PreviewPremiseTutorialPop from "../../PremiseV2/sequalPopup/PreviewPremis
 import ProposedCharDemoPop from "../../PremiseV2/sequalPopup/ProposedCharDemoPop";
 import PreviewNextDemoPop from "../../PremiseV2/sequalPopup/singlePop/PreviewNextDemoPop";
 import TypingLoader from "../../TypingLoader";
-import { baseURL, genera, NProjectOpt, subGenraItems } from "../../utils";
+import { baseURL } from "../../utils";
 import CharacterEditablePop from "../Character/CharacterEditablePop";
-import { options, sortedLanguages } from "../Languages";
+import { sortedLanguages } from "../Languages";
 import LanguageSelector from "../LanguageSelector";
 import Popup from "../Popup";
 import { hideUnhidePremise } from "../PreiseUtils";
 import PremisePreviewKeyboard from "./PremisePreviewKeyboard";
-import { FaArrowLeft } from "react-icons/fa6";
 
 const PremisePreview2 = ({
   newText,
@@ -1572,9 +1573,7 @@ const PremisePreview2 = ({
                 </button>
               </div>
             </div>
-            <p className="hidden md:block text-[17px] text-center mx-auto font-[500] text-[#252525]">
-              Preview your Imagination
-            </p>
+
             {/* editor content */}
             <div className="flex gap-3 items-center relative">
               <div data-te-toggle="tooltip" title="Bold">
@@ -1731,10 +1730,17 @@ const PremisePreview2 = ({
           </div>
         ) : (
           <div>
-            {" "}
-            <p className="hidden md:block text-[17px] text-center mx-auto font-[500] text-[#252525] ">
+            {!charSaveDisable && (
+              <MdKeyboardBackspace
+                alt=""
+                className={`text-[#252525] absolute top-8 left-0  ml-[20px] text-left text-[32px] cursor-pointer mdHidden  "mt-3"
+                                }`}
+                onClick={handleEditProposedCharacters}
+              />
+            )}{" "}
+            {/* <p className="hidden md:block text-[17px] text-center mx-auto font-[500] text-[#252525] ">
               Preview your Imagination
-            </p>
+            </p> */}
           </div>
         )}
         {/* center */}
@@ -3181,7 +3187,7 @@ const PremisePreview2 = ({
             </div>
             {/* button part */}
             {!finalEdit ? (
-              <div className="lg:bg-[#FAFAFA] sticky right-0 bottom-5 flex justify-end py-1 text-center  mx-[28px] mt-[12px] mb-[10px]">
+              <div className="lg:bg-[#FAFAFA] sticky right-0 bottom-6 sm:bottom-0 flex justify-end py-1 text-center  mx-[28px] mt-[12px] mb-[10px]">
                 <button
                   disabled={isLoading}
                   className={`${

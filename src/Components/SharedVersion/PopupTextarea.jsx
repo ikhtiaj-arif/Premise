@@ -313,9 +313,9 @@ const PopupTextarea = ({
         </div>
       </div>
       <div
-        className={` absolute bottom-[-16px]  ${
+        className={` absolute bottom-[-16px] md:bottom-[-2px]  lg:bottom-[-16px] right-[12px] md:right-[47px] lg:right-[28px] ${
           fromNew ? "" : " right-[26px]"
-        } right-[12px]`}
+        } `}
       >
         {premiseOwner?.id === user ? (
           <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
