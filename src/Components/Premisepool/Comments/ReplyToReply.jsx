@@ -248,8 +248,6 @@ const ReplyToReply = ({
   //   return text;
   // };
   const formatText = (text, prefix) => {
-    console.log("prefix", prefix);
-
     if (prefix) {
       // If there's a prefix, make it bold and show at the front
       return (
@@ -512,6 +510,19 @@ const ReplyToReply = ({
                 {...{ setLikePopup, replyRefetch }}
               />
             </>
+            <>
+              {childReply?.reject_button &&
+                (owner === user || childReply?.user?.id === user) && (
+                  <button className=" cursor-auto w-[60px]">
+                    <p
+                      onClick={() => handleRejectReply(childReply?.id)}
+                      className=" text-[14px]  bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400]   leading-[16.52px]    "
+                    >
+                      Reject
+                    </p>
+                  </button>
+                )}
+            </>
           </div>
           <div className="md:hidden flex items-center gap-3 text-sm leading-[16px] mt-[2px] mb-[4px]">
             <>
@@ -629,14 +640,14 @@ const ReplyToReply = ({
                     <button className=" cursor-auto w-[60px]">
                       <p
                         onClick={() => handleRejectReply(childReply?.id)}
-                        className="text-[12px] bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400] leading-[14.52px] "
+                        className=" text-[14px]  bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400]   leading-[16.52px]"
                       >
                         Reject
                       </p>
                     </button>
                   )}
               </>
-              {!(
+              {/* {!(
                 childReply?.text?.includes("?") ||
                 childReply?.text?.includes("؟")
               ) && (
@@ -663,7 +674,7 @@ const ReplyToReply = ({
                             }}
                             className=" w-[74px]"
                           >
-                            <p className="text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
+                            <p className="text-[12px] text-[#008000] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
                               Add as Beat
                             </p>
                           </button>
@@ -671,7 +682,7 @@ const ReplyToReply = ({
                     </>
                   )}
                 </div>
-              )}
+              )} */}
             </div>
           </div>
 
@@ -713,7 +724,7 @@ const ReplyToReply = ({
                   </>
                 )}
             </div>
-            <>
+            {/* <>
               {childReply?.reject_button &&
                 (owner === user || childReply?.user?.id === user) && (
                   <button className=" cursor-auto w-[60px]">
@@ -725,7 +736,9 @@ const ReplyToReply = ({
                     </p>
                   </button>
                 )}
-            </>
+            </> */}
+          </div>
+          <div className=" flex  justify-center gap-2 items-center ">
             {!(
               childReply?.text?.includes("?") || childReply?.text?.includes("؟")
             ) && (
@@ -752,7 +765,7 @@ const ReplyToReply = ({
                           }}
                           className=" w-[74px]"
                         >
-                          <p className="text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
+                          <p className="text-[12px] text-[#008000] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
                             Add as Beat
                           </p>
                         </button>
@@ -761,31 +774,32 @@ const ReplyToReply = ({
                 )}
               </div>
             )}
-          </div>
-          <div className=" flex lg:hidden justify-center gap-1 items-center ">
-            <CommentTranslator
-              comment={childReply}
-              translateComment={translateComment}
-              loading={isTranslationCommentLoading}
-              commentRefetch={replyRefetch}
-              setCommentText={setReplyText}
-              setCommentPrefix={setReplyTextPrefix}
-            />
-            {(owner === user || replyBy?.id === user) &&
-            !childReply?.reject_button ? (
-              <div className="flex gap-2 items-center pl-[2px]">
-                <button
-                  onClick={() => {
-                    setIdToDlt(currentReplyId);
-                    setOpenDltPop(true);
-                  }}
-                >
-                  <FaRegTrashAlt className="h-5 w-5 text-[#909090]" />
-                </button>
-              </div>
-            ) : (
-              <></>
-            )}
+            <div className="lg:hidden flex items-center gap-1">
+              {" "}
+              <CommentTranslator
+                comment={childReply}
+                translateComment={translateComment}
+                loading={isTranslationCommentLoading}
+                commentRefetch={replyRefetch}
+                setCommentText={setReplyText}
+                setCommentPrefix={setReplyTextPrefix}
+              />
+              {(owner === user || replyBy?.id === user) &&
+              !childReply?.reject_button ? (
+                <div className="flex gap-2 items-center pl-[2px]">
+                  <button
+                    onClick={() => {
+                      setIdToDlt(currentReplyId);
+                      setOpenDltPop(true);
+                    }}
+                  >
+                    <FaRegTrashAlt className="h-5 w-5 text-[#909090]" />
+                  </button>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
         </div>
 

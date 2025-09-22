@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { MyContext } from "../../../App";
 import {
   useGetOnePremiseQuery,
@@ -134,7 +134,7 @@ const AvailableForTranslationPop = ({
 
   return (
     <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-full flex items-center  bg-[#252525b0] justify-center z-[21] ">
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <div className=" h-[40vh] lg:h-[250px] px-[22px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[461px]  md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
         <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
@@ -194,7 +194,6 @@ const AvailableForTranslationPop = ({
           </button>
         </div>
       </div>
-
       {isPayment && (
         <PaymentInvoicePopup
           typeOfRequest="translate"
@@ -204,7 +203,6 @@ const AvailableForTranslationPop = ({
           submit={handleTranslationSubmit}
         />
       )}
-
       {openPop && translatedPremise && (
         <Popup
           popClose={() => {

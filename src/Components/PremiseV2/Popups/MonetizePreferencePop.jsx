@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import {
   useEditPremiseMutation,
   useGetOnePremiseQuery,
@@ -93,7 +93,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
   };
   return (
     <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-screen flex items-end sm:items-center  bg-[#252525b0] justify-center z-[21]">
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <div className="px-[22px] pb-16 sm:pb-4 bg-white rounded-[8px] w-[100%] sm:w-[623px]">
         {/* close popup */}
         <div className="relative">

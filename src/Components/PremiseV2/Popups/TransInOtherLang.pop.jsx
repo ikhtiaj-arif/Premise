@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { MdKeyboardBackspace } from "react-icons/md";
-import { ToastContainer } from "react-toastify";
 import { MyContext } from "../../../App";
 import {
   useGetOnePremiseQuery,
@@ -65,8 +64,8 @@ const TransInOtherLang = ({
 
   return (
     <div className="fixed top-0 left-0 bottom-0 right-0 w-full h-screen flex items-end sm:items-center bg-[#252525b0] justify-center z-[21]">
-      <ToastContainer />
-      <div className="h-[91vh] pt-2 sm:h-[476px] px-[22px] mt-[100px] w-full sm:w-[90%] bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[530px]  md:mx-auto rounded-[8px]">
+      {/* <ToastContainer /> */}
+      <div className="h-[91vh] pt-2 sm:h-[476px] px-[22px] mt-[60px] xl:mt-[100px] w-full sm:w-[90%] bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[530px]  md:mx-auto rounded-[8px]">
         <div className=" relative">
           {/* close popup */}
           {/* close popup */}
@@ -203,7 +202,6 @@ const TransInOtherLang = ({
           </div>
         </div>
       </div>
-
       {isPayment && (
         <PaymentInvoicePopup
           refetch={refetch}

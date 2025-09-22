@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import {
   useGetBankDetailsQuery,
   useGetOnePremiseQuery,
@@ -106,7 +106,7 @@ const BankDetailsPop = ({ popClose, premiseId, user }) => {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-end sm:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <div
         className={`h-[80vh] ${
           showBankDetails ? " sm:h-[497px]" : " sm:h-[734px] max-h-[80vh]"

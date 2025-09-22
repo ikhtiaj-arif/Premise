@@ -159,8 +159,6 @@ const ReplyToReply3 = ({
   };
 
   const formatText = (text, prefix) => {
-    console.log("prefix", prefix);
-
     if (prefix) {
       return (
         <>
@@ -261,7 +259,7 @@ const ReplyToReply3 = ({
                 : replyText}
             </p>
           </div>{" "}
-          <div className="  flex flex-col lg:flex-row justify-center gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
+          <div className=" hidden lg:flex  flex-row justify-center gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
             <CommentTranslator
               comment={childReply}
               translateComment={translateComment}
@@ -295,38 +293,28 @@ const ReplyToReply3 = ({
           </div>
         </div>
         <div
-          className={`flex justify-between w-[86%] mr-[24px]  ml-auto ${
+          className={`flex justify-between w-full md:w-[86%] mr-[24px]  ml-auto ${
             fromNew ? " md:mr-[51px]" : " md:mr-[29px]"
           }`}
         >
           <div className="md:flex hidden ml-[30px] md:ml-0 gap-3 leading-[16px] mt-[2px] mb-[4px]">
             <>
-              {/* <div>
-                {
-                  <button
-                    onClick={() => setChildReplyField(!childReplyField)}
-                    className="flex items-center gap-1 "
-                  >
-                    <IoIosUndo
-                      className={`${
-                        childReplyField ? "text-[#33B0CA]" : "text-[#252525]"
-                      } text-[14px]`}
-                    />
-                    <p
-                      className={`text-[12px] ${
-                        childReplyField ? "text-[#33B0CA]" : "text-[#252525]"
-                      } font-[400]  cursor-pointer`}
-                    >
-                      Reply
-                    </p>
-                  </button>
-                }
-              </div> */}
               <ReplyLike
                 reply={childReply}
                 {...{ setLikePopup, replyRefetch }}
               />
             </>
+            {childReply?.reject_button &&
+              (owner === user || childReply?.user?.id === user) && (
+                <button className=" cursor-auto w-[60px]">
+                  <p
+                    onClick={() => handleRejectReply(childReply?.id)}
+                    className=" text-[14px]  bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400]   leading-[16.52px]   "
+                  >
+                    Reject
+                  </p>
+                </button>
+              )}
           </div>
           <div className="md:hidden flex ml-[30px] md:ml-0 gap-3">
             <>
@@ -354,23 +342,22 @@ const ReplyToReply3 = ({
             </>
           </div>
 
-          <div className=" flex md:hidden">
+          <div className=" flex md:hidden gap-1">
             <ReplyLike reply={childReply} {...{ setLikePopup, replyRefetch }} />
-          </div>
-
-          <div className="flex gap-[4px] items-center mt-[2px] justify-end">
             {childReply?.reject_button &&
               (owner === user || childReply?.user?.id === user) && (
                 <button className=" cursor-auto w-[60px]">
                   <p
                     onClick={() => handleRejectReply(childReply?.id)}
-                    className="text-[12px] bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400] leading-[14.52px] "
+                    className=" text-[14px]  bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400]   leading-[16.52px]   "
                   >
                     Reject
                   </p>
                 </button>
               )}
+          </div>
 
+          <div className="flex gap-2 items-center mt-[2px] justify-end">
             {childReply?.add_to_beat ? (
               <>
                 {(owner === user || childReply?.user?.id === user) && (
@@ -400,6 +387,38 @@ const ReplyToReply3 = ({
                   )}
               </>
             )}
+            <div className="  flex flex-row justify-center gap-1 items-center">
+              <CommentTranslator
+                comment={childReply}
+                translateComment={translateComment}
+                loading={isTranslationCommentLoading}
+                commentRefetch={replyRefetch}
+                setCommentText={setReplyText}
+                setCommentPrefix={setReplyTextPrefix}
+              />
+              {(owner === user || replyBy?.id === user) &&
+              !childReply?.reject_button ? (
+                <div className="flex gap-2 items-center pl-[2px]">
+                  <button
+                    // data-reply-reply
+                    // disabled={disableD}
+                    onClick={() => {
+                      setIdToDlt(childReply?.id);
+                      setOpenDltPop(true);
+                    }}
+                  >
+                    <FaRegTrashAlt
+                      //   disabled={disableBtn}
+                      className="h-5 w-5 text-[#909090]"
+                    />
+                  </button>
+                </div>
+              ) : (
+                <div className={`px-3 'cursor-default'}`}>
+                  <div className="" />
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

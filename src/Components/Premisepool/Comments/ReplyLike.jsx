@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaThumbsDown, FaThumbsUp } from "react-icons/fa";
-import { useUpdateLikeOfReplyMutation } from "../../../app/EndPoints/commentReply/reply";
 import { MyContext } from "../../../App";
+import { useUpdateLikeOfReplyMutation } from "../../../app/EndPoints/commentReply/reply";
 import { useDislikeCommentReplyMutation } from "../../../app/EndPoints/premisePoolApi";
 
 const ReplyLike = ({ reply, setLikePopup, replyRefetch }) => {
@@ -11,11 +11,11 @@ const ReplyLike = ({ reply, setLikePopup, replyRefetch }) => {
     useDislikeCommentReplyMutation();
 
   const [isReplyLiked, setIsReplyLiked] = useState(false);
+  const [likeReplyId, setLikeReplyId] = useState("");
   const [isDisReplyLiked, setIsDisReplyLiked] = useState(false);
 
   useEffect(() => {
     const replyLikes = reply?.likes?.map((e) => e);
-    //console.log('replyLikes', replyLikes);
     if (replyLikes?.includes(currentUser?.id)) {
       setIsReplyLiked(true);
     } else {
@@ -23,9 +23,9 @@ const ReplyLike = ({ reply, setLikePopup, replyRefetch }) => {
     }
   }, [currentUser, reply, replyRefetch]);
 
+  // console.log("state Id", likeReplyId);
   useEffect(() => {
     const replyLikes = reply?.dislikes?.map((e) => e);
-    //console.log('replyLikes', replyLikes);
     if (replyLikes?.includes(currentUser?.id)) {
       setIsDisReplyLiked(true);
     } else {
@@ -34,10 +34,12 @@ const ReplyLike = ({ reply, setLikePopup, replyRefetch }) => {
   }, [currentUser, reply, replyRefetch]);
 
   const handleLikeUnlikeReply = async (id, tag) => {
-    const res = (await tag) === "like" ? likeReply(id) : dislikeReply(id);
-    replyRefetch();
     
+
+    const res = (await tag) === "like" ? likeReply(id) : dislikeReply(id);
+    if (res) replyRefetch();
   };
+
   return (
     <div className=" flex gap-2 items-center">
       {/* like */}
@@ -47,7 +49,9 @@ const ReplyLike = ({ reply, setLikePopup, replyRefetch }) => {
       >
         <button>
           <FaThumbsUp
-            onClick={() => handleLikeUnlikeReply(reply?.id, "like")}
+            onClick={() => {
+              handleLikeUnlikeReply(reply?.id, "like");
+            }}
             className={` w-6 h-5 ${
               isReplyLiked ? "text-[#33B0CA]" : "text-[#252525]"
             } ${

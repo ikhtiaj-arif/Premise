@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { useState } from "react";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
 import walletDoodle from "../../../../img/wallet_doodle.webp";
 import { getLanguageName } from "../../utilityFuncitons/functions";
@@ -54,7 +53,7 @@ const ApproveTranslationPop = ({
     />
   ) : (
     <div className="fixed top-0 left-0 w-full h-full flex items-end sm:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <div className="h-[78vh] lg:h-[407px] mb-[20px] px-[22px] lg:mb-0 lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA] lg:w-[605px] md:mx-auto relative lg:rounded-[8px]">
         {/* Close Popup */}
         <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">

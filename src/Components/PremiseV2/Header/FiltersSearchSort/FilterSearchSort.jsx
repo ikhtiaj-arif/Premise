@@ -485,7 +485,7 @@ const FilterSearchSort = ({
             </button> */}
 
             <button
-              className={`custom-searchBtn xl:hidden h-[32px] w-[32px] rounded-full bg-[#252525] 
+              className={`custom-searchBtn lg:hidden h-[32px] w-[32px] rounded-full bg-[#252525] 
             `}
               onClick={() => handleButtonClick()}
               // onBlur={() =>  setActiveSearch(false)}

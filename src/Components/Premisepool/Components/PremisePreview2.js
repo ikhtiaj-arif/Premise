@@ -1164,6 +1164,18 @@ const PremisePreview2 = ({
     userRefetch();
   };
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  // detect screen size
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1024); // <= 1024 → mobile/tab
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const subGeneraOptions = subGenraItems[generaItem] || [];
 
   const dropdownRef = useRef(null);
@@ -1820,67 +1832,87 @@ const PremisePreview2 = ({
                 <div className="flex gap-[12px] items-center mt-2 lg:mt-[32px]">
                   {filteredSpProjects?.length !== 0 && (
                     <>
-                      <div
-                        ref={spProjectRef}
-                        className={`h-[31px] overflow-visible relative w-[144px] md:w-[206px] bg-[#fafafa] ${
-                          selectedSpProjectID
-                            ? "border-[#33B0CA]"
-                            : "border-[#EAEAEA]"
-                        } rounded-[4px] border-[2px] cursor-pointer`}
-                        onClick={() => setIsProjectOpen((prev) => !prev)}
-                      >
-                        <div className="h-[27px] px-[8px] text-[12px] md:!text-[14px] flex items-center justify-between">
-                          {filteredSpProjects.find(
-                            (p) => p.pro_uuid === selectedSpProjectID
-                          )?.name || (
-                            <span className="text-gray-400">
-                              Select A Project
-                            </span>
-                          )}
-                          <div className="flex items-center">
-                            {isProjectOpen ? (
-                              <IoIosArrowUp className="text-[14px] md:text-[18px]" />
-                            ) : (
-                              <IoIosArrowDown className="text-[14px] md:text-[18px]" />
+                      {isMobile ? (
+                        <select
+                          ref={spProjectRef}
+                          value={selectedSpProjectID || ""}
+                          onChange={(e) =>
+                            setSelectedSpProjectID(e.target.value)
+                          }
+                          className="h-[31px] w-[144px] md:w-[206px] border-2 rounded-[4px] px-[8px] text-[12px] md:text-[14px] bg-[#fafafa]"
+                        >
+                          <option value="" disabled>
+                            Select A Project
+                          </option>
+                          {filteredSpProjects.map((p) => (
+                            <option key={p.pro_uuid} value={p.pro_uuid}>
+                              {p.name}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        <div
+                          ref={spProjectRef}
+                          className={`h-[31px] overflow-visible relative w-[144px] md:w-[206px] bg-[#fafafa] ${
+                            selectedSpProjectID
+                              ? "border-[#33B0CA]"
+                              : "border-[#EAEAEA]"
+                          } rounded-[4px] border-[2px] cursor-pointer`}
+                          onClick={() => setIsProjectOpen((prev) => !prev)}
+                        >
+                          <div className="h-[27px] px-[8px] text-[12px] md:!text-[14px] flex items-center justify-between">
+                            {filteredSpProjects.find(
+                              (p) => p.pro_uuid === selectedSpProjectID
+                            )?.name || (
+                              <span className="text-gray-400">
+                                Select A Project
+                              </span>
                             )}
+                            <div className="flex items-center">
+                              {isProjectOpen ? (
+                                <IoIosArrowUp className="text-[14px] md:text-[18px]" />
+                              ) : (
+                                <IoIosArrowDown className="text-[14px] md:text-[18px]" />
+                              )}
+                            </div>
                           </div>
-                        </div>
 
-                        {/* Dropdown List */}
-                        {isProjectOpen && (
-                          <div
-                            className={`fixed z-[9999] bg-white border border-[#EAEAEA] rounded-[4px] shadow-md max-h-[200px] overflow-y-auto w-[144px] md:w-[206px]`}
-                            style={{
-                              top: dropdownPos.top,
-                              left: dropdownPos.left,
-                            }}
-                          >
-                            {filteredSpProjects.length === 0 ? (
-                              <div className="px-4 text-sm text-gray-400">
-                                No Projects Found
-                              </div>
-                            ) : (
-                              filteredSpProjects.map((option) => (
-                                <div
-                                  title={option.name}
-                                  key={option.pro_uuid}
-                                  onMouseDown={() => {
-                                    setIsProjectOpen(false);
-                                    setSelectedSpProjectID(option.pro_uuid);
-                                  }}
-                                  className={`px-4 py-[2px] text-[12px] md:text-[14px] hover:bg-[#33b0ca] hover:text-white ${
-                                    selectedSpProjectID === option.pro_uuid
-                                      ? "bg-[#e6f7fa]"
-                                      : ""
-                                  }`}
-                                >
-                                  {option.name.slice(0, 15)}
+                          {/* Dropdown List */}
+                          {isProjectOpen && (
+                            <div
+                              className={`fixed z-[9999] bg-white border border-[#EAEAEA] rounded-[4px] shadow-md max-h-[200px] overflow-y-auto w-[144px] md:w-[206px]`}
+                              style={{
+                                top: dropdownPos.top,
+                                left: dropdownPos.left,
+                              }}
+                            >
+                              {filteredSpProjects.length === 0 ? (
+                                <div className="px-4 text-sm text-gray-400">
+                                  No Projects Found
                                 </div>
-                              ))
-                            )}
-                          </div>
-                        )}
-                      </div>
+                              ) : (
+                                filteredSpProjects.map((option) => (
+                                  <div
+                                    title={option.name}
+                                    key={option.pro_uuid}
+                                    onMouseDown={() => {
+                                      setIsProjectOpen(false);
+                                      setSelectedSpProjectID(option.pro_uuid);
+                                    }}
+                                    className={`px-4 py-[2px] text-[12px] md:text-[14px] hover:bg-[#33b0ca] hover:text-white ${
+                                      selectedSpProjectID === option.pro_uuid
+                                        ? "bg-[#e6f7fa]"
+                                        : ""
+                                    }`}
+                                  >
+                                    {option.name.slice(0, 15)}
+                                  </div>
+                                ))
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </>
                   )}
                   {!createNewProject && (
@@ -1908,69 +1940,91 @@ const PremisePreview2 = ({
                 <div className="col-span-12 flex justify-between">
                   <div className="flex gap-[12px] items-center ">
                     {filteredSpProjects.length !== 0 && (
-                      <div
-                        ref={spProjectRef}
-                        className={`h-[31px] overflow-visible relative w-[144px] md:w-[206px] bg-[#fafafa] ${
-                          selectedSpProjectID
-                            ? "border-[#33B0CA]"
-                            : "border-[#EAEAEA]"
-                        } rounded-[4px] border-[2px] cursor-pointer`}
-                        onClick={() => {
-                          setIsProjectOpen((prev) => !prev);
-                        }}
-                      >
-                        <div className="h-[27px] px-[8px] text-[12px] md:!text-[14px] flex items-center justify-between">
-                          {filteredSpProjects
-                            .find((p) => p.pro_uuid === selectedSpProjectID)
-                            ?.name.slice(0, 25) || (
-                            <span className="text-gray-400">
+                      <>
+                        {isMobile ? (
+                          <select
+                            ref={spProjectRef}
+                            value={selectedSpProjectID || ""}
+                            onChange={(e) =>
+                              setSelectedSpProjectID(e.target.value)
+                            }
+                            className="h-[31px] w-[144px] md:w-[206px] border-2 rounded-[4px] px-[8px] text-[12px] md:text-[14px] bg-[#fafafa]"
+                          >
+                            <option value="" disabled>
                               Select A Project
-                            </span>
-                          )}
-                          <div className="flex items-center">
-                            {isProjectOpen ? (
-                              <IoIosArrowUp className="text-[14px] md:text-[18px]" />
-                            ) : (
-                              <IoIosArrowDown className="text-[14px] md:text-[18px]" />
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Dropdown List */}
-                        {isProjectOpen && (
+                            </option>
+                            {filteredSpProjects.map((p) => (
+                              <option key={p.pro_uuid} value={p.pro_uuid}>
+                                {p.name}
+                              </option>
+                            ))}
+                          </select>
+                        ) : (
                           <div
-                            className={`fixed z-[9999] bg-white border border-[#EAEAEA] rounded-[4px] shadow-md max-h-[200px] overflow-y-auto w-[144px] md:w-[206px]`}
-                            style={{
-                              top: dropdownPos.top,
-                              left: dropdownPos.left,
+                            ref={spProjectRef}
+                            className={`h-[31px] overflow-visible relative w-[144px] md:w-[206px] bg-[#fafafa] ${
+                              selectedSpProjectID
+                                ? "border-[#33B0CA]"
+                                : "border-[#EAEAEA]"
+                            } rounded-[4px] border-[2px] cursor-pointer`}
+                            onClick={() => {
+                              setIsProjectOpen((prev) => !prev);
                             }}
                           >
-                            {filteredSpProjects.length === 0 ? (
-                              <div className="px-4 text-sm text-gray-400">
-                                No Projects Found
+                            <div className="h-[27px] px-[8px] text-[12px] md:!text-[14px] flex items-center justify-between">
+                              {filteredSpProjects
+                                .find((p) => p.pro_uuid === selectedSpProjectID)
+                                ?.name.slice(0, 25) || (
+                                <span className="text-gray-400">
+                                  Select A Project
+                                </span>
+                              )}
+                              <div className="flex items-center">
+                                {isProjectOpen ? (
+                                  <IoIosArrowUp className="text-[14px] md:text-[18px]" />
+                                ) : (
+                                  <IoIosArrowDown className="text-[14px] md:text-[18px]" />
+                                )}
                               </div>
-                            ) : (
-                              filteredSpProjects.map((option) => (
-                                <div
-                                  title={option.name}
-                                  key={option.pro_uuid}
-                                  onMouseDown={() => {
-                                    setSelectedSpProjectID(option.pro_uuid);
-                                    setIsProjectOpen(false);
-                                  }}
-                                  className={`px-4 py-[2px] text-[12px] md:text-[14px] hover:bg-[#33b0ca] hover:text-white ${
-                                    selectedSpProjectID === option.pro_uuid
-                                      ? "bg-[#e6f7fa]"
-                                      : ""
-                                  }`}
-                                >
-                                  {option.name.slice(0, 15)}
-                                </div>
-                              ))
+                            </div>
+
+                            {/* Dropdown List */}
+                            {isProjectOpen && (
+                              <div
+                                className={`fixed z-[9999] bg-white border border-[#EAEAEA] rounded-[4px] shadow-md max-h-[200px] overflow-y-auto w-[144px] md:w-[206px]`}
+                                style={{
+                                  top: dropdownPos.top,
+                                  left: dropdownPos.left,
+                                }}
+                              >
+                                {filteredSpProjects.length === 0 ? (
+                                  <div className="px-4 text-sm text-gray-400">
+                                    No Projects Found
+                                  </div>
+                                ) : (
+                                  filteredSpProjects.map((option) => (
+                                    <div
+                                      title={option.name}
+                                      key={option.pro_uuid}
+                                      onMouseDown={() => {
+                                        setSelectedSpProjectID(option.pro_uuid);
+                                        setIsProjectOpen(false);
+                                      }}
+                                      className={`px-4 py-[2px] text-[12px] md:text-[14px] hover:bg-[#33b0ca] hover:text-white ${
+                                        selectedSpProjectID === option.pro_uuid
+                                          ? "bg-[#e6f7fa]"
+                                          : ""
+                                      }`}
+                                    >
+                                      {option.name.slice(0, 15)}
+                                    </div>
+                                  ))
+                                )}
+                              </div>
                             )}
                           </div>
                         )}
-                      </div>
+                      </>
                     )}
                     {!createNewProject && (
                       <>
@@ -2142,7 +2196,7 @@ const PremisePreview2 = ({
                           }),
                           valueContainer: (base) => ({
                             ...base,
-                            padding: "0 8px",
+                            padding: "0 6px",
                             height: "27px",
                             display: "flex",
                             alignItems: "center",
@@ -2255,342 +2309,98 @@ const PremisePreview2 = ({
                       // required
                     />
                   </div>
-                  <div
-                    className={`col-span-6  w-full ${
-                      createNewProject
-                        ? "md:col-span-3  md:w-[163px] "
-                        : "md:col-span-4"
-                    } `}
-                  >
+                  {isMobile ? (
                     <div
-                      ref={natureProjectRef}
-                      className={`h-[31px] relative bg-[#fafafa] rounded-[4px] border-[2px] ${
-                        natureOfProject
-                          ? "border-[#33B0CA]"
-                          : "border-[#EAEAEA]"
+                      className={`col-span-6 w-full ${
+                        createNewProject
+                          ? "md:col-span-3 md:w-[163px]"
+                          : "md:col-span-4"
+                      }`}
+                    >
+                      <div
+                        ref={natureProjectRef}
+                        className={`h-[31px] relative bg-[#fafafa] rounded-[4px] border-[2px] ${
+                          natureOfProject
+                            ? "border-[#33B0CA]"
+                            : "border-[#EAEAEA]"
+                        }`}
+                      >
+                        <select
+                          value={natureOfProject || ""}
+                          onChange={(e) =>
+                            handleNatureOfProjectChange({
+                              target: { value: e.target.value },
+                            })
+                          }
+                          onFocus={() => setIsNatureProjectOpen(true)}
+                          onBlur={() => setIsNatureProjectOpen(false)}
+                          className="w-full h-[27px] text-[12px] md:text-[14px] bg-[#fafafa] border-none outline-none rounded-[4px] px-2 appearance-none cursor-pointer"
+                        >
+                          <option value="" disabled>
+                            Nature of project
+                          </option>
+                          {NProjectOpt?.map((option, idx) => (
+                            <option key={idx} value={option?.value}>
+                              {baseLanguage === "hi"
+                                ? option?.hi
+                                : option?.value}
+                            </option>
+                          ))}
+                        </select>
+
+                        {/* Custom arrow */}
+                        <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
+                          {isNatureProjectOpen ? (
+                            <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                          ) : (
+                            <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className={`col-span-6  w-full ${
+                        createNewProject
+                          ? "md:col-span-3  md:w-[163px] "
+                          : "md:col-span-4"
                       } `}
                     >
-                      <Select
-                        options={NProjectOpt?.map((option) => ({
-                          value: option?.value,
-                          label:
-                            baseLanguage === "hi" ? option?.hi : option?.value,
-                        }))}
-                        value={
-                          NProjectOpt?.map((option) => ({
+                      <div
+                        ref={natureProjectRef}
+                        className={`h-[31px] relative bg-[#fafafa] rounded-[4px] border-[2px] ${
+                          natureOfProject
+                            ? "border-[#33B0CA]"
+                            : "border-[#EAEAEA]"
+                        } `}
+                      >
+                        <Select
+                          options={NProjectOpt?.map((option) => ({
                             value: option?.value,
                             label:
                               baseLanguage === "hi"
                                 ? option?.hi
                                 : option?.value,
-                          })).find(
-                            (option) => option.value === natureOfProject
-                          ) || null
-                        }
-                        onChange={(selectedOption) => {
-                          handleNatureOfProjectChange({
-                            target: { value: selectedOption?.value || "" },
-                          });
-                        }}
-                        onMenuOpen={() => setIsNatureProjectOpen(true)}
-                        onMenuClose={() => setIsNatureProjectOpen(false)}
-                        placeholder="Nature of project"
-                        menuPortalTarget={document.body} // Render menu to document.body
-                        menuPosition="fixed" // Use fixed positioning
-                        styles={{
-                          menuPortal: (base) => ({
-                            ...base,
-                            zIndex: 9, // Very high z-index to ensure it's on top
-                          }),
-                          control: (base) => ({
-                            ...base,
-                            height: "27px",
-                            minHeight: "27px",
-                            fontSize: "12px",
-                            "@media (min-width: 768px)": {
-                              fontSize: "14px",
-                            },
-                            border: "none",
-                            backgroundColor: "#fafafa",
-                            boxShadow: "none",
-                            padding: "0",
-                            margin: "0",
-                            width: "100%",
-                          }),
-                          valueContainer: (base) => ({
-                            ...base,
-                            padding: "0 8px",
-                            height: "27px",
-                            display: "flex",
-                            alignItems: "center",
-                          }),
-                          input: (base) => ({
-                            ...base,
-                            margin: "0",
-                            padding: "0",
-                          }),
-                          indicatorsContainer: () => ({
-                            display: "none", // hide default dropdown arrow
-                          }),
-                          menu: (base) => ({
-                            ...base,
-                            fontSize: "14px",
-                            marginTop: "2px",
-                            zIndex: 9, // Very high z-index
-                            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-                          }),
-                          option: (base, state) => ({
-                            ...base,
-                            fontSize: "14px",
-                            padding: "0px 8px",
-                            backgroundColor: state.isFocused
-                              ? "#33b0ca"
-                              : "#fafafa",
-                            color: state.isFocused ? "#ffffff" : "#000000",
-                            cursor: "pointer",
-                            display: "flex",
-                            alignItems: "center",
-                            height: "32px",
-                            lineHeight: "20px",
-                          }),
-                          placeholder: (base) => ({
-                            ...base,
-                            fontSize: "12px",
-                            "@media (min-width: 768px)": {
-                              fontSize: "14px",
-                            },
-                            whiteSpace: "nowrap",
-                            textOverflow: "ellipsis",
-                          }),
-                          singleValue: (base) => ({
-                            ...base,
-                            fontSize: "12px",
-                            "@media (min-width: 768px)": {
-                              fontSize: "14px",
-                            },
-                            margin: "0",
-                            padding: "0",
-                            lineHeight: "27px",
-                          }),
-                        }}
-                        classNamePrefix="custom-select"
-                      />
-
-                      <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
-                        {isNatureProjectOpen ? (
-                          <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px] " />
-                        ) : (
-                          <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px] " />
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className={`h-[31px] relative bg-[#fafafa] rounded-[4px] border-[2px] col-span-6  w-full ${
-                      createNewProject
-                        ? "md:col-span-3 md:w-[136px] md:ml-[16px]"
-                        : "md:col-span-4"
-                    } ${duration ? "border-[#33B0CA]" : "border-[#EAEAEA]"}`}
-                    ref={durationRef}
-                  >
-                    <Select
-                      options={durationOptions?.map((option) => ({
-                        value: option?.value,
-                        label:
-                          baseLanguage === "hi" ? option?.hi : option?.text,
-                      }))}
-                      value={
-                        durationOptions
-                          ?.map((option) => ({
-                            value: option?.value,
-                            label:
-                              baseLanguage === "hi" ? option?.hi : option?.text,
-                          }))
-                          .find((option) => option.value === duration) || null
-                      }
-                      onChange={(selectedOption) => {
-                        setDuration(selectedOption?.value || "");
-                      }}
-                      onMenuOpen={() => setIsdurationOpen(true)}
-                      onMenuClose={() => setIsdurationOpen(false)}
-                      placeholder="Duration"
-                      menuPortalTarget={document.body} // Render menu to document.body
-                      menuPosition="fixed" // Use fixed positioning
-                      styles={{
-                        menuPortal: (base) => ({
-                          ...base,
-                          zIndex: 9, // Very high z-index to ensure it's on top
-                        }),
-                        control: (base) => ({
-                          ...base,
-                          height: "27px",
-                          minHeight: "27px",
-                          fontSize: "12px",
-                          "@media (min-width: 768px)": {
-                            fontSize: "14px",
-                          },
-                          border: "none",
-                          backgroundColor: "#fafafa",
-                          boxShadow: "none",
-                          padding: "0",
-                          margin: "0",
-                          width: "100%",
-                        }),
-                        valueContainer: (base) => ({
-                          ...base,
-                          padding: "0 8px",
-                          height: "27px",
-                          display: "flex",
-                          alignItems: "center",
-                        }),
-                        input: (base) => ({
-                          ...base,
-                          margin: "0",
-                          padding: "0",
-                        }),
-                        indicatorsContainer: () => ({
-                          display: "none", // hide default dropdown arrow
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          fontSize: "14px",
-                          marginTop: "2px",
-                          zIndex: 9, // Very high z-index
-                          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          fontSize: "14px",
-                          padding: "0px 2px",
-                          backgroundColor: state.isFocused
-                            ? "#33b0ca"
-                            : "#fafafa",
-                          color: state.isFocused ? "#ffffff" : "#000000",
-                          cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          height: "32px",
-                          lineHeight: "18px",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          fontSize: "12px",
-                          "@media (min-width: 768px)": {
-                            fontSize: "14px",
-                          },
-                          whiteSpace: "nowrap",
-                          textOverflow: "ellipsis",
-                        }),
-                        singleValue: (base) => ({
-                          ...base,
-                          fontSize: "12px",
-                          "@media (min-width: 768px)": {
-                            fontSize: "14px",
-                          },
-                          margin: "0",
-                          padding: "0",
-                          lineHeight: "27px",
-                        }),
-                      }}
-                      classNamePrefix="custom-select"
-                    />
-
-                    <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
-                      {isdurationOpen ? (
-                        <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
-                      ) : (
-                        <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
-                      )}
-                    </div>
-                  </div>
-                  {generaItem === "Other" ? (
-                    <>
-                      <div
-                        className={`h-[31px] relative w-full col-span-6  ${
-                          createNewProject
-                            ? " md:col-span-3  md:ml-[4px]"
-                            : " md:col-span-4 "
-                        } bg-[#fafafa] rounded-[4px] border-[2px] ${
-                          generaItemTxt
-                            ? "border-[#33B0CA]"
-                            : "border-[#EAEAEA]"
-                        } `}
-                      >
-                        <input
-                          type="text"
-                          value={generaItemTxt}
-                          maxLength={"60"}
-                          placeholder="Genre"
-                          onChange={(e) => {
-                            const updatedValue = e.target.value.replace(
-                              /^\s+|\s+(?=\s)/g,
-                              ""
-                            );
-                            setGeneraItemTxt(updatedValue);
-                          }}
-                          className="focus:outline-none h-[27px] rounded-[4px] w-full px-2 text-[12px] md:!text-[14px] leading-tight"
-                        />
-                      </div>
-
-                      <div
-                        className={`h-[31px]  col-span-4 ${
-                          createNewProject
-                            ? "md:col-span-3 xxs:w-[139px] md:w-[154px] ml-[0px] md:ml-[-13px] "
-                            : " md:col-span-4"
-                        }  bg-[#fafafa] rounded-[4px] border-[2px] ${
-                          subGeneraItemTxt
-                            ? "border-[#33B0CA]"
-                            : "border-[#EAEAEA]"
-                        }`}
-                      >
-                        <input
-                          type="text"
-                          value={subGeneraItemTxt}
-                          maxLength={"60"}
-                          placeholder="Sub-Genre"
-                          onChange={(e) => {
-                            const updatedValue = e.target.value.replace(
-                              /^\s+|\s+(?=\s)/g,
-                              ""
-                            );
-                            setSubGeneraItemTxt(updatedValue);
-                          }}
-                          className="focus:outline-none h-[27px] rounded-[4px] w-full px-2 text-[12px] md:!text-[14px] leading-tight"
-                        />
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div
-                        ref={genreRef}
-                        className={`h-[31px] relative w-full col-span-6  ${
-                          createNewProject
-                            ? "md:col-span-3  md:w-[130px]  md:ml-[4px]"
-                            : "md:col-span-4"
-                        } bg-[#fafafa] rounded-[4px] border-[2px] ${
-                          generaItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
-                        }`}
-                      >
-                        <Select
-                          options={genera?.map((option) => ({
-                            value: option,
-                            label: option,
                           }))}
                           value={
-                            genera
-                              ?.map((option) => ({
-                                value: option,
-                                label: option,
-                              }))
-                              .find((option) => option.value === generaItem) ||
-                            null
+                            NProjectOpt?.map((option) => ({
+                              value: option?.value,
+                              label:
+                                baseLanguage === "hi"
+                                  ? option?.hi
+                                  : option?.value,
+                            })).find(
+                              (option) => option.value === natureOfProject
+                            ) || null
                           }
                           onChange={(selectedOption) => {
-                            setGeneraItem(selectedOption?.value || "");
+                            handleNatureOfProjectChange({
+                              target: { value: selectedOption?.value || "" },
+                            });
                           }}
-                          onMenuOpen={() => setIsgenreOpen(true)}
-                          onMenuClose={() => setIsgenreOpen(false)}
-                          placeholder="Genre"
+                          onMenuOpen={() => setIsNatureProjectOpen(true)}
+                          onMenuClose={() => setIsNatureProjectOpen(false)}
+                          placeholder="Nature of project"
                           menuPortalTarget={document.body} // Render menu to document.body
                           menuPosition="fixed" // Use fixed positioning
                           styles={{
@@ -2615,7 +2425,7 @@ const PremisePreview2 = ({
                             }),
                             valueContainer: (base) => ({
                               ...base,
-                              padding: "0 8px",
+                              padding: "0 6px",
                               height: "27px",
                               display: "flex",
                               alignItems: "center",
@@ -2673,192 +2483,558 @@ const PremisePreview2 = ({
                         />
 
                         <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
-                          {isgenreOpen ? (
-                            <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                          {isNatureProjectOpen ? (
+                            <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px] " />
                           ) : (
-                            <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                            <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px] " />
                           )}
                         </div>
+                      </div>
+                    </div>
+                  )}
+                  {isMobile ? (
+                    <div
+                      className={`h-[31px] relative bg-[#fafafa] rounded-[4px] border-[2px] col-span-6 w-full ${
+                        createNewProject
+                          ? "md:col-span-3 md:w-[136px] md:ml-[16px]"
+                          : "md:col-span-4"
+                      } ${duration ? "border-[#33B0CA]" : "border-[#EAEAEA]"}`}
+                      ref={durationRef}
+                    >
+                      <select
+                        value={duration || ""}
+                        onChange={(e) => setDuration(e.target.value)}
+                        onFocus={() => setIsdurationOpen(true)}
+                        onBlur={() => setIsdurationOpen(false)}
+                        className="w-full h-[27px] text-[12px] md:text-[14px] bg-[#fafafa] border-none outline-none rounded-[4px] px-2 appearance-none cursor-pointer"
+                      >
+                        <option value="" disabled>
+                          Duration
+                        </option>
+                        {durationOptions?.map((option, idx) => (
+                          <option key={idx} value={option?.value}>
+                            {baseLanguage === "hi" ? option?.hi : option?.text}
+                          </option>
+                        ))}
+                      </select>
+
+                      {/* Custom arrow */}
+                      <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
+                        {isdurationOpen ? (
+                          <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                        ) : (
+                          <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className={`h-[31px] relative bg-[#fafafa] rounded-[4px] border-[2px] col-span-6  w-full ${
+                        createNewProject
+                          ? "md:col-span-3 md:w-[136px] md:ml-[16px]"
+                          : "md:col-span-4"
+                      } ${duration ? "border-[#33B0CA]" : "border-[#EAEAEA]"}`}
+                      ref={durationRef}
+                    >
+                      <Select
+                        options={durationOptions?.map((option) => ({
+                          value: option?.value,
+                          label:
+                            baseLanguage === "hi" ? option?.hi : option?.text,
+                        }))}
+                        value={
+                          durationOptions
+                            ?.map((option) => ({
+                              value: option?.value,
+                              label:
+                                baseLanguage === "hi"
+                                  ? option?.hi
+                                  : option?.text,
+                            }))
+                            .find((option) => option.value === duration) || null
+                        }
+                        onChange={(selectedOption) => {
+                          setDuration(selectedOption?.value || "");
+                        }}
+                        onMenuOpen={() => setIsdurationOpen(true)}
+                        onMenuClose={() => setIsdurationOpen(false)}
+                        placeholder="Duration"
+                        menuPortalTarget={document.body} // Render menu to document.body
+                        menuPosition="fixed" // Use fixed positioning
+                        styles={{
+                          menuPortal: (base) => ({
+                            ...base,
+                            zIndex: 9, // Very high z-index to ensure it's on top
+                          }),
+                          control: (base) => ({
+                            ...base,
+                            height: "27px",
+                            minHeight: "27px",
+                            fontSize: "12px",
+                            "@media (min-width: 768px)": {
+                              fontSize: "14px",
+                            },
+                            border: "none",
+                            backgroundColor: "#fafafa",
+                            boxShadow: "none",
+                            padding: "0",
+                            margin: "0",
+                            width: "100%",
+                          }),
+                          valueContainer: (base) => ({
+                            ...base,
+                            padding: "0 6px",
+                            height: "27px",
+                            display: "flex",
+                            alignItems: "center",
+                          }),
+                          input: (base) => ({
+                            ...base,
+                            margin: "0",
+                            padding: "0",
+                          }),
+                          indicatorsContainer: () => ({
+                            display: "none", // hide default dropdown arrow
+                          }),
+                          menu: (base) => ({
+                            ...base,
+                            fontSize: "14px",
+                            marginTop: "2px",
+                            zIndex: 9, // Very high z-index
+                            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+                          }),
+                          option: (base, state) => ({
+                            ...base,
+                            fontSize: "14px",
+                            padding: "0px 2px",
+                            backgroundColor: state.isFocused
+                              ? "#33b0ca"
+                              : "#fafafa",
+                            color: state.isFocused ? "#ffffff" : "#000000",
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            height: "32px",
+                            lineHeight: "18px",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            fontSize: "12px",
+                            "@media (min-width: 768px)": {
+                              fontSize: "14px",
+                            },
+                            whiteSpace: "nowrap",
+                            textOverflow: "ellipsis",
+                          }),
+                          singleValue: (base) => ({
+                            ...base,
+                            fontSize: "12px",
+                            "@media (min-width: 768px)": {
+                              fontSize: "14px",
+                            },
+                            margin: "0",
+                            padding: "0",
+                            lineHeight: "27px",
+                          }),
+                        }}
+                        classNamePrefix="custom-select"
+                      />
+
+                      <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
+                        {isdurationOpen ? (
+                          <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                        ) : (
+                          <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  {generaItem === "Other" ? (
+                    <>
+                      <div
+                        className={`h-[32px] relative w-full col-span-6  ${
+                          createNewProject
+                            ? " md:col-span-3  md:ml-[4px]"
+                            : " md:col-span-4 "
+                        } bg-[#fafafa] rounded-[4px] border-[2px] ${
+                          generaItemTxt
+                            ? "border-[#33B0CA]"
+                            : "border-[#EAEAEA]"
+                        } `}
+                      >
+                        <input
+                          type="text"
+                          value={generaItemTxt}
+                          maxLength={"60"}
+                          placeholder="Genre"
+                          onChange={(e) => {
+                            const updatedValue = e.target.value.replace(
+                              /^\s+|\s+(?=\s)/g,
+                              ""
+                            );
+                            setGeneraItemTxt(updatedValue);
+                          }}
+                          className="focus:outline-none h-[28px] rounded-[4px] w-full px-2 text-[12px] md:!text-[14px] leading-tight"
+                        />
                       </div>
 
                       <div
-                        className={`h-[31px] relative w-full col-span-6  ${
+                        className={`h-[31px] w-full  col-span-6 lg:col-span-6 ${
                           createNewProject
-                            ? "md:col-span-3 md:w-[154px]  md:ml-[-13px]"
-                            : "md:col-span-4"
-                        } bg-[#fafafa] rounded-[4px] border-[2px] ${
-                          subGeneraItem
-                            ? "border-[#33B0CA]"
-                            : "border-[#EAEAEA]"
-                        }`}
-                      >
-                        <Select
-                          options={subGeneraOptions?.map((subGenre) => ({
-                            value: subGenre,
-                            label: subGenre,
-                          }))}
-                          value={
-                            subGeneraOptions
-                              ?.map((subGenre) => ({
-                                value: subGenre,
-                                label: subGenre,
-                              }))
-                              .find(
-                                (option) => option.value === subGeneraItem
-                              ) || null
-                          }
-                          onChange={(selectedOption) => {
-                            setSubGeneraItem(selectedOption?.value || "");
-                          }}
-                          onMenuOpen={() => setIsSubGenreOpen(true)}
-                          onMenuClose={() => setIsSubGenreOpen(false)}
-                          placeholder="Sub-Genre"
-                          menuPortalTarget={document.body} // Render menu to document.body
-                          menuPosition="fixed" // Use fixed positioning
-                          styles={{
-                            menuPortal: (base) => ({
-                              ...base,
-                              zIndex: 9, // Very high z-index to ensure it's on top
-                            }),
-                            control: (base) => ({
-                              ...base,
-                              height: "27px",
-                              minHeight: "27px",
-                              fontSize: "12px",
-                              "@media (min-width: 768px)": {
-                                fontSize: "14px",
-                              },
-                              border: "none",
-                              backgroundColor: "#fafafa",
-                              boxShadow: "none",
-                              padding: "0",
-                              margin: "0",
-                              width: "100%",
-                            }),
-                            valueContainer: (base) => ({
-                              ...base,
-                              padding: "0 8px",
-                              height: "27px",
-                              display: "flex",
-                              alignItems: "center",
-                            }),
-                            input: (base) => ({
-                              ...base,
-                              margin: "0",
-                              padding: "0",
-                            }),
-                            indicatorsContainer: () => ({
-                              display: "none", // hide default dropdown arrow
-                            }),
-                            menu: (base) => ({
-                              ...base,
-                              fontSize: "14px",
-                              marginTop: "2px",
-                              zIndex: 9, // Very high z-index
-                              boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-                            }),
-                            option: (base, state) => ({
-                              ...base,
-                              fontSize: "14px",
-                              padding: "0px 8px",
-                              backgroundColor: state.isFocused
-                                ? "#33b0ca"
-                                : "#fafafa",
-                              color: state.isFocused ? "#ffffff" : "#000000",
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              height: "32px",
-                              lineHeight: "16px",
-                            }),
-                            placeholder: (base) => ({
-                              ...base,
-                              fontSize: "12px",
-                              "@media (min-width: 768px)": {
-                                fontSize: "14px",
-                              },
-                              whiteSpace: "nowrap",
-                              textOverflow: "ellipsis",
-                            }),
-                            singleValue: (base) => ({
-                              ...base,
-                              fontSize: "12px",
-                              "@media (min-width: 768px)": {
-                                fontSize: "14px",
-                              },
-                              margin: "0",
-                              padding: "0",
-                              lineHeight: "27px",
-                            }),
-                          }}
-                          classNamePrefix="custom-select"
-                        />
-
-                        <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
-                          {isSubGenreOpen ? (
-                            <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
-                          ) : (
-                            <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
-                          )}
-                        </div>
-                      </div>
-                      {/* <div
-                        className={`h-[31px] relative col-span-4 ${
-                          createNewProject
-                            ? "md:col-span-3 xxs:w-[139px] md:w-[154px] ml-[-13px] md:ml-[-13px] "
+                            ? "md:col-span-4 lg:col-span-4 md:w-[143px] ml-[0px] lg:ml-[-3px] "
                             : " md:col-span-4"
                         }  bg-[#fafafa] rounded-[4px] border-[2px] ${
-                          subGeneraItem
+                          subGeneraItemTxt
                             ? "border-[#33B0CA]"
                             : "border-[#EAEAEA]"
                         }`}
                       >
-                        <select
-                          className="block appearance-none bg-[#fafafa] h-[27px] rounded-[4px]  w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none"
-                          value={subGeneraItem}
-                          onChange={(e) => setSubGeneraItem(e.target.value)}
-                          required
+                        <input
+                          type="text"
+                          value={subGeneraItemTxt}
+                          maxLength={"60"}
+                          placeholder="Sub-Genre"
+                          onChange={(e) => {
+                            const updatedValue = e.target.value.replace(
+                              /^\s+|\s+(?=\s)/g,
+                              ""
+                            );
+                            setSubGeneraItemTxt(updatedValue);
+                          }}
+                          className="focus:outline-none h-[28px] rounded-[4px] w-full px-2 text-[12px] md:!text-[14px] leading-tight"
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {isMobile ? (
+                        <div
+                          ref={genreRef}
+                          className={`h-[31px] relative w-full col-span-6 ${
+                            createNewProject
+                              ? "md:col-span-3 md:w-[130px] md:ml-[4px]"
+                              : "md:col-span-4"
+                          } bg-[#fafafa] rounded-[4px] border-[2px] ${
+                            generaItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                          }`}
                         >
-                          <option value="" disabled>
-                            Sub-Genre
-                          </option>
-
-                          {subGeneraOptions?.map((subGenre) => (
-                            <option
-                              className="text-[12px] md:!text-[14px]"
-                              key={subGenre}
-                              value={subGenre}
-                            >
-                              {subGenre}
+                          <select
+                            value={generaItem || ""}
+                            onChange={(e) => setGeneraItem(e.target.value)}
+                            onFocus={() => setIsgenreOpen(true)}
+                            onBlur={() => setIsgenreOpen(false)}
+                            className="w-full h-[27px] text-[12px] md:text-[14px] bg-[#fafafa] border-none outline-none rounded-[4px] px-2 appearance-none cursor-pointer"
+                          >
+                            <option value="" disabled>
+                              Genre
                             </option>
-                          ))}
-                        </select>
+                            {genera?.map((option, idx) => (
+                              <option key={idx} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
 
-                        <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center pointer-events-none">
-                          {isSubGenreOpen ? (
-                            <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
-                          ) : (
-                            <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px]  md:w-[16px] " />
-                          )}
+                          {/* Custom arrow */}
+                          <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
+                            {isgenreOpen ? (
+                              <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                            ) : (
+                              <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                            )}
+                          </div>
                         </div>
-                      </div>{" "} */}
+                      ) : (
+                        <div
+                          ref={genreRef}
+                          className={`h-[31px] relative w-full col-span-6  ${
+                            createNewProject
+                              ? "md:col-span-3  md:w-[130px]  md:ml-[4px]"
+                              : "md:col-span-4"
+                          } bg-[#fafafa] rounded-[4px] border-[2px] ${
+                            generaItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                          }`}
+                        >
+                          <Select
+                            options={genera?.map((option) => ({
+                              value: option,
+                              label: option,
+                            }))}
+                            value={
+                              genera
+                                ?.map((option) => ({
+                                  value: option,
+                                  label: option,
+                                }))
+                                .find(
+                                  (option) => option.value === generaItem
+                                ) || null
+                            }
+                            onChange={(selectedOption) => {
+                              setGeneraItem(selectedOption?.value || "");
+                            }}
+                            onMenuOpen={() => setIsgenreOpen(true)}
+                            onMenuClose={() => setIsgenreOpen(false)}
+                            placeholder="Genre"
+                            menuPortalTarget={document.body} // Render menu to document.body
+                            menuPosition="fixed" // Use fixed positioning
+                            styles={{
+                              menuPortal: (base) => ({
+                                ...base,
+                                zIndex: 9, // Very high z-index to ensure it's on top
+                              }),
+                              control: (base) => ({
+                                ...base,
+                                height: "27px",
+                                minHeight: "27px",
+                                fontSize: "12px",
+                                "@media (min-width: 768px)": {
+                                  fontSize: "14px",
+                                },
+                                border: "none",
+                                backgroundColor: "#fafafa",
+                                boxShadow: "none",
+                                padding: "0",
+                                margin: "0",
+                                width: "100%",
+                              }),
+                              valueContainer: (base) => ({
+                                ...base,
+                                padding: "0 6px",
+                                height: "27px",
+                                display: "flex",
+                                alignItems: "center",
+                              }),
+                              input: (base) => ({
+                                ...base,
+                                margin: "0",
+                                padding: "0",
+                              }),
+                              indicatorsContainer: () => ({
+                                display: "none", // hide default dropdown arrow
+                              }),
+                              menu: (base) => ({
+                                ...base,
+                                fontSize: "14px",
+                                marginTop: "2px",
+                                zIndex: 9, // Very high z-index
+                                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+                              }),
+                              option: (base, state) => ({
+                                ...base,
+                                fontSize: "14px",
+                                padding: "0px 8px",
+                                backgroundColor: state.isFocused
+                                  ? "#33b0ca"
+                                  : "#fafafa",
+                                color: state.isFocused ? "#ffffff" : "#000000",
+                                cursor: "pointer",
+                                display: "flex",
+                                alignItems: "center",
+                                height: "32px",
+                                lineHeight: "20px",
+                              }),
+                              placeholder: (base) => ({
+                                ...base,
+                                fontSize: "12px",
+                                "@media (min-width: 768px)": {
+                                  fontSize: "14px",
+                                },
+                                whiteSpace: "nowrap",
+                                textOverflow: "ellipsis",
+                              }),
+                              singleValue: (base) => ({
+                                ...base,
+                                fontSize: "12px",
+                                "@media (min-width: 768px)": {
+                                  fontSize: "14px",
+                                },
+                                margin: "0",
+                                padding: "0",
+                                lineHeight: "27px",
+                              }),
+                            }}
+                            classNamePrefix="custom-select"
+                          />
+
+                          <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
+                            {isgenreOpen ? (
+                              <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                            ) : (
+                              <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      {isMobile ? (
+                        <div
+                          className={`h-[31px] relative w-full col-span-6 ${
+                            createNewProject
+                              ? "md:col-span-3 md:w-[154px] md:ml-[-13px]"
+                              : "md:col-span-4"
+                          } bg-[#fafafa] rounded-[4px] border-[2px] ${
+                            subGeneraItem
+                              ? "border-[#33B0CA]"
+                              : "border-[#EAEAEA]"
+                          }`}
+                        >
+                          <select
+                            value={subGeneraItem || ""}
+                            onChange={(e) => setSubGeneraItem(e.target.value)}
+                            onFocus={() => setIsSubGenreOpen(true)}
+                            onBlur={() => setIsSubGenreOpen(false)}
+                            className="w-full h-[27px] text-[12px] md:text-[14px] bg-[#fafafa] border-none outline-none rounded-[4px] px-2 appearance-none cursor-pointer"
+                          >
+                            <option value="" disabled>
+                              Sub-Genre
+                            </option>
+                            {subGeneraOptions?.map((subGenre, idx) => (
+                              <option key={idx} value={subGenre}>
+                                {subGenre}
+                              </option>
+                            ))}
+                          </select>
+
+                          {/* Custom arrow */}
+                          <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
+                            {isSubGenreOpen ? (
+                              <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                            ) : (
+                              <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <div
+                          className={`h-[31px] relative w-full col-span-6  ${
+                            createNewProject
+                              ? "md:col-span-3 md:w-[154px]  md:ml-[-13px]"
+                              : "md:col-span-4"
+                          } bg-[#fafafa] rounded-[4px] border-[2px] ${
+                            subGeneraItem
+                              ? "border-[#33B0CA]"
+                              : "border-[#EAEAEA]"
+                          }`}
+                        >
+                          <Select
+                            options={subGeneraOptions?.map((subGenre) => ({
+                              value: subGenre,
+                              label: subGenre,
+                            }))}
+                            value={
+                              subGeneraOptions
+                                ?.map((subGenre) => ({
+                                  value: subGenre,
+                                  label: subGenre,
+                                }))
+                                .find(
+                                  (option) => option.value === subGeneraItem
+                                ) || null
+                            }
+                            onChange={(selectedOption) => {
+                              setSubGeneraItem(selectedOption?.value || "");
+                            }}
+                            onMenuOpen={() => setIsSubGenreOpen(true)}
+                            onMenuClose={() => setIsSubGenreOpen(false)}
+                            placeholder="Sub-Genre"
+                            menuPortalTarget={document.body} // Render menu to document.body
+                            menuPosition="fixed" // Use fixed positioning
+                            styles={{
+                              menuPortal: (base) => ({
+                                ...base,
+                                zIndex: 9, // Very high z-index to ensure it's on top
+                              }),
+                              control: (base) => ({
+                                ...base,
+                                height: "27px",
+                                minHeight: "27px",
+                                fontSize: "12px",
+                                "@media (min-width: 768px)": {
+                                  fontSize: "14px",
+                                },
+                                border: "none",
+                                backgroundColor: "#fafafa",
+                                boxShadow: "none",
+                                padding: "0",
+                                margin: "0",
+                                width: "100%",
+                              }),
+                              valueContainer: (base) => ({
+                                ...base,
+                                padding: "0 6px",
+                                height: "27px",
+                                display: "flex",
+                                alignItems: "center",
+                              }),
+                              input: (base) => ({
+                                ...base,
+                                margin: "0",
+                                padding: "0",
+                              }),
+                              indicatorsContainer: () => ({
+                                display: "none", // hide default dropdown arrow
+                              }),
+                              menu: (base) => ({
+                                ...base,
+                                fontSize: "14px",
+                                marginTop: "2px",
+                                zIndex: 9, // Very high z-index
+                                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+                              }),
+                              option: (base, state) => ({
+                                ...base,
+                                fontSize: "14px",
+                                padding: "0px 8px",
+                                backgroundColor: state.isFocused
+                                  ? "#33b0ca"
+                                  : "#fafafa",
+                                color: state.isFocused ? "#ffffff" : "#000000",
+                                cursor: "pointer",
+                                display: "flex",
+                                alignItems: "center",
+                                height: "32px",
+                                lineHeight: "16px",
+                              }),
+                              placeholder: (base) => ({
+                                ...base,
+                                fontSize: "12px",
+                                "@media (min-width: 768px)": {
+                                  fontSize: "14px",
+                                },
+                                whiteSpace: "nowrap",
+                                textOverflow: "ellipsis",
+                              }),
+                              singleValue: (base) => ({
+                                ...base,
+                                fontSize: "12px",
+                                "@media (min-width: 768px)": {
+                                  fontSize: "14px",
+                                },
+                                margin: "0",
+                                padding: "0",
+                                lineHeight: "27px",
+                              }),
+                            }}
+                            classNamePrefix="custom-select"
+                          />
+
+                          <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
+                            {isSubGenreOpen ? (
+                              <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                            ) : (
+                              <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </>
                   )}
                   <div className="col-span-12 sm:col-span-6 md:col-span-6 mt-[-6px]">
                     <label className="text-[12px] md:!text-[14px] font-[500]">
                       Location
                     </label>
-                    {/* <input
-                      className={`block bg-[#fafafa] h-[30px] rounded-[4px] border-[2px] ${
-                        geographyItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
-                      } w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
-                      placeholder="Country/Region/City"
-                      type="text"
-                      value={geographyItem}
-                      onChange={handleGeographyChange}
-                      required
-                      maxLength={100}
-                    /> */}
+
                     <input
                       type="text"
                       ref={locationNameRef}
@@ -2881,126 +3057,163 @@ const PremisePreview2 = ({
                       maxLength={100}
                     />
                   </div>
-                  <div
-                    ref={setinPeriodRef}
-                    className={`h-[31px] sm:mt-[21px] relative col-span-12 sm:col-span-6 md:col-span-3 ${
-                      periodSetIn ? "border-[#33B0CA]" : "border-[#EAEAEA]"
-                    } rounded-[4px] border-[2px]`}
-                  >
-                    <Select
-                      options={[
-                        { value: "Ancient", label: "Ancient" },
-                        { value: "Modern", label: "Modern" },
-                        { value: "Contemporary", label: "Contemporary" },
-                        { value: "Last Century", label: "Last Century" },
-                        { value: "Medieval", label: "Medieval" },
-                        { value: "Prehistortic", label: "Prehistortic" },
-                      ]}
-                      value={
-                        [
+                  {isMobile ? (
+                    <div
+                      ref={setinPeriodRef}
+                      className={`h-[31px] sm:mt-[21px] relative col-span-12 sm:col-span-6 md:col-span-3 ${
+                        periodSetIn ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                      } rounded-[4px] border-[2px]`}
+                    >
+                      <select
+                        value={periodSetIn || ""}
+                        onChange={(e) => setPeriodSetIn(e.target.value)}
+                        onFocus={() => setSetinPeriodOpen(true)}
+                        onBlur={() => setSetinPeriodOpen(false)}
+                        className="w-full h-[27px] text-[12px] md:text-[14px] bg-[#fafafa] border-none outline-none rounded-[4px] px-2 appearance-none cursor-pointer"
+                      >
+                        <option value="" disabled>
+                          Period of time
+                        </option>
+                        <option value="Ancient">Ancient</option>
+                        <option value="Modern">Modern</option>
+                        <option value="Contemporary">Contemporary</option>
+                        <option value="Last Century">Last Century</option>
+                        <option value="Medieval">Medieval</option>
+                        <option value="Prehistortic">Prehistortic</option>
+                      </select>
+
+                      {/* Custom arrow */}
+                      <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
+                        {isSetinPeriodOpen ? (
+                          <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                        ) : (
+                          <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      ref={setinPeriodRef}
+                      className={`h-[31px] sm:mt-[21px] relative col-span-12 sm:col-span-6 md:col-span-3 ${
+                        periodSetIn ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                      } rounded-[4px] border-[2px]`}
+                    >
+                      <Select
+                        options={[
                           { value: "Ancient", label: "Ancient" },
                           { value: "Modern", label: "Modern" },
                           { value: "Contemporary", label: "Contemporary" },
                           { value: "Last Century", label: "Last Century" },
                           { value: "Medieval", label: "Medieval" },
                           { value: "Prehistortic", label: "Prehistortic" },
-                        ].find((option) => option.value === periodSetIn) || null
-                      }
-                      onChange={(selectedOption) => {
-                        setPeriodSetIn(selectedOption?.value || "");
-                      }}
-                      onMenuOpen={() => setSetinPeriodOpen(true)}
-                      onMenuClose={() => setSetinPeriodOpen(false)}
-                      placeholder="Period of time"
-                      menuPortalTarget={document.body} // Render menu to document.body
-                      menuPosition="fixed" // Use fixed positioning
-                      styles={{
-                        menuPortal: (base) => ({
-                          ...base,
-                          zIndex: 9, // Very high z-index to ensure it's on top
-                        }),
-                        control: (base) => ({
-                          ...base,
-                          height: "27px",
-                          minHeight: "27px",
-                          fontSize: "12px",
-                          "@media (min-width: 768px)": {
+                        ]}
+                        value={
+                          [
+                            { value: "Ancient", label: "Ancient" },
+                            { value: "Modern", label: "Modern" },
+                            { value: "Contemporary", label: "Contemporary" },
+                            { value: "Last Century", label: "Last Century" },
+                            { value: "Medieval", label: "Medieval" },
+                            { value: "Prehistortic", label: "Prehistortic" },
+                          ].find((option) => option.value === periodSetIn) ||
+                          null
+                        }
+                        onChange={(selectedOption) => {
+                          setPeriodSetIn(selectedOption?.value || "");
+                        }}
+                        onMenuOpen={() => setSetinPeriodOpen(true)}
+                        onMenuClose={() => setSetinPeriodOpen(false)}
+                        placeholder="Period of time"
+                        menuPortalTarget={document.body} // Render menu to document.body
+                        menuPosition="fixed" // Use fixed positioning
+                        styles={{
+                          menuPortal: (base) => ({
+                            ...base,
+                            zIndex: 9, // Very high z-index to ensure it's on top
+                          }),
+                          control: (base) => ({
+                            ...base,
+                            height: "27px",
+                            minHeight: "27px",
+                            fontSize: "12px",
+                            "@media (min-width: 768px)": {
+                              fontSize: "14px",
+                            },
+                            border: "none",
+                            backgroundColor: "#fafafa",
+                            boxShadow: "none",
+                            padding: "0",
+                            margin: "0",
+                            width: "100%",
+                          }),
+                          valueContainer: (base) => ({
+                            ...base,
+                            padding: "0 6px",
+                            height: "27px",
+                            display: "flex",
+                            alignItems: "center",
+                          }),
+                          input: (base) => ({
+                            ...base,
+                            margin: "0",
+                            padding: "0",
+                          }),
+                          indicatorsContainer: () => ({
+                            display: "none", // hide default dropdown arrow
+                          }),
+                          menu: (base) => ({
+                            ...base,
                             fontSize: "14px",
-                          },
-                          border: "none",
-                          backgroundColor: "#fafafa",
-                          boxShadow: "none",
-                          padding: "0",
-                          margin: "0",
-                          width: "100%",
-                        }),
-                        valueContainer: (base) => ({
-                          ...base,
-                          padding: "0 8px",
-                          height: "27px",
-                          display: "flex",
-                          alignItems: "center",
-                        }),
-                        input: (base) => ({
-                          ...base,
-                          margin: "0",
-                          padding: "0",
-                        }),
-                        indicatorsContainer: () => ({
-                          display: "none", // hide default dropdown arrow
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          fontSize: "14px",
-                          marginTop: "2px",
-                          zIndex: 9, // Very high z-index
-                          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          fontSize: "14px",
-                          padding: "0px 8px",
-                          backgroundColor: state.isFocused
-                            ? "#33b0ca"
-                            : "#fafafa",
-                          color: state.isFocused ? "#ffffff" : "#000000",
-                          cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          height: "32px",
-                          lineHeight: "20px",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          fontSize: "12px",
-                          "@media (min-width: 768px)": {
+                            marginTop: "2px",
+                            zIndex: 9, // Very high z-index
+                            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+                          }),
+                          option: (base, state) => ({
+                            ...base,
                             fontSize: "14px",
-                          },
-                          whiteSpace: "nowrap",
-                          textOverflow: "ellipsis",
-                        }),
-                        singleValue: (base) => ({
-                          ...base,
-                          fontSize: "12px",
-                          "@media (min-width: 768px)": {
-                            fontSize: "14px",
-                          },
-                          margin: "0",
-                          padding: "0",
-                          lineHeight: "27px",
-                        }),
-                      }}
-                      classNamePrefix="custom-select"
-                    />
+                            padding: "0px 8px",
+                            backgroundColor: state.isFocused
+                              ? "#33b0ca"
+                              : "#fafafa",
+                            color: state.isFocused ? "#ffffff" : "#000000",
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            height: "32px",
+                            lineHeight: "20px",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            fontSize: "12px",
+                            "@media (min-width: 768px)": {
+                              fontSize: "14px",
+                            },
+                            whiteSpace: "nowrap",
+                            textOverflow: "ellipsis",
+                          }),
+                          singleValue: (base) => ({
+                            ...base,
+                            fontSize: "12px",
+                            "@media (min-width: 768px)": {
+                              fontSize: "14px",
+                            },
+                            margin: "0",
+                            padding: "0",
+                            lineHeight: "27px",
+                          }),
+                        }}
+                        classNamePrefix="custom-select"
+                      />
 
-                    <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
-                      {isSetinPeriodOpen ? (
-                        <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
-                      ) : (
-                        <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
-                      )}
+                      <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
+                        {isSetinPeriodOpen ? (
+                          <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                        ) : (
+                          <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  )}
                   <div
                     className={`col-span-12 sm:col-span-6 md:col-span-5 gap-[12px] mt-[-6px]`}
                   >
@@ -3028,24 +3241,49 @@ const PremisePreview2 = ({
                       maxLength={100}
                     />
                   </div>{" "}
-                  <div
-                    ref={protagonistRef}
-                    className={`h-[31px] sm:mt-[21px] relative col-span-12 sm:col-span-6 md:col-span-4 bg-[#fafafa] ${
-                      protagonist ? "border-[#33B0CA]" : "border-[#EAEAEA]"
-                    } rounded-[4px] border-[2px]`}
-                  >
-                    <Select
-                      options={[
-                        { value: "Male", label: "Male" },
-                        { value: "Female", label: "Female" },
-                        { value: "Animal", label: "Animal" },
-                        {
-                          value: "Inanimate Object",
-                          label: "Inanimate Object",
-                        },
-                      ]}
-                      value={
-                        [
+                  {isMobile ? (
+                    <div
+                      ref={protagonistRef}
+                      className={`h-[31px] sm:mt-[21px] relative col-span-12 sm:col-span-6 md:col-span-4 ${
+                        protagonist ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                      } bg-[#fafafa] rounded-[4px] border-[2px]`}
+                    >
+                      <select
+                        value={protagonist || ""}
+                        onChange={(e) => setProtagonist(e.target.value)}
+                        onFocus={() => setIsProtagonistOpen(true)}
+                        onBlur={() => setIsProtagonistOpen(false)}
+                        className="w-full h-[27px] text-[12px] md:text-[14px] bg-[#fafafa] px-2 rounded-[4px] appearance-none outline-none"
+                      >
+                        <option value="" disabled>
+                          Gender
+                        </option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Animal">Animal</option>
+                        <option value="Inanimate Object">
+                          Inanimate Object
+                        </option>
+                      </select>
+
+                      {/* Custom dropdown arrow */}
+                      <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
+                        {isProtagonistOpen ? (
+                          <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                        ) : (
+                          <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      ref={protagonistRef}
+                      className={`h-[31px] sm:mt-[21px] relative col-span-12 sm:col-span-6 md:col-span-4 bg-[#fafafa] ${
+                        protagonist ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                      } rounded-[4px] border-[2px]`}
+                    >
+                      <Select
+                        options={[
                           { value: "Male", label: "Male" },
                           { value: "Female", label: "Female" },
                           { value: "Animal", label: "Animal" },
@@ -3053,103 +3291,115 @@ const PremisePreview2 = ({
                             value: "Inanimate Object",
                             label: "Inanimate Object",
                           },
-                        ].find((option) => option.value === protagonist) || null
-                      }
-                      onChange={(selectedOption) => {
-                        setProtagonist(selectedOption?.value || "");
-                      }}
-                      onMenuOpen={() => setIsProtagonistOpen(true)}
-                      onMenuClose={() => setIsProtagonistOpen(false)}
-                      placeholder="Gender"
-                      menuPortalTarget={document.body} // Render menu to document.body
-                      menuPosition="fixed" // Use fixed positioning
-                      styles={{
-                        menuPortal: (base) => ({
-                          ...base,
-                          zIndex: 9, // Very high z-index to ensure it's on top
-                        }),
-                        control: (base) => ({
-                          ...base,
-                          height: "27px",
-                          minHeight: "27px",
-                          fontSize: "12px",
-                          "@media (min-width: 768px)": {
+                        ]}
+                        value={
+                          [
+                            { value: "Male", label: "Male" },
+                            { value: "Female", label: "Female" },
+                            { value: "Animal", label: "Animal" },
+                            {
+                              value: "Inanimate Object",
+                              label: "Inanimate Object",
+                            },
+                          ].find((option) => option.value === protagonist) ||
+                          null
+                        }
+                        onChange={(selectedOption) => {
+                          setProtagonist(selectedOption?.value || "");
+                        }}
+                        onMenuOpen={() => setIsProtagonistOpen(true)}
+                        onMenuClose={() => setIsProtagonistOpen(false)}
+                        placeholder="Gender"
+                        menuPortalTarget={document.body} // Render menu to document.body
+                        menuPosition="fixed" // Use fixed positioning
+                        styles={{
+                          menuPortal: (base) => ({
+                            ...base,
+                            zIndex: 9, // Very high z-index to ensure it's on top
+                          }),
+                          control: (base) => ({
+                            ...base,
+                            height: "27px",
+                            minHeight: "27px",
+                            fontSize: "12px",
+                            "@media (min-width: 768px)": {
+                              fontSize: "14px",
+                            },
+                            border: "none",
+                            backgroundColor: "#fafafa",
+                            boxShadow: "none",
+                            padding: "0",
+                            margin: "0",
+                            width: "100%",
+                          }),
+                          valueContainer: (base) => ({
+                            ...base,
+                            padding: "0 6px",
+                            height: "27px",
+                            display: "flex",
+                            alignItems: "center",
+                          }),
+                          input: (base) => ({
+                            ...base,
+                            margin: "0",
+                            padding: "0",
+                          }),
+                          indicatorsContainer: () => ({
+                            display: "none", // hide default dropdown arrow
+                          }),
+                          menu: (base) => ({
+                            ...base,
                             fontSize: "14px",
-                          },
-                          border: "none",
-                          backgroundColor: "#fafafa",
-                          boxShadow: "none",
-                          padding: "0",
-                          margin: "0",
-                          width: "100%",
-                        }),
-                        valueContainer: (base) => ({
-                          ...base,
-                          padding: "0 8px",
-                          height: "27px",
-                          display: "flex",
-                          alignItems: "center",
-                        }),
-                        input: (base) => ({
-                          ...base,
-                          margin: "0",
-                          padding: "0",
-                        }),
-                        indicatorsContainer: () => ({
-                          display: "none", // hide default dropdown arrow
-                        }),
-                        menu: (base) => ({
-                          ...base,
-                          fontSize: "14px",
-                          marginTop: "2px",
-                          zIndex: 9, // Very high z-index
-                          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-                        }),
-                        option: (base, state) => ({
-                          ...base,
-                          fontSize: "14px",
-                          padding: "0px 8px",
-                          backgroundColor: state.isFocused
-                            ? "#33b0ca"
-                            : "#fafafa",
-                          color: state.isFocused ? "#ffffff" : "#000000",
-                          cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          height: "32px",
-                          lineHeight: "20px",
-                        }),
-                        placeholder: (base) => ({
-                          ...base,
-                          fontSize: "12px",
-                          "@media (min-width: 768px)": {
+                            marginTop: "2px",
+                            zIndex: 9, // Very high z-index
+                            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+                          }),
+                          option: (base, state) => ({
+                            ...base,
                             fontSize: "14px",
-                          },
-                          whiteSpace: "nowrap",
-                          textOverflow: "ellipsis",
-                        }),
-                        singleValue: (base) => ({
-                          ...base,
-                          fontSize: "12px",
-                          "@media (min-width: 768px)": {
-                            fontSize: "14px",
-                          },
-                          margin: "0",
-                          padding: "0",
-                          lineHeight: "27px",
-                        }),
-                      }}
-                      classNamePrefix="custom-select"
-                    />
+                            padding: "0px 8px",
+                            backgroundColor: state.isFocused
+                              ? "#33b0ca"
+                              : "#fafafa",
+                            color: state.isFocused ? "#ffffff" : "#000000",
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            height: "32px",
+                            lineHeight: "20px",
+                          }),
+                          placeholder: (base) => ({
+                            ...base,
+                            fontSize: "12px",
+                            "@media (min-width: 768px)": {
+                              fontSize: "14px",
+                            },
+                            whiteSpace: "nowrap",
+                            textOverflow: "ellipsis",
+                          }),
+                          singleValue: (base) => ({
+                            ...base,
+                            fontSize: "12px",
+                            "@media (min-width: 768px)": {
+                              fontSize: "14px",
+                            },
+                            margin: "0",
+                            padding: "0",
+                            lineHeight: "27px",
+                          }),
+                        }}
+                        classNamePrefix="custom-select"
+                      />
 
-                    <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
-                      {isProtagonistOpen ? (
-                        <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
-                      ) : (
-                        <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
-                      )}
+                      <div className="absolute inset-y-0 right-0 bg-[#fafafa] flex items-center px-2 pointer-events-none">
+                        {isProtagonistOpen ? (
+                          <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                        ) : (
+                          <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  )}
                   <div className="col-span-12 mb-[12px] md:mt-[21px] md:mb-[0px] md:col-span-3">
                     {" "}
                     <div className="flex h-[31px] gap-[12px] md:w-[185px]">

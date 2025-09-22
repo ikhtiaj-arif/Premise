@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FaCommentDots,
   FaEllipsisV,
@@ -7,7 +7,7 @@ import {
   FaRegThumbsUp,
   FaThumbsUp,
 } from "react-icons/fa";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import {
   useCommentPremiseMutation,
   useDeleteLikeMutation,
@@ -196,7 +196,7 @@ const PopFetch = ({ popClose, data, refetch }) => {
   };
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <div className=" h-[50vh] lg:h-[539px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1185px] md:mx-auto relative lg:rounded-[8px]">
         {/* close popup */}
         {/* close popup */}

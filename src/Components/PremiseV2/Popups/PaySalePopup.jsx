@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import crossIcon from "../../../img/Icons/crossIcon.png";
+import { useState } from "react";
 import { useSaleForPremiseMutation } from "../../../app/EndPoints/premisePoolApi";
+import crossIcon from "../../../img/Icons/crossIcon.png";
 import PaymentInvoicePopup from "../../Payment/PaymentInvoicePopup";
-import { toast } from "react-toastify";
 
 const PaySalePopup = ({
   popClose,
@@ -40,16 +39,17 @@ const PaySalePopup = ({
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
-      <div className="h-[40vh] lg:h-[350px] mb-[20px] px-[22px] lg:mb-0 lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA] lg:w-[430px] md:mx-auto relative lg:rounded-[8px]">
+    <div className="fixed top-0 left-0 w-full h-full flex items-end pb-4 sm:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
+      <div className="h-[60vh] sm:h-[350px] mb-[20px] px-[22px] lg:mb-0 lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA] sm:w-[430px] md:mx-auto relative sm:rounded-[8px]">
         {/* Close Button */}
         <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
-
-<img src={crossIcon} alt=""
-  className=" text-red-500  w-8 h-8 cursor-pointer"
-  onClick={() =>  popClose(null)}
-/>
-</div>
+          <img
+            src={crossIcon}
+            alt=""
+            className=" text-red-500  w-8 h-8 cursor-pointer"
+            onClick={() => popClose(null)}
+          />
+        </div>
 
         {/* Title */}
         <h2 className="font-[700] text-[14px] leading-[19.9px] text-center mt-[18px]">
@@ -60,7 +60,7 @@ const PaySalePopup = ({
         {/* Description */}
         <p className="text-center text-[12px] leading-[14.5px] font-[400] my-[12px] text-[#616161] w-[80%] mx-auto">
           The Ownership of this Premise Project is available for a price of $
-          {sellingValue *1.5}
+          {sellingValue * 1.5}
         </p>
 
         {/* Note Section */}
@@ -98,8 +98,8 @@ const PaySalePopup = ({
             4.{" "}
           </p>
           <p className="text-left text-[13px] leading-[14.5px] font-[400] text-[#616161]">
-            You will be able to monetize this Premise Project through Purchase or
-            translation.
+            You will be able to monetize this Premise Project through Purchase
+            or translation.
           </p>
         </div>
 
@@ -115,7 +115,8 @@ const PaySalePopup = ({
       </div>
 
       {isPayment && (
-        <PaymentInvoicePopup popClose={popClose}
+        <PaymentInvoicePopup
+          popClose={popClose}
           typeOfRequest="sale"
           premise_id={premiseId}
           setPayment={setPayment}

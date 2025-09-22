@@ -246,8 +246,6 @@ const ReplyToReply2 = ({
   // };
 
   const formatText = (text, prefix) => {
-    console.log("prefix", prefix);
-
     if (prefix) {
       // If there's a prefix, make it bold and show at the front
       return (
@@ -522,6 +520,17 @@ const ReplyToReply2 = ({
                 reply={childReply}
                 {...{ setLikePopup, replyRefetch }}
               />
+              {childReply?.reject_button &&
+                (owner === user || childReply?.user?.id === user) && (
+                  <button className=" cursor-auto w-[60px]">
+                    <p
+                      onClick={() => handleRejectReply(childReply?.id)}
+                      className=" text-[14px]  bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400]   leading-[16.52px]    "
+                    >
+                      Reject
+                    </p>
+                  </button>
+                )}
             </>
           </div>
           <div className="md:hidden flex  md:ml-[-40px] items-center gap-3 text-sm leading-[16px] mt-[2px] mb-[4px] ">
@@ -634,19 +643,7 @@ const ReplyToReply2 = ({
               )}
           </div>
 
-          <div className="flex gap-[4px] items-center mt-[2px] justify-end">
-            {childReply?.reject_button &&
-              (owner === user || childReply?.user?.id === user) && (
-                <button className=" cursor-auto w-[60px]">
-                  <p
-                    onClick={() => handleRejectReply(childReply?.id)}
-                    className="text-[12px] bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400] leading-[14.52px] "
-                  >
-                    Reject
-                  </p>
-                </button>
-              )}
-
+          <div className="flex gap-2 items-center mt-[2px] justify-end">
             {!(
               childReply?.text?.includes("?") || childReply?.text?.includes("؟")
             ) && (
@@ -682,36 +679,37 @@ const ReplyToReply2 = ({
                 )}
               </>
             )}
-          </div>
-          <div className="  flex  lg:hidden justify-center gap-1 items-center ">
-            <CommentTranslator
-              comment={childReply}
-              translateComment={translateComment}
-              loading={isTranslationCommentLoading}
-              commentRefetch={replyRefetch}
-              setCommentText={setReplyText}
-              setCommentPrefix={setReplyTextPrefix}
-            />
-            {(owner === user || replyBy?.id === user) &&
-            !childReply?.reject_button ? (
-              <div className="flex gap-2 items-center pl-[2px]">
-                <button
-                  // data-reply-reply
-                  // disabled={disableD}
-                  onClick={() => {
-                    setIdToDlt(currentReplyId);
-                    setOpenDltPop(true);
-                  }}
-                >
-                  <FaRegTrashAlt
-                    //   disabled={disableBtn}
-                    className="h-5 w-5 text-[#909090]"
-                  />
-                </button>
-              </div>
-            ) : (
-              <></>
-            )}
+
+            <div className="  flex  lg:hidden justify-center gap-1 items-center ">
+              <CommentTranslator
+                comment={childReply}
+                translateComment={translateComment}
+                loading={isTranslationCommentLoading}
+                commentRefetch={replyRefetch}
+                setCommentText={setReplyText}
+                setCommentPrefix={setReplyTextPrefix}
+              />
+              {(owner === user || replyBy?.id === user) &&
+              !childReply?.reject_button ? (
+                <div className="flex gap-2 items-center pl-[2px]">
+                  <button
+                    // data-reply-reply
+                    // disabled={disableD}
+                    onClick={() => {
+                      setIdToDlt(currentReplyId);
+                      setOpenDltPop(true);
+                    }}
+                  >
+                    <FaRegTrashAlt
+                      //   disabled={disableBtn}
+                      className="h-5 w-5 text-[#909090]"
+                    />
+                  </button>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
         </div>
 
@@ -777,28 +775,31 @@ const ReplyToReply2 = ({
         <div className="w-[96%] md:w-[91%] mb-[8px] ml-auto ">
           {" "}
           {childReply?.child_replies &&
-            lastChildReplies?.map(
-              (childReply, idx) =>
-                depth < 2 && ( // Limit the recursion depth to 2
-                  <ReplyToReply3
-                    // data-reply-reply
-                    fromNew={fromNew}
-                    key={childReply?.id}
-                    commentIdx={commentIdx}
-                    replyToCommentID={replyToCommentID}
-                    childReply={childReply}
-                    currentReplyId={currentReplyId}
-                    handleAddToBeat={handleAddToBeat}
-                    setCommentText={setCommentText}
-                    setBeatCommentText={setBeatCommentText}
-                    owner={owner}
-                    user={user}
-                    replyRefetch={replyRefetch}
-                    depth={depth + 1} // Increment the depth
-                    handleRejectReply={handleRejectReply}
-                  />
-                )
-            )}
+            lastChildReplies
+              ?.slice()
+              ?.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+              ?.map(
+                (childReply, idx) =>
+                  depth < 2 && ( // Limit the recursion depth to 2
+                    <ReplyToReply3
+                      // data-reply-reply
+                      fromNew={fromNew}
+                      key={childReply?.id}
+                      commentIdx={commentIdx}
+                      replyToCommentID={replyToCommentID}
+                      childReply={childReply}
+                      currentReplyId={currentReplyId}
+                      handleAddToBeat={handleAddToBeat}
+                      setCommentText={setCommentText}
+                      setBeatCommentText={setBeatCommentText}
+                      owner={owner}
+                      user={user}
+                      replyRefetch={replyRefetch}
+                      depth={depth + 1} // Increment the depth
+                      handleRejectReply={handleRejectReply}
+                    />
+                  )
+              )}
         </div>
       )}
       {noAccessLbPopup?.msg === "ShowBecomePrivilege" && (

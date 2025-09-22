@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 // import { IoMdSend } from "react-icons/io";
 import {
   useGetCommentByPremiseIdQuery,
@@ -552,8 +552,9 @@ const Popup = ({
   } else
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
-        <ToastContainer />
-        <div className=" h-[100vh] lg:h-auto mb-[20px] lg:mb-0 2xl:h-[673px] lg:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1090px] xl:w-[1220px] md:mx-auto relative lg:rounded-[8px] ">
+        {/*{/* <ToastContainer /> */} */}
+        <div className=" h-[100vh] lg:h-auto lg:mt-[70px] mb-[20px] lg:mb-0 2xl:h-[673px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1090px] xl:w-[1220px] md:mx-auto relative lg:rounded-[8px] ">
+       
           {/* close popup */}
           <img
             src={crossIcon}
@@ -1195,6 +1196,8 @@ const Popup = ({
           )}
 
           {likePopup && <LikePopup setLikePopup={setLikePopup} id={id} />}
+
+          
         </div>
       </div>
     );

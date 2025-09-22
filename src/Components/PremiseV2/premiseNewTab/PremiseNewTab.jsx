@@ -274,7 +274,7 @@ const PremiseNewTab = ({
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      <div className="  fixed top-[70px] bottom-[120px] md:bottom-[170px] left-1/2 -translate-x-1/2 w-full  ">
+      <div className="  fixed top-[50px] left-1/2 -translate-x-1/2 w-full  ">
         {!isPremiseLoading &&
         !isCommentLoading &&
         premiseDataR &&

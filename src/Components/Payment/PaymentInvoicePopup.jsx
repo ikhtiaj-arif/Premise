@@ -226,10 +226,10 @@ const PaymentInvoicePopup = ({
   };
 
   return (
-    <div className="fixed top-0 lg:top-12 xl:top-[40px] left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
-      <div className="h-[90vh] lg:static lg:mt-0 absolute bottom-0 bg-white md::rounded-[12px] w-[100%] sm:w-[90%] rounded-md lg:w-[1140px]">
+    <div className="fixed top-0  left-0 w-full h-screen flex items-center justify-center bg-[#252525b0] z-[2]">
+      <div className="h-[90vh] lg:static lg:mt-0 absolute bottom-0 bg-white md:rounded-[12px] w-[100%]  rounded-md lg:w-[1140px]">
         <div className="relative">
-          <div className="hidden xl:block absolute right-[45%] top-[-60px] md:top-[-62px] md:right-[-12px]">
+          <div className="hidden lg:block absolute right-[45%] top-[-60px] md:top-[-62px] md:right-[-12px]">
             <img
               src={crossIcon}
               alt=""
@@ -239,8 +239,8 @@ const PaymentInvoicePopup = ({
               }}
             />
           </div>
-       
-          <div className="xl:hidden absolute top-[-38px] left-[-18px] ml-4 sm:ml-0 sm:right-[-15px]">
+
+          <div className="lg:hidden absolute top-[-38px] left-[-18px] ml-4 sm:ml-0 sm:right-[-15px]">
             <MdKeyboardBackspace
               alt=""
               className="text-[#252525] ml-[20px] text-left text-[32px] z-[1] absolute cursor-pointer "

@@ -154,7 +154,7 @@ const AddPremise2 = ({
             <img
               src={crossIcon}
               alt="cross icon"
-              className={`text-red-500 barSm-hidden  w-8 h-8 cursor-pointer absolute top-[-12px] right-0 z-1`}
+              className={`text-red-500 hidden md:block w-8 h-8 cursor-pointer absolute top-[-12px] right-0 z-1`}
               onClick={() => setAddPopup(null)}
             />
           )}
@@ -166,7 +166,7 @@ const AddPremise2 = ({
                   <MdKeyboardBackspace
                     src={crossIcon}
                     alt=""
-                    className={`text-[#252525]  ml-[20px] text-left text-[32px] cursor-pointer mdHidden ${
+                    className={`text-[#252525]  ml-[20px] text-left text-[32px] cursor-pointer md:hidden ${
                       preview && "mt-3"
                     }`}
                     onClick={() => {

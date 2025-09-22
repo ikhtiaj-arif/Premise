@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useRequestForSaleOrTranslateMutation } from "../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import TypingLoader from "../../TypingLoader";
@@ -62,7 +62,7 @@ const ReqSalePop = ({ popClose, id, user, source_language, project_id }) => {
 
   return (
     <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-screen flex items-end sm:items-center bg-[#252525b0] justify-center z-[21] ">
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       {processing ? (
         <div className="w-full md:w-[400px]">
           <TypingLoader />

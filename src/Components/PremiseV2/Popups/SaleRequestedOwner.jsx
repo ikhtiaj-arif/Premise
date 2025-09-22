@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useRejectPurchaseRequestMutation } from "../../../app/EndPoints/Characters/Characters";
 import {
   useEditPremiseMutation,
@@ -143,17 +143,16 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-end sm:items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21] ">
-      <ToastContainer />
-
+    <div className="fixed top-0 left-0 w-full h-screen flex items-end sm:items-center  bg-[#252525b0] justify-center z-[21] ">
+      {/* <ToastContainer /> */}
       <div
         className={`h-[86vh] ${
           showCongratsPopup
             ? "lg:h-auto "
             : showBankDetails
             ? " sm:h-[497px]"
-            : "sm:h-[670px] max-h-[86vh]"
-        } mb-[20px] px-[22px] lg:mb-0 pt-2 lg:mt-[80px] xl:mt-[85px] w-full bg-[#fff] sm:w-[625px] md:mx-auto relative sm:rounded-[8px]`}
+            : "sm:h-[580px]  2xl:h-[670px] max-h-[86vh]"
+        } mb-[20px] px-[22px] lg:mb-0 pt-2  2xl:mt-[85px] w-full bg-[#fff] sm:w-[625px] md:mx-auto relative sm:rounded-[8px]`}
       >
         <div className="absolute top-[-56px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
           <img
@@ -197,7 +196,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
         )}
         <div className="overflow-x-hidden overflow-y-auto h-[calc(100%-125px)]">
           {!showBankDetails ? (
-            <div className="sm:pr-[12px] sm:pl-4 mt-2 md:mt-[17px] w-full sm:w-[542px] md:ml-[40px]">
+            <div className="sm:pr-[12px] sm:pl-4 mt-2 md:mt-[17px] w-full sm:w-[542px] md:ml-[40px] mb-6">
               <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
                 {fromUser?.first_name
                   ? `${fromUser.first_name} ${fromUser?.last_name || ""}`

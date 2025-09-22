@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
-import { ToastContainer } from "react-toastify";
 import { useGetPremiseBeatsDataQuery } from "../../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
 import TypingLoader from "../../../TypingLoader";
@@ -37,7 +36,7 @@ const BeatsPop = ({ popClose, id }) => {
 
   return (
     <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-screen flex items-center bg-[#252525b0] justify-center z-[21]">
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <div className="h-[550px] px-[12px] md:px-[32px] w-full bg-[#fff] md:w-[700px] lg:w-[1052px] lg:max-w-[90%] md:mx-auto relative md:rounded-[8px]">
         {/* close popup */}
         <img
