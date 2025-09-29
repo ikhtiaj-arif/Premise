@@ -126,7 +126,11 @@ const PremiseCardV2 = ({
   const [characterLoading, setCharacterLoading] = useState(true);
   const [notifyPopup, setNotifyPopup] = useState(false);
   useEffect(() => {
-    if (is_draft) setOnlyAdd(false);
+    if (is_draft) {
+      setOnlyAdd(false);
+    } else {
+      setOnlyAdd(true);
+    }
   }, [is_draft]);
 
   // useEffect(() => {
@@ -358,7 +362,7 @@ const PremiseCardV2 = ({
   };
   const checkAllowance = async (state, id) => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_AllowInteraction`);
-    console.log("AllowInteraction res", res);
+   
     if (res?.access === "No") {
       setNoAccessLbPopUp(res);
     } else {
@@ -403,7 +407,6 @@ const PremiseCardV2 = ({
 
   const handleUserMail = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_MessageOwner`);
-    console.log("message rs", res);
     if (res?.access === "No") {
       setUserMail(res);
     } else {
@@ -476,7 +479,6 @@ const PremiseCardV2 = ({
         headers: header,
       });
       const premiseData = data?.data;
-      console.log("source data", premiseData);
       // setSourcePopData(premiseData)
 
       if (premiseData) {
@@ -537,7 +539,7 @@ const PremiseCardV2 = ({
         setOpenPopSource(true);
       }
     } catch (error) {
-      console.log(error);
+     
       setSourcePremiseNotAvailable(true);
     }
   };
@@ -605,7 +607,7 @@ const PremiseCardV2 = ({
                       />
                     </div>
                   </div>
-                  <div className="text-[#616161] text-[14px] flex flex-col gap-[1px] font-[400]  ">
+                  <div className="text-[#616161] text-[12px] flex flex-col gap-[1px] font-[400]  ">
                     <p className="leading-[12px] my-[2px]">
                       {formattedDate}, {formattedTime}
                     </p>

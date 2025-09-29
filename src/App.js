@@ -72,6 +72,7 @@ function App() {
 
   const { data: allspProjectJSON, refetch: projectRefetch } =
     useGetMyAllProjectQuery();
+    
   const currentUser = useSelector((state) => state?.user);
 
   const [counts, setCounts] = useState({});
@@ -178,6 +179,7 @@ function App() {
     searchAuthor,
     setSearchAuthor,
     allspProjectJSON,
+    projectRefetch,
     filterdAllProjects,
     selectedPremiseObj,
     setSelectedPremiseObj,
@@ -189,7 +191,6 @@ function App() {
     setSelectedPremiseSpProjectId,
     transPopup,
     setTransPopup,
-    projectRefetch,
     allProjects,
     selectedLanguages,
     setSelectedLanguages,

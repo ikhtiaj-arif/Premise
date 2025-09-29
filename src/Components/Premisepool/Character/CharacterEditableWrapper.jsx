@@ -63,6 +63,7 @@ const CharacterEditableWrapper = ({
         // setCharSaveDisable(true);
         setCharacterLoading(false);
         charRefetch();
+
         // toast.success("characters updated!")
       }
       return response;
@@ -112,7 +113,6 @@ const CharacterEditableWrapper = ({
     }
   };
 
-
   return (
     <div>
       {!isCharLoading && (
@@ -129,6 +129,7 @@ const CharacterEditableWrapper = ({
           source_language={source_language}
           is_draft={is_draft}
           setPreviewAfterDraft={setPreviewAfterDraft}
+          refetch={refetch}
         />
       )}
     </div>

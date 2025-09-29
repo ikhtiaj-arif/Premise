@@ -5,7 +5,6 @@ import { MdKeyboardBackspace } from "react-icons/md";
 import arrowRight from "../../../img/Icons/ArrowRicon.png";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import { autoCorrectText } from "../../../shared/utils/AutoCorrect";
-import { useCohereSuggest } from "../../../shared/utils/useCohereSuggest";
 import AddPremiseNextTutorialPop from "../../PremiseV2/sequalPopup/AddPremiseNextTutorialPop";
 import AddPremiseTutorialPop from "../../PremiseV2/sequalPopup/singlePop/AddPremiseTutorialPop";
 import Keyboard from "../Keyboard";
@@ -80,7 +79,7 @@ const AddPremise2 = ({
     setPreview(true);
   };
   // const { suggestion } = useSmartSuggest(text);
-  const suggestion = useCohereSuggest(text);
+  // const suggestion = useCohereSuggest(text);
 
   const handleTextChange = (event) => {
     let value = event.target.value;
@@ -88,18 +87,18 @@ const AddPremise2 = ({
     setText(value);
   };
 
-  const acceptSuggestion = () => {
-    if (suggestion) {
-      setText((prev) => prev + suggestion.replace(prev, ""));
-    }
-  };
+  // const acceptSuggestion = () => {
+  //   if (suggestion) {
+  //     setText((prev) => prev + suggestion.replace(prev, ""));
+  //   }
+  // };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Tab" && suggestion) {
-      e.preventDefault();
-      acceptSuggestion();
-    }
-  };
+  // const handleKeyDown = (e) => {
+  //   if (e.key === "Tab" && suggestion) {
+  //     e.preventDefault();
+  //     acceptSuggestion();
+  //   }
+  // };
 
   const handleAutoCorrect = async () => {
     const corrected = await autoCorrectText(text);
@@ -212,7 +211,7 @@ const AddPremise2 = ({
             ) : (
               <form
                 onSubmit={handleSubmit}
-                className="mt-1 md:mt-0 xl:mt-[18px] h-[80vh] md:h-auto flex flex-col justify-between"
+                className="mt-1 md:mt-0 h-[80vh] md:h-auto flex flex-col justify-between"
               >
                 <div>
                   <div className="bg-[#FAFAFA] my-1 h-[38px] md:h-[32px] xl:h-[38px] border border-[#EAEAEA] shadow-sm rounded-[8px] px-[8px] hidden lg:flex items-center mx-[28px] ">
@@ -290,8 +289,7 @@ const AddPremise2 = ({
                           // placeholder="Start typing..."
                         /> */}
 
-                    {/* <div className="text-[14px] leading-[18px] md:text-[12px] md:leading-[16px]  xl:text-[14px] xl:leading-[18px] font-[400] mt-[-4px]">
-                    
+                    <div className="text-[14px] leading-[18px] md:text-[12px] md:leading-[16px]  xl:text-[14px] xl:leading-[18px] font-[400] mt-[-4px]">
                       <div className="flex flex-row-reverse  items-center gap-5 mt-[-7px]">
                         <p className="text-right pt-[10px] md:pt-[1.5px]">
                           {text?.length || 0}/200
@@ -306,7 +304,7 @@ const AddPremise2 = ({
                           </p>
                         )}
                       </div>
-                    </div> */}
+                    </div>
                   </div>
                   <div className="md:bg-[#FAFAFA] flex gap-4 justify-end  my-[8px] text-center mx-[28px]">
                     <button

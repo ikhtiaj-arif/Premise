@@ -93,12 +93,23 @@ const AskIda = ({
       if (response) {
         const commentText = translations[source_language] || translations["en"];
 
+        const brainstormData = localStorage.getItem("BrainstormData");
+        const sceneData = JSON.parse(brainstormData);
+
+        const updatedPremiseId = sceneData?.premiseId;
+        const lastSceneNumber = sceneData?.lastSceneNumber;
+
+        let c_value = response?.data?.counts + 1;
+
         const body = {
           premise: id,
           text: commentText,
           ask_ida: true,
           user: user,
-          C: response?.data?.counts + 1, // Update the comment count
+          C: c_value, // Update the comment count
+          ...(updatedPremiseId === id && lastSceneNumber
+            ? { C_from_scriptpad: lastSceneNumber }
+            : {}),
           is_question: false,
         };
 
@@ -118,6 +129,9 @@ const AskIda = ({
         // here scroll all the way down to a div using ref
         setTimeout(() => {
           commentRefetch(); // Refetch the comments after adding the new one
+          if (updatedPremiseId === id) {
+            localStorage.removeItem("BrainstormData");
+          }
           setOpenAllReplies(true);
           setOpenReplyFieldID(res?.data?.id);
         }, 1000);

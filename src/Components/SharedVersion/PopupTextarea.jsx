@@ -156,12 +156,23 @@ const PopupTextarea = ({
         }
       );
 
+      const brainstormData = localStorage.getItem("BrainstormData");
+      const sceneData = JSON.parse(brainstormData);
+
+      const updatedPremiseId = sceneData?.premiseId;
+      const lastSceneNumber = sceneData?.lastSceneNumber;
+
+      let c_value = response?.data?.counts + 1;
+
       if (response) {
         const body = {
           premise: premiseId,
           text: newComment,
           user: user,
-          C: response?.data?.counts + 1, // Update the comment count
+          C: c_value, // Update the comment count
+          ...(updatedPremiseId === premiseId && lastSceneNumber
+            ? { C_from_scriptpad: lastSceneNumber }
+            : {}),
           is_question: isCommentQuestion,
         };
 
@@ -179,7 +190,9 @@ const PopupTextarea = ({
         //   setTextCount(0);
         // } else {
         setNewComment("");
-
+        if (updatedPremiseId === premiseId) {
+          localStorage.removeItem("BrainstormData");
+        }
         setIsLoading(false);
         setTextCount(0);
 

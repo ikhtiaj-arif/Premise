@@ -52,7 +52,6 @@ import DeletePremise from "./DeletePremise";
 import LikePopup from "./LikePopup";
 import LikePremise from "./LikePremise";
 import OwnerMail from "./OwnerMail";
-import PopupSource from "./PopupSource";
 import { hideUnhidePremise } from "./PreiseUtils";
 import "./Premise.css";
 import UserMail from "./UserMail";
@@ -243,7 +242,7 @@ const Popup = ({
   } = useGetPremiseUserPictureQuery(premiseOwner?.id);
 
   const proImgUrl = baseURL.concat(profileImg?.[0]?.profile_photo);
-  // console.log(stylings);
+  console.log("user",user);
 
   const { boldStyle, italicStyle, underlineStyle, hexColor } = stylings;
   const premiseId = data?.id;
@@ -491,6 +490,10 @@ const Popup = ({
       setSourcePopData("premiseData", premiseData);
 
       if (premiseData) {
+          if (premiseData?.hidden && premiseData?.premiseOwner?.id !== user) {
+          setSourcePremiseNotAvailable(true);
+          return;
+        }
         const formattedDate = new Date(
           premiseData?.created_at
         ).toLocaleDateString("en-US", {
@@ -532,6 +535,7 @@ const Popup = ({
           m_value: premiseData?.m_value || "",
           formattedTime,
           formattedDate,
+          user
         };
 
         setSourcePopData(data);
@@ -552,8 +556,8 @@ const Popup = ({
   } else
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
-        {/*{/* <ToastContainer /> */} */}
-        <div className=" h-[100vh] lg:h-auto lg:mt-[70px] mb-[20px] lg:mb-0 2xl:h-[673px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1090px] xl:w-[1220px] md:mx-auto relative lg:rounded-[8px] ">
+        {/*{/* <ToastContainer /> */}
+        <div className=" h-[97vh] lg:h-auto lg:mt-[70px] mb-[20px] lg:mb-0 2xl:h-[673px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1090px] xl:w-[1220px] md:mx-auto relative lg:rounded-[8px] ">
        
           {/* close popup */}
           <img
@@ -568,7 +572,7 @@ const Popup = ({
           <MdKeyboardBackspace
             src={crossIcon}
             alt=""
-            className="text-[#252525] text-left text-[32px] my-[8px] mt-1 ml-[24px] z-[1] cursor-pointer lgHidden"
+            className="text-[#252525] text-left text-[32px] my-[8px] mt-5 ml-[24px] z-[1] cursor-pointer lgHidden"
             onClick={() => {
               popClose(false);
               // setOpenReplyField(null);
@@ -580,7 +584,7 @@ const Popup = ({
           <div
             className="flex flex-col lg:flex-row lg:justify-center 
                 gap-3 lg:gap-[16px] xl:gap-[32px] 
-                h-[calc(100vh-230px)] lg:h-[554px] xl:h-[620px] 2xl:h-[674px]
+                h-[calc(100vh-230px)] md:h-[calc(100vh-301px)] lg:h-[554px] xl:h-[620px] 2xl:h-[674px]
                 max-h-[100vh] overflow-hidden "
           >
             {/* left div */}
@@ -605,7 +609,7 @@ const Popup = ({
                       {profileImg?.[0]?.profile_photo ? (
                         <img
                           src={proImgUrl}
-                          className="h-[35.9px] w-[36px] rounded-full object-cover border border-[#eaeaea]"
+                          className="h-[35.9px] min-w-[36px] rounded-full object-cover border border-[#eaeaea]"
                           alt=""
                         />
                       ) : (
@@ -1178,7 +1182,7 @@ const Popup = ({
             <AddBeatTutorialPop popClose={() => setAddBeatTutorialPop(false)} />
           )}
           {openPopSource && (
-            <PopupSource
+            <Popup
               popClose={() => setOpenPopSource(false)}
               refetch={refetch}
               data={sourcePopData}

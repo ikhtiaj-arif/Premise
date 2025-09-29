@@ -385,54 +385,56 @@ const LeftSideBarUpdate = ({
 
   return (
     <>
-      <div className="fixed bg-[#fff] top-[100%] z-[1] w-[96%] mx-auto lgHidden">
-        <NewTabTextArea
-          fromNew
-          premiseId={id}
-          className="ls-textarea"
-          className2="ls-textareainput"
-          {...{
-            premiseOwner,
-            user,
-            commentRefetch,
-            setOpenAllReplies,
-            setOpenReplyFieldID,
-            lastCommentRef,
-            commentField,
-            setCommentField,
-            setReplyField,
-            replyField,
-            replyRef,
-            isLoading,
-            setIsLoading,
-            selectedLanguage,
-            setSelectedLanguage,
-            keyboardVisible,
-            setKeyboardVisible,
-            newComment,
-            setNewComment,
-            inputRef,
-          }}
-        />
-
-        <div className="flex gap-1 items-center w-[182px] mt-[2px] mx-auto">
-          <h3 className="text-[12px]">or,</h3>
-          <AskIda
+      <div className="fixed  w-[100%] sm:w-[90%] mx-auto bottom-0   z-[1]   inset-x-0 flex flex-col items-center ">
+        <div className=" flex-col   w-full lgFlxHidden z-[1]  border bg-white px-3 pb-4 shadow-md">
+          <NewTabTextArea
+            fromNew
+            premiseId={id}
+            className="ls-textarea"
+            className2="ls-textareainput"
             {...{
-              id,
-              source_language,
-              user,
               premiseOwner,
+              user,
               commentRefetch,
               setOpenAllReplies,
               setOpenReplyFieldID,
               lastCommentRef,
+              commentField,
+              setCommentField,
+              setReplyField,
+              replyField,
+              replyRef,
               isLoading,
               setIsLoading,
-              setNoAccessPopup,
-              setService,
+              selectedLanguage,
+              setSelectedLanguage,
+              keyboardVisible,
+              setKeyboardVisible,
+              newComment,
+              setNewComment,
+              inputRef,
             }}
           />
+
+          <div className="flex gap-1 items-center w-[182px] mt-[2px] mx-auto">
+            <h3 className="text-[12px]">or,</h3>
+            <AskIda
+              {...{
+                id,
+                source_language,
+                user,
+                premiseOwner,
+                commentRefetch,
+                setOpenAllReplies,
+                setOpenReplyFieldID,
+                lastCommentRef,
+                isLoading,
+                setIsLoading,
+                setNoAccessPopup,
+                setService,
+              }}
+            />
+          </div>
         </div>
       </div>
       <div className="xl:w-[368px] w-full relative h-full shadow-md  rounded-md">
@@ -755,6 +757,7 @@ const LeftSideBarUpdate = ({
           characterLoading={isCharLoading}
           project_id={project_id}
           source_language={source_language}
+          fromNew={true}
         />
       )}
 
@@ -925,6 +928,7 @@ const LeftSideBarUpdate = ({
           user={user}
           source_language={source_language}
           project_id={project_id}
+          fromNew={true}
         />
       )}
 

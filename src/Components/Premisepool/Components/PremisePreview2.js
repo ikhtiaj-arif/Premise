@@ -273,6 +273,7 @@ const PremisePreview2 = ({
     createdSpProjectID,
     setCreatedSpProjectID,
     allspProjectJSON,
+    
     filteredAllProjects,
     setSelectedPremiseSpProjectId,
     // ProjectsObj,
@@ -703,7 +704,6 @@ const PremisePreview2 = ({
 
   const submitPremise = async (e) => {
     e.preventDefault();
-
     const languageKey =
       languageOptions.find((option) => option.label === premiseLanguage) ||
       null;
@@ -967,16 +967,19 @@ const PremisePreview2 = ({
                 setIsLoading(false);
                 deleteProject({ project: deleteId });
                 deletePremiseWhenFailed(deletePreID);
+                projectRefetch()
                 toast.error("Failed to create Premise", {
                   position: toast.POSITION.TOP_CENTER,
                   autoClose: 1600,
                 });
-                setAddPopup(null);
+                // setAddPopup(null);
               });
           } else {
             // Handle API errors
             setIsLoading(false);
-            deleteProject({ project: deleteId });
+          const dltRes = await  deleteProject({ project: deleteId });
+         if(dltRes){
+             projectRefetch()
             toast.error(
               res?.error?.data?.message || "Failed to create Premise!",
               {
@@ -984,7 +987,9 @@ const PremisePreview2 = ({
                 autoClose: 1600,
               }
             );
-            setAddPopup(null);
+         }
+                // projectRefetch()
+            // setAddPopup(null);
           }
         }
       } else {
@@ -1243,10 +1248,12 @@ const PremisePreview2 = ({
   }, [protagonist]);
 
   const formValid =
+  (spProjectName || selectedSpProjectID) &&
     natureOfProject &&
     generaItem &&
     (subGeneraItem || subGeneraItemTxt) &&
     periodSetIn &&
+    authorName &&
     geographyItem &&
     protagonist &&
     protagonistName &&
@@ -1495,19 +1502,40 @@ const PremisePreview2 = ({
 
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
 
-  useEffect(() => {
-    if (isProjectOpen && spProjectRef.current) {
-      const rect = spProjectRef.current.getBoundingClientRect();
-      const dropdownHeight = 170; // px
-      const spaceBelow = window.innerHeight - rect.bottom;
-      const openUpward = spaceBelow < dropdownHeight;
+  // useEffect(() => {
+  //   if (isProjectOpen && spProjectRef.current) {
+  //     const rect = spProjectRef.current.getBoundingClientRect();
+  //     const dropdownHeight = 170; // px
+  //     const spaceBelow = window.innerHeight - rect.bottom;
+  //     const openUpward = spaceBelow < dropdownHeight;
 
-      setDropdownPos({
-        left: rect.left,
-        top: openUpward ? rect.top - dropdownHeight - 6 : rect.bottom + 2,
-      });
-    }
-  }, [isProjectOpen]);
+  //     setDropdownPos({
+  //       left: rect.left,
+  //       top: openUpward ? rect.top - dropdownHeight - 6 : rect.bottom + 2,
+  //     });
+  //   }
+  // }, [isProjectOpen]);
+
+
+
+useEffect(() => {
+  if (isProjectOpen && spProjectRef.current && dropdownRef.current) {
+    const rect = spProjectRef.current.getBoundingClientRect();
+    const dropdownRect = dropdownRef.current.getBoundingClientRect();
+
+    const dropdownHeight = dropdownRect.height; // actual height
+    const spaceBelow = window.innerHeight - rect.bottom;
+
+    const openUpward = spaceBelow < dropdownHeight;
+
+    setDropdownPos({
+      left: rect.left,
+      top: openUpward ? rect.top - dropdownHeight - 6 : rect.bottom + 2,
+    });
+  }
+}, [isProjectOpen, filteredSpProjects.length]);
+
+
 
   if (isLoading) {
     return (
@@ -1839,7 +1867,7 @@ const PremisePreview2 = ({
                           onChange={(e) =>
                             setSelectedSpProjectID(e.target.value)
                           }
-                          className="h-[31px] w-[144px] md:w-[206px] border-2 rounded-[4px] px-[8px] text-[12px] md:text-[14px] bg-[#fafafa]"
+                          className="h-[31px] w-[144px] focus:outline-none  md:w-[206px] border-2 rounded-[4px] px-[8px] text-[12px] md:text-[14px] bg-[#fafafa]"
                         >
                           <option value="" disabled>
                             Select A Project
@@ -1880,7 +1908,8 @@ const PremisePreview2 = ({
                           {/* Dropdown List */}
                           {isProjectOpen && (
                             <div
-                              className={`fixed z-[9999] bg-white border border-[#EAEAEA] rounded-[4px] shadow-md max-h-[200px] overflow-y-auto w-[144px] md:w-[206px]`}
+                             ref={dropdownRef}
+                              className={`fixed z-[99] bg-white border border-[#EAEAEA] rounded-[4px] shadow-md max-h-[200px] overflow-y-auto w-[144px] md:w-[206px]`}
                               style={{
                                 top: dropdownPos.top,
                                 left: dropdownPos.left,
@@ -1948,7 +1977,7 @@ const PremisePreview2 = ({
                             onChange={(e) =>
                               setSelectedSpProjectID(e.target.value)
                             }
-                            className="h-[31px] w-[144px] md:w-[206px] border-2 rounded-[4px] px-[8px] text-[12px] md:text-[14px] bg-[#fafafa]"
+                            className="h-[31px] w-[144px] focus:outline-none md:w-[206px] border-2 rounded-[4px] px-[8px] text-[12px] md:text-[14px] bg-[#fafafa]"
                           >
                             <option value="" disabled>
                               Select A Project
@@ -2118,17 +2147,20 @@ const PremisePreview2 = ({
               ) : (
                 <div className="text-[12px] grid grid-cols-12 gap-x-[6px] md:gap-x-[12px] gap-y-[4px]  px-[16px] md:px-0 lg:px-0 mt-[8px] md:mt-[-5px]">
                   {createNewProject && (
-                    <div className="flex h-[31px] col-span-12  md:col-span-4">
+                    <div className="flex h-[31px] col-span-12 md:col-span-4">
                       <input
                         type="text"
                         ref={projectNameRef}
                         onFocus={() => setFocusedFieldName("projectName")}
+                        maxLength={50}
                         // id="spProjectName"
                         className={`h-[30px] relative  text-[12px] md:!text-[14px] leading-tight px-[8px] w-full md:w-[181px] bg-[#fafafa] rounded-[4px] border-[2px] ${
                           spProjectName
                             ? "border-[#33B0CA]"
                             : "border-[#EAEAEA]"
                         } focus:outline-none`}
+                        data-te-toggle="tooltip"
+                        title={spProjectName}
                         placeholder="Project Name"
                         required
                         value={spProjectName}
@@ -2292,6 +2324,9 @@ const PremisePreview2 = ({
                       type="text"
                       // id="authorName"
                       ref={authorNameRef}
+                      maxLength={30}
+                      data-te-toggle="tooltip"
+                      title={authorName}
                       className={`h-[30px] relative text-[12px] md:!text-[14px] leading-tight px-[8px] w-full md:w-[191px] bg-[#fafafa] rounded-[4px] border-[2px] ${
                         authorName ? "border-[#33B0CA]" : "border-[#EAEAEA]"
                       } focus:outline-none`}
@@ -3437,7 +3472,7 @@ const PremisePreview2 = ({
             </div>
             {/* button part */}
             {!finalEdit ? (
-              <div className="lg:bg-[#FAFAFA] sticky right-0 bottom-6 sm:bottom-0 flex justify-end py-1 text-center  mx-[28px] mt-[12px] mb-[10px]">
+              <div className="lg:bg-[#FAFAFA] w-1/2 ml-auto sticky right-0 bottom-12 sm:bottom-0 flex justify-end py-1 text-center  mx-[28px] mt-[12px] mb-[10px]">
                 <button
                   disabled={isLoading}
                   className={`${
@@ -3454,7 +3489,7 @@ const PremisePreview2 = ({
                     // onClick={submitPremise}
                     disabled={!formValid}
                     type="submit"
-                    className={` text-white rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] ${
+                    className={` text-white rounded-[8px] h-[32px] px-[28px] z-20 text-[14px] font-[600] ${
                       !formValid ? "bg-[#ACDDE7] " : "bg-[#33B0CA]"
                     }`}
                   >

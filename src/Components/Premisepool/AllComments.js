@@ -1041,20 +1041,6 @@ const AllComments = ({
                 </div>
               )}
 
-              <div
-                className={`hidden lg:absolute lg:flex flex-col md:flex-row gap-[0.15rem] xl:gap-2 items-center ${
-                  fromNew
-                    ? "right-[8.5px] sm:right-0 xl:right-[38.5px]"
-                    : "right-0"
-                }  top-[18%] md:top-[28%]`}
-              >
-                <CommentTranslator
-                  key={comments.id}
-                  comment={comments}
-                  translateComment={translateComment}
-                  commentRefetch={commentRefetch}
-                  setCommentText={setCommentText}
-                />
 
                 <>
                   {" "}
@@ -1062,6 +1048,20 @@ const AllComments = ({
                     <div />
                   ) : (
                     <>
+                    <div
+                      className={`hidden lg:absolute lg:flex flex-col md:flex-row gap-[0.15rem] xl:gap-2 items-center ${
+                        fromNew
+                          ? "right-[8.5px] sm:right-0 xl:right-[38.5px]"
+                          : "right-0"
+                      }  top-[18%] md:top-[28%]`}
+                    >
+                      <CommentTranslator
+                        key={comments.id}
+                        comment={comments}
+                        translateComment={translateComment}
+                        commentRefetch={commentRefetch}
+                        setCommentText={setCommentText}
+                      />
                       {(owner === user || comments?.user?.id === user) &&
                       comments?.user?.id !== 1 &&
                       comments?.user?.id !== 79 ? (
@@ -1085,10 +1085,10 @@ const AllComments = ({
                           <div className="" />
                         </div>
                       )}
+                      </div>
                     </>
                   )}
                 </>
-              </div>
             </div>
             {likePopup && (
               <CommentLikePopup

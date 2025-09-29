@@ -17,6 +17,7 @@ const TransInOtherLang = ({
   source_language,
   project_id,
   refetch,
+  fromNew,
 }) => {
   const {
     data: premiseData,
@@ -65,7 +66,11 @@ const TransInOtherLang = ({
   return (
     <div className="fixed top-0 left-0 bottom-0 right-0 w-full h-screen flex items-end sm:items-center bg-[#252525b0] justify-center z-[21]">
       {/* <ToastContainer /> */}
-      <div className="h-[91vh] pt-2 sm:h-[476px] px-[22px] mt-[60px] xl:mt-[100px] w-full sm:w-[90%] bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[530px]  md:mx-auto rounded-[8px]">
+      <div
+        className={`h-[91vh] pt-2 sm:h-[476px] px-[22px] ${
+          fromNew ? "mt-0" : "mt-[60px]"
+        }  xl:mt-[100px] w-full sm:w-[90%] md:w-[80%] bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[530px]  md:mx-auto rounded-[8px]`}
+      >
         <div className=" relative">
           {/* close popup */}
           {/* close popup */}
@@ -210,6 +215,7 @@ const TransInOtherLang = ({
           premise_id={id}
           setPayment={setPayment}
           submit={handleTranslationSubmit}
+          fromNew={fromNew}
         />
       )}
     </div>

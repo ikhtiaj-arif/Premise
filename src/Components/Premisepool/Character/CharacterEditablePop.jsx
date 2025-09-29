@@ -32,6 +32,8 @@ const CharacterEditablePop = ({
   is_draft,
   setPreviewAfterDraft,
   setOpenCharacterChart,
+  refetch,
+  fromNew,
 }) => {
   const [modifiedCharacters, setModifiedCharacters] = useState([]);
 
@@ -232,14 +234,18 @@ const CharacterEditablePop = ({
   return (
     <div className="fixed top-0 left-0 bottom-0 right-0 w-full h-screen flex items-center bg-[#252525b0] justify-center z-[21]">
       {/* <div className="fixed inset-0 bg-black opacity-50"></div> */}
-      <div className="relative mt-16 bg-[#fafafa] py-8 md:rounded-lg shadow-lg w-full lg:w-[950px] h-[91vh] lg:h-[500px]  ">
+      <div
+        className={`relative ${
+          fromNew ? "mt-[-30px]" : "mt-16 "
+        } bg-[#fafafa] py-8 md:rounded-lg shadow-lg w-full md:w-[90%] mx-auto lg:w-[950px] h-[91vh] md:h-[500px] `}
+      >
         <button
           onClick={handleClosePopup}
-          className="absolute hidden lg:block right-[-13px] top-[-13px] bg-[#EE3C4D] text-white rounded-full w-8 h-8  items-center justify-center shadow"
+          className="absolute hidden md:block right-[-13px] top-[-13px] bg-[#EE3C4D] text-white rounded-full w-8 h-8  items-center justify-center shadow"
         >
           ✕
         </button>
-        <div className="mb-[17px] flex pl-2 lg:hidden">
+        <div className="mb-[17px] flex pl-2 md:hidden">
           <h3 className="text-center flex  gap-[9px] font-[500]">
             <MdOutlineKeyboardBackspace
               onClick={() => setCharacterEditPop(false)}
@@ -247,7 +253,7 @@ const CharacterEditablePop = ({
             />{" "}
           </h3>
           <p className="text-[16px] leading-6  font-semibold mb-[20px] pl-4 ">
-            {!onlyAdd && "Proposed"} Characters in about{" "}
+            {!onlyAdd && "Proposed"} Characters in about{", "}
             <span className="">
               {getTextFromValue(currentProjectData?.duration)}
             </span>{" "}
@@ -270,7 +276,8 @@ const CharacterEditablePop = ({
           <span className="">
             {getTextFromValue(currentProjectData?.duration)}
           </span>{" "}
-          <span className="">{currentProjectData?.nature_project}</span>{" "}
+          <span className="">{currentProjectData?.nature_project}</span>
+          {", "}
           <span
             data-te-toggle="tooltip"
             title={`${`${currentProjectData?.name} `}`}
@@ -440,31 +447,6 @@ const CharacterEditablePop = ({
               Save Character
             </button>
           )}
-          {/* {!onlyAdd ? (
-            <button
-              disabled={!saveCheckUser || characterLoading}
-              onClick={() => {
-                handleUpdateSavedChar();
-              }}
-              className={`${
-                saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
-              } text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
-            >
-              Save
-            </button>
-          ) : (
-            <button
-              disabled={characterLoading}
-              onClick={() => {
-                handleUpdateSavedChar();
-              }}
-              className={`${
-                !characterLoading ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
-              } text-white w-[69px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
-            >
-              Save
-            </button>
-          )} */}
         </div>
       </div>
       <div>

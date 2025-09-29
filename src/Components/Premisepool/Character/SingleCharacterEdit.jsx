@@ -517,7 +517,7 @@ const SingleCharacterAdd = ({
                       isDisabled || editIdx === 0
                         ? "cursor-default"
                         : "cursor-pointer"
-                    } bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] mb-[22px] mt-[12px] md:my-0 h-[41px] w-full indent-1 ${
+                    } bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] mb-[22px] mt-[12px] md:my-0 h-[44px] w-full indent-1 ${
                       gender === inanimateObjectOptions(sourceLanguageName)
                         ? "md:w-[172px]"
                         : "md:w-[97px]"
@@ -525,13 +525,15 @@ const SingleCharacterAdd = ({
                     disabled={isDisabled || editIdx === 0}
                   >
                     {gender || "Gender"}
-                    <div className="absolute inset-y-5  md:inset-y-2 right-[2px] bg-[#fafafa] flex items-center h-[25px] px-2 pointer-events-none">
-                      {genderDropdownOpen && role !== "Protagonist" ? (
-                        <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[15px] " />
-                      ) : (
-                        <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px] " />
-                      )}
-                    </div>
+                    {(!isDisabled &&  editIdx !== 0) && (
+                      <div className="absolute inset-y-5  md:inset-y-2 right-[2px] bg-[#fafafa] flex items-center h-[32px] px-2 pointer-events-none">
+                        {genderDropdownOpen && role !== "Protagonist" ? (
+                          <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[15px] " />
+                        ) : (
+                          <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px] " />
+                        )}
+                      </div>
+                    )}
                   </button>
 
                   {genderDropdownOpen && !isDisabled && (
@@ -566,7 +568,7 @@ const SingleCharacterAdd = ({
                       id="protaAge"
                       min="0"
                       maxLength={5}
-                      className={`h-[44px] relative text-[12px] md:!text-[14px] leading-tight w-full px-[8px]  md:w-[64px] bg-[#fafafa] rounded-[8px] border-[2px] focus:outline-none ${
+                      className={`h-[44px] relative text-[12px] md:!text-[14px] leading-tight w-full px-[8px] pt-1 md:w-[64px] bg-[#fafafa] rounded-[8px] border-[2px] focus:outline-none ${
                         isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                       }`}
                       // className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[44px]"
@@ -595,7 +597,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="occupation"
                     ref={occupationRef}
-                    className={`text-[14px] bg-[#FAFAFA] mb-[12px] leading-[20px] md:mb-0 px-3 pt-[12px] pb-[12px] outline-[#EAEAEA]  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[208px] h-[44px]    overflow-y-auto text-[#616161] resize-none "
+                    className={`text-[14px] bg-[#FAFAFA] mb-[12px] leading-[20px] md:mb-0 px-3 pt-[15px] pb-[12px] outline-[#EAEAEA]  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[208px] h-[44px]    overflow-y-auto text-[#616161] resize-none "
                        `}
                   />
                 </div>
@@ -619,7 +621,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Background"
                     ref={backgroundRef}
-                    className={`text-[14px] bg-[#FAFAFA]  px-3 pt-[12px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] overflow-y-hidden border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px]
+                    className={`text-[14px] bg-[#FAFAFA]  px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA]  rounded-[8px] overflow-y-hidden border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px]
                     h-auto resize-none ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     } h-auto resize-none leading-[20px]`}
@@ -644,7 +646,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Personality"
                     ref={personalityRef}
-                    className={`text-[14px] bg-[#FAFAFA]  px-3 pt-[10px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none   ${
+                    className={`text-[14px] bg-[#FAFAFA]  px-3 pt-[10px] pb-[12px] leading-[22px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none   ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     } `}
                   />
@@ -668,7 +670,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Individual want"
                     ref={individualWantRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[12px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px] h-auto resize-none  ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px] h-auto resize-none  ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     }  `}
                   />
@@ -693,7 +695,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Character's journey"
                     ref={characterJourneyRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[12px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px] h-auto resize-none   ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px] h-auto resize-none   ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     } `}
                   />
@@ -717,7 +719,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Blood relationship"
                     ref={bloodRelationshipRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[12px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none    ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none    ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     }`}
                   />
@@ -743,7 +745,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Family relationship"
                     ref={familyRelationshipRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[12px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none     ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none     ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     }`}
                   />
@@ -776,7 +778,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Professional relationship"
                     ref={professionalRelationshipRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[12px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none   ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none   ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     }`}
                   />

@@ -48,7 +48,6 @@ const PreviewPopAfterDraft = ({
           return;
         }
         if (response) {
-          console.log("response");
           setOpenPop(true);
           setOpenCharacterChart(false);
           popClose();
@@ -58,6 +57,7 @@ const PreviewPopAfterDraft = ({
             !finalPostPremiseDemoPop
           ) {
             setFinalPostPremiseDemoPop(true);
+            refetch();
           }
           setFinalSubmitLoading(false);
 
@@ -70,8 +70,6 @@ const PreviewPopAfterDraft = ({
           //   ) {
           //     setAfterFinalPostPremiseDemoPop(true);
           //   }
-
-          refetch();
         } else {
           throw new Error("Failed to post premise with characters");
         }
@@ -86,7 +84,7 @@ const PreviewPopAfterDraft = ({
       // console.error("Error in handlePremisePostToGetComments:", error);
     }
   };
-  console.log(premise);
+  
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
       <div

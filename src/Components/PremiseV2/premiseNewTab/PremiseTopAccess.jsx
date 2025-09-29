@@ -355,7 +355,7 @@ const PremiseTopAccess = ({
       />
 
       {openTransOtherPop && (
-        <TransInOtherLang popClose={setOpenTransOtherPop} />
+        <TransInOtherLang fromNew={true} popClose={setOpenTransOtherPop} />
       )}
       {/* {openViewTranslationsPop && (
         <ViewTranslationPop
@@ -452,6 +452,7 @@ const PremiseTopAccess = ({
           user={user}
           source_language={premiseData?.source_language}
           project_id={project_id}
+          fromNew={true}
         />
       )}
       {openAvailableForTranslationPop && (
@@ -539,6 +540,7 @@ const PremiseTopAccess = ({
           popClose={setViewTrnRequests}
           premiseId={viewTrnRequests}
           user={user}
+          fromNew={true}
         />
       )}
       {viewSaleRequests && (
@@ -547,6 +549,7 @@ const PremiseTopAccess = ({
           setSaleIcon={setSaleRequestedOwner}
           premiseId={id}
           user={user}
+          fromNew={true}
         />
       )}
       {viewSale && (

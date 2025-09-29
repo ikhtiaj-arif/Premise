@@ -12,7 +12,7 @@ import Congrats from "../../../img/Icons/CongratsSaleDoodle.svg";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 import SaleDoodle from "../../../img/Icons/OwnerSaleDoodle.svg";
 
-const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
+const SaleRequestedOwner = ({ popClose, premiseId, user, fromNew }) => {
   const [showBankDetails, setShowBankDetails] = useState(false);
   const [showCongratsPopup, setShowCongratsPopup] = useState(false);
   const [sale, setSale] = useState(false);
@@ -146,13 +146,15 @@ const SaleRequestedOwner = ({ popClose, premiseId, user }) => {
     <div className="fixed top-0 left-0 w-full h-screen flex items-end sm:items-center  bg-[#252525b0] justify-center z-[21] ">
       {/* <ToastContainer /> */}
       <div
-        className={`h-[86vh] ${
+        className={`h-[78vh] ${
           showCongratsPopup
             ? "lg:h-auto "
             : showBankDetails
             ? " sm:h-[497px]"
-            : "sm:h-[580px]  2xl:h-[670px] max-h-[86vh]"
-        } mb-[20px] px-[22px] lg:mb-0 pt-2  2xl:mt-[85px] w-full bg-[#fff] sm:w-[625px] md:mx-auto relative sm:rounded-[8px]`}
+            : "sm:h-[500px] xl:h-[620px] 2xl:h-[670px] max-h-[86vh]"
+        } px-[22px] lg:mb-0 pt-2 ${
+          fromNew ? "lg:mt-[-20px]" : "lg:mt-[85px]"
+        } w-full bg-[#fff] sm:w-[625px] md:mx-auto relative sm:rounded-[8px]`}
       >
         <div className="absolute top-[-56px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
           <img

@@ -90,8 +90,9 @@ const EachTranslateeCard = ({
     if (premiseData?.hidden || !premiseData) {
       if (user !== premiseData?.premiseOwner?.id) {
         setNoPremise(true);
+      } else {
+        setPopUp(true);
       }
-      setNoPremise(true);
     } else {
       setPopUp(true);
     }

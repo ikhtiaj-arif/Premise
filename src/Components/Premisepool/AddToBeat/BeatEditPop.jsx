@@ -680,13 +680,22 @@ const BeatEditPop = ({
                     isSmallDevice && "overflow-y-scroll pb-12"
                   } lg:w-[920px] mx-auto ${
                     !doNotShowBox
+                      ? " h-[calc(100vh-73px)]  lg:h-[525px]"
+                      : "h-[80%] lg:h-[411px]"
+                  } bg-white lg:bg-[#FAFAFA] mt-20  lg:mt-0`}
+                >
+                  {/* <div
+                  className={`rounded-[8px] relative ${
+                    isSmallDevice && "overflow-y-scroll pb-12"
+                  } lg:w-[920px] mx-auto ${
+                    !doNotShowBox
                       ? "h-[90vh] lg:h-[525px]"
                       : "h-[80%] lg:h-[411px]"
                   } bg-white lg:bg-[#FAFAFA] mt-14  lg:mt-0`}
-                >
+                > */}
                   {!beatPostLoading && (
                     <button
-                      className="absolute left-0 md:left-6 top-0 lg:hidden "
+                      className="absolute left-0 md:left-6 top-0 lgHidden"
                       onClick={() => {
                         popClose();
                         commentRefetch();
@@ -695,7 +704,7 @@ const BeatEditPop = ({
                       <MdKeyboardBackspace className="text-[#252525] ml-3 text-left text-[32px] cursor-pointer " />
                     </button>
                   )}
-                  <div className="relative text-right hidden lg:flex justify-end h-0 ">
+                  <div className="relative text-right lgFlxVisible justify-end h-0 ">
                     {!beatPostLoading && (
                       <img
                         src={crossIcon}
@@ -781,7 +790,7 @@ const BeatEditPop = ({
                       <>
                         <div
                           className={`${
-                            readMore ? "max-h-[200px]" : "max-h-[250px]"
+                            readMore ? "max-h-[200px]" : " h-[calc(69vh-230px)]"
                           } overflow-y-auto`}
                         >
                           <div className="grid grid-cols-1 gap-y-[8px]">
