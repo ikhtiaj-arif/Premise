@@ -517,7 +517,6 @@ const AllComments = ({
     setOpenDropdownId((prevDropdownId) => (prevDropdownId === id ? null : id)); // Toggle dropdown visibility
   };
 
-
   return (
     <div className=" flex flex-col justify-end w-full relative ">
       <div className="md:ml-2 xxl:ml-10">
@@ -578,67 +577,118 @@ const AllComments = ({
                     />
                   )}
                 </a>
-
-                <div
-                  data-reply
-                  className="border w-full md:w-[86%] lg:w-[85.8%]  mr-auto bg-[#f8f8f8] border-[#EAEAEA]  rounded-[8px] p-1 "
-                >
-                  <div className="flex justify-between my-1 relative">
-                    <div
-                      className={`${
-                        comments?.is_deleted
-                          ? "text-[#a4a4a4]"
-                          : "text-[#1E1E1E]"
-                      } text-[#1E1E1E]  pl-[4px] pr-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center`}
-                    >
-                      <a
-                        target="_blank"
-                        rel="noreferrer"
-                        href={
-                          comments?.user?.id === user
-                            ? `${URL}/memberpage/#/personaldetails`
-                            : `${URL}/memberpage/#/user/${comments?.user?.id}/personaldetails`
-                        }
+                <div className="flex w-full gap-2">
+                  <div
+                    data-reply
+                    className="border w-full md:w-[90.8%]  bg-[#f8f8f8] border-[#EAEAEA]  rounded-[8px] p-1 "
+                  >
+                    <div className="flex justify-between my-1 relative">
+                      <div
+                        className={`${
+                          comments?.is_deleted
+                            ? "text-[#a4a4a4]"
+                            : "text-[#1E1E1E]"
+                        } text-[#1E1E1E]  pl-[4px] pr-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center`}
                       >
-                        <div className="flex items-center">
-                          <p className="notranslate text-[14px] leading-[17px] font-[500] hover:text-[#33B0CA]">
-                            {comments?.c_value}. {commenterName}
-                          </p>
-                          {comments?.user?.id === 1 ||
-                          comments?.user?.id === 79 ? (
-                            <></>
-                          ) : (
-                            <UserType
-                              type={comments?.user?.centraldatabase?.type}
-                              user_type={
-                                comments?.user?.centraldatabase?.user_type
-                              }
-                            />
-                          )}
-                        </div>
-                      </a>
-                    </div>
+                        <a
+                          target="_blank"
+                          rel="noreferrer"
+                          href={
+                            comments?.user?.id === user
+                              ? `${URL}/memberpage/#/personaldetails`
+                              : `${URL}/memberpage/#/user/${comments?.user?.id}/personaldetails`
+                          }
+                        >
+                          <div className="flex items-center">
+                            <p className="notranslate text-[14px] leading-[17px] font-[500] hover:text-[#33B0CA]">
+                              {comments?.c_value}. {commenterName}
+                            </p>
+                            {comments?.user?.id === 1 ||
+                            comments?.user?.id === 79 ? (
+                              <></>
+                            ) : (
+                              <UserType
+                                type={comments?.user?.centraldatabase?.type}
+                                user_type={
+                                  comments?.user?.centraldatabase?.user_type
+                                }
+                              />
+                            )}
+                          </div>
+                        </a>
+                      </div>
 
-                    {!comments?.is_deleted && (
-                      <p className="text-[14px]  h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
-                        {" "}
-                        <TimeAgo timestamp={createdTime} />
-                      </p>
+                      {!comments?.is_deleted && (
+                        <p className="text-[14px]  h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
+                          {" "}
+                          <TimeAgo timestamp={createdTime} />
+                        </p>
+                      )}
+                    </div>
+                    {comments?.is_deleted ? (
+                      <div>
+                        <p className="text-[#a4a4a4] text-[14px] italic lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
+                          Deleted
+                        </p>
+                      </div>
+                    ) : (
+                      <div>
+                        <p className="notranslate text-[#252525] text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
+                          {commentText}
+                        </p>
+                      </div>
                     )}
+                   
                   </div>
-                  {comments?.is_deleted ? (
-                    <div>
-                      <p className="text-[#a4a4a4] text-[14px] italic lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
-                        Deleted
-                      </p>
-                    </div>
-                  ) : (
-                    <div>
-                      <p className="notranslate text-[#252525] text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
-                        {commentText}
-                      </p>
-                    </div>
-                  )}
+                   <>
+                      {" "}
+                      {comments?.is_deleted ? (
+                        <div />
+                      ) : (
+                        <>
+                          <div
+                            className={`hidden  lg:flex flex-col md:flex-row gap-[0.15rem] xl:gap-2 items-center ${
+                              fromNew
+                                ? "right-[8.5px] sm:right-0 xl:right-[38.5px]"
+                                : "right-0"
+                            }  top-[18%] md:top-[28%]`}
+                          >
+                            <CommentTranslator
+                              key={comments.id}
+                              comment={comments}
+                              translateComment={translateComment}
+                              commentRefetch={commentRefetch}
+                              setCommentText={setCommentText}
+                            />
+                            {(owner === user || comments?.user?.id === user) &&
+                            comments?.user?.id !== 1 &&
+                            comments?.user?.id !== 79 ? (
+                              <div className="flex gap-2 items-center pl-[2px]">
+                                <button
+                                  data-reply
+                                  disabled={disableD}
+                                  onClick={() => {
+                                    setIdToDlt(comments?.id);
+                                    setOpenDltPop(true);
+                                  }}
+                                  className={` ${
+                                    disableD
+                                      ? "cursor-default"
+                                      : "cursor-pointer"
+                                  }`}
+                                >
+                                  <FaRegTrashAlt className="h-5 w-5 text-[#909090] " />
+                                </button>
+                              </div>
+                            ) : (
+                              <div className={`px-3 'cursor-default'}`}>
+                                <div className="" />
+                              </div>
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </>{" "}
                 </div>
               </div>
               {comments?.is_deleted ? (
@@ -1029,9 +1079,7 @@ const AllComments = ({
                                 </button>
                               </div>
                             ) : (
-                              <div className={`px-3 'cursor-default'}`}>
-                                <div className="" />
-                              </div>
+                              <></>
                             )}
                           </>
                         )}
@@ -1040,55 +1088,6 @@ const AllComments = ({
                   </div>
                 </div>
               )}
-
-
-                <>
-                  {" "}
-                  {comments?.is_deleted ? (
-                    <div />
-                  ) : (
-                    <>
-                    <div
-                      className={`hidden lg:absolute lg:flex flex-col md:flex-row gap-[0.15rem] xl:gap-2 items-center ${
-                        fromNew
-                          ? "right-[8.5px] sm:right-0 xl:right-[38.5px]"
-                          : "right-0"
-                      }  top-[18%] md:top-[28%]`}
-                    >
-                      <CommentTranslator
-                        key={comments.id}
-                        comment={comments}
-                        translateComment={translateComment}
-                        commentRefetch={commentRefetch}
-                        setCommentText={setCommentText}
-                      />
-                      {(owner === user || comments?.user?.id === user) &&
-                      comments?.user?.id !== 1 &&
-                      comments?.user?.id !== 79 ? (
-                        <div className="flex gap-2 items-center pl-[2px]">
-                          <button
-                            data-reply
-                            disabled={disableD}
-                            onClick={() => {
-                              setIdToDlt(comments?.id);
-                              setOpenDltPop(true);
-                            }}
-                            className={` ${
-                              disableD ? "cursor-default" : "cursor-pointer"
-                            }`}
-                          >
-                            <FaRegTrashAlt className="h-5 w-5 text-[#909090] " />
-                          </button>
-                        </div>
-                      ) : (
-                        <div className={`px-3 'cursor-default'}`}>
-                          <div className="" />
-                        </div>
-                      )}
-                      </div>
-                    </>
-                  )}
-                </>
             </div>
             {likePopup && (
               <CommentLikePopup
@@ -1257,6 +1256,7 @@ const AllComments = ({
       {/* when theres no reply */}
       {projectBeatOpen && (
         <BeatEditPop
+      
           project_id={project_id}
           popClose={() => setProjectBeatOpen(false)}
           commentText={commentText}
@@ -1271,6 +1271,7 @@ const AllComments = ({
           beatSuggestLoading={beatSuggestLoading}
           selectedProject={selectedProject}
           setAddToBeatDisable={setAddToBeatDisable}
+            fromNew={fromNew}
           // currentPremiseProject={currentPremiseProject}
         />
       )}

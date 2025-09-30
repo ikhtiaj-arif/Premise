@@ -1560,7 +1560,7 @@ useEffect(() => {
       <div className="">
         {charSaveDisable && (
           <FaArrowLeft
-            className=" text-[20px] cursor-pointer mx-6"
+            className=" text-[20px] md:hidden cursor-pointer mx-6"
             onClick={() => {
               setFinalSubmitLoading(false);
               setCharacterEditPop(true);

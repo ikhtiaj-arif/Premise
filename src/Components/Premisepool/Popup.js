@@ -737,6 +737,7 @@ const Popup = ({
                     setNotifyPopup={setNotifyPopup}
                     is_read_only={premiseData?.is_read_only}
                     handleCheckPremiseData={handleCheckPremiseData}
+                    fromPopup={true}
                   />
                 </div>
               </div>

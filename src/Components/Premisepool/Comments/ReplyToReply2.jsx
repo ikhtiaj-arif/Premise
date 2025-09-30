@@ -323,7 +323,7 @@ const ReplyToReply2 = ({
               </div>
             </a>
           </div>
-          <div className="border w-[78%] md:w-[86%] lg:w-[89%] border-[##EAEAEA] bg-[#f8f8f8] rounded-[8px] p-1 ">
+          <div className="border w-[86%] lg:w-[89%] border-[##EAEAEA] bg-[#f8f8f8] rounded-[8px] p-1 ">
             <div className="flex justify-between my-1 relative">
               <div className="text-[#1E1E1E] pl-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center">
                 <a
@@ -411,8 +411,10 @@ const ReplyToReply2 = ({
           </div>
         </div>
         <div
-          className={`flex justify-between items-center w-[81%]  ml-auto mb-[2px] md:mb-[2px] ${
-            fromNew ? " md:mr-[51px]" : " md:mr-[29px]"
+          className={`flex justify-between items-center  ml-auto mb-[2px] md:mb-[2px] ${
+            fromNew
+              ? "w-[80%]  md:mr-[55px]"
+              : "w-[76%] sm:w-[90%] md:w-[76%] md:mr-[40px] lg:mr-[55px]"
           }  `}
         >
           <div className="md:flex items-center hidden md:ml-[-40px] gap-3 leading-[16px] mt-[2px] mb-[4px]">
@@ -668,9 +670,9 @@ const ReplyToReply2 = ({
                             setBeatCommentText(childReply?.text);
                             replyRefetch();
                           }}
-                          className="w-[74px]"
+                          className="w-[88px]"
                         >
-                          <p className="text-[12px] text-[#008000] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
+                          <p className="text-[14px] text-[#008000] hover:text-[#33B0CA] font-[400] leading-[16.52px]  ">
                             Add as Beat
                           </p>
                         </button>
@@ -772,7 +774,7 @@ const ReplyToReply2 = ({
         </div>
       )}
       {childReplies && (
-        <div className="w-[96%] md:w-[91%] mb-[8px] ml-auto ">
+        <div className="w-[100%] md:w-[91%] mb-[8px] ml-auto ">
           {" "}
           {childReply?.child_replies &&
             lastChildReplies

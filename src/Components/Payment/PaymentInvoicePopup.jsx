@@ -26,7 +26,7 @@ const PaymentInvoicePopup = ({
   setPayment,
   premise_id,
   popClose,
-  fromNew
+  fromNew,
 }) => {
   const { currentUser, projectRefetch } = useContext(MyContext);
   const [paymentData, { isLoading: isPLoading }] = usePaymentDataMutation();
@@ -228,7 +228,11 @@ const PaymentInvoicePopup = ({
 
   return (
     <div className="fixed top-0  left-0 w-full h-screen flex items-center justify-center bg-[#252525b0] z-[2]">
-      <div className={`h-[91vh] lg:h-[81vh]  ${fromNew ? "bottom-16": "lg:bottom-6" } absolute bottom-0 bg-white md:rounded-[12px] w-[100%]  rounded-md lg:w-[1140px]`}>
+      <div
+        className={`h-[91vh] md:h-[94vh] lg:h-[81vh]  ${
+          fromNew ? "bottom-20 lg:bottom-24" : "lg:bottom-6"
+        } absolute bottom-0 bg-white md:rounded-[12px] w-[100%]  rounded-md lg:w-[1140px]`}
+      >
         <div className="relative">
           <div className="hidden lg:block absolute right-[45%] top-[-60px] md:top-[-62px] md:right-[-12px]">
             <img
@@ -251,7 +255,7 @@ const PaymentInvoicePopup = ({
             />
           </div>
 
-          <div className="w-[100%] lg:h-[72vh] h-[65vh] overflow-y-auto bottom-1 mx-auto my-12">
+          <div className="w-[100%] lg:h-[72vh] h-[calc(100vh-218px)] overflow-y-auto bottom-1 mx-auto my-12">
             {isPLoading ? (
               // <Loader />
               <div className="h-full">
@@ -326,7 +330,18 @@ const PaymentInvoicePopup = ({
                   </section>
 
                   {/* pay button */}
-                  <div className=" text-center">
+                  <div className="fixed bottom-[-10px] sm:bottom-[-34px] md:bottom-0 lgHidden left-0 w-full  text-center ">
+                    <button
+                      disabled={paymentCondition}
+                      onClick={handleClick}
+                      className={`${
+                        paymentCondition ? "bg-[#ACDDE7]" : "bg-[#33b0ca] "
+                      } w-32 h-[32px] text-[16px] text-white  rounded-lg font-semibold`}
+                    >
+                      {paymentCondition ? "Processing" : "Pay Now"}
+                    </button>
+                  </div>
+                  <div className=" lgVisible left-0 w-full  text-center ">
                     <button
                       disabled={paymentCondition}
                       onClick={handleClick}

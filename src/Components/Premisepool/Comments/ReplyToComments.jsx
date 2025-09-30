@@ -308,19 +308,21 @@ const ReplyToComments = ({
   return (
     <div
       data-reply
-      className={`w-[99%] ${
-        fromNew ? "w-[99%]" : "lg:w-[636px] xl:w-[726px]"
+      className={`w-full ${
+        fromNew ? "w-[99%]" : ""
       }   md:pl-[47px]   rounded-sm flex items-center gap-1`}
     >
-      <div className="w-full  xl:w-[97%]">
+      <div className="w-full">
         <div
-          className={` w-[100%] relative  ${fromNew ? "" : " xxl:ml-[36px]"}`}
+          className={`  relative  ${
+            fromNew ? "w-[97%] md:ml-[13px]" : "xl:ml-[26px] xxl:ml-[43px]"
+          }`}
         >
           <div
             className={`flex gap-[8px]  ${
               fromNew
-                ? "w-[100%] md:w-[94.5%]"
-                : "w-[100%] md:w-[100%] max-w-[654px]"
+                ? "w-[100%] md:w-[97.5%]"
+                : "w-[100%] md:w-[100%] "
             }  `}
           >
             <a
@@ -442,10 +444,10 @@ const ReplyToComments = ({
 
           <div
             data-nest-reply
-            className={`flex justify-between  max-w-[90%] ${
+            className={`flex justify-between  max-w-[86%] ${
               fromNew
-                ? "md:max-w-[86%]  mr-[0px] md:mr-[119px]"
-                : "md:max-w-[585px]  mr-[0px] md:mr-[58px]"
+                ? "md:max-w-[84%]  mr-[0px] md:mr-[70px]"
+                : " "
             }   items-center my-[2px] ml-[39px]  mt-[2px]`}
           >
             <div className=" flex items-center gap-3 text-sm leading-[16px] mt-[2px] mb-[4px]">
@@ -675,9 +677,9 @@ const ReplyToComments = ({
                               handleAddToBeat(reply);
                               setBeatCommentText(reply?.text);
                             }}
-                            className="w-[83px]"
+                            className="w-[88px]"
                           >
-                            <p className=" text-[12px]  text-[#008000] hover:text-[#33B0CA] font-[400]   leading-[16.52px]   ">
+                            <p className="text-[14px] text-[#008000] hover:text-[#33B0CA] font-[400] leading-[16.52px]   ">
                               Add as Beat
                             </p>
                           </button>
@@ -781,7 +783,7 @@ const ReplyToComments = ({
           {childReplyField && (
             <div
               data-nest-reply
-              className="w-full md:w-[94%]  mb-[8px] md:ml-auto"
+              className="w-[102%] md:w-[94%]  mb-[8px] md:ml-auto"
             >
               {/* <div className={``}> */}
               <div

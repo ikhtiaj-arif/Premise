@@ -293,8 +293,8 @@ const ReplyToReply3 = ({
           </div>
         </div>
         <div
-          className={`flex justify-between w-full md:w-[86%] mr-[24px]  ml-auto ${
-            fromNew ? " md:mr-[51px]" : " md:mr-[29px]"
+          className={`flex justify-between w-full sm:w-[86%] lg:w-[81%] mr-[24px]  ml-auto ${
+            fromNew ? " md:mr-[51px]" : " sm:mr-[69px] md:mr-[29px] lg:mr-[55px]"
           }`}
         >
           <div className="md:flex hidden ml-[30px] md:ml-0 gap-3 leading-[16px] mt-[2px] mb-[4px]">
@@ -380,14 +380,14 @@ const ReplyToReply3 = ({
                       }}
                       className=""
                     >
-                      <p className="text-[12px] text-[#008000] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
+                      <p className="text-[14px] text-[#008000] hover:text-[#33B0CA] font-[400] leading-[16.52px] ">
                         Add as Beat
                       </p>
                     </button>
                   )}
               </>
             )}
-            <div className="  flex flex-row justify-center gap-1 items-center">
+            <div className="  lgFlxHidden flex-row justify-center gap-1 items-center">
               <CommentTranslator
                 comment={childReply}
                 translateComment={translateComment}
@@ -414,9 +414,7 @@ const ReplyToReply3 = ({
                   </button>
                 </div>
               ) : (
-                <div className={`px-3 'cursor-default'}`}>
-                  <div className="" />
-                </div>
+               <></>
               )}
             </div>
           </div>

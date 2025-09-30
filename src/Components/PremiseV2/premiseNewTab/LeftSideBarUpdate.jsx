@@ -385,7 +385,7 @@ const LeftSideBarUpdate = ({
 
   return (
     <>
-      <div className="fixed  w-[100%] sm:w-[90%] mx-auto bottom-0   z-[1]   inset-x-0 flex flex-col items-center ">
+      <div className="fixed w-[100%] sm:w-[90%] mx-auto bottom-0 z-[1] inset-x-0 flex flex-col items-center ">
         <div className=" flex-col   w-full lgFlxHidden z-[1]  border bg-white px-3 pb-4 shadow-md">
           <NewTabTextArea
             fromNew

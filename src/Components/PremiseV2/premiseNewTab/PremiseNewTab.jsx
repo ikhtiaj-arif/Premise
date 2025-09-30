@@ -274,12 +274,12 @@ const PremiseNewTab = ({
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      <div className="  fixed top-[80px] left-1/2 -translate-x-1/2 w-full  ">
+      <div className="fixed top-[80px] left-1/2 -translate-x-1/2 w-full  h-[calc(100vh-80px)]">
         {!isPremiseLoading &&
         !isCommentLoading &&
         premiseDataR &&
         commentsData ? (
-          <div className="w-[95%]  max-w-[1445px] mx-auto mt-[28px]">
+          <div className="w-[95%]   max-w-[1445px] mx-auto mt-[28px]">
             {/* <ProjectInfo {...{ premiseData }} /> */}
             <ProjectInfoUpdate
               {...{
@@ -292,7 +292,7 @@ const PremiseNewTab = ({
               }}
             />
             <div className="w-full lgHidden h-[calc(100vh-269px)] relative">
-              <div className=" pb-6 lg:pb-0 h-[calc(80vh-223px)] sm:h-[66vh]  overflow-y-auto  ">
+              <div className=" pb-6 lg:pb-0 h-[calc(80vh-206px)] sm:h-[66vh]  overflow-y-auto  ">
                 {/* Left Sidebar */}
                 <div className=" bg-[#fff] xl:w-[500px] w-full pr-0 flex ">
                   {/* <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex lg:h-[calc(100vh-75px)]"> */}
@@ -393,7 +393,7 @@ const PremiseNewTab = ({
                                     setOpenReplyFieldID={setOpenReplyFieldID}
                                     project_id={premiseData?.project_id}
                                     focusedCValue={focusedCValue}
-                                    iconWidth={"w-[87%] md:w-[90%]"}
+                                    iconWidth={"w-[97.8%] md:w-[90.8%]"}
                                     inpRightMargin={"mr-[47px] md:mr-[120px]"}
                                     addBeatTutorialPop={addBeatTutorialPop}
                                     setAddBeatTutorialPop={

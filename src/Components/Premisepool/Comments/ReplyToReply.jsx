@@ -284,7 +284,7 @@ const ReplyToReply = ({
     <>
       <div
         className={`w-full ${
-          fromNew ? "max-w-[95%]" : "max-w-[592px]"
+          fromNew ? "max-w-[96%]" : "max-w-[592px]"
         } ml-[0px]`}
       >
         <div className="flex gap-[8px]">
@@ -397,8 +397,8 @@ const ReplyToReply = ({
         </div>
 
         <div
-          className={`flex justify-between items-center w-[89%]  ${
-            fromNew ? "md:mr-[49px]" : "md:mr-[29px]"
+          className={`flex justify-between items-center w-[86%] lg:w-[89%] ${
+            fromNew ? "md:mr-[66px] lg:mr-[48px]" : "sm:mr-[10px] md:mr-[35px]"
           } my-[2px] mt-[2px]  ml-auto mb-[2px] md:mb-[2px]`}
         >
           <div className="md:flex items-center hidden md:ml-[0px] gap-3 leading-[16px] mt-[2px] mb-[4px]">
@@ -763,9 +763,9 @@ const ReplyToReply = ({
                             setBeatCommentText(childReply?.text);
                             replyRefetch();
                           }}
-                          className=" w-[74px]"
+                          className=" w-[88px]"
                         >
-                          <p className="text-[12px] text-[#008000] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
+                          <p className="text-[14px] text-[#008000] hover:text-[#33B0CA] font-[400] leading-[16.52px]  ">
                             Add as Beat
                           </p>
                         </button>

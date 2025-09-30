@@ -49,7 +49,7 @@ const ProjectInfoUpdate = ({
   return (
     <div>
       <div className="flex items-center gap-2 lg:pl-6 my-3">
-        <div>
+        <div className="hidden md:block">
           <div className="mr-4 w-[61px] md:w-[102px]">
             <img
               src={newTabDoodle}
@@ -59,7 +59,7 @@ const ProjectInfoUpdate = ({
           </div>
         </div>
         <div className="lg:flex items-center justify-between gap-12">
-          <h3 className="text-[12px] leading-4 xl:text-[14px]  text-[#252525] xl:leading-[21px] font-normal w-[100%] md:w-[70%] lg:w-[63%] xl:w-[67%]">
+          <h3 className="text-[12px] px-2 leading-4 xl:text-[14px]  text-[#252525] xl:leading-[21px] font-normal w-full md:w-[70%] lg:w-[63%] xl:w-[67%] break-words">
             <span
               className="text-[#252525] font-bold notranslate"
               data-te-toggle="tooltip"

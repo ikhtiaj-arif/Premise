@@ -141,7 +141,7 @@ const CommentTranslator = ({
   return (
     <div className="relative">
       {/* ✅ Desktop Dropdown */}
-      <div className="hidden lg:block">
+      <div className="lgVisible">
         <img
           data-te-toggle="tooltip"
           title="Translate"
@@ -168,7 +168,7 @@ const CommentTranslator = ({
         )}
       </div>
       {/* ✅ Mobile / Tab → click anywhere on box → show select */}
-      <div className="lg:hidden relative p-1  rounded-[4px] flex items-center justify-center">
+      <div className="lgFlxHidden relative p-1  rounded-[4px]  items-center justify-center">
         {/* Icon (just visual now, not clickable) */}
         <img
           data-te-toggle="tooltip"
