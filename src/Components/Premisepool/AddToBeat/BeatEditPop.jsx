@@ -41,7 +41,7 @@ const BeatEditPop = ({
   beatSuggestLoading,
   selectedProject,
   setAddToBeatDisable,
-  fromNew
+  fromNew,
 }) => {
   const {
     selectedPremiseObj,
@@ -683,7 +683,9 @@ const BeatEditPop = ({
                     !doNotShowBox
                       ? " h-[calc(100vh-73px)]  lg:h-[525px]"
                       : "h-[80%] lg:h-[411px]"
-                  } bg-white lg:bg-[#FAFAFA] ${fromNew ? "mt-0":"mt-20"}   lg:mt-0`}
+                  } bg-white lg:bg-[#FAFAFA] ${
+                    fromNew ? "mt-0" : "mt-20"
+                  }   lg:mt-0`}
                 >
                   {/* <div
                   className={`rounded-[8px] relative ${
@@ -791,7 +793,9 @@ const BeatEditPop = ({
                       <>
                         <div
                           className={`${
-                            readMore ? "max-h-[200px]" : " h-[calc(69vh-230px)]"
+                            readMore
+                              ? "max-h-[200px]"
+                              : " h-[calc(69vh-230px)] lg:h-[calc(55vh - 230px)]"
                           } overflow-y-auto`}
                         >
                           <div className="grid grid-cols-1 gap-y-[8px]">
@@ -894,7 +898,7 @@ const BeatEditPop = ({
                               : "mt-[23px] md:mt-[20px] mb-[3px] pb-[4px]"
                           } `}
                         >
-                          <div className="relative ">
+                          {/* <div className="relative ">
                             <button
                               data-te-toggle="tooltip"
                               title="Translate"
@@ -935,33 +939,85 @@ const BeatEditPop = ({
                                 </ul>
                               </>
                             )}
-                            {/* {translatedPop && (
-                            <div className="border p-1 rounded-[4px] flex items-center justify-between">
+                        
+                   
+                          </div> */}
+
+                          <div className="relative">
+                            {/* ✅ Desktop dropdown */}
+                            <div className="lgFlxVisible">
                               <button
+                                data-te-toggle="tooltip"
+                                title="Translate"
+                                className="cursor-pointer hover:text-[#33B0CA]"
                                 onClick={() => setTranslatedPop(!translatedPop)}
                               >
                                 <img
                                   src={transIcon}
                                   alt=""
-                                  className="w-[29px] h-[26px]"
+                                  className="h-[30px]"
                                 />
                               </button>
+
+                              {translatedPop && (
+                                <ul className="absolute bottom-[42px] right-0 z-50 w-[135px] max-h-[27vh] overflow-y-auto border bg-[#fafafa] shadow-md">
+                                  {Object.entries(sortedLanguages).map(
+                                    ([key, name]) => (
+                                      <li
+                                        key={key}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleOptionChange({
+                                            target: { value: key },
+                                          });
+                                          setTranslatedPop(false);
+                                        }}
+                                        className={`cursor-pointer text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] list-none pl-[8px] border-b py-1 ${
+                                          selectedLanguage === key
+                                            ? "bg-[#33B0CA] text-[#fafafa]"
+                                            : ""
+                                        }`}
+                                      >
+                                        {name}
+                                      </li>
+                                    )
+                                  )}
+                                </ul>
+                              )}
+                            </div>
+
+                            {/* ✅ Mobile select */}
+                            <div className="lgFlxHidden relative p-1 rounded-[4px]  items-center justify-center">
+                              {/* Icon (just for visuals) */}
+                              <img
+                                data-te-toggle="tooltip"
+                                title="Translate"
+                                src={transIcon}
+                                className="h-[26px] w-[26px] pointer-events-none"
+                                alt="translate"
+                              />
+
+                              {/* Invisible full overlay select */}
                               <select
+                                className="absolute inset-0 opacity-0 cursor-pointer"
                                 value={selectedLanguage}
-                                onChange={handleOptionChange}
-                                className="bg-[#FAFAFA] border-none w-[106px] text-[14px] text-[#616161] font-[400] focus:outline-none h-7"
+                                onChange={(e) => {
+                                  handleOptionChange(e);
+                                  setTranslatedPop(false);
+                                }}
                               >
+                                <option value="" disabled></option>
                                 {Object.entries(sortedLanguages).map(
                                   ([key, name]) => (
                                     <option key={key} value={key}>
-                                      <p className="bg-[#33B0CA]">{name}</p>
+                                      {name}
                                     </option>
                                   )
                                 )}
                               </select>
                             </div>
-                          )} */}
                           </div>
+
                           {!showKeyboard && (
                             <button
                               data-te-toggle="tooltip"

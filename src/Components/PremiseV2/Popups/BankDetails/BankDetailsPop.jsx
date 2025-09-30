@@ -105,17 +105,17 @@ const BankDetailsPop = ({ popClose, premiseId, user, fromNew }) => {
   if (isTransLoading || isTransLoading) return <TypingLoader />;
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-end sm:items-center   bg-[#252525b0] justify-center z-[21] ">
+    <div className="fixed top-0 left-0 bottom-0 w-full h-full flex items-end sm:items-center   bg-[#252525b0] justify-center z-[21] ">
       {/* <ToastContainer /> */}
       <div
-        className={`h-[80vh] ${
-          showBankDetails ? " sm:h-[497px]" : " sm:h-[734px] max-h-[80vh]"
-        } mb-[20px] px-[22px] lg:mb-0 pt-2 md:pt-8 ${
+        className={`h-[77vh] ${
+          showBankDetails ? " sm:h-[497px]" : " sm:h-[734px] "
+        } px-[22px] lg:mb-0 pt-2 md:pt-8 ${
           fromNew ? "lg:mt-[-20px]" : "lg:mt-[85px]"
         } xl:mt-[85px] w-full bg-[#fff] max-w-[625px]  mx-auto relative rounded-[8px] pb-3 `}
       >
         {/* close popup */}
-        <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 lg:ml-0 sm:right-[-15px]">
+        <div className="absolute top-[-49px] sm:top-[-12px] right-[45%] ml-4 lg:ml-0 sm:right-[-15px]">
           <img
             src={crossIcon}
             alt=""
@@ -123,29 +123,29 @@ const BankDetailsPop = ({ popClose, premiseId, user, fromNew }) => {
             onClick={() => popClose(null)}
           />
         </div>
-        <div className="relative mx-auto w-[116px] ">
+        <div className="relative mx-auto w-[96px] md:w-[116px] ">
           <img
             // src={premiseImage}
             src={`https://uidemos.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2023-12-06+at+18.04+10.png`}
             alt="premise doodle"
-            className="w-[81.71px] h-[77.45px]  ml-[10px] md:ml-[0px]"
+            className=" w-[61.71px] md:w-[81.71px]  h-[57.45px]  md:h-[77.45px]  ml-[10px] md:ml-[0px]"
           />
           <img
             // src={premiseImage}
             src={walletDoodle}
             alt="premise doodle"
-            className="w-[36.24px] h-[54.71px] absolute bottom-[3px] right-[8px]"
+            className="w-[26.24px] h-[44.71px] md:w-[36.24px] md:h-[54.71px] absolute bottom-[3px] right-[8px]"
           />
         </div>
 
-        <h2 className="font-[600] text-[16px] leading-[19.9px] text-center mt-[18px]">
+        <h2 className="font-[600] text-[14px] md:text-[16px] leading-[16.6px] md:leading-[19.9px] text-center mt-[18px]">
           Your Premise Project is Up for Monetizing
         </h2>
         <div className="h-[1px] mt-[8px] w-[52%] mx-auto bg-[#a1a1a1]" />
 
         <div className=" overflow-x-hidden overflow-y-auto h-[calc(100%-125px)]">
           {!showBankDetails ? (
-            <div className="pr-[12px] mt-[17px] w-[90%] mx-auto max-w-[542px]  md:ml-[40px]">
+            <div className="pr-[12px] mt-[17px] w-[100%] mx-auto max-w-[542px]  md:ml-[40px]">
               <p className="text-left text-[14px] leading-[21px] font-[400] text-[#616161]">
                 <span>
                   {translationRequest?.data

@@ -170,6 +170,7 @@ const AllComments = ({
   const latestReplyRef = useRef(null);
 
   const [service, setService] = useState();
+  console.log("service name", service);
   const [suggestedBeats, setSuggestedBeats] = useState({});
 
   const [likePopup, setLikePopup] = useState(false);

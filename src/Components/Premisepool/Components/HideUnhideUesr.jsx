@@ -16,7 +16,7 @@ const HideUnhideUesr = ({ user, handleToggleCheck, selectedUserIds }) => {
     <div>
       <div
         key={user.user_id}
-        className={`flex justify-between items-center cursor-pointer font-[500] w-[374.86px] mx-auto px-[12px] my-[6px] py-[5px] rounded-[8px]  hover:bg-[#eaeaea] ${
+        className={`flex justify-between items-center cursor-pointer font-[500] sm:w-[374.86px] mx-auto px-[12px] my-[6px] py-[5px] rounded-[8px]  hover:bg-[#eaeaea] ${
           user.isChecked && "bg-[#33B0CA] text-[#fafafa]"
         }`}
         onClick={() => handleToggleCheck(user?.user_id)}

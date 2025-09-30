@@ -126,7 +126,7 @@ const HideOptionPop = ({
 
   return (
     <div className="fixed top-0 left-0 w-full h-screen flex items-end sm:items-center bg-[#252525b0] justify-center z-[40]  ">
-      <div className="h-[550px] md:h-[620px] w-[439px] md:mx-auto  ">
+      <div className="h-[94vh] md:h-[620px] w-[439px] md:mx-auto  ">
         <div className=" w-full max-w-[1165px] max-h-[539px] pt-[63px] sm:pt-[30px] md:mt-14  relative">
           {/* close popup */}
           <div className="text-right flex justify-end h-0 ">
@@ -138,7 +138,7 @@ const HideOptionPop = ({
             />
           </div>
           <div
-            className={`bg-[#fff] h-[80vh] ${
+            className={`bg-[#fff] h-[88vh] sm:h-[60vh] ${
               option === "visible_to"
                 ? "  md:h-[504px] xl:h-[547px]"
                 : "  md:h-[530px]"
@@ -149,7 +149,7 @@ const HideOptionPop = ({
             <div className="mt-[16px] mx-auto w-full  flex justify-center">
               <img className="w-[35px] h-[40px] mt-2" src={lockImg} alt="" />
             </div>
-            <div className=" w-[90%] max-w-[374.86px] mx-auto">
+            <div className=" w-[90%] sm:w-[374.86px] mx-auto">
               {option === "visible_to" ? (
                 <div>
                   <p className="text-[16px] text-center pt-[4px]  px-[12px] font-[500] text-[#252525] ">
@@ -214,10 +214,10 @@ const HideOptionPop = ({
                 }
               </div>
             ) : (
-              <div className="overflow-y-auto h-[50vh] xxs:h-[37vh] md:h-[333px]">
+              <div className="overflow-y-auto h-[43vh] xxs:h-[37vh] md:h-[333px]">
                 <div
                   onClick={() => handleOptionSelect("visible_all")}
-                  className={`flex justify-between items-center cursor-pointer font-[500] w-[90%] max-w-[374.86px] mx-auto px-[12px] my-[6px] py-[10px] rounded-[8px]  hover:bg-[#f8f8f8] `}
+                  className={`flex justify-between items-center cursor-pointer font-[500] w-[90%] sm:w-[374.86px] mx-auto px-[12px] my-[6px] py-[10px] rounded-[8px]  hover:bg-[#f8f8f8] `}
                 >
                   <div className="flex items-center gap-[8px]">
                     <div className="bg-[#eaeaea] h-[38px] w-[38px] border  rounded-full relative">
@@ -246,7 +246,7 @@ const HideOptionPop = ({
 
                 <div
                   onClick={() => handleOptionSelect("show_buddies")}
-                  className={`flex justify-between items-center cursor-pointer font-[500] w-[90%] max-w-[374.86px] mx-auto px-[12px] my-[6px] py-[10px] rounded-[8px]  hover:bg-[#f8f8f8] `}
+                  className={`flex justify-between items-center cursor-pointer font-[500] w-[90%] sm:w-[374.86px] mx-auto px-[12px] my-[6px] py-[10px] rounded-[8px]  hover:bg-[#f8f8f8] `}
                 >
                   <div className="flex items-center gap-[8px]">
                     <div className="bg-[#eaeaea] h-[38px] w-[38px] border  rounded-full relative">
@@ -275,7 +275,7 @@ const HideOptionPop = ({
 
                 <div
                   onClick={() => handleOptionSelect("visible_to")}
-                  className={`flex justify-between items-center cursor-pointer font-[500]  w-[90%] max-w-[374.86px] mx-auto px-[12px] my-[6px] py-[10px] rounded-[8px]  hover:bg-[#f8f8f8] `}
+                  className={`flex justify-between items-center cursor-pointer font-[500]  w-[90%] sm:w-[374.86px] mx-auto px-[12px] my-[6px] py-[10px] rounded-[8px]  hover:bg-[#f8f8f8] `}
                 >
                   <div className="flex items-center gap-[8px]">
                     <div className="bg-[#eaeaea] h-[38px] w-[38px] border  rounded-full relative">
@@ -303,7 +303,7 @@ const HideOptionPop = ({
                 <div className="h-[1px] w-full max-w-[353px] bg-[#EAEAEA] mx-auto" />
                 <div
                   onClick={() => handleOptionSelect("hide_from_all")}
-                  className={`flex justify-between items-center cursor-pointer font-[500] w-[90%] max-w-[374.86px] mx-auto px-[12px] my-[6px] py-[10px] rounded-[8px]  hover:bg-[#f8f8f8] `}
+                  className={`flex justify-between items-center cursor-pointer font-[500] w-[90%] sm:w-[374.86px] mx-auto px-[12px] my-[6px] py-[10px] rounded-[8px]  hover:bg-[#f8f8f8] `}
                 >
                   <div className="flex items-center gap-[8px]">
                     <div className="bg-[#eaeaea] h-[38px] w-[38px] border  rounded-full relative">
@@ -400,7 +400,7 @@ const HideOptionPop = ({
 
             {option === "visible_to" && (
               <div className="flex items-center justify-center gap-2 pt-[12px] w-[90%]  mx-auto">
-                <p className="text-[16px] text-[#252525] leading-[22px] font-[500]">
+                <p className=" text-[12px] md:text-[16px] text-[#252525] leading-[22px] font-[500]">
                   Apply To:
                 </p>
                 <div className="flex gap-2 items-center">
