@@ -91,7 +91,7 @@ const TransInOtherLang = ({
               />
             </div>
             <h2 className="font-[600] text-[16px] leading-[19.9px] text-center mt-[18px]">
-              Translate the Premise Project in another Language
+              Translate the Premise Project into another Language
             </h2>
           </div>
           <div className="h-[1px] mt-[8px] w-full mx-auto bg-[#a1a1a1]" />

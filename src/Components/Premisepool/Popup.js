@@ -13,7 +13,6 @@ import userImg from "../../img/Icons/userImg.png";
 // import transCartQ from "../../../img/Icons/transCartQ.png";
 
 // import backgroundImg from "../../img/Icons/download.jpg";
-import { motion } from "framer-motion";
 import { MdKeyboardBackspace } from "react-icons/md";
 import { MyContext } from "../../App";
 import {
@@ -46,8 +45,8 @@ import PopupPremiseText from "../SharedVersion/PopupPremiseText";
 import PopupTextarea from "../SharedVersion/PopupTextarea";
 import TypingLoader from "../TypingLoader";
 import { baseURL, URL } from "../utils";
-import AllComments from "./AllComments";
 import CharacterEditablePop from "./Character/CharacterEditablePop";
+import CommentList from "./CommentList";
 import DeletePremise from "./DeletePremise";
 import LikePopup from "./LikePopup";
 import LikePremise from "./LikePremise";
@@ -242,7 +241,7 @@ const Popup = ({
   } = useGetPremiseUserPictureQuery(premiseOwner?.id);
 
   const proImgUrl = baseURL.concat(profileImg?.[0]?.profile_photo);
-  console.log("user",user);
+  console.log("user", user);
 
   const { boldStyle, italicStyle, underlineStyle, hexColor } = stylings;
   const premiseId = data?.id;
@@ -490,7 +489,7 @@ const Popup = ({
       setSourcePopData("premiseData", premiseData);
 
       if (premiseData) {
-          if (premiseData?.hidden && premiseData?.premiseOwner?.id !== user) {
+        if (premiseData?.hidden && premiseData?.premiseOwner?.id !== user) {
           setSourcePremiseNotAvailable(true);
           return;
         }
@@ -535,7 +534,7 @@ const Popup = ({
           m_value: premiseData?.m_value || "",
           formattedTime,
           formattedDate,
-          user
+          user,
         };
 
         setSourcePopData(data);
@@ -557,8 +556,7 @@ const Popup = ({
     return (
       <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[1] ">
         {/*{/* <ToastContainer /> */}
-        <div className=" h-[97vh] lg:h-auto lg:mt-[70px] mb-[20px] lg:mb-0 2xl:h-[673px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1090px] xl:w-[1220px] md:mx-auto relative lg:rounded-[8px] ">
-       
+        <div className=" h-[97vh] lg:h-auto lg:mt-[88px] mb-[20px] lg:mb-0 2xl:h-[673px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[1090px] xl:w-[1220px] md:mx-auto relative lg:rounded-[8px] ">
           {/* close popup */}
           <img
             src={crossIcon}
@@ -584,7 +582,7 @@ const Popup = ({
           <div
             className="flex flex-col lg:flex-row lg:justify-center 
                 gap-3 lg:gap-[16px] xl:gap-[32px] 
-                h-[calc(100vh-230px)] md:h-[calc(100vh-301px)] lg:h-[554px] xl:h-[620px] 2xl:h-[674px]
+                h-[calc(94vh-230px)] md:h-[calc(100vh-301px)] lg:h-[calc(100vh-101px)]  lg:max-h-[554px] xl:h-[677px] 2xl:max-h-[674px]
                 max-h-[100vh] overflow-hidden "
           >
             {/* left div */}
@@ -595,8 +593,8 @@ const Popup = ({
             >
               {/* header */}
               <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-2 sm:px-[15px] py-[6px] mt-[1px]">
-                <div className="block max-w-[140px]">
-                  <a
+                <div className="">
+                  {/* <a
                     target="_blank"
                     rel="noreferrer"
                     href={
@@ -632,7 +630,7 @@ const Popup = ({
                             user_type={premiseOwner?.centraldatabase?.user_type}
                           />
                         </div>
-                        <p className="text-[#616161] text-[12px] flex flex-col font-[400] leading-[12px] min-w-[120px] mt-[-3px]">
+                        <p className="text-[#616161] text-[12px] flex flex-col font-[400] leading-[12px] min-w-[130px] mt-[-3px]">
                           <p>
                             {formattedDate}, {formattedTime}
                           </p>
@@ -643,7 +641,7 @@ const Popup = ({
                               title={`${`${currentProjectName} `}`}
                               className="notranslate"
                             >
-                              {/* {currentProjectName?.slice(0, 20)} */}
+                          
                               {currentProjectName?.length > 20
                                 ? `${currentProjectName.slice(0, 20)}...`
                                 : currentProjectName}
@@ -652,13 +650,78 @@ const Popup = ({
                         </p>
                       </div>
                     </div>
-                  </a>
-                  {/* 
-                <div className="text-[#616161] text-[12px] flex gap-[8px] font-[400]  ml-[36px] leading-3">
-                  <p>
-                    {formattedDate}, {formattedTime} GMT
-                  </p>
-                </div> */}
+                  </a> */}
+                  <div className="flex-1 flex gap-1 items-start">
+                    {/* ✅ Clickable image */}
+                    <a
+                      target="_blank"
+                      rel="noreferrer"
+                      href={
+                        premiseOwner?.id === user
+                          ? `${URL}/memberpage/#/personaldetails`
+                          : `${URL}/memberpage/#/user/${premiseOwner?.id}/personaldetails`
+                      }
+                    >
+                      {profileImg?.[0]?.profile_photo ? (
+                        <img
+                          src={proImgUrl}
+                          className="h-[35.9px] w-[36px] rounded-full object-cover border border-[#eaeaea] cursor-pointer"
+                          alt=""
+                        />
+                      ) : (
+                        <img
+                          src={userImg}
+                          className="w-[36px] h-[35.9px] rounded-full border border-[#eaeaea] cursor-pointer"
+                          alt=""
+                        />
+                      )}
+                    </a>
+
+                    <div className="block max-w-[140px]">
+                      <div className="flex items-center">
+                        {/* ✅ Clickable name */}
+                        <a
+                          target="_blank"
+                          rel="noreferrer"
+                          href={
+                            premiseOwner?.id === user
+                              ? `${URL}/memberpage/#/personaldetails`
+                              : `${URL}/memberpage/#/user/${premiseOwner?.id}/personaldetails`
+                          }
+                        >
+                          <h4
+                            className={`notranslate w-[99px] max-w-[110px] text-[#252525] font-[500] text-[16px] capitalize cursor-pointer hover:text-[#33B0CA] truncate`}
+                            title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
+                          >
+                            {premiseOwner?.first_name} {premiseOwner?.last_name}
+                          </h4>
+                        </a>
+
+                        <UserType
+                          type={premiseOwner?.centraldatabase?.type}
+                          user_type={premiseOwner?.centraldatabase?.user_type}
+                        />
+                      </div>
+
+                      <p className="text-[#616161] text-[12px] flex flex-col font-[400] leading-[12px] min-w-[130px] mt-[-3px]">
+                        <p>
+                          {formattedDate}, {formattedTime}
+                        </p>
+                        {(premiseOwner?.id === user ||
+                          premiseOwner?.id === currentProjectOwner) && (
+                          <p
+                            data-te-toggle="tooltip"
+                            title={`${`${currentProjectName} `}`}
+                            className="notranslate"
+                          >
+                            {currentProjectName?.length > 20
+                              ? `${currentProjectName.slice(0, 19)}...`
+                              : currentProjectName}
+                          </p>
+                        )}
+                      </p>
+                    </div>
+                  </div>
                 </div>
                 <div className="flex gap-[3px] items-center">
                   {premiseOwner?.id === user && (
@@ -777,7 +840,7 @@ const Popup = ({
                   </div>
                 </div>{" "}
               </div>
-              <div className="hidden lg:block mt-10 w-full">
+              <div className="hidden lg:block mt-10 lg:mt-4 xl:mt-10 w-full">
                 <div className="flex gap-1 items-center w-[54%] mt-[-18px] mx-auto">
                   <AskIda
                     id={premiseId}
@@ -826,11 +889,61 @@ const Popup = ({
                 bg-white lg:bg-[#fafafa] border border-[#eaeaea] lg:shadow-lg
                 rounded-[8px] flex flex-col overflow-hidden lg:my-4 xl:my-8 lg:mr-4"
             >
-              {/* Fixed dynamic heading */}
-              {/* <div className="fixed w-[90%] sm:w-[68%] md:w-[70%] lg:w-[769px] z-50 rounded-t-[8px] bg-[#33B0CA] py-1 text-center text-white font-bold text-[20px]">
-                {headerText}
-              </div> */}
+              {/* all comments component */}
               <div
+                ref={lastCommentRef}
+                className="flex-1 overflow-y-auto px-2 pt-3 pb-12"
+              >
+                {loading ? (
+                  <div className="z-[1] lg:mt-[160px] xl:mt-[200px]">
+                    <TypingLoader />
+                  </div>
+                ) : commentsData?.comments?.length > 0 ? (
+                  <CommentList
+                    comments={commentsData.comments}
+                    handleOpenAllReplies={handleOpenAllReplies}
+                    data={data}
+                    refetch={refetch}
+                    openReplyField={openReplyField}
+                    setOpenReplyField={setOpenReplyField}
+                    replyToCommentID={replyToCommentID}
+                    setReplyToCommentID={setReplyToCommentID}
+                    replyResStat={replyResStat}
+                    setCommentOwner={setCommentOwner}
+                    setOpenAllReplies={setOpenAllReplies}
+                    openAllReplies={openAllReplies}
+                    commentRefetch={commentRefetch}
+                    proImgUrl={proImgUrl}
+                    setReplyField={setReplyField}
+                    replyField={replyField}
+                    handleReplyTextChange={handleReplyTextChange}
+                    handlePostReplyToComment={handlePostReplyToComment}
+                    replyLoading={replyLoading}
+                    premiseData={premiseData}
+                    replyTextCount={replyTextCount}
+                    setReplyTextCount={setReplyTextCount}
+                    actTwoEnd={actTwoEnd}
+                    actOneThreshold={actOneThreshold}
+                    openReplyFieldID={openReplyFieldID}
+                    setOpenReplyFieldID={setOpenReplyFieldID}
+                    project_id={project_id}
+                    iconWidth={"w-full md:w-[91%]"}
+                    inpRightMargin={"mr-[47px] md:mr-[88px]"}
+                    loading={loading}
+                    replyText={replyText}
+                    setReplyText={setReplyText}
+                    addBeatTutorialPop={addBeatTutorialPop}
+                    setAddBeatTutorialPop={setAddBeatTutorialPop}
+                  />
+                ) : commentsData?.counts > 0 &&
+                  commentsData?.comments?.length === 0 ? (
+                  <p className="text-center my-4">Comments Are Private.</p>
+                ) : (
+                  <p className="text-center my-4">No Comments Available</p>
+                )}
+              </div>
+
+              {/* <div
                 ref={lastCommentRef}
                 // ref={commentsRef}
                 className="flex-1 overflow-y-auto px-2 pt-3 pb-12"
@@ -899,7 +1012,7 @@ const Popup = ({
                 ) : (
                   <p className=" text-center my-4">No Comments Available </p>
                 )}
-              </div>
+              </div> */}
 
               {/* comment and reply div mobile */}
               <div className="fixed  w-[100%] bottom-1   inset-x-0 flex flex-col items-center">
@@ -1201,8 +1314,6 @@ const Popup = ({
           )}
 
           {likePopup && <LikePopup setLikePopup={setLikePopup} id={id} />}
-
-          
         </div>
       </div>
     );

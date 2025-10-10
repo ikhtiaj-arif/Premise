@@ -361,13 +361,13 @@ const ReplyToReply2 = ({
                 </a>
               </div>
 
-              <p className="text-[12px]  h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
+              <p className="text-[14px]  h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
                 {" "}
                 <TimeAgo timestamp={createdTime} />
               </p>
             </div>
 
-            <p className="notranslate text-[#252525] text-[12px] lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
+            <p className="notranslate text-[#252525] text-[14px] lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
               {/* {childReply?.text} */}
               {/* {replyBy?.id === 1 && childReply?.text
                 ? formatText(childReply?.text)
@@ -429,7 +429,7 @@ const ReplyToReply2 = ({
                       className="flex items-center gap-[2px]"
                     >
                       <BiPlusCircle className="text-[16px] font-[500] cursor-pointer text-[#252525]" />
-                      <p className="text-[12px] text-[#616161] font-[400] leading-[14.52px] flex gap-[4px] ">
+                      <p className="text-[14px] text-[#616161] font-[400] leading-[14.52px] flex gap-[4px] ">
                         <span className=" md:hidden">
                           {" "}
                           {lastChildReplies?.length}{" "}
@@ -447,7 +447,7 @@ const ReplyToReply2 = ({
                     >
                       <BiMinusCircle className="text-[16px] font-[500] cursor-pointer text-[#252525] flex gap-[4px]" />
                       <p
-                        className={`text-[12px]  text-[#33B0CA]   font-[400] leading-[14.52px] `}
+                        className={`text-[14px]  text-[#33B0CA]   font-[400] leading-[14.52px] `}
                       >
                         <span className=" md:hidden">
                           {" "}
@@ -473,7 +473,7 @@ const ReplyToReply2 = ({
                     } text-[14px]`}
                   />
                   <p
-                    className={`text-[12px] hidden md:block ${
+                    className={`text-[14px] hidden md:block ${
                       childReplyField ? "text-[#33B0CA]" : "text-[#252525]"
                     } font-[400]  cursor-pointer`}
                   >
@@ -490,7 +490,7 @@ const ReplyToReply2 = ({
                     <>
                       {childReply?.suggested ? (
                         <button className="px-2  rounded-[4px] pb-[4px] pt-[2px] bg-[#616161] cursor-auto">
-                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                          <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]   ">
                             Suggested
                           </p>
                         </button>
@@ -498,7 +498,7 @@ const ReplyToReply2 = ({
                         <>
                           {suggestDisable ? (
                             <button className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-auto">
-                              <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                              <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]   ">
                                 Suggesting...
                               </p>
                             </button>
@@ -507,7 +507,7 @@ const ReplyToReply2 = ({
                               className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-pointer"
                               onClick={() => checkSuggestAllowance(reply?.text)}
                             >
-                              <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                              <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]   ">
                                 Suggestion
                               </p>
                             </button>
@@ -547,7 +547,7 @@ const ReplyToReply2 = ({
                       className="flex items-center gap-[2px]"
                     >
                       <BiPlusCircle className="text-[16px] font-[500] cursor-pointer text-[#252525]" />
-                      <p className="text-[12px] text-[#616161] font-[400] leading-[14.52px] flex gap-[4px] ">
+                      <p className="text-[14px] text-[#616161] font-[400] leading-[14.52px] flex gap-[4px] ">
                         <span className=" md:hidden">
                           {" "}
                           {childReply?.child_replies?.length}{" "}
@@ -567,7 +567,7 @@ const ReplyToReply2 = ({
                     >
                       <BiMinusCircle className="text-[16px] font-[500] cursor-pointer text-[#252525] flex gap-[4px]" />
                       <p
-                        className={`text-[12px]  text-[#33B0CA]   font-[400] leading-[14.52px] `}
+                        className={`text-[14px]  text-[#33B0CA]   font-[400] leading-[14.52px] `}
                       >
                         <span className=" md:hidden">
                           {" "}
@@ -595,7 +595,7 @@ const ReplyToReply2 = ({
                     } text-[14px]`}
                   />
                   <p
-                    className={`text-[12px] hidden md:block ${
+                    className={`text-[14px] hidden md:block ${
                       childReplyField ? "text-[#33B0CA]" : "text-[#252525]"
                     } font-[400]  cursor-pointer`}
                   >
@@ -617,7 +617,7 @@ const ReplyToReply2 = ({
                 <>
                   {childReply?.suggested ? (
                     <button className="px-2  rounded-[4px] pb-[4px] pt-[2px] bg-[#616161] cursor-auto">
-                      <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                      <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]   ">
                         Suggested
                       </p>
                     </button>
@@ -625,7 +625,7 @@ const ReplyToReply2 = ({
                     <>
                       {suggestDisable ? (
                         <button className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-auto">
-                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                          <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]   ">
                             Suggesting...
                           </p>
                         </button>
@@ -634,7 +634,7 @@ const ReplyToReply2 = ({
                           className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-pointer"
                           onClick={() => checkSuggestAllowance(reply?.text)}
                         >
-                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                          <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]   ">
                             Suggestion
                           </p>
                         </button>
@@ -654,7 +654,7 @@ const ReplyToReply2 = ({
                   <>
                     {(owner === user || childReply?.user?.id === user) && (
                       <button className="w-[89px] cursor-auto ">
-                        <p className="text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] ">
+                        <p className="text-[14px] text-[#33B0CA] italic  font-[400] leading-[14.52px] ">
                           Added as Beat
                         </p>
                       </button>
@@ -766,7 +766,7 @@ const ReplyToReply2 = ({
             )}
           </form>
           <div className=" text-right">
-            <p className="text-[12px] font-[400] leading-[14px]  text-[#616161] mr-[33px]">
+            <p className="text-[14px] font-[400] leading-[14px]  text-[#616161] mr-[33px]">
               {replyChildTextCount}/150
               {/* 0/150 */}
             </p>

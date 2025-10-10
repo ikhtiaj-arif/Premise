@@ -279,7 +279,7 @@ const PremiseNewTab = ({
         !isCommentLoading &&
         premiseDataR &&
         commentsData ? (
-          <div className="w-[95%]   max-w-[1445px] mx-auto mt-[28px]">
+          <div className="w-[95%]   max-w-[1445px] mx-auto mt-4">
             {/* <ProjectInfo {...{ premiseData }} /> */}
             <ProjectInfoUpdate
               {...{
@@ -291,7 +291,7 @@ const PremiseNewTab = ({
                 setCommentField,
               }}
             />
-            <div className="w-full lgHidden h-[calc(100vh-269px)] relative">
+            <div className="w-full lgHidden  relative">
               <div className=" pb-6 lg:pb-0 h-[calc(80vh-206px)] sm:h-[66vh]  overflow-y-auto  ">
                 {/* Left Sidebar */}
                 <div className=" bg-[#fff] xl:w-[500px] w-full pr-0 flex ">

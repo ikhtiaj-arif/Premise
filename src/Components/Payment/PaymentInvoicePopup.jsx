@@ -229,12 +229,12 @@ const PaymentInvoicePopup = ({
   return (
     <div className="fixed top-0  left-0 w-full h-screen flex items-center justify-center bg-[#252525b0] z-[2]">
       <div
-        className={`h-[91vh] md:h-[94vh] lg:h-[81vh]  ${
+        className={`h-[91vh] xxs:h-[93vh] md:h-[94vh] lg:h-[81vh]  ${
           fromNew ? "bottom-20 lg:bottom-24" : "lg:bottom-6"
         } absolute bottom-0 bg-white md:rounded-[12px] w-[100%]  rounded-md lg:w-[1140px]`}
       >
         <div className="relative">
-          <div className="hidden lg:block absolute right-[45%] top-[-60px] md:top-[-62px] md:right-[-12px]">
+          <div className="lgVisible absolute right-[45%] top-[-60px] md:top-[-62px] md:right-[-12px]">
             <img
               src={crossIcon}
               alt=""
@@ -245,7 +245,7 @@ const PaymentInvoicePopup = ({
             />
           </div>
 
-          <div className="lg:hidden absolute top-[-38px] left-[-18px] ml-4 sm:ml-0 sm:right-[-15px]">
+          <div className="lgHidden absolute top-0 left-[-18px] ml-4 sm:ml-0 sm:right-[-15px]">
             <MdKeyboardBackspace
               alt=""
               className="text-[#252525] ml-[20px] text-left text-[32px] z-[1] absolute cursor-pointer "
@@ -255,7 +255,7 @@ const PaymentInvoicePopup = ({
             />
           </div>
 
-          <div className="w-[100%] lg:h-[72vh] h-[calc(100vh-218px)] overflow-y-auto bottom-1 mx-auto my-12">
+          <div className="w-[100%] lg:h-[72vh] h-[calc(100vh-218px)] overflow-y-auto bottom-1 mx-auto md:my-12">
             {isPLoading ? (
               // <Loader />
               <div className="h-full">
@@ -330,7 +330,7 @@ const PaymentInvoicePopup = ({
                   </section>
 
                   {/* pay button */}
-                  <div className="fixed bottom-[-10px] sm:bottom-[-34px] md:bottom-0 lgHidden left-0 w-full  text-center ">
+                  <div className="fixed bottom-6 md:bottom-8 lgHidden left-0 w-full  text-center ">
                     <button
                       disabled={paymentCondition}
                       onClick={handleClick}

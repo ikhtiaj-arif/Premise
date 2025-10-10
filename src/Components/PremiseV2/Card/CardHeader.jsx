@@ -75,7 +75,7 @@ const CardHeader = ({
                   >
                     {currentProjectName?.slice(0, 20)}
                     {currentProjectName?.length > 20
-                      ? `${currentProjectName.slice(0, 20)}...`
+                      ? `${currentProjectName.slice(0, 19)}...`
                       : currentProjectName}
                   </p>
                 )}

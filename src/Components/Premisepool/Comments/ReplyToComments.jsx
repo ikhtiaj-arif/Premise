@@ -320,9 +320,7 @@ const ReplyToComments = ({
         >
           <div
             className={`flex gap-[8px]  ${
-              fromNew
-                ? "w-[100%] md:w-[97.5%]"
-                : "w-[100%] md:w-[100%] "
+              fromNew ? "w-[100%] md:w-[97.5%]" : "w-[100%] md:w-[100%] "
             }  `}
           >
             <a
@@ -445,9 +443,7 @@ const ReplyToComments = ({
           <div
             data-nest-reply
             className={`flex justify-between  max-w-[86%] ${
-              fromNew
-                ? "md:max-w-[84%]  mr-[0px] md:mr-[70px]"
-                : " "
+              fromNew ? "md:max-w-[84%]  mr-[0px] md:mr-[70px]" : " "
             }   items-center my-[2px] ml-[39px]  mt-[2px]`}
           >
             <div className=" flex items-center gap-3 text-sm leading-[16px] mt-[2px] mb-[4px]">
@@ -802,7 +798,8 @@ const ReplyToComments = ({
                     ?.map((childReply, idx) => (
                       <motion.div
                         // data-reply
-                        ref={latestReplyRef}
+
+                        key={idx + childReply.id}
                         initial={{ opacity: 0, y: 70 }} // Start from slightly below the final position
                         animate={{ opacity: 1, y: 0 }} // Move to the final position
                         exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen

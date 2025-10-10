@@ -5,7 +5,7 @@ const TranslateLangDrop = ({
   setTransPopClose,
 }) => {
   return (
-    <div className="absolute top-[32px] right-0 z-50 w-[135px]  h-[27vh] overflow-x-hidden md:h-[40vh] overflow-y-auto border bg-[#fafafa]">
+    <div className="absolute top-[32px] right-0 z-50 w-[135px] h-[27vh] overflow-x-hidden md:h-[40vh] overflow-y-auto border bg-[#fafafa]">
       {Object.entries(sortedLanguages)?.map(([key, name]) =>
         key !== source_language ? (
           <li

@@ -246,13 +246,13 @@ const ReplyToReply3 = ({
                 </a>
               </div>
 
-              <p className="text-[12px]  h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
+              <p className="text-[14px]  h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
                 {" "}
                 <TimeAgo timestamp={createdTime} />
               </p>
             </div>
 
-            <p className="notranslate text-[#252525] text-[12px] lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
+            <p className="notranslate text-[#252525] text-[14px] lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
               {/* {childReply?.text} */}
               {replyBy?.id === 1 && replyText && replyTextPrefix
                 ? formatText(replyText, replyTextPrefix)
@@ -330,7 +330,7 @@ const ReplyToReply3 = ({
                       } text-[14px]`}
                     />
                     <p
-                      className={`text-[12px] ${
+                      className={`text-[14px] ${
                         childReplyField ? "text-[#33B0CA]" : "text-[#252525]"
                       } font-[400]  cursor-pointer`}
                     >
@@ -362,7 +362,7 @@ const ReplyToReply3 = ({
               <>
                 {(owner === user || childReply?.user?.id === user) && (
                   <button className="cursor-auto ">
-                    <p className="text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] ">
+                    <p className="text-[14px] text-[#33B0CA] italic  font-[400] leading-[14.52px] ">
                       Added as Beat
                     </p>
                   </button>
@@ -471,7 +471,7 @@ const ReplyToReply3 = ({
             )}
           </form>
           <div className=" text-right">
-            <p className="text-[12px] font-[400] leading-[14px]  text-[#616161] mr-[33px]">
+            <p className="text-[14px] font-[400] leading-[14px]  text-[#616161] mr-[33px]">
               {replyChildTextCount}/150
               {/* 0/150 */}
             </p>

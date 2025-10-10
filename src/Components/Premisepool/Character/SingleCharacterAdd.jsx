@@ -305,7 +305,7 @@ const SingleCharacterAdd = ({
       <div className="relative bg-[#FAFAFA] pt-[20px] px-[8px] rounded-lg shadow-lg w-full max-w-[479px] md:mt-12 h-[73vh] md:h-[490px]">
         <div className=" w-full h-10 sticky">
           <h3 className="text-center md:mb-[20px] font-[500]">
-            <span className="text-[18px] text-center md:text-[14px]">
+            <span className="text-[16px] text-center ">
               Add Character
             </span>
           </h3>
@@ -340,7 +340,7 @@ const SingleCharacterAdd = ({
               className="w-[90%] md:w-[398px] mx-auto"
             >
               <div className="block mb-[10px] md:mb-[20px] md:flex gap-[18px] ">
-                <div className="relative w-full md:w-[171px]">
+                {/* <div className="relative w-full md:w-[171px]">
                   <label className="absolute left-2 top-[1px] lg:top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-[2]">
                     Role
                   </label>
@@ -376,11 +376,76 @@ const SingleCharacterAdd = ({
                       <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
                     )}
                   </div>
+                </div> */}
+                <div className="relative w-full md:w-[171px]">
+                  {/* Label */}
+                  <label className="absolute left-2 top-[-10px] lg:top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-[2]">
+                    Role
+                  </label>
+
+                  {/* ✅ Desktop / Laptop - Custom dropdown */}
+                  <div className="lgVisible">
+                    <button
+                      type="button"
+                      onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
+                      className="text-left text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] my-[12px] md:my-0 w-full h-[42px] indent-1 pl-2 leading-4 pt-[4px]"
+                    >
+                      {role || "Role"}
+                    </button>
+
+                    {roleDropdownOpen && (
+                      <ul className="absolute z-10 w-full border bg-[#fafafa] max-h-[27vh] overflow-y-auto rounded-md shadow-sm">
+                        {filteredRoleOptions?.map((roleOption) => (
+                          <li
+                            key={roleOption}
+                            className="cursor-pointer text-[14px] leading-[18px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] px-2 py-1"
+                            onClick={() => {
+                              setRole(roleOption);
+                              setRoleDropdownOpen(false);
+                            }}
+                          >
+                            {roleOption}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    <div className="absolute inset-y-5 md:inset-y-2 right-[2px] bg-[#fafafa] flex items-center h-[25px] px-2 pointer-events-none">
+                      {roleDropdownOpen ? (
+                        <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[15px]" />
+                      ) : (
+                        <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                      )}
+                    </div>
+                  </div>
+
+                  {/* ✅ Mobile / Tablet - Native select */}
+                  <div className="lgFlxHidden relative border-[2px] border-[#EAEAEA] bg-[#FAFAFA] rounded-[8px] my-[12px]  items-center">
+                    <select
+                      value={role || ""}
+                      onChange={(e) => setRole(e.target.value)}
+                      className="appearance-none bg-transparent w-full h-[42px] text-[14px] text-[#616161] px-2 rounded-[8px] focus:outline-none"
+                    >
+                      <option value="" disabled>
+                        Role
+                      </option>
+                      {filteredRoleOptions?.map((roleOption) => (
+                        <option key={roleOption} value={roleOption}>
+                          {roleOption}
+                        </option>
+                      ))}
+                    </select>
+
+                    {/* Dropdown icon (absolute like desktop) */}
+                    <div className="absolute right-[8px] pointer-events-none">
+                      <IoIosArrowDown className="text-[18px] text-[#616161]" />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="relative w-full mt-[4px] md:mt-0  md:w-[171px]">
                   <label
-                    className={`absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all `}
+                    className={`absolute left-2 top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all `}
                   >
                     Name
                   </label>
@@ -405,7 +470,7 @@ const SingleCharacterAdd = ({
                 {role === "Others" && (
                   <div className="relative w-full mt-[4px] md:mt-0  md:w-[171px]">
                     <label
-                      className={`absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all `}
+                      className={`absolute left-2 top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all `}
                     >
                       Others
                     </label>
@@ -432,7 +497,7 @@ const SingleCharacterAdd = ({
                       : " md:w-[92px]"
                   }`}
                 >
-                  <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-10">
+                  <label className="absolute left-2 top-[0px] md:top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all z-10">
                     Gender
                   </label>
 
@@ -453,14 +518,14 @@ const SingleCharacterAdd = ({
                   </select>
                 </div> */}
 
-                <div
+                {/* <div
                   className={`relative w-full ${
                     gender === inanimateObjectOptions(sourceLanguageName)
                       ? "md:w-[155px]"
                       : "md:w-[97px]"
                   }`}
                 >
-                  <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[0px] md:top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Gender
                   </label>
 
@@ -501,11 +566,85 @@ const SingleCharacterAdd = ({
                       )}
                     </ul>
                   )}
+                </div> */}
+                <div
+                  className={`relative w-full ${
+                    gender === inanimateObjectOptions(sourceLanguageName) ? "md:w-[155px]" : "md:w-[97px]"
+                  }`}
+                >
+                  {/* Label */}
+                  <label className="absolute left-2 top-[-10px] z-10 md:top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                    Gender
+                  </label>
+
+                  {/* ✅ Desktop / Laptop - Custom dropdown */}
+                  <div className="hidden md:block">
+                    <button
+                      type="button"
+                      onClick={() => setGenderDropdownOpen(!genderDropdownOpen)}
+                      className={`text-left px-2 text-[14px] bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] mb-[22px] mt-[12px] md:my-0 h-[41px] w-full indent-1 ${
+                        gender === inanimateObjectOptions(sourceLanguageName) ? "md:w-[172px]" : "md:w-[97px]"
+                      }`}
+                    >
+                      {gender || "Gender"}
+                      <div className="absolute inset-y-5 md:inset-y-2 right-[2px] bg-[#fafafa] flex items-center h-[25px] pr-1 pointer-events-none">
+                        {genderDropdownOpen ? (
+                          <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[15px]" />
+                        ) : (
+                          <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                        )}
+                      </div>
+                    </button>
+
+                    {genderDropdownOpen && (
+                      <ul className="absolute z-10 mt-0 w-full border bg-[#fafafa] max-h-[27vh] md:max-h-[20vh] overflow-y-auto rounded-md shadow-sm">
+                        {getGenderOptions(sourceLanguageName).map(
+                          (option, index) => (
+                            <li
+                              key={index}
+                              className="cursor-pointer text-[14px] leading-5 text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] px-2 py-2"
+                              onClick={() => {
+                                setGender(option.props.value);
+                                setGenderDropdownOpen(false);
+                              }}
+                            >
+                              {option.props.children}
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    )}
+                  </div>
+
+                  {/* ✅ Mobile / Tablet - Native select */}
+                  <div className="md:hidden relative border-[2px] border-[#EAEAEA] bg-[#FAFAFA] rounded-[8px] mb-[22px] mt-[12px] flex items-center">
+                    <select
+                      value={gender || ""}
+                      onChange={(e) => setGender(e.target.value)}
+                      className="appearance-none bg-transparent w-full h-[41px] text-[14px] text-[#616161] px-2 rounded-[8px] focus:outline-none"
+                    >
+                      <option value="" disabled>
+                        Gender
+                      </option>
+                      {getGenderOptions(sourceLanguageName).map(
+                    (option, index) => (
+                          <option key={index} value={option.props.value}>
+                            {option.props.children}
+                          </option>
+                        )
+                      )}
+                    </select>
+
+                    {/* Arrow icon overlay (matches desktop look) */}
+                    <div className="absolute right-[8px] pointer-events-none">
+                      <IoIosArrowDown className="text-[18px] text-[#616161]" />
+                    </div>
+                  </div>
                 </div>
 
                 {gender !== inanimateObjectOptions(sourceLanguageName) && (
                   <div className="relative w-full  md:w-[49px] ">
-                    <label className="absolute left-2 top-[-12px] z-[2] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                    <label className="absolute left-2 top-[-10px] z-[2] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                       Age
                     </label>
                     <input
@@ -522,7 +661,7 @@ const SingleCharacterAdd = ({
                   </div>
                 )}
                 <div className="relative w-full md:w-[206px] md:left-5 ">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Occupation
                   </label>
                   <textarea
@@ -557,7 +696,7 @@ const SingleCharacterAdd = ({
               </div>
               <div className="mb-[20px]">
                 <div className="relative w-full md:w-[171px]">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Background
                   </label>
                   <textarea
@@ -579,7 +718,7 @@ const SingleCharacterAdd = ({
               </div>
               <div className="mb-[20px]">
                 <div className="relative w-full md:w-[171px]">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Personality
                   </label>
                   <textarea
@@ -601,7 +740,7 @@ const SingleCharacterAdd = ({
 
               <div className="mb-[20px]">
                 <div className="relative w-full md:w-[171px]">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Individual&nbsp;want
                   </label>
                   <textarea
@@ -622,7 +761,7 @@ const SingleCharacterAdd = ({
               </div>
               <div className="mb-[20px]">
                 <div className="relative w-full md:w-[171px]">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Character's&nbsp;journey
                   </label>
                   <textarea
@@ -643,7 +782,7 @@ const SingleCharacterAdd = ({
               </div>
               <div className="mb-[20px]">
                 <div className="relative w-full md:w-[171px]">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Blood&nbsp;relationship
                   </label>
                   <textarea
@@ -664,7 +803,7 @@ const SingleCharacterAdd = ({
               </div>
               <div className="mb-[20px]">
                 <div className="relative w-full md:w-[171px] mt-6">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Family&nbsp;relationship
                   </label>
                   <textarea
@@ -689,7 +828,7 @@ const SingleCharacterAdd = ({
                 <div className="relative w-full md:w-[171px]">
                   <label
                     htmlFor="professional_relationship_input"
-                    className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all"
+                    className="absolute left-2 top-[-10px] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all"
                   >
                     Professional&nbsp;relationship
                   </label>

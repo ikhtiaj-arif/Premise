@@ -438,9 +438,15 @@ const PremisePreview2 = ({
     setDuration("");
   };
 
+  // const filteredSpProjectsUnsorted = allProjects?.filter(
+  //   (item) => !item.locked && item.premise_id === ""
+  // );
   const filteredSpProjectsUnsorted = allProjects?.filter(
-    (item) => !item.locked && item.premise_id === ""
-  );
+  (item) =>
+    !item.locked &&
+    item.premise_id === "" &&
+    item.current_status !== "audit_started"
+);
   //  console.log(filteredSpProjectsUnsorted);
   const filteredSpProjects = filteredSpProjectsUnsorted?.sort((a, b) => {
     return new Date(b.updated_on) - new Date(a.updated_on);

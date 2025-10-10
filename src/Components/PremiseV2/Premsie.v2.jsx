@@ -341,6 +341,10 @@ const PremiseV2 = () => {
           item?.ai_comments_generated === true || item?.is_draft === true
       );
       // console.log("filterPremiseData",filterPremiseData);
+      filterPremiseData = filterPremiseData?.sort(
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
+      );
+
       setDataCount(filterPremiseData?.length);
       setViewData(filterPremiseData);
       setTotalPages(Math.ceil(premiseData?.count / itemsToShow));
@@ -566,7 +570,7 @@ const PremiseV2 = () => {
                   // src={premiseImage}
                   src={`https://uidemos.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2023-12-06+at+18.04+10.png`}
                   alt="premise doodle"
-                  className="w-[103.07px] h-[103.72px] md:w-[115.07px] ml-[10px] md:ml-[0px]"
+                  className="w-[93.07px] h-[93.72px] md:w-[115.07px] ml-[10px] md:ml-[0px]"
                 />
                 <img
                   // src={premiseImage}
@@ -579,7 +583,7 @@ const PremiseV2 = () => {
               {/* <button onClick={() => setPricingPopup(true)}>pricing</button> */}
 
               {
-                <p className=" hidden lg:flex w-[233px]  items-center text-[16px] leading-[19.5px] text-[#616161] h-[32px] font-[600]">
+                <div className=" hidden lg:flex w-[233px]  items-center text-[16px] leading-[19.5px] text-[#616161] h-[32px] font-[600]">
                   {hiddenCountRes?.total_premises === 1 ? (
                     <p>
                       {hiddenCountRes?.total_premises}{" "}
@@ -593,7 +597,7 @@ const PremiseV2 = () => {
                   )}
                   ,{" ("}
                   {hiddenCountRes?.hidden_count} Private{")"}
-                </p>
+                </div>
               }
             </div>
 

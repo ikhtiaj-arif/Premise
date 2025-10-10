@@ -365,7 +365,7 @@ const PremiseCard = ({
                     <p className="notranslate text-[#252525] text-[12px]">
                       {/* {currentProjectName?.slice(0, 20)} */}
                       {currentProjectName?.length > 20
-                        ? `${currentProjectName.slice(0, 20)}...`
+                        ? `${currentProjectName.slice(0, 19)}...`
                         : currentProjectName}
                     </p>
                   )}

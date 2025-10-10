@@ -362,7 +362,7 @@ const PremiseCardV2 = ({
   };
   const checkAllowance = async (state, id) => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_AllowInteraction`);
-   
+
     if (res?.access === "No") {
       setNoAccessLbPopUp(res);
     } else {
@@ -539,7 +539,6 @@ const PremiseCardV2 = ({
         setOpenPopSource(true);
       }
     } catch (error) {
-     
       setSourcePremiseNotAvailable(true);
     }
   };
@@ -556,7 +555,7 @@ const PremiseCardV2 = ({
     "
       >
         <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-[15px] pt-[15px] pb-[6px]">
-          <div className="block ">
+          {/* <div className="block ">
             <a
               target="_blank"
               rel="noreferrer"
@@ -617,7 +616,7 @@ const PremiseCardV2 = ({
                         title={`${`${currentProjectName} `}`}
                         className="notranslate text-[#252525] text-[12px] leading-[12px]"
                       >
-                        {/* {currentProjectName?.slice(0, 20)} */}
+                      
                         {currentProjectName?.length > 20
                           ? `${currentProjectName.slice(0, 20)}...`
                           : currentProjectName}
@@ -629,7 +628,91 @@ const PremiseCardV2 = ({
                 </div>
               </div>
             </a>
+          </div> */}
+          <div className="block">
+            <div className="flex-1 flex gap-1 items-start">
+              {/* ✅ Profile Image as Link */}
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href={
+                  premiseOwner?.id === user
+                    ? `${URL}/memberpage/#/personaldetails`
+                    : `${URL}/memberpage/#/user/${premiseOwner?.id}/personaldetails`
+                }
+              >
+                {premiseOwner?.centraldatabase?.profile_photo ? (
+                  <img
+                    src={proImgUrl}
+                    className="w-[36px] h-[35.9px] border border-[#eaeaea] rounded-full object-cover"
+                    alt=""
+                  />
+                ) : (
+                  <img
+                    src={userImg}
+                    className="w-[36px] h-[35.9px] rounded-full border border-[#eaeaea]"
+                    alt=""
+                  />
+                )}
+              </a>
+
+              <div>
+                <div
+                  className={`flex items-center relative ${
+                    premise_source_id ? "w-[90px]" : "w-[110px]"
+                  }`}
+                >
+                  {/* ✅ Name as Link */}
+                  <a
+                    target="_blank"
+                    rel="noreferrer"
+                    href={
+                      premiseOwner?.id === user
+                        ? `${URL}/memberpage/#/personaldetails`
+                        : `${URL}/memberpage/#/user/${premiseOwner?.id}/personaldetails`
+                    }
+                  >
+                    <h4
+                      className="notranslate text-[#252525] font-[500] text-[16px] leading-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate"
+                      title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
+                    >
+                      {premiseOwner?.first_name} {premiseOwner?.last_name}
+                    </h4>
+                  </a>
+
+                  <div
+                    className={`${
+                      premise_source_id ? "right-0" : "right-[-4px]"
+                    }`}
+                  >
+                    <UserType
+                      type={premiseOwner?.centraldatabase?.type}
+                      user_type={premiseOwner?.centraldatabase?.user_type}
+                    />
+                  </div>
+                </div>
+
+                {/* Date + project name stay non-clickable */}
+                <div className="text-[#616161] text-[12px] flex flex-col gap-[1px] font-[400]">
+                  <p className="leading-[12px] my-[2px]">
+                    {formattedDate}, {formattedTime}
+                  </p>
+                  {premiseOwner?.id === user && currentProjectName && (
+                    <p
+                      data-te-toggle="tooltip"
+                      title={currentProjectName}
+                      className="notranslate text-[#252525] text-[12px] leading-[12px]"
+                    >
+                      {currentProjectName?.length > 20
+                        ? `${currentProjectName.slice(0, 19)}...`
+                        : currentProjectName}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
+
           {!is_draft && (
             <CardHeadOptions
               fromCard={true}

@@ -233,6 +233,7 @@ const LeftSideBarUpdate = ({
     setCharacterArray(updatedCharacters);
     characterRefetch();
   };
+
   const handleSaveEditedCharacter = (updatedCharacter, index) => {
     const updatedCharacters = characterArray.map((char, i) =>
       i === index ? updatedCharacter : char
@@ -241,6 +242,7 @@ const LeftSideBarUpdate = ({
     characterRefetch();
     setEditPopupOpen(false);
   };
+
   const handleAddNewCharacter = (newCharacter) => {
     const updatedCharacters = [...characterArray, newCharacter];
     // console.log("After Adding New Character:", updatedCharacters);
@@ -704,16 +706,14 @@ const LeftSideBarUpdate = ({
 
       {editPopupOpen && (
         <SingleCharacterEdit
-          {...{
-            setEditPopupOpen,
-            editData,
-            handleSaveEditedCharacter,
-            characterArray,
-            editIdx,
-            editPopupOpen,
-            source_language,
-            onlyAdd,
-          }}
+          setEditPopupOpen={setEditPopupOpen}
+          editData={editData}
+          editIdx={editIdx}
+          onSave={handleSaveEditedCharacter}
+          characterArray={characterArray}
+          onlyAdd={onlyAdd}
+          isEditPopupOpen={editPopupOpen}
+          source_language={source_language}
         />
       )}
       {addNewCharacter?.msg === "ShowBecomePrivilege" && (

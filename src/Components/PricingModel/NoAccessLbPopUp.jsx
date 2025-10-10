@@ -112,8 +112,8 @@ const NoAccessLbPopUp = ({
   };
 
   return (
-    <div className="fixed top-0 left-0  w-full h-screen flex items-end sm:items-center justify-center bg-[#252525b0] z-[2]">
-      <div className=" bg-white rounded-[8px] w-[100%] md:w-[623px]">
+    <div className="fixed top-0 left-0   w-full h-screen flex items-end sm:items-center justify-center bg-[#252525b0] z-[2]">
+      <div className=" bg-white rounded-[8px] w-[100%] md:w-[623px] pb-20 sm:pb-6">
         <div className="relative">
           <div className="absolute right-[45%] top-[-60px] lg:top-[-12px] lg:right-[-12px]">
             <img

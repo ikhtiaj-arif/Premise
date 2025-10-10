@@ -133,9 +133,9 @@ const AvailableForTranslationPop = ({
   };
 
   return (
-    <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-full flex items-center  bg-[#252525b0] justify-center z-[21] ">
+    <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-screen flex items-end sm:items-center  bg-[#252525b0] justify-center z-[21] ">
       {/* <ToastContainer /> */}
-      <div className=" h-[40vh] lg:h-[250px] px-[22px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[461px]  md:mx-auto relative lg:rounded-[8px]">
+      <div className=" h-[50vh] sm:h-[250px] px-[22px] w-full bg-[#fff] lg:bg-[#FAFAFA]  sm:w-[461px]  md:mx-auto relative sm:rounded-[8px]">
         {/* close popup */}
         <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
           <img

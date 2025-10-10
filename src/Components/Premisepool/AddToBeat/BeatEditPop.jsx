@@ -795,7 +795,7 @@ const BeatEditPop = ({
                           className={`${
                             readMore
                               ? "max-h-[200px]"
-                              : " h-[calc(69vh-230px)] lg:h-[calc(55vh - 230px)]"
+                              : " h-[calc(69vh-230px)] max-h-[285px]"
                           } overflow-y-auto`}
                         >
                           <div className="grid grid-cols-1 gap-y-[8px]">
