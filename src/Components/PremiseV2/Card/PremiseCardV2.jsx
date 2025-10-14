@@ -1,3 +1,80 @@
+/**
+ * PremiseCardV2 Component
+ *
+ * This component renders an individual "Premise" card in the UI with all its interactions, including likes, comments, translations,
+ * visibility controls, monetization preferences, and more. It handles both draft and published premises and provides multiple
+ * popups/modals for editing, viewing, and interacting with the premise.
+ *
+ * Key Features:
+ * - Displays premise text with stylings (bold, italic, underline, color).
+ * - Handles background color or image for the card.
+ * - Shows premise owner information (profile image, name, user type) as clickable links.
+ * - Supports draft mode with a "Draft" badge.
+ * - Interactive card click:
+ *      - Opens character editor if draft
+ *      - Opens preview/view popup if published
+ * - Conditional rendering of options menu (`CardHeadOptions`) for non-draft premises.
+ * - Integration with multiple modals:
+ *      - Popup, PopupSource, CharacterEditableWrapper, TranslatePremise, MonetizePreferencePop, NoAccessPopUp, etc.
+ * - Manages likes (`LikePremise`), comments (`CommentPremise`), and translation (`TranslatePremise`) functionality.
+ * - Supports sale and translation requests.
+ * - Handles premise visibility, monetization preferences, and user access privileges.
+ * - Includes background image selection/upload.
+ * - Provides formatted date/time display for the premise.
+ *
+ * Props:
+ * - setShowRefine: Function to toggle the refine filter view.
+ * - p: Premise object containing all data (text, owner, project info, etc.).
+ * - index: Index of the premise in the list.
+ * - owner: Owner/user details.
+ * - userQuery: Current user information.
+ * - refetch: Function to refetch premise data.
+ * - shouldBlink: Boolean for UI highlight effect.
+ * - activeSearch: Boolean indicating if search is active.
+ * - transPopClose, setTransPopClose: State to control translation popup visibility.
+ * - isLiked, setIsLiked: State to manage like status of premise.
+ * - hiddenCountRefetch: Function to refetch hidden premise counts.
+ * - addPopup, setAddPopup: State for notifications and popups.
+ *
+ * Internal State & Logic:
+ * - Manages local UI states like dot menu, character chart, popups, background images, edit mode, and loading states.
+ * - Calculates thresholds for card actions using `m_value`.
+ * - Handles premise deletion and draft saving.
+ * - Fetches additional user access permissions dynamically.
+ * - Handles opening premise in a new tab or source premise popup.
+ * - Dynamically formats text with custom stylings and truncates long names or project titles.
+ *
+ * Notes:
+ * - Highly interactive component with complex conditional rendering.
+ * - Works closely with global context (`MyContext`) and Redux (`dispatch`).
+ * - Must be used within a parent that provides required context and user/project data.
+ *
+ * Component Tree:
+ * PremiseCardV2
+ * ├─ CardHeadOptions
+ * ├─ LikePremise
+ * ├─ CommentPremise
+ * ├─ TranslatePremise
+ * ├─ PremiseBadge
+ * ├─ AddPremise2
+ * ├─ UserMail
+ * ├─ OwnerMail
+ * ├─ Popup / PopupSource
+ * ├─ CharacterEditableWrapper
+ * ├─ TransInOtherLang
+ * ├─ AvailableForTranslationPop
+ * ├─ ViewTranslationPop
+ * ├─ MonetizePreferencePop / NoAccessPopUp / NoAccessLbPopUp
+ * ├─ ReqTranslationPop / ReqSalePop
+ * ├─ BankDetailsPop / SaleRequestedOwner / PaySalePopup
+ * ├─ DeletePremise
+ * ├─ NotifyPopup
+ * ├─ PreviewPopAfterDraft
+ * └─ HideOptionPop
+ */
+
+
+
 import { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 

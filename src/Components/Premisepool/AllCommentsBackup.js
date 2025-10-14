@@ -270,7 +270,7 @@ const AllComments = ({
   const checkSuggestAllowance = async (text) => {
     setSuggestDisable(true);
     const res = await fetchUserAccess(
-      `${currentUser?.id}/PP_AllowBrainstoming`
+      `PP_AllowBrainstoming`
     );
     // console.log(`PP_AllowBrainstoming res`, res);
     if (res?.access === "No") {
@@ -383,7 +383,7 @@ const AllComments = ({
     ) {
       setAddBeatTutorialPop(true);
     }
-    const res = await fetchUserAccess(`${currentUser?.id}/PP_BeatSheet`);
+    const res = await fetchUserAccess(`PP_BeatSheet`);
     // console.log("add to beat res", res);
     if (res?.access === "No") {
       setNoAccessLbPopup(res);
@@ -470,7 +470,7 @@ const AllComments = ({
       currentUser?.id !== data?.premiseOwner?.id &&
       (c?.user?.id === 1 || c?.user?.id === 79)
     ) {
-      const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
+      const res = await fetchUserAccess(`PP_ReplyAI`);
       // console.log("reply brainstorm res", res);
       if (res?.access === "No") {
         setNoAccessLbPopup(res);

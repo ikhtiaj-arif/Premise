@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 import { useGetFilteredLangQuery } from "../../../app/EndPoints/premisePoolApi";
@@ -115,7 +115,7 @@ const RefineFilters = ({
       <div>
         {/* <p className="font-semibold mb-2">Search parameters</p> */}
         <div className="w-full r mx-3">
-          <div className="w-[95%]">
+          {/* <div className="w-[95%]">
             <label className="text-[14px] text-[#252525] font-[400] mb-2 ">
               Choose A Language
             </label>
@@ -139,25 +139,60 @@ const RefineFilters = ({
               onChange={handleLanguageChange}
               value={selectedLanguages}
             />
-          </div>
-          {/* <div className="flex items-center">
-            <input
-              checked={addByMe}
-              disabled={checkDisable}
-              type="checkbox"
-              onChange={handleMe}
-              className={`mr-1  ${!checkDisable && " cursor-pointer"}`}
-            />
-            <label className=" font-[400] text-[14px] !mt-[7px]">
-              Added by me
-            </label>
           </div> */}
+
+          <div className="w-[95%]">
+            <label className="text-[14px] text-[#252525] font-[400] mb-2 block">
+              Choose A Language
+            </label>
+
+            {/* ✅ React Select for Desktop */}
+            <div className={`${showRefine ? "visible" : "hidden"}  lgVisible`}>
+              <Select
+                className="text-[14px]"
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 8,
+                  colors: {
+                    ...theme.colors,
+                    primary25: "#EAEAEA",
+                    primary: "#EAEAEA",
+                  },
+                })}
+                styles={customStyles}
+                closeMenuOnSelect
+                components={animatedComponents}
+                options={mappedLanguages}
+                onChange={handleLanguageChange}
+                value={selectedLanguages}
+              />
+            </div>
+
+            {/* ✅ Native Select for Mobile */}
+            <div className={`${showRefine ? "visible" : "hidden"}  lgHidden `}>
+              <select
+                className="w-full border border-gray-300 rounded-lg p-2 text-[14px] text-[#252525] focus:outline-none focus:ring-2 bg-[#fafafa] focus:ring-[#EAEAEA]"
+                onChange={(e) => {
+                  const selected = mappedLanguages.find(
+                    (lang) => lang.value === e.target.value
+                  );
+                  handleLanguageChange(selected);
+                }}
+                value={selectedLanguages?.value || ""}
+              >
+                <option value="" disabled>
+                  Select...
+                </option>
+                {mappedLanguages?.map((lang) => (
+                  <option key={lang.value} value={lang.value}>
+                    {lang.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
-        {/* <div>
-          <p className="text-[#33B0CA] text-[14px] font-[400] mt-[8px] ml-3">
-            Cards will be filtered only after clicking "Apply Filter" button
-          </p>
-        </div> */}
+
         <div className="flex flex-row-reverse gap-4 mt-[8px]">
           <button
             disabled={disabled}

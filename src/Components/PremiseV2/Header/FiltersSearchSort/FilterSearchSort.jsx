@@ -1,3 +1,54 @@
+/** 
+ * FilterSearchSort Component
+ *
+ * This component handles the search, filter, and sort functionality for the Premise Pool.
+ * Think of it as the control panel where users can refine which premises they see.
+ *
+ * Main responsibilities:
+ *
+ * 1. Search Functionality
+ *    - Lets users search premises by text or author.
+ *    - Minimum 3 characters are required for search.
+ *    - Handles Enter key, input changes, and clearing the search field.
+ *    - Shows a notification if the search text is too short.
+ *
+ * 2.  Sorting 
+ *    - Users can sort by date or popularity.
+ *    - Supports combining date & popularity sorting.
+ *    - Updates the data via setSortedData and triggers a refetch.
+ *
+ * 3.  Filtering 
+ *    - Filter by languages (via RefineFilters component), availability for translation, or availability for sale.
+ *    - Filter by "Added by me" (user’s own premises) using activeAddedByMe toggle.
+ *    - Applies filters immediately and triggers data refetching.
+ *
+ * 4.  Pagination & Items Per Page 
+ *    - Handles page selection with handlePageClick.
+ *    - Lets users choose how many items to show per page.
+ *
+ * 5.  Context & State 
+ *    - Uses MyContext to access global filters and search states.
+ *    - Manages local state for sorting, search text, notifications, and UI toggles.
+ *
+ * 6.  UI & Interactions 
+ *    - Responsive layout: search input, filter buttons, and sort buttons adapt to screen size.
+ *    - Buttons visually change when active (e.g., by date, by popularity, language filter, translation, sale, added by me).
+ *    - RefineFilters dropdown opens/closes with outside click detection.
+ *    - Tooltips provide hints for each filter/sort button.
+ *
+ * 7.  Integration with Backend 
+ *    - Calls refetch() from useGetFilteredLangQuery or parent props to reload data whenever filters or search change.
+ *    - Sets refetching flag to show loading state in parent components.
+ *
+ * 8.  Extra Features 
+ *    - Keeps search input focused when activeSearch is toggled.
+ *    - Handles clearing filters individually or completely.
+ *    - Maps backend language data to { value, label } format for dropdowns.
+ *
+ * In short: FilterSearchSort is the interactive control panel for sorting, searching, and filtering premises.
+ * It ensures the user sees only relevant premises and can quickly switch between different views and sorting orders.
+   **/
+
 import { useContext, useEffect, useRef, useState } from "react";
 import { BsFire } from "react-icons/bs";
 import { FiSearch } from "react-icons/fi";

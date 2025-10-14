@@ -273,7 +273,7 @@ const PremisePreview2 = ({
     createdSpProjectID,
     setCreatedSpProjectID,
     allspProjectJSON,
-    
+
     filteredAllProjects,
     setSelectedPremiseSpProjectId,
     // ProjectsObj,
@@ -428,6 +428,7 @@ const PremisePreview2 = ({
   const { data: storyToScriptData } = useGetStoryToScriptProjectQuery();
   const [matchingProject, setMatchingProject] = useState(null);
   const [characterArray, setCharacterArray] = useState([]);
+  const [selctedProjectName, setSelctedProjectName] = useState([]);
   // const [characters, setCharacters] = useState(characterArray);
 
   const [language, setLanguage] = useState("");
@@ -442,11 +443,11 @@ const PremisePreview2 = ({
   //   (item) => !item.locked && item.premise_id === ""
   // );
   const filteredSpProjectsUnsorted = allProjects?.filter(
-  (item) =>
-    !item.locked &&
-    item.premise_id === "" &&
-    item.current_status !== "audit_started"
-);
+    (item) =>
+      !item.locked &&
+      item.premise_id === "" &&
+      item.current_status !== "audit_started"
+  );
   //  console.log(filteredSpProjectsUnsorted);
   const filteredSpProjects = filteredSpProjectsUnsorted?.sort((a, b) => {
     return new Date(b.updated_on) - new Date(a.updated_on);
@@ -615,7 +616,7 @@ const PremisePreview2 = ({
   const [userMail, setUserMail] = useState(null);
   const [ownerMail, setOwnerMail] = useState(false);
   const handleUserMail = async () => {
-    const res = await fetchUserAccess(`${currentUser?.id}/PP_MessageOwner`);
+      const res = await fetchUserAccess(`${currentUser?.id}/PP_MessageOwner`);
     console.log("message rs", res);
     if (res?.access === "No") {
       setUserMail(res);
@@ -973,7 +974,7 @@ const PremisePreview2 = ({
                 setIsLoading(false);
                 deleteProject({ project: deleteId });
                 deletePremiseWhenFailed(deletePreID);
-                projectRefetch()
+                projectRefetch();
                 toast.error("Failed to create Premise", {
                   position: toast.POSITION.TOP_CENTER,
                   autoClose: 1600,
@@ -983,18 +984,18 @@ const PremisePreview2 = ({
           } else {
             // Handle API errors
             setIsLoading(false);
-          const dltRes = await  deleteProject({ project: deleteId });
-         if(dltRes){
-             projectRefetch()
-            toast.error(
-              res?.error?.data?.message || "Failed to create Premise!",
-              {
-                position: toast.POSITION.TOP_CENTER,
-                autoClose: 1600,
-              }
-            );
-         }
-                // projectRefetch()
+            const dltRes = await deleteProject({ project: deleteId });
+            if (dltRes) {
+              projectRefetch();
+              toast.error(
+                res?.error?.data?.message || "Failed to create Premise!",
+                {
+                  position: toast.POSITION.TOP_CENTER,
+                  autoClose: 1600,
+                }
+              );
+            }
+            // projectRefetch()
             // setAddPopup(null);
           }
         }
@@ -1254,7 +1255,7 @@ const PremisePreview2 = ({
   }, [protagonist]);
 
   const formValid =
-  (spProjectName || selectedSpProjectID) &&
+    (spProjectName || selectedSpProjectID) &&
     natureOfProject &&
     generaItem &&
     (subGeneraItem || subGeneraItemTxt) &&
@@ -1522,26 +1523,22 @@ const PremisePreview2 = ({
   //   }
   // }, [isProjectOpen]);
 
+  useEffect(() => {
+    if (isProjectOpen && spProjectRef.current && dropdownRef.current) {
+      const rect = spProjectRef.current.getBoundingClientRect();
+      const dropdownRect = dropdownRef.current.getBoundingClientRect();
 
+      const dropdownHeight = dropdownRect.height; // actual height
+      const spaceBelow = window.innerHeight - rect.bottom;
 
-useEffect(() => {
-  if (isProjectOpen && spProjectRef.current && dropdownRef.current) {
-    const rect = spProjectRef.current.getBoundingClientRect();
-    const dropdownRect = dropdownRef.current.getBoundingClientRect();
+      const openUpward = spaceBelow < dropdownHeight;
 
-    const dropdownHeight = dropdownRect.height; // actual height
-    const spaceBelow = window.innerHeight - rect.bottom;
-
-    const openUpward = spaceBelow < dropdownHeight;
-
-    setDropdownPos({
-      left: rect.left,
-      top: openUpward ? rect.top - dropdownHeight - 6 : rect.bottom + 2,
-    });
-  }
-}, [isProjectOpen, filteredSpProjects.length]);
-
-
+      setDropdownPos({
+        left: rect.left,
+        top: openUpward ? rect.top - dropdownHeight - 6 : rect.bottom + 2,
+      });
+    }
+  }, [isProjectOpen, filteredSpProjects.length]);
 
   if (isLoading) {
     return (
@@ -1914,7 +1911,7 @@ useEffect(() => {
                           {/* Dropdown List */}
                           {isProjectOpen && (
                             <div
-                             ref={dropdownRef}
+                              ref={dropdownRef}
                               className={`fixed z-[99] bg-white border border-[#EAEAEA] rounded-[4px] shadow-md max-h-[200px] overflow-y-auto w-[144px] md:w-[206px]`}
                               style={{
                                 top: dropdownPos.top,
@@ -1997,7 +1994,7 @@ useEffect(() => {
                         ) : (
                           <div
                             ref={spProjectRef}
-                            className={`h-[31px] overflow-visible relative w-[144px] md:w-[206px] bg-[#fafafa] ${
+                            className={`h-[31px] relative overflow-visible  w-[144px] md:w-[206px] bg-[#fafafa] ${
                               selectedSpProjectID
                                 ? "border-[#33B0CA]"
                                 : "border-[#EAEAEA]"
@@ -2006,14 +2003,27 @@ useEffect(() => {
                               setIsProjectOpen((prev) => !prev);
                             }}
                           >
-                            <div className="h-[27px] px-[8px] text-[12px] md:!text-[14px] flex items-center justify-between">
-                              {filteredSpProjects
-                                .find((p) => p.pro_uuid === selectedSpProjectID)
-                                ?.name.slice(0, 25) || (
-                                <span className="text-gray-400">
-                                  Select A Project
-                                </span>
-                              )}
+                            <div
+                              title={selctedProjectName}
+                              className="h-[27px] px-[8px] text-[12px] md:!text-[14px] flex items-center justify-between"
+                            >
+                              {(() => {
+                                const projectName = filteredSpProjects?.find(
+                                  (p) => p.pro_uuid === selectedSpProjectID
+                                )?.name;
+
+                                if (!projectName) {
+                                  return (
+                                    <span className="text-gray-400">
+                                      Select A Project
+                                    </span>
+                                  );
+                                }
+
+                                return projectName.length > 18
+                                  ? `${projectName.slice(0, 17)}...`
+                                  : projectName;
+                              })()}
                               <div className="flex items-center">
                                 {isProjectOpen ? (
                                   <IoIosArrowUp className="text-[14px] md:text-[18px]" />
@@ -2026,7 +2036,7 @@ useEffect(() => {
                             {/* Dropdown List */}
                             {isProjectOpen && (
                               <div
-                                className={`fixed z-[9999] bg-white border border-[#EAEAEA] rounded-[4px] shadow-md max-h-[200px] overflow-y-auto w-[144px] md:w-[206px]`}
+                                className={`absolute z-[99] bg-white border border-[#EAEAEA] rounded-[4px] shadow-md max-h-[200px] overflow-y-auto w-[144px] md:w-[206px]`}
                                 style={{
                                   top: dropdownPos.top,
                                   left: dropdownPos.left,
@@ -2044,14 +2054,15 @@ useEffect(() => {
                                       onMouseDown={() => {
                                         setSelectedSpProjectID(option.pro_uuid);
                                         setIsProjectOpen(false);
+                                        setSelctedProjectName(option.name);
                                       }}
-                                      className={`px-4 py-[2px] text-[12px] md:text-[14px] hover:bg-[#33b0ca] hover:text-white ${
+                                      className={`px-4 overflow-hidden break-words py-[2px] text-[12px] md:text-[14px] hover:bg-[#33b0ca] hover:text-white ${
                                         selectedSpProjectID === option.pro_uuid
                                           ? "bg-[#e6f7fa]"
                                           : ""
                                       }`}
                                     >
-                                      {option.name.slice(0, 15)}
+                                      {option.name.slice(0, 25)}
                                     </div>
                                   ))
                                 )}

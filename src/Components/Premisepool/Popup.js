@@ -1,3 +1,61 @@
+
+// Popup.jsx
+// Main popup component for displaying a premise with its details, comments, replies, and various actions.
+// Handles opening/closing the popup, fetching premise data, comments, user info, and managing multiple modals/popups.
+// Integrates character editing, translation, monetization, sale requests, and reply handling.
+// Uses several child components for specific sections (comments, like, AskIda, text display, etc.).
+
+// PopupPremiseText.jsx
+// Renders the main premise text inside the popup, including background image/color and text stylings.
+// Handles proper display of premise content (dText and viewText) with formatting options.
+
+// PopupComment.jsx
+// Shows comment icon/button to open the comment field in the popup.
+// Handles toggling the comment input area.
+
+// PopupTextarea.jsx
+// Textarea input for submitting new comments or replies on a premise.
+// Supports controlled input, character counting, and integrates with reply handling.
+
+// CommentList.jsx
+// Displays the list of comments for a premise, including nested replies.
+// Handles opening replies, setting reply IDs, loading states, and passing necessary callbacks.
+
+// LikePremise.jsx
+// Handles the like functionality for a premise, including popup animation and state management.
+// Updates premise likes and interacts with parent `Popup` for refetching data.
+
+// AskIda.jsx
+// Renders a special "Ask Ida" feature in the popup for user interaction or AI suggestions.
+// Positioned both in mobile and desktop layouts.
+
+// CharacterEditablePop.jsx
+// Popup for viewing and editing characters associated with the premise.
+// Allows saving changes, marking draft/active status, and refetching updated data.
+
+// DeletePremise.jsx
+// Modal to confirm deletion of a premise.
+// Uses project/premise ID and triggers a refetch after successful deletion.
+
+// CardHeadOptions.jsx
+// Component that renders the top-right "options" menu for a premise card in the popup.
+// Handles translation requests, sale requests, hiding/unhiding, monetization, and other dynamic actions.
+
+// UserType.jsx
+// Displays the type of a user (central database type and user_type) next to the user's name.
+
+// TransInOtherLang.pop.jsx
+// Popup for showing translations of the premise in other languages.
+
+// Popup-specific alert/popups
+// AvailableForTranslationPop, BankDetailsPop, MonetizePreferencePop, PaySalePopup,
+// ReqSalePop, ReqTranslationPop, NoPremisePop, NotifyPopup, SaleRequestedOwner, ViewTranslationPop
+// These handle specialized actions or alerts related to the premise (sale, translation, bank info, etc.).
+
+
+
+
+
 import { useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 // import { IoMdSend } from "react-icons/io";

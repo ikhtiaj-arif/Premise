@@ -1,3 +1,53 @@
+/**
+ * PremiseV2 Component
+ *
+ * This is the heart of the "Premise Pool" feature, where all user premises are displayed
+ * and managed. Think of it as the central hub for seeing, adding, filtering, and interacting
+ * with premises.
+ *
+ * Here's what it does in plain terms:
+ *
+ * Fetching Data & Keeping Track of State
+ *    - Pulls premises from the server using RTK Query, including hidden counts and user info.
+ *    - Tracks pagination, sorting, search terms, language, and which premises are posted by the user.
+ *    - Knows when to fetch an individual premise (like if the user comes from a special link)
+ *      and sets up the necessary data for popups or drafts.
+ *
+ * User Permissions & Contex
+ *    - Reads the current user and project info from context.
+ *    - Decides if the user can add new premises, or if we need to show access restriction popups.
+ *    - Handles "posted by me" vs "shared with me" views so the user sees the right data.
+ *
+ * Header & Layout
+ *    - Shows the top section with doodle images, total premise count, and the "Add New Premise" button.
+ *    - Fully responsive: rearranges layout for mobile and desktop screens.
+ *    - Includes filtering and sorting controls to help users find what they need quickly.
+ *
+ * Listing Premises
+ *    - Shows premises in a grid using `InfiniteScroll` so the list can grow without reloading the page.
+ *    - Highlights the first card when a new premise is added.
+ *    - Supports drafts, hidden premises, likes, translations, and AI-generated content.
+ *
+  *Popups & Modals
+ *    - Handles a bunch of popups depending on the situation:
+ *        - Adding a new premise
+ *        - Missing user info
+ *        - Access restrictions
+ *        - Previewing a premise
+ *        - Editing AI-generated characters
+ *        - Hidden premise alerts
+ *        - Marketing or pricing nudges
+ *    - Makes sure only the right popup appears at the right time.
+ *
+ * Extra Little Features
+ *    - Formats the creation date/time nicely for display.
+ *    - Shows idle popups if the user stays inactive for a while.
+ *    - Keeps the app interactive and responsive, even while fetching or loading data.
+ *
+ * In short: this component is the main workspace for premises. It combines data fetching, user
+ * permissions, filtering, infinite scrolling, and a ton of popups—all in a single, smooth experience.
+ */
+
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -323,21 +373,14 @@ const PremiseV2 = () => {
     }
   }, [userQuery, dispatch, user]);
 
-  // useEffect(() => {
-  //   setDataCount(premiseData?.count);
 
-  //   setTotalPages(Math.ceil(dataCount / itemsToShow));
-  //   setViewData(premiseData?.results);
-  //   refetch();
-  // }, [premiseData, dataCount, totalPages, itemsToShow, refetch]);
 
   useEffect(() => {
     if (premiseData) {
       let filterPremiseData = premiseData?.results?.filter(
-        // (items) => items.ai_comments_generated
+  
         (item) =>
-          // item?.ai_comments_generated === true ||
-          // item?.current_status === "is_draft"
+ 
           item?.ai_comments_generated === true || item?.is_draft === true
       );
       // console.log("filterPremiseData",filterPremiseData);
@@ -360,22 +403,7 @@ const PremiseV2 = () => {
     }
   }, [premiseData, itemsToShow]);
 
-  // delete premise card
-  // const handleDelete = (id) => {
-  //   setIsDelete(id);
-  // };
 
-  // const handleShow = () => {
-  //   let newItemsToShow = itemsToShow + 12;
-  //   if (newItemsToShow < premiseData?.count) {
-  //     setItemsToShow(newItemsToShow);
-  //     setHasMore(true);
-  //   } else if (newItemsToShow >= premiseData?.count) {
-  //     setItemsToShow(premiseData?.count);
-  //     setHasMore(false);
-  //   }
-
-  // };
   const handleShow = () => {
     let newItemsToShow = itemsToShow + 12;
 
@@ -399,7 +427,6 @@ const PremiseV2 = () => {
   };
   const [checkedAddPremise, setCheckedAddPremise] = useState(false);
 
-  // console.log("checkedAddPremise", checkedAddPremise);
   const handleAddPopup = async () => {
     const notShowAddPremise = localStorage.getItem("NotShowAddPremise");
 
@@ -411,7 +438,7 @@ const PremiseV2 = () => {
     }
 
     if (userFirstName) {
-      //&& userLastName
+    
       const res = await fetchUserAccess(`${currentUser?.id}/PP_PostPremise`);
       // console.log("add premise res", res);
       if (res?.access === "No") {
@@ -476,86 +503,10 @@ const PremiseV2 = () => {
   const currentProjectName = currentProjectData?.name;
   const isProjectLocked = currentProjectData?.locked;
 
-  // const handleUpdateSavedChar = async () => {
-  //   setCharacterLoading(true);
-  //   try {
-  //     characterArray.forEach((character) => {
-  //       if (character.is_ai_generated === undefined) {
-  //         character.is_ai_generated = false;
-  //       }
-  //     });
-  //     characterArray.forEach((character) => {
-  //       if (character.is_ai_generated === undefined) {
-  //         character.is_ai_generated = false;
-  //       }
-  //     });
-  //     const charArr = JSON.stringify(characterArray);
-  //     const data = {
-  //       // id: premiseID,
-  //       id: project_id,
-  //       // body: { char_data: charArr },
-  //       body: { char_data: charArr, is_draft: false, premise_id: id },
-  //     };
-
-  //     const response = await saveCharacter(data);
-
-  //     if (response) {
-  //       // setAddNewCharacter(false)
-  //       // setEditPopupOpen(false)
-  //       setOpenCharacterChart(false);
-  //       // setCharSaveDisable(true);
-  //       setCharacterLoading(false);
-
-  //       // toast.success("characters updated!")
-  //     }
-  //     return response;
-  //   } catch (error) {
-  //     setCharacterLoading(false);
-  //     // console.error("Error updating characters:", error);
-  //   }
-  // };
-
-  // const handleSaveAsDraft = async () => {
-  //   setCharacterLoading(true);
-  //   try {
-  //     characterArray.forEach((character) => {
-  //       if (character.is_ai_generated === undefined) {
-  //         character.is_ai_generated = false;
-  //       }
-  //     });
-  //     const charArr = JSON.stringify(characterArray);
-  //     const data = {
-  //       id: project_id,
-  //       body: { char_data: charArr, is_draft: true, premise_id: id },
-  //       is_draft: true,
-  //     };
-
-  //     const response = await saveCharacter(data);
-
-  //     if (response) {
-  //       // setAddNewCharacter(false)
-  //       // setEditPopupOpen(false)
-  //       // setOpenCharacterChart(false);
-  //       // setCharSaveDisable(true);
-  //       setOpenCharacterChart(false);
-  //       // setCharSaveDisable(true);
-  //       setCharacterLoading(false);
-  //       refetch();
-  //       // toast.success("characters updated!")
-  //     }
-  //     return response;
-  //   } catch (error) {
-  //     setCharacterLoading(false);
-  //     // console.error("Error updating characters:", error);
-  //   }
-  // };
+  
 
   return (
-    //   <div
-    //   className="fixed left-0 top-[60px] w-full"
-    //   style={{ width: `calc(100vw - 35px)` }}
-    //   id="premisePool"
-    // >
+
     <div
       className="fixed left-0  top-[60px] w-full md:w-[calc(100vw-35px)] "
       id="premisePool"
