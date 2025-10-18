@@ -357,10 +357,10 @@ const LeftSideBarUpdate = ({
   const handleOpenSp = () => {
     // console.log("object", p);
     if (isProjectLocked) {
-      window.open(`${baseURL}/scriptpad2/#/generated-scripts`);
+      window.open(`${baseURL}/scriptpad/#/generated-scripts`);
     }
     window.open(
-      `${baseURL}/scriptpad2/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
+      `${baseURL}/scriptpad/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
     );
   };
 

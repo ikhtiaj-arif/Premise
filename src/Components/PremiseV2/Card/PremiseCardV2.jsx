@@ -73,8 +73,6 @@
  * └─ HideOptionPop
  */
 
-
-
 import { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -334,10 +332,10 @@ const PremiseCardV2 = ({
   const handleOpenSp = () => {
     // console.log("object", p);
     if (isProjectLocked) {
-      window.open(`${URL}/scriptpad2/#/generated-scripts`);
+      window.open(`${URL}/scriptpad/#/generated-scripts`);
     }
     window.open(
-      `${URL}/scriptpad2/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
+      `${URL}/scriptpad/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
     );
   };
 
@@ -552,7 +550,7 @@ const PremiseCardV2 = ({
     useState(false);
   const handleCheckPremiseData = async (id) => {
     try {
-      const data = await axios.get(`${URL}/ideamall/api/v2/premise/${id}`, {
+      const data = await axios.get(`${URL}/brainstorm/api/v2/premise/${id}`, {
         headers: header,
       });
       const premiseData = data?.data;

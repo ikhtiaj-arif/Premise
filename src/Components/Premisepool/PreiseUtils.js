@@ -13,7 +13,7 @@ const hideUnhidePremise = async (
     let response;
     if (flag === "hide_from_all") {
       response = await fetch(
-        `${URL}/ideamall/hide-premise/${id}?flag=${flag}`,
+        `${URL}/brainstorm/hide-premise/${id}?flag=${flag}`,
         {
           method: "GET",
           headers: {
@@ -25,7 +25,7 @@ const hideUnhidePremise = async (
     }
     if (flag === "show_buddies") {
       response = await fetch(
-        `${URL}/ideamall/hide-premise/${id}?flag=${flag}&central_db_id=3`,
+        `${URL}/brainstorm/hide-premise/${id}?flag=${flag}&central_db_id=3`,
         {
           method: "GET",
           headers: {
@@ -37,7 +37,7 @@ const hideUnhidePremise = async (
     }
     if (flag === "visible_to") {
       response = await fetch(
-        `${URL}/ideamall/hide-premise/${id}?flag=${flag}&visible_to=[144,153]`,
+        `${URL}/brainstorm/hide-premise/${id}?flag=${flag}&visible_to=[144,153]`,
         {
           method: "GET",
           headers: {

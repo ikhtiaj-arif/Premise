@@ -51,7 +51,7 @@
 //             <div className="flex flex-col items-center gap-[6px] mb-5">
 //               <button
 //                 onClick={onClose}
-//                 // onClick={() => (window.location.href = Url + "/scriptpad2")}
+//                 // onClick={() => (window.location.href = Url + "/scriptpad")}
 //                 className="w-[131px] h-[32px] rounded bg-[#33b0ca] text-[14px] font-semibold text-[#fafafa]"
 //               >
 //                 Let's write

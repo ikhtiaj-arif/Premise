@@ -1,3 +1,93 @@
+// AllComments Component
+//
+// This component renders all comments under a premise and manages everything related to them:
+// displaying, liking, replying, translating, deleting, and adding to beat sheets.
+//
+// ------------------------------------------------------------
+// Overview
+// ------------------------------------------------------------
+// - Displays each comment with user info, time, text, and actions.
+// - Handles replies, likes, suggestions, deletions, and translations in one place.
+// - Integrates with multiple backend endpoints for comment, reply, and beat management.
+// - Manages “Add as Beat” and “Suggestion” permissions using access checks.
+// - Provides animated rendering for replies using Framer Motion.
+//
+// ------------------------------------------------------------
+// Core Logic
+// ------------------------------------------------------------
+//
+// 1. **Comment Display & User Info**
+//    - Each comment shows author details, timestamp, and optional role badge (`UserType`).
+//    - Fetches profile pictures via `useGetPremiseUserPictureQuery`.
+//    - Auto-links user names and avatars to their public profile pages.
+//
+// 2. **Replies Management**
+//    - Handles nested replies with `ReplyToComments`.
+//    - Opens reply input dynamically for the selected comment using `replyToCommentID`.
+//    - Supports keyboard “Enter” submission for quick replies.
+//    //! Important: Reply posting and fetching are handled asynchronously and tied to commentRefetch / replyRefetch to stay in sync.
+//
+// 3. **Suggestions & Brainstorming**
+//    - Certain comments (usually AI prompts with “?”) allow the premise owner to request a suggestion.
+//    - Checks access rights via `fetchUserAccess` before calling `useCreateSuggestedReplyMutation`.
+//    - Displays a temporary “Suggesting…” state while waiting for backend response.
+//    //! Important: Restricts suggestion use to authorized or premium users only.
+//
+// 4. **Add to Beat**
+//    - Lets premise owners turn a comment into a “beat” (a story plot point).
+//    - Access control through `fetchUserAccess` ensures only eligible users can use it.
+//    - Uses `useBeatSuggestionMutation` to fetch and preview generated beat ideas.
+//    - Opens `BeatEditPop` modal for editing and confirming beats.
+//
+// 5. **Likes & Interaction**
+//    - Integrates `CommentLike` and `CommentLikePopup` for reacting to comments.
+//    - Displays like count and provides both desktop and mobile versions.
+//
+// 6. **Comment Deletion**
+//    - Uses `useDeleteCommentMutation` for deleting comments.
+//    - Shows confirmation via `ConfirmationModal` before final action.
+//    - Displays toast feedback for success or failure.
+//    //! Important: Only comment owners or premise owners can delete comments.
+//
+// 7. **Translation**
+//    - Integrates `CommentTranslator` to translate comments dynamically.
+//    - Updates local comment text after translation.
+//
+// 8. **Access Control & Popups**
+//    - Displays `NoAccessPopUp` or `NoAccessLbPopUp` when a user lacks privileges for certain actions (suggestion, beat creation, etc.).
+//    - Uses localStorage flags to show tutorials or onboarding popups once per user.
+//
+// 9. **UI / UX**
+//    - Groups comments into phases (“Setup”, “Conflict”, “Resolution”) based on index thresholds.
+//    - Includes responsive layout for mobile and desktop.
+//    - Uses Framer Motion for fade/slide animations in replies.
+//    - Handles multiple disable states (for reply, delete, suggestion) to prevent duplicate actions.
+//
+// ------------------------------------------------------------
+// Props Overview
+// ------------------------------------------------------------
+// - comments, commentIdx: The main comment object and its position.
+// - data, premiseData: Premise details for access and ownership logic.
+// - refetch, commentRefetch, replyRefetch: Used to refresh comment and reply data.
+// - replyToCommentID, replyField, setReplyField: Controls open reply state.
+// - setReplyText, setReplyTextCount: Manages reply input values and character count.
+// - handleOpenAllReplies, openAllReplies, setOpenAllReplies: Toggles reply visibility.
+// - project_id, actOneThreshold, actTwoEnd: Used for phase labeling and beat association.
+// - fromNew: Determines context (new premise vs existing one).
+// - addBeatTutorialPop / setAddBeatTutorialPop: Controls first-time beat feature tutorial popups.
+//
+// ------------------------------------------------------------
+// Summary
+// ------------------------------------------------------------
+// AllComments is the central comment interaction layer of the premise system.
+// It connects user actions (like, reply, delete, suggest, add-to-beat) to their respective APIs,
+// ensures permission-aware flows, and keeps the UI responsive and consistent.
+//
+// //! Key takeaway: This component ties together all comment-based interactions —
+//    it’s the heart of collaboration, feedback, and brainstorming around a premise.
+
+
+
 import { motion } from "framer-motion";
 import { useContext, useEffect, useRef, useState } from "react";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
@@ -993,7 +1083,7 @@ const AllComments = ({
 
                     {!(
                       comments?.text?.includes("?") ||
-                      comments?.text?.includes("؟")
+                      comments?.text?.includes("؟") || comments?.ask_ida
                     ) && (
                       <>
                         {data?.premiseOwner?.id === user &&

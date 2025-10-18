@@ -450,10 +450,10 @@ const Popup = ({
   const handleOpenSp = () => {
     // console.log("object", p);
     if (isProjectLocked) {
-      window.open(`${baseURL}/scriptpad2/#/generated-scripts`);
+      window.open(`${baseURL}/scriptpad/#/generated-scripts`);
     }
     window.open(
-      `${baseURL}/scriptpad2/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
+      `${baseURL}/scriptpad/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
     );
   };
 
@@ -469,7 +469,7 @@ const Popup = ({
 
     // console.log(id);
     // // const url = `${baseURL}/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
-    const url = `${window.location.origin}/ideamall/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
+    const url = `${window.location.origin}/brainstorm/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
 
     // // Open the URL in a new tab
     window.open(url, "_blank");
@@ -506,7 +506,7 @@ const Popup = ({
     try {
       // console.log(id);
       const data = await axios.get(
-        `${URL}/ideamall/premise/request/${id}/Sale`,
+        `${URL}/brainstorm/premise/request/${id}/Sale`,
         {
           headers: header,
         }
@@ -540,7 +540,7 @@ const Popup = ({
   const [sourcePopData, setSourcePopData] = useState();
   const handleCheckPremiseData = async (id) => {
     try {
-      const data = await axios.get(`${URL}/ideamall/api/v2/premise/${id}`, {
+      const data = await axios.get(`${URL}/brainstorm/api/v2/premise/${id}`, {
         headers: header,
       });
       const premiseData = data?.data;

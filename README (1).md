@@ -1,13 +1,8 @@
-
-# PremisePool
-
-A brief description of what this project does and who it's for
-
-# 💡 PremisePool
+#  IdeaMall (PremisePool)
 
 **IdeaMall** (also called **PremisePool**) is a modern web app built with React and Redux Toolkit that lets users create, share, and interact with “premises” (ideas, posts, or scripts). It’s designed for collaborative content generation with comment threads, payments, and multilingual input options.
 
-## 🚀 Overview
+##  Overview
 
 IdeaMall is a feature-rich idea-sharing platform where users can:
 
@@ -21,9 +16,9 @@ IdeaMall is a feature-rich idea-sharing platform where users can:
 
 The app focuses on real-time collaboration, user engagement, and accessibility for creators across languages.
 
-## 🧠 Core Logic & Functionality
+##  Core Logic & Functionality
 
-### 🏗 1. Premise Management
+### 1. Premise Management
 
 Located in `Components/Premisepool/` and API handlers under `app/EndPoints/premisePoolApi.js`.
 
@@ -32,7 +27,7 @@ Located in `Components/Premisepool/` and API handlers under `app/EndPoints/premi
 - Fetch and mutate premise data via custom API endpoints.
 - Includes filtering, pagination, and draft management logic.
 
-### 💬 2. Comment & Reply System
+###  2. Comment & Reply System
 
 Files:
 
@@ -44,7 +39,7 @@ Features:
 - Uses Redux Toolkit queries to fetch and update comment threads.
 - Comment like popups and inline reply logic for better UX.
 
-### 💳 3. Payment System
+###  3. Payment System
 
 Files under `Components/Payment/`
 
@@ -52,7 +47,7 @@ Files under `Components/Payment/`
 - Displays payable amounts and integrates with the app’s purchase flow.
 - Includes `LimitPaymentPage.jsx`, `PaymentInvoicePopup.jsx`, etc.
 
-### 🌍 4. Multilingual Input Keyboard
+### 4. Multilingual Input Keyboard
 
 Folder: `Components/Keyboard/`
 
@@ -60,7 +55,7 @@ Folder: `Components/Keyboard/`
 - Uses `react-simple-keyboard` for custom typing interfaces.
 - Enables seamless multilingual premise and comment creation.
 
-### 👥 5. User Authentication & State
+### 5. User Authentication & State
 
 Slices:
 
@@ -69,7 +64,7 @@ Slices:
 
 Cookies and localStorage (via `js-cookie`) are used for maintaining sessions.
 
-### ⚙️ 6. Global Hooks & API Integration
+### 6. Global Hooks & API Integration
 
 - All APIs managed under `app/EndPoints/` using a modular structure.
 - `faseBaseQuery.js` handles base API logic (axios instance, headers, etc.).
@@ -77,7 +72,7 @@ Cookies and localStorage (via `js-cookie`) are used for maintaining sessions.
 
 ---
 
-## 🧩 Folder Structure
+## Folder Structure
 
 ```
 src/
@@ -99,7 +94,7 @@ src/
 └── index.css, App.css        # Global styles
 ```
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Category         | Tools Used                                       |
 | ---------------- | ------------------------------------------------ | ---------- |
@@ -114,7 +109,7 @@ src/
 | Utility          | react-draggable, react-infinite-scroll-component |
 | Testing          | Jest, React Testing Library                      |
 
-## ⚙️ Installation & Setup
+## Installation & Setup
 
 ### 1. Clone the repository
 
@@ -156,16 +151,16 @@ REACT_APP_STRIPE_KEY=your_public_key_if_any
 
 ## ✨ Key Features
 
-- 🧱 **Modular API architecture**
-- 🧩 **Redux slices for clean state separation**
-- 💬 **Nested comments and reactions**
-- 💳 **Integrated payment system**
-- 🌐 **Multilingual input keyboard**
-- 🚀 **Performance optimized UI**
-- 🔁 **Auto-refresh logic with RTK Query**
-- 🧭 **Guided tours via `react-joyride`**
+-  **Modular API architecture**
+-  **Redux slices for clean state separation**
+-  **Nested comments and reactions**
+-  **Integrated payment system**
+-  **Multilingual input keyboard**
+-  **Performance optimized UI**
+-  **Auto-refresh logic with RTK Query**
+-  **Guided tours via `react-joyride`**
 
-## 👨‍💻 Contributing
+##  Contributing
 
 1. Fork the repository
 2. Create your feature branch:
@@ -180,9 +175,9 @@ REACT_APP_STRIPE_KEY=your_public_key_if_any
    ```bash
    git push origin feature/your-feature-name
    ```
-5. Create a Pull Request ✅
+5. Create a Pull Request 
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 | Issue                    | Possible Fix                                      |
 | ------------------------ | ------------------------------------------------- |
@@ -191,13 +186,13 @@ REACT_APP_STRIPE_KEY=your_public_key_if_any
 | Redux state not updating | Ensure correct slice import & store configuration |
 | Keyboard not appearing   | Confirm `react-simple-keyboard` is installed      |
 
-## 🧾 License
+##  License
 
 This project is licensed under **MNF**.
 
-## 🧠 Author
+##  Author
 
 **MD. Ikhtiaj Arif**  
 Full Stack Developer — React, Next.js, Express, PostgreSQL, MongoDB, TypeScript
 
-> 💬 _“Great ideas start with small premises.”_
+>  _“Great ideas start with small premises.”_

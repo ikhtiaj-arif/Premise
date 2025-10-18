@@ -1,4 +1,62 @@
-import React, { useEffect, useRef, useState } from "react";
+// VisibilitySection Component
+//
+// Displays and manages the “Visible to” section of a premise — showing who can
+// view the current premise and allowing the owner to edit visibility settings.
+//
+// ------------------------------------------------------------
+// Overview
+// ------------------------------------------------------------
+// - Shows the list or label of users who can view the premise.
+// - Allows the owner to open visibility settings via an edit icon.
+// - Supports interactive tooltip for viewing long user lists.
+// - Excludes the current user from the visible list when applicable.
+//
+// ------------------------------------------------------------
+// Core Functionalities
+// ------------------------------------------------------------
+//
+// 1. **Dynamic Visibility Label**
+//    - `getFilterLabel()` determines what label or names to show based on `filter_flag`:
+//        0 → “All Buddies”
+//        1 → “Only Me”
+//        2 → “Selected Users” (shows names with expandable tooltip)
+//        3 → “Everyone”
+//    //! Important: When `filter_flag` is 2, only selected users appear (excludes `currentUser`).
+//
+// 2. **Tooltip Behavior**
+//    - Displays first 4–5 users inline; the rest appear inside a scrollable tooltip.
+//    - Tooltip toggles open/close via “See more...” link.
+//    - Automatically closes when clicking outside the tooltip area.
+//
+// 3. **Edit Visibility**
+//    - Clicking the edit (`MdOutlineEdit`) icon triggers `handleVisibility()`
+//      — typically opens a popup or modal for visibility settings.
+//
+// 4. **Ownership Restriction**
+//    - The section is rendered **only if** the logged-in user is the premise owner.
+//    //! Ensures that only owners can modify or view detailed visibility info.
+//
+// ------------------------------------------------------------
+// Props Overview
+// ------------------------------------------------------------
+// - `premiseOwner`: Object containing the premise owner info.
+// - `user`: Current logged-in user ID.
+// - `visible_to`: Array of users who have permission to view the premise.
+// - `currentUser`: Current user object used for filtering visibility.
+// - `filter_flag`: Determines visibility level (All, Only Me, Selected, etc.).
+// - `handleVisibility`: Function triggered when the edit icon is clicked.
+//
+// ------------------------------------------------------------
+// Summary
+// ------------------------------------------------------------
+// `VisibilitySection` cleanly represents who can view a premise and gives owners
+// a simple way to manage that access. It dynamically adjusts the view depending
+// on visibility rules and user interactions.
+//
+// //! Key takeaway: This component ensures visibility data remains accurate,
+//    interactive, and restricted to premise owners.
+
+import { useEffect, useRef, useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
 
 const VisibilitySection = ({

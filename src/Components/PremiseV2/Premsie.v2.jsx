@@ -192,7 +192,7 @@ const PremiseV2 = () => {
   const xyz = async () => {
     try {
       const response = await axios.get(
-        `${baseURL}/ideamall/premise?current_user=${user}&user=${user}`,
+        `${baseURL}/brainstorm/premise?current_user=${user}&user=${user}`,
         {
           headers: headers,
         }
@@ -250,10 +250,17 @@ const PremiseV2 = () => {
   // }, [id, premiseData]);
   const [hiddenPop, setHiddenPop] = useState(false);
 
+/**
+ * Fetches a premise by its ID from the API.
+ * If the fetched premise is hidden and not owned by the current user, shows the hidden pop.
+ * If the premise is a draft, opens the character chart.
+ * Otherwise, opens the premise pop with the premise data and user.
+ * @returns {Promise<Object>} The fetched premise data.
+ */
   const fetchPremiseById = async () => {
     try {
       const response = await axios({
-        url: `${baseURL}/ideamall/api/v2/premise/${id.__id}`,
+        url: `${baseURL}/brainstorm/api/v2/premise/${id.__id}`,
         method: "GET",
         headers: headers,
       });
@@ -404,6 +411,11 @@ const PremiseV2 = () => {
   }, [premiseData, itemsToShow]);
 
 
+/**
+ * Increases the number of items to show by 12, but not exceeding the total count of premise data.
+ * If the new count exceeds the total count, it sets the new count to the total count and sets hasMore to false.
+ * Otherwise, it sets hasMore to true.
+ */
   const handleShow = () => {
     let newItemsToShow = itemsToShow + 12;
 
@@ -421,6 +433,9 @@ const PremiseV2 = () => {
   const [activeSearch, setActiveSearch] = useState(false);
   const [transPopClose, setTransPopClose] = useState({});
 
+/**
+ * Resets the active search state and closes the translation popup when the user scrolls.
+ */
   const handleScroll = () => {
     setActiveSearch(false);
     setTransPopClose(null);

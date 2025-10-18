@@ -1,3 +1,80 @@
+// PremiseNewTab Component
+//
+// This component is the main viewer for a single premise in “New Tab” mode.
+// It fetches, organizes, and displays all premise-related comments, replies,
+// characters, and sidebar data — acting as the top-level coordinator for
+// the premise discussion and story-building workspace.
+//
+// ------------------------------------------------------------
+// Overview
+// ------------------------------------------------------------
+// - Fetches premise details, comments, and characters via multiple API hooks.
+// - Handles dynamic comment searching, replying, and filtering logic.
+// - Displays two main sections: Comment workspace (center) and sidebar info (left/right).
+// - Supports tutorial popups and onboarding states for new users.
+// - Integrates Framer Motion for smooth comment animation and scroll sync.
+//
+// ------------------------------------------------------------
+// Core Logic
+// ------------------------------------------------------------
+//
+// 1. **Data Fetching**
+//    - Uses RTK Query endpoints to fetch premise, comments, and saved characters.
+//    - Automatically refetches when premise or comment data changes.
+//    //! Important: Relies on `premiseData?.setC` to calculate act thresholds for comment segmentation.
+//
+// 2. **Comment Management**
+//    - Renders all comments (and replies) through the `AllComments` component.
+//    - Provides in-line reply functionality with real-time updates.
+//    - Supports comment search via `useFindCommentMutation`.
+//    //! Important: Keeps both `filteredCommentsData` and `commentsData` in sync for search and refresh.
+//
+// 3. **Reply Handling**
+//    - Tracks and manages open reply fields across multiple comments.
+//    - Handles reply submission with validation and toast feedback.
+//    - Syncs reply posting using `useCreateReplyMutation` and `commentRefetch()`.
+//
+// 4. **Act & Phase Segmentation**
+//    - Parses `premiseData.setC` JSON to extract Act One / Act Two thresholds.
+//    - These thresholds are used to display “Setup”, “Conflict”, and “Resolution” phases in comments.
+//
+// 5. **Sidebars & Layout**
+//    - Left: `LeftSideBarUpdate` — manages character and comment navigation.
+//    - Right: `VerticalBar` — visual guide for comment structure and phase progression.
+//    - Responsive layout swaps between “lgHidden” (mobile) and “lgFlxVisible” (desktop) modes.
+//
+// 6. **Search & Filtering**
+//    - Search form calls `findComments` mutation and displays matched comments dynamically.
+//    - Prevents concurrent requests using a controlled `loading` state.
+//
+// 7. **Access Control & Visibility**
+//    - Restricts access to hidden premises unless owned by the logged-in user.
+//    - Displays `NoPremisePop` when unauthorized.
+//    //! Important: Blocks rendering of sensitive or private premise data for non-owners.
+//
+// 8. **Tutorial & Onboarding**
+//    - Uses `NewTabTutorialPop` to guide new users when opening the premise tab for the first time.
+//    - Tracks tutorial completion with `localStorage` flags.
+//
+// ------------------------------------------------------------
+// Props Overview
+// ------------------------------------------------------------
+// - id: The unique ID of the premise.
+// - user: Current logged-in user ID.
+// - premiseData: The premise object containing owner, project ID, and settings.
+// - premiseRefetch: Callback to refetch premise data.
+// - isPremiseLoading: Boolean indicating premise fetch status.
+//
+// ------------------------------------------------------------
+// Summary
+// ------------------------------------------------------------
+// `PremiseNewTab` serves as the central hub for premise exploration and collaboration.
+// It merges multiple submodules — comments, characters, beats, and user interactions —
+// into a single coordinated layout, ensuring seamless data flow and UI synchronization.
+//
+// //! Key takeaway: This component orchestrates the full “premise view” experience,
+//    combining fetching, filtering, replies, and tutorials into one cohesive screen.
+
 import { useContext, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import {

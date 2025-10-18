@@ -1,3 +1,89 @@
+// AddPremise2 Component
+//
+// This component allows users to create or edit a "Premise" — essentially a creative idea
+// that begins with a "What if..." phrase. It manages writing, previewing, language selection,
+// and shows short tutorial popups for first-time users.
+//
+// In plain terms:
+// It's a guided mini text editor that walks the user from writing a short imaginative idea,
+// to previewing it, and finally saving or editing it.
+//
+// ------------------------------------------------------------
+// Core Responsibilities
+// ------------------------------------------------------------
+//
+// 1. Writing Area
+//    - Provides a text field for typing the premise.
+//    - Automatically adds the “What if” phrase in the selected language.
+//    - Enforces length between 20–200 characters.
+//      If text is under 20 characters, the “Next” button remains disabled.
+//      //! Important: Input length validation prevents premature submission.
+//    - When editing, restores bold/italic/underline formatting from existing data.
+//
+// 2. Language & Keyboard
+//    - Supports multiple languages.
+//    - Includes an on-screen keyboard for special character input.
+//    - The keyboard is draggable via `react-draggable`.
+//      //! Important: Great UX improvement for multilingual users who need character flexibility.
+//
+// 3. Preview Mode
+//    - “Next” button switches from write mode to preview mode (`PremisePreview2`).
+//    - Preview mode formats and sanitizes text:
+//        * Removes extra punctuation.
+//        * Ensures the sentence ends with a question mark.
+//        * Re-inserts the “What if” prefix properly.
+//    - Allows returning to edit mode via `handleGoBack`.
+//      //! Important: Maintains clean text structure before saving or submission.
+//
+// 4. Tutorial Popups
+//    - On first open, may trigger tutorial popups (`AddPremiseTutorialPop`, `AddPremiseNextTutorialPop`).
+//    - These guide users through writing and previewing steps.
+//    - Uses `localStorage` to remember if the tutorials were already shown.
+//      //! Important: Tutorial state persistence improves user onboarding.
+//
+// 5. Auto-Correct & Cleanup
+//    - Uses `autoCorrectText()` to tidy up spacing and punctuation.
+//    - Trims leading/trailing spaces and ensures proper sentence flow.
+//      //! Important: Keeps user input clean and consistent before saving.
+//
+// 6. UI States & Visual Feedback
+//    - Switches smoothly between writing and preview states.
+//    - Displays character count (min 20 / max 200).
+//    - Disables the “Next” button until the input is valid.
+//    - Includes a “Clear” button to reset the text.
+//    - Shows subtle loading indicators during transitions or API calls.
+//
+// 7. Popups & Modals
+//    - Can be closed with an X icon or back arrow.
+//    - Transitions smoothly between steps (write → preview → tutorial).
+//
+// ------------------------------------------------------------
+// Props Overview
+// ------------------------------------------------------------
+// - setAddPopup: Controls the visibility of this modal.
+// - data: Existing premise data (if editing an old one).
+// - refetch: Function to refresh premise data after saving.
+// - checkedAddPremise: Controls tutorial popup visibility state.
+// - setCheckedAddPremise: Toggles tutorial display.
+//
+// ------------------------------------------------------------
+// Internal Logic Flow
+// ------------------------------------------------------------
+// 1. User types → system validates input length.
+// 2. On “Next” → reformats text and switches to preview.
+// 3. User can go back or confirm submission.
+// 4. Tutorial popups appear only for new users (once per session).
+//
+// ------------------------------------------------------------
+// Summary
+// ------------------------------------------------------------
+// AddPremise2 is a smooth, guided writing experience for users to craft a “What if...” idea.
+// It focuses on validation, clarity, and usability with support for multiple languages,
+// text correction, and first-time tutorials. Designed for simplicity and a natural writing flow.
+
+
+
+
 import { useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
@@ -114,6 +200,10 @@ const AddPremise2 = ({
   //   setText(corrected);
   // };
 
+/**
+ * Resets the new text and preview state to their initial values.
+ * This function is called when the user clicks the "Go Back" button.
+ */
   const handleGoBack = () => {
     setNewText("");
     setPreview(false);
@@ -127,6 +217,10 @@ const AddPremise2 = ({
     setKeyboardVisible(!keyboardVisible);
   };
 
+/**
+ * Resets the text state to an empty string.
+ * This function is called when the user clicks the "Clear" button.
+ */
   const handleClear = () => {
     setText("");
   };

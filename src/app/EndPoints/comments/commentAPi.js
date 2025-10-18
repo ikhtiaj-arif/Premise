@@ -5,7 +5,7 @@ export const commentEndPoint = apiSlice.injectEndpoints({
     findComment: builder.mutation({
       query: (data) => {
         return {
-          url: `ideamall/premise/comment_search`,
+          url: `brainstorm/premise/comment_search`,
           method: "POST",
           body: data,
         };
@@ -14,7 +14,7 @@ export const commentEndPoint = apiSlice.injectEndpoints({
     translateComment: builder.mutation({
       query: (data) => {
         return {
-          url: `ideamall/comment/translation`,
+          url: `brainstorm/comment/translation`,
           method: "POST",
           body: data,
         };

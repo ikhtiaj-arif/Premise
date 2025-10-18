@@ -59,7 +59,7 @@ const ProjectInfoUpdate = ({
           </div>
         </div>
         <div className="lg:flex items-center justify-between gap-12">
-          <h3 className="text-[12px] px-2 leading-4 xl:text-[14px]  text-[#252525] xl:leading-[21px] font-normal w-full md:w-[70%] lg:w-[63%] xl:w-[67%] break-words">
+          <h3 className="text-[14px] px-2 leading-4 xl:text-[14px]  text-[#252525] xl:leading-[21px] font-normal w-full md:w-[70%] lg:w-[63%] xl:w-[67%] break-words">
             <span
               className="text-[#252525] font-bold notranslate"
               data-te-toggle="tooltip"
@@ -83,7 +83,8 @@ const ProjectInfoUpdate = ({
               <div className="flex gap-1 space-x-4 items-center">
                 {/* like */}
                 {/* <PopupLike {...{ user, id, premiseRefetch, premiseData }} /> */}
-                <LikePremise
+                {/* this feature is commented out for the new design */}
+                {/* <LikePremise
                   data={{
                     user,
                     ...premiseData,
@@ -91,7 +92,7 @@ const ProjectInfoUpdate = ({
                     setLikePopup,
                   }}
                   refetch={premiseRefetch}
-                />
+                /> */}
                 {/* comment */}
                 <PopupComment
                   {...{

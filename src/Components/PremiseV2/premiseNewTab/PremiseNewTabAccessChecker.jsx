@@ -1,79 +1,52 @@
-// import { useEffect, useState } from "react";
-// import { useNavigate, useParams } from "react-router-dom";
-// import {
-//   useGetOnePremiseQuery,
-//   useGetPremiseUserQuery,
-// } from "../../../app/EndPoints/premisePoolApi";
-// import TypingLoader from "../../TypingLoader";
-// import NoPremisePop from "../Popups/alerts/NoPremisePop";
-// import PremiseNewTab from "./PremiseNewTab";
+// PremiseNewTabAccessChecker Component
+//
+// This component acts as a secure “gatekeeper” before loading the main `PremiseNewTab` view.
+// It ensures only the rightful owner of a premise can access its New Tab version.
+//
+// ------------------------------------------------------------
+// Overview
+// ------------------------------------------------------------
+// - Fetches both the current logged-in user and the requested premise by ID.
+// - Verifies ownership and controls navigation accordingly.
+// - Handles loading, error, and unauthorized access gracefully.
+//
+// ------------------------------------------------------------
+// Core Logic
+// ------------------------------------------------------------
+//
+// 1. **Data Fetching**
+//    - Uses `useGetOnePremiseQuery(id)` to fetch the selected premise.
+//    - Uses `useGetPremiseUserQuery()` to identify the currently logged-in user.
+//    - Waits until both requests finish before proceeding.
+//
+// 2. **Access Control**
+//    - Compares `userQuery.id` (current user) with `premiseData.premiseOwner.id`.
+//    //! If they match → access granted → render <PremiseNewTab>.
+//    //! If not → automatically redirects the user to `/{id}/scriptpad`.
+//
+// 3. **Error & Loading Handling**
+//    - Displays `TypingLoader` while fetching data.
+//    - Shows `NoPremisePop` if a 404 (premise not found) occurs.
+//    - Uses state flags like `showPremiseTab` and `noPremise` to track view state.
+//
+// 4. **Conditional Rendering**
+//    - Only renders `PremiseNewTab` after all access checks pass.
+//    - Provides a clean fallback (`return null`) for unexpected states.
+//
+// ------------------------------------------------------------
+// Summary
+// ------------------------------------------------------------
+// This component acts as a lightweight security layer around `PremiseNewTab`.
+// It prevents unauthorized users from viewing another user’s private premise
+// and ensures the correct user experience for premise owners.
+//
+// //! Key takeaway: Only the premise owner can access the “New Tab” view.
+//    Others are safely redirected to the “Scriptpad” route.
 
-// const PremiseNewTabAccessChecker = () => {
-//   const [newTab, setNewTab] = useState(false);
-//   const [newTabData, setNewTabData] = useState(null);
-//   const [noPremise, setNoPremise] = useState(false);
-//   const navigate = useNavigate();
 
-//   const { id } = useParams(); // Extract the ID from the route
 
-//   const {
-//     data: premiseData,
-//     isLoading: isPremiseLoading,
-//     error,
-//     refetch: premiseRefetch,
-//   } = useGetOnePremiseQuery(id);
-//   const { data: userQuery, isLoading: isUserLoading } =
-//     useGetPremiseUserQuery();
 
-//   // console.log("premiseData", premiseData);
-//   // console.log("user", userQuery?.id);
 
-//   useEffect(() => {
-//     if (error?.status === 404) {
-//       console.log("Premise not found (404)");
-//       setNoPremise(true);
-//       return;
-//     }
-
-//     if (
-//       !isUserLoading &&
-//       !isPremiseLoading &&
-//       userQuery?.id !== undefined &&
-//       premiseData?.premiseOwner?.id !== undefined
-//     ) {
-//       setNewTab(false);
-
-//       if (userQuery?.id !== premiseData?.premiseOwner?.id) {
-//         console.log("Redirecting user...");
-//         navigate(`/${id}/scriptpad`);
-//       } else {
-//         setNewTabData(premiseData);
-//         setNewTab(true);
-//       }
-//     }
-//   }, [premiseData, userQuery, isUserLoading, isPremiseLoading, error]);
-
-//   if (isPremiseLoading || isUserLoading) {
-//     return <TypingLoader />;
-//   }
-//   return (
-//     <div>
-//       {newTab && (
-//         <PremiseNewTab
-//           id={id}
-//           user={userQuery?.id}
-//           premiseData={newTabData}
-//           isPremiseLoading={isPremiseLoading}
-//           premiseRefetch={premiseRefetch}
-//         />
-//       )}
-//       {noPremise && <NoPremisePop />}
-//     </div>
-//   );
-// };
-
-// export default PremiseNewTabAccessChecker;
-//!optimized
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {

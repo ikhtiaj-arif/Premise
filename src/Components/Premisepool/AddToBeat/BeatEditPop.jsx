@@ -308,7 +308,7 @@ const BeatEditPop = ({
   //   const accessToken = localStorage.getItem("accessToken");
   //   const screenPlayResId = screenPlayResponse.data.screenplay.screenplay_uuid;
   //   const options = {
-  //     url: `${URL}/scriptpad2/update-scene/${screenPlayResId}`,
+  //     url: `${URL}/scriptpad/update-scene/${screenPlayResId}`,
   //     method: "GET",
   //     headers: {
   //       Authorization: `Bearer ${accessToken}`,
@@ -439,7 +439,7 @@ const BeatEditPop = ({
     const accessToken = localStorage.getItem("accessToken");
     const screenPlayResId = screenPlayResponse.data.screenplay.screenplay_uuid;
     const options = {
-      url: `${URL}/scriptpad2/update-scene/${screenPlayResId}`,
+      url: `${URL}/scriptpad/update-scene/${screenPlayResId}`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -651,7 +651,7 @@ const BeatEditPop = ({
     setConfirmBit(false);
     popClose();
     window.open(
-      `${URL}/scriptpad2/#/${selectedProject?.pro_uuid}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
+      `${URL}/scriptpad/#/${selectedProject?.pro_uuid}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
     );
   };
 

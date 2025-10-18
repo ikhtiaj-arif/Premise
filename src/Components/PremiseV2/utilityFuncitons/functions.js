@@ -6,7 +6,7 @@ export const handlePremiseOpenNewTab = (id) => {
 
     // console.log(id);
     // // const url = `${baseURL}/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
-    const url = `${window.location.origin}/ideamall/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
+    const url = `${window.location.origin}/brainstorm/#/new-tab/${id}`; // Use `id` if provided; fallback to current page URL
 
     // // Open the URL in a new tab
     window.open(url, "_blank");

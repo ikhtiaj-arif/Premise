@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
 import { IoIosArrowRoundBack } from "react-icons/io";
@@ -343,7 +343,7 @@ const BeatEditPop = ({
     const accessToken = localStorage.getItem("accessToken");
     const screenPlayResId = screenPlayResponse.data.screenplay.screenplay_uuid;
     const options = {
-      url: `${URL}/scriptpad2/update-scene/${screenPlayResId}`,
+      url: `${URL}/scriptpad/update-scene/${screenPlayResId}`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,

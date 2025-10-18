@@ -84,7 +84,7 @@ const AskIda = ({
     try {
       // Fetch the existing comment data
       const response = await axios.get(
-        `${baseURL}/ideamall/GetCommentAPI/${id}`,
+        `${baseURL}/brainstorm/GetCommentAPI/${id}`,
         {
           headers: header,
         }

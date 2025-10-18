@@ -5,7 +5,7 @@ export const projectEndPoint = apiSlice.injectEndpoints({
     createProject: builder.mutation({
       query: (data) => {
         return {
-          url: `/scriptpad2/api/spproject/`,
+          url: `/scriptpad/api/spproject/`,
           method: "POST",
           body: data,
         };
@@ -16,7 +16,7 @@ export const projectEndPoint = apiSlice.injectEndpoints({
       query: (data) => {
         const id = data.id;
         return {
-          url: `/scriptpad2/api/spproject/${id}/`,
+          url: `/scriptpad/api/spproject/${id}/`,
           method: "PATCH",
           body: data,
         };
@@ -24,14 +24,14 @@ export const projectEndPoint = apiSlice.injectEndpoints({
     }),
     getMyAllProject: builder.query({
       query: () => ({
-        url: `/scriptpad2/get_projects/`,
+        url: `/scriptpad/get_projects/`,
         method: "GET",
       }),
     }),
     getScreenPlay: builder.mutation({
       query: (formData) => {
         return {
-          url: `/scriptpad2/get_screenplay/`,
+          url: `/scriptpad/get_screenplay/`,
           method: "POST",
           body: formData,
         };
@@ -40,7 +40,7 @@ export const projectEndPoint = apiSlice.injectEndpoints({
     updateScene: builder.mutation({
       query: (data) => {
         return {
-          url: `/scriptpad2/update-scene/`,
+          url: `/scriptpad/update-scene/`,
           method: "POST",
           body: data,
         };
@@ -57,7 +57,7 @@ export const projectEndPoint = apiSlice.injectEndpoints({
     updateAddedToBeat: builder.mutation({
       query: (data) => {
         return {
-          url: `/ideamall/beat_added/`,
+          url: `/brainstorm/beat_added/`,
           method: "POST",
           body: data,
         };
@@ -66,7 +66,7 @@ export const projectEndPoint = apiSlice.injectEndpoints({
     saveScreenPlay: builder.mutation({
       query: (formData) => {
         return {
-          url: `/scriptpad2/update_screenplay/`,
+          url: `/scriptpad/update_screenplay/`,
           method: "PUT",
           body: formData,
         };
@@ -76,7 +76,7 @@ export const projectEndPoint = apiSlice.injectEndpoints({
     deleteProject: builder.mutation({
       query: (data) => {
         return {
-          url: `/scriptpad2/delete_project/`,
+          url: `/scriptpad/delete_project/`,
           method: "DELETE",
           body: data,
         };

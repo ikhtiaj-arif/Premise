@@ -1,3 +1,75 @@
+// ReplyToComments Component
+//
+// Displays and manages a single reply (and its nested replies) under a comment.
+// Handles all related user actions like liking, replying, deleting, suggesting (AI),
+// translating, and adding replies as beats.
+//
+// ------------------------------------------------------------
+// Overview
+// ------------------------------------------------------------
+// - Renders a reply with user info, avatar, time, and reply content.
+// - Allows users to reply to existing replies (nested threading).
+// - Supports translations, AI suggestions, and “Add as Beat” actions.
+// - Includes access control checks for privileged features.
+// - Integrates multiple backend endpoints (reply CRUD, translation, AI suggestion).
+//
+// ------------------------------------------------------------
+// Core Functionalities
+// ------------------------------------------------------------
+//
+// 1. **Reply Posting**
+//    - Users can post nested replies to an existing reply.
+//    - Handles Enter key submissions and empty reply validation.
+//    //! Important: Reply posting uses `useCreateReplyMutation` and triggers `replyRefetch()` to refresh UI.
+//
+// 2. **Reply Deletion / Rejection**
+//    - Deletion handled via `useDeleteLikeOfReplyMutation`.
+//    - Rejects AI replies (if flagged) using the same mutation with `isRejected: true`.
+//    //! Important: Only the reply owner or the premise owner can delete/reject replies.
+//
+// 3. **AI Suggestion System**
+//    - For replies ending with “?” or “؟”, owners can request AI-generated suggestions.
+//    - Controlled via `fetchUserAccess` for permission validation.
+//    //! Important: Restricted to privileged users — unauthorized users trigger `NoAccessPopUp` or `NoAccessLbPopUp`.
+//
+// 4. **Translation**
+//    - Integrates `CommentTranslator` to translate reply text in place.
+//    - Dynamically updates both `replyText` and `replyTextPrefix`.
+//
+// 5. **Add as Beat**
+//    - Allows converting a reply into a “beat” (plot element).
+//    - Triggers `handleAddToBeat()` callback with the reply data.
+//    //! Important: Only owners or authorized users can add beats.
+//
+// 6. **Likes**
+//    - Uses `ReplyLike` for like/unlike actions and `ReplyLikeUsersPop` for popup display.
+//    - Keeps likes in sync via `replyRefetch`.
+//
+// 7. **Nested Replies**
+//    - Child replies are rendered using the `ReplyToReply` component.
+//    - Animated appearance with Framer Motion transitions.
+//    - Auto-focuses reply input when opened for smoother UX.
+//
+// 8. **Access Control**
+//    - Checks access for AI-related permissions (`PP_AllowBrainstoming`, `PP_ReplyAI`).
+//    - Displays onboarding or access popups accordingly.
+//
+// 9. **User Feedback**
+//    - Shows toast notifications for success/error states.
+//    - Includes small modals (`ConfirmationModal`, `SameNamePop`) for safety and validation.
+//
+// ------------------------------------------------------------
+// Summary
+// ------------------------------------------------------------
+// `ReplyToComments` manages the lifecycle of replies — from displaying and replying,
+// to deleting, translating, or promoting replies as beats. It also enforces access control
+// for AI-powered and premium interactions.
+//
+// //! Key takeaway: This component handles all nested reply interactions under a comment,
+//    ensuring clean UI updates, proper access validation, and a collaborative experience.
+
+
+
 import { motion } from "framer-motion";
 import { useContext, useEffect, useRef, useState } from "react";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
@@ -54,17 +126,16 @@ const ReplyToComments = ({
   const [replyText, setReplyText] = useState(reply?.text);
   const [replyTextPrefix, setReplyTextPrefix] = useState(reply?.text_prefix);
   const [childReplyText, setChildReplyText] = useState("");
-  // console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", childReplyText);
   const [isTextareaDisabled, setIsTextareaDisabled] = useState(false);
-
   const [noAccessLbPopup, setNoAccessLbPopup] = useState(null);
-
   const latestReplyRef = useRef(null);
   const replyToReplyRef = useRef(null);
-
   const replyRef = useRef(null);
-  const createdTime = reply?.created_at;
+  const [replyChildTextCount, setReplyChildTextCount] = useState(0);
+  const [alert, setAlert] = useState(false);
+  const hasManyReplies = reply?.child_replies?.length >= 3;
 
+  const createdTime = reply?.created_at;
   const [deleteReply, deleteReplyRes] = useDeleteLikeOfReplyMutation();
   const [createReplyMutation, isReplyResInfo] = useCreateReplyMutation();
   const [suggestion, suggestionRes] = useCreateSuggestedReplyMutation();
@@ -86,24 +157,6 @@ const ReplyToComments = ({
     }
     // }, [childReplyField, replyToCommentID]);
   }, [childReplyField, currentlyOpenedCommentID]);
-
-  // for reply
-
-  // close tabs
-  // useEffect(() => {
-  //   const closeMenu = (e) => {
-  //     if (
-  //       !replyRef?.current?.contains(e.target) &&
-  //       !e.target.closest("[data-nest-reply]")
-  //     ) {
-  //       if (!e.target.closest(".absolute")) {
-  //         setChildReplyField(false);
-  //       }
-  //     }
-  //   };
-  //   document.body.addEventListener("mousedown", closeMenu);
-  //   return () => document.body.removeEventListener("mousedown", closeMenu);
-  // }, []);
 
   const [isFullDelete, setIsFullDelete] = useState(false);
 
@@ -157,14 +210,14 @@ const ReplyToComments = ({
     }
   };
 
-  const [replyChildTextCount, setReplyChildTextCount] = useState(0);
+
 
   const handleReplyTextChange = (event) => {
     const childReply = event.target.value.replace(/^\s+|\s+(?=\s)/g, "");
     setReplyChildTextCount(childReply?.length);
     setChildReplyText(childReply);
   };
-  const [alert, setAlert] = useState(false);
+
   const handlePostReplyToReply = async (e, isEnterKey = false) => {
     const childReplyText = replyRef.current.value;
     if (e) {
@@ -241,36 +294,6 @@ const ReplyToComments = ({
       setChildReplyField(true);
     }
   };
-  const hasManyReplies = reply?.child_replies?.length >= 3;
-
-  // const phrasesToBold = ["Do Think About:", "OR May be", "May be"];
-
-  // const formatText = (text) => {
-  //   // Find a matching prefix
-  //   const matchingPrefix = phrasesToBold.find((prefix) =>
-  //     text.startsWith(prefix)
-  //   );
-
-  //   if (matchingPrefix) {
-  //     // Split the text into the bold prefix and the rest
-  //     const restOfText = text.slice(matchingPrefix.length);
-  //     return (
-  //       <>
-  //         <span style={{ color: "#252525", fontWeight: 500 }}>
-  //           {matchingPrefix}
-  //         </span>
-  //         {restOfText}
-  //       </>
-  //     );
-  //   }
-
-  //   // Return the text as is if no prefix matches
-  //   return text;
-  // };
-
-  const phrasesToBold = ["Do Think About:", "OR May be", "May be"];
-
-  useEffect(() => {}, []);
 
   const formatText = (text, prefix) => {
     if (prefix) {

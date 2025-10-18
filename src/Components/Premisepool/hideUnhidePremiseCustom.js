@@ -20,7 +20,7 @@ const hideUnhidePremiseCustom = async (
     setBtnDisable(true);
     if (flag === "hide_from_all") {
       response = await fetch(
-        `${URL}/ideamall/hide-premise/${id}?flag=${1}&comment=${commentHide}`,
+        `${URL}/brainstorm/hide-premise/${id}?flag=${1}&comment=${commentHide}`,
         {
           method: "GET",
           headers: {
@@ -37,7 +37,7 @@ const hideUnhidePremiseCustom = async (
       });
     } else if (option === "show_buddies") {
       response = await fetch(
-        `${URL}/ideamall/hide-premise/${id}?flag=${0}&central_db_id=${user}&comment=${commentHide}`,
+        `${URL}/brainstorm/hide-premise/${id}?flag=${0}&central_db_id=${user}&comment=${commentHide}`,
         {
           method: "GET",
           headers: {
@@ -61,7 +61,7 @@ const hideUnhidePremiseCustom = async (
       }
     } else if (option === "visible_to") {
       response = await fetch(
-        `${URL}/ideamall/hide-premise/${id}?flag=${2}&visible_to=${selectedUserIds}&comment=${commentHide}`,
+        `${URL}/brainstorm/hide-premise/${id}?flag=${2}&visible_to=${selectedUserIds}&comment=${commentHide}`,
         {
           method: "GET",
           headers: {
@@ -85,7 +85,7 @@ const hideUnhidePremiseCustom = async (
       }
     } else if (option === "visible_all") {
       response = await fetch(
-        `${URL}/ideamall/hide-premise/${id}?flag=${3}&comment=${commentHide}`,
+        `${URL}/brainstorm/hide-premise/${id}?flag=${3}&comment=${commentHide}`,
         {
           method: "GET",
           headers: {

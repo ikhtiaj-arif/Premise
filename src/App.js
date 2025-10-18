@@ -61,7 +61,6 @@
  * and reactive structure that scales with new features while maintaining smooth UX.
  */
 
-
 import { createContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
@@ -69,12 +68,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { useGetMyAllProjectQuery } from "./app/EndPoints/ScriptPad/project";
-import LimitPaymentPage from "./Components/Payment/LimitPaymentPage";
 import PremiseNewTabAccessChecker from "./Components/PremiseV2/premiseNewTab/PremiseNewTabAccessChecker";
-import PremiseSingleCard from "./Components/PremiseV2/PremiseSingleCard";
 import PremiseV2 from "./Components/PremiseV2/Premsie.v2";
 import UserGuidance from "./Components/PremiseV2/Provider/UserGuidance";
-import { baseURL, URL } from "./Components/utils";
+import { URL } from "./Components/utils";
 
 export const MyContext = createContext();
 export const TranslationContext = createContext(); // Added global translation context
@@ -136,7 +133,7 @@ function App() {
 
   const { data: allspProjectJSON, refetch: projectRefetch } =
     useGetMyAllProjectQuery();
-    
+
   const currentUser = useSelector((state) => state?.user);
 
   const [counts, setCounts] = useState({});
@@ -287,15 +284,17 @@ function App() {
         >
           <UserGuidance>
             <Routes>
+              <Route path="/:id" element={<PremiseNewTabAccessChecker />} />
+
+              {/*
               <Route path="/" element={<PremiseV2 />} />
               <Route path="/payment" element={<LimitPaymentPage />} />
-              {/* <Route path="/new-tab/:id" element={<PremiseNewTab />} /> */}
               <Route
                 path="/new-tab/:id"
                 element={<PremiseNewTabAccessChecker />}
               />
               <Route path="/premise_view" element={<PremiseSingleCard />} />
-              <Route path="/:__id/:service" element={<PremiseV2 />} />
+              <Route path="/:__id/:service" element={<PremiseV2 />} /> */}
             </Routes>
           </UserGuidance>
         </TranslationContext.Provider>
@@ -309,7 +308,8 @@ export default App;
 
 export const fetchUserAccess = async (flag) => {
   try {
-    const response = await fetch(`${baseURL}/pay/user-product-access/?checkfunctionality=${flag}`, {
+    // const response = await fetch(`${baseURL}/pay/user-product-access/?checkfunctionality=${flag}`, {
+    const response = await fetch(`${URL}/pay/checkuseraccess/${flag}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

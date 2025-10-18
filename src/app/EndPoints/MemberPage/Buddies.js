@@ -5,7 +5,7 @@ export const projectEndPoint = apiSlice.injectEndpoints({
     //   createReply: builder.mutation({
     //     query: (data) => {
     //       return {
-    //         url: `/ideamall/premise-Reply`,
+    //         url: `/brainstorm/premise-Reply`,
     //         method: "POST",
     //         body: data,
     //       };
@@ -28,8 +28,8 @@ export const projectEndPoint = apiSlice.injectEndpoints({
       query: (data) => {
         const body = data.body;
         return {
-          // url: `ideamall/api/v2/premise-user/${id}/`,
-          url: `ideamall/premise`,
+          // url: `brainstorm/api/v2/premise-user/${id}/`,
+          url: `brainstorm/premise`,
           method: "POST",
           body: body,
         };
@@ -37,7 +37,7 @@ export const projectEndPoint = apiSlice.injectEndpoints({
     }),
     //   deleteLikeOfReply : builder.mutation({
     //       query: (id) => ({
-    //         url: `/ideamall/premise-Reply/${id}`,
+    //         url: `/brainstorm/premise-Reply/${id}`,
     //         method: "DELETE",
     //       }),
     //     }),
@@ -45,8 +45,8 @@ export const projectEndPoint = apiSlice.injectEndpoints({
       query: (data) => {
         const body = data;
         return {
-          // url: `ideamall/beats_recommend/`,
-          url: `ideamall/beats_recommend/`,
+          // url: `brainstorm/beats_recommend/`,
+          url: `brainstorm/beats_recommend/`,
           method: "POST",
           body: body,
         };

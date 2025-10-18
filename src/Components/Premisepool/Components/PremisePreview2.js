@@ -1,3 +1,70 @@
+// PremisePreview2 Component
+//
+// This component handles the preview and posting flow of a newly created or edited "Premise".
+// It acts as the bridge between writing a premise (in AddPremise2) and submitting it as part of a story project.
+//
+// ------------------------------------------------------------
+// Overview
+// ------------------------------------------------------------
+// - Displays the user's premise in a formatted preview layout.
+// - Manages linking or creating a story project before final submission.
+// - Integrates with several API endpoints for posting, updating, or deleting premise data.
+// - Handles tutorial demo popups for guiding new users through the posting process.
+// - Supports saving AI-generated character data and syncing it with the related project.
+//
+// ------------------------------------------------------------
+// Core Logic
+// ------------------------------------------------------------
+// 1. **Project Handling**
+//    - Determines whether the premise is attached to an existing project or a new one.
+//    - Allows users to create a new project dynamically and link it to the premise.
+//    //! Important: Keeps track of current project state via `selectedSpProjectID` and `setSelectedSpProjectID`.
+//
+// 2. **API Integration**
+//    - Uses multiple RTK Query mutations: 
+//        • postPremise / postPremiseWithCharacters — for posting data.
+//        • createProject / updateProject — for managing story projects.
+//        • saveCharacter — for saving AI-generated characters.
+//    //! Important: Each mutation updates local state and triggers refetches to keep data fresh.
+//
+// 3. **Character Management**
+//    - Saves or updates character data after a premise is posted.
+//    - Ensures that unsaved characters are stored before final submission.
+//    - Allows draft saving and full submission flows.
+//
+// 4. **Error & Recovery**
+//    - On failure during project or premise creation, automatically rolls back partial data (deletes failed entries).
+//    //! Important: Prevents orphaned or inconsistent records in the database.
+//
+// 5. **Tutorial & Demo Popups**
+//    - Displays short demo popups during the first few user interactions.
+//    - Uses `localStorage` flags to remember if the user has already seen a specific tutorial.
+//
+// 6. **UI & User Feedback**
+//    - Tracks loading states for premise posting, character saving, and project creation.
+//    - Manages several dropdowns and input refs for fields like genre, duration, protagonist, etc.
+//    - Provides responsive layout handling with `isMobile` detection and event listeners.
+//
+// ------------------------------------------------------------
+// Data Flow
+// ------------------------------------------------------------
+// - Pulls context data from `MyContext` (e.g., selected project, user info, refetch handlers).
+// - Syncs local form state (language, genre, character list) with backend API results.
+// - Uses multiple `useEffect` hooks to update dependent fields and handle state resets.
+//
+// ------------------------------------------------------------
+// Summary
+// ------------------------------------------------------------
+// PremisePreview2 is the main orchestration layer for posting a Premise.
+// It connects the user's creative input to backend data structures,
+// manages project associations, character generation, and ensures the workflow
+// remains stable even when API calls fail or the user navigates between flows.
+//
+// //! Key takeaway: This component ensures that a premise transitions smoothly
+//    from preview → project association → character generation → final submission.
+
+
+
 import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
@@ -66,20 +133,6 @@ const PremisePreview2 = ({
   premiseLanguage,
 }) => {
   const baseLanguage = sessionStorage.getItem("multilingualDropDownValue");
-  const options1 = {
-    "Short film": [
-      // { text: "About 2 Minutes", value: "Upto 2 Minutes" },
-      { text: "About 5 Minutes", value: "2 to 4 Minutes" },
-      { text: "About 15 Minutes", value: "5 to 14 Minutes" },
-      { text: "About 25 Minutes", value: "15 to 29 Minutes" },
-      { text: "About 30 Minutes", value: "30 Minutes" },
-    ],
-    "Feature film": [
-      { text: "About 1 Hour", value: "1 Hour" },
-      { text: "About 2 Hours", value: "2 Hours" },
-      { text: "About 3 Hours", value: "3 Hours" },
-    ],
-  };
 
   const NProjectOpt = [
     {
@@ -263,8 +316,6 @@ const PremisePreview2 = ({
 
     Other: ["", ""],
   };
-
-  // console.log("data", data);
   const {
     isAddNew,
     setIsAddNew,
@@ -273,7 +324,6 @@ const PremisePreview2 = ({
     createdSpProjectID,
     setCreatedSpProjectID,
     allspProjectJSON,
-
     filteredAllProjects,
     setSelectedPremiseSpProjectId,
     // ProjectsObj,
@@ -290,37 +340,18 @@ const PremisePreview2 = ({
     refetch: userRefetch,
   } = useGetPremiseUserQuery();
 
-  // const {
-  //   data: characterData,
-  //   isCharLoading,
-  //   refetch: charRefetch,
-  // } = useGetCharactersQuery();
 
-  const {
-    data: lang,
-    isLangLoading,
-    refetch: langRefetch,
-  } = useGetFilteredLangQuery();
 
   const [previewPremise, isPremiseLoading, status, isError] =
     usePostPremiseMutation();
   const [isOldProject, setIsOldProject] = useState(false);
-  const [previewEdit] = useEditPremiseMutation();
   const [deletePremise] = useDeletePremiseMutation();
   const [createProject, resInfo] = useCreateProjectMutation();
   const [updateProject, updateResInfo] = useUpdateSpProjectMutation();
   const [postPremiseWithCharacters, updatePostPremiseResInfo] =
     usePostPremiseWithCharactersMutation();
   const [deleteProject, resDeleteProject] = useDeleteProjectMutation();
-  // const user = useSelector((state) => state?.user?.id);
-  // const userFirstName = useSelector((state) => state?.user?.firstName);
-  // const userLastName = useSelector((state) => state?.user?.lastName);
-  // console.log("object", userQuery);
   const user = userQuery?.id;
-  const userFirstName = userQuery?.first_name;
-  const userLastName = userQuery?.last_name;
-
-  // console.log("createdSpProjectID", user);
   const [selectedLanguage, setSelectedLanguage] = useState(premiseLanguage);
   const [keyboardVisible, setKeyboardVisible] = useState(false);
   const dispatch = useDispatch();
@@ -332,7 +363,6 @@ const PremisePreview2 = ({
   const [underline, setUnderline] = useState(false);
   const [color, setColor] = useState(false);
   const [hexColor, setHexColor] = useState(data?.stylings?.hexColor);
-  // const [isLoading, setIsLoading] = useState(false);
   const [createNewProject, setCreateNewProject] = useState(false);
   const [premiseID, setPremiseId] = useState("");
   const [postedPremiseData, setPostedPremiseData] = useState(null);
@@ -340,17 +370,96 @@ const PremisePreview2 = ({
   const [spDeleteID, setSpDeleteID] = useState();
 
   const [isLiked, setIsLiked] = useState(false);
-  // const [finalEdit, setFinalEdit] = useState(false);
   const [characterEditPop, setCharacterEditPop] = useState(false);
   const [currentProjectData, setCurrentProjectData] = useState({});
-  // console.log("currentProjectData", currentProjectData);
-  // const [generaItem, setGeneraItem] = useState(false);
-
   const [premiseData, setPremiseData] = useState(null);
-  // const [mValue, setMValue] = useState(0);
-
   const [natureOfProject, setNatureOfProject] = useState("");
   const [openPreviewDemoPop, setOpenPreviewDemoPop] = useState(false);
+
+  
+  const [finalPostPremiseDemoPop, setFinalPostPremiseDemoPop] = useState(false);
+  const [afterFinalPostPremiseDemoPop, setAfterFinalPostPremiseDemoPop] =
+    useState(false);
+  const [durationOptions, setDurationOptions] = useState([]);
+  const [focusedFieldName, setFocusedFieldName] = useState("");
+  const [isProtagonistOpen, setIsProtagonistOpen] = useState(false);
+  const [isNatureProjectOpen, setIsNatureProjectOpen] = useState(false);
+  const [isdurationOpen, setIsdurationOpen] = useState(false);
+  const [isgenreOpen, setIsgenreOpen] = useState(false);
+  const [isSubGenreOpen, setIsSubGenreOpen] = useState(false);
+  const [isSetinPeriodOpen, setSetinPeriodOpen] = useState(false);
+  const [isProjectOpen, setIsProjectOpen] = useState(false);
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const [noOfEpi, setNoOfEpi] = useState(null);
+  const [protaAge, setProtaAge] = useState(null);
+  const [generaItem, setGeneraItem] = useState("");
+  const [generaItemTxt, setGeneraItemTxt] = useState("");
+  const [subGeneraItem, setSubGeneraItem] = useState("");
+  const [subGeneraItemTxt, setSubGeneraItemTxt] = useState("");
+  const [duration, setDuration] = useState("");
+  const [periodSetIn, setPeriodSetIn] = useState("");
+  const [protagonist, setProtagonist] = useState(null);
+  const [protagonistName, setProtagonistName] = useState("");
+  const [geographyItem, setGeographyItem] = useState("");
+  const [authorName, setAuthorName] = useState("");
+  const [selectedSpProject, setSelectedSpProject] = useState();
+  const [agreeToPost, setAgreeToPost] = useState(false);
+
+  const [activeInput, setActiveInput] = useState(""); // Track the active input field
+  const inputRefs = useRef({}); // Store references to all input fields
+ const projectNameRef = useRef();
+  const authorNameRef = useRef();
+  const locationNameRef = useRef();
+  const protagonistNameRef = useRef();
+
+  const token = localStorage.getItem("accessToken");
+
+  const header = {
+    Authorization: `Bearer ${token}`,
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
+
+  const [spProjectName, setSpProjectName] = useState("");
+  const { data: storyToScriptData } = useGetStoryToScriptProjectQuery();
+  const [matchingProject, setMatchingProject] = useState(null);
+  const [characterArray, setCharacterArray] = useState([]);
+  const [selctedProjectName, setSelctedProjectName] = useState([]);
+  // const [characters, setCharacters] = useState(characterArray);
+
+  const [language, setLanguage] = useState("");
+
+    const [openDotMenu, setOpenDotMenu] = useState(null);
+  const [hideDisable, setHideDisable] = useState(false);
+  const [sameNamePop, setSameNamePop] = useState(false);
+  const [toDltPremiseWhenErrorID, setToDltPremiseWhenErrorID] = useState("");
+  // console.log("toDltPremiseWhenErrorID", toDltPremiseWhenErrorID);
+  const subGeneraOptions = subGenraItems[generaItem] || [];
+
+  const dropdownRef = useRef(null);
+  const natureProjectRef = useRef(null);
+  const durationRef = useRef(null);
+  const genreRef = useRef(null);
+  const protagonistRef = useRef(null);
+  const subGenreRef = useRef(null);
+  const setinPeriodRef = useRef(null);
+  const languageRef = useRef(null);
+  const spProjectRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+    const [openProposedCharDemoPop, setOpenProposedCharDemoPop] = useState(false);
+
+    
+  const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
+  const [charSaveDisable, setCharSaveDisable] = useState(false);
+
+  const [finalSubmitLoading, setFinalSubmitLoading] = useState(false);
+  const [characterLoading, setCharacterLoading] = useState(false);
+
+  const [openOnSaveCharactersDemoPop, setOpenOnSaveCharactersDemoPop] =
+    useState(false);
+
+
 
   const handleCreateNewProject = () => {
     const newProjectDemoP = localStorage.getItem("newProjectDemoPop");
@@ -381,57 +490,6 @@ const PremisePreview2 = ({
     "Generating Pointed Queries...",
   ];
 
-  const [durationOptions, setDurationOptions] = useState([]);
-  const [focusedFieldName, setFocusedFieldName] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-  const [isProtagonistOpen, setIsProtagonistOpen] = useState(false);
-  const [isNatureProjectOpen, setIsNatureProjectOpen] = useState(false);
-  const [isdurationOpen, setIsdurationOpen] = useState(false);
-  const [isgenreOpen, setIsgenreOpen] = useState(false);
-  const [isSubGenreOpen, setIsSubGenreOpen] = useState(false);
-  const [isSetinPeriodOpen, setSetinPeriodOpen] = useState(false);
-  const [isProjectOpen, setIsProjectOpen] = useState(false);
-  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
-  const [noOfEpi, setNoOfEpi] = useState(null);
-  const [protaAge, setProtaAge] = useState(null);
-  const [generaItem, setGeneraItem] = useState("");
-  const [generaItemTxt, setGeneraItemTxt] = useState("");
-  const [subGeneraItem, setSubGeneraItem] = useState("");
-  const [subGeneraItemTxt, setSubGeneraItemTxt] = useState("");
-  const [duration, setDuration] = useState("");
-  // console.log("duration", duration);
-  const [periodSetIn, setPeriodSetIn] = useState("");
-  const [protagonist, setProtagonist] = useState(null);
-  const [protagonistName, setProtagonistName] = useState("");
-  const [geographyItem, setGeographyItem] = useState("");
-  const [authorName, setAuthorName] = useState("");
-  const [selectedSpProject, setSelectedSpProject] = useState();
-  const [agreeToPost, setAgreeToPost] = useState(false);
-
-  const [activeInput, setActiveInput] = useState(""); // Track the active input field
-  const inputRefs = useRef({}); // Store references to all input fields
-
-  const projectNameRef = useRef();
-  const authorNameRef = useRef();
-  const locationNameRef = useRef();
-  const protagonistNameRef = useRef();
-
-  const token = localStorage.getItem("accessToken");
-
-  const header = {
-    Authorization: `Bearer ${token}`,
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  };
-
-  const [spProjectName, setSpProjectName] = useState("");
-  const { data: storyToScriptData } = useGetStoryToScriptProjectQuery();
-  const [matchingProject, setMatchingProject] = useState(null);
-  const [characterArray, setCharacterArray] = useState([]);
-  const [selctedProjectName, setSelctedProjectName] = useState([]);
-  // const [characters, setCharacters] = useState(characterArray);
-
-  const [language, setLanguage] = useState("");
   const handleNatureOfProjectChange = (e) => {
     const selectedProject = e.target.value;
     setNatureOfProject(selectedProject);
@@ -537,6 +595,7 @@ const PremisePreview2 = ({
     setUnderline(data?.stylings?.underlineStyle === "underline");
     setHexColor(data?.stylings?.hexColor);
   }, [data?.stylings]);
+
   useEffect(() => {
     if (!user) {
       dispatch(setUser(userQuery));
@@ -558,7 +617,6 @@ const PremisePreview2 = ({
   const toggleColorPicker = () => {
     setColor((prev) => !prev);
   };
-
   // keyboard clicked
   const onClickKeyboard = () => {
     if (selectedLanguage === "") {
@@ -566,7 +624,6 @@ const PremisePreview2 = ({
     }
     setKeyboardVisible(!keyboardVisible);
   };
-
   // browsing file
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -595,7 +652,6 @@ const PremisePreview2 = ({
     setImageUrl(imageUrl);
     event.target.value = null;
   };
-
   // console.log("outside", imgUrl);
   // bg color
   const handleColor = () => {
@@ -604,11 +660,6 @@ const PremisePreview2 = ({
     setRandomColor(randomHexColor);
   };
 
-  const [openDotMenu, setOpenDotMenu] = useState(null);
-  const [hideDisable, setHideDisable] = useState(false);
-  const [sameNamePop, setSameNamePop] = useState(false);
-  const [toDltPremiseWhenErrorID, setToDltPremiseWhenErrorID] = useState("");
-  // console.log("toDltPremiseWhenErrorID", toDltPremiseWhenErrorID);
 
   const handleHideUnhidePremise = async (id) => {
     hideUnhidePremise(id, setHideDisable, userRefetch, setOpenDotMenu);
@@ -625,88 +676,10 @@ const PremisePreview2 = ({
     }
   };
 
-  const handleProtagonistNameChange = (e, setValue) => {
-    let value = e.target.value;
-    // Remove leading spaces, but allow spaces after the first character
-    if (value.length === 1 && value[0] === " ") {
-      setValue(""); // Prevent setting a single space as input
-      return;
-    }
-
-    // Handle the case when input is cleared
-    if (value.length === 0) {
-      setValue(""); // Set an empty value if the input is empty
-      return;
-    }
-    // Remove non-alphanumeric characters for the first character only
-    const firstChar = value[0].replace(/[^a-zA-Z0-9]/, ""); // Clean the first character
-    const restOfValue = value.slice(1); // Keep the rest of the value as-is
-
-    setValue(firstChar + restOfValue); // Combine the cleaned first character with the rest of the input
-  };
-
-  const handleGeographyChange = (e) => {
-    const value = e.target.value;
-
-    if (value.length === 1 && value[0] === " ") {
-      setGeographyItem(""); // Prevent setting a single space as input
-      return;
-    }
-
-    // Handle the case when input is cleared
-    if (value.length === 0) {
-      setGeographyItem(""); // Set an empty value if the input is empty
-      return;
-    }
-    // Remove non-alphanumeric characters for the first character only
-    const firstChar = value[0].replace(/[^a-zA-Z0-9]/, ""); // Clean the first character
-    const restOfValue = value.slice(1); // Keep the rest of the value as-is
-    // setGeographyItem(firstChar + restOfValue);
-    setGeographyItem(e.target.value);
-  };
-
-  const handleAuthorChange = (e) => {
-    const value = e.target.value;
-
-    if (value.length === 1 && value[0] === " ") {
-      setAuthorName(""); // Prevent setting a single space as input
-      return;
-    }
-
-    // Handle the case when input is cleared
-    if (value.length === 0) {
-      setAuthorName(""); // Set an empty value if the input is empty
-      return;
-    }
-    // Remove non-alphanumeric characters for the first character only
-    const firstChar = value[0].replace(/[^a-zA-Z0-9]/, ""); // Clean the first character
-    const restOfValue = value.slice(1); // Keep the rest of the value as-is
-    setAuthorName(firstChar + restOfValue);
-  };
-  const handleProjectChange = (e) => {
-    const value = e.target.value;
-
-    if (value.length === 1 && value[0] === " ") {
-      setSpProjectName(""); // Prevent setting a single space as input
-      return;
-    }
-
-    // Handle the case when input is cleared
-    if (value.length === 0) {
-      setSpProjectName(""); // Set an empty value if the input is empty
-      return;
-    }
-    // Remove non-alphanumeric characters for the first character only
-    const firstChar = value[0].replace(/[^a-zA-Z0-9]/, ""); // Clean the first character
-    const restOfValue = value.slice(1); // Keep the rest of the value as-is
-    setSpProjectName(firstChar + restOfValue);
-  };
-
   useEffect(() => {
     console.log("protagonist", protagonist);
   }, [protagonist]);
   // console.log("Header", characterArray);
-
   const [openPreviewNextDemoPop, setOpenPreviewNextDemoPop] = useState(false);
 
   const submitPremise = async (e) => {
@@ -950,7 +923,7 @@ const PremisePreview2 = ({
             setIsAddNew(true);
 
             axios
-              .get(`${baseURL}/ideamall/get_characters/${data?.id}`, {
+              .get(`${baseURL}/brainstorm/get_characters/${data?.id}`, {
                 headers: header,
               })
               .then((response) => {
@@ -1098,7 +1071,7 @@ const PremisePreview2 = ({
             // langRefetch();
 
             axios
-              .get(`${baseURL}/ideamall/get_characters/${data?.id}`, {
+              .get(`${baseURL}/brainstorm/get_characters/${data?.id}`, {
                 headers: header,
               })
               .then((response) => {
@@ -1176,7 +1149,7 @@ const PremisePreview2 = ({
     userRefetch();
   };
 
-  const [isMobile, setIsMobile] = useState(false);
+
 
   // detect screen size
   useEffect(() => {
@@ -1187,18 +1160,6 @@ const PremisePreview2 = ({
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  const subGeneraOptions = subGenraItems[generaItem] || [];
-
-  const dropdownRef = useRef(null);
-  const natureProjectRef = useRef(null);
-  const durationRef = useRef(null);
-  const genreRef = useRef(null);
-  const protagonistRef = useRef(null);
-  const subGenreRef = useRef(null);
-  const setinPeriodRef = useRef(null);
-  const languageRef = useRef(null);
-  const spProjectRef = useRef(null);
 
   const handleClickOutside = (event) => {
     if (
@@ -1236,11 +1197,6 @@ const PremisePreview2 = ({
     }
   };
 
-  const handleSelectClick = (event) => {
-    event.stopPropagation(); // Prevent the event from propagating to the document
-    setIsNatureProjectOpen((prev) => !prev);
-  };
-
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -1268,24 +1224,8 @@ const PremisePreview2 = ({
     ((protagonist !== "Inanimate Object" && protaAge) ||
       protagonist === "Inanimate Object") &&
     ((["TV series", "Web series"].includes(natureOfProject) && noOfEpi) ||
-      (!["TV series", "Web series"].includes(natureOfProject) && duration));
+      (!["TV series", "Web series"].includes(natureOfProject) && duration));;
 
-  const handleSelectChange = (e) => {
-    setPeriodSetIn(e.target.value);
-  };
-
-  const toggleDropdown = () => {
-    setSetinPeriodOpen(!isSetinPeriodOpen);
-  };
-
-  const [saveCharacter, savedCharInfo] = useSaveCharactersMutation();
-  const [charSaveDisable, setCharSaveDisable] = useState(false);
-
-  const [finalSubmitLoading, setFinalSubmitLoading] = useState(false);
-  const [characterLoading, setCharacterLoading] = useState(false);
-
-  const [openOnSaveCharactersDemoPop, setOpenOnSaveCharactersDemoPop] =
-    useState(false);
 
   const handleUpdateSavedChar = async () => {
     const newProposedCharDemoPop = localStorage.getItem(
@@ -1330,6 +1270,7 @@ const PremisePreview2 = ({
       // console.error("Error updating characters:", error);
     }
   };
+
   const handleSaveAsDraft = async () => {
     setCharacterLoading(true);
     try {
@@ -1365,9 +1306,7 @@ const PremisePreview2 = ({
     }
   };
 
-  const [finalPostPremiseDemoPop, setFinalPostPremiseDemoPop] = useState(false);
-  const [afterFinalPostPremiseDemoPop, setAfterFinalPostPremiseDemoPop] =
-    useState(false);
+
   const handlePremisePostToGetComments = async () => {
     setFinalSubmitLoading(true);
     try {
@@ -1444,10 +1383,6 @@ const PremisePreview2 = ({
     setActTwoEnd(Math.round(0.85 * mValue));
   }, [premiseData, mValue]);
 
-  // const projectOptions = filteredSpProjects?.map((project) => ({
-  //   value: project.pro_uuid,
-  //   label: project.name,
-  // }));
   const projectOptions = filteredSpProjects
     ?.filter(
       (currentProject) =>
@@ -1467,9 +1402,8 @@ const PremisePreview2 = ({
     },
   });
 
-  //!
 
-  const [openProposedCharDemoPop, setOpenProposedCharDemoPop] = useState(false);
+
   const handleEditProposedCharacters = () => {
     const newProposedCharDemoPop = localStorage.getItem("proposedCharDemoPop");
     if (
@@ -1509,19 +1443,6 @@ const PremisePreview2 = ({
 
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 });
 
-  // useEffect(() => {
-  //   if (isProjectOpen && spProjectRef.current) {
-  //     const rect = spProjectRef.current.getBoundingClientRect();
-  //     const dropdownHeight = 170; // px
-  //     const spaceBelow = window.innerHeight - rect.bottom;
-  //     const openUpward = spaceBelow < dropdownHeight;
-
-  //     setDropdownPos({
-  //       left: rect.left,
-  //       top: openUpward ? rect.top - dropdownHeight - 6 : rect.bottom + 2,
-  //     });
-  //   }
-  // }, [isProjectOpen]);
 
   useEffect(() => {
     if (isProjectOpen && spProjectRef.current && dropdownRef.current) {

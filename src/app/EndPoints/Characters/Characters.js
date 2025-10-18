@@ -4,7 +4,7 @@ export const projectEndPoint = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getCharacters: builder.query({
       query: (id) => ({
-        url: `/ideamall/get_characters/${id}
+        url: `/brainstorm/get_characters/${id}
 `,
         method: "GET",
       }),
@@ -12,7 +12,7 @@ export const projectEndPoint = apiSlice.injectEndpoints({
 
     getSavedCharacters: builder.query({
       query: (id) => ({
-        url: `/ideamall/get_saved_characters/${id}`,
+        url: `/brainstorm/get_saved_characters/${id}`,
         method: "GET",
       }),
     }),
@@ -22,7 +22,7 @@ export const projectEndPoint = apiSlice.injectEndpoints({
         const id = data.id;
         const body = data.body;
         return {
-          url: `/ideamall/save_characters/${id}`,
+          url: `/brainstorm/save_characters/${id}`,
           method: "POST",
           body: body,
         };
@@ -33,7 +33,7 @@ export const projectEndPoint = apiSlice.injectEndpoints({
         const id = data.id;
 
         return {
-          url: `/ideamall/generate_initial_comments/${id}`,
+          url: `/brainstorm/generate_initial_comments/${id}`,
           method: "POST",
         };
       },
@@ -42,7 +42,7 @@ export const projectEndPoint = apiSlice.injectEndpoints({
     deleteCharacter: builder.mutation({
       query: (id) => {
         return {
-          url: `/ideamall/characters/${id}/delete/`,
+          url: `/brainstorm/characters/${id}/delete/`,
           method: "DELETE",
         };
       },
@@ -50,7 +50,7 @@ export const projectEndPoint = apiSlice.injectEndpoints({
 
     suggestCharacters: builder.mutation({
       query: (data) => ({
-        url: `ideamall/edit_characters_suggest/`,
+        url: `/brainstorm/edit_characters_suggest/`,
         method: "POST",
         body: data,
       }),
@@ -61,8 +61,8 @@ export const projectEndPoint = apiSlice.injectEndpoints({
       query: (data) => {
        
         return {
-          url: `/ideamall/notify_user_for_purchase/`,
-          method: "POST",
+          url: `/brainstorm/notify_user_for_purchase/`,
+          method: "brainstorm",
           body: data,
         };
       },
@@ -71,7 +71,7 @@ export const projectEndPoint = apiSlice.injectEndpoints({
       query: (data) => {
         
         return {
-          url: `/ideamall/notify_users_on_rejection/`,
+          url: `/brainstorm/notify_users_on_rejection/`,
           method: "POST",
           body: data,
         };

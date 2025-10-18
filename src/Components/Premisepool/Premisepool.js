@@ -147,7 +147,7 @@ const Premisepool = () => {
   const xyz = async () => {
     try {
       const response = await axios.get(
-        `${baseURL}/ideamall/premise?current_user=${user}&user=${user}`,
+        `${baseURL}/brainstorm/premise?current_user=${user}&user=${user}`,
         {
           headers: headers,
         }

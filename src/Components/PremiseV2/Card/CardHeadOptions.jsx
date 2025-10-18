@@ -68,7 +68,7 @@ const CardHeadOptions = ({
   setNotifyPopup,
   is_read_only,
   handleCheckPremiseData,
-  fromPopup
+  fromPopup,
 }) => {
   // const {
 
@@ -141,10 +141,10 @@ const CardHeadOptions = ({
   const handleOpenSp = () => {
     // console.log("object", p);
     if (isProjectLocked) {
-      window.open(`${URL}/scriptpad2/#/generated-scripts`);
+      window.open(`${URL}/scriptpad/#/generated-scripts`);
     }
     window.open(
-      `${URL}/scriptpad2/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
+      `${URL}/scriptpad/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
     );
   };
 
@@ -260,7 +260,9 @@ const CardHeadOptions = ({
             {openDotMenu === id && (
               <div
                 ref={dotPopupRef}
-                className={`fixed sm:absolute w-[197px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea]  right-[12px] ${fromPopup ? "top-[186px]":"top-[46px]"}  sm:top-[25px] sm:right-[3px]  py-[8px] z-50`}
+                className={`fixed sm:absolute w-[197px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea]  right-[12px] ${
+                  fromPopup ? "top-[186px]" : "top-[46px]"
+                }  sm:top-[25px] sm:right-[3px]  py-[8px] z-50`}
               >
                 <button
                   disabled={is_read_only}

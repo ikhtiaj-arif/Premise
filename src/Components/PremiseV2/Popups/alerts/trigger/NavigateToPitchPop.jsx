@@ -4,7 +4,7 @@
 // import beatSr from "../../../../../img/navigate_pitch_sr.jpg";
 
 // const NavigateToPitchPop = ({ onClose }) => {
-    
+
 //   const handleCheckboxChange = (e) => {
 //     const isChecked = e.target.checked;
 //     if (isChecked) {
@@ -52,14 +52,14 @@
 //             <div className="flex items-center gap-[6px] mb-5">
 //               <button
 //                 onClick={onClose}
-//                 // onClick={() => (window.location.href = Url + "/scriptpad2")}
+//                 // onClick={() => (window.location.href = Url + "/scriptpad")}
 //                 className="w-[131px] h-[32px] rounded bg-[#33b0ca] text-[14px] font-semibold text-[#fafafa]"
 //               >
 //                 Yes
 //               </button>
 //               <button
 //                 onClick={onClose}
-//                 // onClick={() => (window.location.href = Url + "/scriptpad2")}
+//                 // onClick={() => (window.location.href = Url + "/scriptpad")}
 //                 className="w-[131px] h-[32px] rounded border border-[#33b0ca] text-[14px] font-semibold text-[#33b0ca]"
 //               >
 //                 No
