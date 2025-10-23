@@ -101,7 +101,7 @@
 //   return (
 //     <div ref={btnRef} className="relative">
 //       {loading ? (
-//         <span className="loading loading-spinner text-[#33B0CA] h-[20px] w-[20px] my-auto "></span>
+//         <span className="loading loading-spinner text-[#00c3ff] h-[20px] w-[20px] my-auto "></span>
 //       ) : (
 //         <img
 //           data-te-toggle="tooltip"
@@ -123,7 +123,7 @@
 //                   setSelectedOption(key);
 //                   setTransPopClose(null);
 //                 }}
-//                 className="cursor-pointer  text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] list-none pl-[8px] border-b"
+//                 className="cursor-pointer  text-[14px] text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] list-none pl-[8px] border-b"
 //                 key={key}
 //                 value={key}
 //               >
@@ -220,8 +220,8 @@ const TranslatePremiseNewTab = ({
   }, []);
 
   const handleTranslate = async (id) => {
-    const res = await fetchUserAccess(`${currentUser?.id}/PP_Translate`);
-    if (res?.access === "No") {
+    const res = await fetchUserAccess(`PP_Translate`);
+    if (res?.has_access === false) {
       setNoAccessPopup(res);
     } else {
       setTransPopClose(id);
@@ -230,8 +230,8 @@ const TranslatePremiseNewTab = ({
 
   // ✅ handle both desktop li click & mobile select change
   const handleLanguageSelect = async (lang) => {
-    const res = await fetchUserAccess(`${currentUser?.id}/PP_Translate`);
-    if (res?.access === "No") {
+    const res = await fetchUserAccess(`PP_Translate`);
+    if (res?.has_access === false) {
       setNoAccessPopup(res);
       return;
     }
@@ -242,7 +242,7 @@ const TranslatePremiseNewTab = ({
   return (
     <div ref={btnRef} className="relative">
       {loading ? (
-        <span className="loading loading-spinner text-[#33B0CA] h-[20px] w-[20px] my-auto "></span>
+        <span className="loading loading-spinner text-[#00c3ff] h-[20px] w-[20px] my-auto "></span>
       ) : (
         <>
           {/* ✅ Desktop (icon + dropdown) */}
@@ -266,7 +266,7 @@ const TranslatePremiseNewTab = ({
                         e.stopPropagation();
                         handleLanguageSelect(key);
                       }}
-                      className="cursor-pointer text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] list-none pl-[8px] border-b"
+                      className="cursor-pointer text-[14px] text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] list-none pl-[8px] border-b"
                     >
                       {name}
                     </li>

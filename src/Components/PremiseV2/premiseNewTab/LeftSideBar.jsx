@@ -30,6 +30,7 @@ import PremiseBadge from "../Card/PremiseBadge";
 import PremiseTopAccess from "./PremiseTopAccess";
 import PremiseTopHeader from "./PremiseTopHeader";
 import VisibilitySection from "./VisibilitySection";
+import NoAccessCreditPopupUpdate from "../../PricingModel/NoAccessPopUp2";
 
 const LeftSideBar = ({
   filteredCommentsData,
@@ -589,7 +590,7 @@ const LeftSideBar = ({
       </div>
 
       {openHidePop?.msg === "ShowBecomePrivilege" ? (
-        <NoAccessPopUp
+        <NoAccessCreditPopupUpdate
           noAccessPopup={openHidePop}
           setNoAccessPopup={setOpenHidePop}
         />
@@ -630,11 +631,14 @@ const LeftSideBar = ({
           }}
         />
       )}
-      {addNewCharacter?.msg === "ShowBecomePrivilege" && (
-        <NoAccessPopUp
+      {addNewCharacter?.has_access === false && (
+        <NoAccessCreditPopupUpdate
           noAccessPopup={addNewCharacter}
           setNoAccessPopup={setAddNewCharacter}
-        />
+         service={"Brainstorming"}
+          credit_rate={addNewCharacter?.credit_rate}
+          remaining_credits={addNewCharacter?.remaining_credits}
+          />
       )}
       {addNewCharacter === "Yes" && (
         <SingleCharacterAddNewTab

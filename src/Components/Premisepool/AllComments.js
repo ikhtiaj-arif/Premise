@@ -86,8 +86,6 @@
 // //! Key takeaway: This component ties together all comment-based interactions —
 //    it’s the heart of collaboration, feedback, and brainstorming around a premise.
 
-
-
 import { motion } from "framer-motion";
 import { useContext, useEffect, useRef, useState } from "react";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
@@ -113,15 +111,12 @@ import userIcon from "../../img/Icons/userImg.png";
 import BtnLoading from "../../shared/BtnLoading";
 import CommentTranslator from "../PremiseV2/components/CommentTranslator";
 import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
-import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
-import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
-import CommentLike from "../SharedVersion/CommentLike";
+import NoAccessCreditPopupUpdate from "../PricingModel/NoAccessCreditPopupUpdate";
 import { URL } from "../utils";
 import BeatEditPop from "./AddToBeat/BeatEditPop";
 import CommentLikePopup from "./CommentLikePopup";
 import ConfirmationModal from "./Comments/ConfirmationModal";
 import ReplyToComments from "./Comments/ReplyToComments";
-import UserType from "./UserType";
 
 const AllComments = ({
   commentIdx,
@@ -260,7 +255,6 @@ const AllComments = ({
   const latestReplyRef = useRef(null);
 
   const [service, setService] = useState();
-  console.log("service name", service);
   const [suggestedBeats, setSuggestedBeats] = useState({});
 
   const [likePopup, setLikePopup] = useState(false);
@@ -362,9 +356,7 @@ const AllComments = ({
 
   const checkSuggestAllowance = async (text) => {
     setSuggestDisable(true);
-    const res = await fetchUserAccess(
-      `${currentUser?.id}/PP_AllowBrainstoming`
-    );
+    const res = await fetchUserAccess(`PP_AllowBrainstoming`);
     // console.log(`PP_AllowBrainstoming res`, res);
     if (res?.access === "No") {
       setSuggestDisable(false);
@@ -400,6 +392,12 @@ const AllComments = ({
 
         // After both refetches, re-enable suggestions
         setSuggestDisable(false);
+        const creditRes = await fetchUserAccess(`PP_AllowBrainstoming`);
+        const remainingCredits = creditRes?.remaining_credits ?? 0;
+        const creditElement = document.getElementById("creditBalance");
+        if (creditElement) {
+          creditElement.textContent = remainingCredits;
+        }
       }
     } catch (error) {
       console.error("Error during the suggestion process:", error);
@@ -476,9 +474,9 @@ const AllComments = ({
     ) {
       setAddBeatTutorialPop(true);
     }
-    const res = await fetchUserAccess(`${currentUser?.id}/PP_BeatSheet`);
+    const res = await fetchUserAccess(`SP_BeatSheet`);
     // console.log("add to beat res", res);
-    if (res?.access === "No") {
+    if (res?.has_access === false) {
       setNoAccessLbPopup(res);
       setService("PP_Beats");
     } else {
@@ -560,7 +558,7 @@ const AllComments = ({
     //   currentUser?.id !== data?.premiseOwner?.id &&
     //   (c?.user?.id === 1 || c?.user?.id === 79)
     // ) {
-    const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
+    const res = await fetchUserAccess(`PP_ReplyAI`);
     // console.log("reply brainstorm res", res);
     if (res?.access === "No") {
       setNoAccessLbPopup(res);
@@ -693,13 +691,13 @@ const AllComments = ({
                               : `${URL}/memberpage/#/user/${comments?.user?.id}/personaldetails`
                           }
                         >
-                          <p className="notranslate text-[14px] leading-[17px] font-[500] hover:text-[#33B0CA] cursor-pointer">
+                          <p className="notranslate text-[14px] leading-[17px] font-[500] hover:text-[#00c3ff] cursor-pointer">
                             {comments?.c_value}. {commenterName}
                           </p>
                         </a>
 
                         {/* UserType badge stays outside link */}
-                        {comments?.user?.id === 1 ||
+                        {/* {comments?.user?.id === 1 ||
                         comments?.user?.id === 79 ? null : (
                           <UserType
                             type={comments?.user?.centraldatabase?.type}
@@ -707,7 +705,7 @@ const AllComments = ({
                               comments?.user?.centraldatabase?.user_type
                             }
                           />
-                        )}
+                        )} */}
                       </div>
 
                       {!comments?.is_deleted && (
@@ -797,7 +795,7 @@ const AllComments = ({
                               className={`text-[14px] flex gap-[4px] ${
                                 openAllReplies &&
                                 openReplyFieldID === comments?.id
-                                  ? "text-[#33B0CA]"
+                                  ? "text-[#00c3ff]"
                                   : "text-[#252525]"
                               } font-[400] leading-[16.52px] `}
                             >
@@ -850,14 +848,14 @@ const AllComments = ({
                           <IoIosUndo
                             className={`h-4 w-4 ${
                               replyToCommentID === comments?.id && replyField
-                                ? "text-[#33B0CA]"
+                                ? "text-[#00c3ff]"
                                 : "text-[#252525]"
                             }`}
                           />
                           <p
                             className={`text-[14px] hidden lg:block ${
                               replyToCommentID === comments?.id && replyField
-                                ? "text-[#33B0CA]"
+                                ? "text-[#00c3ff]"
                                 : "text-[#252525]"
                             }  hidden md:block font-[400] leading-[16.52px] cursor-pointer`}
                           >
@@ -878,7 +876,7 @@ const AllComments = ({
                                       {comments?.suggested ? (
                                         <button
                                           disabled={suggestDisable}
-                                          className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[#616161]"
+                                          className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[linear-gradient(30deg,#b38bff,#99e6ff)]"
                                         >
                                           <p className="text-[14px] text-[#fafafa]  font-[400] leading-[16.52px] ">
                                             Suggested
@@ -892,7 +890,7 @@ const AllComments = ({
                                               comments?.text
                                             );
                                           }}
-                                          className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
+                                          className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
                                         >
                                           {suggestDisable ? (
                                             <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
@@ -911,7 +909,7 @@ const AllComments = ({
                                       {comments?.suggested ? (
                                         <button
                                           disabled={suggestDisable}
-                                          className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[#616161]"
+                                          className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[linear-gradient(30deg,#b38bff,#99e6ff)]"
                                         >
                                           <p className="text-[14px] text-[#fafafa]  font-[400] leading-[16.52px] ">
                                             Suggested
@@ -928,7 +926,7 @@ const AllComments = ({
                                   {comments?.suggested ? (
                                     <button
                                       disabled={suggestDisable}
-                                      className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[#616161]"
+                                      className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[linear-gradient(30deg,#b38bff,#99e6ff)]"
                                     >
                                       <p className="text-[14px] text-[#fafafa]  font-[400] leading-[16.52px] ">
                                         Suggested
@@ -940,7 +938,7 @@ const AllComments = ({
                                       onClick={() => {
                                         checkSuggestAllowance(comments?.text);
                                       }}
-                                      className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
+                                      className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
                                     >
                                       {suggestDisable ? (
                                         <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
@@ -974,14 +972,14 @@ const AllComments = ({
                             <IoIosUndo
                               className={`h-4 w-4 ${
                                 replyToCommentID === comments?.id && replyField
-                                  ? "text-[#33B0CA]"
+                                  ? "text-[#00c3ff]"
                                   : "text-[#252525]"
                               }`}
                             />
                             <p
                               className={`text-[14px] hidden lg:block ${
                                 replyToCommentID === comments?.id && replyField
-                                  ? "text-[#33B0CA]"
+                                  ? "text-[#00c3ff]"
                                   : "text-[#252525]"
                               }  hidden md:block font-[400] leading-[16.52px] cursor-pointer`}
                             >
@@ -1003,7 +1001,7 @@ const AllComments = ({
                                       onClick={() => {
                                         checkSuggestAllowance(comments?.text);
                                       }}
-                                      className="px-2  rounded-[4px]  pt-[2px] pb-[4px] bg-[#33B0CA]"
+                                      className="px-2  rounded-[4px]  pt-[2px] pb-[4px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
                                     >
                                       {suggestDisable ? (
                                         <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
@@ -1023,7 +1021,7 @@ const AllComments = ({
                                   {comments?.suggested ? (
                                     <button
                                       disabled={suggestDisable}
-                                      className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[#616161]"
+                                      className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[linear-gradient(30deg,#b38bff,#99e6ff)]"
                                     >
                                       <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                         Suggested
@@ -1035,7 +1033,7 @@ const AllComments = ({
                                       onClick={() => {
                                         checkSuggestAllowance(comments?.text);
                                       }}
-                                      className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
+                                      className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
                                     >
                                       {suggestDisable ? (
                                         <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
@@ -1054,7 +1052,7 @@ const AllComments = ({
                           )}
                       </div>
                     )}
-                    <div className="hidden lg:block">
+                    {/* <div className="hidden lg:block">
                       <CommentLike
                         {...{
                           disable,
@@ -1065,10 +1063,10 @@ const AllComments = ({
                           setDisable,
                         }}
                       />
-                    </div>
+                    </div> */}
                   </div>
                   <div className="flex gap-[12px] items-center ">
-                    <div className="lg:hidden">
+                    {/* <div className="lg:hidden">
                       <CommentLike
                         {...{
                           disable,
@@ -1079,11 +1077,12 @@ const AllComments = ({
                           setDisable,
                         }}
                       />
-                    </div>
+                    </div> */}
 
                     {!(
                       comments?.text?.includes("?") ||
-                      comments?.text?.includes("؟") || comments?.ask_ida
+                      comments?.text?.includes("؟") ||
+                      comments?.ask_ida
                     ) && (
                       <>
                         {data?.premiseOwner?.id === user &&
@@ -1092,7 +1091,7 @@ const AllComments = ({
                             <button className="cursor-auto text-right">
                               <p
                                 // onClick={() => handleAddToBeat(comments)}
-                                className=" text-[14px] text-[#33B0CA] italic  font-[400] leading-[16.52px] "
+                                className=" text-[14px] text-[#00c3ff] italic  font-[400] leading-[16.52px] "
                               >
                                 Added as Beat
                               </p>
@@ -1108,7 +1107,7 @@ const AllComments = ({
                                 ![1, 2, 3].includes(commentIdx) && (
                                   <p
                                     onClick={() => handleAddToBeat(comments)}
-                                    className={` text-[14px] text-[#008000] hover:text-[#33B0CA] font-[400] leading-[16.52px] `}
+                                    className={` text-[14px] text-[#008000] hover:text-[#00c3ff] font-[400] leading-[16.52px] `}
                                   >
                                     Add as Beat
                                   </p>
@@ -1255,7 +1254,7 @@ const AllComments = ({
                         disabled={disableD}
                         type="submit"
                       >
-                        <IoMdSend className="text-[#33B0CA] w-6 h-6" />
+                        <IoMdSend className="text-[#00c3ff] w-6 h-6" />
                       </button>
                     )}
                   </form>
@@ -1371,20 +1370,14 @@ const AllComments = ({
         />
       )} */}
 
-      {noAccessLbPopup?.msg === "ShowBecomePrivilege" ? (
-        <NoAccessPopUp
+      {noAccessLbPopup?.has_access === false && (
+        <NoAccessCreditPopupUpdate
           noAccessLbPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
+          service={"Generating from Brainstorm"}
+          credit_rate={noAccessLbPopup?.credit_rate}
+          remaining_credits={noAccessLbPopup?.remaining_credits}
         />
-      ) : (
-        (noAccessLbPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
-          noAccessLbPopup?.msg === "LB") && (
-          <NoAccessLbPopUp
-            noAccessLbPopup={noAccessLbPopup}
-            setNoAccessPopup={setNoAccessLbPopup}
-            service={service}
-          />
-        )
       )}
       <div className="h-[1px] w-[88%] mx-auto bg-[#eaeaea] mb-[4px]" />
       {openDltPop && (

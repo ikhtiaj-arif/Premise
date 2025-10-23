@@ -607,10 +607,11 @@ export const premiseSlice = apiSlice.injectEndpoints({
       },
     }),
 
-    payNowPackage: builder.mutation({
+   payNowPackage: builder.mutation({
       query: (data) => {
         return {
-          url: `/pay/make_payment/`,
+          // url: /pay/make_payment/,
+          url: `/pay/topup-indent/`,
           method: "POST",
           body: data,
         };
@@ -620,7 +621,8 @@ export const premiseSlice = apiSlice.injectEndpoints({
     callbackPackage: builder.mutation({
       query: (data) => {
         return {
-          url: `/pay/custom_callback/`,
+          url: `/pay/wallet/topup/`,
+          // url: /pay/custom_callback/,
           method: "POST",
           body: data,
         };
@@ -663,6 +665,30 @@ export const premiseSlice = apiSlice.injectEndpoints({
       providesTags: ["reply-comment"],
     }),
 
+      creditToUsd: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/pay/credits/estimate/`,
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
+
+    topPayDetails: builder.mutation({
+      query: (data) => {
+        return {
+          url: `pay/top-user-pay-details/`,
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
+
+
+
+
+    
   }),
 });
 
@@ -720,5 +746,7 @@ export const {
   useDislikeCommentMutation,
   useDislikeCommentReplyMutation,
   useGetBankDetailsQuery,
-  useGetLatestPremiseQuery
+  useGetLatestPremiseQuery,
+  useCreditToUsdMutation,
+  useTopPayDetailsMutation
 } = premiseSlice;

@@ -77,9 +77,6 @@
 // //! Key takeaway: This component ensures a stable, guided, and permission-aware
 //    experience for managing both AI-generated and user-created story characters.
 
-
-
-
 import { useContext, useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
@@ -90,7 +87,7 @@ import {
 } from "../../../app/EndPoints/Characters/Characters";
 import AddCharDemoPop from "../../PremiseV2/sequalPopup/singlePop/AddCharDemoPop";
 import { getTextFromValue } from "../../PremiseV2/utilityFuncitons/functions";
-import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
+import NoAccessCreditPopupUpdate from "../../PricingModel/NoAccessCreditPopupUpdate";
 import CharacterShowCard from "./Card";
 import SingleCharacterAdd from "./SingleCharacterAdd";
 import SingleCharacterEdit from "./SingleCharacterEdit";
@@ -304,7 +301,7 @@ const CharacterEditablePop = ({
     ) {
       setOpenAddCharDemoPop(true);
     }
-    const res = await fetchUserAccess(`${currentUser?.id}/PP_AddCharacters`);
+    const res = await fetchUserAccess(`PP_AddCharacters`);
 
     if (res?.access === "No") {
       setAddNewCharacter(res);
@@ -546,10 +543,13 @@ const CharacterEditablePop = ({
         )}
       </div>
       <div>
-        {addNewCharacter?.msg === "ShowBecomePrivilege" && (
-          <NoAccessPopUp
+        {addNewCharacter?.has_access === false && (
+          <NoAccessCreditPopupUpdate
             noAccessPopup={addNewCharacter}
             setNoAccessPopup={setAddNewCharacter}
+            service={"Brainstorming"}
+            credit_rate={addNewCharacter?.credit_rate}
+            remaining_credits={addNewCharacter?.remaining_credits}
           />
         )}
         {addNewCharacter === "Yes" && (
@@ -560,10 +560,8 @@ const CharacterEditablePop = ({
             characterArray={characterArray}
             source_language={source_language}
           />
-    
         )}
       </div>
-
 
       {openAddCharDemoPop && (
         <AddCharDemoPop popClose={() => setOpenAddCharDemoPop(false)} />

@@ -10,8 +10,8 @@ import BtnLoading from "../../shared/BtnLoading";
 import Keyboard from "../Premisepool/Keyboard";
 import LanguageSelector from "../Premisepool/LanguageSelector";
 import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
+import NoAccessCreditPopupUpdate from "../PricingModel/NoAccessCreditPopupUpdate";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
-import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 import { baseURL } from "../utils";
 
 const PopupTextarea = ({
@@ -127,8 +127,7 @@ const PopupTextarea = ({
   // console.log("triggerSPPopup", triggerSPPopup);
 
   const checkAllowance = async (flag) => {
-    const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);
-    console.log(`${flag} res`, res);
+    const res = await fetchUserAccess(`${flag}`);
     if (res?.access === "No") {
       setNoAccessPopup(res);
       setService(flag);
@@ -345,9 +344,10 @@ const PopupTextarea = ({
         </div>
 
         {noAccessPopup?.msg === "ShowBecomePrivilege" ? (
-          <NoAccessPopUp
+          <NoAccessCreditPopupUpdate
             noAccessPopup={noAccessPopup}
             setNoAccessPopup={setNoAccessPopup}
+            
           />
         ) : (
           (noAccessPopup?.msg === "ShowBuyPackage_and_Allacarte" ||

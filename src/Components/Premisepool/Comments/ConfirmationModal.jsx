@@ -13,7 +13,7 @@ function ConfirmationModal({ isOpen, onClose, onConfirm, title, content }) {
                   onClick={() => {
                     onClose();
                   }}
-                  className=" font-[500] border !border-[#33B0CA] text-[#33B0CA] h-[34px] w-[99px] text-[14px] rounded-[8px]   hover:text-white hover:bg-[#33B0CA] "
+                  className=" font-[500] border !border-[#00c3ff] text-[#00c3ff] h-[34px] w-[99px] text-[14px] rounded-[8px]   hover:text-white hover:bg-[linear-gradient(30deg,#741CFF,#00c3ff)] "
                 >
                   No
                 </button>
@@ -22,7 +22,7 @@ function ConfirmationModal({ isOpen, onClose, onConfirm, title, content }) {
                     onConfirm();
                     onClose();
                   }}
-                  className="bg-[#33B0CA]  font-[500] text-white h-[34px] w-[99px] text-[14px] rounded-[8px] "
+                  className="bg-[linear-gradient(30deg,#741CFF,#00c3ff)]  font-[500] text-white h-[34px] w-[99px] text-[14px] rounded-[8px] "
                 >
                   Yes
                 </button>

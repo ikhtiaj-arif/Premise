@@ -17,6 +17,7 @@ import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
 import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
+import NoAccessCreditPopupUpdate from "../../PricingModel/NoAccessPopUp2";
 
 const CardHeadOptionsUpdate = ({
   refetch,
@@ -350,8 +351,8 @@ const CardHeadOptionsUpdate = ({
               </div>
             )} */}
 
-            {openHidePop?.msg === "ShowBecomePrivilege" ? (
-              <NoAccessPopUp
+            {openHidePop?.has_access === false ? (
+              <NoAccessCreditPopupUpdate
                 noAccessPopup={openHidePop}
                 setNoAccessPopup={setOpenHidePop}
               />

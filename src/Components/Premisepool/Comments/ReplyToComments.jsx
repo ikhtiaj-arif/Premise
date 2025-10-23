@@ -68,8 +68,6 @@
 // //! Key takeaway: This component handles all nested reply interactions under a comment,
 //    ensuring clean UI updates, proper access validation, and a collaborative experience.
 
-
-
 import { motion } from "framer-motion";
 import { useContext, useEffect, useRef, useState } from "react";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
@@ -89,13 +87,12 @@ import userIcon from "../../../img/Icons/userImg.png";
 import BtnLoading from "../../../shared/BtnLoading";
 import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
 import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
+import NoAccessCreditPopupUpdate from "../../PricingModel/NoAccessCreditPopupUpdate";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
-import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
-import ReplyLike from "./ReplyLike";
 import ReplyToReply from "./ReplyToReply";
 
 const ReplyToComments = ({
@@ -210,8 +207,6 @@ const ReplyToComments = ({
     }
   };
 
-
-
   const handleReplyTextChange = (event) => {
     const childReply = event.target.value.replace(/^\s+|\s+(?=\s)/g, "");
     setReplyChildTextCount(childReply?.length);
@@ -265,9 +260,7 @@ const ReplyToComments = ({
   const checkSuggestAllowance = async (text) => {
     // console.log(text);
     setSuggestDisable(true);
-    const res = await fetchUserAccess(
-      `${currentUser?.id}/PP_AllowBrainstoming`
-    );
+    const res = await fetchUserAccess(`PP_AllowBrainstoming`);
     // console.log(`PP_AllowBrainstoming res`, res);
     if (res?.access === "No") {
       setSuggestDisable(false);
@@ -292,6 +285,12 @@ const ReplyToComments = ({
       replyRefetch();
       setSuggestDisable(false);
       setChildReplyField(true);
+      const creditRes = await fetchUserAccess(`PP_AllowBrainstoming`);
+      const remainingCredits = creditRes?.remaining_credits ?? 0;
+      const creditElement = document.getElementById("creditBalance");
+      if (creditElement) {
+        creditElement.textContent = remainingCredits;
+      }
     }
   };
 
@@ -316,7 +315,7 @@ const ReplyToComments = ({
       currentUser?.id !== owner &&
       (reply?.user?.id === 1 || reply?.user?.id === 79)
     ) {
-      const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
+      const res = await fetchUserAccess(`PP_ReplyAI`);
       // console.log("reply child 1 brainstorm res", res);
       if (res?.access === "No") {
         setNoAccessLbPopup(res);
@@ -505,7 +504,7 @@ const ReplyToComments = ({
                       className="flex items-center  gap-[2px]"
                     >
                       <BiMinusCircle className="  text-[16px] font-[500] cursor-pointer text-[#252525]" />
-                      <p className="  text-[14px]  text-[#33B0CA] font-[400]    leading-[16.52px]   ">
+                      <p className="  text-[14px]  text-[#00c3ff] font-[400]    leading-[16.52px]   ">
                         <span className="md:hidden">
                           {reply?.child_replies?.length}
                         </span>
@@ -530,12 +529,12 @@ const ReplyToComments = ({
               >
                 <IoIosUndo
                   className={`${
-                    openReplyField ? "text-[#33B0CA]" : "text-[#252525]"
+                    openReplyField ? "text-[#00c3ff]" : "text-[#252525]"
                   }`}
                 />
                 <p
                   className={`${
-                    openReplyField ? "text-[#33B0CA]" : "text-[#252525]"
+                    openReplyField ? "text-[#00c3ff]" : "text-[#252525]"
                   }  text-[14px]  hidden md:block font-[400]   leading-[16.52px]  `}
                 >
                   Reply
@@ -547,7 +546,7 @@ const ReplyToComments = ({
                   reply?.user?.id === 1 && (
                     <>
                       {reply?.suggested ? (
-                        <button className="px-2  rounded-[4px] pb-[4px] pt-[2px] bg-[#616161] cursor-auto">
+                        <button className="px-2  rounded-[4px] pb-[4px] pt-[2px] bg-[linear-gradient(30deg,#b38bff,#99e6ff)] cursor-auto">
                           <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                             Suggested
                           </p>
@@ -555,14 +554,14 @@ const ReplyToComments = ({
                       ) : (
                         <>
                           {suggestDisable ? (
-                            <button className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-auto">
+                            <button className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] cursor-auto">
                               <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                                 Suggesting...
                               </p>
                             </button>
                           ) : (
                             <button
-                              className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-pointer"
+                              className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] cursor-pointer"
                               onClick={() => checkSuggestAllowance(reply?.text)}
                             >
                               <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
@@ -575,27 +574,27 @@ const ReplyToComments = ({
                     </>
                   )}
               </div>
-              <div className="hidden md:block ">
+              {/* <div className="hidden md:block ">
                 <ReplyLike {...{ reply, setLikePopup, replyRefetch }} />
               </div>
 
               <div className="flex md:hidden">
                 <ReplyLike {...{ reply, setLikePopup, replyRefetch }} />
-              </div>
+              </div> */}
 
               {owner === user &&
                 (reply?.text?.includes("?") || reply?.text?.includes("؟")) &&
                 reply?.user?.id === 1 && (
                   <>
                     {reply?.suggested ? (
-                      <button className="px-2 md:hidden  rounded-[4px] py-[2px] bg-[#616161]">
+                      <button className="px-2 md:hidden  rounded-[4px] py-[2px] bg-[linear-gradient(30deg,#b38bff,#99e6ff)]">
                         <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                           Suggested
                         </p>
                       </button>
                     ) : (
                       <button
-                        className="px-2 md:hidden rounded-[4px] py-[2px] bg-[#33B0CA]"
+                        className="px-2 md:hidden rounded-[4px] py-[2px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
                         onClick={() => checkSuggestAllowance(reply?.text)}
                       >
                         {suggestDisable ? (
@@ -644,7 +643,7 @@ const ReplyToComments = ({
                       </button>
                     ) : (
                       <button
-                        className="px-2 md:hidden rounded-[4px] py-[2px] bg-[#33B0CA]"
+                        className="px-2 md:hidden rounded-[4px] py-[2px] bg-[#00c3ff]"
                         onClick={() => checkSuggestAllowance(reply?.text)}
                       >
                         {suggestDisable ? (
@@ -680,8 +679,8 @@ const ReplyToComments = ({
                   {reply?.add_to_beat ? (
                     <>
                       {(owner === user || reply?.user?.id === user) && (
-                        <button className=" cursor-auto w-[89px]">
-                          <p className=" text-[12px]  text-[#33B0CA] italic  font-[400]   leading-[16.52px]   ">
+                        <button className=" cursor-auto w-[109px]">
+                          <p className=" text-[14px]  text-[#00c3ff] italic  font-[400]   leading-[16.52px]   ">
                             Added as Beat
                           </p>
                         </button>
@@ -698,7 +697,7 @@ const ReplyToComments = ({
                             }}
                             className="w-[88px]"
                           >
-                            <p className="text-[14px] text-[#008000] hover:text-[#33B0CA] font-[400] leading-[16.52px]   ">
+                            <p className="text-[14px] text-[#008000] hover:text-[#00c3ff] font-[400] leading-[16.52px]   ">
                               Add as Beat
                             </p>
                           </button>
@@ -787,7 +786,7 @@ const ReplyToComments = ({
                       type="submit"
                       // onClick={handlePostReplyToReply}
                     >
-                      <IoMdSend className="text-[#33B0CA] w-6 h-6" />
+                      <IoMdSend className="text-[#00c3ff] w-6 h-6" />
                     </button>
                   )}
                 </form>
@@ -867,10 +866,13 @@ const ReplyToComments = ({
         />
       )}
 
-      {noAccessLbPopup?.msg === "ShowBecomePrivilege" && (
-        <NoAccessPopUp
+      {noAccessLbPopup?.hasAccess === false && (
+        <NoAccessCreditPopupUpdate
           noAccessPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
+          service={"Generating from Brainstorm"}
+          credit_rate={noAccessLbPopup?.credit_rate}
+          remaining_credits={noAccessLbPopup?.remaining_credits}
         />
       )}
       {(noAccessLbPopup?.msg === "LB" ||

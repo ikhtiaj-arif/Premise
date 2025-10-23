@@ -15,8 +15,8 @@ import { useSelector } from "react-redux";
 import { fetchUserAccess, MyContext } from "../../../App";
 import { useGetPremiseUserQuery } from "../../../app/EndPoints/premisePoolApi";
 import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
+import NoAccessCreditPopupUpdate from "../../PricingModel/NoAccessCreditPopupUpdate";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
-import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
 import { handlePremiseOpenNewTab } from "../utilityFuncitons/functions";
 
@@ -364,7 +364,7 @@ const CardHeadOptions = ({
             {!fromCard && (
               <>
                 {openHidePop?.msg === "ShowBecomePrivilege" ? (
-                  <NoAccessPopUp
+                  <NoAccessCreditPopupUpdate
                     noAccessPopup={openHidePop}
                     setNoAccessPopup={setOpenHidePop}
                   />

@@ -43,10 +43,6 @@
 // //! Key takeaway: Only the premise owner can access the “New Tab” view.
 //    Others are safely redirected to the “Scriptpad” route.
 
-
-
-
-
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -61,9 +57,12 @@ const PremiseNewTabAccessChecker = () => {
   const [showPremiseTab, setShowPremiseTab] = useState(false);
   const [premiseDataState, setPremiseDataState] = useState(null);
   const [noPremise, setNoPremise] = useState(false);
+  const [isCheckingAccess, setIsCheckingAccess] = useState(true);
+
   const navigate = useNavigate();
   const { id } = useParams();
 
+  // Fetch premise
   const {
     data: premiseData,
     isLoading: isPremiseLoading,
@@ -72,29 +71,37 @@ const PremiseNewTabAccessChecker = () => {
     refetch: premiseRefetch,
   } = useGetOnePremiseQuery(id);
 
+  // Fetch current user
   const { data: userQuery, isLoading: isUserLoading } =
     useGetPremiseUserQuery();
 
   useEffect(() => {
-    // Wait until both queries are finished
+    // Wait until both queries finish
     if (isPremiseLoading || isUserLoading) return;
 
-    // Handle 404 only after premise query is done
+    // Once both are done:
     if (isPremiseError && premiseError?.status === 404) {
+      // Only mark noPremise true after both queries fully resolved
       setNoPremise(true);
+      setIsCheckingAccess(false);
       return;
     }
 
-    // Prevent running logic if required data missing
-    if (!userQuery?.id || !premiseData?.premiseOwner?.id) return;
+    // Don’t proceed until both have data
+    if (!userQuery?.id || !premiseData?.premiseOwner?.id) {
+      setIsCheckingAccess(false);
+      return;
+    }
 
-    // Access check logic
+    // Access check
     if (userQuery.id === premiseData.premiseOwner.id) {
       setPremiseDataState(premiseData);
       setShowPremiseTab(true);
     } else {
       navigate(`/${id}/scriptpad`);
     }
+
+    setIsCheckingAccess(false);
   }, [
     isPremiseLoading,
     isUserLoading,
@@ -106,18 +113,22 @@ const PremiseNewTabAccessChecker = () => {
     navigate,
   ]);
 
-  // While loading, show loader
-  if (isPremiseLoading || isUserLoading) {
-    return <TypingLoader />;
+  // ✅ Loader stays visible until everything is checked
+  if (isPremiseLoading || isUserLoading || isCheckingAccess) {
+    return (
+      <div className="h-screen flex justify-center items-center bg-[#f8f8f8]">
+        <TypingLoader />{" "}
+      </div>
+    );
   }
 
-  // Show 404 popup
-  if (noPremise) {
+  // ✅ Show 404 popup *only* after everything finished and access check is complete
+  if (noPremise && !isPremiseLoading && !isUserLoading && !isCheckingAccess) {
     return <NoPremisePop />;
   }
 
-  // Show new tab if access granted
-  if (showPremiseTab) {
+  // ✅ Show tab if access granted
+  if (showPremiseTab && premiseDataState) {
     return (
       <PremiseNewTab
         id={id}
@@ -129,8 +140,7 @@ const PremiseNewTabAccessChecker = () => {
     );
   }
 
-  // Fallback (should rarely hit)
-  return null;
+  return <TypingLoader />;
 };
 
 export default PremiseNewTabAccessChecker;

@@ -71,7 +71,7 @@ const BeatsPop = ({ popClose, id }) => {
                   onClick={() => setActiveTab("all")}
                   className={`px-[12px] py-[2px] text-[12px] md:text-[16px] rounded-[4px] md:rounded-[8px] ${
                     activeTab === "all"
-                      ? "border-none bg-[#33b0ca] text-[#fafafa] "
+                      ? "border-none bg-[#00c3ff] text-[#fafafa] "
                       : "border border-[#616161] text-[#616161] bg-white"
                   } `}
                 >
@@ -85,7 +85,7 @@ const BeatsPop = ({ popClose, id }) => {
                   onClick={() => setActiveTab("setup")}
                   className={`px-[12px] py-[2px] text-[12px] md:text-[16px] rounded-[4px] md:rounded-[8px] ${
                     activeTab === "setup"
-                      ? "border-none bg-[#33b0ca] text-[#fafafa] "
+                      ? "border-none bg-[#00c3ff] text-[#fafafa] "
                       : "border border-[#616161] text-[#616161] bg-white"
                   } `}
                 >
@@ -95,7 +95,7 @@ const BeatsPop = ({ popClose, id }) => {
                   onClick={() => setActiveTab("conflict")}
                   className={`px-[12px] py-[2px] text-[12px] md:text-[16px] rounded-[4px] md:rounded-[8px] ${
                     activeTab === "conflict"
-                      ? "border-none bg-[#33b0ca] text-[#fafafa] "
+                      ? "border-none bg-[#00c3ff] text-[#fafafa] "
                       : "border border-[#616161] text-[#616161] bg-white"
                   } `}
                 >
@@ -105,7 +105,7 @@ const BeatsPop = ({ popClose, id }) => {
                   onClick={() => setActiveTab("resolution")}
                   className={`px-[12px] py-[2px] text-[12px] md:text-[16px] rounded-[4px] md:rounded-[8px] ${
                     activeTab === "resolution"
-                      ? "border-none bg-[#33b0ca] text-[#fafafa] "
+                      ? "border-none bg-[#00c3ff] text-[#fafafa] "
                       : "border border-[#616161] text-[#616161] bg-white"
                   } `}
                 >
@@ -127,7 +127,7 @@ const BeatsPop = ({ popClose, id }) => {
                       <th className="border text-[12px] md:text-[16px] font-medium px-[7px] md:py-2 text-left md:text-center flex-1">
                         Comment/Reply/Brainstorm
                       </th>
-                      <th className="text-[12px] md:text-[16px] font-medium md:border-l-[1px] border-[#616161] px-2 md:py-2 text-right md:text-center flex-1 bg-[#33b0ca] bg-opacity-20 md:bg-transparent">
+                      <th className="text-[12px] md:text-[16px] font-medium md:border-l-[1px] border-[#616161] px-2 md:py-2 text-right md:text-center flex-1 bg-[#00c3ff] bg-opacity-20 md:bg-transparent">
                         Beat Text
                       </th>
                     </div>

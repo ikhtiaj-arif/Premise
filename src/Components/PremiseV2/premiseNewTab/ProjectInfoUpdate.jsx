@@ -48,7 +48,7 @@ const ProjectInfoUpdate = ({
 
   return (
     <div>
-      <div className="flex items-center gap-2 lg:pl-6 my-3">
+      <div className="flex items-center gap-2 lg:pl-6 mt-3">
         <div className="hidden md:block">
           <div className="mr-4 w-[61px] md:w-[102px]">
             <img
@@ -138,12 +138,12 @@ const ProjectInfoUpdate = ({
           </div>
         </div>
       </div>
-      <div className="flex lg:hidden justify-between items-center mt-[-12px] md:mt-[14px] rounded-b-[8px] px-[4px] pb-[8px] pt-[4px] lg:w-[300px]">
+      <div className="flex lg:hidden justify-between items-center md:mt-[14px] rounded-b-[8px] px-[4px] pb-[8px] pt-[4px] lg:w-[300px]">
         {/* 1st div */}
         <div className="flex gap-1 space-x-4 items-center">
           {/* like */}
           {/* <PopupLike {...{ user, id, premiseRefetch, premiseData }} /> */}
-          <LikePremise
+          {/* <LikePremise
             data={{
               user,
               ...premiseData,
@@ -151,7 +151,7 @@ const ProjectInfoUpdate = ({
               setLikePopup,
             }}
             refetch={premiseRefetch}
-          />
+          /> */}
           {/* comment */}
           <PopupComment
             {...{

@@ -69,7 +69,7 @@ import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 //                 e.stopPropagation();
 //                 handleLanguageSelect(key);
 //               }}
-//               className="cursor-pointer text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] list-none pl-[8px] border-b"
+//               className="cursor-pointer text-[14px] text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] list-none pl-[8px] border-b"
 //             >
 //               {name}
 //             </li>
@@ -128,7 +128,7 @@ const CommentTranslator = ({
   };
 
   const handleTranslate = async () => {
-    const res = await fetchUserAccess(`${currentUser?.id}/PP_Translate`);
+    const res = await fetchUserAccess(`PP_Translate`);
     if (res?.access === "No") {
       setNoAccessPopup(res);
     } else {
@@ -159,7 +159,7 @@ const CommentTranslator = ({
                   e.stopPropagation();
                   handleLanguageSelect(key);
                 }}
-                className="cursor-pointer text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] list-none pl-[8px] border-b"
+                className="cursor-pointer text-[14px] text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] list-none pl-[8px] border-b"
               >
                 {name}
               </li>

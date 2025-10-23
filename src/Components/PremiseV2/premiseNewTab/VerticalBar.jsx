@@ -25,7 +25,7 @@ const VerticalBar = ({ comments, currentCommentRef, handleOpenAllReplies }) => {
           <div
             className={`pl-2 pr-4 ${
               focusedComment === comment.id
-                ? "text-[#33b0ca]"
+                ? "text-[#00c3ff]"
                 : "text-[#252525]"
             }`}
           >

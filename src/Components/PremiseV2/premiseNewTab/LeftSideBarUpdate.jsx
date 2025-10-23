@@ -20,11 +20,10 @@ import ConfirmationModal from "../../Premisepool/Comments/ConfirmationModal";
 import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
 import DeletePremise from "../../Premisepool/DeletePremise";
 import Keyboard from "../../Premisepool/Keyboard";
+import NoAccessCreditPopupUpdate from "../../PricingModel/NoAccessCreditPopupUpdate";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
-import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import AskIda from "../../SharedVersion/AskIda";
 import NewTabTextArea from "../../SharedVersion/NewTabTextArea";
-import { baseURL } from "../../utils";
 import MonetizePreferencePop from "../Popups/MonetizePreferencePop";
 import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 import ViewTranslationPop from "../Popups/ViewTranslation.pop";
@@ -299,9 +298,9 @@ const LeftSideBarUpdate = ({
 
   const handleAddNewChar = async () => {
     setCharactersPopupMobile(false);
-    const res = await fetchUserAccess(`${currentUser?.id}/PP_AddCharacters`);
+    const res = await fetchUserAccess(`PP_AddCharacters`);
 
-    if (res?.access === "No") {
+    if (res?.has_access === false) {
       setAddNewCharacter(res);
     } else {
       setAddNewCharacter("Yes");
@@ -356,12 +355,10 @@ const LeftSideBarUpdate = ({
 
   const handleOpenSp = () => {
     // console.log("object", p);
-    if (isProjectLocked) {
-      window.open(`${baseURL}/scriptpad/#/generated-scripts`);
-    }
-    window.open(
-      `${baseURL}/scriptpad/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
-    );
+    // if (isProjectLocked) {
+    //   window.location.href(`${URL}/scriptpad/#/generated-scripts`);
+    // }
+    window.location.href = `${URL}/scriptpad/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`;
   };
 
   const handleUserMail = async () => {
@@ -388,7 +385,8 @@ const LeftSideBarUpdate = ({
   return (
     <>
       <div className="fixed w-[100%] sm:w-[90%] mx-auto bottom-0 z-[1] inset-x-0 flex flex-col items-center ">
-        <div className=" flex-col   w-full lgFlxHidden z-[1]  border bg-white px-3 pb-4 shadow-md">
+        
+        <div className=" flex-col w-full lgFlxHidden z-[1]  border bg-white px-3 pb-4 shadow-md">
           <NewTabTextArea
             fromNew
             premiseId={id}
@@ -595,7 +593,7 @@ const LeftSideBarUpdate = ({
                           onClick={() => {
                             setOpenCharacterChart(project_id);
                           }}
-                          className="text-[#33B0CA] cursor-pointer"
+                          className="text-[#00c3ff] cursor-pointer"
                         />
                       </div>
                     </div>
@@ -652,7 +650,7 @@ const LeftSideBarUpdate = ({
                 }}
               />
 
-              <div className="flex gap-1 items-center w-3/5 mt-[-18px] mx-auto">
+              <div className="flex gap-1 items-center w-[64%] mt-[-18px] mx-auto">
                 <h3>or,</h3>
                 <AskIda
                   {...{
@@ -677,7 +675,7 @@ const LeftSideBarUpdate = ({
       </div>
 
       {openHidePop?.msg === "ShowBecomePrivilege" ? (
-        <NoAccessPopUp
+        <NoAccessCreditPopupUpdate
           noAccessPopup={openHidePop}
           setNoAccessPopup={setOpenHidePop}
         />
@@ -717,7 +715,7 @@ const LeftSideBarUpdate = ({
         />
       )}
       {addNewCharacter?.msg === "ShowBecomePrivilege" && (
-        <NoAccessPopUp
+        <NoAccessCreditPopupUpdate
           noAccessPopup={addNewCharacter}
           setNoAccessPopup={setAddNewCharacter}
         />
@@ -760,9 +758,9 @@ const LeftSideBarUpdate = ({
           fromNew={true}
         />
       )}
-
+      {/* 
       {noAccessPopup?.msg === "ShowBecomePrivilege" ? (
-        <NoAccessPopUp
+        <NoAccessCreditPopupUpdate
           noAccessPopup={noAccessPopup}
           setNoAccessPopup={setNoAccessPopup}
         />
@@ -779,6 +777,16 @@ const LeftSideBarUpdate = ({
             }
           />
         )
+      )} */}
+
+      {noAccessPopup?.has_access === false && (
+        <NoAccessCreditPopupUpdate
+          noAccessPopup={noAccessPopup}
+          setNoAccessPopup={setNoAccessPopup}
+            service={"Brainstorming"}
+          credit_rate={noAccessPopup?.credit_rate}
+          remaining_credits={noAccessPopup?.remaining_credits}
+        />
       )}
 
       {selectedLanguage && keyboardVisible && (
@@ -854,11 +862,11 @@ const LeftSideBarUpdate = ({
 
                 <MdOutlineEdit
                   onClick={handleVisibility}
-                  className="text-[#33B0CA] cursor-pointer"
+                  className="text-[#00c3ff] cursor-pointer"
                 />
               </div>
               <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
-              <p className="text-[#33B0CA] text-[16px] font-[500] leading-6 capitalize">
+              <p className="text-[#00c3ff] text-[16px] font-[500] leading-6 capitalize">
                 {filter_flag === 0
                   ? "All Buddies"
                   : filter_flag === 1
@@ -894,7 +902,7 @@ const LeftSideBarUpdate = ({
                       setOpenCharacterChart(project_id);
                       setCharactersPopupMobile(false);
                     }}
-                    className="text-[#33B0CA] cursor-pointer"
+                    className="text-[#00c3ff] cursor-pointer"
                   />
                 </div>
               </div>
@@ -933,7 +941,7 @@ const LeftSideBarUpdate = ({
       )}
 
       {openMonetizingPreferencesPop?.msg === "ShowBecomePrivilege" ? (
-        <NoAccessPopUp
+        <NoAccessCreditPopupUpdate
           noAccessPopup={openMonetizingPreferencesPop}
           setNoAccessPopup={setOpenMonetizingPreferencesPop}
         />

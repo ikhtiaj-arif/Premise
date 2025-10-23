@@ -42,9 +42,9 @@ const AskIda = ({
   // console.log(source_language);
 
   const checkAllowance = async (flag) => {
-    const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);
-    console.log(`${flag} res`, res);
-    if (res?.access === "No") {
+    const res = await fetchUserAccess(`${flag}`);
+
+    if (res?.has_access === false) {
       setNoAccessPopup(res);
       setService(flag);
       setIsLoading(false);
@@ -135,7 +135,12 @@ const AskIda = ({
           setOpenAllReplies(true);
           setOpenReplyFieldID(res?.data?.id);
         }, 1000);
-
+        const crdRes = await fetchUserAccess(`PP_AllowBrainstoming`);
+        const remainingCredits = crdRes?.remaining_credits ?? 0;
+        const creditElement = document.getElementById("creditBalance");
+        if (creditElement) {
+          creditElement.textContent = remainingCredits;
+        }
         setTimeout(() => {
           if (lastCommentRef.current) {
             lastCommentRef.current.scrollTo({
@@ -167,7 +172,9 @@ const AskIda = ({
           disabled={isLoading}
           onClick={handleButtonClick}
           className={` border-none rounded-[8px] px-4 h-[32px] text-white text-[12px] md:text-[14px] font-[600] leading-[21px] ${
-            isLoading ? "bg-[#ACDDE7]   cursor-default" : "bg-[#33B0CA]"
+            isLoading
+              ? "bg-[linear-gradient(30deg,#b38bff,#99e6ff)] cursor-default"
+              : "bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
           }`}
         >
           Ask Ida for more!

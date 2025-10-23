@@ -85,14 +85,14 @@ const DeletePremise = ({
             <div className="h-[93px] pb-[14px] flex items-center gap-10 justify-center px-[40px]">
               <button
                 onClick={() => setIsDelete(false)}
-                className=" font-[500] border !border-[#33B0CA] text-[#33B0CA] h-[34px] w-[99px] text-[14px] rounded-[8px]   hover:text-white hover:bg-[#33B0CA] "
+                className=" font-[500] border !border-[#00c3ff] text-[#00c3ff] h-[34px] w-[99px] text-[14px] rounded-[8px]   hover:text-white hover:bg-[#00c3ff] "
               >
                 No
               </button>
               <button
                 className={`${
                   loading ? "cursor-disabled-PremisePool " : "cursor-pointer"
-                } bg-[#33B0CA]  font-[500] text-white h-[34px] w-[99px]   px-4 py-1  text-[14px]  rounded-[8px] `}
+                } bg-[#00c3ff]  font-[500] text-white h-[34px] w-[99px]   px-4 py-1  text-[14px]  rounded-[8px] `}
                 onClick={handlePopupConfirm}
               >
                 Yes

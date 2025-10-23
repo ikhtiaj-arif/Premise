@@ -299,10 +299,10 @@ const ReplyToReply3 = ({
         >
           <div className="md:flex hidden ml-[30px] md:ml-0 gap-3 leading-[16px] mt-[2px] mb-[4px]">
             <>
-              <ReplyLike
+              {/* <ReplyLike
                 reply={childReply}
                 {...{ setLikePopup, replyRefetch }}
-              />
+              /> */}
             </>
             {childReply?.reject_button &&
               (owner === user || childReply?.user?.id === user) && (
@@ -326,12 +326,12 @@ const ReplyToReply3 = ({
                   >
                     <IoIosUndo
                       className={`${
-                        childReplyField ? "text-[#33B0CA]" : "text-[#252525]"
+                        childReplyField ? "text-[#00c3ff]" : "text-[#252525]"
                       } text-[14px]`}
                     />
                     <p
                       className={`text-[14px] ${
-                        childReplyField ? "text-[#33B0CA]" : "text-[#252525]"
+                        childReplyField ? "text-[#00c3ff]" : "text-[#252525]"
                       } font-[400]  cursor-pointer`}
                     >
                       Reply
@@ -343,7 +343,7 @@ const ReplyToReply3 = ({
           </div>
 
           <div className=" flex md:hidden gap-1">
-            <ReplyLike reply={childReply} {...{ setLikePopup, replyRefetch }} />
+            {/* <ReplyLike reply={childReply} {...{ setLikePopup, replyRefetch }} /> */}
             {childReply?.reject_button &&
               (owner === user || childReply?.user?.id === user) && (
                 <button className=" cursor-auto w-[60px]">
@@ -362,7 +362,7 @@ const ReplyToReply3 = ({
               <>
                 {(owner === user || childReply?.user?.id === user) && (
                   <button className="cursor-auto ">
-                    <p className="text-[14px] text-[#33B0CA] italic  font-[400] leading-[14.52px] ">
+                    <p className="text-[14px] text-[#00c3ff] italic  font-[400] leading-[14.52px] ">
                       Added as Beat
                     </p>
                   </button>
@@ -380,7 +380,7 @@ const ReplyToReply3 = ({
                       }}
                       className=""
                     >
-                      <p className="text-[14px] text-[#008000] hover:text-[#33B0CA] font-[400] leading-[16.52px] ">
+                      <p className="text-[14px] text-[#008000] hover:text-[#00c3ff] font-[400] leading-[16.52px] ">
                         Add as Beat
                       </p>
                     </button>
@@ -466,7 +466,7 @@ const ReplyToReply3 = ({
                 type="submit"
                 // onClick={handlePostReplyToReply}
               >
-                <IoMdSend className="text-[#33B0CA] w-6 h-6" />
+                <IoMdSend className="text-[#00c3ff] w-6 h-6" />
               </button>
             )}
           </form>

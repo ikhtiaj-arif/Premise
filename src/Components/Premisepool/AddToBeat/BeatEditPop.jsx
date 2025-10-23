@@ -5,7 +5,7 @@ import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
 import { MdKeyboardBackspace } from "react-icons/md";
 import { toast } from "react-toastify";
-import { MyContext } from "../../../App";
+import { fetchUserAccess, MyContext } from "../../../App";
 import {
   useCreateProjectMutation,
   useGetMyAllProjectQuery,
@@ -510,6 +510,13 @@ const BeatEditPop = ({
           position: toast.POSITION.TOP_CENTER,
           autoClose: 800,
         });
+        const creditRes = await fetchUserAccess(`SP_BeatSheet`);
+        const remainingCredits = creditRes?.remaining_credits ?? 0;
+        const creditElement = document.getElementById("creditBalance");
+        console.log("remainingCredits", remainingCredits);
+        if (creditElement) {
+          creditElement.textContent = remainingCredits;
+        }
       } catch (refetchError) {
         toast.error("Failed to refetch data, please try again.", {
           position: toast.POSITION.TOP_CENTER,
@@ -1077,7 +1084,7 @@ const BeatEditPop = ({
                             className={`${
                               beatPostLoading || transLoading
                                 ? "bg-[#ACDDE7]"
-                                : "bg-[#33B0CA] border-[#33B0CA]"
+                                : " bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
                             }  text-[#FAFAFA] border  text-[14px] font-[600]  rounded-[8px] min-w-[74px] min-h-[32px] px-[8px] hover:shadow-md shadow-[#252525]  `}
                             onClick={() => handleSubmitBeatToProject()}
                           >

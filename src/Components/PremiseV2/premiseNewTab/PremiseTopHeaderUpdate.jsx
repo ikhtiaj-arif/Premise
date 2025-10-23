@@ -55,14 +55,8 @@ import { useSelector } from "react-redux";
 import { fetchUserAccess, MyContext } from "../../../App";
 import { useGetPremiseUserQuery } from "../../../app/EndPoints/premisePoolApi";
 import { GlobalContext } from "../../../app/Hooks/Global";
-import admin from "../../../img/Icons/Admin.png";
 import beatsImg from "../../../img/Icons/beats.png";
 import brainImg from "../../../img/Icons/brainstorme.png";
-import msgIcon from "../../../img/Icons/msgIcon.png";
-import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
-import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
-import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
-import { URL } from "../../utils";
 import BeatsPop from "../Popups/newTab/BeatsPop";
 import BrainstormEngagementsPop from "../Popups/newTab/BrainstormEngagementsPop";
 import SharePopup from "../Popups/newTab/SharePopup";
@@ -172,14 +166,6 @@ const PremiseTopHeaderUpdate = ({
     setOpenDotMenu(null);
   };
 
-  const handleOpenSp = () => {
-    // console.log("object", p);
-    // if (isProjectLocked) {
-    //   window.location.href(`${URL}/scriptpad/#/generated-scripts`);
-    // }
-    window.location.href = `${URL}/scriptpad/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`;
-  };
-
   const handleUserMail = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_MessageOwner`);
     console.log("message rs", res);
@@ -216,8 +202,8 @@ const PremiseTopHeaderUpdate = ({
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <div className="w-3/5 flex items-center gap-2">
+    <div className="flex items-center gap-2 justify-between">
+      <div className="w-2/6 flex items-center gap-2">
         {/* this section is commented out due to the new design changes*/}
         {/* <div
           data-te-toggle="tooltip"
@@ -272,6 +258,7 @@ const PremiseTopHeaderUpdate = ({
 
         {/* Updated Code */}
 
+        {/* 
         <div>
           {" "}
           {premiseOwner?.id === user ? (
@@ -293,7 +280,7 @@ const PremiseTopHeaderUpdate = ({
                   ref={dotPopupRef}
                   className="absolute flex flex-col w-[197px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[32px] left-[0px] py-[8px] z-10"
                 >
-                  {/* <button
+                  <button
                     disabled={is_read_only}
                     onClick={handleVisibility}
                     className={`${
@@ -310,9 +297,9 @@ const PremiseTopHeaderUpdate = ({
                       {" "}
                       Visibility Settings
                     </p>{" "}
-                  </button> */}
+                  </button>
 
-                  {/* <button
+                   <button
                     onClick={() => {
                       setOpenTransOtherPop(!openTransOtherPop);
                       setOpenDotMenu(null);
@@ -323,9 +310,9 @@ const PremiseTopHeaderUpdate = ({
                       {" "}
                       Copy in new Language
                     </p>{" "}
-                  </button> */}
+                  </button> 
 
-                  {/* <button
+                <button
                     onClick={handleMonetizing}
                     className="cursor-pointer  w-full"
                   >
@@ -333,9 +320,9 @@ const PremiseTopHeaderUpdate = ({
                       {" "}
                       Monetizing Preferences
                     </p>{" "}
-                  </button> */}
+                  </button>
 
-                  {/* <button
+                  <button
                     onClick={() => {
                       handleViewTransaction(id);
                     }}
@@ -345,7 +332,7 @@ const PremiseTopHeaderUpdate = ({
                       {" "}
                       View Translations
                     </p>{" "}
-                  </button> */}
+                  </button> 
 
                   <button
                     onClick={() => {
@@ -358,7 +345,7 @@ const PremiseTopHeaderUpdate = ({
                       {" "}
                       Characters and Roles
                     </p>{" "}
-                  </button>
+                  </button> 
                   <button
                     onClick={() => {
                       handleOpenSp();
@@ -370,9 +357,9 @@ const PremiseTopHeaderUpdate = ({
                       {" "}
                       Open <span className="scriptpad-m">Script Pad</span>
                     </p>{" "}
-                  </button>
+                  </button> 
 
-                  <button
+                   <button
                     onClick={() => {
                       handleDelete(id);
                       setOpenDotMenu(null);
@@ -383,17 +370,14 @@ const PremiseTopHeaderUpdate = ({
                       {" "}
                       Delete Premise
                     </p>{" "}
-                  </button>
+                  </button> 
 
-                  {/* */}
+                
                 </div>
               )}
-              {/* <FaEllipsisV
-                onClick={() => setOpenHidePop(!openHidePop)}
-                className="w-5 h-5 cursor-pointer"
-              /> */}
+           
               {openHidePop?.msg === "ShowBecomePrivilege" ? (
-                <NoAccessPopUp
+                <NoAccessCreditPopupUpdate
                   noAccessPopup={openHidePop}
                   setNoAccessPopup={setOpenHidePop}
                 />
@@ -430,10 +414,10 @@ const PremiseTopHeaderUpdate = ({
               />
             </div>
           )}
-        </div>
+        </div> */}
       </div>
       <div
-        className={` border w-[110px] md:w-[146px] border-[#B4B4B4] mx-auto px-[14px] h-[32px] my-2 rounded-full`}
+        className={` border w-[224px] md:w-[206px] border-[#B4B4B4] lg:mx-auto px-[14px] h-[32px] my-2 rounded-full`}
       >
         <form className="flex items-center" onSubmit={handleSearch}>
           <input

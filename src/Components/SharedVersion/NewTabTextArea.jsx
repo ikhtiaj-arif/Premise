@@ -7,8 +7,7 @@ import { fetchUserAccess, MyContext } from "../../App";
 import { useCommentPremiseMutation } from "../../app/EndPoints/premisePoolApi";
 import BtnLoading from "../../shared/BtnLoading";
 import LanguageSelector from "../Premisepool/LanguageSelector";
-import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
-import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
+import NoAccessCreditPopupUpdate from "../PricingModel/NoAccessCreditPopupUpdate";
 import { baseURL } from "../utils";
 
 const NewTabTextArea = ({
@@ -124,9 +123,8 @@ const NewTabTextArea = ({
   };
 
   const checkAllowance = async (flag) => {
-    const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);
-    console.log(`${flag} res`, res);
-    if (res?.access === "No") {
+    const res = await fetchUserAccess(`${flag}`);
+    if (res?.has_access === false) {
       setNoAccessPopup(res);
       setService(flag);
       return false; // ❌ no access
@@ -290,6 +288,12 @@ const NewTabTextArea = ({
           autoClose: 1600,
         });
       }, 1100);
+      const crdRes = await fetchUserAccess(`PP_AllowBrainstoming`);
+      const remainingCredits = crdRes?.remaining_credits ?? 0;
+      const creditElement = document.getElementById("creditBalance");
+      if (creditElement) {
+        creditElement.textContent = remainingCredits;
+      }
     } catch (error) {
       toast.error("Failed to add comment. Please try again.", {
         position: toast.POSITION.TOP_CENTER,
@@ -346,7 +350,7 @@ const NewTabTextArea = ({
             id=""
             className={`${
               className ? "bg-[#fff]" : "bg-[#f8f8f8]"
-            } resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[108px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:font-[500] placeholder:text-[#33B0CA]`}
+            } resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[108px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:font-[500] placeholder:text-[#00c3ff]`}
             placeholder="Share an action taken by any character in pursuit of its want OR describe a situation in which the chosen characters interact OR write anything you have in mind. "
             value={newComment}
             required
@@ -366,8 +370,8 @@ const NewTabTextArea = ({
               data-te-toggle="tooltip"
               title={`${!keyboardVisible ? "View Keyboard" : "Hide Keyboard"}`}
               className={`w-6 h-6 ${
-                keyboardVisible && "text-[#33B0CA]"
-              } cursor-pointer hover:text-[#33B0CA]`}
+                keyboardVisible && "text-[#00c3ff]"
+              } cursor-pointer hover:text-[#00c3ff]`}
               onClick={onClickKeyboard}
             />
             <LanguageSelector
@@ -383,7 +387,7 @@ const NewTabTextArea = ({
             </div>
           ) : (
             <button className="md:w-[21px]" onClick={handleButtonClick}>
-              <IoMdSend className="text-[#33B0CA] w-6 h-6" />
+              <IoMdSend className="text-[#00c3ff] w-6 h-6" />
               {/* <img
                             src={forwardIcon}
                             alt=""
@@ -444,24 +448,14 @@ const NewTabTextArea = ({
         )}
       </> */}
 
-      {noAccessPopup?.msg === "ShowBecomePrivilege" ? (
-        <NoAccessPopUp
+      {noAccessPopup?.has_access === false && (
+        <NoAccessCreditPopupUpdate
           noAccessPopup={noAccessPopup}
           setNoAccessPopup={setNoAccessPopup}
+          service={"Brainstorming"}
+          credit_rate={noAccessPopup?.credit_rate}
+          remaining_credits={noAccessPopup?.remaining_credits}
         />
-      ) : (
-        (noAccessPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
-          noAccessPopup?.msg === "LB") && (
-          <NoAccessLbPopUp
-            noAccessLbPopup={noAccessPopup}
-            setNoAccessPopup={setNoAccessPopup}
-            service={
-              service === "PP_AllowBrainstoming"
-                ? "PP_Brainstrom"
-                : "PP_interactions"
-            }
-          />
-        )
       )}
     </div>
   );

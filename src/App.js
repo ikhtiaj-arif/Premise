@@ -69,9 +69,9 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { useGetMyAllProjectQuery } from "./app/EndPoints/ScriptPad/project";
 import PremiseNewTabAccessChecker from "./Components/PremiseV2/premiseNewTab/PremiseNewTabAccessChecker";
-import PremiseV2 from "./Components/PremiseV2/Premsie.v2";
 import UserGuidance from "./Components/PremiseV2/Provider/UserGuidance";
-import { URL } from "./Components/utils";
+import { baseURL } from "./Components/utils";
+import LimitPaymentPage from "./Components/Payment/LimitPaymentPage";
 
 export const MyContext = createContext();
 export const TranslationContext = createContext(); // Added global translation context
@@ -285,10 +285,10 @@ function App() {
           <UserGuidance>
             <Routes>
               <Route path="/:id" element={<PremiseNewTabAccessChecker />} />
+              <Route path="/payment/:id" element={<LimitPaymentPage />} />
 
               {/*
               <Route path="/" element={<PremiseV2 />} />
-              <Route path="/payment" element={<LimitPaymentPage />} />
               <Route
                 path="/new-tab/:id"
                 element={<PremiseNewTabAccessChecker />}
@@ -308,8 +308,8 @@ export default App;
 
 export const fetchUserAccess = async (flag) => {
   try {
-    // const response = await fetch(`${baseURL}/pay/user-product-access/?checkfunctionality=${flag}`, {
-    const response = await fetch(`${URL}/pay/checkuseraccess/${flag}`, {
+    const response = await fetch(`${baseURL}/pay/user-product-access/?checkfunctionality=${flag}`, {
+    // const response = await fetch(`${URL}/pay/checkuseraccess/${flag}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
