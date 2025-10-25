@@ -1,4 +1,3 @@
-import React from "react";
 import { toast } from "react-toastify";
 import { useNotifyUserForPurchaseMutation } from "../../../../app/EndPoints/Characters/Characters";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
@@ -14,8 +13,9 @@ const NotifyPopup = ({ popClose, premiseId, title }) => {
     try {
       const result = await notifyUser(data);
       if (result) {
-      
-        toast.success("You'll be notified when the premise is available for purchase!");
+        toast.success(
+          "You'll be notified when the premise is available for purchase!"
+        );
         popClose();
       }
     } catch (err) {
@@ -43,7 +43,7 @@ const NotifyPopup = ({ popClose, premiseId, title }) => {
             <button
               onClick={handleNotifyMe}
               className={` text-white rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] 
-                bg-[#33B0CA]`}
+                bg-[#00c3ff]`}
             >
               Notify me
             </button>

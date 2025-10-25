@@ -1,5 +1,5 @@
 import { motion, useAnimation } from "framer-motion";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaCommentDots } from "react-icons/fa";
 import { MyContext } from "../../App";
 import Popup from "./Popup";
@@ -14,7 +14,7 @@ const CommentPremise = ({ data, setIsLiked, refetch }) => {
   useEffect(() => {
     if (!cmntPopup && shouldBlink) {
       const blinkingInterval = setInterval(() => {
-        controls.start({ color: "#33B0CA" }); // black color
+        controls.start({ color: "#00c3ff" }); // black color
         setTimeout(() => controls.start({ color: "#000000" }), 500); // Red color after 500ms
 
       }, 1000); // Blink every second

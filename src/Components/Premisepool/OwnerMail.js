@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
     useAllUserBroadcastQuery,
     useGetMessageByPremiseIdQuery,
@@ -103,7 +103,7 @@ const OwnerMail = ({ setOwnerMail, data }) => {
                 < div
                   key={r?.id}
                   className={`notranslate flex items-center gap-2 mb-2 rounded-[8px] cursor-pointer p-1  text-[12px] font-[500]  ${
-                    broadcastId === r.id ? "bg-[#33B0CA] text-white py-[6px] px-2" : ""
+                    broadcastId === r.id ? "bg-[#00c3ff] text-white py-[6px] px-2" : ""
                   }`}
                   onClick={() => handleMessageClick(r?.id)}
                 >
@@ -166,7 +166,7 @@ const OwnerMail = ({ setOwnerMail, data }) => {
                 />
                 <div className="flex items-end mb-1">
                 {isLoading ? (
-                 <span className="loading loading-spinner text-[#33B0CA] h-5 w-5 my-auto cursor-auto"></span>
+                 <span className="loading loading-spinner text-[#00c3ff] h-5 w-5 my-auto cursor-auto"></span>
                 ) : (
                   <button
                     type="submit"

@@ -79,7 +79,7 @@ const CommentLike = ({
                 : handleLikeDislike(comments?.id, "like")
             }
             className={`w-6 h-5  ${
-              isLiked ? "text-[#33B0CA]" : "text-[#252525]"
+              isLiked ? "text-[#00c3ff]" : "text-[#252525]"
             }  ${
               disable || isLLoading || isRLoading || isDLoading
                 ? " cursor-default"
@@ -112,7 +112,7 @@ const CommentLike = ({
           <FaThumbsDown
             onClick={() => handleLikeDislike(comments?.id, "dislike")}
             className={`w-6 h-5 ${
-              isDisLiked ? "text-[#33B0CA]" : "text-[#252525]"
+              isDisLiked ? "text-[#00c3ff]" : "text-[#252525]"
             }  ${
               disable || isLLoading || isRLoading || isDLoading
                 ? " cursor-default"

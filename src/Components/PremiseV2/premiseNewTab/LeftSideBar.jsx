@@ -21,6 +21,7 @@ import Keyboard from "../../Premisepool/Keyboard";
 import TranslatePremiseNewTab from "../../Premisepool/TranslatePremiseNewTab";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
+import NoAccessCreditPopupUpdate from "../../PricingModel/NoAccessPopUp2";
 import AskIda from "../../SharedVersion/AskIda";
 import NewTabTextArea from "../../SharedVersion/NewTabTextArea";
 import PopupComment from "../../SharedVersion/PopupComment";
@@ -30,7 +31,6 @@ import PremiseBadge from "../Card/PremiseBadge";
 import PremiseTopAccess from "./PremiseTopAccess";
 import PremiseTopHeader from "./PremiseTopHeader";
 import VisibilitySection from "./VisibilitySection";
-import NoAccessCreditPopupUpdate from "../../PricingModel/NoAccessPopUp2";
 
 const LeftSideBar = ({
   filteredCommentsData,
@@ -437,11 +437,11 @@ const LeftSideBar = ({
 
                     <MdOutlineEdit
                       onClick={handleVisibility}
-                      className="text-[#33B0CA] cursor-pointer"
+                      className="text-[#00c3ff] cursor-pointer"
                     />
                   </div>
                   <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
-                  <p className="text-[#33B0CA] text-[16px] font-[500] leading-6 capitalize">
+                  <p className="text-[#00c3ff] text-[16px] font-[500] leading-6 capitalize">
                     {(() => {
                       // Define meaningful labels for each filter flag
                       const getFilterLabel = () => {
@@ -510,7 +510,7 @@ const LeftSideBar = ({
                           onClick={() => {
                             setOpenCharacterChart(project_id);
                           }}
-                          className="text-[#33B0CA] cursor-pointer"
+                          className="text-[#00c3ff] cursor-pointer"
                         />
                       </div>
                     </div>
@@ -635,10 +635,10 @@ const LeftSideBar = ({
         <NoAccessCreditPopupUpdate
           noAccessPopup={addNewCharacter}
           setNoAccessPopup={setAddNewCharacter}
-         service={"Brainstorming"}
+          service={"Brainstorming"}
           credit_rate={addNewCharacter?.credit_rate}
           remaining_credits={addNewCharacter?.remaining_credits}
-          />
+        />
       )}
       {addNewCharacter === "Yes" && (
         <SingleCharacterAddNewTab
@@ -771,11 +771,11 @@ const LeftSideBar = ({
 
                 <MdOutlineEdit
                   onClick={handleVisibility}
-                  className="text-[#33B0CA] cursor-pointer"
+                  className="text-[#00c3ff] cursor-pointer"
                 />
               </div>
               <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
-              <p className="text-[#33B0CA] text-[16px] font-[500] leading-6 capitalize">
+              <p className="text-[#00c3ff] text-[16px] font-[500] leading-6 capitalize">
                 {filter_flag === 0
                   ? "All Buddies"
                   : filter_flag === 1
@@ -811,7 +811,7 @@ const LeftSideBar = ({
                       setOpenCharacterChart(project_id);
                       setCharactersPopupMobile(false);
                     }}
-                    className="text-[#33B0CA] cursor-pointer"
+                    className="text-[#00c3ff] cursor-pointer"
                   />
                 </div>
               </div>

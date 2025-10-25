@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { useGetPremiseUserPictureQuery } from "../../app/EndPoints/premisePoolApi";
 import userIcon from "../../img/Icons/userImg.png";
@@ -44,7 +43,7 @@ const LikeCount = ({ like }) => {
           )}
           {firstName ? (
             <div className="flex items-center">
-              <h4 className="notranslate text-[14px] font-[500] text-[#252525] hover:text-[#33B0CA]">
+              <h4 className="notranslate text-[14px] font-[500] text-[#252525] hover:text-[#00c3ff]">
                 {firstName} {lastName}
               </h4>
               <UserType

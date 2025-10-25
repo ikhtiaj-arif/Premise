@@ -657,9 +657,7 @@ const BeatEditPop = ({
 
     setConfirmBit(false);
     popClose();
-    window.open(
-      `${URL}/scriptpad/#/${selectedProject?.pro_uuid}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
-    );
+    window.location.href = `${URL}/scriptpad/#/${selectedProject?.pro_uuid}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`;
   };
 
   return (
@@ -772,7 +770,7 @@ const BeatEditPop = ({
                               engagement and{" "}
                               <button
                                 onClick={() => setReadMore(true)}
-                                className="text-[#33B0CA] underline"
+                                className="text-[#00c3ff] underline"
                               >
                                 Read more
                               </button>
@@ -909,7 +907,7 @@ const BeatEditPop = ({
                             <button
                               data-te-toggle="tooltip"
                               title="Translate"
-                              className={`cursor-pointer hover:text-[#33B0CA] `}
+                              className={`cursor-pointer hover:text-[#00c3ff] `}
                               onClick={() => setTranslatedPop(!translatedPop)}
                             >
                               <img
@@ -933,9 +931,9 @@ const BeatEditPop = ({
                                           });
                                           setTranslatedPop(false);
                                         }}
-                                        className={`cursor-pointer text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] list-none pl-[8px] border-b py-1 ${
+                                        className={`cursor-pointer text-[14px] text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] list-none pl-[8px] border-b py-1 ${
                                           selectedLanguage === key
-                                            ? "bg-[#33B0CA] text-[#fafafa]"
+                                            ? "bg-[#00c3ff] text-[#fafafa]"
                                             : ""
                                         }`}
                                       >
@@ -956,7 +954,7 @@ const BeatEditPop = ({
                               <button
                                 data-te-toggle="tooltip"
                                 title="Translate"
-                                className="cursor-pointer hover:text-[#33B0CA]"
+                                className="cursor-pointer hover:text-[#00c3ff]"
                                 onClick={() => setTranslatedPop(!translatedPop)}
                               >
                                 <img
@@ -979,9 +977,9 @@ const BeatEditPop = ({
                                           });
                                           setTranslatedPop(false);
                                         }}
-                                        className={`cursor-pointer text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] list-none pl-[8px] border-b py-1 ${
+                                        className={`cursor-pointer text-[14px] text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] list-none pl-[8px] border-b py-1 ${
                                           selectedLanguage === key
-                                            ? "bg-[#33B0CA] text-[#fafafa]"
+                                            ? "bg-[#00c3ff] text-[#fafafa]"
                                             : ""
                                         }`}
                                       >
@@ -1068,7 +1066,7 @@ const BeatEditPop = ({
                                         setSourcesLanguage(name);
                                         setTranslatedPop(null);
                                       }}
-                                      className="cursor-pointer  text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] list-none pl-[8px] border-b"
+                                      className="cursor-pointer  text-[14px] text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] list-none pl-[8px] border-b"
                                       key={code}
                                       value={code}
                                     >

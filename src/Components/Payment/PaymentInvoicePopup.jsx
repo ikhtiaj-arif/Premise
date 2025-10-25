@@ -161,7 +161,7 @@ const PaymentInvoicePopup = ({
           address: "None",
         },
         theme: {
-          color: "#33b0ca",
+          color: "#00c3ff",
         },
         image: "https://uidemos.s3.ap-south-1.amazonaws.com/mnf_logo.png",
         credit_to_debit,
@@ -272,7 +272,7 @@ const PaymentInvoicePopup = ({
                   />
                   {/* right */}
                   <div className=" text-right">
-                    <h2 className="text-[#33B0CA] text-light-blue font-bold text-sm sm:text-lg md:text-2xl py-2">
+                    <h2 className="text-[#00c3ff] text-light-blue font-bold text-sm sm:text-lg md:text-2xl py-2">
                       My Next Film Pvt. Ltd.
                     </h2>
                     <p className="text-[12px]  sm:text-[14px]">
@@ -285,7 +285,7 @@ const PaymentInvoicePopup = ({
                 </div>
 
                 <div className="md:mx-12 md:my-2 m-4">
-                  <div className=" grid grid-cols-2 md:grid-cols-[40%_minmax(40%,_1fr)_20%] text-[#33B0CA] text-[16px] md:text-[28px] font-bold md:mb-6">
+                  <div className=" grid grid-cols-2 md:grid-cols-[40%_minmax(40%,_1fr)_20%] text-[#00c3ff] text-[16px] md:text-[28px] font-bold md:mb-6">
                     <h2>
                       Order Summary{" "}
                       {/* <span className="text-[16px] md:text-[24px]">{`2025/001`}</span>
@@ -335,7 +335,7 @@ const PaymentInvoicePopup = ({
                       disabled={paymentCondition}
                       onClick={handleClick}
                       className={`${
-                        paymentCondition ? "bg-[#ACDDE7]" : "bg-[#33b0ca] "
+                        paymentCondition ? "bg-[#ACDDE7]" : "bg-[#00c3ff] "
                       } w-32 h-[32px] text-[16px] text-white  rounded-lg font-semibold`}
                     >
                       {paymentCondition ? "Processing" : "Pay Now"}
@@ -346,7 +346,7 @@ const PaymentInvoicePopup = ({
                       disabled={paymentCondition}
                       onClick={handleClick}
                       className={`${
-                        paymentCondition ? "bg-[#ACDDE7]" : "bg-[#33b0ca] "
+                        paymentCondition ? "bg-[#ACDDE7]" : "bg-[#00c3ff] "
                       } w-32 my-8 h-[32px] text-[16px] text-white  rounded-lg font-semibold`}
                     >
                       {paymentCondition ? "Processing" : "Pay Now"}

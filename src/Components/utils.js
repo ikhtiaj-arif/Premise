@@ -8,14 +8,17 @@
 // const baseURL = "http://localhost:8001";
 
 
-// const URL = `https://app.mnf.ai`;
-// const baseURL = `https://app.mnf.ai`;
+const URL = `https://app.mnf.ai`;
+const baseURL = `https://app.mnf.ai`;
+
+// const URL = `https://alpha.mnf.ai`;
+// const baseURL = `https://alpha.mnf.ai`;
 
 // const URL = window.location.origin;
 // const baseURL = window.location.origin;
 
-const URL = "http://1.6.141.108";
-const baseURL = "http://1.6.141.108";
+// const URL = "http://1.6.141.108";
+// const baseURL = "http://1.6.141.108";
 
 // const URL = "https://taj4o.mynextfilm.in";
 // const baseURL = "https://taj4o.mynextfilm.in";

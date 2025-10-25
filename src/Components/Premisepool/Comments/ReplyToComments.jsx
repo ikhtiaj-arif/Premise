@@ -388,11 +388,11 @@ const ReplyToComments = ({
                     className="flex items-center"
                   >
                     {reply?.user?.first_name || reply?.user?.last_name ? (
-                      <p className="notranslate text-[14px] font-[500] hover:text-[#33b0ca] ">
+                      <p className="notranslate text-[14px] font-[500] hover:text-[#00c3ff] ">
                         {reply?.user?.first_name} {reply?.user?.last_name}
                       </p>
                     ) : (
-                      <p className="text-[14px] font-[500] hover:text-[#33b0ca] ">
+                      <p className="text-[14px] font-[500] hover:text-[#00c3ff] ">
                         {reply?.user?.email.split("@")[0]}
                       </p>
                     )}

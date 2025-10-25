@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import userIcon from "../../../img/Icons/userImg.png";
 
 const MainComment = ({ comment }) => {
@@ -57,7 +57,7 @@ const MainComment = ({ comment }) => {
               {comment?.user?.id === 1 ? (
                 <p className="notranslate text-[14px] font-[500] ">
                   {comment?.c_value}. {commenterName}
-                  {/* <span className="ml-3 text-[#33B0CA] italic font-[400]"> {" (Character Development- Catalyze)"}</span> */}
+                  {/* <span className="ml-3 text-[#00c3ff] italic font-[400]"> {" (Character Development- Catalyze)"}</span> */}
                 </p>
               ) : (
                 <a
@@ -70,7 +70,7 @@ const MainComment = ({ comment }) => {
                   // }
                 >
                   <div className="flex items-center">
-                    <p className="notranslate text-[14px] leading-[17px] font-[500] hover:text-[#33B0CA]">
+                    <p className="notranslate text-[14px] leading-[17px] font-[500] hover:text-[#00c3ff]">
                       {comment?.c_value}. {commenterName}
                     </p>
                     {/* <user_type

@@ -253,7 +253,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user, fromNew }) => {
                     required
                     type="number"
                     placeholder="Please Quote"
-                    className="flex-1 w-full h-[22px] border rounded-[4px] px-[12px] text-[11px] font-[400]  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none"
+                    className="flex-1 w-full h-[22px] border rounded-[4px] px-[12px] text-[11px] font-[400]  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none"
                     value={sellingPr}
                     onChange={handleInputChangePrice}
                   />
@@ -271,7 +271,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user, fromNew }) => {
                     className={`${
                       !sellingPr || isUpdateLoading
                         ? "bg-[#ACDDE7]"
-                        : "bg-[#33B0CA] "
+                        : "bg-[#00c3ff] "
                     } text-[#fafafa] ml-2 rounded-[4px] whitespace-nowrap leading-[24px] w-[80%]  px-[20px]  py-[2px] text-[13px] font-[600]`}
                   >
                     Submit Details of bank account
@@ -279,7 +279,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user, fromNew }) => {
                   <button
                     disabled={rejectLoading}
                     onClick={handleReject}
-                    className={` text-[#33B0CA] border border-[#33B0CA] bg-[#fafafa] rounded-[4px] whitespace-nowrap leading-[24px] w-[80%] px-[20px] ml-[10px] py-[2px] text-[13px] font-[600]`}
+                    className={` text-[#00c3ff] border border-[#00c3ff] bg-[#fafafa] rounded-[4px] whitespace-nowrap leading-[24px] w-[80%] px-[20px] ml-[10px] py-[2px] text-[13px] font-[600]`}
                   >
                     Reject Request
                   </button>
@@ -327,7 +327,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user, fromNew }) => {
                     type="text"
                     value={bankDetails[name] || ""}
                     onChange={handleInputChange}
-                    className="w-[252px] h-[30px] border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none rounded-[4px] px-[12px] text-[14px] font-[400]"
+                    className="w-[252px] h-[30px] border border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none rounded-[4px] px-[12px] text-[14px] font-[400]"
                     maxLength={name === "ifsc_code" ? 11 : undefined}
                     pattern="[A-Za-z0-9]*"
                     title={
@@ -345,7 +345,7 @@ const SaleRequestedOwner = ({ popClose, premiseId, user, fromNew }) => {
                 className={`${
                   !isFormValid
                     ? "bg-[#ACDDE7]  cursor-not-allowed"
-                    : "bg-[#33B0CA]"
+                    : "bg-[#00c3ff]"
                 } w-[88px] mt-[20px] mx-auto text-[#fafafa] rounded-[8px] leading-[24px] px-[12px] py-[2px] text-[13px] font-[600]`}
               >
                 Proceed

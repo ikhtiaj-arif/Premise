@@ -84,7 +84,7 @@ const PreviewPopAfterDraft = ({
       // console.error("Error in handlePremisePostToGetComments:", error);
     }
   };
-  
+
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
       <div
@@ -169,7 +169,7 @@ const PreviewPopAfterDraft = ({
             {finalSubmitLoading ? (
               <div
                 disabled={finalSubmitLoading}
-                className={` text-white cursor-auto max-w-[120px] rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] bg-[#33B0CA]`}
+                className={` text-white cursor-auto max-w-[120px] rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] bg-[#00c3ff]`}
               >
                 Posting...
               </div>
@@ -183,7 +183,7 @@ const PreviewPopAfterDraft = ({
                   }}
                   // disabled={}
                   className={`  flex justify-center items-center cursor-pointer rounded-[8px] h-[32px] px-[28px]
-                             text-[14px] font-[600] border border-[#33B0CA]  text-[#33B0CA] `}
+                             text-[14px] font-[600] border border-[#00c3ff]  text-[#00c3ff] `}
                 >
                   Back To Character List
                 </div>
@@ -193,7 +193,7 @@ const PreviewPopAfterDraft = ({
                   onClick={handlePremisePostToGetComments}
                   className={` text-white flex justify-center items-center  rounded-[8px] h-[32px] px-[28px] text-[14px] 
                           font-[600] ${
-                            agreeToPost ? "bg-[#33B0CA] " : "bg-[#ACDDE7]"
+                            agreeToPost ? "bg-[#00c3ff] " : "bg-[#ACDDE7]"
                           }`}
                 >
                   Post

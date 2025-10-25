@@ -180,7 +180,7 @@ const EachTranslateeCard = ({
         <div className="my-[4px] text-center ">
           <button
             onClick={handleViewPremise}
-            className={`bg-[#33B0CA] text-[#fafafa] rounded-[8px] leading-[24px] px-[18px] text-[12px] font-[700]`}
+            className={`bg-[#00c3ff] text-[#fafafa] rounded-[8px] leading-[24px] px-[18px] text-[12px] font-[700]`}
           >
             View
           </button>

@@ -177,7 +177,7 @@ const NewTabTutorialPop = ({ popClose }) => {
                 className="w-[70px] "
               />
               {/* <h1 className="absolute left-3">{currentPopup}</h1> */}
-              <p className="text-center text-[14px] md:text-[16px] font-medium text-[#33b0ca] ">
+              <p className="text-center text-[14px] md:text-[16px] font-medium text-[#00c3ff] ">
                 Do You Know?
               </p>
             </div>

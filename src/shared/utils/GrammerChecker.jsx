@@ -108,7 +108,7 @@
 //       {!suggestClicked && (text?.length ?? 0) >= 20 && (
 //         <button
 //           onClick={handleSuggestClick}
-//           className="mt-4 px-4  text-[12px] bg-[#33B0CA] text-white rounded  disabled:opacity-50"
+//           className="mt-4 px-4  text-[12px] bg-[#00c3ff] text-white rounded  disabled:opacity-50"
 //           disabled={isLoading}
 //         >
 //           {isLoading ? "Checking..." : "Suggest"}

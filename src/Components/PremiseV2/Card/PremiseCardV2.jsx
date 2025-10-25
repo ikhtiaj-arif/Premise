@@ -626,7 +626,7 @@ const PremiseCardV2 = ({
       border-2 border-[#EAEAEA] bg-[#fafafa] rounded-[8px] 
       transition-transform  duration-300 ease-in-out
       hover:scale-[1.03] hover:-translate-y-1 
-      hover:shadow-2xl hover:border-[#33B0CA]
+      hover:shadow-2xl hover:border-[#00c3ff]
     "
       >
         <div className="flex justify-between items-center bg-[#FAFAFA] rounded-t-[8px] px-[15px] pt-[15px] pb-[6px]">
@@ -665,7 +665,7 @@ const PremiseCardV2 = ({
                     }`}
                   >
                     <h4
-                      className={`notranslate  text-[#252525] font-[500] text-[16px] leading-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
+                      className={`notranslate  text-[#252525] font-[500] text-[16px] leading-[14px] capitalize cursor-pointer hover:text-[#00c3ff] truncate `}
                       title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
                     >
                       {premiseOwner?.first_name} {premiseOwner?.last_name}
@@ -748,7 +748,7 @@ const PremiseCardV2 = ({
                     }
                   >
                     <h4
-                      className="notranslate text-[#252525] font-[500] text-[16px] leading-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate"
+                      className="notranslate text-[#252525] font-[500] text-[16px] leading-[14px] capitalize cursor-pointer hover:text-[#00c3ff] truncate"
                       title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
                     >
                       {premiseOwner?.first_name} {premiseOwner?.last_name}

@@ -28,7 +28,7 @@ const CharacterSaveAlert = ({
                 popClose();
                 handleDelete();
               }}
-              className="border border-[#33B0CA]  ml-[10px] font-[500] text-[#33B0CA] h-[30px] md:h-[34px] w-[100px] text-[14px] rounded-[8px] hover:shadow-md shadow-[#252525]"
+              className="border border-[#00c3ff]  ml-[10px] font-[500] text-[#00c3ff] h-[30px] md:h-[34px] w-[100px] text-[14px] rounded-[8px] hover:shadow-md shadow-[#252525]"
             >
               Cancel
             </button>
@@ -37,7 +37,7 @@ const CharacterSaveAlert = ({
                 handleSaveBeforeDelete();
                 popClose(null);
               }}
-              className="bg-[#33B0CA]  ml-[10px] font-[500] text-white h-[30px] md:h-[34px] w-[100px] text-[14px] rounded-[8px] hover:shadow-md shadow-[#252525]"
+              className="bg-[#00c3ff]  ml-[10px] font-[500] text-white h-[30px] md:h-[34px] w-[100px] text-[14px] rounded-[8px] hover:shadow-md shadow-[#252525]"
             >
               Save
             </button>

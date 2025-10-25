@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaKeyboard, FaRegImage, FaRegTrashAlt, FaTimesCircle } from "react-icons/fa";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -185,7 +185,7 @@ const AddPremise = ({ setAddPopup,id, modifiedText, bg_img, bg_color }) => {
                   setKeyboardVisible={setKeyboardVisible}
                 />
                 <FaKeyboard
-                  className={`w-7 h-7 ${keyboardVisible && "text-[#33B0CA]"}`}
+                  className={`w-7 h-7 ${keyboardVisible && "text-[#00c3ff]"}`}
                   onClick={onClickKeyboard}
                 />
               </div>
@@ -230,13 +230,13 @@ const AddPremise = ({ setAddPopup,id, modifiedText, bg_img, bg_color }) => {
               <button
                 disabled={confirmDisable}
                 onClick={handlePreview}
-                className={`${confirmDisable ? "bg-[#fa7885]": "bg-[#33B0CA]"}  text-white  rounded-[2px] px-4 btn-sm`}
+                className={`${confirmDisable ? "bg-[#fa7885]": "bg-[#00c3ff]"}  text-white  rounded-[2px] px-4 btn-sm`}
               >
                 {id ? "Next" : "Next"}
               </button>
 
               <button
-                className="bg-[#33B0CA] btn-sm text-white px-4 rounded"
+                className="bg-[#00c3ff] btn-sm text-white px-4 rounded"
                 onClick={() => setAddPopup(false)}
               >
                 Cancel

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useDispatch, useSelector } from "react-redux";
 import { MyContext } from "../../App";
@@ -56,8 +56,6 @@ const Premisepool = () => {
   // const userLastName = useSelector((state) => state?.user?.lastName);
   const userFirstName = userQuery?.first_name;
   const userLastName = userQuery?.last_name;
-
-
 
   const [isDelete, setIsDelete] = useState(false);
   const [viewData, setViewData] = useState(null);
@@ -137,8 +135,8 @@ const Premisepool = () => {
     setActiveSearch(false);
     setTransPopClose(null);
   };
-  const [ttt, setTtt] = useState(false)
-// console.log(userFirstName)
+  const [ttt, setTtt] = useState(false);
+  // console.log(userFirstName)
   return (
     <div className=" h-auto overflow-y-hidden md:mr-[30px]" id="premisePool">
       <div className=" overflow-y-hidden overflow-x-hidden lg:px-5 mx-auto w-full md:w-[95%] xl:w-full h-auto max-w-[1580px] ">
@@ -155,7 +153,7 @@ const Premisepool = () => {
               <button
                 onClick={() => setAddPopup(true)}
                 // className="btn btn"
-                className="bg-[#33B0CA] flex items-center justify-center gap-[8px] text-[#FAFAFA] text-[14px] font-[600] rounded-[8px] min-w-[196px] min-h-[34px] md:ml-[-98px] px-[12px]"
+                className="bg-[#00c3ff] flex items-center justify-center gap-[8px] text-[#FAFAFA] text-[14px] font-[600] rounded-[8px] min-w-[196px] min-h-[34px] md:ml-[-98px] px-[12px]"
               >
                 <span className=" text-2xl ">+</span> Add A New Premise
               </button>
@@ -167,7 +165,8 @@ const Premisepool = () => {
                     next: premiseData?.next,
                     prev: premiseData?.previous,
                   }}
-                  showRefine={showRefine} setShowRefine={setShowRefine}
+                  showRefine={showRefine}
+                  setShowRefine={setShowRefine}
                   setCurrentPage={setCurrentPage}
                   setViewData={setViewData}
                   setItemsToShow={setItemsToShow}
@@ -191,11 +190,10 @@ const Premisepool = () => {
           {addPopup && (
             <>
               {!userFirstName && !userLastName ? (
-             
-                <UserNamePopup 
+                <UserNamePopup
                   setIsUserName={setIsUserName}
                   setAddPopup={setAddPopup}
-                  refetch={refetch} 
+                  refetch={refetch}
                 />
               ) : (
                 <AddPremise2 setAddPopup={setAddPopup} refetch={refetch} />
@@ -205,7 +203,6 @@ const Premisepool = () => {
             </>
           )}
 
-        
           <div className="shortM-hidden ">
             <SortPagination
               data={{
@@ -214,7 +211,8 @@ const Premisepool = () => {
                 next: premiseData?.next,
                 prev: premiseData?.previous,
               }}
-              showRefine={showRefine} setShowRefine={setShowRefine}
+              showRefine={showRefine}
+              setShowRefine={setShowRefine}
               setCurrentPage={setCurrentPage}
               setViewData={setViewData}
               setItemsToShow={setItemsToShow}
@@ -257,7 +255,7 @@ const Premisepool = () => {
               >
                 {viewData?.map((premise, index) => (
                   <PremiseCard
-                  setShowRefine={setShowRefine}
+                    setShowRefine={setShowRefine}
                     key={premise?._id}
                     index={index}
                     p={premise}
@@ -275,7 +273,6 @@ const Premisepool = () => {
                   <DeletePremise
                     setIsDelete={setIsDelete}
                     refetch={refetch}
-                    
                     isDelete={isDelete}
                   />
                 )}

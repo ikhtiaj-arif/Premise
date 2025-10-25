@@ -1,9 +1,8 @@
-import React from "react";
 import { URL } from "../../utils";
 
 const Footer = () => {
   return (
-    // <div className="bg-[#ffe2e5] text-[#33B0CA] font-semibold static bottom-0 left-0 right-0 mt-5">
+    // <div className="bg-[#ffe2e5] text-[#00c3ff] font-semibold static bottom-0 left-0 right-0 mt-5">
     //   <footer className="py-3 w-[95%] md:w-[80%] mx-auto flex flex-col md:flex-row md:justify-between gap-2 ">
     //     {/* Reversed order for mobile devices */}
     //     <div className="order-6 md:order-5 text-center">
@@ -25,7 +24,7 @@ const Footer = () => {
     //   </footer>
     // </div>
 
-        <div className="bg-normalBg text-headingText bg-[#33B0CA] text-[16px] text-[#fafafa] font-[400] static bottom-0 left-0 right-0 mt-5">
+        <div className="bg-normalBg text-headingText bg-[#00c3ff] text-[16px] text-[#fafafa] font-[400] static bottom-0 left-0 right-0 mt-5">
           <footer className="py-2 w-[95%]  md:w-[80%] mx-auto flex flex-col md:flex-row md:justify-between gap-2 ">
             {/* Reversed order for mobile devices */}
             <div className="order-6 md:order-5 text-center">

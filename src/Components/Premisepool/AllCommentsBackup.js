@@ -7,14 +7,14 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { fetchUserAccess, MyContext } from "../../App";
 import {
-  useCreateReplyMutation,
-  useCreateSuggestedReplyMutation
+    useCreateReplyMutation,
+    useCreateSuggestedReplyMutation
 } from "../../app/EndPoints/commentReply/reply";
 import { useTranslateCommentMutation } from "../../app/EndPoints/comments/commentAPi";
 import { useBeatSuggestionMutation } from "../../app/EndPoints/MemberPage/Buddies";
 import {
-  useDeleteCommentMutation,
-  useGetPremiseUserPictureQuery,
+    useDeleteCommentMutation,
+    useGetPremiseUserPictureQuery,
 } from "../../app/EndPoints/premisePoolApi";
 import { useGetMyAllProjectQuery } from "../../app/EndPoints/ScriptPad/project";
 import TimeAgo from "../../features/TimeAgo";
@@ -523,17 +523,17 @@ const AllComments = ({
         {!loading && actOneThreshold && actTwoEnd && (
           <>
             {commentIdx === 1 && (
-              <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] setup-m">
+              <p className="pl-[24px] mb-[-4px] text-[20px] text-[#00c3ff]  font-[500] setup-m">
                 Setup:
               </p>
             )}
             {commentIdx === actOneThreshold + 1 && (
-              <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] conflict-m">
+              <p className="pl-[24px] mb-[-4px] text-[20px] text-[#00c3ff]  font-[500] conflict-m">
                 Conflict:
               </p>
             )}
             {commentIdx === actTwoEnd + 1 && (
-              <p className="pl-[24px] mb-[-4px] text-[20px] text-[#33B0CA]  font-[500] resolution-m">
+              <p className="pl-[24px] mb-[-4px] text-[20px] text-[#00c3ff]  font-[500] resolution-m">
                 Resolution:
               </p>
             )}
@@ -600,7 +600,7 @@ const AllComments = ({
                         }
                       >
                         <div className="flex items-center">
-                          <p className="notranslate text-[14px] leading-[17px] font-[500] hover:text-[#33B0CA]">
+                          <p className="notranslate text-[14px] leading-[17px] font-[500] hover:text-[#00c3ff]">
                             {comments?.c_value}. {commenterName}
                           </p>
                           {comments?.user?.id === 1 ||
@@ -665,7 +665,7 @@ const AllComments = ({
                               className={`text-[12px] flex gap-[4px] ${
                                 openAllReplies &&
                                 openReplyFieldID === comments?.id
-                                  ? "text-[#33B0CA]"
+                                  ? "text-[#00c3ff]"
                                   : "text-[#252525]"
                               } font-[400] leading-[14.52px] `}
                             >
@@ -720,14 +720,14 @@ const AllComments = ({
                           <IoIosUndo
                             className={`${
                               replyToCommentID === comments?.id && replyField
-                                ? "text-[#33B0CA]"
+                                ? "text-[#00c3ff]"
                                 : "text-[#252525]"
                             }`}
                           />
                           <p
                             className={`text-[12px] hidden lg:block ${
                               replyToCommentID === comments?.id && replyField
-                                ? "text-[#33B0CA]"
+                                ? "text-[#00c3ff]"
                                 : "text-[#252525]"
                             }  hidden md:block font-[400] leading-[14.52px] cursor-pointer`}
                           >
@@ -762,7 +762,7 @@ const AllComments = ({
                                               comments?.text
                                             );
                                           }}
-                                          className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
+                                          className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#00c3ff]"
                                         >
                                           {suggestDisable ? (
                                             <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
@@ -810,7 +810,7 @@ const AllComments = ({
                                       onClick={() => {
                                         checkSuggestAllowance(comments?.text);
                                       }}
-                                      className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
+                                      className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#00c3ff]"
                                     >
                                       {suggestDisable ? (
                                         <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
@@ -844,14 +844,14 @@ const AllComments = ({
                             <IoIosUndo
                               className={`${
                                 replyToCommentID === comments?.id && replyField
-                                  ? "text-[#33B0CA]"
+                                  ? "text-[#00c3ff]"
                                   : "text-[#252525]"
                               }`}
                             />
                             <p
                               className={`text-[12px] hidden lg:block ${
                                 replyToCommentID === comments?.id && replyField
-                                  ? "text-[#33B0CA]"
+                                  ? "text-[#00c3ff]"
                                   : "text-[#252525]"
                               }  hidden md:block font-[400] leading-[14.52px] cursor-pointer`}
                             >
@@ -873,7 +873,7 @@ const AllComments = ({
                                       onClick={() => {
                                         checkSuggestAllowance(comments?.text);
                                       }}
-                                      className="px-2  rounded-[4px]  pt-[2px] pb-[4px] bg-[#33B0CA]"
+                                      className="px-2  rounded-[4px]  pt-[2px] pb-[4px] bg-[#00c3ff]"
                                     >
                                       {suggestDisable ? (
                                         <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
@@ -904,7 +904,7 @@ const AllComments = ({
                                       onClick={() => {
                                         checkSuggestAllowance(comments?.text);
                                       }}
-                                      className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
+                                      className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#00c3ff]"
                                     >
                                       {suggestDisable ? (
                                         <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
@@ -961,7 +961,7 @@ const AllComments = ({
                             <button className="cursor-auto text-right">
                               <p
                                 // onClick={() => handleAddToBeat(comments)}
-                                className=" text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] "
+                                className=" text-[12px] text-[#00c3ff] italic  font-[400] leading-[14.52px] "
                               >
                                 Added as Beat
                               </p>
@@ -976,7 +976,7 @@ const AllComments = ({
                               {data?.premiseOwner?.id === user && (
                                 <p
                                   onClick={() => handleAddToBeat(comments)}
-                                  className={` text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] `}
+                                  className={` text-[12px] text-[#252525] hover:text-[#00c3ff] font-[400] leading-[14.52px] `}
                                 >
                                   Add as Beat
                                 </p>
@@ -1121,7 +1121,7 @@ const AllComments = ({
                         disabled={disableD}
                         type="submit"
                       >
-                        <IoMdSend className="text-[#33B0CA] w-6 h-6" />
+                        <IoMdSend className="text-[#00c3ff] w-6 h-6" />
                       </button>
                     )}
                   </form>

@@ -3,9 +3,7 @@ import { toast } from "react-toastify";
 import { fetchUserAccess, MyContext } from "../../App";
 import { useTranslatePremiseMutation } from "../../app/EndPoints/premisePoolApi";
 import transIcon from "../../img/Icons/transIcon.png";
-import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 
-import TranslateLangDrop from "./TranslateLangDrop";
 import { sortedLanguages } from "./Languages";
 
 const TranslatePremise = ({
@@ -103,7 +101,7 @@ const TranslatePremise = ({
   return (
     // <div ref={btnRef} className="relative">
     //   {loading ? (
-    //     <span className="loading loading-spinner text-[#33B0CA] h-[20px] w-[20px] my-auto "></span>
+    //     <span className="loading loading-spinner text-[#00c3ff] h-[20px] w-[20px] my-auto "></span>
     //   ) : (
     //     <img
     //       data-te-toggle="tooltip"
@@ -121,7 +119,7 @@ const TranslatePremise = ({
       {/* ✅ Desktop → show translate icon */}
       <div className="lgVisible">
         {loading ? (
-          <span className="loading loading-spinner text-[#33B0CA] h-[20px] w-[20px] my-auto "></span>
+          <span className="loading loading-spinner text-[#00c3ff] h-[20px] w-[20px] my-auto "></span>
         ) : (
           <img
             data-te-toggle="tooltip"

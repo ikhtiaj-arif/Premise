@@ -4,7 +4,7 @@ import { FiSearch } from "react-icons/fi";
 import { ImUserCheck } from "react-icons/im";
 import { useSelector } from "react-redux";
 import {
-  useGetFilteredLangQuery
+    useGetFilteredLangQuery
 } from "../../../app/EndPoints/premisePoolApi";
 // import activeLangIcon from "../../../img/Icons/activeLangIcon.png";
 // import langIcon from "../../../img/Icons/langIcon.png";
@@ -328,7 +328,7 @@ const SortPagination = ({
               data-te-toggle="tooltip"
               title="Added by me"
               className={`h-[32px] w-[32px] rounded-full ${
-                !activeAddedByMe ? "bg-[#252525]" : "bg-[#33B0CA]"
+                !activeAddedByMe ? "bg-[#252525]" : "bg-[#00c3ff]"
               }`}
               onClick={() => setActiveAddedByMe(!activeAddedByMe)}
             >
@@ -343,7 +343,7 @@ const SortPagination = ({
               <div
                 ref={langBtnRef}
                 className={`h-[32px] w-[32px] rounded-full cursor-pointer
-             ${!selectedLanguages ? "bg-[#252525]" : "bg-[#33B0CA]"}`}
+             ${!selectedLanguages ? "bg-[#252525]" : "bg-[#00c3ff]"}`}
                 onClick={() => setShowRefine(!showRefine)}
               >
                 {!selectedLanguages ? (
@@ -380,7 +380,7 @@ const SortPagination = ({
 
             {/* <button
               className={`h-[32px] w-[32px] rounded-full ${
-                !byDateSort ? "bg-[#252525]" : "bg-[#33B0CA]"
+                !byDateSort ? "bg-[#252525]" : "bg-[#00c3ff]"
               }`}
               onClick={() => setByDateSort(!byDateSort)}
             >
@@ -391,7 +391,7 @@ const SortPagination = ({
               title="Sort by date"
               onClick={() => setByDateSort(!byDateSort)}
               className={`h-[32px] w-[32px] rounded-full cursor-pointer relative ${
-                !byDateSort ? "bg-[#252525]" : "bg-[#33B0CA]"
+                !byDateSort ? "bg-[#252525]" : "bg-[#00c3ff]"
               }`}
             >
               {!byDateSort ? (
@@ -413,7 +413,7 @@ const SortPagination = ({
               data-te-toggle="tooltip"
               title="Popularity"
               className={`h-[32px] w-[32px] rounded-full ${
-                !byPopuSort ? "bg-[#252525]" : "bg-[#33B0CA]"
+                !byPopuSort ? "bg-[#252525]" : "bg-[#00c3ff]"
               }`}
               onClick={() => setByPopuSort(!byPopuSort)}
             >

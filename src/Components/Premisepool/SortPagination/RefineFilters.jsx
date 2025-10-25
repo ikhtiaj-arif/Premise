@@ -98,7 +98,7 @@ const RefineFilters = ({
       ...provided,
       fontSize: "14px", // Adjust the font size as needed
       padding: "2px 8px", // Adjust the padding to increase the gap between options
-      backgroundColor: state.isFocused ? "#33b0ca" : "#fafafa", // Change the background color on hover
+      backgroundColor: state.isFocused ? "#00c3ff" : "#fafafa", // Change the background color on hover
       color: state.isFocused ? "#fff" : "#000000", // Change text color on hover
     }),
     menu: (provided) => ({
@@ -197,7 +197,7 @@ const RefineFilters = ({
           <button
             disabled={disabled}
             className={` px-4 py-[4px] text-[14px] font-[400] text-white rounded-[8px] ${
-              disabled ? "bg-[#ACDDE7]" : "bg-[#33B0CA]"
+              disabled ? "bg-[#ACDDE7]" : "bg-[#00c3ff]"
             }`}
             onClick={() => {
               handleFilterSubmit();
@@ -212,7 +212,7 @@ const RefineFilters = ({
             className={`clear-m px-4 py-[2px] text-[14px] font-[400] rounded-[8px] ${
               disabled
                 ? "bg-[#ACDDE7] text-white"
-                : "bg-[#FAFAFA] text-[#33B0CA] border !border-[#33B0CA] "
+                : "bg-[#FAFAFA] text-[#00c3ff] border !border-[#00c3ff] "
             }`}
             onClick={handleLangFilterClear}
           >

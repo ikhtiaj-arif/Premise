@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 // import { allLanguages } from "../../Hooks/Languages";
 
@@ -49,7 +49,7 @@ const Dropdown = ({
         </label> */}
         <div
           className={`h-[31px] relative bg-[#fafafa] rounded-[4px] border-[2px] w-full md:w-[221px] ${
-            selectedValue ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+            selectedValue ? "border-[#00c3ff]" : "border-[#EAEAEA]"
           }`}
         >
           <div
@@ -73,7 +73,7 @@ const Dropdown = ({
 
           {/* {tooltipText && (
             <Tooltip text={tooltipText} position="bottom">
-              <span className="w-7 h-7 text-[#33B0CA] cursor-pointer"></span>
+              <span className="w-7 h-7 text-[#00c3ff] cursor-pointer"></span>
             </Tooltip>
           )} */}
 
@@ -82,7 +82,7 @@ const Dropdown = ({
               {options.map((option, index) => (
                 <li
                   key={index}
-                  className="text-[#252525] text-[14px] px-[8px] py-[4px] hover:bg-[#33B0CA] hover:text-[#fafafa] cursor-pointer"
+                  className="text-[#252525] text-[14px] px-[8px] py-[4px] hover:bg-[#00c3ff] hover:text-[#fafafa] cursor-pointer"
                   onClick={() => handleSelectOption(option.value)}
                 >
                   {option.text}

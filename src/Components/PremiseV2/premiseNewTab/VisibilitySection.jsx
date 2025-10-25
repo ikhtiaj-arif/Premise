@@ -116,7 +116,7 @@ const VisibilitySection = ({
             {displayedNames}
             {processedVisibleUsers.length > 5 && !isTooltipOpen && (
               <span
-                className="text-[#33B0CA] cursor-pointer see-more"
+                className="text-[#00c3ff] cursor-pointer see-more"
                 onClick={(e) => {
                   e.stopPropagation(); // Prevent clicking on names from toggling the dropdown
                   setIsTooltipOpen((prev) => !prev); // Toggle the tooltip visibility
@@ -129,7 +129,7 @@ const VisibilitySection = ({
             {isTooltipOpen && (
               <div
                 ref={tooltipRef}
-                className="absolute bg-white text-[#33B0CA] h-[280px] overflow-y-auto p-2 border border-gray-300 rounded shadow-lg z-10 min-w-[170px] top-full left-0 mt-2"
+                className="absolute bg-white text-[#00c3ff] h-[280px] overflow-y-auto p-2 border border-gray-300 rounded shadow-lg z-10 min-w-[170px] top-full left-0 mt-2"
               >
                 <ul>
                   {remainingUsers.map((v, index) => (
@@ -184,11 +184,11 @@ const VisibilitySection = ({
           </p>
           <MdOutlineEdit
             onClick={handleVisibility}
-            className="text-[#33B0CA] cursor-pointer"
+            className="text-[#00c3ff] cursor-pointer"
           />
         </div>
         <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
-        <p className="text-[#33B0CA] text-[16px] font-[500] leading-6 capitalize">
+        <p className="text-[#00c3ff] text-[16px] font-[500] leading-6 capitalize">
           {getFilterLabel()}
         </p>
       </div>

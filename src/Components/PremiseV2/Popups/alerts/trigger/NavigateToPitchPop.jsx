@@ -34,7 +34,7 @@
 //                 alt="Smile doodle"
 //                 className="w-[130px] h-[118px]"
 //               />
-//               <p className="text-center text-[16px] font-medium text-[#33b0ca] translate-y-3">
+//               <p className="text-center text-[16px] font-medium text-[#00c3ff] translate-y-3">
 //                 Do You Know?
 //               </p>
 //             </div>
@@ -53,14 +53,14 @@
 //               <button
 //                 onClick={onClose}
 //                 // onClick={() => (window.location.href = Url + "/scriptpad")}
-//                 className="w-[131px] h-[32px] rounded bg-[#33b0ca] text-[14px] font-semibold text-[#fafafa]"
+//                 className="w-[131px] h-[32px] rounded bg-[#00c3ff] text-[14px] font-semibold text-[#fafafa]"
 //               >
 //                 Yes
 //               </button>
 //               <button
 //                 onClick={onClose}
 //                 // onClick={() => (window.location.href = Url + "/scriptpad")}
-//                 className="w-[131px] h-[32px] rounded border border-[#33b0ca] text-[14px] font-semibold text-[#33b0ca]"
+//                 className="w-[131px] h-[32px] rounded border border-[#00c3ff] text-[14px] font-semibold text-[#00c3ff]"
 //               >
 //                 No
 //               </button>

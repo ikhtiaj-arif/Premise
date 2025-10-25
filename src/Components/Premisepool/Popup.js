@@ -60,10 +60,10 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 // import { IoMdSend } from "react-icons/io";
 import {
-  useGetCommentByPremiseIdQuery,
-  useGetOnePremiseQuery,
-  useGetPremiseUserPictureQuery,
-  useGetPremiseUserQuery,
+    useGetCommentByPremiseIdQuery,
+    useGetOnePremiseQuery,
+    useGetPremiseUserPictureQuery,
+    useGetPremiseUserQuery,
 } from "../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../img/Icons/crossIcon.png";
 import newTabIcn from "../../img/Icons/newTabIcn.png";
@@ -74,8 +74,8 @@ import userImg from "../../img/Icons/userImg.png";
 import { MdKeyboardBackspace } from "react-icons/md";
 import { MyContext } from "../../App";
 import {
-  useGetSavedCharactersQuery,
-  useSaveCharactersMutation,
+    useGetSavedCharactersQuery,
+    useSaveCharactersMutation,
 } from "../../app/EndPoints/Characters/Characters";
 import { useCreateReplyMutation } from "../../app/EndPoints/commentReply/reply";
 
@@ -645,7 +645,7 @@ const Popup = ({
           >
             {/* left div */}
             <div
-              className=" border border-[#33B0CA] lg:border-[#eaeaea]  flex-shrink-0 w-[94%] sm:w-[80%] lg:w-[33%] 
+              className=" border border-[#00c3ff] lg:border-[#eaeaea]  flex-shrink-0 w-[94%] sm:w-[80%] lg:w-[33%] 
                 max-w-[377px] mx-auto rounded-lg h-[28vh] lg:h-auto 
                overflow-hidden lg:shadow-lg lg:my-4 xl:my-8 lg:ml-4"
             >
@@ -678,7 +678,7 @@ const Popup = ({
                       <div>
                         <div className="flex items-center">
                           <h4
-                            className={`notranslate w-[75px] max-w-[110px] text-[#252525] font-[500] text-[16px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
+                            className={`notranslate w-[75px] max-w-[110px] text-[#252525] font-[500] text-[16px] capitalize cursor-pointer hover:text-[#00c3ff] truncate `}
                             title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
                           >
                             {premiseOwner?.first_name} {premiseOwner?.last_name}
@@ -748,7 +748,7 @@ const Popup = ({
                           }
                         >
                           <h4
-                            className={`notranslate w-[99px] max-w-[110px] text-[#252525] font-[500] text-[16px] capitalize cursor-pointer hover:text-[#33B0CA] truncate`}
+                            className={`notranslate w-[99px] max-w-[110px] text-[#252525] font-[500] text-[16px] capitalize cursor-pointer hover:text-[#00c3ff] truncate`}
                             title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
                           >
                             {premiseOwner?.first_name} {premiseOwner?.last_name}

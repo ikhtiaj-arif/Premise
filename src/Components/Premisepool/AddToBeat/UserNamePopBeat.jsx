@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { setUser } from "../../../app/Slices/userSlice";
@@ -37,7 +37,7 @@ const UserNamePopBeat = ({
     setLastName(value);
     setIsNextButtonEnabled(firstName.trim() !== "" && value.trim() !== "");
   };
- const [wentWrongPop, setWentWrongPop] = useState(false);
+  const [wentWrongPop, setWentWrongPop] = useState(false);
   const handleSubmit = async () => {
     const body = {
       firstName: firstName.trim(),
@@ -61,8 +61,7 @@ const UserNamePopBeat = ({
 
       // window.location.reload();
     } else {
-      setWentWrongPop(true)
-     
+      setWentWrongPop(true);
     }
   };
 
@@ -90,7 +89,7 @@ const UserNamePopBeat = ({
                 required
                 id=""
                 maxLength={50}
-                className="px-4 w-full h-[45px] text-[16px] text-[#616161] bg-[#fafafa] border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none"
+                className="px-4 w-full h-[45px] text-[16px] text-[#616161] bg-[#fafafa] border border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none"
                 onChange={handleFirstNameChange}
               />
 
@@ -101,7 +100,7 @@ const UserNamePopBeat = ({
                 placeholder="Enter your last name"
                 id=""
                 maxLength={50}
-                className="px-4 w-full h-[45px] text-[16px] text-[#616161] bg-[#fafafa] border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none "
+                className="px-4 w-full h-[45px] text-[16px] text-[#616161] bg-[#fafafa] border border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none "
                 onChange={handleLastNameChange}
               />
             </div>
@@ -111,7 +110,7 @@ const UserNamePopBeat = ({
                 type="submit"
                 className={`${
                   isNextButtonEnabled
-                    ? "bg-[#33B0CA] cursor-pointer"
+                    ? "bg-[#00c3ff] cursor-pointer"
                     : "bg-[#ACDDE7]  cursor-not-allowed"
                 } text-white rounded-[8px] h-[34px] px-[12px] text-[14px] font-[600] flex gap-[12px] items-center`}
                 disabled={!isNextButtonEnabled}
@@ -122,7 +121,7 @@ const UserNamePopBeat = ({
           </div>
         </div>
       </div>
-        {wentWrongPop && <WentWrongPop popClose={setWentWrongPop} />}
+      {wentWrongPop && <WentWrongPop popClose={setWentWrongPop} />}
     </div>
   );
 };

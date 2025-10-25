@@ -106,7 +106,7 @@ const PaySalePopup = ({
         {/* Pay Button */}
         <div className="w-[100px] mx-auto mt-[30px]">
           <button
-            className="bg-[#33B0CA] mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700]"
+            className="bg-[#00c3ff] mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700]"
             onClick={handlePayNow}
           >
             Pay now

@@ -1,5 +1,5 @@
 
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { fetchUserAccess, MyContext } from "../../App";
@@ -115,7 +115,7 @@ const UserNamePopup = ({ refetch, setAddPopup ,addPremise}) => {
                 required
                 id=""
                 maxLength={50}
-                className="px-4 w-full h-[45px] text-[16px] text-[#616161] bg-[#fafafa]  rounded-[8px] border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none"
+                className="px-4 w-full h-[45px] text-[16px] text-[#616161] bg-[#fafafa]  rounded-[8px] border border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none"
                 onChange={handleFirstNameChange}
               />
 
@@ -126,7 +126,7 @@ const UserNamePopup = ({ refetch, setAddPopup ,addPremise}) => {
                 placeholder="Enter your last name"
                 id=""
                 maxLength={50}
-                className="px-4 w-full h-[45px] text-[16px] text-[#616161] bg-[#fafafa] border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none "
+                className="px-4 w-full h-[45px] text-[16px] text-[#616161] bg-[#fafafa] border border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none "
                 onChange={handleLastNameChange}
               />
             </div>
@@ -136,7 +136,7 @@ const UserNamePopup = ({ refetch, setAddPopup ,addPremise}) => {
                 type="submit"
                 className={`${
                   isNextButtonEnabled
-                    ? "bg-[#33B0CA] cursor-pointer"
+                    ? "bg-[#00c3ff] cursor-pointer"
                     : "bg-[#ACDDE7]  cursor-not-allowed"
                 } text-white rounded-[8px] h-[34px] px-[12px] text-[14px] font-[600] flex gap-[12px] items-center`}
                 disabled={!isNextButtonEnabled}

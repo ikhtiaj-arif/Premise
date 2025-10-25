@@ -344,12 +344,12 @@ const ReplyToReply2 = ({
                 >
                   {childReply?.user?.first_name ||
                   childReply?.user?.last_name ? (
-                    <p className="notranslate text-[14px] font-[500] hover:text-[#33b0ca]">
+                    <p className="notranslate text-[14px] font-[500] hover:text-[#00c3ff]">
                       {childReply?.user?.first_name}{" "}
                       {childReply?.user?.last_name}
                     </p>
                   ) : (
-                    <p className="text-[14px] font-[500] hover:text-[#33b0ca]">
+                    <p className="text-[14px] font-[500] hover:text-[#00c3ff]">
                       {childReply?.user?.email.split("@")[0]}{" "}
                     </p>
                   )}

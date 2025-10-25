@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import Select from "react-select";
@@ -133,7 +133,7 @@ const SearchPremise = ({
             </label>
             <input
               type="search"
-              className="w-full flex-1 border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none text-[#616161] bg-[#FAFAFA]  rounded-[8px] px-2 h-[42px] text-[14px] "
+              className="w-full flex-1 border border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none text-[#616161] bg-[#FAFAFA]  rounded-[8px] px-2 h-[42px] text-[14px] "
               name=""
               id=""
               placeholder="Premise contains..."
@@ -182,7 +182,7 @@ const SearchPremise = ({
           </div>
         </div>
         <div>
-          <p className="text-[#33B0CA] text-[14px] font-[400] mt-[8px] ml-3">
+          <p className="text-[#00c3ff] text-[14px] font-[400] mt-[8px] ml-3">
             Cards will be filtered only after clicking "Apply Filter" button
           </p>
         </div>
@@ -191,7 +191,7 @@ const SearchPremise = ({
             disabled={disabled}
             className={` px-4 py-[2px] text-[14px] font-[400] text-white rounded-[8px] ${
               disabled  ? "bg-[#ACDDE7] "
-                : "bg-[#33B0CA] "
+                : "bg-[#00c3ff] "
             }`}
             onClick={handleFilterSubmit}
           >
@@ -202,7 +202,7 @@ const SearchPremise = ({
             className={` px-4 py-[2px] text-[14px] font-[400] rounded-[8px] ${
               disabled
                 ? "bg-[#ACDDE7] "
-                : "bg-[#FAFAFA] text-[#33B0CA] border border-[#33B0CA] "
+                : "bg-[#FAFAFA] text-[#00c3ff] border border-[#00c3ff] "
             }`}
             onClick={handleFilterClear}
           >

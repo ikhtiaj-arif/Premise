@@ -298,13 +298,14 @@ const LeftSideBarUpdate = ({
 
   const handleAddNewChar = async () => {
     setCharactersPopupMobile(false);
-    const res = await fetchUserAccess(`PP_AddCharacters`);
+    // const res = await fetchUserAccess(`PP_AddCharacters`);
 
-    if (res?.has_access === false) {
-      setAddNewCharacter(res);
-    } else {
-      setAddNewCharacter("Yes");
-    }
+    // if (res?.has_access === false) {
+    //   setAddNewCharacter(res);
+    // } else {
+    //   setAddNewCharacter("Yes");
+    // }
+    setAddNewCharacter("Yes");
   };
 
   const handleVisibility = async () => {
@@ -385,7 +386,6 @@ const LeftSideBarUpdate = ({
   return (
     <>
       <div className="fixed w-[100%] sm:w-[90%] mx-auto bottom-0 z-[1] inset-x-0 flex flex-col items-center ">
-        
         <div className=" flex-col w-full lgFlxHidden z-[1]  border bg-white px-3 pb-4 shadow-md">
           <NewTabTextArea
             fromNew
@@ -783,7 +783,7 @@ const LeftSideBarUpdate = ({
         <NoAccessCreditPopupUpdate
           noAccessPopup={noAccessPopup}
           setNoAccessPopup={setNoAccessPopup}
-            service={"Brainstorming"}
+          service={"Brainstorming"}
           credit_rate={noAccessPopup?.credit_rate}
           remaining_credits={noAccessPopup?.remaining_credits}
         />

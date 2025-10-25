@@ -80,7 +80,7 @@
 import { useContext, useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { MdOutlineKeyboardBackspace } from "react-icons/md";
-import { fetchUserAccess, MyContext } from "../../../App";
+import { MyContext } from "../../../App";
 import {
   useDeleteCharacterMutation,
   useGetSavedCharactersQuery,
@@ -293,6 +293,13 @@ const CharacterEditablePop = ({
 
   const [openAddCharDemoPop, setOpenAddCharDemoPop] = useState(false);
 
+  /**
+   * Handles the add new character button click
+   * Checks if the user has seen the add new character demo pop up before
+   * If not, opens the demo pop up
+   * Sets addNewCharacter state to "Yes" to indicate that the user has
+   * permission to add new characters
+   */
   const handleAddNewChar = async () => {
     const addCharDemoPop = localStorage.getItem("addNewCharDemoPop");
     if (
@@ -301,13 +308,14 @@ const CharacterEditablePop = ({
     ) {
       setOpenAddCharDemoPop(true);
     }
-    const res = await fetchUserAccess(`PP_AddCharacters`);
+    // const res = await fetchUserAccess(`PP_AddCharacters`);
 
-    if (res?.access === "No") {
-      setAddNewCharacter(res);
-    } else {
-      setAddNewCharacter("Yes");
-    }
+    // if (res?.access === "No") {
+    //   setAddNewCharacter(res);
+    // } else {
+    //   setAddNewCharacter("Yes");
+    // }
+    setAddNewCharacter("Yes");
   };
 
   return (
@@ -403,7 +411,7 @@ const CharacterEditablePop = ({
           </div>
 
           {finalByMeCharacters?.length > 0 && (
-            <p className=" text-[#33B0CA] text-[16px] font-[600] mt-3 mb-2">
+            <p className=" text-[#00c3ff] text-[16px] font-[600] mt-3 mb-2">
               Added By Me
             </p>
           )}
@@ -458,12 +466,14 @@ const CharacterEditablePop = ({
         {/* Bottom Buttons */}
         <div className="md:absolute px-4 right-[30px] bottom-[30px] flex justify-end gap-[16px] mt-[38px]">
           {finalCharacters?.length <= 17 && (
-            <button
-              onClick={handleAddNewChar}
-              className="bg-[#fafafa] flex items-center gap-[10px] justify-center text-[14px] text-[#33B0CA] border border-[#33B0CA] w-[145px] h-[32px] rounded-[8px] "
-            >
-              <FaPlus /> <span>Add Character</span>
-            </button>
+            <div className="p-[1px] rounded-[8px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] inline-block">
+              <button
+                onClick={handleAddNewChar}
+                className=" flex items-center gap-[6px] justify-center rounded-[8px] bg-white font-[500] text-[#741CFF]  hover:text-white h-[32px] px-[21px] hover:bg-[linear-gradient(30deg,#741CFF,#00c3ff)] text-[14px] shadow-[#252525] hover:shadow-md "
+              >
+                <FaPlus /> <span>Add Character</span>
+              </button>
+            </div>
           )}
           {!onlyAdd ? (
             <>
@@ -478,7 +488,9 @@ const CharacterEditablePop = ({
                         // setOpenCharacterChart(false);
                       }}
                       className={`${
-                        saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
+                        saveCheckUser
+                          ? "bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
+                          : "bg-[linear-gradient(30deg,#b38bff,#99e6ff)]"
                       } text-white px-3 h-[32px] text-[14px] font-[600] rounded-[8px]`}
                     >
                       Save Character
@@ -491,7 +503,9 @@ const CharacterEditablePop = ({
                         setOpenCharacterChart(false);
                       }}
                       className={`${
-                        saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
+                        saveCheckUser
+                          ? "bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
+                          : "bg-[linear-gradient(30deg,#b38bff,#99e6ff)]"
                       } text-white px-3 h-[32px] text-[14px] font-[600] rounded-[8px]`}
                     >
                       Save Character
@@ -505,7 +519,9 @@ const CharacterEditablePop = ({
                     handleSaveAsDraft();
                   }}
                   className={`${
-                    !saveCheckUser ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
+                    !saveCheckUser
+                      ? "bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
+                      : "bg-[linear-gradient(30deg,#b38bff,#99e6ff)]"
                   } text-white w-[119px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
                 >
                   Save As Draft
@@ -520,7 +536,9 @@ const CharacterEditablePop = ({
                 // setOpenCharacterChart(false);
               }}
               className={`${
-                !characterLoading ? "bg-[#33B0CA]" : "bg-[#ACDDE7]"
+                !characterLoading
+                  ? "bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
+                  : "bg-[linear-gradient(30deg,#b38bff,#99e6ff)]"
               } text-white px-3 h-[32px] text-[14px] font-[600] rounded-[8px]`}
             >
               Save Character

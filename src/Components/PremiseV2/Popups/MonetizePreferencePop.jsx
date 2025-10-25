@@ -161,7 +161,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
                       placeholder="Please Quote"
                       inputMode="decimal"
                       pattern="^\d*\.?\d*$"
-                      className={`max-w-[89px] text-[11px] border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none rounded-[4px] px-2 ml-2 appearance-none ${
+                      className={`max-w-[89px] text-[11px] border border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none rounded-[4px] px-2 ml-2 appearance-none ${
                         formData.transferOwnership
                           ? "cursor-text"
                           : "cursor-not-allowed"
@@ -201,7 +201,7 @@ const MonetizePreferencePop = ({ popClose, id, user }) => {
                   (formData.transferOwnership && formData.price.trim() !== "")
                 )
                   ? "bg-[#ACDDE7] "
-                  : "bg-[#33B0CA]"
+                  : "bg-[#00c3ff]"
               } text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] h-[32px] text-[13px] font-[600]`}
             >
               Update

@@ -12,7 +12,7 @@ export const CreditAmount = ({
           maxWidth: "70%",
           padding: "0.3rem 55px 0.3rem 0",
         }}
-        className="bg-[#33B0CA] text-[#fafafa] text-center lg:text-[22px] text-[16px] font-[600]  relative border-none lg:bottom-[-22px] bottom-[-17px] "
+        className="bg-[#00c3ff] text-[#fafafa] text-center lg:text-[22px] text-[16px] font-[600]  relative border-none lg:bottom-[-22px] bottom-[-17px] "
       >
         Amount Payable
       </p>
@@ -65,7 +65,7 @@ export const CreditAmount = ({
             </p>
           </div>
         </div>
-        <div className="flex items-center text-white px-5 bg-[#33B0CA] lg:text-[16px] text-[14px] font-semibold justify-between py-2">
+        <div className="flex items-center text-white px-5 bg-[#00c3ff] lg:text-[16px] text-[14px] font-semibold justify-between py-2">
           <h3 className="">Total Payable({data?.currency})</h3>
           <p className="text-right">
             {data?.net_payable_in_local_currency?.toFixed(2) || 0}

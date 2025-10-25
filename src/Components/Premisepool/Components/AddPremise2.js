@@ -316,8 +316,8 @@ const AddPremise2 = ({
                           !keyboardVisible ? "View Keyboard" : "Hide Keyboard"
                         }`}
                         className={`w-7 h-7 ${
-                          keyboardVisible && "text-[#33B0CA]"
-                        } cursor-pointer hover:text-[#33B0CA]`}
+                          keyboardVisible && "text-[#00c3ff]"
+                        } cursor-pointer hover:text-[#00c3ff]`}
                         onClick={onClickKeyboard}
                       />
                       <LanguageSelector
@@ -335,8 +335,8 @@ const AddPremise2 = ({
                           !keyboardVisible ? "View Keyboard" : "Hide Keyboard"
                         }`}
                         className={`w-7 h-7 ${
-                          keyboardVisible && "text-[#33B0CA]"
-                        } cursor-pointer hover:text-[#33B0CA]`}
+                          keyboardVisible && "text-[#00c3ff]"
+                        } cursor-pointer hover:text-[#00c3ff]`}
                         onClick={onClickKeyboard}
                       /> */}
                       <LanguageSelector
@@ -404,7 +404,7 @@ const AddPremise2 = ({
                     <button
                       type="reset"
                       onClick={handleClear}
-                      className="clear-m bg-[#FAFAFA] border h-[32px] !border-[#33B0CA] text-[#33B0CA] rounded-[8px]  px-[12px] text-[14px] font-[600] "
+                      className="clear-m bg-[#FAFAFA] border h-[32px] !border-[#00c3ff] text-[#00c3ff] rounded-[8px]  px-[12px] text-[14px] font-[600] "
                     >
                       Clear
                     </button>
@@ -413,7 +413,7 @@ const AddPremise2 = ({
                         disabled={confirmDisable}
                         type="submit"
                         className={`${
-                          confirmDisable ? "bg-[#ACDDE7]" : "bg-[#33B0CA]"
+                          confirmDisable ? "bg-[#ACDDE7]" : "bg-[#00c3ff]"
                         }  text-white rounded-[8px] h-[32px] px-[12px] text-[14px] font-[600] flex gap-[12px] items-center `}
                       >
                         Next <img src={arrowRight} alt="" />
@@ -423,7 +423,7 @@ const AddPremise2 = ({
                         disabled={confirmDisable}
                         type="submit"
                         className={`${
-                          confirmDisable ? "bg-[#ACDDE7]" : "bg-[#33B0CA]"
+                          confirmDisable ? "bg-[#ACDDE7]" : "bg-[#00c3ff]"
                         }  text-white rounded-[8px] h-[32px] px-[23px] text-[14px] font-[600] flex gap-[12px] items-center `}
                       >
                         Next

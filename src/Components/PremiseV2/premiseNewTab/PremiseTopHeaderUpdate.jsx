@@ -209,9 +209,9 @@ const PremiseTopHeaderUpdate = ({
           data-te-toggle="tooltip"
           title="Share"
           onClick={() => setShowSharePopup(true)}
-          className={`h-[32px] w-[32px] rounded-full cursor-pointer relative border border-[#33b0ca]`}
+          className={`h-[32px] w-[32px] rounded-full cursor-pointer relative border border-[#00c3ff]`}
         >
-          <PiShareFat className="h-[26px] w-[21px] pt-1 mx-auto text-[#33b0ca]" />
+          <PiShareFat className="h-[26px] w-[21px] pt-1 mx-auto text-[#00c3ff]" />
         </div> */}
         {/*  */}
         {/* <div
@@ -291,7 +291,7 @@ const PremiseTopHeaderUpdate = ({
                       className={`text-[14px] w-full font-[500] break-none text-left ${
                         is_read_only
                           ? "text-[#818181]"
-                          : "hover:text-[#33B0CA] text-[#252525]"
+                          : "hover:text-[#00c3ff] text-[#252525]"
                       }  `}
                     >
                       {" "}
@@ -306,7 +306,7 @@ const PremiseTopHeaderUpdate = ({
                     }}
                     className="cursor-pointer  w-full"
                   >
-                    <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
+                    <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#00c3ff] text-[#252525]">
                       {" "}
                       Copy in new Language
                     </p>{" "}
@@ -316,7 +316,7 @@ const PremiseTopHeaderUpdate = ({
                     onClick={handleMonetizing}
                     className="cursor-pointer  w-full"
                   >
-                    <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
+                    <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#00c3ff] text-[#252525]">
                       {" "}
                       Monetizing Preferences
                     </p>{" "}
@@ -328,7 +328,7 @@ const PremiseTopHeaderUpdate = ({
                     }}
                     className="cursor-pointer  w-full"
                   >
-                    <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
+                    <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#00c3ff] text-[#252525]">
                       {" "}
                       View Translations
                     </p>{" "}
@@ -341,7 +341,7 @@ const PremiseTopHeaderUpdate = ({
                     }}
                     className="cursor-pointer  w-full"
                   >
-                    <p className="text-[14px] w-full font-[500] text-left hover:text-[#33B0CA] break-none text-[#252525]">
+                    <p className="text-[14px] w-full font-[500] text-left hover:text-[#00c3ff] break-none text-[#252525]">
                       {" "}
                       Characters and Roles
                     </p>{" "}
@@ -353,7 +353,7 @@ const PremiseTopHeaderUpdate = ({
                     }}
                     className="cursor-pointer  w-full"
                   >
-                    <p className="text-[14px] w-full font-[500] text-left hover:text-[#33B0CA] break-none text-[#252525]">
+                    <p className="text-[14px] w-full font-[500] text-left hover:text-[#00c3ff] break-none text-[#252525]">
                       {" "}
                       Open <span className="scriptpad-m">Script Pad</span>
                     </p>{" "}
@@ -366,7 +366,7 @@ const PremiseTopHeaderUpdate = ({
                     }}
                     className="cursor-pointer  w-full"
                   >
-                    <p className="text-[14px] w-full font-[500] text-left hover:text-[#33B0CA] break-none text-[#252525]">
+                    <p className="text-[14px] w-full font-[500] text-left hover:text-[#00c3ff] break-none text-[#252525]">
                       {" "}
                       Delete Premise
                     </p>{" "}

@@ -275,7 +275,7 @@ const CardHeadOptions = ({
                     className={`text-[14px] w-full font-[500] break-none text-left ${
                       is_read_only
                         ? "text-[#818181]"
-                        : "hover:text-[#33B0CA] text-[#252525]"
+                        : "hover:text-[#00c3ff] text-[#252525]"
                     }  `}
                   >
                     {" "}
@@ -290,7 +290,7 @@ const CardHeadOptions = ({
                   }}
                   className="cursor-pointer  w-full"
                 >
-                  <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
+                  <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#00c3ff] text-[#252525]">
                     {" "}
                     Copy in new Language
                   </p>{" "}
@@ -300,7 +300,7 @@ const CardHeadOptions = ({
                   onClick={handleMonetizing}
                   className="cursor-pointer  w-full"
                 >
-                  <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
+                  <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#00c3ff] text-[#252525]">
                     {" "}
                     Monetizing Preferences
                   </p>{" "}
@@ -311,7 +311,7 @@ const CardHeadOptions = ({
                   }}
                   className="cursor-pointer  w-full"
                 >
-                  <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
+                  <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#00c3ff] text-[#252525]">
                     {" "}
                     View Translations
                   </p>{" "}
@@ -324,7 +324,7 @@ const CardHeadOptions = ({
                   }}
                   className="cursor-pointer  w-full"
                 >
-                  <p className="text-[14px] w-full font-[500] text-left hover:text-[#33B0CA] break-none text-[#252525]">
+                  <p className="text-[14px] w-full font-[500] text-left hover:text-[#00c3ff] break-none text-[#252525]">
                     {" "}
                     Delete Premise
                   </p>{" "}
@@ -336,7 +336,7 @@ const CardHeadOptions = ({
                   }}
                   className="cursor-pointer  w-full"
                 >
-                  <p className="text-[14px] w-full font-[500] text-left hover:text-[#33B0CA] break-none text-[#252525]">
+                  <p className="text-[14px] w-full font-[500] text-left hover:text-[#00c3ff] break-none text-[#252525]">
                     {" "}
                     Characters and Roles
                   </p>{" "}
@@ -348,7 +348,7 @@ const CardHeadOptions = ({
                   }}
                   className="cursor-pointer  w-full"
                 >
-                  <p className="text-[14px] w-full font-[500] text-left hover:text-[#33B0CA] break-none text-[#252525]">
+                  <p className="text-[14px] w-full font-[500] text-left hover:text-[#00c3ff] break-none text-[#252525]">
                     {" "}
                     Open <span className="scriptpad-m">Script Pad</span>
                   </p>{" "}

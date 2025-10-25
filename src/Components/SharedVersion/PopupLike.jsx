@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaThumbsUp } from "react-icons/fa";
 import {
   useDeleteLikeMutation,
-  useIsLikePremiseMutation,
   useLikePremiseMutation,
 } from "../../app/EndPoints/premisePoolApi";
 import LikePopup from "../Premisepool/LikePopup";
-import { useSelector } from "react-redux";
 
 const PopupLike = ({ user, id, premiseRefetch, premiseData }) => {
   const [isLiked, setIsLiked] = useState(false);
@@ -63,7 +61,7 @@ const PopupLike = ({ user, id, premiseRefetch, premiseData }) => {
         <button>
           <FaThumbsUp
             onClick={handleDisLikeClick}
-            className={`w-6 h-6 text-[#33B0CA]   
+            className={`w-6 h-6 text-[#00c3ff]   
                                       `}
           />
         </button>

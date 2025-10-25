@@ -2,7 +2,7 @@
   display: inline-block;
   font-weight: 600;
   font-size: 24px; /* Adjust to match the text size */
-  color: #33B0CA; /* Match the color with the text */
+  color: #00c3ff; /* Match the color with the text */
   animation: blinkCursor 0.8s steps(2, start) infinite;
 }
 

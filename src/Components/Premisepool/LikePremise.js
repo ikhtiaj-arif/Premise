@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { FaThumbsUp } from "react-icons/fa";
 import {
-  useDeleteLikeMutation,
-  useLikePremiseMutation,
+    useDeleteLikeMutation,
+    useLikePremiseMutation,
 } from "../../app/EndPoints/premisePoolApi";
-import LikePopup from "./LikePopup";
 import "./Premise.css";
 
 const LikePremise = ({ data, refetch }) => {
@@ -60,7 +59,7 @@ const LikePremise = ({ data, refetch }) => {
         <button onClick={isLiked ? handleDisLikeClick : handleLikeClick} disabled={disable}>
           <FaThumbsUp
             className={`w-8 h-8 transition-colors ${
-              isLiked ? "text-[#33B0CA]" : "text-[#252525]"
+              isLiked ? "text-[#00c3ff]" : "text-[#252525]"
             } ${disable ? "cursor-default" : "cursor-pointer"}`}
           />
         </button>

@@ -1,5 +1,3 @@
-import React from "react";
-
 const PayableAmount = ({ data, typeOfRequest }) => {
   return (
     <div className="w-full lg:w-[80%] h-full">
@@ -9,7 +7,7 @@ const PayableAmount = ({ data, typeOfRequest }) => {
           maxWidth: "60%",
           padding: "0.3rem 55px 0.3rem 0",
         }}
-        className="bg-[#33B0CA] text-[#fafafa] text-center font-[600] lg:text-[22px] text-[16px] relative border-none lg:bottom-[-22px] bottom-[-17px]"
+        className="bg-[#00c3ff] text-[#fafafa] text-center font-[600] lg:text-[22px] text-[16px] relative border-none lg:bottom-[-22px] bottom-[-17px]"
       >
         Charge Paid
       </p>
@@ -118,7 +116,7 @@ const PayableAmount = ({ data, typeOfRequest }) => {
             </>
           )}
         </div>
-        <div className="flex items-center text-white px-5 bg-[#33B0CA] lg:text-[16px] text-[14px] font-semibold justify-between py-2">
+        <div className="flex items-center text-white px-5 bg-[#00c3ff] lg:text-[16px] text-[14px] font-semibold justify-between py-2">
           <h3>Gross Payable({data?.currency_code || "USD"})</h3>
           <p className="text-right">
             {/* {(data?.total_payable * data?.rate)?.toFixed(2)} */}

@@ -307,9 +307,7 @@ const SingleCharacterAddNewTab = ({
       <div className="relative bg-[#FAFAFA] py-[20px] px-[8px] rounded-lg shadow-lg w-full md:max-w-[479px] h-[490px]">
         <div className=" w-full h-10 sticky">
           <h3 className="text-center md:mb-[20px] font-[500]">
-            <span className="text-[16px] text-center ">
-              Add Character
-            </span>
+            <span className="text-[16px] text-center ">Add Character</span>
           </h3>
         </div>
         <div className="h-[calc(100%-60px)] pt-4 pb-10 w-full overflow-auto">
@@ -329,8 +327,8 @@ const SingleCharacterAddNewTab = ({
                           : "Select Keyboard"
                       }`}
                       className={`w-7 h-7 ${
-                        keyboardVisible && "text-[#33B0CA]"
-                      } cursor-pointer hover:text-[#33B0CA] w-full `}
+                        keyboardVisible && "text-[#00c3ff]"
+                      } cursor-pointer hover:text-[#00c3ff] w-full `}
                     />
                   </button>
                 </div>
@@ -387,7 +385,7 @@ const SingleCharacterAddNewTab = ({
                       {filteredRoleOptions?.map((roleOption) => (
                         <li
                           key={roleOption}
-                          className="cursor-pointer text-[14px]  leading-[18px]   text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] px-2 py-1 "
+                          className="cursor-pointer text-[14px]  leading-[18px]   text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] px-2 py-1 "
                           onClick={() => {
                             setRole(roleOption);
                             setRoleDropdownOpen(false);
@@ -426,7 +424,7 @@ const SingleCharacterAddNewTab = ({
                         {filteredRoleOptions?.map((roleOption) => (
                           <li
                             key={roleOption}
-                            className="cursor-pointer text-[14px] leading-[18px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] px-2 py-1"
+                            className="cursor-pointer text-[14px] leading-[18px] text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] px-2 py-1"
                             onClick={() => {
                               setRole(roleOption);
                               setRoleDropdownOpen(false);
@@ -491,7 +489,7 @@ const SingleCharacterAddNewTab = ({
                     maxLength={50}
                     translate="no"
                     placeholder="Name"
-                    className="text-[14px] text-[#33B0CA] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[208px] h-[42px]"
+                    className="text-[14px] text-[#00c3ff] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none  w-full md:w-[208px] h-[42px]"
                   />
                 </div>
               </div>
@@ -513,7 +511,7 @@ const SingleCharacterAddNewTab = ({
                       type="text"
                       maxLength={50}
                       placeholder="Describe the role"
-                      className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  mt-[5px] mb-[15px] rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px] h-[42px]   text-[#616161] "
+                      className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  mt-[5px] mb-[15px] rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none  w-full md:w-[398px] h-[42px]   text-[#616161] "
                     />
                   </div>
                 )}
@@ -555,7 +553,7 @@ const SingleCharacterAddNewTab = ({
                         (option, index) => (
                           <li
                             key={index}
-                            className="cursor-pointer text-[14px] leading-5 text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] px-2 py-2"
+                            className="cursor-pointer text-[14px] leading-5 text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] px-2 py-2"
                             onClick={() => {
                               setGender(option.props.value); // `option` is a JSX element, like <option value="Male">Male</option>
                               setGenderDropdownOpen(false);
@@ -606,7 +604,7 @@ const SingleCharacterAddNewTab = ({
                           (option, index) => (
                             <li
                               key={index}
-                              className="cursor-pointer text-[14px] leading-5 text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] px-2 py-2"
+                              className="cursor-pointer text-[14px] leading-5 text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] px-2 py-2"
                               onClick={() => {
                                 setGender(option.props.value);
                                 setGenderDropdownOpen(false);
@@ -679,7 +677,7 @@ const SingleCharacterAddNewTab = ({
                     name="occupation"
                     translate="no"
                     placeholder="occupation"
-                    className="text-[14px] bg-[#FAFAFA] mb-[18px]  leading-[20px] md:mb-0 px-3 pt-[8px] pb-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[208px] h-[42px]     text-[#616161] resize-none overflow-hidden break-words
+                    className="text-[14px] bg-[#FAFAFA] mb-[18px]  leading-[20px] md:mb-0 px-3 pt-[8px] pb-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[208px] h-[42px]     text-[#616161] resize-none overflow-hidden break-words
                     "
                   />
                 </div>
@@ -690,8 +688,8 @@ const SingleCharacterAddNewTab = ({
                   onClick={handleSuggest}
                   className={`${
                     isSaveDisabled || disabled
-                      ? "bg-[#ACDDE7]  "
-                      : "bg-[#33B0CA] "
+                      ? "bg-[linear-gradient(30deg,#b38bff,#99e6ff)] "
+                      : "bg-[linear-gradient(30deg,#741CFF,#00c3ff)] "
                   } text-white text-[14px] font-[700] md:h-[32px] rounded-[8px] px-3 `}
                 >
                   Suggest the following
@@ -714,7 +712,7 @@ const SingleCharacterAddNewTab = ({
                     name="background"
                     translate="no"
                     placeholder="Background"
-                    className={`text-[14px] bg-[#FAFAFA]   text-[#616161] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] overflow-y-hidden border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px]
+                    className={`text-[14px] bg-[#FAFAFA]   text-[#616161] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] overflow-y-hidden border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none  w-full md:w-[398px]
                     h-[44px] resize-none `}
                   />
                 </div>
@@ -736,7 +734,7 @@ const SingleCharacterAddNewTab = ({
                     ref={personalityRef}
                     translate="no"
                     placeholder="Personality"
-                    className="text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-[44px] resize-none   text-[#616161]"
+                    className="text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[398px] h-[44px] resize-none   text-[#616161]"
                   />
                 </div>
               </div>
@@ -758,7 +756,7 @@ const SingleCharacterAddNewTab = ({
                     name="individualwant"
                     translate="no"
                     placeholder="Individual want"
-                    className="text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-[44px] resize-none   text-[#616161] "
+                    className="text-[14px] bg-[#FAFAFA]  px-3 pt-[8px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[398px] h-[44px] resize-none   text-[#616161] "
                   />
                 </div>
               </div>
@@ -779,7 +777,7 @@ const SingleCharacterAddNewTab = ({
                     name="characterjourney"
                     translate="no"
                     placeholder="Character's journey"
-                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] border-2 overflow-y-hidden border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px] h-[44px] resize-none    text-[#616161]  "
+                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] border-2 overflow-y-hidden border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none  w-full md:w-[398px] h-[44px] resize-none    text-[#616161]  "
                   />
                 </div>
               </div>
@@ -800,7 +798,7 @@ const SingleCharacterAddNewTab = ({
                     name="Blood_relationship"
                     translate="no"
                     placeholder="Blood relationship"
-                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-[44px] resize-none   text-[#616161] "
+                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[398px] h-[44px] resize-none   text-[#616161] "
                   />
                 </div>
               </div>
@@ -823,7 +821,7 @@ const SingleCharacterAddNewTab = ({
                     name="Family_relationship"
                     translate="no"
                     placeholder="Family relationship"
-                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-[44px] resize-none   text-[#616161]"
+                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[398px] h-[44px] resize-none   text-[#616161]"
                   />
                 </div>
               </div>
@@ -851,7 +849,7 @@ const SingleCharacterAddNewTab = ({
                     name="Professional_relationship"
                     translate="no"
                     placeholder="Professional relationship"
-                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-[44px] resize-none      text-[#616161]"
+                    className="text-[14px] bg-[#FAFAFA] px-3 pt-[8px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[398px] h-[44px] resize-none      text-[#616161]"
                   />
                 </div>
               </div>
@@ -859,17 +857,21 @@ const SingleCharacterAddNewTab = ({
           </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0 bg-[#FAFAFA] py-4 px-8 flex justify-end gap-[18px] rounded-[8px]">
-          <button
-            onClick={() => setAddNewCharacter(null)}
-            className="bg-[#fafafa] flex items-center gap-[14px] justify-center text-[14px] text-[#33B0CA] border border-[#33B0CA]  h-[32px] rounded-[8px] py-[4px] px-3 "
-          >
-            Cancel
-          </button>
+          <div className="p-[1px] rounded-[8px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] inline-block">
+            <button
+              onClick={() => setAddNewCharacter(false)}
+              className=" flex items-center gap-[14px] justify-center h-[32px]  py-[4px] px-3 rounded-[8px] bg-white font-[500] text-[#741CFF]  hover:text-white  hover:bg-[linear-gradient(30deg,#741CFF,#00c3ff)] text-[14px] shadow-[#252525] hover:shadow-md"
+            >
+              Cancel
+            </button>
+          </div>
           <button
             onClick={handleAddClick}
-            disabled={isSaveDisabled || isSaveLoading}
+            disabled={isSaveDisabled}
             className={`${
-              isSaveDisabled ? "bg-[#ACDDE7]  " : "bg-[#33B0CA] "
+              isSaveDisabled
+                ? "bg-[linear-gradient(30deg,#b38bff,#99e6ff)] "
+                : "bg-[linear-gradient(30deg,#741CFF,#00c3ff)] "
             } text-[14px] font-[600] text-white px-3 h-[32px] rounded-[8px]`}
           >
             Save Character

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaRegThumbsUp, FaRegTrashAlt, FaThumbsUp } from "react-icons/fa";
 import { toast } from "react-toastify";
 import {
@@ -255,7 +255,7 @@ const ReplyToComments = ({
                             : `${URL}/memberpage/#/user/${reply?.user?.id}/personaldetails`
                         }
                       >
-                        <p className="text-[14px] font-[500] hover:text-[#33b0ca] ">
+                        <p className="text-[14px] font-[500] hover:text-[#00c3ff] ">
                           {reply?.user?.first_name} {reply?.user?.last_name}
                         </p>
                       </a>
@@ -277,7 +277,7 @@ const ReplyToComments = ({
                             : `${URL}/memberpage/#/user/${reply?.user?.id}/personaldetails`
                         }
                       >
-                        <p className="text-[14px] font-[500] hover:text-[#33b0ca] ">
+                        <p className="text-[14px] font-[500] hover:text-[#00c3ff] ">
                           {reply?.user?.first_name} {reply?.user?.last_name}
                         </p>
                       </a>
@@ -342,7 +342,7 @@ const ReplyToComments = ({
                   <button>
                     <FaThumbsUp
                       onClick={() => handleLikeUnlikeReply(reply?.id)}
-                      className={`w-3 h-3 text-[#33B0CA]  `}
+                      className={`w-3 h-3 text-[#00c3ff]  `}
                     />
                   </button>
                   <p
@@ -426,7 +426,7 @@ const ReplyToComments = ({
                       </button>
                     ) : (
                       <button
-                        className="px-2  rounded-[4px] py-[2px] bg-[#33B0CA]"
+                        className="px-2  rounded-[4px] py-[2px] bg-[#00c3ff]"
                         onClick={() => handleSuggest(reply?.text)}
                       >
                         {suggestDisable ? (
@@ -463,7 +463,7 @@ const ReplyToComments = ({
                     }}
                     className="w-[48%] md:w-[24%]"
                   >
-                    <p className="text-[12px] text-[#616161] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
+                    <p className="text-[12px] text-[#616161] hover:text-[#00c3ff] font-[400] leading-[14.52px] ">
                       Add to Beat Sheet
                     </p>
                   </button>

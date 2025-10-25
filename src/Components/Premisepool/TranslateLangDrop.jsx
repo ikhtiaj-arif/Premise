@@ -14,7 +14,7 @@ const TranslateLangDrop = ({
               setSelectedOption(key);
               setTransPopClose(null);
             }}
-            className="cursor-pointer  text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] list-none pl-[8px] border-b"
+            className="cursor-pointer  text-[14px] text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] list-none pl-[8px] border-b"
             key={key}
             value={key}
           >

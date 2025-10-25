@@ -349,7 +349,7 @@ const PremiseCard = ({
               )}
               <div>
                 <div className="flex items-center">
-                  <h4 className="notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA]">
+                  <h4 className="notranslate text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#00c3ff]">
                     {created_by?.first_name} {created_by?.last_name}
                   </h4>
                   <UserType
@@ -415,7 +415,7 @@ const PremiseCard = ({
                     }}
                     className="cursor-pointer  w-full"
                   >
-                    <p className="text-[14px] w-full font-[500] break-none  hover:text-[#33B0CA] text-[#252525]">
+                    <p className="text-[14px] w-full font-[500] break-none  hover:text-[#00c3ff] text-[#252525]">
                       {" "}
                       Visibility Settings
                     </p>{" "}
@@ -427,7 +427,7 @@ const PremiseCard = ({
                     }}
                     className="cursor-pointer  w-full"
                   >
-                    <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
+                    <p className="text-[14px] w-full font-[500]  hover:text-[#00c3ff] break-none text-[#252525]">
                       {" "}
                       Delete Premise
                     </p>{" "}
@@ -439,7 +439,7 @@ const PremiseCard = ({
                     }}
                     className="cursor-pointer  w-full"
                   >
-                    <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
+                    <p className="text-[14px] w-full font-[500]  hover:text-[#00c3ff] break-none text-[#252525]">
                       {" "}
                       Characters and Roles
                     </p>{" "}
@@ -451,7 +451,7 @@ const PremiseCard = ({
                     }}
                     className="cursor-pointer  w-full"
                   >
-                    <p className="text-[14px] w-full font-[500]  hover:text-[#33B0CA] break-none text-[#252525]">
+                    <p className="text-[14px] w-full font-[500]  hover:text-[#00c3ff] break-none text-[#252525]">
                       {" "}
                       Open <span className="scriptpad-m">Script Pad</span>
                     </p>{" "}

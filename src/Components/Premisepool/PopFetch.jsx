@@ -412,7 +412,7 @@ const PopFetch = ({ popClose, data, refetch }) => {
                       <button disabled={disable}>
                         <FaThumbsUp
                           onClick={handleDisLikeClick}
-                          className={`w-5 h-5 text-[#33B0CA]   ${
+                          className={`w-5 h-5 text-[#00c3ff]   ${
                             disable ? " cursor-default" : " cursor-pointer"
                           }`}
                         />

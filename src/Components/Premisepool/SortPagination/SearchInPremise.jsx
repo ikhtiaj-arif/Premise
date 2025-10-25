@@ -19,7 +19,7 @@ const SearchInPremise = forwardRef(
         <input
           ref={ref}
           type="search"
-          className="w-full flex-1 px-2 h-[30px] text-[14px] border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none"
+          className="w-full flex-1 px-2 h-[30px] text-[14px] border border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none"
           name=""
           id=""
           placeholder="Premise contains"

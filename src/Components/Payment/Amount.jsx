@@ -8,7 +8,7 @@ export const Amount = ({ data, isAgreementChecked, setAgreementChecked }) => {
           maxWidth: "70%",
           padding: "0.3rem 55px 0.3rem 0",
         }}
-        className="bg-[#33B0CA] text-[#fafafa] text-center font-[600] lg:text-[22px] text-[16px] relative border-none lg:bottom-[-22px] bottom-[-17px]"
+        className="bg-[#00c3ff] text-[#fafafa] text-center font-[600] lg:text-[22px] text-[16px] relative border-none lg:bottom-[-22px] bottom-[-17px]"
       >
         Amount Payable
       </p>
@@ -78,7 +78,7 @@ export const Amount = ({ data, isAgreementChecked, setAgreementChecked }) => {
           </div>
         </div>
 
-        <div className="flex items-center text-white px-5 bg-[#33B0CA] lg:text-[16px] text-[14px] font-semibold justify-between py-2">
+        <div className="flex items-center text-white px-5 bg-[#00c3ff] lg:text-[16px] text-[14px] font-semibold justify-between py-2">
           <h3 className="">Total Payable({data?.currency_code})</h3>
           <p className="text-right">
             {(data?.net_payable * data?.rate)?.toFixed(2) || 0.0}

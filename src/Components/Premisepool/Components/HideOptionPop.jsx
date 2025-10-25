@@ -184,7 +184,7 @@ const HideOptionPop = ({
                         placeholder="Search buddies..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full text-[14px] px-3  border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none rounded-md"
+                        className="w-full text-[14px] px-3  border border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none rounded-md"
                       />
                       <CgSearch
                         // onClick={handleFilterSubmit}
@@ -452,7 +452,7 @@ const HideOptionPop = ({
                   handlePostHideUnhide(id, refetch, user, selectedUserIds)
                 }
                 className={`${
-                  btnDisable ? "bg-[#b4bdbf] " : "bg-[#33B0CA] "
+                  btnDisable ? "bg-[#b4bdbf] " : "bg-[#00c3ff] "
                 } font-[500] text-white h-[34px] w-[99px] text-[14px] rounded-[8px]`}
               >
                 Save
@@ -462,7 +462,7 @@ const HideOptionPop = ({
                   onClick={() => {
                     setOption("hide_from_all");
                   }}
-                  className="font-[500] border !border-[#33B0CA] text-[#33B0CA] h-[34px] w-[99px] text-[14px] rounded-[8px] hover:text-white hover:bg-[#33B0CA]"
+                  className="font-[500] border !border-[#00c3ff] text-[#00c3ff] h-[34px] w-[99px] text-[14px] rounded-[8px] hover:text-white hover:bg-[#00c3ff]"
                 >
                   Back
                 </button>
@@ -471,7 +471,7 @@ const HideOptionPop = ({
                   onClick={() => {
                     setOpenHidePop(null);
                   }}
-                  className="font-[500] border !border-[#33B0CA] text-[#33B0CA] h-[34px] w-[99px] text-[14px] rounded-[8px] hover:text-white hover:bg-[#33B0CA]"
+                  className="font-[500] border !border-[#00c3ff] text-[#00c3ff] h-[34px] w-[99px] text-[14px] rounded-[8px] hover:text-white hover:bg-[#00c3ff]"
                 >
                   Close
                 </button>

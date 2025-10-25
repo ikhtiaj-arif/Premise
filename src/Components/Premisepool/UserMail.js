@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { IoMdSend } from "react-icons/io";
 import { MdKeyboardBackspace } from "react-icons/md";
 import {
-  useBroadcastPremiseMutation,
-  useGetMessageByPremiseIdQuery,
-  useSendMsgPremiseMutation,
+    useBroadcastPremiseMutation,
+    useGetMessageByPremiseIdQuery,
+    useSendMsgPremiseMutation,
 } from "../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../img/Icons/crossIcon.png";
 import forwardIcon from "../../img/Icons/forwardIcon.png";
@@ -122,7 +122,7 @@ const UserMail = ({ setUserMail, data, recipient }) => {
               {recipient?.first_name && recipient?.last_name ? (
                 <div className="flex items-center">
 
-                <h4 className="notranslate text-[#33B0CA] ">
+                <h4 className="notranslate text-[#00c3ff] ">
                   {recipient?.first_name} {recipient?.last_name}
                 </h4>
                 <UserType type={recipient?.centraldatabase?.type} user_type={recipient?.centraldatabase?.user_type} />
@@ -130,7 +130,7 @@ const UserMail = ({ setUserMail, data, recipient }) => {
               ) : (
                 <div className="flex items-center">
 
-                <h4 className="notranslate text-[#33B0CA] ">
+                <h4 className="notranslate text-[#00c3ff] ">
                   {recipient?.email.split("@")[0]}
                 </h4>
                 <UserType type={recipient?.centraldatabase?.type} user_type={recipient?.centraldatabase?.user_type} />
@@ -187,7 +187,7 @@ const UserMail = ({ setUserMail, data, recipient }) => {
                 </button>
               ) : (
                 <button type="submit" disabled={isDisabled}>
-                  <IoMdSend className="  text-[#33B0CA] w-6 h-6 my-auto cursor-pointer" />
+                  <IoMdSend className="  text-[#00c3ff] w-6 h-6 my-auto cursor-pointer" />
                 </button>
               )}
             </div>

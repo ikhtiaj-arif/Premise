@@ -9,14 +9,17 @@ function ConfirmationModal({ isOpen, onClose, onConfirm, title, content }) {
                 {title}
               </p>
               <div className="h-[93px] pb-[14px] flex items-center gap-10 justify-center px-[40px]">
-                <button
-                  onClick={() => {
-                    onClose();
-                  }}
-                  className=" font-[500] border !border-[#00c3ff] text-[#00c3ff] h-[34px] w-[99px] text-[14px] rounded-[8px]   hover:text-white hover:bg-[linear-gradient(30deg,#741CFF,#00c3ff)] "
-                >
-                  No
-                </button>
+                <div className="p-[1px] rounded-[8px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] inline-block">
+                  <button
+                    onClick={() => {
+                      onClose();
+                    }}
+                    className="rounded-[8px] w-[99px] bg-white font-[500] text-[#741CFF]  hover:text-white h-[32px] px-[21px] hover:bg-[linear-gradient(30deg,#741CFF,#00c3ff)] text-[14px] shadow-[#252525] hover:shadow-md"
+                  >
+                    No
+                  </button>
+                </div>
+
                 <button
                   onClick={() => {
                     onConfirm();

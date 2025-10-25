@@ -1,17 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
+import { FaKeyboard } from "react-icons/fa";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useTranslatePremiseMutation } from "../../../app/EndPoints/premisePoolApi";
-import Keyboard from "../Keyboard";
 import KeyboardB from "../KeyboardB";
- import { sortedLanguages } from "../Languages";
-import { FaKeyboard } from "react-icons/fa";
 import { keyboardOptions } from "../KeyboardOption";
-
-
-
-
-
+import { sortedLanguages } from "../Languages";
 
 // const BeatSheetGenerating = ({
 //   popClose,
@@ -125,7 +119,7 @@ const BeatSheetGenerating = ({ popClose, commentText, data, setIsLiked }) => {
             } bg-[#FAFAFA]`}
           >
             <button onClick={() => popClose(false)}>
-              <IoIosArrowRoundBack className="text-[50px] block md:hidden text-[#33B0CA]" />
+              <IoIosArrowRoundBack className="text-[50px] block md:hidden text-[#00c3ff]" />
             </button>
             <div className="h-[27px]  md:block relative w-full md:w-[920px] rounded-t-xl font-[500] flex flex-row-reverse items-center px-3">
               <button
@@ -262,10 +256,9 @@ const BeatSheetGenerating = ({ popClose, commentText, data, setIsLiked }) => {
                       onChange={handleOptionChange}
                       className="bg-[#FAFAFA] border-none w-[106px] text-[14px] text-[#616161] font-[400] focus:outline-none h-7"
                     >
-
                       {Object.entries(sortedLanguages).map(([key, name]) => (
                         <option key={key} value={key}>
-                          <p className="bg-[#33B0CA]">{name}</p>
+                          <p className="bg-[#00c3ff]">{name}</p>
                         </option>
                       ))}
                     </select>
@@ -307,7 +300,7 @@ const BeatSheetGenerating = ({ popClose, commentText, data, setIsLiked }) => {
                 )}
                 <button
                   disabled={resDisable}
-                  className="w-[69px] h-[32px] bg-[#33B0CA] text-white rounded-[4px] text-[14px] font-[600]"
+                  className="w-[69px] h-[32px] bg-[#00c3ff] text-white rounded-[4px] text-[14px] font-[600]"
                 >
                   Next
                 </button>

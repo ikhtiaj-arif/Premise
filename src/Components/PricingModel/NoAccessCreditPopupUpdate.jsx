@@ -108,7 +108,7 @@ const NoAccessCreditPopupUpdate = ({
                       onChange={handleRadioChange}
                       className="mt-1"
                     />
-                    {/* ${selectedOption === "topup_usd" ? 'text-[#33b0ca]':'text-[#616161]'} */}
+                    {/* ${selectedOption === "topup_usd" ? 'text-[#00c3ff]':'text-[#616161]'} */}
                     <p className={` flex flex-col text-left gap-1 `}>
                       <span className="text-[#000000]">
                         Top Up Your Account
@@ -121,7 +121,7 @@ const NoAccessCreditPopupUpdate = ({
                           onChange={(e) => handleCreditSystem(e, "credits")}
                           inputMode="numeric"
                           pattern="[0-9]*"
-                          className="w-[58px] h-[26px] border border-[#EAEAEA] rounded-[4px] p-1  text-center focus:outline-none  focus:border-2 focus:border-[#33b0ca]"
+                          className="w-[58px] h-[26px] border border-[#EAEAEA] rounded-[4px] p-1  text-center focus:outline-none  focus:border-2 focus:border-[#00c3ff]"
                           disabled={selectedOption == "upgrade"}
                         />{" "}
                         Credits
@@ -136,7 +136,7 @@ const NoAccessCreditPopupUpdate = ({
                           }
                           inputMode="numeric"
                           pattern="[0-9]*"
-                          className="w-[58px] h-[26px] border border-[#EAEAEA] text-[#33b0ca] rounded-[4px] p-1  text-center focus:outline-none  focus:border-2 focus:border-[#33b0ca]"
+                          className="w-[58px] h-[26px] border border-[#EAEAEA] text-[#00c3ff] rounded-[4px] p-1  text-center focus:outline-none  focus:border-2 focus:border-[#00c3ff]"
                           disabled={selectedOption == "upgrade"}
                         />{" "}
                         USD
@@ -154,7 +154,7 @@ const NoAccessCreditPopupUpdate = ({
                       onChange={handleRadioChange}
                       className="mt-1"
                     />
-                    {/* ${selectedOption === "upgrade" ? 'text-[#33b0ca]':'text-[#616161]'} */}
+                    {/* ${selectedOption === "upgrade" ? 'text-[#00c3ff]':'text-[#616161]'} */}
                     <span
                       className={` flex-1 capitalize text-left text-[#00000]`}
                     >

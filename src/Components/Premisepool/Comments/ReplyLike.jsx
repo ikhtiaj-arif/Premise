@@ -34,8 +34,6 @@ const ReplyLike = ({ reply, setLikePopup, replyRefetch }) => {
   }, [currentUser, reply, replyRefetch]);
 
   const handleLikeUnlikeReply = async (id, tag) => {
-    
-
     const res = (await tag) === "like" ? likeReply(id) : dislikeReply(id);
     if (res) replyRefetch();
   };
@@ -53,7 +51,7 @@ const ReplyLike = ({ reply, setLikePopup, replyRefetch }) => {
               handleLikeUnlikeReply(reply?.id, "like");
             }}
             className={` w-6 h-5 ${
-              isReplyLiked ? "text-[#33B0CA]" : "text-[#252525]"
+              isReplyLiked ? "text-[#00c3ff]" : "text-[#252525]"
             } ${
               isLLoading || isDLoading ? " cursor-default" : "cursor-pointer"
             } `}
@@ -82,7 +80,7 @@ const ReplyLike = ({ reply, setLikePopup, replyRefetch }) => {
           <FaThumbsDown
             onClick={() => handleLikeUnlikeReply(reply?.id, "dislike")}
             className={` w-6 h-5 ${
-              isDisReplyLiked ? "text-[#33B0CA]" : "text-[#252525]"
+              isDisReplyLiked ? "text-[#00c3ff]" : "text-[#252525]"
             } ${
               isLLoading || isDLoading ? " cursor-default" : "cursor-pointer"
             } `}

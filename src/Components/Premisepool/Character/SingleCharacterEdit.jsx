@@ -404,7 +404,7 @@ const SingleCharacterAdd = ({
                       onClick={handleUndo}
                       disabled={!isUndoEnabled}
                       className={`text-[14px] font-[600] text-white px-3 h-[32px]  rounded-[8px] ${
-                        !isUndoEnabled ? "bg-[#ACDDE7]  " : "bg-[#33B0CA] "
+                        !isUndoEnabled ? "bg-[#ACDDE7]  " : "bg-[#00c3ff] "
                       }`}
                     >
                       Undo
@@ -421,8 +421,8 @@ const SingleCharacterAdd = ({
                             : "Select Keyboard"
                         }`}
                         className={`w-7 h-7 ${
-                          keyboardVisible && "text-[#33B0CA]"
-                        } cursor-pointer hover:text-[#33B0CA] w-full `}
+                          keyboardVisible && "text-[#00c3ff]"
+                        } cursor-pointer hover:text-[#00c3ff] w-full `}
                       />
                     </button>
                   </div>
@@ -468,15 +468,15 @@ const SingleCharacterAdd = ({
                       isDisabled
                         ? `${`capitalize ${
                             !editData?.is_ai_generated
-                              ? "text-[#33B0CA]"
+                              ? "text-[#00c3ff]"
                               : "text-[#7a7a7a]"
                           }`}`
                         : `${`capitalize ${
                             !editData?.is_ai_generated
-                              ? "text-[#33B0CA]"
+                              ? "text-[#00c3ff]"
                               : "text-[#616161]"
                           }`}`
-                    }  px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[208px] h-[44px]   `}
+                    }  px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none  w-full md:w-[208px] h-[44px]   `}
                     disabled={isDisabled || editIdx === 0}
                   />
                 </div>
@@ -493,7 +493,7 @@ const SingleCharacterAdd = ({
                     onChange={(e) => setCustomRole(e.target.value)}
                     type="text"
                     placeholder="Describe the role"
-                    className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  mt-[5px] mb-[15px] rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-[44px] "
+                    className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  mt-[5px] mb-[15px] rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[398px] h-[44px] "
                   />
                 )}
               </div>
@@ -542,7 +542,7 @@ const SingleCharacterAdd = ({
                         (option, index) => (
                           <li
                             key={index}
-                            className="cursor-pointer text-[14px] leading-5 text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] px-2 py-2"
+                            className="cursor-pointer text-[14px] leading-5 text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] px-2 py-2"
                             onClick={() => {
                               setGender(option.props.value); // `option` is a JSX element, like <option value="Male">Male</option>
                               setGenderDropdownOpen(false);
@@ -597,7 +597,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="occupation"
                     ref={occupationRef}
-                    className={`text-[14px] bg-[#FAFAFA] mb-[12px] leading-[20px] md:mb-0 px-3 pt-[15px] pb-[12px] outline-[#EAEAEA]  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[208px] h-[44px]    overflow-y-auto text-[#616161] resize-none "
+                    className={`text-[14px] bg-[#FAFAFA] mb-[12px] leading-[20px] md:mb-0 px-3 pt-[15px] pb-[12px] outline-[#EAEAEA]  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none  w-full md:w-[208px] h-[44px]    overflow-y-auto text-[#616161] resize-none "
                        `}
                   />
                 </div>
@@ -650,7 +650,7 @@ const SingleCharacterAdd = ({
                           (option, index) => (
                             <li
                               key={index}
-                              className="cursor-pointer text-[14px] leading-5 text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] px-2 py-2"
+                              className="cursor-pointer text-[14px] leading-5 text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] px-2 py-2"
                               onClick={() => {
                                 setGender(option.props.value);
                                 setGenderDropdownOpen(false);
@@ -672,7 +672,7 @@ const SingleCharacterAdd = ({
                         setGender(e.target.value);
                       }}
                       disabled={isDisabled || editIdx === 0}
-                      className="w-full h-[44px] bg-[#FAFAFA] border-[2px] border-[#EAEAEA] text-[14px] text-[#616161] rounded-[8px] px-2 focus:border-[#33B0CA] focus:outline-none"
+                      className="w-full h-[44px] bg-[#FAFAFA] border-[2px] border-[#EAEAEA] text-[14px] text-[#616161] rounded-[8px] px-2 focus:border-[#00c3ff] focus:outline-none"
                     >
                       <option value="" disabled>
                         Select Gender
@@ -727,7 +727,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="occupation"
                     ref={occupationRef}
-                    className={`text-[14px] bg-[#FAFAFA] mb-[12px] leading-[20px] md:mb-0 px-3 pt-[15px] pb-[12px] outline-[#EAEAEA] rounded-[8px] border-2 border-[#EAEAEA] focus:border-[#33b0ca] focus:outline-none w-full md:w-[208px] h-[44px] overflow-y-auto text-[#616161] resize-none`}
+                    className={`text-[14px] bg-[#FAFAFA] mb-[12px] leading-[20px] md:mb-0 px-3 pt-[15px] pb-[12px] outline-[#EAEAEA] rounded-[8px] border-2 border-[#EAEAEA] focus:border-[#00c3ff] focus:outline-none w-full md:w-[208px] h-[44px] overflow-y-auto text-[#616161] resize-none`}
                   />
                 </div>
               </div>
@@ -750,7 +750,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Background"
                     ref={backgroundRef}
-                    className={`text-[14px] bg-[#FAFAFA]  px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA]  rounded-[8px] overflow-y-hidden border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px]
+                    className={`text-[14px] bg-[#FAFAFA]  px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA]  rounded-[8px] overflow-y-hidden border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[398px]
                     h-auto resize-none ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     } h-auto resize-none leading-[20px]`}
@@ -775,7 +775,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Personality"
                     ref={personalityRef}
-                    className={`text-[14px] bg-[#FAFAFA]  px-3 pt-[10px] pb-[12px] leading-[22px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none   ${
+                    className={`text-[14px] bg-[#FAFAFA]  px-3 pt-[10px] pb-[12px] leading-[22px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[398px] h-auto resize-none   ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     } `}
                   />
@@ -799,7 +799,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Individual want"
                     ref={individualWantRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px] h-auto resize-none  ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none  w-full md:w-[398px] h-auto resize-none  ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     }  `}
                   />
@@ -824,7 +824,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Character's journey"
                     ref={characterJourneyRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px] h-auto resize-none   ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none  w-full md:w-[398px] h-auto resize-none   ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     } `}
                   />
@@ -848,7 +848,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Blood relationship"
                     ref={bloodRelationshipRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none    ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[398px] h-auto resize-none    ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     }`}
                   />
@@ -874,7 +874,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Family relationship"
                     ref={familyRelationshipRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none     ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[398px] h-auto resize-none     ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     }`}
                   />
@@ -907,7 +907,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Professional relationship"
                     ref={professionalRelationshipRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none   ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[398px] h-auto resize-none   ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     }`}
                   />
@@ -917,19 +917,20 @@ const SingleCharacterAdd = ({
           </div>
 
           <div className="absolute bottom-0 left-0 right-0 bg-[#FAFAFA] py-4 px-8 flex justify-end gap-[18px]  rounded-[8px]">
-            <button
-              onClick={() => setEditPopupOpen(false)}
-              className="bg-[#fafafa] flex items-center gap-[14px] justify-center text-[14px] text-[#33B0CA] border border-[#33B0CA] h-[32px]  rounded-[8px]  px-3"
-            >
-              Cancel
-            </button>
-
+            <div className="p-[1px] rounded-[8px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] inline-block">
+              <button
+                onClick={() => setEditPopupOpen(false)}
+                className=" flex items-center gap-[14px] justify-center h-[32px]  py-[4px] px-3 rounded-[8px]  bg-white font-[500] text-[#741CFF]  hover:text-white  hover:bg-[linear-gradient(30deg,#741CFF,#00c3ff)] text-[14px] shadow-[#252525] hover:shadow-md"
+              >
+                Cancel
+              </button>
+            </div>
             <button
               onClick={handleAddClick}
               className={`text-[14px] font-[600] text-white px-3 h-[32px]  rounded-[8px] ${
                 isSaveDisabled || disabledEdit
-                  ? "bg-[#ACDDE7]  "
-                  : "bg-[#33B0CA] "
+                  ? "bg-[linear-gradient(30deg,#b38bff,#99e6ff)] "
+                  : "bg-[linear-gradient(30deg,#741CFF,#00c3ff)] "
               }`}
               disabled={isSaveDisabled || disabledEdit}
             >

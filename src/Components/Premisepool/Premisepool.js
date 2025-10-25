@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { MyContext } from "../../App";
 import {
-  useGetHiddenPremiseCountQuery,
-  useGetPremiseQuery,
-  useGetPremiseUserQuery
+    useGetHiddenPremiseCountQuery,
+    useGetPremiseQuery,
+    useGetPremiseUserQuery
 } from "../../app/EndPoints/premisePoolApi";
 import { setUser } from "../../app/Slices/userSlice";
 import TypingLoader from "../TypingLoader";
@@ -357,7 +357,7 @@ const Premisepool = () => {
               <button
                 onClick={handleAddPremise}
                 // className="btn btn"
-                className="bg-[#33B0CA] flex items-center justify-center gap-[8px] text-[#FAFAFA] text-[14px] font-[600] rounded-[8px] min-w-[196px] min-h-[34px] md:ml-[-98px] px-[12px]"
+                className="bg-[#00c3ff] flex items-center justify-center gap-[8px] text-[#FAFAFA] text-[14px] font-[600] rounded-[8px] min-w-[196px] min-h-[34px] md:ml-[-98px] px-[12px]"
               >
                 <p>
                   <span className=" text-2xl ">+</span>{" "}
@@ -450,9 +450,9 @@ const Premisepool = () => {
           <div className=" flex items-center gap-[12px] justify-center md:justify-start flex-nowrap cursor-pointer">
             <h4
               onClick={() => setAddedByMeCondition(false)}
-              className={`flex items-center flex-shrink-0 leading-[20px] text-[16px] font-[500] px-[8px] py-[4px] border-b-4 cursor-pointer   hover:border-[#33B0CA]  bg-[#fafafa] ${
+              className={`flex items-center flex-shrink-0 leading-[20px] text-[16px] font-[500] px-[8px] py-[4px] border-b-4 cursor-pointer   hover:border-[#00c3ff]  bg-[#fafafa] ${
                 !addedByMeCondition
-                  ? "text-[#33B0CA] border-[#33B0CA]"
+                  ? "text-[#00c3ff] border-[#00c3ff]"
                   : "text-[#252525] border-[#616161]"
               }`}
             >
@@ -460,9 +460,9 @@ const Premisepool = () => {
             </h4>
             <h4
               onClick={() => setAddedByMeCondition(true)}
-              className={`flex items-center flex-shrink-0 leading-[20px] text-[16px] font-[500] px-[8px] py-[4px] border-b-4 cursor-pointer   hover:border-[#33B0CA]  bg-[#fafafa] ${
+              className={`flex items-center flex-shrink-0 leading-[20px] text-[16px] font-[500] px-[8px] py-[4px] border-b-4 cursor-pointer   hover:border-[#00c3ff]  bg-[#fafafa] ${
                 addedByMeCondition
-                  ? "text-[#33B0CA] border-[#33B0CA]"
+                  ? "text-[#00c3ff] border-[#00c3ff]"
                   : "text-[#252525] border-[#616161]"
               }`}
             >
@@ -576,7 +576,7 @@ const Premisepool = () => {
                         <h1 className="text-2xl">Limit Breach</h1>
                       )}
 
-                      <button className="bg-[#33b0ca] text-[#fafafa] font-semibold text-[16px] rounded-[4px] mt-5 py-3 px-4">
+                      <button className="bg-[#00c3ff] text-[#fafafa] font-semibold text-[16px] rounded-[4px] mt-5 py-3 px-4">
                         <a
                           href={`${URL}/pay/payment/`}
                           target="blank"

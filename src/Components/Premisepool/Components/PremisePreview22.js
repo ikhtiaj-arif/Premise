@@ -2,12 +2,13 @@ import axios from "axios";
 import { useContext, useEffect, useRef, useState } from "react";
 import Draggable from "react-draggable";
 import {
-  FaBold,
-  FaItalic,
-  FaKeyboard,
-  FaRegTrashAlt,
-  FaUnderline,
+    FaBold,
+    FaItalic,
+    FaKeyboard,
+    FaRegTrashAlt,
+    FaUnderline,
 } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa6";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { PiTextAUnderlineBold } from "react-icons/pi";
 import { useDispatch } from "react-redux";
@@ -15,21 +16,21 @@ import Select from "react-select";
 import { toast } from "react-toastify";
 import { fetchUserAccess, MyContext } from "../../../App";
 import {
-  usePostPremiseWithCharactersMutation,
-  useSaveCharactersMutation,
+    usePostPremiseWithCharactersMutation,
+    useSaveCharactersMutation,
 } from "../../../app/EndPoints/Characters/Characters";
 import {
-  useDeletePremiseMutation,
-  useEditPremiseMutation,
-  useGetFilteredLangQuery,
-  useGetPremiseUserQuery,
-  usePostPremiseMutation,
+    useDeletePremiseMutation,
+    useEditPremiseMutation,
+    useGetFilteredLangQuery,
+    useGetPremiseUserQuery,
+    usePostPremiseMutation,
 } from "../../../app/EndPoints/premisePoolApi";
 import {
-  useCreateProjectMutation,
-  useDeleteProjectMutation,
-  useGetStoryToScriptProjectQuery,
-  useUpdateSpProjectMutation,
+    useCreateProjectMutation,
+    useDeleteProjectMutation,
+    useGetStoryToScriptProjectQuery,
+    useUpdateSpProjectMutation,
 } from "../../../app/EndPoints/ScriptPad/project";
 import { setUser } from "../../../app/Slices/userSlice";
 import "../../../Components/Premisepool/Premise.css";
@@ -48,7 +49,6 @@ import LanguageSelector from "../LanguageSelector";
 import Popup from "../Popup";
 import { hideUnhidePremise } from "../PreiseUtils";
 import PremisePreviewKeyboard from "./PremisePreviewKeyboard";
-import { FaArrowLeft } from "react-icons/fa6";
 
 const PremisePreview2 = ({
   newText,
@@ -1409,7 +1409,7 @@ const PremisePreview2 = ({
                 <FaBold
                   onClick={toggleBold}
                   className={
-                    bold ? "text-[#33B0CA]  text-[15.6px]" : " text-[15.6px]"
+                    bold ? "text-[#00c3ff]  text-[15.6px]" : " text-[15.6px]"
                   }
                 />
               </div>
@@ -1417,7 +1417,7 @@ const PremisePreview2 = ({
                 <FaUnderline
                   onClick={toggleUnderline}
                   className={
-                    underline ? "text-[#33B0CA]  text-[15px]" : " text-[15px]"
+                    underline ? "text-[#00c3ff]  text-[15px]" : " text-[15px]"
                   }
                 />
               </div>
@@ -1425,7 +1425,7 @@ const PremisePreview2 = ({
                 <FaItalic
                   onClick={toggleItalic}
                   className={
-                    italic ? "text-[#33B0CA]  text-[15.6px]" : " text-[15.6px]"
+                    italic ? "text-[#00c3ff]  text-[15.6px]" : " text-[15.6px]"
                   }
                 />
               </div>
@@ -1434,7 +1434,7 @@ const PremisePreview2 = ({
                   onClick={toggleColorPicker}
                   className={
                     hexColor
-                      ? "text-[#33B0CA]  text-[18.6px]"
+                      ? "text-[#00c3ff]  text-[18.6px]"
                       : "text-black text-[18.6px]"
                   }
                 />
@@ -1646,7 +1646,7 @@ const PremisePreview2 = ({
                         ref={spProjectRef}
                         className={`h-[31px] overflow-visible relative w-[144px] md:w-[206px] bg-[#fafafa] ${
                           selectedSpProjectID
-                            ? "border-[#33B0CA]"
+                            ? "border-[#00c3ff]"
                             : "border-[#EAEAEA]"
                         } rounded-[4px] border-[2px] cursor-pointer`}
                         onClick={() => setIsProjectOpen((prev) => !prev)}
@@ -1690,7 +1690,7 @@ const PremisePreview2 = ({
                                     setIsProjectOpen(false);
                                     setSelectedSpProjectID(option.pro_uuid);
                                   }}
-                                  className={`px-4 py-[2px] text-[12px] md:text-[14px] hover:bg-[#33b0ca] hover:text-white ${
+                                  className={`px-4 py-[2px] text-[12px] md:text-[14px] hover:bg-[#00c3ff] hover:text-white ${
                                     selectedSpProjectID === option.pro_uuid
                                       ? "bg-[#e6f7fa]"
                                       : ""
@@ -1717,7 +1717,7 @@ const PremisePreview2 = ({
                         onClick={handleCreateNewProject}
                         className={`${
                           filteredSpProjects.length === 0 && "ml-[15px] "
-                        } text-[14px] font-[400] text-[#33B0CA] cursor-pointer`}
+                        } text-[14px] font-[400] text-[#00c3ff] cursor-pointer`}
                       >
                         Create New Project
                       </div>
@@ -1734,7 +1734,7 @@ const PremisePreview2 = ({
                         ref={spProjectRef}
                         className={`h-[31px] overflow-visible relative w-[144px] md:w-[206px] bg-[#fafafa] ${
                           selectedSpProjectID
-                            ? "border-[#33B0CA]"
+                            ? "border-[#00c3ff]"
                             : "border-[#EAEAEA]"
                         } rounded-[4px] border-[2px] cursor-pointer`}
                         onClick={() => {
@@ -1780,7 +1780,7 @@ const PremisePreview2 = ({
                                     setSelectedSpProjectID(option.pro_uuid);
                                     setIsProjectOpen(false);
                                   }}
-                                  className={`px-4 py-[2px] text-[12px] md:text-[14px] hover:bg-[#33b0ca] hover:text-white ${
+                                  className={`px-4 py-[2px] text-[12px] md:text-[14px] hover:bg-[#00c3ff] hover:text-white ${
                                     selectedSpProjectID === option.pro_uuid
                                       ? "bg-[#e6f7fa]"
                                       : ""
@@ -1805,7 +1805,7 @@ const PremisePreview2 = ({
                             setCreateNewProject(true);
                             setSelectedSpProjectID("");
                           }}
-                          className="text-[14px] font-[400] text-[#33B0CA] cursor-pointer"
+                          className="text-[14px] font-[400] text-[#00c3ff] cursor-pointer"
                         >
                           Create New Project
                         </div>
@@ -1820,8 +1820,8 @@ const PremisePreview2 = ({
                           !keyboardVisible ? "View Keyboard" : "Hide Keyboard"
                         }`}
                         className={`w-7 h-7 ${
-                          keyboardVisible && "text-[#33B0CA]"
-                        } cursor-pointer hover:text-[#33B0CA]`}
+                          keyboardVisible && "text-[#00c3ff]"
+                        } cursor-pointer hover:text-[#00c3ff]`}
                         onClick={onClickKeyboard}
                       />
                       <LanguageSelector
@@ -1894,7 +1894,7 @@ const PremisePreview2 = ({
                         // id="spProjectName"
                         className={`h-[30px] relative  text-[12px] md:!text-[14px] leading-tight px-[8px] w-full md:w-[181px] bg-[#fafafa] rounded-[4px] border-[2px] ${
                           spProjectName
-                            ? "border-[#33B0CA]"
+                            ? "border-[#00c3ff]"
                             : "border-[#EAEAEA]"
                         } focus:outline-none`}
                         placeholder="Project Name"
@@ -1916,7 +1916,7 @@ const PremisePreview2 = ({
                   >
                     <div
                       ref={languageRef}
-                      className={`h-[31px] relative bg-[#fafafa] rounded-[4px] border-[2px] border-[#33B0CA] 
+                      className={`h-[31px] relative bg-[#fafafa] rounded-[4px] border-[2px] border-[#00c3ff] 
                       
                       `}
                     >
@@ -1989,7 +1989,7 @@ const PremisePreview2 = ({
                             fontSize: "14px",
                             padding: "0px 8px",
                             backgroundColor: state.isFocused
-                              ? "#33b0ca"
+                              ? "#00c3ff"
                               : "#fafafa",
                             color: state.isFocused ? "#ffffff" : "#000000",
                             cursor: "pointer",
@@ -2024,7 +2024,7 @@ const PremisePreview2 = ({
                     {/* <div
                       ref={languageRef}
                       className={`h-[31px] relative  bg-[#fafafa] rounded-[4px] border-[2px] ${
-                        language ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                        language ? "border-[#00c3ff]" : "border-[#EAEAEA]"
                       } `}
                     >
                       <select
@@ -2061,7 +2061,7 @@ const PremisePreview2 = ({
                       // id="authorName"
                       ref={authorNameRef}
                       className={`h-[30px] relative text-[12px] md:!text-[14px] leading-tight px-[8px] w-full md:w-[191px] bg-[#fafafa] rounded-[4px] border-[2px] ${
-                        authorName ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                        authorName ? "border-[#00c3ff]" : "border-[#EAEAEA]"
                       } focus:outline-none`}
                       placeholder="Author Name"
                       onFocus={() => setFocusedFieldName("authorName")}
@@ -2088,7 +2088,7 @@ const PremisePreview2 = ({
                       ref={natureProjectRef}
                       className={`h-[31px] relative bg-[#fafafa] rounded-[4px] border-[2px] ${
                         natureOfProject
-                          ? "border-[#33B0CA]"
+                          ? "border-[#00c3ff]"
                           : "border-[#EAEAEA]"
                       } `}
                     >
@@ -2166,7 +2166,7 @@ const PremisePreview2 = ({
                             fontSize: "14px",
                             padding: "0px 8px",
                             backgroundColor: state.isFocused
-                              ? "#33b0ca"
+                              ? "#00c3ff"
                               : "#fafafa",
                             color: state.isFocused ? "#ffffff" : "#000000",
                             cursor: "pointer",
@@ -2210,7 +2210,7 @@ const PremisePreview2 = ({
                       ref={natureProjectRef}
                       className={`h-[31px] relative  bg-[#fafafa] rounded-[4px] border-[2px] ${
                         natureOfProject
-                          ? "border-[#33B0CA]"
+                          ? "border-[#00c3ff]"
                           : "border-[#EAEAEA]"
                       } `}
                     >
@@ -2258,7 +2258,7 @@ const PremisePreview2 = ({
                       createNewProject
                         ? "md:col-span-3 w-[108px] xxs:w-[120px] md:w-[136px] md:ml-[16px]"
                         : "md:col-span-4"
-                    } ${duration ? "border-[#33B0CA]" : "border-[#EAEAEA]"}`}
+                    } ${duration ? "border-[#00c3ff]" : "border-[#EAEAEA]"}`}
                     ref={durationRef}
                   >
                     <Select
@@ -2331,7 +2331,7 @@ const PremisePreview2 = ({
                           fontSize: "14px",
                           padding: "0px 2px",
                           backgroundColor: state.isFocused
-                            ? "#33b0ca"
+                            ? "#00c3ff"
                             : "#fafafa",
                           color: state.isFocused ? "#ffffff" : "#000000",
                           cursor: "pointer",
@@ -2376,7 +2376,7 @@ const PremisePreview2 = ({
                       createNewProject
                         ? "  md:col-span-3 w-[104px] xxs:w-[120px] md:w-[130px] md:ml-[8px] "
                         : " md:col-span-4"
-                    }  ${duration ? "border-[#33B0CA]" : "border-[#EAEAEA]"} `}
+                    }  ${duration ? "border-[#00c3ff]" : "border-[#EAEAEA]"} `}
                   >
                     <select
                       ref={durationRef}
@@ -2425,7 +2425,7 @@ const PremisePreview2 = ({
                             : " md:col-span-4 "
                         } bg-[#fafafa] rounded-[4px] border-[2px] ${
                           generaItemTxt
-                            ? "border-[#33B0CA]"
+                            ? "border-[#00c3ff]"
                             : "border-[#EAEAEA]"
                         } `}
                       >
@@ -2452,7 +2452,7 @@ const PremisePreview2 = ({
                             : " md:col-span-4"
                         }  bg-[#fafafa] rounded-[4px] border-[2px] ${
                           subGeneraItemTxt
-                            ? "border-[#33B0CA]"
+                            ? "border-[#00c3ff]"
                             : "border-[#EAEAEA]"
                         }`}
                       >
@@ -2480,7 +2480,7 @@ const PremisePreview2 = ({
                             ? " md:col-span-3 w-[104px] xxs:w-[119px] md:w-[126px] ml-[-6px] md:ml-[0px]"
                             : " md:col-span-4 "
                         } bg-[#fafafa] rounded-[4px] border-[2px] ${
-                          generaItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                          generaItem ? "border-[#00c3ff]" : "border-[#EAEAEA]"
                         } `}
                       >
                         <select
@@ -2518,7 +2518,7 @@ const PremisePreview2 = ({
                             ? "md:col-span-3 w-[106px] xxs:w-[122px] md:w-[130px] ml-[-7px] md:ml-[4px]"
                             : "md:col-span-4"
                         } bg-[#fafafa] rounded-[4px] border-[2px] ${
-                          generaItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                          generaItem ? "border-[#00c3ff]" : "border-[#EAEAEA]"
                         }`}
                       >
                         <Select
@@ -2590,7 +2590,7 @@ const PremisePreview2 = ({
                               fontSize: "14px",
                               padding: "0px 8px",
                               backgroundColor: state.isFocused
-                                ? "#33b0ca"
+                                ? "#00c3ff"
                                 : "#fafafa",
                               color: state.isFocused ? "#ffffff" : "#000000",
                               cursor: "pointer",
@@ -2638,7 +2638,7 @@ const PremisePreview2 = ({
                             : "md:col-span-4"
                         } bg-[#fafafa] rounded-[4px] border-[2px] ${
                           subGeneraItem
-                            ? "border-[#33B0CA]"
+                            ? "border-[#00c3ff]"
                             : "border-[#EAEAEA]"
                         }`}
                       >
@@ -2712,7 +2712,7 @@ const PremisePreview2 = ({
                               fontSize: "14px",
                               padding: "0px 8px",
                               backgroundColor: state.isFocused
-                                ? "#33b0ca"
+                                ? "#00c3ff"
                                 : "#fafafa",
                               color: state.isFocused ? "#ffffff" : "#000000",
                               cursor: "pointer",
@@ -2759,7 +2759,7 @@ const PremisePreview2 = ({
                             : " md:col-span-4"
                         }  bg-[#fafafa] rounded-[4px] border-[2px] ${
                           subGeneraItem
-                            ? "border-[#33B0CA]"
+                            ? "border-[#00c3ff]"
                             : "border-[#EAEAEA]"
                         }`}
                       >
@@ -2800,7 +2800,7 @@ const PremisePreview2 = ({
                     </label>
                     {/* <input
                       className={`block bg-[#fafafa] h-[30px] rounded-[4px] border-[2px] ${
-                        geographyItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                        geographyItem ? "border-[#00c3ff]" : "border-[#EAEAEA]"
                       } w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
                       placeholder="Country/Region/City"
                       type="text"
@@ -2813,7 +2813,7 @@ const PremisePreview2 = ({
                       type="text"
                       ref={locationNameRef}
                       className={`block bg-[#fafafa] h-[30px] rounded-[4px] border-[2px] ${
-                        geographyItem ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                        geographyItem ? "border-[#00c3ff]" : "border-[#EAEAEA]"
                       } w-full px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
                       placeholder="Country/Region/City"
                       value={geographyItem}
@@ -2833,7 +2833,7 @@ const PremisePreview2 = ({
                   </div>
                   {/* <div
                     className={`h-[31px] mt-[21px] relative col-span-6 md:col-span-3 ${
-                      periodSetIn ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                      periodSetIn ? "border-[#00c3ff]" : "border-[#EAEAEA]"
                     } rounded-[4px] border-[2px]`}
                   >
                     <select
@@ -2878,7 +2878,7 @@ const PremisePreview2 = ({
                   <div
                     ref={setinPeriodRef}
                     className={`h-[31px] mt-[21px] relative col-span-6 md:col-span-3 ${
-                      periodSetIn ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                      periodSetIn ? "border-[#00c3ff]" : "border-[#EAEAEA]"
                     } rounded-[4px] border-[2px]`}
                   >
                     <Select
@@ -2955,7 +2955,7 @@ const PremisePreview2 = ({
                           fontSize: "14px",
                           padding: "0px 8px",
                           backgroundColor: state.isFocused
-                            ? "#33b0ca"
+                            ? "#00c3ff"
                             : "#fafafa",
                           color: state.isFocused ? "#ffffff" : "#000000",
                           cursor: "pointer",
@@ -3005,7 +3005,7 @@ const PremisePreview2 = ({
                       ref={protagonistNameRef}
                       className={`block bg-[#fafafa] w-full h-[30px] rounded-[4px] border-[2px] ${
                         protagonistName
-                          ? "border-[#33B0CA]"
+                          ? "border-[#00c3ff]"
                           : "border-[#EAEAEA]"
                       }  px-[8px] text-[12px] md:!text-[14px] leading-tight focus:outline-none`}
                       placeholder="Name"
@@ -3024,7 +3024,7 @@ const PremisePreview2 = ({
                   </div>{" "}
                   {/* <div
                     className={`h-[31px] mt-[21px] relative col-span-6 md:col-span-4  bg-[#fafafa] ${
-                      protagonist ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                      protagonist ? "border-[#00c3ff]" : "border-[#EAEAEA]"
                     } rounded-[4px] border-[2px]`}
                   >
                     <select
@@ -3062,7 +3062,7 @@ const PremisePreview2 = ({
                   <div
                     ref={protagonistRef}
                     className={`h-[31px] mt-[21px] relative col-span-6 md:col-span-4 bg-[#fafafa] ${
-                      protagonist ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                      protagonist ? "border-[#00c3ff]" : "border-[#EAEAEA]"
                     } rounded-[4px] border-[2px]`}
                   >
                     <Select
@@ -3141,7 +3141,7 @@ const PremisePreview2 = ({
                           fontSize: "14px",
                           padding: "0px 8px",
                           backgroundColor: state.isFocused
-                            ? "#33b0ca"
+                            ? "#00c3ff"
                             : "#fafafa",
                           color: state.isFocused ? "#ffffff" : "#000000",
                           cursor: "pointer",
@@ -3195,7 +3195,7 @@ const PremisePreview2 = ({
                             value={protaAge}
                             min="0" // This prevents negative values
                             className={`h-[30px] col-span-4 relative text-[12px] md:!text-[14px] leading-tight px-[8px] w-[57px]  bg-[#fafafa] rounded-[4px] border-[2px] ${
-                              protaAge ? "border-[#33B0CA]" : "border-[#EAEAEA]"
+                              protaAge ? "border-[#00c3ff]" : "border-[#EAEAEA]"
                             } focus:outline-none`}
                             placeholder="23"
                             required
@@ -3224,7 +3224,7 @@ const PremisePreview2 = ({
                   className={`${
                     isLoading
                       ? "bg-[#616161] rounded-[8px] h-[32px] px-[12px] text-[14px] font-[600] text-white hover:bg hidden"
-                      : "bg-[#FAFAFA] border h-[32px] !border-[#33B0CA] text-[#33B0CA] rounded-[8px]  px-[12px] text-[14px] font-[600]"
+                      : "bg-[#FAFAFA] border h-[32px] !border-[#00c3ff] text-[#00c3ff] rounded-[8px]  px-[12px] text-[14px] font-[600]"
                   } mr-4 md:ml-0`}
                   onClick={() => handleGoBack()}
                 >
@@ -3236,7 +3236,7 @@ const PremisePreview2 = ({
                     disabled={!formValid}
                     type="submit"
                     className={` text-white rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] ${
-                      !formValid ? "bg-[#ACDDE7] " : "bg-[#33B0CA]"
+                      !formValid ? "bg-[#ACDDE7] " : "bg-[#00c3ff]"
                     }`}
                   >
                     Next
@@ -3269,7 +3269,7 @@ const PremisePreview2 = ({
                   {!charSaveDisable && (
                     <div
                       onClick={handleEditProposedCharacters}
-                      className={`position-relative text-[#33B0CA]  cursor-pointer mr-[12px]  h-[32px] px-[10px] text-[14px] font-[500] border border-[#fafafa] border-b-[#33B0CA]
+                      className={`position-relative text-[#00c3ff]  cursor-pointer mr-[12px]  h-[32px] px-[10px] text-[14px] font-[500] border border-[#fafafa] border-b-[#00c3ff]
                   `}
                     >
                       Edit Proposed Characters
@@ -3278,7 +3278,7 @@ const PremisePreview2 = ({
                   {finalSubmitLoading ? (
                     <div
                       disabled={finalSubmitLoading}
-                      className={` text-white cursor-auto rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] bg-[#33B0CA]`}
+                      className={` text-white cursor-auto rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] bg-[#00c3ff]`}
                     >
                       Posting...
                     </div>
@@ -3292,7 +3292,7 @@ const PremisePreview2 = ({
                           }}
                           // disabled={}
                           className={`  flex justify-center items-center cursor-pointer rounded-[8px] h-[32px] px-[28px]
-                             text-[14px] font-[600] border border-[#33B0CA]  text-[#33B0CA] `}
+                             text-[14px] font-[600] border border-[#00c3ff]  text-[#00c3ff] `}
                         >
                           Back To Character List
                         </div>
@@ -3302,7 +3302,7 @@ const PremisePreview2 = ({
                         onClick={handlePremisePostToGetComments}
                         className={` text-white flex justify-center items-center  rounded-[8px] h-[32px] px-[28px] text-[14px] 
                           font-[600] ${
-                            agreeToPost ? "bg-[#33B0CA] " : "bg-[#ACDDE7]"
+                            agreeToPost ? "bg-[#00c3ff] " : "bg-[#ACDDE7]"
                           }`}
                       >
                         Post

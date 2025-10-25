@@ -149,7 +149,7 @@ const PaymentPage = ({
           address: "None",
         },
         theme: {
-          color: "#33b0ca",
+          color: "#00c3ff",
         },
         image: "https://uidemos.s3.ap-south-1.amazonaws.com/mnf_logo.png",
         credit_to_debit,
@@ -297,7 +297,7 @@ const PaymentPage = ({
                 disabled={paymentCondition}
                 onClick={handleClick}
                 className={`${
-                  paymentCondition ? "bg-[#ACDDE7]" : "bg-[#33b0ca]"
+                  paymentCondition ? "bg-[#ACDDE7]" : "bg-[#00c3ff]"
                 } w-32 my-8 h-[40px] text-white rounded-lg font-semibold`}
               >
                 Pay Now

@@ -169,7 +169,7 @@ const ApproveTranslationPop = ({
             className={`${
               selectedRequests.length === 0 || loading
                 ? "bg-[#ACDDE7] "
-                : "bg-[#33B0CA] "
+                : "bg-[#00c3ff] "
             } text-[#fafafa] rounded-[8px] leading-[24px] px-[20px] py-1 text-[13px] font-[600]`}
           >
             {loading ? "Processing..." : "Proceed"}

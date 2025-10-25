@@ -61,7 +61,7 @@ const CardHeader = ({
                 alt="Profile"
               />
               <div>
-                <h4 className="text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA]">
+                <h4 className="text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#00c3ff]">
                   {premiseOwner?.first_name} {premiseOwner?.last_name}
                 </h4>
                 <p className="text-[#616161] text-[10px] font-[400]">
@@ -124,25 +124,25 @@ const CardHeader = ({
                 >
                   <button
                     onClick={handleVisibility}
-                    className="block w-full text-left p-2 hover:text-[#33B0CA]"
+                    className="block w-full text-left p-2 hover:text-[#00c3ff]"
                   >
                     Visibility Settings
                   </button>
                   <button
                     onClick={handleMonetizing}
-                    className="block w-full text-left p-2 hover:text-[#33B0CA]"
+                    className="block w-full text-left p-2 hover:text-[#00c3ff]"
                   >
                     Monetizing Preferences
                   </button>
                   <button
                     onClick={handleDelete}
-                    className="block w-full text-left p-2 hover:text-[#33B0CA]"
+                    className="block w-full text-left p-2 hover:text-[#00c3ff]"
                   >
                     Delete Premise
                   </button>
                   <button
                     onClick={handleOpenSp}
-                    className="block w-full text-left p-2 hover:text-[#33B0CA]"
+                    className="block w-full text-left p-2 hover:text-[#00c3ff]"
                   >
                     Open Script Pad
                   </button>

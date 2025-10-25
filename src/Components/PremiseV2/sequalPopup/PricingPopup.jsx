@@ -58,13 +58,13 @@ const PricingPopup = ({ setPricingPopup }) => {
           </div>
 
           <div className="flex flex-col justify-center items-center px-2 md:px-8">
-            <h3 className="bg-[#33B0CA] px-8 py-2 rounded-b-xl text-[#fafafa] font-bold text-[18px]">
+            <h3 className="bg-[#00c3ff] px-8 py-2 rounded-b-xl text-[#fafafa] font-bold text-[18px]">
               Const Estimate For {"{project name}"}
             </h3>
           </div>
 
           <div className="w-[90%] mx-auto mt-4">
-            <h4 className="text-[#33b0ca] font-semibold text-left px-3 text-[16px]">
+            <h4 className="text-[#00c3ff] font-semibold text-left px-3 text-[16px]">
               Applicable Discounts
             </h4>
             {/* discount section */}
@@ -155,7 +155,7 @@ const PricingPopup = ({ setPricingPopup }) => {
                 </div>
               </div>
             </div>
-            <h4 className="text-[#33b0ca] font-semibold text-left px-3 text-[16px] mt-4">
+            <h4 className="text-[#00c3ff] font-semibold text-left px-3 text-[16px] mt-4">
               Discounted Cost
             </h4>
             {/* table section */}
@@ -291,18 +291,18 @@ const PricingPopup = ({ setPricingPopup }) => {
                 <div className="w-full h-[1px] bg-black" />
               </div>
             </div>
-            <div className="flex relative items-center w-full mt-4 mb-2  px-8 py-2 bg-[#33B0CA] rounded-b-xl">
+            <div className="flex relative items-center w-full mt-4 mb-2  px-8 py-2 bg-[#00c3ff] rounded-b-xl">
               <h3 className="  text-[#fafafa] mx-auto text-center font-bold text-[18px]">
                 Total Payable: $ 0.00
               </h3>
-              <button className="absolute w-[100px] text-[12px] rounded-md bg-white text-[#33b0ca] right-12">
+              <button className="absolute w-[100px] text-[12px] rounded-md bg-white text-[#00c3ff] right-12">
                 Pay
               </button>
             </div>
             <h2 className="text-[18px] font-bold mb-2">
               {/* explore will be clickable */}
               You may get greater benefits in the{" "}
-              <span className="text-[#33b0ca]">'Explore'</span> package
+              <span className="text-[#00c3ff]">'Explore'</span> package
             </h2>
           </div>
         </div>

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegThumbsUp, FaThumbsUp } from "react-icons/fa";
 import {
   useDeleteLikeMutation,
-  useIsLikePremiseMutation,
   useLikePremiseMutation,
 } from "../../app/EndPoints/premisePoolApi";
 import Popup from "./Popup";
@@ -72,7 +71,7 @@ const LikePremise = ({ data, setIsLiked, refetch }) => {
           <button disabled={disable}>
             <FaThumbsUp
               onClick={handleDisLikeClick}
-              className={`w-8 h-8 text-[#33B0CA]   ${
+              className={`w-8 h-8 text-[#00c3ff]   ${
                 disable ? " cursor-default" : " cursor-pointer"
               }`}
             />

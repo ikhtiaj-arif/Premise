@@ -184,7 +184,7 @@ const ReqTranslationPop = ({
               disabled={!targetLanguage || processing}
               onClick={handleTranslationRequestSubmit}
               className={`${
-                !targetLanguage ? "bg-[#ACDDE7] " : "bg-[#33B0CA]"
+                !targetLanguage ? "bg-[#ACDDE7] " : "bg-[#00c3ff]"
               } mx-auto text-center text-[#fafafa] rounded-[8px] leading-[32px] px-[24px] text-[12px] font-[700] `}
             >
               Send Request

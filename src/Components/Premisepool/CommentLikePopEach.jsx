@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import {
   useGetPremiseUserPictureQuery,
@@ -59,10 +58,10 @@ const CommentLikePopEach = ({ like }) => {
                   alt=""
                 />
               )}
-            
+
               {userData?.firstName ? (
                 <div className="flex items-center">
-                  <h4 className="text-[14px] font-[500] text-[#252525] hover:text-[#33B0CA]">
+                  <h4 className="text-[14px] font-[500] text-[#252525] hover:text-[#00c3ff]">
                     {userData?.firstName} {userData?.lastName}
                   </h4>
                   <UserType

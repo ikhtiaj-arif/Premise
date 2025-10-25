@@ -189,7 +189,7 @@ const NoAccessLbPopUp = ({
                     <span
                       className={`${
                         selectedOption === "activate"
-                          ? "text-[#33B0CA] flex-1 cursor-pointer"
+                          ? "text-[#00c3ff] flex-1 cursor-pointer"
                           : "text-[#252525] flex-1 cursor-pointer"
                       }`}
                     >
@@ -213,7 +213,7 @@ const NoAccessLbPopUp = ({
                     <span
                       className={`flex-1 ${
                         selectedOption === "generate"
-                          ? "text-[#33B0CA] flex-1 cursor-pointer"
+                          ? "text-[#00c3ff] flex-1 cursor-pointer"
                           : "text-[#252525] flex-1 cursor-pointer"
                       }`}
                     >
@@ -260,7 +260,7 @@ const NoAccessLbPopUp = ({
                   <span
                     className={`${
                       selectedOption === "nextPackage"
-                        ? "text-[#33B0CA] flex-1 cursor-pointer"
+                        ? "text-[#00c3ff] flex-1 cursor-pointer"
                         : "text-[#252525] flex-1 cursor-pointer"
                     }`}
                   >
@@ -275,7 +275,7 @@ const NoAccessLbPopUp = ({
             {/* button */}
             <div className="text-center">
               <button
-                className="bg-[#33b0ca] w-[98px] h-[42px] text-center text-[#fafafa] font-semibold text-[16px] rounded-[4px] mt-4 mb-2 py-1 px-4"
+                className="bg-[#00c3ff] w-[98px] h-[42px] text-center text-[#fafafa] font-semibold text-[16px] rounded-[4px] mt-4 mb-2 py-1 px-4"
                 onClick={handleGoClick}
               >
                 Go

@@ -18,7 +18,6 @@ import { URL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
-import ReplyLike from "./ReplyLike";
 
 const ReplyToReply3 = ({
   fromNew,
@@ -226,12 +225,12 @@ const ReplyToReply3 = ({
                 >
                   {childReply?.user?.first_name ||
                   childReply?.user?.last_name ? (
-                    <p className="notranslate text-[14px] font-[500] hover:text-[#33b0ca]">
+                    <p className="notranslate text-[14px] font-[500] hover:text-[#00c3ff]">
                       {childReply?.user?.first_name}{" "}
                       {childReply?.user?.last_name}
                     </p>
                   ) : (
-                    <p className="text-[14px] font-[500] hover:text-[#33b0ca]">
+                    <p className="text-[14px] font-[500] hover:text-[#00c3ff]">
                       {childReply?.user?.email.split("@")[0]}{" "}
                     </p>
                   )}
@@ -294,7 +293,9 @@ const ReplyToReply3 = ({
         </div>
         <div
           className={`flex justify-between w-full sm:w-[86%] lg:w-[81%] mr-[24px]  ml-auto ${
-            fromNew ? " md:mr-[51px]" : " sm:mr-[69px] md:mr-[29px] lg:mr-[55px]"
+            fromNew
+              ? " md:mr-[51px]"
+              : " sm:mr-[69px] md:mr-[29px] lg:mr-[55px]"
           }`}
         >
           <div className="md:flex hidden ml-[30px] md:ml-0 gap-3 leading-[16px] mt-[2px] mb-[4px]">
@@ -414,7 +415,7 @@ const ReplyToReply3 = ({
                   </button>
                 </div>
               ) : (
-               <></>
+                <></>
               )}
             </div>
           </div>

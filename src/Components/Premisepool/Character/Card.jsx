@@ -75,7 +75,7 @@ const CharacterShowCard = ({
       <div className="">
         <p className="text-[12px] leading-[16.26px] font-[400]">
           {character?.role}:{" "}
-          <span className={`capitalize ${isAddedByMe ? "text-[#33B0CA]" : ""}`}>
+          <span className={`capitalize ${isAddedByMe ? "text-[#00c3ff]" : ""}`}>
             {character?.name}
           </span>
           , {character?.gender}

@@ -1,13 +1,12 @@
 import CryptoJS from "crypto-js";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { MyContext } from "../../App";
+import { fetchUserAccess, MyContext } from "../../App";
 import {
   useCallbackPackageMutation,
   usePayNowPackageMutation,
   useTopPayDetailsMutation,
 } from "../../app/EndPoints/premisePoolApi";
-import mnfLogo from "../../img/mnf_logo.png";
 import Valid from "../../img/valid_upto.webp";
 import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 import TypingLoader from "../TypingLoader";
@@ -89,6 +88,12 @@ const LimitPaymentPage = () => {
         console.log("callback success", res);
         sessionStorage.removeItem("limit_counts");
         setCounts(null);
+        const crdRes = await fetchUserAccess(`PP_AllowBrainstoming`);
+        const remainingCredits = crdRes?.remaining_credits ?? 0;
+        const creditElement = document.getElementById("creditBalance");
+        if (creditElement) {
+          creditElement.textContent = remainingCredits;
+        }
         // navigate(`/${scriptId}`);
       }
     }
@@ -160,11 +165,12 @@ const LimitPaymentPage = () => {
           address: "None",
         },
         theme: {
-          color: "#33b0ca",
+          color: "#00c3ff",
         },
-        image: mnfLogo,
+        image: "https://uidemos.s3.ap-south-1.amazonaws.com/mnf_logo.png",
         credit_to_debit,
       };
+
       const paymentObject = new window.Razorpay(options);
       paymentObject.open();
     } else {
@@ -197,7 +203,6 @@ const LimitPaymentPage = () => {
       // Dynamically create and submit the form
       const payuForm = document.createElement("form");
       payuForm.action = "https://secure.payu.in/_payment";
-
       payuForm.method = "POST";
 
       // Add form fields
@@ -253,9 +258,10 @@ const LimitPaymentPage = () => {
               </a>
             </div>
           </div>
+          <hr />
 
           <div className="md:mx-12 md:my-2 m-4">
-            <div className=" grid grid-cols-2 md:grid-cols-[40%_minmax(40%,_1fr)_20%] text-[#33B0CA] text-[16px] md:text-[28px] font-bold md:mb-6">
+            <div className=" grid grid-cols-2 md:grid-cols-[40%_minmax(40%,_1fr)_20%] text-[#00c3ff] text-[16px] md:text-[28px] font-bold md:mb-6">
               <h2>
                 Order Summary{" "}
                 {/* <span className="text-[16px] md:text-[24px]">{`2425/001`}</span>

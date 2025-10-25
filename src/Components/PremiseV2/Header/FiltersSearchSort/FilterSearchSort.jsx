@@ -1,4 +1,4 @@
-/** 
+/**
  * FilterSearchSort Component
  *
  * This component handles the search, filter, and sort functionality for the Premise Pool.
@@ -12,42 +12,42 @@
  *    - Handles Enter key, input changes, and clearing the search field.
  *    - Shows a notification if the search text is too short.
  *
- * 2.  Sorting 
+ * 2.  Sorting
  *    - Users can sort by date or popularity.
  *    - Supports combining date & popularity sorting.
  *    - Updates the data via setSortedData and triggers a refetch.
  *
- * 3.  Filtering 
+ * 3.  Filtering
  *    - Filter by languages (via RefineFilters component), availability for translation, or availability for sale.
  *    - Filter by "Added by me" (user’s own premises) using activeAddedByMe toggle.
  *    - Applies filters immediately and triggers data refetching.
  *
- * 4.  Pagination & Items Per Page 
+ * 4.  Pagination & Items Per Page
  *    - Handles page selection with handlePageClick.
  *    - Lets users choose how many items to show per page.
  *
- * 5.  Context & State 
+ * 5.  Context & State
  *    - Uses MyContext to access global filters and search states.
  *    - Manages local state for sorting, search text, notifications, and UI toggles.
  *
- * 6.  UI & Interactions 
+ * 6.  UI & Interactions
  *    - Responsive layout: search input, filter buttons, and sort buttons adapt to screen size.
  *    - Buttons visually change when active (e.g., by date, by popularity, language filter, translation, sale, added by me).
  *    - RefineFilters dropdown opens/closes with outside click detection.
  *    - Tooltips provide hints for each filter/sort button.
  *
- * 7.  Integration with Backend 
+ * 7.  Integration with Backend
  *    - Calls refetch() from useGetFilteredLangQuery or parent props to reload data whenever filters or search change.
  *    - Sets refetching flag to show loading state in parent components.
  *
- * 8.  Extra Features 
+ * 8.  Extra Features
  *    - Keeps search input focused when activeSearch is toggled.
  *    - Handles clearing filters individually or completely.
  *    - Maps backend language data to { value, label } format for dropdowns.
  *
  * In short: FilterSearchSort is the interactive control panel for sorting, searching, and filtering premises.
  * It ensures the user sees only relevant premises and can quickly switch between different views and sorting orders.
-   **/
+ **/
 
 import { useContext, useEffect, useRef, useState } from "react";
 import { BsFire } from "react-icons/bs";
@@ -393,7 +393,7 @@ const FilterSearchSort = ({
               <div
                 ref={langBtnRef}
                 className={`h-[32px] w-[32px] rounded-full cursor-pointer
-             ${!selectedLanguages ? "bg-[#252525]" : "bg-[#33B0CA]"}`}
+             ${!selectedLanguages ? "bg-[#252525]" : "bg-[#00c3ff]"}`}
                 onClick={() => setShowRefine(!showRefine)}
               >
                 {!selectedLanguages ? (
@@ -434,7 +434,7 @@ const FilterSearchSort = ({
               data-te-toggle="tooltip"
               title="Available for Translation"
               className={`h-[32px] w-[32px] rounded-full relative ${
-                !availableForTranslation ? "bg-[#252525]" : "bg-[#33B0CA]"
+                !availableForTranslation ? "bg-[#252525]" : "bg-[#00c3ff]"
               }`}
               onClick={() =>
                 setAvailableForTranslation(!availableForTranslation)
@@ -451,7 +451,7 @@ const FilterSearchSort = ({
               data-te-toggle="tooltip"
               title="Available for Sale"
               className={`h-[32px] w-[32px] rounded-full relative ${
-                !availableForSale ? "bg-[#252525]" : "bg-[#33B0CA]"
+                !availableForSale ? "bg-[#252525]" : "bg-[#00c3ff]"
               }`}
               onClick={() => setAvailableForSale(!availableForSale)}
             >
@@ -466,7 +466,7 @@ const FilterSearchSort = ({
               data-te-toggle="tooltip"
               title="Popularity"
               className={`h-[32px] w-[32px] rounded-full ${
-                !byPopuSort ? "bg-[#252525]" : "bg-[#33B0CA]"
+                !byPopuSort ? "bg-[#252525]" : "bg-[#00c3ff]"
               }`}
               onClick={() => {
                 setByPopuSort(!byPopuSort);
@@ -483,7 +483,7 @@ const FilterSearchSort = ({
                 setByDateSort(!byDateSort);
               }}
               className={`h-[32px] w-[32px] rounded-full cursor-pointer relative ${
-                !byDateSort ? "bg-[#252525]" : "bg-[#33B0CA]"
+                !byDateSort ? "bg-[#252525]" : "bg-[#00c3ff]"
               }`}
             >
               {!byDateSort ? (
@@ -506,7 +506,7 @@ const FilterSearchSort = ({
               title="Added by me"
               onClick={() => setActiveAddedByMe(!activeAddedByMe)}
               className={`h-[32px] w-[32px] rounded-full cursor-pointer relative ${
-                !activeAddedByMe ? "bg-[#252525]" : "bg-[#33B0CA]"
+                !activeAddedByMe ? "bg-[#252525]" : "bg-[#00c3ff]"
               }`}
             >
               {!activeAddedByMe ? (
@@ -528,7 +528,7 @@ const FilterSearchSort = ({
               data-te-toggle="tooltip"
               title="Added by me"
               className={`h-[32px] w-[32px] rounded-full ${
-                !activeAddedByMe ? "bg-[#252525]" : "bg-[#33B0CA]"
+                !activeAddedByMe ? "bg-[#252525]" : "bg-[#00c3ff]"
               }`}
               onClick={() => setActiveAddedByMe(!activeAddedByMe)}
             >
@@ -561,7 +561,7 @@ const FilterSearchSort = ({
                   <input
                     ref={searchInputRef}
                     type="text"
-                    className="w-full flex-1 px-2 h-[40px] text-[14px] bg-[#fafafa] fborder border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none"
+                    className="w-full flex-1 px-2 h-[40px] text-[14px] bg-[#fafafa] fborder border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none"
                     name="search"
                     placeholder="Search"
                     value={searchText}

@@ -187,7 +187,7 @@ const AvailableForTranslationPop = ({
             className={`mx-auto text-center rounded-[8px] text-white leading-[32px] px-[16px] text-[14px] font-[700] ${
               !targetLanguage || isProcessing
                 ? "bg-[#ACDDE7] cursor-not-allowed"
-                : "bg-[#33B0CA] "
+                : "bg-[#00c3ff] "
             }`}
           >
             {isProcessing ? "Processing..." : "Pay now"}

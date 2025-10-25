@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import {
   useGetPremiseUserPictureQuery,
@@ -23,8 +22,6 @@ const ReplyLikeEachPop = ({ like }) => {
     refetch: profileRefetch,
   } = useGetPremiseUserPictureQuery(like);
   const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
-
-
 
   return (
     <div>
@@ -53,27 +50,21 @@ const ReplyLikeEachPop = ({ like }) => {
               alt=""
             />
           )}
-           {userData?.firstName ? (
-                <div className="flex items-center">
-                  <h4 className="text-[14px] font-[500] text-[#252525] hover:text-[#33B0CA]">
-                    {userData?.firstName} {userData?.lastName}
-                  </h4>
-                  <UserType
-                    type={userData?.type}
-                    user_type={userData?.user_type}
-                  />
-                </div>
-              ) : (
-                <div className="flex items-center">
-                  <h4 className="text-[14px] font-[500] text-[#252525]">
-                    {userData?.email?.split("@")[0]}
-                  </h4>
-                  <UserType
-                    type={userData?.type}
-                    user_type={userData?.user_type}
-                  />
-                </div>
-              )}
+          {userData?.firstName ? (
+            <div className="flex items-center">
+              <h4 className="text-[14px] font-[500] text-[#252525] hover:text-[#00c3ff]">
+                {userData?.firstName} {userData?.lastName}
+              </h4>
+              <UserType type={userData?.type} user_type={userData?.user_type} />
+            </div>
+          ) : (
+            <div className="flex items-center">
+              <h4 className="text-[14px] font-[500] text-[#252525]">
+                {userData?.email?.split("@")[0]}
+              </h4>
+              <UserType type={userData?.type} user_type={userData?.user_type} />
+            </div>
+          )}
         </div>
         <div className="h-[2px] bg-[#EAEAEA] w-full " />
       </a>

@@ -240,14 +240,14 @@ const BankDetailsPop = ({ popClose, premiseId, user, fromNew }) => {
     //             <div className="flex justify-center items-center gap-[18px] mx-auto mt-[16px]">
     //               <button
     //                 onClick={() => setShowBankDetails(true)}
-    //                 className={`${"bg-[#33B0CA]"} text-[#fafafa] rounded-[4px] leading-[18px] md:leading-[24px] px-[20px] py-[2px]  text-[12px] md:text-[14px] font-[600]`}
+    //                 className={`${"bg-[#00c3ff]"} text-[#fafafa] rounded-[4px] leading-[18px] md:leading-[24px] px-[20px] py-[2px]  text-[12px] md:text-[14px] font-[600]`}
     //               >
     //                 Submit details of bank account
     //               </button>
     //               {bankDetailsAvailable?.data && (
     //                 <button
     //                   onClick={() => setShowTransRequests(true)}
-    //                   className={`${"text-[#33B0CA]"} border-b border-[#33B0CA] leading-[18px]  md:leading-[24px] px-[20px] py-[2px] text-[12px] md:text-[14px] font-[600] w-fit`}
+    //                   className={`${"text-[#00c3ff]"} border-b border-[#00c3ff] leading-[18px]  md:leading-[24px] px-[20px] py-[2px] text-[12px] md:text-[14px] font-[600] w-fit`}
     //                 >
     //                   Select
     //                 </button>
@@ -314,7 +314,7 @@ const BankDetailsPop = ({ popClose, premiseId, user, fromNew }) => {
     //             className={`${
     //               !isFormValid
     //                 ? "bg-[#ACDDE7]  cursor-not-allowed"
-    //                 : "bg-[#33B0CA]"
+    //                 : "bg-[#00c3ff]"
     //             } w-[88px] mt-[20px] mx-auto text-[#fafafa] rounded-[8px] leading-[24px] px-[12px] py-[2px] text-[13px] font-[600]`}
     //           >
     //             Proceed
@@ -458,14 +458,14 @@ const BankDetailsPop = ({ popClose, premiseId, user, fromNew }) => {
                 <div className="flex justify-center items-center gap-4 mt-6">
                   <button
                     onClick={() => setShowBankDetails(true)}
-                    className="bg-[#33B0CA] text-white rounded-md px-4 py-2 text-sm font-semibold"
+                    className="bg-[#00c3ff] text-white rounded-md px-4 py-2 text-sm font-semibold"
                   >
                     Submit bank details
                   </button>
                   {bankDetailsAvailable?.data && (
                     <button
                       onClick={() => setShowTransRequests(true)}
-                      className="text-[#33B0CA] border-b border-[#33B0CA] text-sm font-semibold"
+                      className="text-[#00c3ff] border-b border-[#00c3ff] text-sm font-semibold"
                     >
                       Select
                     </button>
@@ -516,7 +516,7 @@ const BankDetailsPop = ({ popClose, premiseId, user, fromNew }) => {
                   className={`w-full max-w-[252px] mx-auto mt-4 rounded-md py-2 text-sm font-semibold ${
                     !isFormValid
                       ? "bg-[#ACDDE7] cursor-not-allowed text-white"
-                      : "bg-[#33B0CA] text-white"
+                      : "bg-[#00c3ff] text-white"
                   }`}
                 >
                   Proceed

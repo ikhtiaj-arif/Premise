@@ -7,12 +7,12 @@ import { useGetFilteredLangQuery } from "../../../app/EndPoints/premisePoolApi";
 // import activeLangIcon from "../../../img/Icons/activeLangIcon.png";
 // import langIcon from "../../../img/Icons/langIcon.png";
 import { MyContext } from "../../../App";
+import byMeB from "../../../img/Icons/addedByMeBlack.png";
+import byMeG from "../../../img/Icons/addedByMeGreen.png";
 import calB from "../../../img/Icons/calB.png";
 import calG from "../../../img/Icons/calG.png";
 import langB from "../../../img/Icons/langB.png";
 import langG from "../../../img/Icons/langG.png";
-import byMeB from "../../../img/Icons/addedByMeBlack.png";
-import byMeG from "../../../img/Icons/addedByMeGreen.png";
 import "../Premise.css";
 import RefineFilters from "./RefineFilters";
 import "./SortPagi.css";
@@ -333,7 +333,7 @@ const SortPagination = ({
               data-te-toggle="tooltip"
               title="Added by me"
               className={`h-[32px] w-[32px] rounded-full ${
-                !activeAddedByMe ? "bg-[#252525]" : "bg-[#33B0CA]"
+                !activeAddedByMe ? "bg-[#252525]" : "bg-[#00c3ff]"
               }`}
               onClick={() => setActiveAddedByMe(!activeAddedByMe)}
             >
@@ -348,7 +348,7 @@ const SortPagination = ({
               <div
                 ref={langBtnRef}
                 className={`h-[32px] w-[32px] rounded-full cursor-pointer
-             ${!selectedLanguages ? "bg-[#252525]" : "bg-[#33B0CA]"}`}
+             ${!selectedLanguages ? "bg-[#252525]" : "bg-[#00c3ff]"}`}
                 onClick={() => setShowRefine(!showRefine)}
               >
                 {!selectedLanguages ? (
@@ -385,7 +385,7 @@ const SortPagination = ({
 
             {/* <button
               className={`h-[32px] w-[32px] rounded-full ${
-                !byDateSort ? "bg-[#252525]" : "bg-[#33B0CA]"
+                !byDateSort ? "bg-[#252525]" : "bg-[#00c3ff]"
               }`}
               onClick={() => setByDateSort(!byDateSort)}
             >
@@ -399,7 +399,7 @@ const SortPagination = ({
                 setByDateSort(!byDateSort);
               }}
               className={`h-[32px] w-[32px] rounded-full cursor-pointer relative ${
-                !byDateSort ? "bg-[#252525]" : "bg-[#33B0CA]"
+                !byDateSort ? "bg-[#252525]" : "bg-[#00c3ff]"
               }`}
             >
               {!byDateSort ? (
@@ -421,7 +421,7 @@ const SortPagination = ({
               data-te-toggle="tooltip"
               title="Popularity"
               className={`h-[32px] w-[32px] rounded-full ${
-                !byPopuSort ? "bg-[#252525]" : "bg-[#33B0CA]"
+                !byPopuSort ? "bg-[#252525]" : "bg-[#00c3ff]"
               }`}
               onClick={() => {
                 setByPopuSort(!byPopuSort);
@@ -453,7 +453,7 @@ const SortPagination = ({
                   <input
                     ref={searchInputRef}
                     type="text"
-                    className="w-full flex-1 px-2 h-[40px] text-[14px] border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none"
+                    className="w-full flex-1 px-2 h-[40px] text-[14px] border border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none"
                     name="search"
                     placeholder="Search"
                     value={searchText}

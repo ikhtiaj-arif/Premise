@@ -518,9 +518,9 @@ const BeatEditPop = ({
                               onClick={() => {
                                 handleSelectProject(project);
                               }}
-                              className={`text-[14px] cursor-pointer font-[500] w-[353.86px] mx-auto px-[12px] my-[6px] py-[5px] rounded-[8px] hover:text-[#fafafa] hover:bg-[#33B0CA] ${
+                              className={`text-[14px] cursor-pointer font-[500] w-[353.86px] mx-auto px-[12px] my-[6px] py-[5px] rounded-[8px] hover:text-[#fafafa] hover:bg-[#00c3ff] ${
                                 project?.pro_uuid === selectedProject?.pro_uuid
-                                  ? "bg-[#33B0CA] text-[#fafafa]"
+                                  ? "bg-[#00c3ff] text-[#fafafa]"
                                   : ""
                               }`}
                             >
@@ -537,7 +537,7 @@ const BeatEditPop = ({
                   {isNewProjectVisible && (
                     <div className="w-[90%] max-w-[358px] mx-auto ">
                       {resInfo?.isLoading ? (
-                        <span className="loading loading-spinner text-[#33B0CA]  w-7 my-auto cursor-auto"></span>
+                        <span className="loading loading-spinner text-[#00c3ff]  w-7 my-auto cursor-auto"></span>
                       ) : (
                         <input
                           ref={projectCreateRef}
@@ -577,8 +577,8 @@ const BeatEditPop = ({
                         handleAddNewProjectClick();
                       }}
                       className={`
-                    bg-[#fafafa] flex items-center justify-center text-[#33B0CA] border !border-[#33b0ca] text-[14px] font-[600]  rounded-[8px] min-w-[170px] min-h-[32px] px-[8px] hover:shadow-md shadow-[#252525]
-                  hover:bg-[#33b0ca] hover:text-[#fafafa]
+                    bg-[#fafafa] flex items-center justify-center text-[#00c3ff] border !border-[#00c3ff] text-[14px] font-[600]  rounded-[8px] min-w-[170px] min-h-[32px] px-[8px] hover:shadow-md shadow-[#252525]
+                  hover:bg-[#00c3ff] hover:text-[#fafafa]
                     
                     `}
                     >
@@ -593,12 +593,12 @@ const BeatEditPop = ({
                   {selectedProject ? (
                     resGetScreenPlay?.isLoading ? (
                       <div className="w-[74px]">
-                        <span className="loading loading-spinner text-[#33B0CA] h-5 w-5 my-auto cursor-auto" />
+                        <span className="loading loading-spinner text-[#00c3ff] h-5 w-5 my-auto cursor-auto" />
                       </div>
                     ) : (
                       <button
                         onClick={handleSubmitBeatToProject}
-                        className="bg-[#33B0CA] text-[#FAFAFA] border  text-[14px] font-[600]  rounded-[8px] w-[74px] min-h-[32px] hover:shadow-md shadow-[#252525] hover:bg-[#33B0CA] hover:text-[#FAFAFA]"
+                        className="bg-[#00c3ff] text-[#FAFAFA] border  text-[14px] font-[600]  rounded-[8px] w-[74px] min-h-[32px] hover:shadow-md shadow-[#252525] hover:bg-[#00c3ff] hover:text-[#FAFAFA]"
                       >
                         Next
                       </button>
@@ -609,8 +609,8 @@ const BeatEditPop = ({
                       className={`${
                         buttonDisable
                           ? "bg-[#ACDDE7] text-[#FAFAFA] border-none cursor-auto"
-                          : "bg-[#33B0CA]"
-                      } bg-[#33B0CA] text-[#FAFAFA]  border border-[#33B0CA] text-[14px] font-[600]  rounded-[8px] min-w-[74px] min-h-[32px] px-[8px] hover:shadow-md shadow-[#252525]  `}
+                          : "bg-[#00c3ff]"
+                      } bg-[#00c3ff] text-[#FAFAFA]  border border-[#00c3ff] text-[14px] font-[600]  rounded-[8px] min-w-[74px] min-h-[32px] px-[8px] hover:shadow-md shadow-[#252525]  `}
                       disabled={buttonDisable}
                     >
                       Next
@@ -644,7 +644,7 @@ const BeatEditPop = ({
                     className="absolute left-0 top-0 md:hidden "
                     onClick={() => popClose(false)}
                   >
-                    <IoIosArrowRoundBack className="text-[50px] text-[#33B0CA]" />
+                    <IoIosArrowRoundBack className="text-[50px] text-[#00c3ff]" />
                   </button>
                   <div className="text-right hidden md:flex justify-end h-0 ">
                     <img
@@ -698,7 +698,7 @@ const BeatEditPop = ({
                               engagement and{" "}
                               <button
                                 onClick={() => setReadMore(true)}
-                                className="text-[#33B0CA] underline"
+                                className="text-[#00c3ff] underline"
                               >
                                 Read more
                               </button>
@@ -813,7 +813,7 @@ const BeatEditPop = ({
                       <div>
                         {!translatedPop && (
                           <button
-                            className={` cursor-pointer hover:text-[#33B0CA] `}
+                            className={` cursor-pointer hover:text-[#00c3ff] `}
                             onClick={() => setTranslatedPop(!translatedPop)}
                           >
                             <img src={transIcon} alt="" />
@@ -840,7 +840,7 @@ const BeatEditPop = ({
                             {Object.entries(sortedLanguages).map(
                               ([key, name]) => (
                                 <option key={key} value={key}>
-                                  <p className="bg-[#33B0CA]">{name}</p>
+                                  <p className="bg-[#00c3ff]">{name}</p>
                                 </option>
                               )
                             )}
@@ -848,7 +848,7 @@ const BeatEditPop = ({
                         </div>
                         // <div className="border p-1 rounded-[4px] flex items-center justify-between h-[32px]">
                         //   <button
-                        //     className={` cursor-pointer hover:text-[#33B0CA] `}
+                        //     className={` cursor-pointer hover:text-[#00c3ff] `}
                         //     onClick={() => setTranslatedPop(!translatedPop)}
                         //   >
                         //     <img
@@ -897,7 +897,7 @@ const BeatEditPop = ({
                         </div>
                       )}
                       <button
-                        className="bg-[#33B0CA] text-[#FAFAFA] border border-[#33B0CA] text-[14px] font-[600]  rounded-[8px] min-w-[74px] min-h-[32px] px-[8px] hover:shadow-md shadow-[#252525] hover:bg-[#33B0CA] "
+                        className="bg-[#00c3ff] text-[#FAFAFA] border border-[#00c3ff] text-[14px] font-[600]  rounded-[8px] min-w-[74px] min-h-[32px] px-[8px] hover:shadow-md shadow-[#252525] hover:bg-[#00c3ff] "
                         onClick={() => setConfirmBit(true)}
                       >
                         Next

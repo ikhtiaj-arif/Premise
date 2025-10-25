@@ -28,7 +28,7 @@
  *    - Highlights the first card when a new premise is added.
  *    - Supports drafts, hidden premises, likes, translations, and AI-generated content.
  *
-  *Popups & Modals
+ *Popups & Modals
  *    - Handles a bunch of popups depending on the situation:
  *        - Adding a new premise
  *        - Missing user info
@@ -250,13 +250,13 @@ const PremiseV2 = () => {
   // }, [id, premiseData]);
   const [hiddenPop, setHiddenPop] = useState(false);
 
-/**
- * Fetches a premise by its ID from the API.
- * If the fetched premise is hidden and not owned by the current user, shows the hidden pop.
- * If the premise is a draft, opens the character chart.
- * Otherwise, opens the premise pop with the premise data and user.
- * @returns {Promise<Object>} The fetched premise data.
- */
+  /**
+   * Fetches a premise by its ID from the API.
+   * If the fetched premise is hidden and not owned by the current user, shows the hidden pop.
+   * If the premise is a draft, opens the character chart.
+   * Otherwise, opens the premise pop with the premise data and user.
+   * @returns {Promise<Object>} The fetched premise data.
+   */
   const fetchPremiseById = async () => {
     try {
       const response = await axios({
@@ -380,14 +380,10 @@ const PremiseV2 = () => {
     }
   }, [userQuery, dispatch, user]);
 
-
-
   useEffect(() => {
     if (premiseData) {
       let filterPremiseData = premiseData?.results?.filter(
-  
         (item) =>
- 
           item?.ai_comments_generated === true || item?.is_draft === true
       );
       // console.log("filterPremiseData",filterPremiseData);
@@ -410,12 +406,11 @@ const PremiseV2 = () => {
     }
   }, [premiseData, itemsToShow]);
 
-
-/**
- * Increases the number of items to show by 12, but not exceeding the total count of premise data.
- * If the new count exceeds the total count, it sets the new count to the total count and sets hasMore to false.
- * Otherwise, it sets hasMore to true.
- */
+  /**
+   * Increases the number of items to show by 12, but not exceeding the total count of premise data.
+   * If the new count exceeds the total count, it sets the new count to the total count and sets hasMore to false.
+   * Otherwise, it sets hasMore to true.
+   */
   const handleShow = () => {
     let newItemsToShow = itemsToShow + 12;
 
@@ -433,9 +428,9 @@ const PremiseV2 = () => {
   const [activeSearch, setActiveSearch] = useState(false);
   const [transPopClose, setTransPopClose] = useState({});
 
-/**
- * Resets the active search state and closes the translation popup when the user scrolls.
- */
+  /**
+   * Resets the active search state and closes the translation popup when the user scrolls.
+   */
   const handleScroll = () => {
     setActiveSearch(false);
     setTransPopClose(null);
@@ -453,7 +448,6 @@ const PremiseV2 = () => {
     }
 
     if (userFirstName) {
-    
       const res = await fetchUserAccess(`${currentUser?.id}/PP_PostPremise`);
       // console.log("add premise res", res);
       if (res?.access === "No") {
@@ -518,10 +512,7 @@ const PremiseV2 = () => {
   const currentProjectName = currentProjectData?.name;
   const isProjectLocked = currentProjectData?.locked;
 
-  
-
   return (
-
     <div
       className="fixed left-0  top-[60px] w-full md:w-[calc(100vw-35px)] "
       id="premisePool"
@@ -581,7 +572,7 @@ const PremiseV2 = () => {
                   id="addNewPremise"
                   onClick={handleAddPopup}
                   // className="btn btn"
-                  className="  bg-gradient-to-r from-[#33B0CA] to-[#FF5C8B]
+                  className="  bg-gradient-to-r from-[#00c3ff] to-[#FF5C8B]
                  hover:opacity-90 transition flex items-center justify-center gap-[8px] text-[#FAFAFA] text-[14px] font-[600] rounded-[8px] min-w-[196px] min-h-[34px] mt-[14px] px-5 ml-auto lg:mx-auto"
                 >
                   <div className="flex gap-[6px] min-h-[34px] items-center">
@@ -701,9 +692,9 @@ const PremiseV2 = () => {
           <div className=" flex items-center gap-[12px] justify-center md:justify-start flex-nowrap cursor-pointer">
             <h4
               onClick={() => setAddedByMeCondition(false)}
-              className={`flex items-center flex-shrink-0 leading-[20px] text-[16px] font-[500] px-[8px] py-[4px] border-b-4 cursor-pointer   hover:border-[#33B0CA]  bg-[#fafafa] ${
+              className={`flex items-center flex-shrink-0 leading-[20px] text-[16px] font-[500] px-[8px] py-[4px] border-b-4 cursor-pointer   hover:border-[#00c3ff]  bg-[#fafafa] ${
                 !addedByMeCondition
-                  ? "text-[#33B0CA] border-[#33B0CA]"
+                  ? "text-[#00c3ff] border-[#00c3ff]"
                   : "text-[#252525] border-[#616161]"
               }`}
             >
@@ -711,9 +702,9 @@ const PremiseV2 = () => {
             </h4>
             <h4
               onClick={() => setAddedByMeCondition(true)}
-              className={`flex items-center flex-shrink-0 leading-[20px] text-[16px] font-[500] px-[8px] py-[4px] border-b-4 cursor-pointer   hover:border-[#33B0CA]  bg-[#fafafa] ${
+              className={`flex items-center flex-shrink-0 leading-[20px] text-[16px] font-[500] px-[8px] py-[4px] border-b-4 cursor-pointer   hover:border-[#00c3ff]  bg-[#fafafa] ${
                 addedByMeCondition
-                  ? "text-[#33B0CA] border-[#33B0CA]"
+                  ? "text-[#00c3ff] border-[#00c3ff]"
                   : "text-[#252525] border-[#616161]"
               }`}
             >

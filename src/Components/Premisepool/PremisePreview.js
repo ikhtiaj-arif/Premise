@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ReactHtmlParser from "react-html-parser";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -89,7 +89,7 @@ const PremisePreview = ({
         </button>
         <button
           onClick={handleGoBack}
-          className="bg-[#33B0CA] btn-sm text-white px-4 rounded"
+          className="bg-[#00c3ff] btn-sm text-white px-4 rounded"
         >
           Cancel
         </button>

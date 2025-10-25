@@ -298,8 +298,8 @@ const PopupTextarea = ({
                   !keyboardVisible ? "View Keyboard" : "Hide Keyboard"
                 }`}
                 className={`w-6 h-6 ${
-                  keyboardVisible && "text-[#33B0CA]"
-                } cursor-pointer hover:text-[#33B0CA]`}
+                  keyboardVisible && "text-[#00c3ff]"
+                } cursor-pointer hover:text-[#00c3ff]`}
                 onClick={onClickKeyboard}
               />
               <div className="w-[110px] ">
@@ -317,7 +317,7 @@ const PopupTextarea = ({
               </div>
             ) : (
               <button className="md:w-[21px]" onClick={handleButtonClick}>
-                <IoMdSend className="text-[#33B0CA] w-6 h-6" />
+                <IoMdSend className="text-[#00c3ff] w-6 h-6" />
                 {/* <img
                             src={forwardIcon}
                             alt=""
@@ -347,7 +347,6 @@ const PopupTextarea = ({
           <NoAccessCreditPopupUpdate
             noAccessPopup={noAccessPopup}
             setNoAccessPopup={setNoAccessPopup}
-            
           />
         ) : (
           (noAccessPopup?.msg === "ShowBuyPackage_and_Allacarte" ||

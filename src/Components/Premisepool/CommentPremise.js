@@ -19,7 +19,7 @@ const CommentPremise = ({ data, setIsLiked, refetch, p }) => {
   // useEffect(() => {
   //   if (!cmntPopup && shouldBlink) {
   //     const blinkingInterval = setInterval(() => {
-  //       controls.start({ color: "#33B0CA" }); // black color
+  //       controls.start({ color: "#00c3ff" }); // black color
   //       setTimeout(() => controls.start({ color: "#000000" }), 500); // Red color after 500ms
 
   //     }, 1000); // Blink every second

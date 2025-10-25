@@ -531,7 +531,7 @@ const Popup = ({
                       <div>
                         <div className="flex items-center">
                           <h4
-                            className={`notranslate w-[75px] max-w-[110px] text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#33B0CA] truncate `}
+                            className={`notranslate w-[75px] max-w-[110px] text-[#252525] font-[600] text-[14px] capitalize cursor-pointer hover:text-[#00c3ff] truncate `}
                             title={`${premiseOwner?.first_name} ${premiseOwner?.last_name}`}
                           >
                             {premiseOwner?.first_name} {premiseOwner?.last_name}
@@ -727,7 +727,7 @@ const Popup = ({
               className=" lg:border lg:mt-[26px] xl:mt-[32px]  bg-[#fff] lg:bg-[#fafafa] lg:shadow-lg border-[#eaeaea] w-[90%] sm:w-[68%] md:w-[68%] lg:w-[769px]  mx-auto lg:ml-0 h-[46vh] lg:h-[500px] xl:h-[546px] 2xl:h-[610px] rounded-[8px] flex flex-col gap-[5px] relative"
             >
               {/* Fixed dynamic heading */}
-              {/* <div className="fixed w-[90%] sm:w-[68%] md:w-[70%] lg:w-[769px] z-50 rounded-t-[8px] bg-[#33B0CA] py-1 text-center text-white font-bold text-[20px]">
+              {/* <div className="fixed w-[90%] sm:w-[68%] md:w-[70%] lg:w-[769px] z-50 rounded-t-[8px] bg-[#00c3ff] py-1 text-center text-white font-bold text-[20px]">
                 {headerText}
               </div> */}
               <div
