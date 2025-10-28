@@ -645,7 +645,7 @@ const AllComments = ({
                 <a
                   data-reply
                   className="h-[31.9px] w-[32px] mt-[6px]"
-                  target="_blank"
+                  // target="_blank"
                   rel="noreferrer"
                   href={
                     comments?.user?.id === user
@@ -683,7 +683,7 @@ const AllComments = ({
                       >
                         {/* ✅ Only the name is clickable */}
                         <a
-                          target="_blank"
+                          // target="_blank"
                           rel="noreferrer"
                           href={
                             comments?.user?.id === user

@@ -140,7 +140,11 @@ const PremiseNewTabAccessChecker = () => {
     );
   }
 
-  return <TypingLoader />;
+  return (
+    <div className="h-screen flex justify-center items-center bg-[#f8f8f8]">
+      <TypingLoader />{" "}
+    </div>
+  );
 };
 
 export default PremiseNewTabAccessChecker;

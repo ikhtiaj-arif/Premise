@@ -1,6 +1,6 @@
 import crossIcon from "../../../../img/Icons/crossIcon.png";
 import BrainstromTable from "../../premiseNewTab/BrainstromTable";
-import EngagementTable from "../../premiseNewTab/EngagementTable";
+// import EngagementTable from "../../premiseNewTab/EngagementTable";
 
 const BrainstormEngagementsPop = ({ popClose, id, commonPopup }) => {
   return (
@@ -22,7 +22,8 @@ const BrainstormEngagementsPop = ({ popClose, id, commonPopup }) => {
           {commonPopup === "brainstorms" ? (
             <BrainstromTable {...{ id }} headerText="Brainstorm" />
           ) : (
-            <EngagementTable {...{ id }} headerText="Engagements" />
+            // <EngagementTable {...{ id }} headerText="Engagements" />
+            <></>
           )}
         </div>
 

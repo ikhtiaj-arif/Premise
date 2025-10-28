@@ -17,16 +17,16 @@ import CharacterEditablePop from "../../Premisepool/Character/CharacterEditableP
 import SingleCharacterAddNewTab from "../../Premisepool/Character/SingleCharacterAddNewTab";
 import SingleCharacterEdit from "../../Premisepool/Character/SingleCharacterEdit";
 import ConfirmationModal from "../../Premisepool/Comments/ConfirmationModal";
-import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
-import DeletePremise from "../../Premisepool/DeletePremise";
+// import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
+// import DeletePremise from "../../Premisepool/DeletePremise";
 import Keyboard from "../../Premisepool/Keyboard";
 import NoAccessCreditPopupUpdate from "../../PricingModel/NoAccessCreditPopupUpdate";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import AskIda from "../../SharedVersion/AskIda";
 import NewTabTextArea from "../../SharedVersion/NewTabTextArea";
-import MonetizePreferencePop from "../Popups/MonetizePreferencePop";
-import TransInOtherLang from "../Popups/TransInOtherLang.pop";
-import ViewTranslationPop from "../Popups/ViewTranslation.pop";
+// import MonetizePreferencePop from "../Popups/MonetizePreferencePop";
+// import TransInOtherLang from "../Popups/TransInOtherLang.pop";
+
 import PremiseTopHeaderUpdate from "./PremiseTopHeaderUpdate";
 
 const LeftSideBarUpdate = ({
@@ -674,34 +674,6 @@ const LeftSideBarUpdate = ({
         </div>
       </div>
 
-      {openHidePop?.msg === "ShowBecomePrivilege" ? (
-        <NoAccessCreditPopupUpdate
-          noAccessPopup={openHidePop}
-          setNoAccessPopup={setOpenHidePop}
-        />
-      ) : openHidePop?.msg === "LB" ||
-        openHidePop?.msg === "ShowBuyPackage_and_Allacarte" ? (
-        <NoAccessLbPopUp
-          noAccessLbPopup={openHidePop}
-          setNoAccessPopup={setOpenHidePop}
-          service="PP_Private"
-        />
-      ) : (
-        openHidePop === "Yes" && (
-          <HideOptionPop
-            {...{
-              setOpenHidePop,
-              id,
-              user,
-              filter_flag,
-              comment_filter_flag,
-              visible_to,
-            }}
-            refetch={premiseRefetch}
-          />
-        )
-      )}
-
       {editPopupOpen && (
         <SingleCharacterEdit
           setEditPopupOpen={setEditPopupOpen}
@@ -928,7 +900,7 @@ const LeftSideBarUpdate = ({
           )}
         </div>
       )}
-      {openTransOtherPop && (
+      {/* {openTransOtherPop && (
         <TransInOtherLang
           refetch={premiseRefetch}
           popClose={setOpenTransOtherPop}
@@ -938,7 +910,7 @@ const LeftSideBarUpdate = ({
           project_id={project_id}
           fromNew={true}
         />
-      )}
+      )} */}
 
       {openMonetizingPreferencesPop?.msg === "ShowBecomePrivilege" ? (
         <NoAccessCreditPopupUpdate
@@ -953,31 +925,10 @@ const LeftSideBarUpdate = ({
           service="PP_Monitizes"
         />
       ) : (
-        openMonetizingPreferencesPop === "Yes" && (
-          <MonetizePreferencePop
-            popClose={setOpenMonetizingPreferencesPop}
-            id={id}
-            user={user}
-          />
-        )
+        <></>
       )}
-      {openViewTranslationsPop && (
-        <ViewTranslationPop
-          popClose={setOpenViewTranslationsPop}
-          premiseId={viewTransactionPId}
-          popupData
-          refetch={premiseRefetch}
-          popCloseCmnt={() => setOpenPop(false)}
-          {...{
-            handleVisibility,
-            handleMonetizing,
-            // setIsLiked,
 
-            viewText,
-          }}
-        />
-      )}
-      {isDelete && (
+      {/* {isDelete && (
         <DeletePremise
           setIsDelete={setIsDelete}
           refetch={premiseRefetch}
@@ -988,7 +939,7 @@ const LeftSideBarUpdate = ({
           projectName={currentProjectName?.slice(0, 20)}
           isDelete={isDelete}
         />
-      )}
+      )} */}
     </>
   );
 };

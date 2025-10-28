@@ -68,10 +68,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { useGetMyAllProjectQuery } from "./app/EndPoints/ScriptPad/project";
+import LimitPaymentPage from "./Components/Payment/LimitPaymentPage";
 import PremiseNewTabAccessChecker from "./Components/PremiseV2/premiseNewTab/PremiseNewTabAccessChecker";
 import UserGuidance from "./Components/PremiseV2/Provider/UserGuidance";
 import { baseURL } from "./Components/utils";
-import LimitPaymentPage from "./Components/Payment/LimitPaymentPage";
 
 export const MyContext = createContext();
 export const TranslationContext = createContext(); // Added global translation context
@@ -293,8 +293,9 @@ function App() {
                 path="/new-tab/:id"
                 element={<PremiseNewTabAccessChecker />}
               />
-              <Route path="/premise_view" element={<PremiseSingleCard />} />
-              <Route path="/:__id/:service" element={<PremiseV2 />} /> */}
+          
+              */}
+               
             </Routes>
           </UserGuidance>
         </TranslationContext.Provider>

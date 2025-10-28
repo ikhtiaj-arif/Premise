@@ -16,7 +16,6 @@ import BtnLoading from "../../../shared/BtnLoading";
 import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
 import { URL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
-import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
 
 const ReplyToReply3 = ({
@@ -212,7 +211,7 @@ const ReplyToReply3 = ({
               <div className="text-[#1E1E1E] pl-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center">
                 <a
                   // data-reply-reply
-                  target="_blank"
+                  // target="_blank"
                   rel="noreferrer"
                   // href={`${URL}/memberpage/#/user/${created_by?.id}`}
 
@@ -234,14 +233,7 @@ const ReplyToReply3 = ({
                       {childReply?.user?.email.split("@")[0]}{" "}
                     </p>
                   )}
-                  {replyBy?.id === 1 ? (
-                    <></>
-                  ) : (
-                    <UserType
-                      type={childReply?.user?.centraldatabase?.type}
-                      user_type={childReply?.user?.centraldatabase?.user_type}
-                    />
-                  )}
+                  {replyBy?.id === 1 ? <></> : <></>}
                 </a>
               </div>
 

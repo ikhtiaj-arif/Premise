@@ -21,7 +21,6 @@ import NoAccessCreditPopupUpdate from "../../PricingModel/NoAccessCreditPopupUpd
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import { URL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
-import UserType from "../UserType";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply3 from "./ReplyToReply3";
 
@@ -299,7 +298,7 @@ const ReplyToReply2 = ({
           <div className="flex flex-col items-center gap-1">
             <a
               // data-reply-reply
-              target="_blank"
+              // target="_blank"
               rel="noreferrer"
               // href={`${URL}/memberpage/#/user/${created_by?.id}`}
 
@@ -356,10 +355,7 @@ const ReplyToReply2 = ({
                   {replyBy?.id === 1 ? (
                     <></>
                   ) : (
-                    <UserType
-                      type={childReply?.user?.centraldatabase?.type}
-                      user_type={childReply?.user?.centraldatabase?.user_type}
-                    />
+                    <></>
                   )}
                 </a>
               </div>

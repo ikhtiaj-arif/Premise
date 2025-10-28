@@ -428,82 +428,6 @@ const PremiseNewTab = ({
                       <TypingLoader />
                     </div>
                   ) : (
-                    // <div className="pt-[18px] pb-[18px]">
-                    //   {filteredCommentsData?.comments?.length > 0 ? (
-                    //     <>
-                    //       <div>
-                    //         {[...(filteredCommentsData?.comments || [])]
-                    //           .sort((a, b) => a.c_value - b.c_value)
-                    //           .map((comment, index) => (
-                    //             <motion.div
-                    //               key={comment.id + index}
-                    //               initial={{ opacity: 0, y: 70 }}
-                    //               animate={{ opacity: 1, y: 0 }}
-                    //               exit={{ opacity: 0, y: -50 }}
-                    //               transition={{ duration: 0.5 }}
-                    //               ref={(el) =>
-                    //                 (currentCommentRef.current[comment.id] = el)
-                    //               }
-                    //             >
-                    //               <AllComments
-                    //                 fromNew
-                    //                 commentIdx={index + 1}
-                    //                 comments={comment}
-                    //                 data={premiseData}
-                    //                 refetch={premiseRefetch}
-                    //                 openReplyField={openReplyField}
-                    //                 setOpenReplyField={setOpenReplyField}
-                    //                 replyToCommentID={replyToCommentID}
-                    //                 setReplyToCommentID={setReplyToCommentID}
-                    //                 replyResStat={replyResStat}
-                    //                 setCommentOwner={setCommentOwner}
-                    //                 setOpenAllReplies={setOpenAllReplies}
-                    //                 openAllReplies={openAllReplies}
-                    //                 commentRefetch={commentRefetch}
-                    //                 proImgUrl={proImgUrl}
-                    //                 setReplyField={setReplyField}
-                    //                 replyField={replyField}
-                    //                 replyRef={replyRef}
-                    //                 handleOpenAllReplies={handleOpenAllReplies}
-                    //                 handleReplyTextChange={
-                    //                   handleReplyTextChange
-                    //                 }
-                    //                 handlePostReplyToComment={
-                    //                   handlePostReplyToComment
-                    //                 }
-                    //                 replyLoading={replyLoading}
-                    //                 premiseData={premiseData}
-                    //                 replyTextCount={replyTextCount}
-                    //                 setReplyTextCount={setReplyTextCount}
-                    //                 actTwoEnd={actTwoEnd}
-                    //                 actOneThreshold={actOneThreshold}
-                    //                 openReplyFieldID={openReplyFieldID}
-                    //                 setOpenReplyFieldID={setOpenReplyFieldID}
-                    //                 project_id={premiseData?.project_id}
-                    //                 focusedCValue={focusedCValue}
-                    //                 iconWidth={"w-[97.8%] md:w-[90.8%]"}
-                    //                 inpRightMargin={"mr-[47px] md:mr-[120px]"}
-                    //                 addBeatTutorialPop={addBeatTutorialPop}
-                    //                 setAddBeatTutorialPop={
-                    //                   setAddBeatTutorialPop
-                    //                 }
-                    //                 setReplyText={setReplyText}
-                    //               />
-                    //             </motion.div>
-                    //           ))}
-                    //       </div>
-                    //     </>
-                    //   ) : filteredCommentsData?.counts > 0 &&
-                    //     filteredCommentsData?.comments?.length === 0 ? (
-                    //     <p className=" text-center my-4">
-                    //       Comments Are Private.
-                    //     </p>
-                    //   ) : (
-                    //     <p className=" text-center my-4">
-                    //       No Comments Available
-                    //     </p>
-                    //   )}
-                    // </div>
                     <div className="pt-[18px] pb-[18px]">
                       {/* ✅ Show loader only while data is fetching */}
                       {isCommentLoading ? (
@@ -728,11 +652,7 @@ const PremiseNewTab = ({
       {openNewTabTutorialPop && !openNewTabTutorialPopOtherUser && (
         <NewTabTutorialPop popClose={() => setOpenNewTabTutorialPop(false)} />
       )}
-      {/* {openNewTabTutorialPopOtherUser && !openNewTabTutorialPop && (
-        <NewTabTutorialOtherUser
-          popClose={() => setOpenNewTabTutorialPopOtherUser(false)}
-        />
-      )} */}
+   
       {<></>}
     </div>
   );

@@ -2,14 +2,12 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import newTabDoodle from "../../../img/new-tab-doodle.webp";
 import LikePopup from "../../Premisepool/LikePopup";
-import LikePremise from "../../Premisepool/LikePremise";
 import TranslatePremiseNewTab from "../../Premisepool/TranslatePremiseNewTab";
 import PopupComment from "../../SharedVersion/PopupComment";
 import {
   getLanguageName,
   getTextFromValue,
 } from "../utilityFuncitons/functions";
-import PremiseTopAccess from "./PremiseTopAccess";
 
 const ProjectInfoUpdate = ({
   premiseData,
@@ -122,18 +120,6 @@ const ProjectInfoUpdate = ({
                   className="premise-translate-wh-24"
                 />
               </div>
-            </div>
-            <div className="pr-3 ">
-              <PremiseTopAccess
-                {...{
-                  premiseOwner,
-                  user,
-                  id,
-                  project_id,
-                  premiseData,
-                  premiseRefetch,
-                }}
-              />
             </div>
           </div>
         </div>

@@ -91,7 +91,7 @@ import NoAccessCreditPopupUpdate from "../../PricingModel/NoAccessCreditPopupUpd
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import { URL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
-import UserType from "../UserType";
+
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply from "./ReplyToReply";
 
@@ -346,7 +346,7 @@ const ReplyToComments = ({
             }  `}
           >
             <a
-              target="_blank"
+              // target="_blank"
               rel="noreferrer"
               // href={`${URL}/memberpage/#/user/${created_by?.id}`}
 
@@ -378,7 +378,7 @@ const ReplyToComments = ({
               <div className="flex w-full justify-between my-1 relative">
                 <div className="text-[#1E1E1E] pl-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center">
                   <a
-                    target="_blank"
+                    // target="_blank"
                     rel="noreferrer"
                     href={
                       reply?.id === user
@@ -399,10 +399,7 @@ const ReplyToComments = ({
                     {reply?.user?.id === 1 ? (
                       <></>
                     ) : (
-                      <UserType
-                        type={reply?.user?.centraldatabase?.type}
-                        user_type={reply?.user?.centraldatabase?.user_type}
-                      />
+                  <></>
                     )}
                   </a>
                 </div>

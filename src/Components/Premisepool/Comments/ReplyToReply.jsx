@@ -20,7 +20,7 @@ import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
-import UserType from "../UserType";
+
 import ReplyToReply2 from "./ReplyToReply2";
 
 import { useTranslateCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
@@ -292,7 +292,7 @@ const ReplyToReply = ({
         <div className="flex gap-[8px]">
           <div className="flex flex-col items-center gap-1">
             <a
-              target="_blank"
+              // target="_blank"
               rel="noreferrer"
               href={
                 replyBy?.id === user
@@ -321,7 +321,7 @@ const ReplyToReply = ({
             <div className="flex justify-between my-1 relative">
               <div className="text-[#1E1E1E] pl-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center">
                 <a
-                  target="_blank"
+                  // target="_blank"
                   rel="noreferrer"
                   href={
                     replyBy?.id === user
@@ -344,10 +344,7 @@ const ReplyToReply = ({
                   {replyBy?.id === 1 ? (
                     <></>
                   ) : (
-                    <UserType
-                      type={childReply?.user?.centraldatabase?.type}
-                      user_type={childReply?.user?.centraldatabase?.user_type}
-                    />
+                  <></>
                   )}
                 </a>
               </div>

@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { useGetPremiseUserPictureQuery } from "../../app/EndPoints/premisePoolApi";
 import userIcon from "../../img/Icons/userImg.png";
 import { URL } from "../utils";
-import UserType from "./UserType";
+
 
 const LikeCount = ({ like }) => {
   // console.log(like?.user);
@@ -25,7 +25,7 @@ const LikeCount = ({ like }) => {
   return (
     <div>
       <a
-        target="_blank"
+        // target="_blank"
         rel="noreferrer"
         // href={`${URL}/memberpage/#/user/${created_by?.id}`}
 
@@ -46,20 +46,20 @@ const LikeCount = ({ like }) => {
               <h4 className="notranslate text-[14px] font-[500] text-[#252525] hover:text-[#00c3ff]">
                 {firstName} {lastName}
               </h4>
-              <UserType
+              {/* <UserType
                 type={like?.user?.centraldatabase?.type}
                 user_type={like?.user?.centraldatabase?.user_type}
-              />
+              /> */}
             </div>
           ) : (
             <div className="flex items-center">
               <h4 className="text-[14px] font-[500] text-[#252525]">
                 {username}
               </h4>
-              <UserType
+              {/* <UserType
                 type={like?.user?.centraldatabase?.type}
                 user_type={like?.user?.centraldatabase?.user_type}
-              />
+              /> */}
             </div>
           )}
         </div>
