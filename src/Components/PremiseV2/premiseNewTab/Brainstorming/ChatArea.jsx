@@ -1,52 +1,46 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FiSend } from "react-icons/fi";
 import { IoMdCloseCircle } from "react-icons/io";
 import { MdReply } from "react-icons/md";
 import AskIda from "../../../SharedVersion/AskIda";
 
-const ChatArea = () => {
-  const [messages, setMessages] = useState([
-    {
-      id: "1",
-      text: "May be: Nihal discovers a secret government document revealing Earth's imminent demise; she panics but confides in Aarav and Dev, forming a plan.",
-      sender: "other",
-      timestamp: "2:11 PM",
-      name: "Ida",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ida",
-    },
-    {
-      id: "2",
-      text: "OR May be: Nihal, at a tense meeting with Meera and Vikram, cleverly thwarts their sabotage attempt, establishing her resolve.",
-      sender: "other",
-      timestamp: "2:11 PM",
-      name: "Ida",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ida",
-    },
-    {
-      id: "3",
-      text: "Do Think About: How do Nihal's leadership qualities evolve post-Government's revelation and thwarting Meera's plans?",
-      sender: "other",
-      timestamp: "2:11 PM",
-      name: "Ida",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ida",
-    },
-    {
-      id: "4",
-      text: "Her leadership evolves from reactive to proactive. She transforms from someone who discovers secrets to someone who actively shapes outcomes and protects those around her.",
-      sender: "user",
-      timestamp: "2:15 PM",
-      name: "You",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=You",
-      replyingTo: "3",
-    },
-  ]);
+const ChatArea = ({ rawBackendData }) => {
+  console.log("rawBackendData", rawBackendData);
+  const transformBackendData = (data) => {
+    const currentUserId = 92; // Assuming current user is the one with ID 92
+    return data?.map((item) => ({
+      id: item.id,
+      text: item.text_prefix ? `${item.text_prefix}: ${item.text}` : item.text,
+      sender: item.user.id === currentUserId ? "user" : "other",
+      timestamp: new Date(item.created_at).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      replyingTo: item.reply || null,
+      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${item.user.username}`,
+      userId: item.user.id,
+      name: item.user.username,
+      askIda: item.ask_ida || false,
+      rejectButton: item.reject_button || false,
+      addToBeat: item.add_to_beat || false,
+      suggested: item.suggested || false,
+    }));
+  };
 
+  const [messages, setMessages] = useState(
+    transformBackendData(rawBackendData)
+  );
   const [textValue, setTextValue] = useState("");
   const [replyingTo, setReplyingTo] = useState(null);
+  const [suggestingId, setSuggestingId] = useState(null);
   const messagesEndRef = useRef(null);
   const messageRefs = useRef({});
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const handleSendMessage = () => {
     if (textValue.trim()) {
@@ -59,18 +53,35 @@ const ChatArea = () => {
           minute: "2-digit",
         }),
         replyingTo: replyingTo?.id,
-        avatar: "👤",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=You",
         name: "You",
+        suggested: false,
       };
 
       setMessages([...messages, newMessage]);
       setTextValue("");
       setReplyingTo(null);
-      setTimeout(
-        () => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }),
-        0
-      );
     }
+  };
+
+  const handleSuggestion = (messageId) => {
+    setSuggestingId(messageId);
+    // Simulate API call
+    setTimeout(() => {
+      setMessages(
+        messages.map((msg) =>
+          msg.id === messageId ? { ...msg, suggested: true } : msg
+        )
+      );
+      setSuggestingId(null);
+    }, 1000);
+  };
+
+  const shouldShowSuggestion = (message) => {
+    const hasQuestion =
+      message.text.includes("?") || message.text.includes("؟");
+    const isFromIdaOrUser79 = message.userId === 1 || message.userId === 79;
+    return hasQuestion && isFromIdaOrUser79 && message.sender !== "user";
   };
 
   const handleReply = (message) => {
@@ -87,7 +98,7 @@ const ChatArea = () => {
   };
 
   const getReplyingToMessage = (messageId) => {
-    return messages.find((msg) => msg.id === messageId);
+    return messages?.find((msg) => msg.id === messageId);
   };
 
   const charCount = textValue.length;
@@ -96,8 +107,8 @@ const ChatArea = () => {
   return (
     <div className="bg-[#F0F2F5] h-screen flex flex-col w-full rounded-lg">
       {/* Messages Container */}
-      <div className="p-3 xxs:h-[calc(69vh-300px)] md:h-[calc(67vh-300px)] lg:h-[calc(95vh-300px)] overflow-y-auto space-y-4">
-        {messages.map((message) => {
+      <div className="p-3 h-[calc(100vh-300px)]  lg:h-[calc(95vh-300px)] overflow-y-auto space-y-4">
+        {messages?.map((message) => {
           const repliedToMessage = message.replyingTo
             ? getReplyingToMessage(message.replyingTo)
             : null;
@@ -122,7 +133,7 @@ const ChatArea = () => {
                   src={message.avatar || "/placeholder.svg"}
                   alt={message.name}
                   className={`w-12 h-12 rounded-full ${
-                    message.sender === "user" && " border-2 border-[#00C3FF]"
+                    message.sender === "user" && "border-2 border-[#00C3FF]"
                   } object-cover flex-shrink-0`}
                 />
 
@@ -150,14 +161,18 @@ const ChatArea = () => {
                       onClick={() =>
                         handleScrollToOriginal(repliedToMessage.id)
                       }
-                      className="mb-2 p-2 bg-[linear-gradient(30deg,#741CFF_10%,#00C3FF)] rounded-tr-[6px] rounded-tl-[16px] rounded-b-[16px]  cursor-pointer hover:opacity-80 transition-opacity max-w-[581px] shadow-xl"
+                      className={`mb-2 p-2 ${
+                        message.sender === "user"
+                          ? "bg-[linear-gradient(30deg,#741CFF_10%,#00C3FF)] text-white"
+                          : "bg-[#EFF6FF] text-[#0F0E13]"
+                      }  rounded-tr-[6px] rounded-tl-[16px] rounded-b-[16px] cursor-pointer hover:opacity-80 transition-opacity max-w-[581px] shadow-xl`}
                     >
-                      <div className="bg-[linear-gradient(30deg,#b48bff85,#99e6ff86)]  m-2  p-3 rounded-[10px]">
-                        <p className="text-sm text-white line-clamp-2">
+                      <div className="bg-[linear-gradient(30deg,#b48bff85,#99e6ff86)] m-2 p-3 rounded-[10px]">
+                        <p className="text-sm  line-clamp-2">
                           {repliedToMessage.text}
                         </p>
                       </div>
-                      <p className="text-[16px] text-white leading-relaxed px-3 py-1">
+                      <p className="text-[16px]  leading-relaxed px-3 py-1">
                         {message.text}
                       </p>
                     </div>
@@ -168,32 +183,67 @@ const ChatArea = () => {
                     <div
                       className={`p-3 rounded-lg ${
                         message.sender === "user"
-                          ? " text-white rounded-br-none"
+                          ? "text-white rounded-br-none  bg-[linear-gradient(30deg,#741CFF_10%,#00C3FF)]"
                           : "bg-[#EFF6FF] text-[#0F0E13] text-[16px] rounded-tl-[6px] rounded-tr-[16px] rounded-b-[16px] border shadow-xl"
                       }`}
                     >
-                      {" "}
                       <p className="text-sm leading-relaxed">{message.text}</p>
                     </div>
                   )}
 
-                  {/* Action Buttons opacity-0 group-hover:opacity-100 transition-opacity */}
-                  <div
-                    className={`w-[95%] mx-auto flex justify-between items-center mt-1  ${
-                      message.sender === "user" ? "hidden" : "flex-row"
-                    }`}
-                  >
-                    <button
-                      onClick={() => handleReply(message)}
-                      className="w-4 h-4 rounded-full bg-[#00C3FF] flex items-center justify-center gap-1"
-                    >
-                      <MdReply className="text-black text-[15px]" />
-                    </button>
-                    <div className="flex items-center gap-3 text-sm">
-                      <button className="text-[#9810FA]"> + Add as Beat</button>
-                      <button className="text-[#FB2C36]"> Reject</button>
+                  {/* Action Buttons */}
+
+                  {shouldShowSuggestion(message) ? (
+                    <div className="w-[95%] mx-auto flex justify-end">
+                      {message.suggested ? (
+                        <button
+                          disabled
+                          className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[linear-gradient(30deg,#b38bff,#99e6ff)]"
+                        >
+                          <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]">
+                            Suggested
+                          </p>
+                        </button>
+                      ) : (
+                        <button
+                          disabled={suggestingId === message.id}
+                          onClick={() => handleSuggestion(message.id)}
+                          className=""
+                        >
+                          {/* <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]">
+                            {suggestingId === message.id
+                              ? "Suggesting..."
+                              : "Suggestion"}
+                          </p> */}
+                          <h4 class="text-[14px]  font-[500] leading-[21px] w-full  bg-[linear-gradient(30deg,#741CFF,#00C3FF)] bg-clip-text text-transparent">
+                            Suggestion
+                          </h4>
+                        </button>
+                      )}
                     </div>
-                  </div>
+                  ) : (
+                    <div
+                      className={`w-[95%] mx-auto flex justify-between items-center mt-1 ${
+                        message.sender === "user" ? "hidden" : "flex-row"
+                      }`}
+                    >
+                      <button
+                        onClick={() => handleReply(message)}
+                        className="w-4 h-4 rounded-full bg-[#00C3FF] flex items-center justify-center gap-1"
+                      >
+                        <MdReply className="text-black text-[15px]" />
+                      </button>
+                      <div className="flex items-center gap-3 text-sm">
+                        <button className="text-[#9810FA]">
+                          + Add as Beat
+                        </button>
+                        <button className="text-[#FB2C36]">Reject</button>
+                      </div>
+                      {/* <button>
+                   
+                    </button> */}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -216,11 +266,8 @@ const ChatArea = () => {
             >
               {/* Reply Preview */}
               {replyingTo && (
-                <div className="mb-2 h-[52px] overflow-y-auto p-2 bg-[linear-gradient(30deg,#b48bff62,#99e6ff5e)] rounded-lg rounded-b-none  flex items-start justify-between">
-                  <div className="flex-1 border-l-4  border-[#741CFF] ">
-                    {/* <p className="text-xs font-semibold text-gray-700 px-3 pt-1">
-                      Replying to {replyingTo.name}
-                    </p> */}
+                <div className="mb-2 h-[52px] overflow-y-auto p-2 bg-[linear-gradient(30deg,#b48bff62,#99e6ff5e)] rounded-lg rounded-b-none flex items-start justify-between">
+                  <div className="flex-1 border-l-4 border-[#741CFF]">
                     <p className="text-sm text-gray-600 line-clamp-1 px-3">
                       {replyingTo.text}
                     </p>
@@ -255,7 +302,7 @@ const ChatArea = () => {
                 <div
                   className={`flex ${
                     !replyingTo
-                      ? "justify-between w-full  items-center"
+                      ? "justify-between w-full items-center"
                       : "justify-end items-end w-[15%]"
                   } bottom-[2px] gap-3 pb-1`}
                 >
@@ -271,17 +318,17 @@ const ChatArea = () => {
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Character Count */}
-          <div className={`absolute bottom-[-16px] right-[14px]`}>
-            <p
-              className={`text-[12px] font-[400] leading-[14px] ${
-                charCount > maxChars * 0.9 ? "text-red-500" : "text-[#616161]"
-              }`}
-            >
-              {charCount}/{maxChars}
-            </p>
+            {/* Character Count */}
+            <div className={`absolute bottom-[-16px] right-[14px]`}>
+              <p
+                className={`text-[12px] font-[400] leading-[14px] ${
+                  charCount > maxChars * 0.9 ? "text-red-500" : "text-[#616161]"
+                }`}
+              >
+                {charCount}/{maxChars}
+              </p>
+            </div>
           </div>
         </div>
       </div>

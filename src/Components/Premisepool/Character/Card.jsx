@@ -71,7 +71,8 @@ const CharacterShowCard = ({
   };
 
   return (
-    <div className="flex text-[#252525] h-auto max-h-[36px] gap-[3px] justify-between items-center my-1 w-full">
+    <div className="flex text-[#252525] h-auto max-h-[36px] border-b-[1px] py-1 gap-[3px] justify-between items-center my-1 w-full">
+    
       <div className="">
         <p className="text-[12px] leading-[16.26px] font-[400]">
           {character?.role}:{" "}

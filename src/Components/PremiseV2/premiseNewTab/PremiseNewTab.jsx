@@ -76,6 +76,7 @@
 //    combining fetching, filtering, replies, and tutorials into one cohesive screen.
 
 import { useContext, useEffect, useRef, useState } from "react";
+import { FaArrowLeft } from "react-icons/fa6";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { MyContext } from "../../../App";
@@ -86,6 +87,7 @@ import {
   useGetCommentByPremiseIdQuery,
   useGetPremiseUserPictureQuery,
 } from "../../../app/EndPoints/premisePoolApi";
+import human from "../../../img/Icons/human_icon.png";
 import { baseURL } from "../../utils";
 import NewTabTutorialPop from "../sequalPopup/NewTabTutorialPop";
 import ChatArea from "./Brainstorming/ChatArea";
@@ -125,7 +127,6 @@ const PremiseNewTab = ({
   const [premiseDataR, setPremiseDataR] = useState(null);
 
   useEffect(() => {
-   
     if (!premiseData) return; // wait until data is available
 
     if (premiseData?.premiseOwner?.id === user) {
@@ -348,7 +349,10 @@ const PremiseNewTab = ({
   //   return <NoPremisePop />;
   // }
 
-  const [newTabReplyField, setNewTabReplyField] = useState(false);
+  const [newTabTextFieldMob, setNewTabTextFieldMob] = useState(false);
+  const handleToggleCharComment = () => {
+    setNewTabTextFieldMob(!newTabTextFieldMob);
+  };
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
@@ -357,36 +361,108 @@ const PremiseNewTab = ({
         !isCommentLoading &&
         premiseDataR &&
         commentsData ? (
-          <div className="w-full md:w-[95%] max-w-[1445px] mx-auto ">
+          <div className="w-full lg:w-[95%] max-w-[1445px] mx-auto ">
+            {/* FOr mobile */}
+            <div className="lg:hidden">
+              {/* header */}
+              <div className="bg-[#741CFF33] px-2 h-12 flex items-center justify-between">
+                <button
+                  className="text-[#000] bg-[#F3F4F6] rounded-lg px-3 h-10 w-10 text-[16px] font-semibold"
+                  onClick={() => {
+                    handleOpenSp();
+                    // setOpenDotMenu(null);
+                  }}
+                >
+                  <FaArrowLeft />
+                </button>
+                <div className="p-[1px] text-center h-10 w-10 bg-[linear-gradient(30deg,#741CFF_0%,#00C3FF_70%)] rounded-[8px]">
+                  <button
+                    onClick={handleToggleCharComment}
+                    className="bg-[#F3F4F6] h-[38px] w-[38px] rounded-[8px] flex justify-center items-center"
+                  >
+                    <div className="bg-[#00C3FF] h-8 w-8 rounded-full">
+                      <img
+                        src={human}
+                        className="object-cover h-6 w-6  mt-[4px] ml-[4px]"
+                        alt=""
+                      />
+                    </div>
+                  </button>
+                </div>
+              </div>
+              {!newTabTextFieldMob ? (
+                <div>
+                  {" "}
+                  <ChatArea rawBackendData={commentsData?.results} />
+                </div>
+              ) : (
+                <div>
+                  <ProjectInfoUpdate
+                    {...{
+                      premiseData,
+                      premiseRefetch,
+                      setOpenReplyField,
+                      commentsData,
+                      commentField,
+                      setCommentField,
+                    }}
+                  />
+                  <LeftSideBarUpdate
+                    {...{
+                      filteredCommentsData,
+                      premiseData,
+                      premiseRefetch,
+                      commentRefetch,
+                      commentsData,
+                      setOpenReplyField,
+                      lastCommentRef,
+                      replyField,
+                      setReplyField,
+                      setOpenReplyFieldID,
+                      setOpenAllReplies,
+                      characters,
+                      characterRefetch,
+                      isCharLoading,
+                      handleSearch,
+                      currentCommentRef,
+                      handleOpenAllReplies,
+                      setSearchTerm,
+                      commentField,
+                      setCommentField,
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+
             {/* <ProjectInfo {...{ premiseData }} /> */}
-            <ProjectInfoUpdate
-              {...{
-                premiseData,
-                premiseRefetch,
-                setOpenReplyField,
-                commentsData,
-                commentField,
-                setCommentField,
-              }}
-            />
-            {/* <div className="flex gap-2">
-              <button
-                className="text-[#fff] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] rounded-lg px-3 ml-4 h-[32px] text-[14px] my-1 font-semibold flex items-center gap-1"
-                onClick={() => {
-                  handleOpenSp();
-                  // setOpenDotMenu(null);
+            <div className="hidden lg:block">
+              <ProjectInfoUpdate
+                {...{
+                  premiseData,
+                  premiseRefetch,
+                  setOpenReplyField,
+                  commentsData,
+                  commentField,
+                  setCommentField,
                 }}
-              >
-                <FaArrowLeft />
-                Screenplay
-              </button>
-              <button onClick={() => setNewTabReplyField(!newTabReplyField)}>
-                <FaReply />
-              </button>
-            </div> */}
+              />
+              {/* <div className="flex gap-2">
+                <button
+                  className="text-[#fff] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] rounded-lg px-3 ml-4 h-[32px] text-[14px] my-1 font-semibold flex items-center gap-1"
+                  onClick={() => {
+                    handleOpenSp();
+                    // setOpenDotMenu(null);
+                  }}
+                >
+                  <FaArrowLeft />
+                  <div className="hidden lg:block">Screenplay</div>
+                </button>
+              </div> */}
+            </div>
             <div className=" pb-6 lg:pb-0 overflow-x-hidden   ">
-              <div className="w-full flex flex-col-reverse lg:flex-row relative">
-                <ChatArea />
+              <div className="w-full hidden lg:flex lg:flex-row relative">
+                <ChatArea rawBackendData={commentsData?.results} />
                 {/* Left Sidebar */}
                 <div className=" bg-[#fff] xl:w-[500px] w-full pr-0 flex ">
                   <div className="hidden lg:block">

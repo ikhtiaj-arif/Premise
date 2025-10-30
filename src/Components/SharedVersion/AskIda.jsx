@@ -183,7 +183,9 @@ const AskIda = ({
             alt="idaSuggestin"
             className="mr-2 w-[26px]"
           />
-          Ask Ida for more!
+          <h4 class="text-[14px]  font-[500] leading-[21px] w-full  bg-[linear-gradient(30deg,#741CFF,#00C3FF)] bg-clip-text text-transparent">
+            Ask Ida for more!
+          </h4>
         </button>
       </div>
     </div>

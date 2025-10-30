@@ -202,7 +202,7 @@ const PremiseTopHeaderUpdate = ({
   };
 
   return (
-    <div className="flex items-center gap-2 justify-between">
+    <div className="hidden lg:flex items-center gap-2 justify-between">
       <div className="w-2/6 flex items-center gap-2">
         {/* this section is commented out due to the new design changes*/}
         {/* <div

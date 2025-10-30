@@ -578,7 +578,7 @@ const LeftSideBarUpdate = ({
                 {/* characters */}
                 {premiseOwner?.id === user && (
                   <div className="mt-1">
-                    <div className="  w-full flex justify-between items-center">
+                    <div className="  w-full hidden lg:flex justify-between items-center">
                       <p className="text-[#616161] font-[700] text-[16px] leading-6">
                         Characters
                       </p>
@@ -595,23 +595,25 @@ const LeftSideBarUpdate = ({
                         />
                       </div>
                     </div>
-                    <div className="bg-[#eaeaea] rounded-[8px] p-3 w-full min-h-[56vh] h-auto overflow-y-auto">
-                      {finalCharacters?.map((character, index) => (
-                        <CharacterShowCard
-                          {...{
-                            character,
-                            index,
-                            setEditData,
-                            setEditIdx,
-                            setDeleteIdx,
-                            setEditPopupOpen,
-                            setDeleteChar,
-                            onlyAdd,
-                            deleteCharacterFun,
-                            source_language,
-                          }}
-                        />
-                      ))}
+                    <div className="p-[1px] text-center mt-4 bg-[linear-gradient(30deg,#741CFF_0%,#00C3FF_70%)] rounded-[8px]">
+                      <div className="bg-[#FAFAFA]  rounded-[8px] p-3 w-full  h-auto overflow-y-auto">
+                        {finalCharacters?.map((character, index) => (
+                          <CharacterShowCard
+                            {...{
+                              character,
+                              index,
+                              setEditData,
+                              setEditIdx,
+                              setDeleteIdx,
+                              setEditPopupOpen,
+                              setDeleteChar,
+                              onlyAdd,
+                              deleteCharacterFun,
+                              source_language,
+                            }}
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}
