@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { toast } from "react-toastify";
 import { fetchUserAccess, MyContext } from "../../App";
 import { useCommentPremiseMutation } from "../../app/EndPoints/premisePoolApi";
+import idaSuggestion from "../../img/Icons/ida_suggestion.png";
 import { baseURL } from "../utils";
 
 const AskIda = ({
@@ -167,16 +168,21 @@ const AskIda = ({
 
   return (
     <div>
-      <div className="my-1 text-center ">
+      <div className="p-[1px] text-center h-[36px] bg-[linear-gradient(30deg,#741CFF_0%,#00C3FF_70%)] rounded-[8px]">
         <button
           disabled={isLoading}
           onClick={handleButtonClick}
-          className={` border-none rounded-[8px] px-4 h-[32px] text-white text-[12px] md:text-[14px] font-[600] leading-[21px] ${
+          className={` border-none rounded-[8px] px-4 h-[34px] text-[#741CFF] text-[14px]  font-[500] leading-[21px] ${
             isLoading
               ? "bg-[linear-gradient(30deg,#b38bff,#99e6ff)] cursor-default"
-              : "bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
-          }`}
+              : "bg-[#fff]"
+          } flex items-center justify-center`}
         >
+          <img
+            src={idaSuggestion}
+            alt="idaSuggestin"
+            className="mr-2 w-[26px]"
+          />
           Ask Ida for more!
         </button>
       </div>

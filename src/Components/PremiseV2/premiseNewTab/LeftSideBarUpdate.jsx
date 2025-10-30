@@ -22,8 +22,6 @@ import ConfirmationModal from "../../Premisepool/Comments/ConfirmationModal";
 import Keyboard from "../../Premisepool/Keyboard";
 import NoAccessCreditPopupUpdate from "../../PricingModel/NoAccessCreditPopupUpdate";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
-import AskIda from "../../SharedVersion/AskIda";
-import NewTabTextArea from "../../SharedVersion/NewTabTextArea";
 // import MonetizePreferencePop from "../Popups/MonetizePreferencePop";
 // import TransInOtherLang from "../Popups/TransInOtherLang.pop";
 
@@ -386,7 +384,7 @@ const LeftSideBarUpdate = ({
   return (
     <>
       <div className="fixed w-[100%] sm:w-[90%] mx-auto bottom-0 z-[1] inset-x-0 flex flex-col items-center ">
-        <div className=" flex-col w-full lgFlxHidden z-[1]  border bg-white px-3 pb-4 shadow-md">
+        {/* <div className=" flex-col w-full lgFlxHidden z-[1]  border bg-white px-3 pb-4 shadow-md">
           <NewTabTextArea
             fromNew
             premiseId={id}
@@ -435,7 +433,7 @@ const LeftSideBarUpdate = ({
               }}
             />
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="xl:w-[368px] w-full relative h-full shadow-md  rounded-md">
         {/* main div */}
@@ -579,7 +577,7 @@ const LeftSideBarUpdate = ({
 
                 {/* characters */}
                 {premiseOwner?.id === user && (
-                  <div className="mt-4">
+                  <div className="mt-1">
                     <div className="  w-full flex justify-between items-center">
                       <p className="text-[#616161] font-[700] text-[16px] leading-6">
                         Characters
@@ -597,7 +595,7 @@ const LeftSideBarUpdate = ({
                         />
                       </div>
                     </div>
-                    <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full h-auto max-h-[248px] lg:max-h-[313px] overflow-y-auto">
+                    <div className="bg-[#eaeaea] rounded-[8px] p-3 w-full min-h-[56vh] h-auto overflow-y-auto">
                       {finalCharacters?.map((character, index) => (
                         <CharacterShowCard
                           {...{
@@ -620,7 +618,7 @@ const LeftSideBarUpdate = ({
               </div>
             }
             {/* ask ida desk */}
-            <div className=" lgVisible px-3  w-full  mt-4">
+            {/* <div className=" lgVisible px-3  w-full  mt-4">
               <NewTabTextArea
                 fromNew
                 premiseId={id}
@@ -669,7 +667,7 @@ const LeftSideBarUpdate = ({
                   }}
                 />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
