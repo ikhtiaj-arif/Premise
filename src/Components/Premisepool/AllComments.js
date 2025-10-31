@@ -357,7 +357,6 @@ const AllComments = ({
   const checkSuggestAllowance = async (text) => {
     setSuggestDisable(true);
     const res = await fetchUserAccess(`PP_AllowBrainstoming`);
-    // console.log(`PP_AllowBrainstoming res`, res);
     if (res?.access === "No") {
       setSuggestDisable(false);
       setNoAccessLbPopup(res);

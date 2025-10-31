@@ -189,17 +189,6 @@ const BeatEditPop = ({
     }
   };
 
-  // Function to handle the click on "Add New Project" button
-
-  // const handleAddNewProjectClick = () => {
-  //   setNewProjectVisible(!isNewProjectVisible);
-  //   setSelectedProject(null);
-  // };
-
-  // const handleSelectProject = (value) => {
-  //   setSelectedProject(value);
-  //   setNewProjectVisible(false);
-  // };
   const [getScreenPlay, resGetScreenPlay] = useGetScreenPlayMutation();
   const [updateScene, updateBeatRes] = useUpdateSceneMutation();
   const [saveScreenPlay, resSaveScreenPlay] = useSaveScreenPlayMutation();
@@ -207,159 +196,7 @@ const BeatEditPop = ({
   const [beatPostLoading, setBeatPostLoading] = useState(false);
   const [projectNotFound, setProjectNotFound] = useState(false);
 
-  // const handleSubmitBeatToProject = async () => {
-  //   setBeatPostLoading(true);
-  //   // setAddToBeatDisable(true);
-  //   const data = {
-  //     name: selectedProject?.name,
-  //     version: selectedProject?.total_versions,
-  //   };
-  //   let screenPlayResponse;
-  //   // screenPlayResponse = await getScreenPlay(data);
-  //   try {
-  //     screenPlayResponse = await getScreenPlay(data);
-  //     // console.log("screenPlayResponse", screenPlayResponse?.data);
-  //   } catch (err) {
-  //     // alert("The screenplay file on the server is deleted or cannot be found.");
-  //     setBeatPostLoading(false);
-  //     // setAddToBeatDisable(false);
-  //     return;
-  //   }
 
-  //   if (!screenPlayResponse?.data || isProjectLocked) {
-  //     setProjectNotFound(true);
-
-  //     setBeatPostLoading(false);
-  //     return;
-  //   }
-  //   const screenPlayJson = screenPlayResponse.data?.screenplay_data_json;
-
-  //   if (screenPlayJson && Object.keys(screenPlayJson).length !== 0) {
-  //     const newBlankParagraph = {
-  //       type: "paragraph",
-  //       attrs: {
-  //         "data-line-number": null,
-  //         paragraphWidth: "0px",
-  //         paragraphMargin: "20px",
-  //         paragraphCase: "uppercase",
-  //         textAlign: "left",
-  //         scriptElement: "blank",
-  //         id: "new-uuid-for-blank",
-  //         class: "",
-  //         color: "black",
-  //       },
-  //     };
-
-  //     const newSluglineParagraph = {
-  //       type: "paragraph",
-  //       attrs: {
-  //         "data-line-number": null,
-  //         paragraphWidth: "0px",
-  //         paragraphMargin: "20px",
-  //         paragraphCase: "uppercase",
-  //         textAlign: "left",
-  //         scriptElement: "slugline",
-  //         id: "new-uuid-for-slugline",
-  //         class: "",
-  //         color: "black",
-  //       },
-  //       content: [
-  //         {
-  //           type: "text",
-  //           text: "INT. NEW SLUGLINE TEXT",
-  //         },
-  //       ],
-  //     };
-
-  //     const newArray = [
-  //       ...screenPlayJson,
-  //       newBlankParagraph,
-  //       newSluglineParagraph,
-  //     ];
-
-  //     setScreenPlayData(newArray);
-  //   } else {
-  //     const newSluglineParagraph = {
-  //       type: "paragraph",
-  //       attrs: {
-  //         "data-line-number": null,
-  //         paragraphWidth: "0px",
-  //         paragraphMargin: "20px",
-  //         paragraphCase: "uppercase",
-  //         textAlign: "left",
-  //         scriptElement: "slugline",
-  //         id: "new-uuid-for-slugline",
-  //         class: "",
-  //         color: "black",
-  //       },
-  //       content: [
-  //         {
-  //           type: "text",
-  //           text: "INT. NEW SLUGLINE TEXT",
-  //         },
-  //       ],
-  //     };
-
-  //     const newArray = [newSluglineParagraph];
-
-  //     setScreenPlayData(newArray);
-  //   }
-
-  //   const accessToken = localStorage.getItem("accessToken");
-  //   const screenPlayResId = screenPlayResponse.data.screenplay.screenplay_uuid;
-  //   const options = {
-  //     url: `${URL}/scriptpad/update-scene/${screenPlayResId}`,
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: `Bearer ${accessToken}`,
-  //       "Content-Type": "application/json",
-
-  //       // Add any other headers if needed
-  //     },
-  //   };
-  //   return axios(options)
-  //     .then((response) => {
-  //       if (response) {
-  //         let existingBeatData = response.data.data;
-  //         const beatAddData = {
-  //           beat: modifiedText,
-  //           script: screenPlayResId,
-  //           scene_number: existingBeatData.length + 1,
-  //         };
-  //         updateScene(beatAddData);
-  //         toast.success("Beat successfully added to your scene", {
-  //           position: toast.POSITION.TOP_CENTER,
-  //           autoClose: 800,
-  //         });
-
-  //         if (commentObj?.reply) {
-  //           // console.log("replyyy");
-  //           const data = {
-  //             reply_id: commentObj.id,
-  //             add_to_beat_text: modifiedText,
-  //           };
-  //           addedToBeat(data);
-  //           replyRefetch();
-  //         } else {
-  //           // console.log("cmnttt");
-  //           const data = {
-  //             comment_id: commentObj.id,
-  //             add_to_beat_text: modifiedText,
-  //           };
-  //           addedToBeat(data);
-  //           commentRefetch();
-  //         }
-  //         // setBeatPostLoading(false);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       toast.error("Something went wrong!", {
-  //         position: toast.POSITION.TOP_CENTER,
-  //         autoClose: 800,
-  //       });
-  //       setBeatPostLoading(false);
-  //     });
-  // };
   const handleSubmitBeatToProject = async () => {
     setBeatPostLoading(true); // Disable loading initially
 
@@ -390,7 +227,7 @@ const BeatEditPop = ({
       return;
     }
 
-    const screenPlayJson = screenPlayResponse.data?.screenplay_data_json;
+    const screenPlayJson = screenPlayResponse?.data?.screenplay_data_json;
 
     // Create paragraphs to add to the screenplay data
     const newBlankParagraph = {
@@ -474,7 +311,7 @@ const BeatEditPop = ({
       }
 
       // Proceed with adding the beat if scene update is successful
-      const fetchData = commentObj?.reply
+      const fetchData = commentObj?.replyingTo
         ? { reply_id: commentObj.id, add_to_beat_text: modifiedText }
         : { comment_id: commentObj.id, add_to_beat_text: modifiedText };
 
@@ -513,7 +350,7 @@ const BeatEditPop = ({
         const creditRes = await fetchUserAccess(`SP_BeatSheet`);
         const remainingCredits = creditRes?.remaining_credits ?? 0;
         const creditElement = document.getElementById("creditBalance");
-        console.log("remainingCredits", remainingCredits);
+        // console.log("remainingCredits", remainingCredits);
         if (creditElement) {
           creditElement.textContent = remainingCredits;
         }

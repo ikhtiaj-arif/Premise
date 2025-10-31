@@ -533,7 +533,7 @@ const LeftSideBarUpdate = ({
             </div>
           </div>
           {/* Details scroll div */}
-          <div className="flex-1 lg:pb-24 overflow-y-auto flex flex-col ">
+          <div className="flex-1 lg:pb-24 overflow-y-hidden flex flex-col ">
             {
               <div className="bg-[#fff] px-3">
                 <div>
@@ -595,24 +595,26 @@ const LeftSideBarUpdate = ({
                         />
                       </div>
                     </div>
-                    <div className="p-[1px] text-center mt-4 bg-[linear-gradient(30deg,#741CFF_0%,#00C3FF_70%)] rounded-[8px]">
-                      <div className="bg-[#FAFAFA]  rounded-[8px] p-3 w-full  h-auto overflow-y-auto">
-                        {finalCharacters?.map((character, index) => (
-                          <CharacterShowCard
-                            {...{
-                              character,
-                              index,
-                              setEditData,
-                              setEditIdx,
-                              setDeleteIdx,
-                              setEditPopupOpen,
-                              setDeleteChar,
-                              onlyAdd,
-                              deleteCharacterFun,
-                              source_language,
-                            }}
-                          />
-                        ))}
+                    <div className="p-[1px] text-center h-[calc(91vh-230px)] mt-4 bg-[linear-gradient(30deg,#741CFF_0%,#00C3FF_70%)] rounded-[8px]">
+                      <div className="bg-[#FAFAFA] h-full  rounded-[8px] p-3 w-full   ">
+                        <div className=" h-full overflow-y-auto">
+                          {finalCharacters?.map((character, index) => (
+                            <CharacterShowCard
+                              {...{
+                                character,
+                                index,
+                                setEditData,
+                                setEditIdx,
+                                setDeleteIdx,
+                                setEditPopupOpen,
+                                setDeleteChar,
+                                onlyAdd,
+                                deleteCharacterFun,
+                                source_language,
+                              }}
+                            />
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>

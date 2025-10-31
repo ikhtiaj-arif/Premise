@@ -85,7 +85,7 @@ const AskIda = ({
     try {
       // Fetch the existing comment data
       const response = await axios.get(
-        `${baseURL}/brainstorm/GetCommentAPI/${id}`,
+        `${baseURL}/brainstorm/GetCommentAPInew/${id}`,
         {
           headers: header,
         }
@@ -100,7 +100,7 @@ const AskIda = ({
         const updatedPremiseId = sceneData?.premiseId;
         const lastSceneNumber = sceneData?.lastSceneNumber;
 
-        let c_value = response?.data?.counts + 1;
+        let c_value = response?.data?.count + 1;
 
         const body = {
           premise: id,
@@ -133,8 +133,8 @@ const AskIda = ({
           if (updatedPremiseId === id) {
             localStorage.removeItem("BrainstormData");
           }
-          setOpenAllReplies(true);
-          setOpenReplyFieldID(res?.data?.id);
+          // setOpenAllReplies(true);
+          // setOpenReplyFieldID(res?.data?.id);
         }, 1000);
         const crdRes = await fetchUserAccess(`PP_AllowBrainstoming`);
         const remainingCredits = crdRes?.remaining_credits ?? 0;
@@ -143,12 +143,12 @@ const AskIda = ({
           creditElement.textContent = remainingCredits;
         }
         setTimeout(() => {
-          if (lastCommentRef.current) {
-            lastCommentRef.current.scrollTo({
-              top: lastCommentRef.current.scrollHeight,
-              behavior: "smooth",
-            });
-          }
+          // if (lastCommentRef.current) {
+          //   lastCommentRef.current.scrollTo({
+          //     top: lastCommentRef.current.scrollHeight,
+          //     behavior: "smooth",
+          //   });
+          // }
           toast.success("Comment added!", {
             position: toast.POSITION.TOP_CENTER,
             autoClose: 1600,

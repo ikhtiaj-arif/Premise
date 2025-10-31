@@ -393,7 +393,14 @@ const PremiseNewTab = ({
               {!newTabTextFieldMob ? (
                 <div>
                   {" "}
-                  <ChatArea rawBackendData={commentsData?.results} />
+                  <ChatArea
+                    rawBackendData={commentsData?.results}
+                    premiseOwner={premiseData?.premiseOwner}
+                    premiseId={id}
+                    user={user}
+                    commentRefetch={commentRefetch}
+                    premiseData={premiseData}
+                  />
                 </div>
               ) : (
                 <div>
@@ -462,7 +469,14 @@ const PremiseNewTab = ({
             </div>
             <div className=" pb-6 lg:pb-0 overflow-x-hidden   ">
               <div className="w-full hidden lg:flex lg:flex-row relative">
-                <ChatArea rawBackendData={commentsData?.results} />
+                <ChatArea
+                  rawBackendData={commentsData?.results}
+                  premiseOwner={premiseData?.premiseOwner}
+                  premiseId={id}
+                  user={user}
+                  commentRefetch={commentRefetch}
+                  premiseData={premiseData}
+                />
                 {/* Left Sidebar */}
                 <div className=" bg-[#fff] xl:w-[500px] w-full pr-0 flex ">
                   <div className="hidden lg:block">

@@ -149,7 +149,7 @@ const PopupTextarea = ({
     try {
       // Fetch the existing comment data
       const response = await axios.get(
-        `${baseURL}/brainstorm/GetCommentAPI/${premiseId}`,
+        `${baseURL}/brainstorm/GetCommentAPInew/${premiseId}`,
         {
           headers: header,
         }

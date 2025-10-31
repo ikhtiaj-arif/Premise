@@ -145,7 +145,7 @@ const NewTabTextArea = ({
   //   try {
   //     // Fetch the existing comment data
   //     const response = await axios.get(
-  //       `${baseURL}/brainstorm/GetCommentAPI/${premiseId}`,
+  //       `${baseURL}/brainstorm/GetCommentAPInew/${premiseId}`,
   //       {
   //         headers: header,
   //       }
@@ -234,7 +234,7 @@ const NewTabTextArea = ({
 
     try {
       const response = await axios.get(
-        `${baseURL}/brainstorm/GetCommentAPI/${premiseId}`,
+        `${baseURL}/brainstorm/GetCommentAPInew/${premiseId}`,
         { headers: header }
       );
 

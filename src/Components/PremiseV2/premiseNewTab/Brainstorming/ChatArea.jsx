@@ -1,87 +1,126 @@
 "use client";
 
+import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { FiSend } from "react-icons/fi";
 import { IoMdCloseCircle } from "react-icons/io";
 import { MdReply } from "react-icons/md";
+import { toast } from "react-toastify";
+import { fetchUserAccess } from "../../../../App";
+import {
+  useCreateSuggestedReplyMutation,
+  useDeleteLikeOfReplyMutation,
+} from "../../../../app/EndPoints/commentReply/reply";
+import { useBeatSuggestionMutation } from "../../../../app/EndPoints/MemberPage/Buddies";
+import {
+  useCommentPremiseMutation,
+  useGetPremiseUserQuery,
+} from "../../../../app/EndPoints/premisePoolApi";
+import { useGetMyAllProjectQuery } from "../../../../app/EndPoints/ScriptPad/project";
+import BeatEditPop from "../../../Premisepool/AddToBeat/BeatEditPop";
+import NoAccessCreditPopupUpdate from "../../../PricingModel/NoAccessCreditPopupUpdate";
 import AskIda from "../../../SharedVersion/AskIda";
+import { baseURL } from "../../../utils";
 
-const ChatArea = ({ rawBackendData }) => {
-  console.log("rawBackendData", rawBackendData);
+const ChatArea = ({
+  rawBackendData,
+  premiseOwner,
+  premiseId,
+  commentRefetch,
+  premiseData,
+}) => {
+  //! Mutations & Queries
+  const [postComment, { isLoading: isPostLoading }] =
+    useCommentPremiseMutation();
+  const [beatSuggestions, isBeatSuggRes, isBeatSuggLoading] =
+    useBeatSuggestionMutation();
+  const {
+    data: allspProjectJSON,
+    isLoading: isSpProjectLoading,
+    refetch: projectRefetch,
+  } = useGetMyAllProjectQuery();
+  const [deleteReply, deleteReplyRes] = useDeleteLikeOfReplyMutation();
+  const [suggestion, suggestionRes] = useCreateSuggestedReplyMutation();
+  const { data: userQuery, isLoading: isUserLoading } =
+    useGetPremiseUserQuery();
+  const user = userQuery?.id;
+  /**
+   * Transforms the backend data into a format that can be
+   * used by the chat area component.
+   */
   const transformBackendData = (data) => {
-    const currentUserId = 92; // Assuming current user is the one with ID 92
-    return data?.map((item) => ({
-      id: item.id,
-      text: item.text_prefix ? `${item.text_prefix}: ${item.text}` : item.text,
-      sender: item.user.id === currentUserId ? "user" : "other",
-      timestamp: new Date(item.created_at).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      replyingTo: item.reply || null,
-      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${item.user.username}`,
-      userId: item.user.id,
-      name: item.user.username,
-      askIda: item.ask_ida || false,
-      rejectButton: item.reject_button || false,
-      addToBeat: item.add_to_beat || false,
-      suggested: item.suggested || false,
-    }));
+    if (!isUserLoading) {
+      const currentUserId = user;
+      return [...data]?.reverse()?.map((item) => ({
+        id: item.id,
+        text: item.text_prefix
+          ? `${item.text_prefix}: ${item.text}`
+          : item.text,
+        sender: item.user.id === currentUserId ? "user" : "other",
+        timestamp: new Date(item.created_at).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        replyingTo: item.reply || null,
+        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${item.user.username}`,
+        userId: item.user.id,
+        name: item.user.username,
+        askIda: item.ask_ida || false,
+        rejectButton: item.reject_button || false,
+        addToBeat: item.add_to_beat || false,
+        suggested: item.suggested || false,
+        c_value: item.c_value || null,
+      }));
+    }
   };
 
+  console.log(rawBackendData);
+  //! States
   const [messages, setMessages] = useState(
     transformBackendData(rawBackendData)
   );
   const [textValue, setTextValue] = useState("");
   const [replyingTo, setReplyingTo] = useState(null);
   const [suggestingId, setSuggestingId] = useState(null);
+  const [sggestDisable, setSuggestDisable] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isCommentQuestion, setIsCommentQuestion] = useState(false);
+  const [noAccessPopup, setNoAccessPopup] = useState(false);
+  const [addBeatTutorialPop, setAddBeatTutorialPop] = useState(false);
+  const [noAccessLbPopup, setNoAccessLbPopup] = useState(false);
+  const [beatSuggLoading, setBeatSuggLoading] = useState(false);
+  const [projectBeatOpen, setProjectBeatOpen] = useState(false);
+  const [commentObj, setCommentObj] = useState(null);
+  const [suggestedBeats, setSuggestedBeats] = useState({});
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [disableBtn, setDisableBtn] = useState(false);
+
+  //! Refs
   const messagesEndRef = useRef(null);
   const messageRefs = useRef({});
 
+  //! SideEffects
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleSendMessage = () => {
-    if (textValue.trim()) {
-      const newMessage = {
-        id: Date.now().toString(),
-        text: textValue,
-        sender: "user",
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-        replyingTo: replyingTo?.id,
-        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=You",
-        name: "You",
-        suggested: false,
-      };
+  useEffect(() => {
+    const allProject = allspProjectJSON?.projects;
 
-      setMessages([...messages, newMessage]);
-      setTextValue("");
-      setReplyingTo(null);
-    }
-  };
+    // const allProject = allspProjectJSON?.projects?.filter(
+    //   (item) => !item.locked
+    // );
 
-  const handleSuggestion = (messageId) => {
-    setSuggestingId(messageId);
-    // Simulate API call
-    setTimeout(() => {
-      setMessages(
-        messages.map((msg) =>
-          msg.id === messageId ? { ...msg, suggested: true } : msg
-        )
-      );
-      setSuggestingId(null);
-    }, 1000);
-  };
+    projectRefetch();
+    const currentPremiseProject = allProject?.find(
+      (p) => p?.pro_uuid === premiseData?.project_id
+    );
 
-  const shouldShowSuggestion = (message) => {
-    const hasQuestion =
-      message.text.includes("?") || message.text.includes("؟");
-    const isFromIdaOrUser79 = message.userId === 1 || message.userId === 79;
-    return hasQuestion && isFromIdaOrUser79 && message.sender !== "user";
+    setSelectedProject(currentPremiseProject);
+  }, [premiseData, allspProjectJSON]);
+
+  const handleSendMessage = async () => {
+    await handleButtonClick();
   };
 
   const handleReply = (message) => {
@@ -97,12 +136,260 @@ const ChatArea = ({ rawBackendData }) => {
     }
   };
 
+  const handleSuggestion = async (message) => {
+    const res = await fetchUserAccess(`PP_AllowBrainstoming`);
+    if (res?.access === "No") {
+      setSuggestDisable(false);
+      setNoAccessLbPopup(res);
+    } else {
+      setSuggestDisable(true); // Disable suggestion initially
+
+      const data = {
+        reply: message?.id,
+        ques_text: message.text,
+        C: message?.c_value,
+      };
+
+      try {
+        // Make the suggestion request
+        const res = await suggestion(data);
+        if (res) {
+          await Promise.all([commentRefetch()]);
+
+          // After both refetches, re-enable suggestions
+          setSuggestDisable(false);
+          const creditRes = await fetchUserAccess(`PP_AllowBrainstoming`);
+          const remainingCredits = creditRes?.remaining_credits ?? 0;
+          const creditElement = document.getElementById("creditBalance");
+          if (creditElement) {
+            creditElement.textContent = remainingCredits;
+          }
+        }
+      } catch (error) {
+        console.error("Error during the suggestion process:", error);
+        setSuggestDisable(false); // Ensure to re-enable if there's an error
+      }
+    }
+  };
+
   const getReplyingToMessage = (messageId) => {
     return messages?.find((msg) => msg.id === messageId);
   };
 
+  const shouldShowSuggestion = (message) => {
+    const hasQuestion =
+      message.text.includes("?") || message.text.includes("؟");
+    const isFromIdaOrUser79 = message.userId === 1 || message.userId === 79;
+    return hasQuestion && isFromIdaOrUser79 && message.sender !== "user";
+  };
+
   const charCount = textValue.length;
   const maxChars = 250;
+
+  const checkAllowance = async (flag) => {
+    try {
+      const res = await fetchUserAccess(`${flag}`);
+      if (res?.has_access === false) {
+        setNoAccessPopup(res);
+        return false;
+      } else {
+        await handleSubmitComment();
+        return true;
+      }
+    } catch (error) {
+      console.error("Error checking allowance:", error);
+      return false;
+    }
+  };
+
+  const handleSubmitComment = async () => {
+    if (!textValue.trim()) {
+      alert("You can't send an empty comment!");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const token = localStorage.getItem("accessToken");
+      const header = {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      };
+
+      const response = await axios.get(
+        `${baseURL}/brainstorm/GetCommentAPInew/${premiseId}`,
+        { headers: header }
+      );
+
+      const brainstormData = localStorage.getItem("BrainstormData");
+      const sceneData = brainstormData ? JSON.parse(brainstormData) : {};
+
+      const updatedPremiseId = sceneData?.premiseId;
+      const lastSceneNumber = sceneData?.lastSceneNumber;
+
+      const c_value = (response?.data?.counts || 0) + 1;
+
+      const body = {
+        premise: premiseId,
+        text: textValue,
+        user: user,
+        C: c_value,
+        ...(updatedPremiseId === premiseId && lastSceneNumber
+          ? { C_from_scriptpad: lastSceneNumber }
+          : {}),
+        is_question: isCommentQuestion,
+        ...(replyingTo ? { reply: replyingTo.id } : {}),
+      };
+
+      const res = await postComment(body);
+
+      if (updatedPremiseId === premiseId) {
+        localStorage.removeItem("BrainstormData");
+      }
+
+      setTextValue("");
+      setIsCommentQuestion(false);
+      setReplyingTo(null);
+
+      if (commentRefetch) {
+        setTimeout(() => {
+          commentRefetch();
+        }, 1000);
+      }
+
+      const crdRes = await fetchUserAccess(`PP_AllowBrainstoming`);
+      const remainingCredits = crdRes?.remaining_credits ?? 0;
+      const creditElement = document.getElementById("creditBalance");
+      if (creditElement) {
+        creditElement.textContent = remainingCredits;
+      }
+    } catch (error) {
+      console.error("Error posting comment:", error);
+      alert("Failed to add comment. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleButtonClick = async () => {
+    setIsLoading(true);
+    try {
+      if (premiseOwner?.id === user) {
+        await checkAllowance("PP_AllowBrainstoming");
+      } else {
+        await checkAllowance("PP_AllowInteraction");
+      }
+    } catch (error) {
+      console.error("Error in button click:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleAddToBeat = async (comment) => {
+    const addBeatTutorialCheck = localStorage.getItem("addBeatTutorialPop");
+    if (
+      (!addBeatTutorialCheck || addBeatTutorialCheck === "false") &&
+      !addBeatTutorialPop
+    ) {
+      setAddBeatTutorialPop(true);
+    }
+    const res = await fetchUserAccess(`SP_BeatSheet`);
+    if (res?.has_access === false) {
+      setNoAccessLbPopup(res);
+    } else {
+      submitAddToBeat(comment);
+    }
+  };
+
+  const submitAddToBeat = async (comment) => {
+    setCommentObj(comment);
+    setBeatSuggLoading(true);
+    setProjectBeatOpen(true);
+
+    const data = {
+      owner: user,
+      premise_id: premiseId,
+      user_beat: comment?.text,
+      project_name: premiseData?.project_name,
+    };
+
+    try {
+      const res = await beatSuggestions(data);
+
+      if (res && res?.data && res?.data?.beats) {
+        const beats = Object.values(res?.data?.beats);
+        //console.log('beats',beats);
+        const beatData = {
+          one: comment?.text,
+          two: beats[0],
+          three: beats[1],
+          four: beats[2],
+        };
+
+        setSuggestedBeats(beatData);
+
+        setBeatSuggLoading(false);
+      } else {
+        // Handle case where no beats are returned
+        setSuggestedBeats({
+          one: comment.text,
+          two: "",
+          three: "",
+          four: "",
+        });
+        setBeatSuggLoading(false);
+        setProjectBeatOpen(false);
+
+        toast.error(
+          "An error occurred while fetching beat suggestions. Please try again.",
+          {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 1600,
+          }
+        );
+      }
+    } catch (error) {
+      // console.error("Error fetching beat suggestions:", error);
+      toast.error(
+        "An error occurred while fetching beat suggestions. Please try again.",
+        {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 1600,
+        }
+      );
+      setBeatSuggLoading(false);
+      setProjectBeatOpen(false);
+    }
+  };
+
+  //! Reject button functionality
+  const handleReject = async (id) => {
+    setDisableBtn(true);
+    const deleteData = {
+      id,
+      isRejected: true,
+    };
+    const res = await deleteReply(deleteData);
+    if (res?.data) {
+      commentRefetch();
+      toast.success("Comment Rejected!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 800,
+      });
+      setDisableBtn(false);
+      commentRefetch();
+    } else {
+      toast.error("Failed to reject comment. Please try again.", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 800,
+      });
+      setDisableBtn(false);
+      commentRefetch();
+    }
+  };
 
   return (
     <div className="bg-[#F0F2F5] h-screen flex flex-col w-full rounded-lg">
@@ -161,11 +448,11 @@ const ChatArea = ({ rawBackendData }) => {
                       onClick={() =>
                         handleScrollToOriginal(repliedToMessage.id)
                       }
-                      className={`mb-2 p-2 ${
+                      className={` p-2 ${
                         message.sender === "user"
                           ? "bg-[linear-gradient(30deg,#741CFF_10%,#00C3FF)] text-white"
                           : "bg-[#EFF6FF] text-[#0F0E13]"
-                      }  rounded-tr-[6px] rounded-tl-[16px] rounded-b-[16px] cursor-pointer hover:opacity-80 transition-opacity max-w-[581px] shadow-xl`}
+                      }  rounded-tl-[6px] rounded-tr-[16px] border rounded-b-[16px] cursor-pointer hover:opacity-80 transition-opacity max-w-[581px] shadow-lg`}
                     >
                       <div className="bg-[linear-gradient(30deg,#b48bff85,#99e6ff86)] m-2 p-3 rounded-[10px]">
                         <p className="text-sm  line-clamp-2">
@@ -181,10 +468,10 @@ const ChatArea = ({ rawBackendData }) => {
                   {/* Main Message */}
                   {!repliedToMessage && (
                     <div
-                      className={`p-3 rounded-lg ${
+                      className={`p-3  rounded-tr-[6px] rounded-tl-[16px] rounded-b-[16px]  ${
                         message.sender === "user"
-                          ? "text-white rounded-br-none  bg-[linear-gradient(30deg,#741CFF_10%,#00C3FF)]"
-                          : "bg-[#EFF6FF] text-[#0F0E13] text-[16px] rounded-tl-[6px] rounded-tr-[16px] rounded-b-[16px] border shadow-xl"
+                          ? "text-white   bg-[linear-gradient(30deg,#741CFF_10%,#00C3FF)]"
+                          : "bg-[#EFF6FF] text-[#0F0E13] text-[16px] border shadow-lg"
                       }`}
                     >
                       <p className="text-sm leading-relaxed">{message.text}</p>
@@ -207,7 +494,7 @@ const ChatArea = ({ rawBackendData }) => {
                       ) : (
                         <button
                           disabled={suggestingId === message.id}
-                          onClick={() => handleSuggestion(message.id)}
+                          onClick={() => handleSuggestion(message)}
                           className=""
                         >
                           {/* <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]">
@@ -233,12 +520,34 @@ const ChatArea = ({ rawBackendData }) => {
                       >
                         <MdReply className="text-black text-[15px]" />
                       </button>
-                      <div className="flex items-center gap-3 text-sm">
-                        <button className="text-[#9810FA]">
-                          + Add as Beat
-                        </button>
-                        <button className="text-[#FB2C36]">Reject</button>
-                      </div>
+                      <>
+                        {message?.addToBeat ? (
+                          <button
+                            // onClick={() => handleAddToBeat(message)}
+                            disabled
+                            className="text-[#9810FA] italic text-sm"
+                          >
+                            Added as Beat
+                          </button>
+                        ) : (
+                          <div className="flex items-center gap-3 text-sm">
+                            <button
+                              onClick={() => handleAddToBeat(message)}
+                              className="text-[#9810FA]"
+                            >
+                              + Add as Beat
+                            </button>
+                            <button
+                              onClick={() => {
+                                handleReject(message.id);
+                              }}
+                              className="text-[#FB2C36]"
+                            >
+                              Reject
+                            </button>
+                          </div>
+                        )}
+                      </>
                       {/* <button>
                    
                     </button> */}
@@ -287,12 +596,13 @@ const ChatArea = ({ rawBackendData }) => {
                     setTextValue(e.target.value.slice(0, maxChars))
                   }
                   onKeyDown={(event) => {
-                    if (event.key === "Enter" && !event.shiftKey) {
+                    if (event.key === "Enter") {
                       handleSendMessage();
-                      event.preventDefault();
+                      event.currentTarget.blur();
                     }
                   }}
                   maxLength={maxChars}
+                  disabled={isLoading}
                   className={`bg-[#fff] resize-none leading-[21px] rounded-[8px] ${
                     !replyingTo ? "w-[100%]" : "w-[100%]"
                   } h-[62.27px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:text-[#7B809A] placeholder:italic`}
@@ -306,7 +616,20 @@ const ChatArea = ({ rawBackendData }) => {
                       : "justify-end items-end w-[15%]"
                   } bottom-[2px] gap-3 pb-1`}
                 >
-                  {!replyingTo && <AskIda />}
+                  {!replyingTo && (
+                    <AskIda
+                      {...{
+                        id: premiseData?.id,
+                        source_language: premiseData?.source_language,
+                        user,
+                        premiseOwner,
+                        commentRefetch,
+                        isLoading,
+                        setIsLoading,
+                        setNoAccessPopup,
+                      }}
+                    />
+                  )}
                   <div className="flex items-center gap-2">
                     <button
                       onClick={handleSendMessage}
@@ -347,6 +670,36 @@ const ChatArea = ({ rawBackendData }) => {
           animation: highlight 2s ease-out;
         }
       `}</style>
+      {noAccessPopup?.has_access === false && (
+        <NoAccessCreditPopupUpdate
+          noAccessPopup={noAccessPopup}
+          setNoAccessPopup={setNoAccessPopup}
+          service={"Brainstorming"}
+          credit_rate={noAccessPopup?.credit_rate}
+          remaining_credits={noAccessPopup?.remaining_credits}
+        />
+      )}
+      {/* BeatEditPop Component */}
+      {projectBeatOpen && (
+        <BeatEditPop
+          project_id={premiseData?.project_id}
+          popClose={() => setProjectBeatOpen(false)}
+          commentText={commentObj?.textcomments?.replace(/^\s*\d+\.\s*/)}
+          commentObj={commentObj}
+          commentRefetch={commentRefetch}
+          // replyRefetch={replyRefetch}
+          data={messages}
+          // refetch={refetch}
+          premiseData={premiseData}
+          suggestedBeats={suggestedBeats}
+          isBeatSuggLoading={isBeatSuggLoading}
+          // beatSuggestLoading={beatSuggestLoading}
+          selectedProject={selectedProject}
+          // setAddToBeatDisable={setAddToBeatDisable}
+          // fromNew={fromNew}
+          // currentPremiseProject={currentPremiseProject}
+        />
+      )}
     </div>
   );
 };

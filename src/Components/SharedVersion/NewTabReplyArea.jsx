@@ -125,7 +125,7 @@ const NewTabReplyArea = ({
 
     try {
       const response = await axios.get(
-        `${baseURL}/brainstorm/GetCommentAPI/${premiseId}`,
+        `${baseURL}/brainstorm/GetCommentAPInew/${premiseId}`,
         { headers: header }
       );
 

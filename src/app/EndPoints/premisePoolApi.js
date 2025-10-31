@@ -197,11 +197,11 @@ export const premiseSlice = apiSlice.injectEndpoints({
     // brainstorm/commentApi?premise_id=6c81ed44-c0cc-4814-8ae1-ae35b48a6062
     // get comments by premise id
     // brainstorm/commentApi?premise_id=${id}
-    // http://115.245.192.138/brainstorm/GetCommentAPI/7e178f2b-6edb-48cc-84ea-a42c0fa75a9e
+    // http://115.245.192.138/brainstorm/GetCommentAPInew/7e178f2b-6edb-48cc-84ea-a42c0fa75a9e
 
     getCommentByPremiseId: builder.query({
       query: (id) => ({
-        url: `brainstorm/GetCommentAPI/${id}`,
+        url: `brainstorm/GetCommentAPInew/${id}`,
         method: "GET",
       }),
       providesTags: ["premise-comment"],
