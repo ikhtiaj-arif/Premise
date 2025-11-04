@@ -98,7 +98,7 @@ const CommentTranslator = ({
   setCommentPrefix,
   setTranslatedMessageId,
 }) => {
-  console.log("object", comment);
+
   const { currentUser } = useContext(MyContext);
   const { openDropdownId, setOpenDropdownId } = useContext(TranslationContext);
   const [selectedLanguage, setSelectedLanguage] = useState("bn");

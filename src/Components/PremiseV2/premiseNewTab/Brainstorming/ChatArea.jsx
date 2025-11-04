@@ -18,11 +18,9 @@ import { useBeatSuggestionMutation } from "../../../../app/EndPoints/MemberPage/
 import {
   useCommentPremiseMutation,
   useDeleteCommentMutation,
-  useGetPremiseUserPictureQuery,
   useGetPremiseUserQuery,
 } from "../../../../app/EndPoints/premisePoolApi";
 import { useGetMyAllProjectQuery } from "../../../../app/EndPoints/ScriptPad/project";
-import userIcon from "../../../../img/Icons/userImg.png";
 import BeatEditPop from "../../../Premisepool/AddToBeat/BeatEditPop";
 import ConfirmationModal from "../../../Premisepool/Comments/ConfirmationModal";
 import NoAccessCreditPopupUpdate from "../../../PricingModel/NoAccessCreditPopupUpdate";
@@ -57,10 +55,10 @@ const ChatArea = ({
   const [translateComment, isTranslationCommentLoading] =
     useTranslateCommentMutation();
 
-  const { data: profileImg } = useGetPremiseUserPictureQuery(user);
-  const proImgUrl = profileImg?.[0]?.profile_photo
-    ? `${baseURL}${profileImg[0].profile_photo}`
-    : null;
+  // const { data: profileImg } = useGetPremiseUserPictureQuery(user);
+  // const proImgUrl = profileImg?.[0]?.profile_photo
+  //   ? `${baseURL}${profileImg[0].profile_photo}`
+  //   : null;
 
   /**
    * Transforms the backend data into a format that can be
@@ -180,55 +178,49 @@ const ChatArea = ({
       setMessages(transformed);
     }
   }, [rawBackendData, isUserLoading, user]);
-  console.log(proImgUrl);
+  const token = localStorage.getItem("accessToken");
+  const header = {
+    Authorization: `Bearer ${token}`,
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  };
   useEffect(() => {
     const fetchProfileImages = async () => {
       const uniqueUserIds = [...new Set(messages.map((msg) => msg.userId))];
 
       for (const userId of uniqueUserIds) {
         // Skip if already cached
-        if (profileImageCache[userId]) {
-          setMessages((prev) =>
-            prev.map((msg) =>
-              msg.userId === userId && !msg.avatar
-                ? { ...msg, avatar: profileImageCache[userId] }
-                : msg
-            )
-          );
-          continue;
-        }
+        if (profileImageCache[userId]) continue;
 
         try {
-          // For now, using a placeholder - replace with actual API call
-          // const proImgUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${userId}`;
+          const res = await axios.get(
+            `${baseURL}/memberpage/profilepicture/${userId}`,
+            {
+              headers: header,
+            }
+          );
+          const profilePhoto = res?.data?.[0]?.profile_photo; // Adjust according to your API response
 
-          setProfileImageCache((prev) => ({ ...prev, [userId]: proImgUrl }));
+          const avatarUrl = profilePhoto ? `${baseURL}${profilePhoto}` : null;
+
+          // Update cache
+          setProfileImageCache((prev) => ({ ...prev, [userId]: avatarUrl }));
+
+          // Update messages with avatar
           setMessages((prev) =>
             prev.map((msg) =>
-              msg.userId === userId ? { ...msg, avatar: proImgUrl } : msg
+              msg.userId === userId ? { ...msg, avatar: avatarUrl } : msg
             )
           );
         } catch (error) {
-          console.error(
-            `Error fetching profile image for user ${userId}:`,
-            error
-          );
-          // Fallback to placeholder
-          // const fallbackUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${userId}`;
-          const fallbackUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${userIcon}`;
-          setProfileImageCache((prev) => ({ ...prev, [userId]: fallbackUrl }));
-          setMessages((prev) =>
-            prev.map((msg) =>
-              msg.userId === userId ? { ...msg, avatar: fallbackUrl } : msg
-            )
-          );
+          console.error(`Error fetching profile for user ${userId}:`, error);
+          // Optional: fallback to null or a placeholder
+          setProfileImageCache((prev) => ({ ...prev, [userId]: null }));
         }
       }
     };
 
-    if (messages.length > 0) {
-      fetchProfileImages();
-    }
+    if (messages.length > 0) fetchProfileImages();
   }, [messages.length]);
 
   const handleSendMessage = async () => {
@@ -575,7 +567,8 @@ const ChatArea = ({
           const isTranslated =
             translatedMessageId === message.id && translatedText;
 
-          const prefix = isTranslated && commentPrefix ? commentPrefix : message.text_prefix;
+          const prefix =
+            isTranslated && commentPrefix ? commentPrefix : message.text_prefix;
           const text = isTranslated ? translatedText : message.plainText;
 
           return (
@@ -596,7 +589,7 @@ const ChatArea = ({
                 {/* Avatar */}
                 {message.avatar ? (
                   <img
-                    src={message.avatar || "/placeholder.svg"}
+                    src={message.avatar || ""}
                     alt={message.name}
                     className={`w-12 h-12 rounded-full ${
                       message.sender === "user" && "border-2 border-[#00C3FF]"
