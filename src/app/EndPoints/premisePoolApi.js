@@ -80,6 +80,15 @@ export const premiseSlice = apiSlice.injectEndpoints({
     //   }), providesTags: ["premise-hidden-count"],
     // }),
 
+
+       getCommentByPremiseId: builder.query({
+      query: (id) => ({
+        url: `brainstorm/GetCommentAPInew/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["premise-comment"],
+    }),
+
     //hidden count according to filters
 
     getHiddenPremiseCount: builder.query({
@@ -199,14 +208,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     // brainstorm/commentApi?premise_id=${id}
     // http://115.245.192.138/brainstorm/GetCommentAPInew/7e178f2b-6edb-48cc-84ea-a42c0fa75a9e
 
-    getCommentByPremiseId: builder.query({
-      query: (id) => ({
-        url: `brainstorm/GetCommentAPInew/${id}`,
-        method: "GET",
-      }),
-      providesTags: ["premise-comment"],
-    }),
-
+ 
     // is comment liked
     isCommentLiked: builder.mutation({
       query: (data) => ({

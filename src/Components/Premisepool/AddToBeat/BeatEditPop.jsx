@@ -525,9 +525,7 @@ const BeatEditPop = ({
                     !doNotShowBox
                       ? " h-[calc(100vh-73px)]  lg:h-[525px]"
                       : "h-[80%] lg:h-[411px]"
-                  } bg-white lg:bg-[#FAFAFA] ${
-                    fromNew ? "mt-0" : "mt-20"
-                  }   lg:mt-0`}
+                  } bg-white lg:bg-[#FAFAFA] mt-2`}
                 >
                   {/* <div
                   className={`rounded-[8px] relative ${

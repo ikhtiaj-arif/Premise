@@ -25,6 +25,7 @@ import BeatEditPop from "../../../Premisepool/AddToBeat/BeatEditPop";
 import ConfirmationModal from "../../../Premisepool/Comments/ConfirmationModal";
 import NoAccessCreditPopupUpdate from "../../../PricingModel/NoAccessCreditPopupUpdate";
 import AskIda from "../../../SharedVersion/AskIda";
+import TypingIndicator from "../../../TypingIndicator";
 import { baseURL } from "../../../utils";
 import CommentTranslator from "../../components/CommentTranslator";
 
@@ -93,6 +94,7 @@ const ChatArea = ({
         addToBeat: item.add_to_beat || false,
         suggested: item.suggested || false,
         c_value: item.c_value || null,
+        type: item.type || null,
       }));
     }
   };
@@ -122,6 +124,10 @@ const ChatArea = ({
   const [openDltPop, setOpenDltPop] = useState(false);
   const [disableDelete, setDisableDelete] = useState(false);
   const [idToDlt, setIdToDlt] = useState({});
+  const [typingSimulatedUser] = useState({
+    name: "Ida",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=1",
+  });
 
   //! Refs
   const messagesEndRef = useRef(null);
@@ -247,12 +253,21 @@ const ChatArea = ({
       setNoAccessLbPopup(res);
     } else {
       setSuggestDisable(true); // Disable suggestion initially
-
-      const data = {
-        reply: message?.id,
-        ques_text: message.text,
-        C: message?.c_value,
-      };
+      let data;
+      if (message.type === "reply") {
+        data = {
+          reply: message?.replyingTo,
+          parent: message?.id,
+          ques_text: message.text,
+          C: message?.c_value,
+        };
+      } else {
+        data = {
+          reply: message?.replyingTo,
+          ques_text: message.text,
+          C: message?.c_value,
+        };
+      }
 
       try {
         // Make the suggestion request
@@ -682,7 +697,7 @@ const ChatArea = ({
                         <div>
                           <div
                             className={` p-2 bg-[#EFF6FF] text-[#0F0E13]  rounded-tl-[6px] rounded-tr-[16px] border rounded-b-[16px]
-                           cursor-pointer hover:opacity-80 transition-opacity max-w-[581px] shadow-lg`}
+                           cursor-pointer hover transition-opacity max-w-[581px] shadow-lg`}
                           >
                             <p className="text-[16px]  leading-relaxed px-3 py-1">
                               {/* {message.text} */}
@@ -859,6 +874,40 @@ const ChatArea = ({
             </div>
           );
         })}
+
+        {/* Typing Indicator */}
+        {(beatSuggLoading || suggestingId) && (
+          <div className="flex justify-start group">
+            <div className="flex gap-2 flex-row max-w-[681px]">
+              {/* Avatar */}
+              <img
+                src={typingSimulatedUser.avatar || "/placeholder.svg"}
+                alt={"Ida Avatar"}
+                className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+              />
+
+              {/* Typing Indicator Content */}
+              <div className="flex flex-col items-start">
+                {/* Name and Time */}
+                <div className="text-xs text-gray-500 mb-1">
+                  <span className="font-semibold">
+                    {typingSimulatedUser.name}
+                  </span>
+                  <span className="ml-2">
+                    {new Date().toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </span>
+                </div>
+
+                {/* Typing Indicator */}
+                <TypingIndicator />
+              </div>
+            </div>
+          </div>
+        )}
+
         <div ref={messagesEndRef} />
       </div>
 
@@ -932,6 +981,7 @@ const ChatArea = ({
                     />
                   )}
                   <div className="flex items-center gap-2">
+                    {!isLoading && <TypingIndicator />}
                     <button
                       onClick={handleSendMessage}
                       disabled={isLoading}
