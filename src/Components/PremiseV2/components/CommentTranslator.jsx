@@ -1,6 +1,8 @@
 import { useContext, useState } from "react";
 import { fetchUserAccess, MyContext, TranslationContext } from "../../../App"; // Import new context
 import transIcon from "../../../img/Icons/transIcon.png";
+import translateIcon from "../../../img/Icons/translate.png";
+import translateWIcon from "../../../img/Icons/translateWhite.png";
 import { sortedLanguages } from "../../Premisepool/Languages";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 
@@ -94,7 +96,9 @@ const CommentTranslator = ({
   commentRefetch,
   setCommentText,
   setCommentPrefix,
+  setTranslatedMessageId,
 }) => {
+  console.log("object", comment);
   const { currentUser } = useContext(MyContext);
   const { openDropdownId, setOpenDropdownId } = useContext(TranslationContext);
   const [selectedLanguage, setSelectedLanguage] = useState("bn");
@@ -111,8 +115,10 @@ const CommentTranslator = ({
       if (res?.data?.text_prefix) {
         setCommentText(translatedText);
         setCommentPrefix(translatedPrefix);
+        setTranslatedMessageId(comment.id);
       } else {
         setCommentText(res?.data?.text);
+        setTranslatedMessageId(comment.id);
       }
       commentRefetch();
     } catch (err) {
@@ -142,14 +148,30 @@ const CommentTranslator = ({
     <div className="relative">
       {/* ✅ Desktop Dropdown */}
       <div className="lgVisible">
-        <img
-          data-te-toggle="tooltip"
-          title="Translate"
-          src={transIcon}
-          onClick={() => handleTranslate(comment)}
+        {/* <img
+         
           className="w-[22px] h-[22px] ml-auto cursor-pointer"
           alt=""
-        />
+        /> */}
+        {comment.sender === "user" ? (
+          <img
+            src={translateWIcon}
+            data-te-toggle="tooltip"
+            title="Translate"
+            onClick={() => handleTranslate(comment)}
+            className="h-4 w-4"
+            alt="translate"
+          />
+        ) : (
+          <img
+            src={translateIcon}
+            data-te-toggle="tooltip"
+            title="Translate"
+            onClick={() => handleTranslate(comment)}
+            className="h-4 w-4"
+            alt="translate"
+          />
+        )}
         {openDropdownId === comment.id && (
           <div className="absolute top-[32px] right-0 z-20 w-[135px] h-[27vh] md:h-[40vh] overflow-y-auto border bg-[#fafafa]">
             {Object.entries(sortedLanguages).map(([key, name]) => (
@@ -170,13 +192,25 @@ const CommentTranslator = ({
       {/* ✅ Mobile / Tab → click anywhere on box → show select */}
       <div className="lgFlxHidden relative p-1  rounded-[4px]  items-center justify-center">
         {/* Icon (just visual now, not clickable) */}
-        <img
-          data-te-toggle="tooltip"
-          title="Translate"
-          src={transIcon}
-          className="w-[22px] h-[22px] pointer-events-none" // not blocking clicks
-          alt=""
-        />
+        {comment.sender === "user" ? (
+          <img
+            src={translateWIcon}
+            data-te-toggle="tooltip"
+            title="Translate"
+            onClick={() => handleTranslate(comment)}
+            className="h-4 w-4"
+            alt="translate"
+          />
+        ) : (
+          <img
+            src={translateIcon}
+            data-te-toggle="tooltip"
+            title="Translate"
+            onClick={() => handleTranslate(comment)}
+            className="h-4 w-4"
+            alt="translate"
+          />
+        )}
 
         {/* Full clickable select */}
         <select

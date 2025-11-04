@@ -2,25 +2,33 @@
 
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+import { FaRegTrashAlt } from "react-icons/fa";
 import { FiSend } from "react-icons/fi";
 import { IoMdCloseCircle } from "react-icons/io";
 import { MdReply } from "react-icons/md";
 import { toast } from "react-toastify";
 import { fetchUserAccess } from "../../../../App";
 import {
+  useCreateReplyMutation,
   useCreateSuggestedReplyMutation,
   useDeleteLikeOfReplyMutation,
 } from "../../../../app/EndPoints/commentReply/reply";
+import { useTranslateCommentMutation } from "../../../../app/EndPoints/comments/commentAPi";
 import { useBeatSuggestionMutation } from "../../../../app/EndPoints/MemberPage/Buddies";
 import {
   useCommentPremiseMutation,
+  useDeleteCommentMutation,
+  useGetPremiseUserPictureQuery,
   useGetPremiseUserQuery,
 } from "../../../../app/EndPoints/premisePoolApi";
 import { useGetMyAllProjectQuery } from "../../../../app/EndPoints/ScriptPad/project";
+import userIcon from "../../../../img/Icons/userImg.png";
 import BeatEditPop from "../../../Premisepool/AddToBeat/BeatEditPop";
+import ConfirmationModal from "../../../Premisepool/Comments/ConfirmationModal";
 import NoAccessCreditPopupUpdate from "../../../PricingModel/NoAccessCreditPopupUpdate";
 import AskIda from "../../../SharedVersion/AskIda";
 import { baseURL } from "../../../utils";
+import CommentTranslator from "../../components/CommentTranslator";
 
 const ChatArea = ({
   rawBackendData,
@@ -44,10 +52,24 @@ const ChatArea = ({
   const { data: userQuery, isLoading: isUserLoading } =
     useGetPremiseUserQuery();
   const user = userQuery?.id;
+  const [createReplyMutation, isReplyResInfo] = useCreateReplyMutation();
+  const [deleteComment, deleteCommentRes] = useDeleteCommentMutation();
+  const [translateComment, isTranslationCommentLoading] =
+    useTranslateCommentMutation();
+
+  const { data: profileImg } = useGetPremiseUserPictureQuery(user);
+  const proImgUrl = profileImg?.[0]?.profile_photo
+    ? `${baseURL}${profileImg[0].profile_photo}`
+    : null;
+
   /**
    * Transforms the backend data into a format that can be
    * used by the chat area component.
    */
+  const [translatedText, setTranslatedText] = useState("");
+  const [commentPrefix, setCommentPrefix] = useState("");
+  const [translatedMessageId, setTranslatedMessageId] = useState(null);
+
   const transformBackendData = (data) => {
     if (!isUserLoading) {
       const currentUserId = user;
@@ -56,13 +78,16 @@ const ChatArea = ({
         text: item.text_prefix
           ? `${item.text_prefix}: ${item.text}`
           : item.text,
+        text_prefix: item.text_prefix,
+        plainText: item.text,
         sender: item.user.id === currentUserId ? "user" : "other",
         timestamp: new Date(item.created_at).toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit",
         }),
         replyingTo: item.reply || null,
-        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${item.user.username}`,
+        replyParent: item.parent || null,
+        avatar: null,
         userId: item.user.id,
         name: item.user.username,
         askIda: item.ask_ida || false,
@@ -74,8 +99,8 @@ const ChatArea = ({
     }
   };
 
-  console.log(rawBackendData);
   //! States
+
   const [messages, setMessages] = useState(
     transformBackendData(rawBackendData)
   );
@@ -94,23 +119,53 @@ const ChatArea = ({
   const [suggestedBeats, setSuggestedBeats] = useState({});
   const [selectedProject, setSelectedProject] = useState(null);
   const [disableBtn, setDisableBtn] = useState(false);
+  const [profileImageCache, setProfileImageCache] = useState({});
+  const [lastCValue, setLastCValue] = useState(null);
+  const [openDltPop, setOpenDltPop] = useState(false);
+  const [disableDelete, setDisableDelete] = useState(false);
+  const [idToDlt, setIdToDlt] = useState({});
 
   //! Refs
   const messagesEndRef = useRef(null);
   const messageRefs = useRef({});
 
   //! SideEffects
+  // Update message list with translated text
+  useEffect(() => {
+    if (translatedText && translatedMessageId) {
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg.id === translatedMessageId
+            ? { ...msg, translated: translatedText }
+            : msg
+        )
+      );
+    }
+  }, [translatedText, translatedMessageId]);
+
+  // useEffect runs *after render* → safe to call setState here
+  useEffect(() => {
+    if (!isUserLoading && rawBackendData?.length > 0) {
+      const transformed = transformBackendData(rawBackendData, user);
+
+      setMessages(transformed);
+
+      // Find max c_value safely
+      const maxCValue = Math.max(
+        0,
+        ...transformed.map((item) => item.c_value || 0)
+      );
+
+      setLastCValue(maxCValue + 1);
+    }
+  }, [rawBackendData, isUserLoading, user]);
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   useEffect(() => {
     const allProject = allspProjectJSON?.projects;
-
-    // const allProject = allspProjectJSON?.projects?.filter(
-    //   (item) => !item.locked
-    // );
-
     projectRefetch();
     const currentPremiseProject = allProject?.find(
       (p) => p?.pro_uuid === premiseData?.project_id
@@ -118,6 +173,63 @@ const ChatArea = ({
 
     setSelectedProject(currentPremiseProject);
   }, [premiseData, allspProjectJSON]);
+
+  useEffect(() => {
+    if (rawBackendData && !isUserLoading) {
+      const transformed = transformBackendData(rawBackendData);
+      setMessages(transformed);
+    }
+  }, [rawBackendData, isUserLoading, user]);
+  console.log(proImgUrl);
+  useEffect(() => {
+    const fetchProfileImages = async () => {
+      const uniqueUserIds = [...new Set(messages.map((msg) => msg.userId))];
+
+      for (const userId of uniqueUserIds) {
+        // Skip if already cached
+        if (profileImageCache[userId]) {
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.userId === userId && !msg.avatar
+                ? { ...msg, avatar: profileImageCache[userId] }
+                : msg
+            )
+          );
+          continue;
+        }
+
+        try {
+          // For now, using a placeholder - replace with actual API call
+          // const proImgUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${userId}`;
+
+          setProfileImageCache((prev) => ({ ...prev, [userId]: proImgUrl }));
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.userId === userId ? { ...msg, avatar: proImgUrl } : msg
+            )
+          );
+        } catch (error) {
+          console.error(
+            `Error fetching profile image for user ${userId}:`,
+            error
+          );
+          // Fallback to placeholder
+          // const fallbackUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${userId}`;
+          const fallbackUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${userIcon}`;
+          setProfileImageCache((prev) => ({ ...prev, [userId]: fallbackUrl }));
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.userId === userId ? { ...msg, avatar: fallbackUrl } : msg
+            )
+          );
+        }
+      }
+    };
+
+    if (messages.length > 0) {
+      fetchProfileImages();
+    }
+  }, [messages.length]);
 
   const handleSendMessage = async () => {
     await handleButtonClick();
@@ -203,71 +315,96 @@ const ChatArea = ({
   };
 
   const handleSubmitComment = async () => {
-    if (!textValue.trim()) {
+    const trimmedText = textValue.trim();
+    if (!trimmedText) {
       alert("You can't send an empty comment!");
+      return;
+    }
+
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      alert("You are not logged in!");
       return;
     }
 
     setIsLoading(true);
 
     try {
-      const token = localStorage.getItem("accessToken");
-      const header = {
+      const headers = {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
         "Content-Type": "application/json",
       };
 
-      const response = await axios.get(
-        `${baseURL}/brainstorm/GetCommentAPInew/${premiseId}`,
-        { headers: header }
-      );
+      // 🟩 Handle reply separately
+      if (replyingTo) {
+        const replyData = {
+          reply: replyingTo?.replyingTo,
+          parent: replyingTo?.id,
+          text: trimmedText,
+          C: replyingTo?.c_value,
+        };
 
-      const brainstormData = localStorage.getItem("BrainstormData");
-      const sceneData = brainstormData ? JSON.parse(brainstormData) : {};
-
-      const updatedPremiseId = sceneData?.premiseId;
-      const lastSceneNumber = sceneData?.lastSceneNumber;
-
-      const c_value = (response?.data?.counts || 0) + 1;
-
-      const body = {
-        premise: premiseId,
-        text: textValue,
-        user: user,
-        C: c_value,
-        ...(updatedPremiseId === premiseId && lastSceneNumber
-          ? { C_from_scriptpad: lastSceneNumber }
-          : {}),
-        is_question: isCommentQuestion,
-        ...(replyingTo ? { reply: replyingTo.id } : {}),
-      };
-
-      const res = await postComment(body);
-
-      if (updatedPremiseId === premiseId) {
-        localStorage.removeItem("BrainstormData");
-      }
-
-      setTextValue("");
-      setIsCommentQuestion(false);
-      setReplyingTo(null);
-
-      if (commentRefetch) {
-        setTimeout(() => {
+        const res = await createReplyMutation(replyData);
+        // Reset states after replying
+        if (res?.data) {
+          setTextValue("");
+          setIsCommentQuestion(false);
+          setReplyingTo(null);
           commentRefetch();
-        }, 1000);
-      }
+        } else {
+          toast.error("Failed to reply. Please try again.", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 800,
+          });
+        }
+      } else {
+        // 🟩 Fetch current comment count
+        const { data: commentData } = await axios.get(
+          `${baseURL}/brainstorm/GetCommentAPInew/${premiseId}`,
+          { headers }
+        );
 
-      const crdRes = await fetchUserAccess(`PP_AllowBrainstoming`);
-      const remainingCredits = crdRes?.remaining_credits ?? 0;
-      const creditElement = document.getElementById("creditBalance");
-      if (creditElement) {
-        creditElement.textContent = remainingCredits;
+        const brainstormData = localStorage.getItem("BrainstormData");
+        const parsedData = brainstormData ? JSON.parse(brainstormData) : {};
+        const { premiseId: storedPremiseId, lastSceneNumber } = parsedData;
+
+        // 🟩 Prepare body for new comment
+        const body = {
+          premise: premiseId,
+          text: trimmedText,
+          user,
+          C: lastCValue,
+          ...(storedPremiseId === premiseId && lastSceneNumber
+            ? { C_from_scriptpad: lastSceneNumber }
+            : {}),
+          is_question: isCommentQuestion,
+        };
+
+        const res = await postComment(body);
+
+        if (storedPremiseId === premiseId) {
+          localStorage.removeItem("BrainstormData");
+        }
+
+        if (res?.data) {
+          setTextValue("");
+          setIsCommentQuestion(false);
+          commentRefetch();
+        }
+
+        // 🟩 Update user credits
+        const crdRes = await fetchUserAccess("PP_AllowBrainstoming");
+        const remainingCredits = crdRes?.remaining_credits ?? 0;
+
+        const creditElement = document.getElementById("creditBalance");
+        if (creditElement) {
+          creditElement.textContent = remainingCredits;
+        }
       }
     } catch (error) {
-      console.error("Error posting comment:", error);
-      alert("Failed to add comment. Please try again.");
+      console.error("❌ Error posting comment:", error);
+      toast.error("Failed to add comment. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -391,6 +528,34 @@ const ChatArea = ({
     }
   };
 
+  const handleDeleteComment = async (id) => {
+    setDisableDelete(true);
+    const deleteData = {
+      id,
+      isRejected: true,
+    };
+    const res = await deleteReply(deleteData);
+    if (res?.data) {
+      commentRefetch();
+      toast.success("Comment Deleted!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 800,
+      });
+      setDisableDelete(false);
+
+      commentRefetch();
+    } else {
+      toast.error("Failed to delete comment. Please try again.", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 800,
+      });
+
+      setDisableDelete(false);
+      commentRefetch();
+    }
+  };
+
+  // console.log(rawBackendData);
   return (
     <div className="bg-[#F0F2F5] h-screen flex flex-col w-full rounded-lg">
       {/* Messages Container */}
@@ -399,6 +564,19 @@ const ChatArea = ({
           const repliedToMessage = message.replyingTo
             ? getReplyingToMessage(message.replyingTo)
             : null;
+
+          // const displayText =
+          //   translatedMessageId === message.id && translatedText
+          //     ? translatedText && commentPrefix
+          //       ? `${commentPrefix}: ${translatedText}`
+          //       : translatedText
+          //     : message.text;
+
+          const isTranslated =
+            translatedMessageId === message.id && translatedText;
+
+          const prefix = isTranslated && commentPrefix ? commentPrefix : message.text_prefix;
+          const text = isTranslated ? translatedText : message.plainText;
 
           return (
             <div
@@ -416,13 +594,26 @@ const ChatArea = ({
                 } max-w-[681px]`}
               >
                 {/* Avatar */}
-                <img
-                  src={message.avatar || "/placeholder.svg"}
-                  alt={message.name}
-                  className={`w-12 h-12 rounded-full ${
-                    message.sender === "user" && "border-2 border-[#00C3FF]"
-                  } object-cover flex-shrink-0`}
-                />
+                {message.avatar ? (
+                  <img
+                    src={message.avatar || "/placeholder.svg"}
+                    alt={message.name}
+                    className={`w-12 h-12 rounded-full ${
+                      message.sender === "user" && "border-2 border-[#00C3FF]"
+                    } object-cover flex-shrink-0`}
+                  />
+                ) : (
+                  <div
+                    className={`w-12 h-12 rounded-full bg-[#00C3FF3A] flex items-center justify-center text-white font-bold text-lg flex-shrink-0 
+                       border-2 border-[#00C3FF]
+                    `}
+                    title={message.name}
+                  >
+                    {(message.name || message.email || "U")
+                      .charAt(0)
+                      .toUpperCase()}
+                  </div>
+                )}
 
                 {/* Message Content */}
                 <div
@@ -438,50 +629,167 @@ const ChatArea = ({
                         : "text-left"
                     }`}
                   >
-                    <span className="font-semibold">{message.name}</span>
+                    <span className="font-semibold">
+                      {message.sender === "user" ? "You" : message.name}
+                    </span>
                     <span className="ml-2">{message.timestamp}</span>
                   </div>
 
                   {/* Reply Preview */}
                   {repliedToMessage && (
-                    <div
-                      onClick={() =>
-                        handleScrollToOriginal(repliedToMessage.id)
-                      }
-                      className={` p-2 ${
-                        message.sender === "user"
-                          ? "bg-[linear-gradient(30deg,#741CFF_10%,#00C3FF)] text-white"
-                          : "bg-[#EFF6FF] text-[#0F0E13]"
-                      }  rounded-tl-[6px] rounded-tr-[16px] border rounded-b-[16px] cursor-pointer hover:opacity-80 transition-opacity max-w-[581px] shadow-lg`}
-                    >
-                      <div className="bg-[linear-gradient(30deg,#b48bff85,#99e6ff86)] m-2 p-3 rounded-[10px]">
-                        <p className="text-sm  line-clamp-2">
-                          {repliedToMessage.text}
-                        </p>
-                      </div>
-                      <p className="text-[16px]  leading-relaxed px-3 py-1">
-                        {message.text}
-                      </p>
+                    <div className="relative">
+                      {message.sender === "user" ? (
+                        <div>
+                          <div
+                            onClick={() =>
+                              handleScrollToOriginal(repliedToMessage.id)
+                            }
+                            className={` p-2  bg-[linear-gradient(30deg,#741CFF_10%,#00C3FF)] text-white  rounded-tr-[6px] rounded-tl-[16px] border rounded-b-[16px]
+                              cursor-pointer hover:opacity-80 transition-opacity max-w-[581px] shadow-lg`}
+                          >
+                            <div className="bg-[linear-gradient(30deg,#b48bff85,#99e6ff86)] m-2 p-3 rounded-[10px]">
+                              <p className="text-sm  line-clamp-2">
+                                {repliedToMessage.text}
+                              </p>
+                            </div>
+
+                            <p className="text-[16px]  leading-relaxed px-3 py-1">
+                              {/* {message.text} */}
+                              {prefix ? (
+                                <>
+                                  <span className="font-bold">{prefix}:</span>{" "}
+                                  {text}
+                                </>
+                              ) : (
+                                text
+                              )}
+                            </p>
+                            <button
+                              className={`absolute ${
+                                message.sender === "user"
+                                  ? "top-[-10px] left-[-10px] bg-[#741CFF]"
+                                  : "top-[-10px] right-[-10px] bg-[#741CFF1A]"
+                              } h-6 w-6  rounded-full  
+                          flex items-center justify-center opacity-0 group-hover:opacity-100 
+                        transition-opacity duration-300 ease-in-out`}
+                            >
+                              <CommentTranslator
+                                key={message.id}
+                                comment={message}
+                                translateComment={translateComment}
+                                commentRefetch={commentRefetch}
+                                setCommentPrefix={setCommentPrefix}
+                                setCommentText={setTranslatedText}
+                                setTranslatedMessageId={setTranslatedMessageId}
+                              />
+                            </button>
+                          </div>{" "}
+                        </div>
+                      ) : (
+                        <div>
+                          <div
+                            className={` p-2 bg-[#EFF6FF] text-[#0F0E13]  rounded-tl-[6px] rounded-tr-[16px] border rounded-b-[16px]
+                           cursor-pointer hover:opacity-80 transition-opacity max-w-[581px] shadow-lg`}
+                          >
+                            <p className="text-[16px]  leading-relaxed px-3 py-1">
+                              {/* {message.text} */}
+                              {prefix ? (
+                                <>
+                                  <span className="font-bold">{prefix}:</span>{" "}
+                                  {text}
+                                </>
+                              ) : (
+                                text
+                              )}
+                            </p>
+                            <button
+                              className={`absolute ${
+                                message.sender === "user"
+                                  ? "top-[-10px] left-[-10px] bg-[#741CFF]"
+                                  : "top-[-10px] right-[-10px] bg-[#741CFF1A]"
+                              } h-6 w-6  rounded-full  
+                          flex items-center justify-center opacity-0 group-hover:opacity-100 
+                        transition-opacity duration-300 ease-in-out`}
+                            >
+                              <CommentTranslator
+                                key={message.id}
+                                comment={message}
+                                translateComment={translateComment}
+                                commentRefetch={commentRefetch}
+                                setCommentPrefix={setCommentPrefix}
+                                setCommentText={setTranslatedText}
+                                setTranslatedMessageId={setTranslatedMessageId}
+                              />
+                            </button>
+                          </div>{" "}
+                        </div>
+                      )}
                     </div>
                   )}
 
                   {/* Main Message */}
                   {!repliedToMessage && (
                     <div
-                      className={`p-3  rounded-tr-[6px] rounded-tl-[16px] rounded-b-[16px]  ${
+                      className={`p-3   relative ${
                         message.sender === "user"
-                          ? "text-white   bg-[linear-gradient(30deg,#741CFF_10%,#00C3FF)]"
-                          : "bg-[#EFF6FF] text-[#0F0E13] text-[16px] border shadow-lg"
+                          ? "text-white rounded-tr-[6px] rounded-tl-[16px] rounded-b-[16px]  bg-[linear-gradient(30deg,#741CFF_10%,#00C3FF)]"
+                          : "bg-[#EFF6FF] text-[#0F0E13] text-[16px] border shadow-lg rounded-tl-[6px] rounded-tr-[16px] rounded-b-[16px]"
                       }`}
                     >
-                      <p className="text-sm leading-relaxed">{message.text}</p>
+                      <p className="text-sm leading-relaxed">
+                        {/* {message.text} */}
+                        {prefix ? (
+                          <>
+                            <span className="font-bold">{prefix}:</span> {text}
+                          </>
+                        ) : (
+                          text
+                        )}
+                      </p>
+
+                      <button
+                        className={`absolute ${
+                          message.sender === "user"
+                            ? "top-[-10px] left-[-10px] bg-[#741CFF]"
+                            : "top-[-10px] right-[-10px] bg-[#741CFF1A]"
+                        } h-6 w-6  rounded-full  
+                          flex items-center justify-center opacity-0 group-hover:opacity-100 
+                        transition-opacity duration-300 ease-in-out`}
+                      >
+                        <CommentTranslator
+                          key={message.id}
+                          comment={message}
+                          translateComment={translateComment}
+                          commentRefetch={commentRefetch}
+                          setCommentPrefix={setCommentPrefix}
+                          setCommentText={setTranslatedText}
+                          setTranslatedMessageId={setTranslatedMessageId}
+                        />
+                      </button>
                     </div>
                   )}
 
                   {/* Action Buttons */}
 
                   {shouldShowSuggestion(message) ? (
-                    <div className="w-[95%] mx-auto flex justify-end">
+                    <div className="w-[95%] mx-auto flex justify-between mt-1">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleReply(message)}
+                          className="w-4 h-4 rounded-full bg-[#00C3FF] flex items-center justify-center gap-1"
+                        >
+                          <MdReply className="text-black text-[15px]" />
+                        </button>
+                        <button
+                          onClick={() => {
+                            setIdToDlt(message.id);
+                            setOpenDltPop(true);
+                          }}
+                          className="w-5 h-5 rounded-full bg-[#741CFF2A] flex items-center justify-center gap-1"
+                        >
+                          <FaRegTrashAlt className="text-[#4A5565] text-[12px]" />
+                        </button>
+                      </div>
                       {message.suggested ? (
                         <button
                           disabled
@@ -633,7 +941,12 @@ const ChatArea = ({
                   <div className="flex items-center gap-2">
                     <button
                       onClick={handleSendMessage}
-                      className="w-12 h-12 rounded-[14px] shadow-md bg-[linear-gradient(30deg,#741CFF_0%,#00C3FF_70%)] hover:opacity-90 transition-opacity"
+                      disabled={isLoading}
+                      className={`w-12 h-12 rounded-[14px] shadow-md ${
+                        isLoading
+                          ? "bg-[linear-gradient(30deg,#b38bff,#99e6ff)] cursor-default"
+                          : " bg-[linear-gradient(30deg,#741CFF_0%,#00C3FF_70%)] hover:opacity-90"
+                      } transition-opacity`}
                     >
                       <FiSend className="text-[#fff] ml-3 w-5 h-6" />
                     </button>
@@ -698,6 +1011,16 @@ const ChatArea = ({
           // setAddToBeatDisable={setAddToBeatDisable}
           // fromNew={fromNew}
           // currentPremiseProject={currentPremiseProject}
+        />
+      )}
+
+      {openDltPop && (
+        <ConfirmationModal
+          isOpen={openDltPop}
+          onClose={() => setOpenDltPop(false)}
+          onConfirm={() => handleDeleteComment(idToDlt)}
+          title="Are you sure you want to delete this comment?"
+          content="Are you sure you want to delete this item?"
         />
       )}
     </div>

@@ -141,7 +141,6 @@ const PremiseNewTab = ({
     isCommentLoading,
     refetch: commentRefetch,
   } = useGetCommentByPremiseIdQuery(id);
-  console.log("commentData", commentsData?.results);
 
   const {
     data: characters,
@@ -478,7 +477,7 @@ const PremiseNewTab = ({
                   premiseData={premiseData}
                 />
                 {/* Left Sidebar */}
-                <div className=" bg-[#fff] xl:w-[500px] w-full pr-0 flex ">
+                <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex ">
                   <div className="hidden lg:block">
                     <VerticalBar
                       replyRef={replyRef}
