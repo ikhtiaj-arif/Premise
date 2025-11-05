@@ -112,7 +112,6 @@ const LeftSideBarUpdate = ({
   const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);
   const [viewTransactionPId, setViewTransactionPId] = useState("");
   const [isDelete, setIsDelete] = useState(false);
-  console.log(isDelete);
 
   const [characterLoading, setCharacterLoading] = useState(true);
 

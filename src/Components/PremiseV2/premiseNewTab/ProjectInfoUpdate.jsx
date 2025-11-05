@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaArrowLeft } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import newTabDoodle from "../../../img/new-tab-doodle.webp";
 import LikePopup from "../../Premisepool/LikePopup";
@@ -16,6 +17,7 @@ const ProjectInfoUpdate = ({
   commentsData,
   commentField,
   setCommentField,
+  handleOpenSp,
 }) => {
   const {
     id,
@@ -46,7 +48,13 @@ const ProjectInfoUpdate = ({
 
   return (
     <div>
-      <div className="flex items-center gap-2 lg:pl-6 mt-3">
+      <div className="flex items-center gap-2  mt-3">
+        <button
+          className="text-[#000] bg-[#F3F4F6] rounded-lg px-3 h-10 w-10 text-[16px] font-semibold"
+          onClick={handleOpenSp}
+        >
+          <FaArrowLeft />
+        </button>
         <div className="hidden md:block">
           <div className="mr-4 w-[61px] md:w-[102px]">
             <img

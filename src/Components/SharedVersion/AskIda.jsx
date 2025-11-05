@@ -19,6 +19,7 @@ const AskIda = ({
   setIsLoading,
   setNoAccessPopup,
   setService,
+  messagesEndRef,
 }) => {
   const { currentUser } = useContext(MyContext);
   const [postComment, { isLoading: isPostLoading }] =
@@ -81,6 +82,10 @@ const AskIda = ({
     };
 
     setIsLoading(true);
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
 
     try {
       // Fetch the existing comment data
@@ -130,6 +135,7 @@ const AskIda = ({
         // here scroll all the way down to a div using ref
         setTimeout(() => {
           commentRefetch(); // Refetch the comments after adding the new one
+
           if (updatedPremiseId === id) {
             localStorage.removeItem("BrainstormData");
           }
@@ -152,6 +158,10 @@ const AskIda = ({
           toast.success("Comment added!", {
             position: toast.POSITION.TOP_CENTER,
             autoClose: 1600,
+          });
+          messagesEndRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
           });
         }, 1100);
         // }

@@ -82,10 +82,19 @@ export const premiseSlice = apiSlice.injectEndpoints({
 
 
        getCommentByPremiseId: builder.query({
-      query: (id) => ({
-        url: `brainstorm/GetCommentAPInew/${id}`,
+      query: (query) => {
+        const id = query?.id
+        const ps = query?.ps
+        const pn = query?.pn
+
+        let url = `brainstorm/GetCommentAPInew/${id}?page=${pn}&page_size=${ps}`
+
+    
+        
+        return ({
+        url: url,
         method: "GET",
-      }),
+      })},
       providesTags: ["premise-comment"],
     }),
 

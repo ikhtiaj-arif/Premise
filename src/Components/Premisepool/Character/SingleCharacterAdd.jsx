@@ -859,14 +859,20 @@ const SingleCharacterAdd = ({
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 bg-[#FAFAFA] py-4 px-8 flex justify-end gap-[18px] rounded-[8px]">
-          <div className="p-[1px] rounded-[8px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] inline-block">
+          {/* <div className="p-[1px] rounded-[8px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] inline-block">
             <button
               onClick={() => setAddNewCharacter(false)}
               className=" flex items-center gap-[14px] justify-center h-[32px]  py-[4px] px-3 rounded-[8px] w-[99px] bg-white font-[500] text-[#741CFF]  hover:text-white  hover:bg-[linear-gradient(30deg,#741CFF,#00c3ff)] text-[14px] shadow-[#252525] hover:shadow-md"
             >
               Cancel
             </button>
-          </div>
+          </div> */}
+          <button
+            onClick={() => setAddNewCharacter(false)}
+            className=" flex items-center gap-[14px] justify-center h-[32px]  py-[4px] px-3 rounded-[8px] w-[99px] bg-white font-[500] text-[#00c3ff]   text-[14px] shadow-[#252525] hover:shadow-md"
+          >
+            Cancel
+          </button>
           <button
             onClick={handleAddClick}
             disabled={isSaveDisabled}

@@ -18,6 +18,7 @@ import { useBeatSuggestionMutation } from "../../../../app/EndPoints/MemberPage/
 import {
   useCommentPremiseMutation,
   useDeleteCommentMutation,
+  useGetPremiseUserPictureQuery,
   useGetPremiseUserQuery,
 } from "../../../../app/EndPoints/premisePoolApi";
 import { useGetMyAllProjectQuery } from "../../../../app/EndPoints/ScriptPad/project";
@@ -35,6 +36,9 @@ const ChatArea = ({
   premiseId,
   commentRefetch,
   premiseData,
+  handleShow,
+  hasMore,
+  scrollContainerRef,
 }) => {
   //! Mutations & Queries
   const [postComment, { isLoading: isPostLoading }] =
@@ -68,6 +72,7 @@ const ChatArea = ({
   const [translatedText, setTranslatedText] = useState("");
   const [commentPrefix, setCommentPrefix] = useState("");
   const [translatedMessageId, setTranslatedMessageId] = useState(null);
+  const [isTyping, setIsTyping] = useState(false);
 
   const transformBackendData = (data) => {
     if (!isUserLoading) {
@@ -124,9 +129,19 @@ const ChatArea = ({
   const [openDltPop, setOpenDltPop] = useState(false);
   const [disableDelete, setDisableDelete] = useState(false);
   const [idToDlt, setIdToDlt] = useState({});
+
+  const {
+    data: profileImg,
+    profileImgLoading,
+    refetch: profileRefetch,
+  } = useGetPremiseUserPictureQuery(1);
+  const IdaImgUrl = profileImg?.[0]?.profile_photo
+    ? baseURL.concat(profileImg[0].profile_photo)
+    : null;
+
   const [typingSimulatedUser] = useState({
     name: "Ida",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=1",
+    avatar: IdaImgUrl,
   });
 
   //! Refs
@@ -164,9 +179,9 @@ const ChatArea = ({
     }
   }, [rawBackendData, isUserLoading, user]);
 
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  // useEffect(() => {
+  //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  // }, [messages]);
 
   useEffect(() => {
     const allProject = allspProjectJSON?.projects;
@@ -247,6 +262,12 @@ const ChatArea = ({
   };
 
   const handleSuggestion = async (message) => {
+    setIsLoading(true);
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
+
     const res = await fetchUserAccess(`PP_AllowBrainstoming`);
     if (res?.access === "No") {
       setSuggestDisable(false);
@@ -258,13 +279,13 @@ const ChatArea = ({
         data = {
           reply: message?.replyingTo,
           parent: message?.id,
-          ques_text: message.text,
+          ques_text: message.plainText,
           C: message?.c_value,
         };
       } else {
         data = {
-          reply: message?.replyingTo,
-          ques_text: message.text,
+          reply: message?.id,
+          ques_text: message.plainText,
           C: message?.c_value,
         };
       }
@@ -277,6 +298,8 @@ const ChatArea = ({
 
           // After both refetches, re-enable suggestions
           setSuggestDisable(false);
+          setIsLoading(false);
+          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
           const creditRes = await fetchUserAccess(`PP_AllowBrainstoming`);
           const remainingCredits = creditRes?.remaining_credits ?? 0;
           const creditElement = document.getElementById("creditBalance");
@@ -287,6 +310,7 @@ const ChatArea = ({
       } catch (error) {
         console.error("Error during the suggestion process:", error);
         setSuggestDisable(false); // Ensure to re-enable if there's an error
+        setIsLoading(false);
       }
     }
   };
@@ -335,6 +359,10 @@ const ChatArea = ({
     }
 
     setIsLoading(true);
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
 
     try {
       const headers = {
@@ -359,6 +387,12 @@ const ChatArea = ({
           setIsCommentQuestion(false);
           setReplyingTo(null);
           commentRefetch();
+          setTimeout(() => {
+            messagesEndRef.current?.scrollIntoView({
+              behavior: "smooth",
+              block: "end",
+            });
+          }, 500);
         } else {
           toast.error("Failed to reply. Please try again.", {
             position: toast.POSITION.TOP_CENTER,
@@ -398,6 +432,12 @@ const ChatArea = ({
           setTextValue("");
           setIsCommentQuestion(false);
           commentRefetch();
+          setTimeout(() => {
+            messagesEndRef.current?.scrollIntoView({
+              behavior: "smooth",
+              block: "end",
+            });
+          }, 500);
         }
 
         // 🟩 Update user credits
@@ -410,7 +450,6 @@ const ChatArea = ({
         }
       }
     } catch (error) {
-      console.error("❌ Error posting comment:", error);
       toast.error("Failed to add comment. Please try again.");
     } finally {
       setIsLoading(false);
@@ -565,11 +604,20 @@ const ChatArea = ({
   // console.log(rawBackendData);
   return (
     <div className="bg-[#F0F2F5] h-screen flex flex-col w-full rounded-lg">
+      {hasMore && (
+        <button className="text-[14px] text-[#4A5565]" onClick={handleShow}>
+          Show more...
+        </button>
+      )}
+
       {/* Messages Container */}
-      <div className="p-3 h-[calc(100vh-300px)]  lg:h-[calc(95vh-300px)] overflow-y-auto space-y-4">
+      <div
+        ref={scrollContainerRef}
+        className="p-3 h-[calc(100vh-300px)]  lg:h-[calc(95vh-300px)] overflow-y-auto space-y-4"
+      >
         {messages?.map((message) => {
-          const repliedToMessage = message.replyingTo
-            ? getReplyingToMessage(message.replyingTo)
+          const repliedToMessage = message.replyParent
+            ? getReplyingToMessage(message.replyParent)
             : null;
 
           // const displayText =
@@ -876,39 +924,50 @@ const ChatArea = ({
         })}
 
         {/* Typing Indicator */}
-        {(beatSuggLoading || suggestingId) && (
-          <div className="flex justify-start group">
-            <div className="flex gap-2 flex-row max-w-[681px]">
-              {/* Avatar */}
-              <img
-                src={typingSimulatedUser.avatar || "/placeholder.svg"}
-                alt={"Ida Avatar"}
-                className="w-12 h-12 rounded-full object-cover flex-shrink-0"
-              />
+        <div ref={messagesEndRef}>
+          {isLoading && (
+            <div className="flex justify-start group h-24">
+              <div className="flex gap-2 flex-row max-w-[681px]">
+                {/* Avatar */}
+                {typingSimulatedUser.avatar ? (
+                  <img
+                    src={typingSimulatedUser.avatar}
+                    alt={"Ida Avatar"}
+                    className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+                  />
+                ) : (
+                  <div
+                    className={`w-12 h-12 rounded-full bg-[#00C3FF3A] flex items-center justify-center text-white font-bold text-lg flex-shrink-0 
+                       border-2 border-[#00C3FF]
+                    `}
+                    title={"Ida"}
+                  >
+                    {typingSimulatedUser.name.charAt(0).toUpperCase()}
+                  </div>
+                )}
 
-              {/* Typing Indicator Content */}
-              <div className="flex flex-col items-start">
-                {/* Name and Time */}
-                <div className="text-xs text-gray-500 mb-1">
-                  <span className="font-semibold">
-                    {typingSimulatedUser.name}
-                  </span>
-                  <span className="ml-2">
-                    {new Date().toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </span>
+                {/* Typing Indicator Content */}
+                <div className="flex flex-col items-start">
+                  {/* Name and Time */}
+                  <div className="text-xs text-gray-500 mb-1">
+                    <span className="font-semibold">
+                      {typingSimulatedUser.name}
+                    </span>
+                    <span className="ml-2">
+                      {new Date().toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </span>
+                  </div>
+
+                  {/* Typing Indicator */}
+                  <TypingIndicator />
                 </div>
-
-                {/* Typing Indicator */}
-                <TypingIndicator />
               </div>
             </div>
-          </div>
-        )}
-
-        <div ref={messagesEndRef} />
+          )}
+        </div>
       </div>
 
       {/* Input Area */}
@@ -977,11 +1036,11 @@ const ChatArea = ({
                         isLoading,
                         setIsLoading,
                         setNoAccessPopup,
+                        messagesEndRef,
                       }}
                     />
                   )}
                   <div className="flex items-center gap-2">
-                    {!isLoading && <TypingIndicator />}
                     <button
                       onClick={handleSendMessage}
                       disabled={isLoading}

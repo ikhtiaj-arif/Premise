@@ -136,11 +136,90 @@ const PremiseNewTab = ({
     }
   }, [premiseData, user]);
 
+  //get comments pagination
+  const [hasMore, setHasMore] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsToShow, setItemsToShow] = useState(6);
+  const [viewData, setViewData] = useState(null);
+  const [dataCount, setDataCount] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [query, setQuery] = useState({
+    pn: currentPage,
+    ps: itemsToShow,
+    id,
+  });
+
   const {
     data: commentsData,
     isCommentLoading,
     refetch: commentRefetch,
-  } = useGetCommentByPremiseIdQuery(id);
+  } = useGetCommentByPremiseIdQuery(query);
+
+  // const handleShow = () => {
+  //   let newItemsToShow = itemsToShow + 6;
+  //   console.log(newItemsToShow, commentsData?.count);
+  //   // Ensure newItemsToShow does not exceed the total count
+  //   if (newItemsToShow >= commentsData?.count) {
+  //     newItemsToShow = commentsData?.count;
+  //     setHasMore(false);
+  //   } else {
+  //     //  setHasMore(true)
+  //     setItemsToShow(newItemsToShow);
+  //     setQuery({
+  //       pn: currentPage,
+  //       ps: newItemsToShow,
+  //       id,
+  //     });
+  //   }
+  // };
+const scrollContainerRef = useRef(null)
+  const handleShow = () => {
+    const totalCount = commentsData?.count || 0;
+    let newItemsToShow = itemsToShow + 6;
+
+    // If the next batch exceeds total count, cap it to the total
+    if (newItemsToShow >= totalCount) {
+      newItemsToShow = totalCount;
+      setHasMore(false);
+    }
+
+    // Update itemsToShow state
+    setItemsToShow(newItemsToShow);
+
+    // Always update the query with the correct page size (ps)
+    setQuery({
+      pn: currentPage,
+      ps: newItemsToShow,
+      id,
+    });
+
+    console.log("Updated page size:", newItemsToShow, "of total:", totalCount);
+      setTimeout(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  }, 300);
+  };
+
+  useEffect(() => {
+    if (commentsData) {
+      let filterPremiseData = commentsData?.results;
+      setDataCount(filterPremiseData?.length);
+      setViewData(filterPremiseData);
+      setTotalPages(Math.ceil(commentsData?.count / itemsToShow));
+
+      // Determine if there's more data to load
+      if (itemsToShow >= commentsData.count) {
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+      }
+      commentRefetch();
+    }
+  }, [commentsData, itemsToShow]);
 
   const {
     data: characters,
@@ -320,10 +399,6 @@ const PremiseNewTab = ({
   const [focusedCValue, setFocusedCValue] = useState(null);
 
   const handleOpenSp = () => {
-    // console.log("object", p);
-    // if (isProjectLocked) {
-    //   window.location.href(`${URL}/scriptpad/#/generated-scripts`);
-    // }
     window.location.href = `${baseURL}/scriptpad/#/${premiseData?.project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`;
   };
 
@@ -374,6 +449,7 @@ const PremiseNewTab = ({
                 >
                   <FaArrowLeft />
                 </button>
+
                 <div className="p-[1px] text-center h-10 w-10 bg-[linear-gradient(30deg,#741CFF_0%,#00C3FF_70%)] rounded-[8px]">
                   <button
                     onClick={handleToggleCharComment}
@@ -399,6 +475,9 @@ const PremiseNewTab = ({
                     user={user}
                     commentRefetch={commentRefetch}
                     premiseData={premiseData}
+                    handleShow={handleShow}
+                    hasMore={hasMore}
+                    scrollContainerRef={scrollContainerRef}
                   />
                 </div>
               ) : (
@@ -411,6 +490,7 @@ const PremiseNewTab = ({
                       commentsData,
                       commentField,
                       setCommentField,
+                      handleOpenSp,
                     }}
                   />
                   <LeftSideBarUpdate
@@ -451,6 +531,7 @@ const PremiseNewTab = ({
                   commentsData,
                   commentField,
                   setCommentField,
+                  handleOpenSp,
                 }}
               />
               {/* <div className="flex gap-2">
@@ -475,6 +556,9 @@ const PremiseNewTab = ({
                   user={user}
                   commentRefetch={commentRefetch}
                   premiseData={premiseData}
+                  handleShow={handleShow}
+                  hasMore={hasMore}
+                   scrollContainerRef={scrollContainerRef}
                 />
                 {/* Left Sidebar */}
                 <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex ">

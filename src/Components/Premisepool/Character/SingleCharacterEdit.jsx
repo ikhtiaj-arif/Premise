@@ -917,21 +917,20 @@ const SingleCharacterAdd = ({
           </div>
 
           <div className="absolute bottom-0 left-0 right-0 bg-[#FAFAFA] py-4 px-8 flex justify-end gap-[18px]  rounded-[8px]">
-            <div className="p-[1px] rounded-[8px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] inline-block">
-              <button
-                onClick={() => setEditPopupOpen(false)}
-                className=" flex items-center gap-[14px] justify-center h-[32px]  py-[4px] px-3 rounded-[8px]  bg-white font-[500] text-[#741CFF]  hover:text-white  hover:bg-[linear-gradient(30deg,#741CFF,#00c3ff)] text-[14px] shadow-[#252525] hover:shadow-md"
-              >
-                Cancel
-              </button>
-            </div>
+            {/* <div className="p-[1px] rounded-[8px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] inline-block"></div> */}
+            <button
+              onClick={() => setEditPopupOpen(false)}
+              className=" flex items-center gap-[14px] justify-center h-[32px]  py-[4px] px-3 rounded-[8px] bg-white font-[500] text-[#00c3ff]  border border-[#00c3ff]  text-[14px] shadow-[#252525] hover:shadow-md"
+            >
+              Cancel
+            </button>
             <button
               onClick={handleAddClick}
-              className={`text-[14px] font-[600] text-white px-3 h-[32px]  rounded-[8px] ${
+              className={`text-[14px] font-[600]  px-3 h-[32px]  rounded-[8px] ${
                 isSaveDisabled || disabledEdit
-                  ? "bg-[linear-gradient(30deg,#b38bff,#99e6ff)] "
-                  : "bg-[linear-gradient(30deg,#741CFF,#00c3ff)] "
-              }`}
+                  ? "bg-[#99e6ff] text-[#0F0E1380]"
+                  : "bg-[#00c3ff] text-[##0F0E13]"
+              } text-[14px] font-[500]  px-3 h-[32px] rounded-[8px]`}
               disabled={isSaveDisabled || disabledEdit}
             >
               Save Character

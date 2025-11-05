@@ -466,14 +466,20 @@ const CharacterEditablePop = ({
         {/* Bottom Buttons */}
         <div className="md:absolute px-4 right-[30px] bottom-[30px] flex justify-end gap-[16px] mt-[38px]">
           {finalCharacters?.length <= 17 && (
-            <div className="p-[1px] rounded-[8px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] inline-block">
-              <button
-                onClick={handleAddNewChar}
-                className=" flex items-center gap-[6px] justify-center rounded-[8px] bg-white font-[500] text-[#741CFF]  hover:text-white h-[32px] px-[21px] hover:bg-[linear-gradient(30deg,#741CFF,#00c3ff)] text-[14px] shadow-[#252525] hover:shadow-md "
-              >
-                <FaPlus /> <span>Add Character</span>
-              </button>
-            </div>
+            // <div className="p-[1px] rounded-[8px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] inline-block">
+            //   <button
+            //     onClick={handleAddNewChar}
+            //     className=" flex items-center gap-[6px] justify-center rounded-[8px] bg-white font-[500] text-[#741CFF]  hover:text-white h-[32px] px-[21px] hover:bg-[linear-gradient(30deg,#741CFF,#00c3ff)] text-[14px] shadow-[#252525] hover:shadow-md "
+            //   >
+            //     <FaPlus /> <span>Add Character</span>
+            //   </button>
+            // </div>
+            <button
+              onClick={handleAddNewChar}
+              className=" flex items-center gap-[6px] justify-center rounded-[8px] bg-white font-[500] text-[#00c3ff]   h-[32px] border border-[#00c3ff] px-[21px] text-[14px] shadow-[#252525] hover:shadow-md "
+            >
+              <FaPlus /> <span>Add Character</span>
+            </button>
           )}
           {!onlyAdd ? (
             <>
@@ -489,9 +495,9 @@ const CharacterEditablePop = ({
                       }}
                       className={`${
                         saveCheckUser
-                          ? "bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
-                          : "bg-[linear-gradient(30deg,#b38bff,#99e6ff)]"
-                      } text-white px-3 h-[32px] text-[14px] font-[600] rounded-[8px]`}
+                          ? "bg-[#99e6ff] text-[#0F0E1380]"
+                          : "bg-[#00c3ff] text-[##0F0E13]"
+                      }  px-3 h-[32px] text-[14px] font-[500] rounded-[8px]`}
                     >
                       Save Character
                     </button>
@@ -504,9 +510,9 @@ const CharacterEditablePop = ({
                       }}
                       className={`${
                         saveCheckUser
-                          ? "bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
-                          : "bg-[linear-gradient(30deg,#b38bff,#99e6ff)]"
-                      } text-white px-3 h-[32px] text-[14px] font-[600] rounded-[8px]`}
+                          ? "bg-[#99e6ff] text-[#0F0E1380]"
+                          : "bg-[#00c3ff] text-[##0F0E13]"
+                      }  px-3 h-[32px] text-[14px] font-[500] rounded-[8px]`}
                     >
                       Save Character
                     </button>
@@ -520,9 +526,9 @@ const CharacterEditablePop = ({
                   }}
                   className={`${
                     !saveCheckUser
-                      ? "bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
-                      : "bg-[linear-gradient(30deg,#b38bff,#99e6ff)]"
-                  } text-white w-[119px] h-[32px] text-[14px] font-[600] rounded-[8px]`}
+                      ? "bg-[#99e6ff] text-[#0F0E1380]"
+                      : "bg-[#00c3ff] text-[##0F0E13]"
+                  }  px-3 h-[32px] text-[14px] font-[500] rounded-[8px]`}
                 >
                   Save As Draft
                 </button>
@@ -537,9 +543,9 @@ const CharacterEditablePop = ({
               }}
               className={`${
                 !characterLoading
-                  ? "bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
-                  : "bg-[linear-gradient(30deg,#b38bff,#99e6ff)]"
-              } text-white px-3 h-[32px] text-[14px] font-[600] rounded-[8px]`}
+                  ? "bg-[#99e6ff] text-[#0F0E1380]"
+                  : "bg-[#00c3ff] text-[##0F0E13]"
+              }  px-3 h-[32px] text-[14px] font-[500] rounded-[8px]`}
             >
               Save Character
             </button>
