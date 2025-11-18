@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
-import { ToastContainer } from "react-toastify";
 import { useGetPremiseBeatsDataQuery } from "../../../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
 import TypingLoader from "../../../TypingLoader";
@@ -36,8 +35,8 @@ const BeatsPop = ({ popClose, id }) => {
   );
 
   return (
-    <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-screen flex items-center bg-[#252525b0] justify-center z-[21]">
-      <ToastContainer />
+    <div className="fixed top-0 lg:top-[-10px] bottom-0 right-0 left-0 w-full h-screen flex items-center bg-[#252525b0] justify-center z-[21]">
+      {/* <ToastContainer /> */}
       <div className="h-[550px] px-[12px] md:px-[32px] w-full bg-[#fff] md:w-[700px] lg:w-[1052px] lg:max-w-[90%] md:mx-auto relative md:rounded-[8px]">
         {/* close popup */}
         <img
@@ -72,7 +71,7 @@ const BeatsPop = ({ popClose, id }) => {
                   onClick={() => setActiveTab("all")}
                   className={`px-[12px] py-[2px] text-[12px] md:text-[16px] rounded-[4px] md:rounded-[8px] ${
                     activeTab === "all"
-                      ? "border-none bg-[#33b0ca] text-[#fafafa] "
+                      ? "border-none bg-[#00c3ff] text-[#0F0E13] "
                       : "border border-[#616161] text-[#616161] bg-white"
                   } `}
                 >
@@ -86,7 +85,7 @@ const BeatsPop = ({ popClose, id }) => {
                   onClick={() => setActiveTab("setup")}
                   className={`px-[12px] py-[2px] text-[12px] md:text-[16px] rounded-[4px] md:rounded-[8px] ${
                     activeTab === "setup"
-                      ? "border-none bg-[#33b0ca] text-[#fafafa] "
+                      ? "border-none bg-[#00c3ff] text-[#0F0E13] "
                       : "border border-[#616161] text-[#616161] bg-white"
                   } `}
                 >
@@ -96,7 +95,7 @@ const BeatsPop = ({ popClose, id }) => {
                   onClick={() => setActiveTab("conflict")}
                   className={`px-[12px] py-[2px] text-[12px] md:text-[16px] rounded-[4px] md:rounded-[8px] ${
                     activeTab === "conflict"
-                      ? "border-none bg-[#33b0ca] text-[#fafafa] "
+                      ? "border-none bg-[#00c3ff] text-[#0F0E13] "
                       : "border border-[#616161] text-[#616161] bg-white"
                   } `}
                 >
@@ -106,7 +105,7 @@ const BeatsPop = ({ popClose, id }) => {
                   onClick={() => setActiveTab("resolution")}
                   className={`px-[12px] py-[2px] text-[12px] md:text-[16px] rounded-[4px] md:rounded-[8px] ${
                     activeTab === "resolution"
-                      ? "border-none bg-[#33b0ca] text-[#fafafa] "
+                      ? "border-none bg-[#00c3ff] text-[#0F0E13] "
                       : "border border-[#616161] text-[#616161] bg-white"
                   } `}
                 >
@@ -128,7 +127,7 @@ const BeatsPop = ({ popClose, id }) => {
                       <th className="border text-[12px] md:text-[16px] font-medium px-[7px] md:py-2 text-left md:text-center flex-1">
                         Comment/Reply/Brainstorm
                       </th>
-                      <th className="text-[12px] md:text-[16px] font-medium md:border-l-[1px] border-[#616161] px-2 md:py-2 text-right md:text-center flex-1 bg-[#33b0ca] bg-opacity-20 md:bg-transparent">
+                      <th className="text-[12px] md:text-[16px] font-medium md:border-l-[1px] border-[#616161] px-2 md:py-2 text-right md:text-center flex-1 bg-[#00c3ff] bg-opacity-20 md:bg-transparent">
                         Beat Text
                       </th>
                     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { sortedLanguages } from "../Languages";
 
 const TranslateDrop = ({
@@ -20,7 +20,7 @@ const TranslateDrop = ({
   if (loading) {
     return (
       <div className=" w-[106px]">
-        <span className="loading loading-spinner mx-auto text-[14px] text-[#33B0CA] my-auto cursor-auto"></span>
+        <span className="loading loading-spinner mx-auto text-[14px] text-[#00c3ff] my-auto cursor-auto"></span>
       </div>
     );
   }
@@ -35,7 +35,7 @@ const TranslateDrop = ({
         ([key, name]) =>
           key !== source_language && (
             <option key={key} value={key}>
-              <p className="bg-[#33B0CA]">{name}</p>
+              <p className="bg-[#00c3ff]">{name}</p>
             </option>
           )
       )}
@@ -46,7 +46,7 @@ const TranslateDrop = ({
     //         <li onClick={()=> {
     //           setSelectedOption(key)
 
-    //           }} className="cursor-pointer text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] list-none pl-[8px] border-b" key={key} value={key}>
+    //           }} className="cursor-pointer text-[14px] text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] list-none pl-[8px] border-b" key={key} value={key}>
     //           {name}
     //         </li>
     //    ) : null

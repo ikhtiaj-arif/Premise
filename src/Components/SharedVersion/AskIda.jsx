@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { toast } from "react-toastify";
 import { fetchUserAccess, MyContext } from "../../App";
 import { useCommentPremiseMutation } from "../../app/EndPoints/premisePoolApi";
+import idaSuggestion from "../../img/Icons/ida_suggestion.png";
 import { baseURL } from "../utils";
 
 const AskIda = ({
@@ -16,8 +17,9 @@ const AskIda = ({
   premiseOwner,
   isLoading,
   setIsLoading,
-  setNoAccessPopup,
+  setNoAccessLbPopup,
   setService,
+  messagesEndRef,
 }) => {
   const { currentUser } = useContext(MyContext);
   const [postComment, { isLoading: isPostLoading }] =
@@ -42,11 +44,11 @@ const AskIda = ({
   // console.log(source_language);
 
   const checkAllowance = async (flag) => {
-    const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);
-    console.log(`${flag} res`, res);
-    if (res?.access === "No") {
-      setNoAccessPopup(res);
-      setService(flag);
+    const res = await fetchUserAccess(`${flag}`);
+
+    if (res?.has_access === false) {
+      setNoAccessLbPopup(res);
+     
       setIsLoading(false);
     } else {
       handleSubmitComment();
@@ -80,11 +82,15 @@ const AskIda = ({
     };
 
     setIsLoading(true);
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
 
     try {
       // Fetch the existing comment data
       const response = await axios.get(
-        `${baseURL}/ideamall/GetCommentAPI/${id}`,
+        `${baseURL}/brainstorm/GetCommentAPInew/${id}`,
         {
           headers: header,
         }
@@ -93,12 +99,23 @@ const AskIda = ({
       if (response) {
         const commentText = translations[source_language] || translations["en"];
 
+        const brainstormData = localStorage.getItem("BrainstormData");
+        const sceneData = JSON.parse(brainstormData);
+
+        const updatedPremiseId = sceneData?.premiseId;
+        const lastSceneNumber = sceneData?.lastSceneNumber;
+
+        let c_value = response?.data?.count + 1;
+
         const body = {
           premise: id,
           text: commentText,
           ask_ida: true,
           user: user,
-          C: response?.data?.counts + 1, // Update the comment count
+          C: c_value, // Update the comment count
+          ...(updatedPremiseId === id && lastSceneNumber
+            ? { C_from_scriptpad: lastSceneNumber }
+            : {}),
           is_question: false,
         };
 
@@ -118,20 +135,33 @@ const AskIda = ({
         // here scroll all the way down to a div using ref
         setTimeout(() => {
           commentRefetch(); // Refetch the comments after adding the new one
-          setOpenAllReplies(true);
-          setOpenReplyFieldID(res?.data?.id);
-        }, 1000);
 
-        setTimeout(() => {
-          if (lastCommentRef.current) {
-            lastCommentRef.current.scrollTo({
-              top: lastCommentRef.current.scrollHeight,
-              behavior: "smooth",
-            });
+          if (updatedPremiseId === id) {
+            localStorage.removeItem("BrainstormData");
           }
+          // setOpenAllReplies(true);
+          // setOpenReplyFieldID(res?.data?.id);
+        }, 1000);
+        const crdRes = await fetchUserAccess(`PP_AllowBrainstoming`);
+        const remainingCredits = crdRes?.remaining_credits ?? 0;
+        const creditElement = document.getElementById("creditBalance");
+        if (creditElement) {
+          creditElement.textContent = remainingCredits;
+        }
+        setTimeout(() => {
+          // if (lastCommentRef.current) {
+          //   lastCommentRef.current.scrollTo({
+          //     top: lastCommentRef.current.scrollHeight,
+          //     behavior: "smooth",
+          //   });
+          // }
           toast.success("Comment added!", {
             position: toast.POSITION.TOP_CENTER,
             autoClose: 1600,
+          });
+          messagesEndRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
           });
         }, 1100);
         // }
@@ -148,15 +178,22 @@ const AskIda = ({
 
   return (
     <div>
-      <div className="my-1 text-center ">
+      <div className="p-[1px] text-center h-[36px] bg-[linear-gradient(30deg,#741CFF_0%,#00C3FF_70%)] rounded-[8px]">
         <button
           disabled={isLoading}
           onClick={handleButtonClick}
-          className={` border-none rounded-[8px] px-4 h-[32px] text-white text-[12px] md:text-[14px] font-[600] leading-[21px] ${
-            isLoading ? "bg-[#ACDDE7]   cursor-default" : "bg-[#33B0CA]"
-          }`}
+          className={` border-none rounded-[8px] px-4 h-[34px] shadow-md text-[#741CFF] text-[14px]  font-[500] leading-[21px] ${
+            isLoading ? "bg-[#fff] cursor-default" : "bg-[#fff]"
+          } flex items-center justify-center`}
         >
-          Ask Ida for more!
+          <img
+            src={idaSuggestion}
+            alt="idaSuggestin"
+            className="mr-2 w-[26px]"
+          />
+          <h4 class="text-[14px]  font-[500] leading-[21px] w-full  bg-[linear-gradient(30deg,#741CFF,#00C3FF)] bg-clip-text text-transparent">
+            Ask Ida for more!
+          </h4>
         </button>
       </div>
     </div>

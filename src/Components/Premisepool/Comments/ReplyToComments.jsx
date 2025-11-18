@@ -1,3 +1,73 @@
+// ReplyToComments Component
+//
+// Displays and manages a single reply (and its nested replies) under a comment.
+// Handles all related user actions like liking, replying, deleting, suggesting (AI),
+// translating, and adding replies as beats.
+//
+// ------------------------------------------------------------
+// Overview
+// ------------------------------------------------------------
+// - Renders a reply with user info, avatar, time, and reply content.
+// - Allows users to reply to existing replies (nested threading).
+// - Supports translations, AI suggestions, and “Add as Beat” actions.
+// - Includes access control checks for privileged features.
+// - Integrates multiple backend endpoints (reply CRUD, translation, AI suggestion).
+//
+// ------------------------------------------------------------
+// Core Functionalities
+// ------------------------------------------------------------
+//
+// 1. **Reply Posting**
+//    - Users can post nested replies to an existing reply.
+//    - Handles Enter key submissions and empty reply validation.
+//    //! Important: Reply posting uses `useCreateReplyMutation` and triggers `replyRefetch()` to refresh UI.
+//
+// 2. **Reply Deletion / Rejection**
+//    - Deletion handled via `useDeleteLikeOfReplyMutation`.
+//    - Rejects AI replies (if flagged) using the same mutation with `isRejected: true`.
+//    //! Important: Only the reply owner or the premise owner can delete/reject replies.
+//
+// 3. **AI Suggestion System**
+//    - For replies ending with “?” or “؟”, owners can request AI-generated suggestions.
+//    - Controlled via `fetchUserAccess` for permission validation.
+//    //! Important: Restricted to privileged users — unauthorized users trigger `NoAccessPopUp` or `NoAccessLbPopUp`.
+//
+// 4. **Translation**
+//    - Integrates `CommentTranslator` to translate reply text in place.
+//    - Dynamically updates both `replyText` and `replyTextPrefix`.
+//
+// 5. **Add as Beat**
+//    - Allows converting a reply into a “beat” (plot element).
+//    - Triggers `handleAddToBeat()` callback with the reply data.
+//    //! Important: Only owners or authorized users can add beats.
+//
+// 6. **Likes**
+//    - Uses `ReplyLike` for like/unlike actions and `ReplyLikeUsersPop` for popup display.
+//    - Keeps likes in sync via `replyRefetch`.
+//
+// 7. **Nested Replies**
+//    - Child replies are rendered using the `ReplyToReply` component.
+//    - Animated appearance with Framer Motion transitions.
+//    - Auto-focuses reply input when opened for smoother UX.
+//
+// 8. **Access Control**
+//    - Checks access for AI-related permissions (`PP_AllowBrainstoming`, `PP_ReplyAI`).
+//    - Displays onboarding or access popups accordingly.
+//
+// 9. **User Feedback**
+//    - Shows toast notifications for success/error states.
+//    - Includes small modals (`ConfirmationModal`, `SameNamePop`) for safety and validation.
+//
+// ------------------------------------------------------------
+// Summary
+// ------------------------------------------------------------
+// `ReplyToComments` manages the lifecycle of replies — from displaying and replying,
+// to deleting, translating, or promoting replies as beats. It also enforces access control
+// for AI-powered and premium interactions.
+//
+// //! Key takeaway: This component handles all nested reply interactions under a comment,
+//    ensuring clean UI updates, proper access validation, and a collaborative experience.
+
 import { motion } from "framer-motion";
 import { useContext, useEffect, useRef, useState } from "react";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
@@ -17,13 +87,12 @@ import userIcon from "../../../img/Icons/userImg.png";
 import BtnLoading from "../../../shared/BtnLoading";
 import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
 import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
+import NoAccessCreditPopupUpdate from "../../PricingModel/NoAccessCreditPopupUpdate";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
-import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
-import UserType from "../UserType";
+
 import ConfirmationModal from "./ConfirmationModal";
-import ReplyLike from "./ReplyLike";
 import ReplyToReply from "./ReplyToReply";
 
 const ReplyToComments = ({
@@ -54,17 +123,16 @@ const ReplyToComments = ({
   const [replyText, setReplyText] = useState(reply?.text);
   const [replyTextPrefix, setReplyTextPrefix] = useState(reply?.text_prefix);
   const [childReplyText, setChildReplyText] = useState("");
-  // console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", childReplyText);
   const [isTextareaDisabled, setIsTextareaDisabled] = useState(false);
-
   const [noAccessLbPopup, setNoAccessLbPopup] = useState(null);
-
   const latestReplyRef = useRef(null);
   const replyToReplyRef = useRef(null);
-
   const replyRef = useRef(null);
-  const createdTime = reply?.created_at;
+  const [replyChildTextCount, setReplyChildTextCount] = useState(0);
+  const [alert, setAlert] = useState(false);
+  const hasManyReplies = reply?.child_replies?.length >= 3;
 
+  const createdTime = reply?.created_at;
   const [deleteReply, deleteReplyRes] = useDeleteLikeOfReplyMutation();
   const [createReplyMutation, isReplyResInfo] = useCreateReplyMutation();
   const [suggestion, suggestionRes] = useCreateSuggestedReplyMutation();
@@ -86,24 +154,6 @@ const ReplyToComments = ({
     }
     // }, [childReplyField, replyToCommentID]);
   }, [childReplyField, currentlyOpenedCommentID]);
-
-  // for reply
-
-  // close tabs
-  // useEffect(() => {
-  //   const closeMenu = (e) => {
-  //     if (
-  //       !replyRef?.current?.contains(e.target) &&
-  //       !e.target.closest("[data-nest-reply]")
-  //     ) {
-  //       if (!e.target.closest(".absolute")) {
-  //         setChildReplyField(false);
-  //       }
-  //     }
-  //   };
-  //   document.body.addEventListener("mousedown", closeMenu);
-  //   return () => document.body.removeEventListener("mousedown", closeMenu);
-  // }, []);
 
   const [isFullDelete, setIsFullDelete] = useState(false);
 
@@ -157,14 +207,12 @@ const ReplyToComments = ({
     }
   };
 
-  const [replyChildTextCount, setReplyChildTextCount] = useState(0);
-
   const handleReplyTextChange = (event) => {
     const childReply = event.target.value.replace(/^\s+|\s+(?=\s)/g, "");
     setReplyChildTextCount(childReply?.length);
     setChildReplyText(childReply);
   };
-  const [alert, setAlert] = useState(false);
+
   const handlePostReplyToReply = async (e, isEnterKey = false) => {
     const childReplyText = replyRef.current.value;
     if (e) {
@@ -212,9 +260,7 @@ const ReplyToComments = ({
   const checkSuggestAllowance = async (text) => {
     // console.log(text);
     setSuggestDisable(true);
-    const res = await fetchUserAccess(
-      `${currentUser?.id}/PP_AllowBrainstoming`
-    );
+    const res = await fetchUserAccess(`PP_AllowBrainstoming`);
     // console.log(`PP_AllowBrainstoming res`, res);
     if (res?.access === "No") {
       setSuggestDisable(false);
@@ -239,38 +285,14 @@ const ReplyToComments = ({
       replyRefetch();
       setSuggestDisable(false);
       setChildReplyField(true);
+      const creditRes = await fetchUserAccess(`PP_AllowBrainstoming`);
+      const remainingCredits = creditRes?.remaining_credits ?? 0;
+      const creditElement = document.getElementById("creditBalance");
+      if (creditElement) {
+        creditElement.textContent = remainingCredits;
+      }
     }
   };
-  const hasManyReplies = reply?.child_replies?.length >= 3;
-
-  // const phrasesToBold = ["Do Think About:", "OR May be", "May be"];
-
-  // const formatText = (text) => {
-  //   // Find a matching prefix
-  //   const matchingPrefix = phrasesToBold.find((prefix) =>
-  //     text.startsWith(prefix)
-  //   );
-
-  //   if (matchingPrefix) {
-  //     // Split the text into the bold prefix and the rest
-  //     const restOfText = text.slice(matchingPrefix.length);
-  //     return (
-  //       <>
-  //         <span style={{ color: "#252525", fontWeight: 500 }}>
-  //           {matchingPrefix}
-  //         </span>
-  //         {restOfText}
-  //       </>
-  //     );
-  //   }
-
-  //   // Return the text as is if no prefix matches
-  //   return text;
-  // };
-
-  const phrasesToBold = ["Do Think About:", "OR May be", "May be"];
-
-  useEffect(() => {}, []);
 
   const formatText = (text, prefix) => {
     if (prefix) {
@@ -293,7 +315,7 @@ const ReplyToComments = ({
       currentUser?.id !== owner &&
       (reply?.user?.id === 1 || reply?.user?.id === 79)
     ) {
-      const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
+      const res = await fetchUserAccess(`PP_ReplyAI`);
       // console.log("reply child 1 brainstorm res", res);
       if (res?.access === "No") {
         setNoAccessLbPopup(res);
@@ -308,25 +330,23 @@ const ReplyToComments = ({
   return (
     <div
       data-reply
-      className={`w-[99%] ${
-        fromNew ? "w-[99%]" : "lg:w-[636px] xl:w-[674px]"
-      }  ml-[5px] md:ml-[50px]  rounded-sm flex items-center gap-1`}
+      className={`w-full ${
+        fromNew ? "w-[99%]" : ""
+      }   md:pl-[47px]   rounded-sm flex items-center gap-1`}
     >
-      <div className="w-full md:w-[95%] xl:w-[97%]">
+      <div className="w-full">
         <div
-          className={` w-[100%] relative  ${
-            fromNew ? "md:ml-[63px]" : "md:ml-[45px]"
+          className={`  relative  ${
+            fromNew ? "w-[97%] md:ml-[13px]" : "xl:ml-[26px] xxl:ml-[43px]"
           }`}
         >
           <div
-            className={`flex gap-[8px] lg:pr-[24px] ${
-              fromNew
-                ? "w-[100%] md:w-[94.5%]"
-                : "w-[100%] md:w-[100%] max-w-[654px]"
+            className={`flex gap-[8px]  ${
+              fromNew ? "w-[100%] md:w-[97.5%]" : "w-[100%] md:w-[100%] "
             }  `}
           >
             <a
-              target="_blank"
+              // target="_blank"
               rel="noreferrer"
               // href={`${URL}/memberpage/#/user/${created_by?.id}`}
 
@@ -358,7 +378,7 @@ const ReplyToComments = ({
               <div className="flex w-full justify-between my-1 relative">
                 <div className="text-[#1E1E1E] pl-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center">
                   <a
-                    target="_blank"
+                    // target="_blank"
                     rel="noreferrer"
                     href={
                       reply?.id === user
@@ -368,26 +388,23 @@ const ReplyToComments = ({
                     className="flex items-center"
                   >
                     {reply?.user?.first_name || reply?.user?.last_name ? (
-                      <p className="notranslate text-[14px] font-[500] hover:text-[#33b0ca] ">
+                      <p className="notranslate text-[14px] font-[500] hover:text-[#00c3ff] ">
                         {reply?.user?.first_name} {reply?.user?.last_name}
                       </p>
                     ) : (
-                      <p className="text-[14px] font-[500] hover:text-[#33b0ca] ">
+                      <p className="text-[14px] font-[500] hover:text-[#00c3ff] ">
                         {reply?.user?.email.split("@")[0]}
                       </p>
                     )}
                     {reply?.user?.id === 1 ? (
                       <></>
                     ) : (
-                      <UserType
-                        type={reply?.user?.centraldatabase?.type}
-                        user_type={reply?.user?.centraldatabase?.user_type}
-                      />
+                  <></>
                     )}
                   </a>
                 </div>
 
-                <p className="text-[12px]  h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
+                <p className=" text-[14px]   h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
                   {" "}
                   <TimeAgo timestamp={createdTime} />
                 </p>
@@ -435,17 +452,17 @@ const ReplyToComments = ({
                   </button>
                 </div>
               ) : (
-                <></>
+                <>
+                  <div className="xl:pr-[24px] lg:pr-[16px]" />
+                </>
               )}
             </div>
           </div>
 
           <div
             data-nest-reply
-            className={`flex justify-between  max-w-[90%] ${
-              fromNew
-                ? "md:max-w-[86%]  mr-[0px] md:mr-[119px]"
-                : "md:max-w-[585px]  mr-[0px] md:mr-[58px]"
+            className={`flex justify-between  max-w-[86%] ${
+              fromNew ? "md:max-w-[84%]  mr-[0px] md:mr-[70px]" : " "
             }   items-center my-[2px] ml-[39px]  mt-[2px]`}
           >
             <div className=" flex items-center gap-3 text-sm leading-[16px] mt-[2px] mb-[4px]">
@@ -463,7 +480,7 @@ const ReplyToComments = ({
                         className="text-[16px] font-[500] cursor-pointer text-[#252525]"
                       />
                       <p
-                        className={`  text-[12px] text-[#616161] font-[400] leading-[14.52px]`}
+                        className={`   text-[14px]  text-[#616161] font-[400]   leading-[16.52px]  `}
                       >
                         <span className=" md:hidden">
                           {reply?.child_replies?.length}
@@ -484,7 +501,7 @@ const ReplyToComments = ({
                       className="flex items-center  gap-[2px]"
                     >
                       <BiMinusCircle className="  text-[16px] font-[500] cursor-pointer text-[#252525]" />
-                      <p className=" text-[12px] text-[#33B0CA] font-[400]  leading-[14.52px] ">
+                      <p className="  text-[14px]  text-[#00c3ff] font-[400]    leading-[16.52px]   ">
                         <span className="md:hidden">
                           {reply?.child_replies?.length}
                         </span>
@@ -509,13 +526,13 @@ const ReplyToComments = ({
               >
                 <IoIosUndo
                   className={`${
-                    openReplyField ? "text-[#33B0CA]" : "text-[#252525]"
+                    openReplyField ? "text-[#00c3ff]" : "text-[#252525]"
                   }`}
                 />
                 <p
                   className={`${
-                    openReplyField ? "text-[#33B0CA]" : "text-[#252525]"
-                  } text-[12px] hidden md:block font-[400] leading-[14.52px]`}
+                    openReplyField ? "text-[#00c3ff]" : "text-[#252525]"
+                  }  text-[14px]  hidden md:block font-[400]   leading-[16.52px]  `}
                 >
                   Reply
                 </p>
@@ -526,25 +543,25 @@ const ReplyToComments = ({
                   reply?.user?.id === 1 && (
                     <>
                       {reply?.suggested ? (
-                        <button className="px-2  rounded-[4px] pb-[4px] pt-[2px] bg-[#616161] cursor-auto">
-                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                        <button className="px-2  rounded-[4px] pb-[4px] pt-[2px] bg-[linear-gradient(30deg,#b38bff,#99e6ff)] cursor-auto">
+                          <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                             Suggested
                           </p>
                         </button>
                       ) : (
                         <>
                           {suggestDisable ? (
-                            <button className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-auto">
-                              <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                            <button className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] cursor-auto">
+                              <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                                 Suggesting...
                               </p>
                             </button>
                           ) : (
                             <button
-                              className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-pointer"
+                              className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] cursor-pointer"
                               onClick={() => checkSuggestAllowance(reply?.text)}
                             >
-                              <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                              <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                                 Suggestion
                               </p>
                             </button>
@@ -554,35 +571,35 @@ const ReplyToComments = ({
                     </>
                   )}
               </div>
-              <div className="hidden md:block ">
+              {/* <div className="hidden md:block ">
                 <ReplyLike {...{ reply, setLikePopup, replyRefetch }} />
               </div>
 
               <div className="flex md:hidden">
                 <ReplyLike {...{ reply, setLikePopup, replyRefetch }} />
-              </div>
+              </div> */}
 
               {owner === user &&
                 (reply?.text?.includes("?") || reply?.text?.includes("؟")) &&
                 reply?.user?.id === 1 && (
                   <>
                     {reply?.suggested ? (
-                      <button className="px-2 md:hidden  rounded-[4px] py-[2px] bg-[#616161]">
-                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                      <button className="px-2 md:hidden  rounded-[4px] py-[2px] bg-[linear-gradient(30deg,#b38bff,#99e6ff)]">
+                        <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                           Suggested
                         </p>
                       </button>
                     ) : (
                       <button
-                        className="px-2 md:hidden rounded-[4px] py-[2px] bg-[#33B0CA]"
+                        className="px-2 md:hidden rounded-[4px] py-[2px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
                         onClick={() => checkSuggestAllowance(reply?.text)}
                       >
                         {suggestDisable ? (
-                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                          <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                             Suggesting...
                           </p>
                         ) : (
-                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                          <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                             Suggestion
                           </p>
                         )}
@@ -597,7 +614,7 @@ const ReplyToComments = ({
                     <button className=" cursor-auto w-[60px]">
                       <p
                         onClick={() => handleReject(reply?.id)}
-                        className="text-[12px] bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400] leading-[14.52px] "
+                        className=" text-[14px]  bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400]   leading-[16.52px]   "
                       >
                         Reject
                       </p>
@@ -617,21 +634,21 @@ const ReplyToComments = ({
                   <>
                     {reply?.suggested ? (
                       <button className="px-2 md:hidden  rounded-[4px] py-[2px] bg-[#616161]">
-                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                        <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                           Suggested
                         </p>
                       </button>
                     ) : (
                       <button
-                        className="px-2 md:hidden rounded-[4px] py-[2px] bg-[#33B0CA]"
+                        className="px-2 md:hidden rounded-[4px] py-[2px] bg-[#00c3ff]"
                         onClick={() => checkSuggestAllowance(reply?.text)}
                       >
                         {suggestDisable ? (
-                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                          <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                             Suggesting...
                           </p>
                         ) : (
-                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                          <p className=" text-[14px]  text-[#fafafa] font-[400]   leading-[16.52px]    ">
                             Suggestion
                           </p>
                         )}
@@ -646,7 +663,7 @@ const ReplyToComments = ({
                     <button className=" cursor-auto w-[60px]">
                       <p
                         onClick={() => handleReject(reply?.id)}
-                        className="text-[12px] bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400] leading-[14.52px] "
+                        className=" text-[14px]  bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400]   leading-[16.52px]   "
                       >
                         Reject
                       </p>
@@ -659,8 +676,8 @@ const ReplyToComments = ({
                   {reply?.add_to_beat ? (
                     <>
                       {(owner === user || reply?.user?.id === user) && (
-                        <button className=" cursor-auto w-[89px]">
-                          <p className="text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] ">
+                        <button className=" cursor-auto w-[109px]">
+                          <p className=" text-[14px]  text-[#00c3ff] italic  font-[400]   leading-[16.52px]   ">
                             Added as Beat
                           </p>
                         </button>
@@ -675,9 +692,9 @@ const ReplyToComments = ({
                               handleAddToBeat(reply);
                               setBeatCommentText(reply?.text);
                             }}
-                            className="w-[83px]"
+                            className="w-[88px]"
                           >
-                            <p className="text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
+                            <p className="text-[14px] text-[#008000] hover:text-[#00c3ff] font-[400] leading-[16.52px]   ">
                               Add as Beat
                             </p>
                           </button>
@@ -766,12 +783,12 @@ const ReplyToComments = ({
                       type="submit"
                       // onClick={handlePostReplyToReply}
                     >
-                      <IoMdSend className="text-[#33B0CA] w-6 h-6" />
+                      <IoMdSend className="text-[#00c3ff] w-6 h-6" />
                     </button>
                   )}
                 </form>
                 <div className=" text-right">
-                  <p className="text-[12px] font-[400] w-[86%] md:w-[94%] leading-[14px]  text-[#616161] md:mr-[13px]">
+                  <p className=" text-[14px]  font-[400] w-[86%] md:w-[94%] leading-[14px]  text-[#616161] md:mr-[13px]">
                     {replyChildTextCount}/150
                   </p>
                 </div>
@@ -781,7 +798,7 @@ const ReplyToComments = ({
           {childReplyField && (
             <div
               data-nest-reply
-              className="w-full md:w-[94%]  md:mr-[4px] mb-[8px] md:ml-auto"
+              className="w-[102%] md:w-[94%]  mb-[8px] md:ml-auto"
             >
               {/* <div className={``}> */}
               <div
@@ -800,7 +817,8 @@ const ReplyToComments = ({
                     ?.map((childReply, idx) => (
                       <motion.div
                         // data-reply
-                        ref={latestReplyRef}
+
+                        key={idx + childReply.id}
                         initial={{ opacity: 0, y: 70 }} // Start from slightly below the final position
                         animate={{ opacity: 1, y: 0 }} // Move to the final position
                         exit={{ opacity: 0, y: -50 }} // Exit by moving above the screen
@@ -845,10 +863,13 @@ const ReplyToComments = ({
         />
       )}
 
-      {noAccessLbPopup?.msg === "ShowBecomePrivilege" && (
-        <NoAccessPopUp
+      {noAccessLbPopup?.hasAccess === false && (
+        <NoAccessCreditPopupUpdate
           noAccessPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
+          service={"Generating from Brainstorm"}
+          credit_rate={noAccessLbPopup?.credit_rate}
+          remaining_credits={noAccessLbPopup?.remaining_credits}
         />
       )}
       {(noAccessLbPopup?.msg === "LB" ||

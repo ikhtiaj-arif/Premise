@@ -10,8 +10,8 @@ import BtnLoading from "../../shared/BtnLoading";
 import Keyboard from "../Premisepool/Keyboard";
 import LanguageSelector from "../Premisepool/LanguageSelector";
 import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
+import NoAccessCreditPopupUpdate from "../PricingModel/NoAccessCreditPopupUpdate";
 import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
-import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
 import { baseURL } from "../utils";
 
 const PopupTextarea = ({
@@ -127,8 +127,7 @@ const PopupTextarea = ({
   // console.log("triggerSPPopup", triggerSPPopup);
 
   const checkAllowance = async (flag) => {
-    const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);
-    console.log(`${flag} res`, res);
+    const res = await fetchUserAccess(`${flag}`);
     if (res?.access === "No") {
       setNoAccessPopup(res);
       setService(flag);
@@ -150,18 +149,29 @@ const PopupTextarea = ({
     try {
       // Fetch the existing comment data
       const response = await axios.get(
-        `${baseURL}/ideamall/GetCommentAPI/${premiseId}`,
+        `${baseURL}/brainstorm/GetCommentAPInew/${premiseId}`,
         {
           headers: header,
         }
       );
+
+      const brainstormData = localStorage.getItem("BrainstormData");
+      const sceneData = JSON.parse(brainstormData);
+
+      const updatedPremiseId = sceneData?.premiseId;
+      const lastSceneNumber = sceneData?.lastSceneNumber;
+
+      let c_value = response?.data?.counts + 1;
 
       if (response) {
         const body = {
           premise: premiseId,
           text: newComment,
           user: user,
-          C: response?.data?.counts + 1, // Update the comment count
+          C: c_value, // Update the comment count
+          ...(updatedPremiseId === premiseId && lastSceneNumber
+            ? { C_from_scriptpad: lastSceneNumber }
+            : {}),
           is_question: isCommentQuestion,
         };
 
@@ -179,7 +189,9 @@ const PopupTextarea = ({
         //   setTextCount(0);
         // } else {
         setNewComment("");
-
+        if (updatedPremiseId === premiseId) {
+          localStorage.removeItem("BrainstormData");
+        }
         setIsLoading(false);
         setTextCount(0);
 
@@ -227,111 +239,146 @@ const PopupTextarea = ({
     setKeyboardVisible(!keyboardVisible);
   };
   return (
-    <div className={`relative  bottom-0 md:w-auto px-2 ${className}`}>
-      <div
-        className={`${
-          className ? "bg-[#fff]" : "bg-[#f8f8f8]"
-        } relative md:mb-[16px] pl-3 md:flex-row ${
-          fromNew ? "w-full" : "w-[90%]"
-        }  mx-auto  border-2 border-[#616161] rounded-[8px] mt-[8px] md:h-[92px] xl:h-[144px]`}
-      >
-        {premiseOwner?.id === user ? (
-          <textarea
-            ref={inputRef}
-            type="text"
-            name=""
-            maxLength={250}
-            id=""
-            className={`bg-[#f8f8f8] placeholder:text-[#616161] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[108px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic ${className2}`}
-            placeholder="Share an action taken by any character in pursuit of its want OR describe a situation in which the chosen characters interact OR write anything you have in mind. "
-            value={newComment}
-            required
-            onChange={handleTextareaChange}
-            onKeyDown={(event) => {
-              if (event.key === "Enter") {
-                handleButtonClick();
-                event.currentTarget.blur();
-              }
-            }}
-          />
-        ) : (
-          <textarea
-            ref={inputRef}
-            type="text"
-            name=""
-            maxLength={150}
-            id=""
-            className={`${
-              className ? "bg-[#fff]" : "bg-[#f8f8f8]"
-            } resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] xl:h-[108px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:text-[#616161] placeholder:italic`}
-            placeholder="Share an action taken by any character in pursuit of its want OR describe a situation in which the chosen characters interact OR write anything you have in mind. "
-            value={newComment}
-            required
-            onChange={handleTextareaChange}
-            onKeyDown={(event) => {
-              // console.log('Key pressed:', event.key);
-              if (event.key === "Enter") {
-                handleButtonClick();
-                event.currentTarget.blur();
-              }
-            }}
-          />
-        )}
-        <div className="absolute right-0 bottom-[2px] xl:bottom-1 flex gap-3 items-center justify-end pr-2 pb-1">
-          <div className="md:flex items-center gap-1  hidden ">
-            <FaKeyboard
-              data-te-toggle="tooltip"
-              title={`${!keyboardVisible ? "View Keyboard" : "Hide Keyboard"}`}
-              className={`w-6 h-6 ${
-                keyboardVisible && "text-[#33B0CA]"
-              } cursor-pointer hover:text-[#33B0CA]`}
-              onClick={onClickKeyboard}
+    <>
+      <div className={`relative  bottom-0 md:w-auto px-2 ${className}`}>
+        <div
+          className={`${
+            className ? "bg-[#fff]" : "bg-[#f8f8f8]"
+          } relative md:mb-[16px] pl-3 md:flex-row ${
+            fromNew ? "w-full" : "w-[90%]"
+          }  mx-auto  border-2 border-[#616161] rounded-[8px] mt-[8px] md:h-[92px] 2xl:h-[144px]`}
+        >
+          {premiseOwner?.id === user ? (
+            <textarea
+              ref={inputRef}
+              type="text"
+              name=""
+              maxLength={250}
+              id=""
+              className={`bg-[#f8f8f8] placeholder:text-[#616161] resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] 2xl:h-[108px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:italic ${className2}`}
+              placeholder="Share an action taken by any character in pursuit of its want OR describe a situation in which the chosen characters interact OR write anything you have in mind. "
+              value={newComment}
+              required
+              onChange={handleTextareaChange}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  handleButtonClick();
+                  event.currentTarget.blur();
+                }
+              }}
             />
-            <div className="w-[110px] ">
-              <LanguageSelector
-                setSelectedLanguage={setSelectedLanguage}
-                selectedLanguage={selectedLanguage}
-                setKeyboardVisible={setKeyboardVisible}
-              />
-            </div>
-          </div>
-
-          {isLoading ? (
-            <div className=" ">
-              <BtnLoading />
-            </div>
           ) : (
-            <button className="md:w-[21px]" onClick={handleButtonClick}>
-              <IoMdSend className="text-[#33B0CA] w-6 h-6" />
-              {/* <img
+            <textarea
+              ref={inputRef}
+              type="text"
+              name=""
+              maxLength={150}
+              id=""
+              className={`${
+                className ? "bg-[#fff]" : "bg-[#f8f8f8]"
+              } resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[55px] 2xl:h-[108px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:text-[#616161] placeholder:italic`}
+              placeholder="Share an action taken by any character in pursuit of its want OR describe a situation in which the chosen characters interact OR write anything you have in mind. "
+              value={newComment}
+              required
+              onChange={handleTextareaChange}
+              onKeyDown={(event) => {
+                // console.log('Key pressed:', event.key);
+                if (event.key === "Enter") {
+                  handleButtonClick();
+                  event.currentTarget.blur();
+                }
+              }}
+            />
+          )}
+          <div className="absolute right-0 bottom-[2px] xl:bottom-1 flex gap-3 items-center justify-end pr-2 pb-1">
+            <div className="md:flex items-center gap-1  hidden ">
+              <FaKeyboard
+                data-te-toggle="tooltip"
+                title={`${
+                  !keyboardVisible ? "View Keyboard" : "Hide Keyboard"
+                }`}
+                className={`w-6 h-6 ${
+                  keyboardVisible && "text-[#00c3ff]"
+                } cursor-pointer hover:text-[#00c3ff]`}
+                onClick={onClickKeyboard}
+              />
+              <div className="w-[110px] ">
+                <LanguageSelector
+                  setSelectedLanguage={setSelectedLanguage}
+                  selectedLanguage={selectedLanguage}
+                  setKeyboardVisible={setKeyboardVisible}
+                />
+              </div>
+            </div>
+
+            {isLoading ? (
+              <div className=" ">
+                <BtnLoading />
+              </div>
+            ) : (
+              <button className="md:w-[21px]" onClick={handleButtonClick}>
+                <IoMdSend className="text-[#00c3ff] w-6 h-6" />
+                {/* <img
                             src={forwardIcon}
                             alt=""
                             className=" w-full my-auto cursor-pointer lg:!mt-[32px]"
                           /> */}
-            </button>
+              </button>
+            )}
+          </div>
+        </div>
+        <div
+          className={` absolute bottom-[-16px] md:bottom-[-2px]  lg:bottom-[-16px] right-[12px] md:right-[47px] lg:right-[28px] ${
+            fromNew ? "" : " right-[26px]"
+          } `}
+        >
+          {premiseOwner?.id === user ? (
+            <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
+              {textCount}/250
+            </p>
+          ) : (
+            <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
+              {textCount}/150
+            </p>
           )}
         </div>
-      </div>
-      <div
-        className={` absolute bottom-[-16px]  ${
-          fromNew ? "" : " right-[26px]"
-        } right-[12px]`}
-      >
-        {premiseOwner?.id === user ? (
-          <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
-            {textCount}/250
-          </p>
-        ) : (
-          <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
-            {textCount}/150
-          </p>
-        )}
-      </div>
 
+        {noAccessPopup?.msg === "ShowBecomePrivilege" ? (
+          <NoAccessCreditPopupUpdate
+            noAccessPopup={noAccessPopup}
+            setNoAccessPopup={setNoAccessPopup}
+          />
+        ) : (
+          (noAccessPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
+            noAccessPopup?.msg === "LB") && (
+            <NoAccessLbPopUp
+              noAccessLbPopup={noAccessPopup}
+              setNoAccessPopup={setNoAccessPopup}
+              service={
+                service === "PP_AllowBrainstoming"
+                  ? "PP_Brainstrom"
+                  : "PP_interactions"
+              }
+            />
+          )
+        )}
+        {alert && (
+          <SameNamePop
+            popClose={setAlert}
+            title={`You can't send an empty comment!`}
+          />
+        )}
+        {/* {triggerPopup && (
+        <TriggerPopupComment onClose={() => setTriggerPopup(false)} />
+      )}
+      {triggerSPPopup && (
+        <OpenScriptPop onClose={() => setTriggerSPPopup(false)} />
+      )} */}
+      </div>
       <>
         {selectedLanguage && keyboardVisible && (
           <Draggable handle=".movable-handle">
-            <div className="absolute z-20 w-[650px] top-[4px] right-[-85px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
+            <div className="absolute z-20 w-[650px] top-[146px] right-[55px] bg-[#fafafa] border border-[#eaeaea] shadow-lg rounded">
               <div className="grid grid-cols-12">
                 <div className="movable-handle col-span-11 bg-[#f8f8f8] text-[#616161] cursor-move text-center text-[14px] font-[400]">
                   Drag me!!{" "}
@@ -362,39 +409,7 @@ const PopupTextarea = ({
           </Draggable>
         )}
       </>
-
-      {noAccessPopup?.msg === "ShowBecomePrivilege" ? (
-        <NoAccessPopUp
-          noAccessPopup={noAccessPopup}
-          setNoAccessPopup={setNoAccessPopup}
-        />
-      ) : (
-        (noAccessPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
-          noAccessPopup?.msg === "LB") && (
-          <NoAccessLbPopUp
-            noAccessLbPopup={noAccessPopup}
-            setNoAccessPopup={setNoAccessPopup}
-            service={
-              service === "PP_AllowBrainstoming"
-                ? "PP_Brainstrom"
-                : "PP_interactions"
-            }
-          />
-        )
-      )}
-      {alert && (
-        <SameNamePop
-          popClose={setAlert}
-          title={`You can't send an empty comment!`}
-        />
-      )}
-      {/* {triggerPopup && (
-        <TriggerPopupComment onClose={() => setTriggerPopup(false)} />
-      )}
-      {triggerSPPopup && (
-        <OpenScriptPop onClose={() => setTriggerSPPopup(false)} />
-      )} */}
-    </div>
+    </>
   );
 };
 

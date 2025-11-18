@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import {
   useGetPremiseUserPictureQuery,
@@ -6,7 +5,7 @@ import {
 } from "../../app/EndPoints/premisePoolApi";
 import userIcon from "../../img/Icons/userImg.png";
 import { URL } from "../utils";
-import UserType from "./UserType";
+
 const CommentLikePopEach = ({ like }) => {
   const likedUser = like;
   const user = useSelector((state) => state?.user?.id);
@@ -35,7 +34,7 @@ const CommentLikePopEach = ({ like }) => {
       {!userLoading && (
         <div>
           <a
-            target="_blank"
+            // target="_blank"
             rel="noreferrer"
             // href={`${URL}/memberpage/#/user/${created_by?.id}`}
 
@@ -59,26 +58,26 @@ const CommentLikePopEach = ({ like }) => {
                   alt=""
                 />
               )}
-            
+
               {userData?.firstName ? (
                 <div className="flex items-center">
-                  <h4 className="text-[14px] font-[500] text-[#252525] hover:text-[#33B0CA]">
+                  <h4 className="text-[14px] font-[500] text-[#252525] hover:text-[#00c3ff]">
                     {userData?.firstName} {userData?.lastName}
                   </h4>
-                  <UserType
+                  {/* <UserType
                     type={userData?.type}
                     user_type={userData?.user_type}
-                  />
+                  /> */}
                 </div>
               ) : (
                 <div className="flex items-center">
                   <h4 className="text-[14px] font-[500] text-[#252525]">
                     {userData?.email?.split("@")[0]}
                   </h4>
-                  <UserType
+                  {/* <UserType
                     type={userData?.type}
                     user_type={userData?.user_type}
-                  />
+                  /> */}
                 </div>
               )}
             </div>

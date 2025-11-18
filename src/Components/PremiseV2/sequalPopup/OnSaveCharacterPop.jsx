@@ -122,7 +122,7 @@ const OnSaveCharacterPop = ({ popClose }) => {
                 className="w-[70px]"
               />
               {/* <h1 className="absolute left-3">{currentPopup}</h1> */}
-              <p className="text-center text-[14px] md:text-[16px] font-medium text-[#33b0ca]">
+              <p className="text-center text-[14px] md:text-[16px] font-medium text-[#00c3ff]">
                 Do You Know?
               </p>
             </div>
@@ -173,8 +173,8 @@ const OnSaveCharacterPop = ({ popClose }) => {
                       className={`w-[130px] h-[32px] ${
                         currentPopup === 1
                           ? "bg-[#33b1ca4c] cursor-default"
-                          : "bg-[#33b0ca] cursor-pointer"
-                      } bg-[#33b0ca] text-white rounded-[8px] px-[12px] text-[14px] font-[600] flex gap-[12px] items-center justify-center`}
+                          : "bg-[#00c3ff] cursor-pointer"
+                      } bg-[#00c3ff] text-white rounded-[8px] px-[12px] text-[14px] font-[600] flex gap-[12px] items-center justify-center`}
                     >
                       <FaArrowLeft />
                       Previous
@@ -182,7 +182,7 @@ const OnSaveCharacterPop = ({ popClose }) => {
                   }
                   <button
                     onClick={handleNextPopup}
-                    className="w-[130px] h-[32px]  bg-[#33b0ca] text-white rounded-[8px] px-[12px] text-[14px] font-[600] flex gap-[12px] items-center justify-center"
+                    className="w-[130px] h-[32px]  bg-[#00c3ff] text-white rounded-[8px] px-[12px] text-[14px] font-[600] flex gap-[12px] items-center justify-center"
                   >
                     Next
                     <FaArrowRight />
@@ -191,7 +191,7 @@ const OnSaveCharacterPop = ({ popClose }) => {
               ) : (
                 <button
                   onClick={handleNextPopup}
-                  className="w-[100px] h-[32px]  bg-[#33b0ca] text-white rounded-[8px] px-[12px] text-[14px] font-[600] flex gap-[12px] items-center justify-center"
+                  className="w-[100px] h-[32px]  bg-[#00c3ff] text-white rounded-[8px] px-[12px] text-[14px] font-[600] flex gap-[12px] items-center justify-center"
                 >
                   Let's start!
                 </button>

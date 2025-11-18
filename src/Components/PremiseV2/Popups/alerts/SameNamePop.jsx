@@ -1,11 +1,10 @@
-import React from "react";
 import crossIcon from "../../../../img/Icons/crossIcon.png";
 
 const SameNamePop = ({ popClose, title }) => {
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center mt-[80px] lg:mt-[0px] bg-[#252525b0] justify-center z-[21]">
-      <div className=" h-[30vh] lg:h-auto mb-[20px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[475px]  md:mx-auto relative lg:rounded-[8px]">
-        <div className="absolute top-[-76px] sm:top-[-12px] right-[45%] ml-4 sm:ml-0 sm:right-[-15px]">
+    <div className="fixed top-0 left-0 w-full h-screen flex items-center  bg-[#252525b0] justify-center z-[21]">
+      <div className=" h-auto mb-[20px] lg:mb-0  lg:mt-[100px] xl:mt-[85px] w-full sm:w-[80%] rounded-lg bg-[#fff] lg:bg-[#FAFAFA]  lg:w-[475px]  md:mx-auto relative lg:rounded-[8px]">
+        <div className="absolute right-[45%] top-[-60px] sm:top-[-12px] sm:right-[-12px]">
           <img
             src={crossIcon}
             alt=""
@@ -19,7 +18,7 @@ const SameNamePop = ({ popClose, title }) => {
             <button
               onClick={() => popClose(null)}
               className={` text-white rounded-[8px] h-[32px] px-[28px] text-[14px] font-[600] 
-                bg-[#33B0CA]`}
+                bg-[#00c3ff]`}
             >
               OK
             </button>

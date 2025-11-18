@@ -20,13 +20,12 @@ import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
 import { URL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
-import UserType from "../UserType";
+
 import ReplyToReply2 from "./ReplyToReply2";
 
 import { useTranslateCommentMutation } from "../../../app/EndPoints/comments/commentAPi";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
 import ConfirmationModal from "./ConfirmationModal";
-import ReplyLike from "./ReplyLike";
 
 const ReplyToReply = ({
   handleAddToBeat,
@@ -195,9 +194,7 @@ const ReplyToReply = ({
 
   const checkSuggestAllowance = async (text) => {
     setSuggestDisable(true);
-    const res = await fetchUserAccess(
-      `${currentUser?.id}/PP_AllowBrainstoming`
-    );
+    const res = await fetchUserAccess(`PP_AllowBrainstoming`);
     console.log(`PP_AllowBrainstoming res`, res);
     if (res?.access === "No") {
       setSuggestDisable(false);
@@ -224,6 +221,12 @@ const ReplyToReply = ({
       replyRefetch();
       setSuggestDisable(false);
       setChildReplies(true);
+      const creditRes = await fetchUserAccess(`PP_AllowBrainstoming`);
+      const remainingCredits = creditRes?.remaining_credits ?? 0;
+      const creditElement = document.getElementById("creditBalance");
+      if (creditElement) {
+        creditElement.textContent = remainingCredits;
+      }
     }
   };
 
@@ -248,8 +251,6 @@ const ReplyToReply = ({
   //   return text;
   // };
   const formatText = (text, prefix) => {
-    console.log("prefix", prefix);
-
     if (prefix) {
       // If there's a prefix, make it bold and show at the front
       return (
@@ -270,8 +271,7 @@ const ReplyToReply = ({
       currentUser?.id !== owner &&
       (reply?.user?.id === 1 || reply?.user?.id === 79)
     ) {
-      const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
-      console.log("reply child 2 brainstorm res", res);
+      const res = await fetchUserAccess(`PP_ReplyAI`);
       if (res?.access === "No") {
         setNoAccessLbPopup(res);
       } else {
@@ -286,13 +286,13 @@ const ReplyToReply = ({
     <>
       <div
         className={`w-full ${
-          fromNew ? "max-w-[95%]" : "max-w-[592px]"
+          fromNew ? "max-w-[96%]" : "max-w-[592px]"
         } ml-[0px]`}
       >
         <div className="flex gap-[8px]">
           <div className="flex flex-col items-center gap-1">
             <a
-              target="_blank"
+              // target="_blank"
               rel="noreferrer"
               href={
                 replyBy?.id === user
@@ -317,11 +317,11 @@ const ReplyToReply = ({
               </div>
             </a>
           </div>
-          <div className="border w-full md:w-[86%] lg:w-[89%] border-[##EAEAEA] bg-[#f8f8f8] rounded-[8px] p-1 ">
+          <div className="border  w-full md:w-[86%] lg:w-[89%] border-[##EAEAEA] bg-[#f8f8f8] rounded-[8px] p-1 ">
             <div className="flex justify-between my-1 relative">
               <div className="text-[#1E1E1E] pl-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center">
                 <a
-                  target="_blank"
+                  // target="_blank"
                   rel="noreferrer"
                   href={
                     replyBy?.id === user
@@ -332,33 +332,30 @@ const ReplyToReply = ({
                 >
                   {childReply?.user?.first_name ||
                   childReply?.user?.last_name ? (
-                    <p className=" notranslate text-[14px] font-[500] hover:text-[#33b0ca]">
+                    <p className=" notranslate text-[14px] font-[500] hover:text-[#00c3ff]">
                       {childReply?.user?.first_name}{" "}
                       {childReply?.user?.last_name}{" "}
                     </p>
                   ) : (
-                    <p className="text-[14px] font-[500] hover:text-[#33b0ca]">
+                    <p className="text-[14px] font-[500] hover:text-[#00c3ff]">
                       {childReply?.user?.email.split("@")[0]}{" "}
                     </p>
                   )}
                   {replyBy?.id === 1 ? (
                     <></>
                   ) : (
-                    <UserType
-                      type={childReply?.user?.centraldatabase?.type}
-                      user_type={childReply?.user?.centraldatabase?.user_type}
-                    />
+                  <></>
                   )}
                 </a>
               </div>
 
-              <p className="text-[12px]  h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
+              <p className="text-[14px]  h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
                 {" "}
                 <TimeAgo timestamp={createdTime} />
               </p>
             </div>
 
-            <p className="notranslate text-[#252525] text-[12px] lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
+            <p className="notranslate text-[#252525] text-[14px] lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
               {/* {childReply?.text} */}
               {/* {replyBy?.id === 1 && childReply?.text
                 ? formatText(childReply?.text)
@@ -368,7 +365,7 @@ const ReplyToReply = ({
                 : replyText}
             </p>
           </div>{" "}
-          <div className="hidden  lg:flex-row justify-center gap-1 items-center right-[6.5px] md:right-[6.5px] top-[28%]">
+          <div className="hidden lg:flex flex-row justify-center gap-1 items-center ">
             <CommentTranslator
               comment={childReply}
               translateComment={translateComment}
@@ -377,6 +374,7 @@ const ReplyToReply = ({
               setCommentText={setReplyText}
               setCommentPrefix={setReplyTextPrefix}
             />
+
             {(owner === user || replyBy?.id === user) &&
             !childReply?.reject_button ? (
               <div className="flex gap-2 items-center pl-[2px]">
@@ -390,7 +388,7 @@ const ReplyToReply = ({
                 </button>
               </div>
             ) : (
-              <div className={`px-3 'cursor-default'}`}>
+              <div className={` 'cursor-default'}`}>
                 <div className="" />
               </div>
             )}
@@ -398,8 +396,8 @@ const ReplyToReply = ({
         </div>
 
         <div
-          className={`flex justify-between items-center w-[89%]  ${
-            fromNew ? "md:mr-[49px]" : "md:mr-[29px]"
+          className={`flex justify-between items-center w-[86%] lg:w-[89%] ${
+            fromNew ? "md:mr-[66px] lg:mr-[48px]" : "sm:mr-[10px] md:mr-[35px]"
           } my-[2px] mt-[2px]  ml-auto mb-[2px] md:mb-[2px]`}
         >
           <div className="md:flex items-center hidden md:ml-[0px] gap-3 leading-[16px] mt-[2px] mb-[4px]">
@@ -414,7 +412,7 @@ const ReplyToReply = ({
                       className="flex items-center gap-[2px]"
                     >
                       <BiPlusCircle className="text-[16px] font-[500] cursor-pointer text-[#252525]" />
-                      <p className="text-[12px] text-[#616161] font-[400] leading-[14.52px] flex gap-[4px] ">
+                      <p className="text-[14px] text-[#616161] font-[400] leading-[14.52px] flex gap-[4px] ">
                         <span className=" md:hidden">
                           {" "}
                           {childReply?.child_replies?.length}{" "}
@@ -434,7 +432,7 @@ const ReplyToReply = ({
                     >
                       <BiMinusCircle className="text-[16px] font-[500] cursor-pointer text-[#252525] flex gap-[4px]" />
                       <p
-                        className={`text-[12px]  text-[#33B0CA]   font-[400] leading-[14.52px] `}
+                        className={`text-[14px]  text-[#00c3ff]   font-[400] leading-[14.52px] `}
                       >
                         <span className=" md:hidden">
                           {" "}
@@ -458,12 +456,12 @@ const ReplyToReply = ({
                 >
                   <IoIosUndo
                     className={`${
-                      childReplyField ? "text-[#33B0CA]" : "text-[#252525]"
+                      childReplyField ? "text-[#00c3ff]" : "text-[#252525]"
                     } text-[14px]`}
                   />
                   <p
-                    className={`text-[12px] hidden md:block ${
-                      childReplyField ? "text-[#33B0CA]" : "text-[#252525]"
+                    className={`text-[14px] hidden md:block ${
+                      childReplyField ? "text-[#00c3ff]" : "text-[#252525]"
                     } font-[400]  cursor-pointer`}
                   >
                     Reply
@@ -477,25 +475,25 @@ const ReplyToReply = ({
                   childReply?.user?.id === 1 && (
                     <>
                       {childReply?.suggested ? (
-                        <button className="px-2  rounded-[4px] pb-[4px] pt-[2px] bg-[#616161] cursor-auto">
-                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                        <button className="px-2  rounded-[4px] pb-[4px] pt-[2px] bg-[linear-gradient(30deg,#b38bff,#99e6ff)] cursor-auto">
+                          <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]   ">
                             Suggested
                           </p>
                         </button>
                       ) : (
                         <>
                           {suggestDisable ? (
-                            <button className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-auto">
-                              <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                            <button className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] cursor-auto">
+                              <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]   ">
                                 Suggesting...
                               </p>
                             </button>
                           ) : (
                             <button
-                              className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[#33B0CA] cursor-pointer"
+                              className="px-2  rounded-[4px]  pb-[4px] pt-[2px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] cursor-pointer"
                               onClick={() => checkSuggestAllowance(reply?.text)}
                             >
-                              <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                              <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]   ">
                                 Suggestion
                               </p>
                             </button>
@@ -506,13 +504,26 @@ const ReplyToReply = ({
                   )}
               </div>
 
-              <ReplyLike
+              {/* <ReplyLike
                 reply={childReply}
                 {...{ setLikePopup, replyRefetch }}
-              />
+              /> */}
+            </>
+            <>
+              {childReply?.reject_button &&
+                (owner === user || childReply?.user?.id === user) && (
+                  <button className=" cursor-auto w-[60px]">
+                    <p
+                      onClick={() => handleRejectReply(childReply?.id)}
+                      className=" text-[14px]  bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400]   leading-[16.52px]    "
+                    >
+                      Reject
+                    </p>
+                  </button>
+                )}
             </>
           </div>
-          <div className="md:hidden flex items-center gap-3 text-sm leading-[16px] mt-[2px] mb-[4px]">
+          <div className="md:hidden flex items-center gap-3 mt-[2px] mb-[4px]">
             <>
               {childReply?.child_replies?.length > 0 && (
                 <div className="flex items-center">
@@ -524,7 +535,7 @@ const ReplyToReply = ({
                       className="flex items-center gap-[2px]"
                     >
                       <BiPlusCircle className="text-[16px] font-[500] cursor-pointer text-[#252525]" />
-                      <p className="text-[12px] text-[#616161] font-[400] leading-[14.52px] flex gap-[4px] ">
+                      <p className="text-[14px] text-[#616161] font-[400] leading-[14.52px] flex gap-[4px] ">
                         <span className=" md:hidden">
                           {" "}
                           {childReply?.child_replies?.length}{" "}
@@ -544,7 +555,7 @@ const ReplyToReply = ({
                     >
                       <BiMinusCircle className="text-[16px] font-[500] cursor-pointer text-[#252525] flex gap-[4px]" />
                       <p
-                        className={`text-[12px]  text-[#33B0CA]   font-[400] leading-[14.52px] `}
+                        className={`text-[14px]  text-[#00c3ff]   font-[400] leading-[16.52px] `}
                       >
                         <span className=" md:hidden">
                           {" "}
@@ -568,12 +579,12 @@ const ReplyToReply = ({
                 >
                   <IoIosUndo
                     className={`${
-                      childReplyField ? "text-[#33B0CA]" : "text-[#252525]"
+                      childReplyField ? "text-[#00c3ff]" : "text-[#252525]"
                     } text-[14px]`}
                   />
                   <p
-                    className={`text-[12px] hidden md:block ${
-                      childReplyField ? "text-[#33B0CA]" : "text-[#252525]"
+                    className={`text-[14px] hidden md:block ${
+                      childReplyField ? "text-[#00c3ff]" : "text-[#252525]"
                     } font-[400]  cursor-pointer`}
                   >
                     Reply
@@ -584,10 +595,10 @@ const ReplyToReply = ({
 
             <div className="flex items-center justify-end gap-[4px]">
               <div className="mt-[-4px] flex md:hidden">
-                <ReplyLike
+                {/* <ReplyLike
                   reply={childReply}
                   {...{ setLikePopup, replyRefetch }}
-                />
+                /> */}
               </div>
               <div className="md:hidden mt-[-6px]">
                 {owner === user &&
@@ -596,24 +607,24 @@ const ReplyToReply = ({
                   childReply?.user?.id === 1 && (
                     <>
                       {childReply?.suggested ? (
-                        <button className="px-2  rounded-[4px] py-[2px] bg-[#616161]">
-                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                        <button className="px-2  rounded-[4px] py-[2px] bg-[linear-gradient(30deg,#b38bff,#99e6ff)]">
+                          <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]   ">
                             Suggested
                           </p>
                         </button>
                       ) : (
                         <button
-                          className="px-2  rounded-[4px] py-[2px] bg-[#33B0CA]"
+                          className="px-2  rounded-[4px] py-[2px] bg-[#00c3ff]"
                           onClick={() =>
                             checkSuggestAllowance(childReply?.text)
                           }
                         >
                           {suggestDisable ? (
-                            <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                            <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]   ">
                               Suggesting...
                             </p>
                           ) : (
-                            <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                            <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]   ">
                               Suggestion
                             </p>
                           )}
@@ -628,14 +639,14 @@ const ReplyToReply = ({
                     <button className=" cursor-auto w-[60px]">
                       <p
                         onClick={() => handleRejectReply(childReply?.id)}
-                        className="text-[12px] bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400] leading-[14.52px] "
+                        className=" text-[14px]  bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400]   leading-[16.52px]"
                       >
                         Reject
                       </p>
                     </button>
                   )}
               </>
-              {!(
+              {/* {!(
                 childReply?.text?.includes("?") ||
                 childReply?.text?.includes("؟")
               ) && (
@@ -644,7 +655,7 @@ const ReplyToReply = ({
                     <>
                       {(owner === user || childReply?.user?.id === user) && (
                         <button className=" cursor-auto w-[89px]">
-                          <p className="text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] ">
+                          <p className="text-[14px] text-[#00c3ff] italic  font-[400] leading-[14.52px] ">
                             Added as Beat
                           </p>
                         </button>
@@ -662,7 +673,7 @@ const ReplyToReply = ({
                             }}
                             className=" w-[74px]"
                           >
-                            <p className="text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
+                            <p className="text-[14px] text-[#008000] hover:text-[#00c3ff] font-[400] leading-[14.52px] ">
                               Add as Beat
                             </p>
                           </button>
@@ -670,16 +681,16 @@ const ReplyToReply = ({
                     </>
                   )}
                 </div>
-              )}
+              )} */}
             </div>
           </div>
 
-          {/* <div className="flex items-center justify-end gap-[4px]">
+          <div className="hidden md:flex items-center justify-end gap-[4px]">
             <div className="mt-[-4px] flex md:hidden">
-              <ReplyLike
+              {/* <ReplyLike
                 reply={childReply}
                 {...{ setLikePopup, replyRefetch }}
-              />
+              /> */}
             </div>
             <div className="md:hidden mt-[-6px]">
               {owner === user &&
@@ -688,22 +699,22 @@ const ReplyToReply = ({
                 childReply?.user?.id === 1 && (
                   <>
                     {childReply?.suggested ? (
-                      <button className="px-2  rounded-[4px] py-[2px] bg-[#616161]">
-                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                      <button className="px-2  rounded-[4px] py-[2px] bg-[linear-gradient(30deg,#b38bff,#99e6ff)]">
+                        <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]   ">
                           Suggested
                         </p>
                       </button>
                     ) : (
                       <button
-                        className="px-2  rounded-[4px] py-[2px] bg-[#33B0CA]"
+                        className="px-2  rounded-[4px] py-[2px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
                         onClick={() => checkSuggestAllowance(childReply?.text)}
                       >
                         {suggestDisable ? (
-                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                          <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]   ">
                             Suggesting...
                           </p>
                         ) : (
-                          <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px]  ">
+                          <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px]   ">
                             Suggestion
                           </p>
                         )}
@@ -712,19 +723,21 @@ const ReplyToReply = ({
                   </>
                 )}
             </div>
-            <>
+            {/* <>
               {childReply?.reject_button &&
                 (owner === user || childReply?.user?.id === user) && (
                   <button className=" cursor-auto w-[60px]">
                     <p
                       onClick={() => handleRejectReply(childReply?.id)}
-                      className="text-[12px] bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400] leading-[14.52px] "
+                      className="text-[14px] bg-red-500 cursor-pointer py-[2px] rounded-[4px] text-[#fafafa] font-[400] leading-[14.52px] "
                     >
                       Reject
                     </p>
                   </button>
                 )}
-            </>
+            </> */}
+          </div>
+          <div className=" flex  justify-center gap-2 items-center ">
             {!(
               childReply?.text?.includes("?") || childReply?.text?.includes("؟")
             ) && (
@@ -732,8 +745,8 @@ const ReplyToReply = ({
                 {childReply?.add_to_beat ? (
                   <>
                     {(owner === user || childReply?.user?.id === user) && (
-                      <button className=" cursor-auto w-[89px]">
-                        <p className="text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] ">
+                      <button className=" cursor-auto w-[109px]">
+                        <p className="text-[14px] text-[#00c3ff] italic  font-[400] leading-[14.52px] ">
                           Added as Beat
                         </p>
                       </button>
@@ -749,9 +762,9 @@ const ReplyToReply = ({
                             setBeatCommentText(childReply?.text);
                             replyRefetch();
                           }}
-                          className=" w-[74px]"
+                          className=" w-[88px]"
                         >
-                          <p className="text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] ">
+                          <p className="text-[14px] text-[#008000] hover:text-[#00c3ff] font-[400] leading-[16.52px]  ">
                             Add as Beat
                           </p>
                         </button>
@@ -760,31 +773,32 @@ const ReplyToReply = ({
                 )}
               </div>
             )}
-          </div> */}
-          <div className=" flex lg:hidden justify-center gap-1 items-center ">
-            <CommentTranslator
-              comment={childReply}
-              translateComment={translateComment}
-              loading={isTranslationCommentLoading}
-              commentRefetch={replyRefetch}
-              setCommentText={setReplyText}
-              setCommentPrefix={setReplyTextPrefix}
-            />
-            {(owner === user || replyBy?.id === user) &&
-            !childReply?.reject_button ? (
-              <div className="flex gap-2 items-center pl-[2px]">
-                <button
-                  onClick={() => {
-                    setIdToDlt(currentReplyId);
-                    setOpenDltPop(true);
-                  }}
-                >
-                  <FaRegTrashAlt className="h-5 w-5 text-[#909090]" />
-                </button>
-              </div>
-            ) : (
-              <></>
-            )}
+            <div className="lg:hidden flex items-center gap-1">
+              {" "}
+              <CommentTranslator
+                comment={childReply}
+                translateComment={translateComment}
+                loading={isTranslationCommentLoading}
+                commentRefetch={replyRefetch}
+                setCommentText={setReplyText}
+                setCommentPrefix={setReplyTextPrefix}
+              />
+              {(owner === user || replyBy?.id === user) &&
+              !childReply?.reject_button ? (
+                <div className="flex gap-2 items-center pl-[2px]">
+                  <button
+                    onClick={() => {
+                      setIdToDlt(currentReplyId);
+                      setOpenDltPop(true);
+                    }}
+                  >
+                    <FaRegTrashAlt className="h-5 w-5 text-[#909090]" />
+                  </button>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
         </div>
 
@@ -836,12 +850,12 @@ const ReplyToReply = ({
                 disabled={disableBtn}
                 type="submit"
               >
-                <IoMdSend className="text-[#33B0CA] w-6 h-6" />
+                <IoMdSend className="text-[#00c3ff] w-6 h-6" />
               </button>
             )}
           </form>
           <div className=" text-right">
-            <p className="text-[12px] font-[400] leading-[14px]  text-[#616161] mr-[33px]">
+            <p className="text-[14px] font-[400] leading-[14px]  text-[#616161] mr-[33px]">
               {replyChildTextCount}/150
             </p>
           </div>

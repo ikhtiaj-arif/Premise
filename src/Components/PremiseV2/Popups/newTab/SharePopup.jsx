@@ -37,7 +37,7 @@ const SharePopup = ({ popClose }) => {
   };
   return (
     <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-screen flex items-center justify-center bg-[#252525b0] z-[21]">
-      <div className=" bg-white rounded-[8px] w-[100%] lg:w-[623px] ">
+      <div className=" bg-white rounded-[8px] w-[100%] sm:w-[80%] lg:w-[623px] mx-auto ">
         <div className="relative">
           {/* Close Popup */}
           <div className="absolute right-[45%] top-[-60px] lg:top-[-12px] lg:right-[-12px]">
@@ -50,7 +50,6 @@ const SharePopup = ({ popClose }) => {
               }}
             />
           </div>
-        
 
           <div className="p-[20px]">
             <div>
@@ -150,14 +149,14 @@ const SharePopup = ({ popClose }) => {
             <div className="flex gap-[10px] items-center">
               <input
                 value={link}
-                className="w-full border border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none rounded-[4px] bg-[#FAFAFA] p-[10px] text-[#616161] text-[12px] flex gap-[8px] font-[400] leading-[18px]"
+                className="w-full border border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none rounded-[4px] bg-[#FAFAFA] p-[10px] text-[#616161] text-[12px] flex gap-[8px] font-[400] leading-[18px]"
                 placeholder="Type here"
                 type="text"
               />
 
               <button
                 onClick={handleCopyToClipboard}
-                className="border-[1px] text-[12px] font-[600] border-[#33B0CA] bg-[#33B0CA] text-[#FFFFFF] py-[4px] rounded-[8px] w-[100px]"
+                className="border-[1px] text-[12px] font-[600] border-[#00c3ff] bg-[#00c3ff] text-[#FFFFFF] py-[4px] rounded-[8px] w-[100px]"
               >
                 {!isCopy ? "Copy link" : "Copied"}
               </button>

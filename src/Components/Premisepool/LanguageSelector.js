@@ -1,4 +1,3 @@
-import React from "react";
 import Select from "react-select";
 import { options } from "./options";
 
@@ -108,7 +107,7 @@ const LanguageSelector = ({
           padding: "8px",
           borderRadius:"4px",
           marginTop: 0,
-          backgroundColor: state.isFocused ? "#33b0ca" : "#fafafa",
+          backgroundColor: state.isFocused ? "#00c3ff" : "#fafafa",
           color: state.isFocused ? "#ffffff" : "#616161",
           cursor: "pointer",
         }),

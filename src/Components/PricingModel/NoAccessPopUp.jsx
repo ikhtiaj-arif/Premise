@@ -129,7 +129,7 @@ const NoAccessPopUp = ({ setNoAccessPopup, noAccessPopup }) => {
             {/* button */}
             <div className="text-center">
               <button
-                className="bg-[#33b0ca] w-[98px] h-[42px] text-center text-[#fafafa] font-semibold text-[16px] rounded-[4px] mt-4 mb-2 py-1 px-4"
+                className="bg-[#00c3ff] w-[98px] h-[42px] text-center text-[#fafafa] font-semibold text-[16px] rounded-[4px] mt-4 mb-2 py-1 px-4"
                 onClick={handleGoClick}
               >
                 Go

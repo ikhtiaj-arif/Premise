@@ -40,14 +40,14 @@
   height: 28px;
   width: 27px;
   font-size: 16px;
-  background-color: #33b0ca;
+  background-color: #00c3ff;
   color: #fafafa;
   border-radius: 4px;
 }
 /* 
 .pagination-premise .previous a:hover,
 .pagination-premise .next a:hover {
-  background-color: #33B0CA;
+  background-color: #00c3ff;
   color: #ffe2e5;
 } */
 .cursor-disabled-PremisePool {
@@ -171,10 +171,19 @@ select::-webkit-scrollbar {
 .lgVisible {
   display: none; /* Equivalent to Tailwind's hidden */
 }
+.lgFlxVisible {
+  display: none;
+}
+.lgFlxHidden {
+  display: flex;
+}
 
 @media (min-width: 1025px) {
   .lgVisible {
     display: block; /* Equivalent to Tailwind's lg:block */
+  }
+  .lgFlxVisible {
+    display: flex;
   }
 }
 .lgHidden {
@@ -184,6 +193,9 @@ select::-webkit-scrollbar {
 @media (min-width: 1025px) {
   .lgHidden {
     display: none; /* Equivalent to Tailwind's lg:block */
+  }
+  .lgFlxHidden {
+    display: none;
   }
 }
 .mdHidden {

@@ -15,7 +15,7 @@ const PopupComment = ({
           setCommentField(!commentField);
         }}
       >
-        <FaComment className=" text-[24px]" />
+        <FaComment className=" text-[32px]" />
       </button>
       <p className=" text-[14px] font-[500]">
         {finalCount}{" "}

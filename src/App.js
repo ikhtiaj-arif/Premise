@@ -1,3 +1,66 @@
+/** 
+ * App.jsx – Core Application Entry Point for PremisePool
+ * -----------------------------------------------------
+ * This component initializes the global context providers, manages global UI effects,
+ * and defines the top-level route structure for the entire application.
+ *
+ * Major Responsibilities:
+ * ------------------------
+ //! 1.Context Management 
+ *    - Provides a global `MyContext` for managing shared app-wide states such as:
+ *      - Selected premise/project
+ *      - Search filters and user preferences
+ *      - Popup and onboarding flow control
+ *      - Translation and sale availability states
+ *    - Provides a `TranslationContext` to manage open translation dropdowns across components.
+ *
+ * 2.  UI Enhancements 
+ *    - Dynamically applies custom scrollbar hover effects to all scrollable elements.
+ *      This is achieved via a MutationObserver that continuously monitors the DOM
+ *      for new scrollable containers and enhances their scrollbar UX.
+ *
+ * 3.  User Guidance & Onboarding 
+ *    - Implements a multi-step user guidance popup system.
+ *      The system uses `localStorage` to remember the user's progress
+ *      (e.g., which popup step they are currently on) and whether they’ve
+ *      chosen not to see guidance popups again.
+ *
+ * 4.  Persistent and Session-Based State Handling 
+ *    - Loads saved popup progress and feature usage counts from localStorage/sessionStorage
+ *      to persist state between page reloads.
+ *
+ * 5.  Event and UI Behavior Management 
+ *    - Automatically closes translator dropdowns when clicking outside.
+ *    - Ensures open/close states of popups and dropdowns are managed globally.
+ *
+ * 6.  Data Fetching 
+ *    - Uses RTK Query’s `useGetMyAllProjectQuery` to fetch all ScriptPad projects
+ *      for the authenticated user.
+ *    - Filters locked projects for use throughout the app.
+ *
+ * 7.  Routing 
+ *    - Defines core routes using React Router:
+ *        `/`                → Main Premise view (PremiseV2)
+ *        `/payment`         → Payment Limit page
+ *        `/new-tab/:id`     → Secure premise access checker for new tabs
+ *        `/premise_view`    → Single premise view page
+ *        `/:__id/:service`  → Dynamic service-based premise view
+ *    - Wraps routes with `UserGuidance` for consistent onboarding overlays.
+ *
+ * 8.  Notifications 
+ *    - Integrates `react-toastify` to display global toast notifications
+ *      with proper stacking and z-index control.
+ *
+ * 9.  Authentication Utilities 
+ *    - Exports a helper function `fetchUserAccess(flag)` that checks user access
+ *      permissions for specific functionalities through authenticated API requests.
+ *
+
+ * This file serves as the  root controller  of the PremisePool frontend application.
+ * It unifies user experience, data flow, and contextual state under a clean, maintainable,
+ * and reactive structure that scales with new features while maintaining smooth UX.
+ */
+
 import { createContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
@@ -7,10 +70,8 @@ import "./App.css";
 import { useGetMyAllProjectQuery } from "./app/EndPoints/ScriptPad/project";
 import LimitPaymentPage from "./Components/Payment/LimitPaymentPage";
 import PremiseNewTabAccessChecker from "./Components/PremiseV2/premiseNewTab/PremiseNewTabAccessChecker";
-import PremiseSingleCard from "./Components/PremiseV2/PremiseSingleCard";
-import PremiseV2 from "./Components/PremiseV2/Premsie.v2";
 import UserGuidance from "./Components/PremiseV2/Provider/UserGuidance";
-import { URL } from "./Components/utils";
+import { baseURL } from "./Components/utils";
 
 export const MyContext = createContext();
 export const TranslationContext = createContext(); // Added global translation context
@@ -72,6 +133,7 @@ function App() {
 
   const { data: allspProjectJSON, refetch: projectRefetch } =
     useGetMyAllProjectQuery();
+
   const currentUser = useSelector((state) => state?.user);
 
   const [counts, setCounts] = useState({});
@@ -178,6 +240,7 @@ function App() {
     searchAuthor,
     setSearchAuthor,
     allspProjectJSON,
+    projectRefetch,
     filterdAllProjects,
     selectedPremiseObj,
     setSelectedPremiseObj,
@@ -189,7 +252,6 @@ function App() {
     setSelectedPremiseSpProjectId,
     transPopup,
     setTransPopup,
-    projectRefetch,
     allProjects,
     selectedLanguages,
     setSelectedLanguages,
@@ -222,15 +284,18 @@ function App() {
         >
           <UserGuidance>
             <Routes>
+              <Route path="/:id" element={<PremiseNewTabAccessChecker />} />
+              <Route path="/payment/:id" element={<LimitPaymentPage />} />
+
+              {/*
               <Route path="/" element={<PremiseV2 />} />
-              <Route path="/payment" element={<LimitPaymentPage />} />
-              {/* <Route path="/new-tab/:id" element={<PremiseNewTab />} /> */}
               <Route
                 path="/new-tab/:id"
                 element={<PremiseNewTabAccessChecker />}
               />
-              <Route path="/premise_view" element={<PremiseSingleCard />} />
-              <Route path="/:__id/:service" element={<PremiseV2 />} />
+          
+              */}
+               
             </Routes>
           </UserGuidance>
         </TranslationContext.Provider>
@@ -244,7 +309,8 @@ export default App;
 
 export const fetchUserAccess = async (flag) => {
   try {
-    const response = await fetch(`${URL}/pay/checkuseraccess/${flag}`, {
+    const response = await fetch(`${baseURL}/pay/user-product-access/?checkfunctionality=${flag}`, {
+    // const response = await fetch(`${URL}/pay/checkuseraccess/${flag}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

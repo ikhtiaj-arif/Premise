@@ -3,9 +3,8 @@ import { toast } from "react-toastify";
 import { fetchUserAccess, MyContext } from "../../App";
 import { useTranslatePremiseMutation } from "../../app/EndPoints/premisePoolApi";
 import transIcon from "../../img/Icons/transIcon.png";
-import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
+
 import { sortedLanguages } from "./Languages";
-import TranslateLangDrop from "./TranslateLangDrop";
 
 const TranslatePremise = ({
   data,
@@ -91,8 +90,7 @@ const TranslatePremise = ({
   }, []);
 
   const handleTranslate = async (id) => {
-    const res = await fetchUserAccess(`${currentUser?.id}/PP_Translate`);
-    console.log(`PP_Translate res`, res);
+    const res = await fetchUserAccess(`PP_Translate`);
     if (res?.access === "No") {
       setNoAccessPopup(res);
     } else {
@@ -101,35 +99,62 @@ const TranslatePremise = ({
   };
 
   return (
-    <div ref={btnRef} className="relative">
-      {loading ? (
-        <span className="loading loading-spinner text-[#33B0CA] h-[20px] w-[20px] my-auto "></span>
-      ) : (
-        <img
+    // <div ref={btnRef} className="relative">
+    //   {loading ? (
+    //     <span className="loading loading-spinner text-[#00c3ff] h-[20px] w-[20px] my-auto "></span>
+    //   ) : (
+    //     <img
+    //       data-te-toggle="tooltip"
+    //       title="Translate"
+    //       src={transIcon}
+    //       // onClick={() => setShowSelectBox(!showSelectBox)}
+    //       onClick={() => handleTranslate(id)}
+    //       className={`w-8 h-8 ml-auto cursor-pointer ${className}`}
+    //       alt=""
+    //     />
+    //   )}
+ 
+    // </div>
+     <div ref={btnRef} className="relative flex items-center">
+      {/* ✅ Desktop → show translate icon */}
+      <div className="lgVisible">
+        {loading ? (
+          <span className="loading loading-spinner text-[#00c3ff] h-[20px] w-[20px] my-auto "></span>
+        ) : (
+          <img
+            data-te-toggle="tooltip"
+            title="Translate"
+            src={transIcon}
+            onClick={() => setTransPopClose(id)}
+            className={`w-8 h-8 ml-auto cursor-pointer ${className}`}
+            alt="Translate"
+          />
+        )}
+      </div>
+
+      {/* ✅ Mobile → show select field */}
+      <div className="lgFlxHidden p-1 w-[44px] rounded-[4px]  items-center justify-center">
+         <img
           data-te-toggle="tooltip"
           title="Translate"
           src={transIcon}
-          // onClick={() => setShowSelectBox(!showSelectBox)}
-          onClick={() => handleTranslate(id)}
-          className={`w-8 h-8 ml-auto cursor-pointer ${className}`}
+          className="w-[22px] h-[22px] pointer-events-none" // not blocking clicks
           alt=""
         />
-      )}
-      {/* {transPopClose === id && (
-        <TranslateLangDrop
-          sortedLanguages={sortedLanguages}
-          source_language={source_language}
-          setSelectedOption={setSelectedOption}
-          setTransPopClose={setTransPopClose}
-        />
 
-      )} */}
-      {/* {noAccessPopup?.msg === "ShowBecomePrivilege" && (
-        <NoAccessPopUp
-          noAccessPopup={noAccessPopup}
-          setNoAccessPopup={setNoAccessPopup}
-        />
-      )} */}
+        <select
+          className="text-sm absolute inset-0 opacity-0 cursor-pointer"
+          value={selectedOption}
+          onChange={handleOptionChange}
+        >
+          <option value="">Select</option>
+          {Object.entries(sortedLanguages)?.map(([key, name]) => (
+            <option key={key} value={key}>
+              {name}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   );
 };

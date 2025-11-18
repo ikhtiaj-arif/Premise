@@ -8,7 +8,7 @@ export const Package = ({ data, typeOfRequest, fromLimit }) => {
           maxWidth: "70%",
           padding: "0.3rem 25px 0.3rem 0",
         }}
-        className="bg-[#33B0CA] text-[#fafafa] text-center lg:text-[22px] text-[16px] font-[600]  relative border-none lg:bottom-[-22px] bottom-[-17px]"
+        className="bg-[#00c3ff] text-[#fafafa] text-center lg:text-[22px] text-[16px] font-[600]  relative border-none lg:bottom-[-22px] bottom-[-17px]"
       >
         Package Details
       </p>

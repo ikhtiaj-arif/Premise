@@ -1,11 +1,9 @@
-import React from "react";
-
 const BtnLoading = () => {
   return (
     <div role="status">
       <svg
         aria-hidden="true"
-        className="w-[18px] md:w-[21px] text-[#d3d1d1] animate-spin  fill-[#33B0CA]"
+        className="w-[18px] md:w-[21px] text-[#d3d1d1] animate-spin  fill-[#00c3ff]"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

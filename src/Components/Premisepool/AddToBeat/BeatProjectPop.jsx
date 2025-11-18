@@ -1,4 +1,3 @@
-import React from "react";
 import crossIcon from "../../../img/Icons/crossIcon.png";
 
 const BeatProjectPop = ({ popClose }) => {
@@ -42,11 +41,11 @@ const BeatProjectPop = ({ popClose }) => {
               </div>
             ))}
             <div className="flex gap-[26px] absolute bottom-[30px] right-[30px]">
-              <button className="bg-[#33B0CA] flex items-center justify-center text-[#FAFAFA] text-[14px] font-[600]  rounded-[8px] w-[170px] h-[32px] hover:shadow-md shadow-[#252525]">
+              <button className="bg-[#00c3ff] flex items-center justify-center text-[#FAFAFA] text-[14px] font-[600]  rounded-[8px] w-[170px] h-[32px] hover:shadow-md shadow-[#252525]">
                 <span className="mr-[8px] text-2xl mt-[-5px]">+</span> Add New
                 Project
               </button>
-              <button className="text-[#33B0CA] bg-[#FAFAFA] border border-[#33B0CA] text-[14px] font-[600]  rounded-[8px] w-[74px] h-[32px] hover:shadow-md shadow-[#252525] hover:bg-[#33B0CA] hover:text-[#FAFAFA]">
+              <button className="text-[#00c3ff] bg-[#FAFAFA] border border-[#00c3ff] text-[14px] font-[600]  rounded-[8px] w-[74px] h-[32px] hover:shadow-md shadow-[#252525] hover:bg-[#00c3ff] hover:text-[#FAFAFA]">
                 Next
               </button>
             </div>

@@ -5,7 +5,7 @@ import Draggable from "react-draggable";
 import { FaKeyboard } from "react-icons/fa";
 import { MdKeyboardBackspace } from "react-icons/md";
 import { toast } from "react-toastify";
-import { MyContext } from "../../../App";
+import { fetchUserAccess, MyContext } from "../../../App";
 import {
   useCreateProjectMutation,
   useGetMyAllProjectQuery,
@@ -41,6 +41,7 @@ const BeatEditPop = ({
   beatSuggestLoading,
   selectedProject,
   setAddToBeatDisable,
+  fromNew,
 }) => {
   const {
     selectedPremiseObj,
@@ -59,7 +60,7 @@ const BeatEditPop = ({
   const [modifiedText, setModifiedText] = useState(commentText?.text);
   const [projectData, setProjectData] = useState([]);
   const [confirmBit, setConfirmBit] = useState(false);
-  // console.log("passed Project", modifiedText);
+
   // const [selectedProject, setSelectedProject] = useState(null);
   // console.log("selectedProject", selectedProject);
   const [selectedOption, setSelectedOption] = useState("");
@@ -188,17 +189,6 @@ const BeatEditPop = ({
     }
   };
 
-  // Function to handle the click on "Add New Project" button
-
-  // const handleAddNewProjectClick = () => {
-  //   setNewProjectVisible(!isNewProjectVisible);
-  //   setSelectedProject(null);
-  // };
-
-  // const handleSelectProject = (value) => {
-  //   setSelectedProject(value);
-  //   setNewProjectVisible(false);
-  // };
   const [getScreenPlay, resGetScreenPlay] = useGetScreenPlayMutation();
   const [updateScene, updateBeatRes] = useUpdateSceneMutation();
   const [saveScreenPlay, resSaveScreenPlay] = useSaveScreenPlayMutation();
@@ -206,159 +196,6 @@ const BeatEditPop = ({
   const [beatPostLoading, setBeatPostLoading] = useState(false);
   const [projectNotFound, setProjectNotFound] = useState(false);
 
-  // const handleSubmitBeatToProject = async () => {
-  //   setBeatPostLoading(true);
-  //   // setAddToBeatDisable(true);
-  //   const data = {
-  //     name: selectedProject?.name,
-  //     version: selectedProject?.total_versions,
-  //   };
-  //   let screenPlayResponse;
-  //   // screenPlayResponse = await getScreenPlay(data);
-  //   try {
-  //     screenPlayResponse = await getScreenPlay(data);
-  //     // console.log("screenPlayResponse", screenPlayResponse?.data);
-  //   } catch (err) {
-  //     // alert("The screenplay file on the server is deleted or cannot be found.");
-  //     setBeatPostLoading(false);
-  //     // setAddToBeatDisable(false);
-  //     return;
-  //   }
-
-  //   if (!screenPlayResponse?.data || isProjectLocked) {
-  //     setProjectNotFound(true);
-
-  //     setBeatPostLoading(false);
-  //     return;
-  //   }
-  //   const screenPlayJson = screenPlayResponse.data?.screenplay_data_json;
-
-  //   if (screenPlayJson && Object.keys(screenPlayJson).length !== 0) {
-  //     const newBlankParagraph = {
-  //       type: "paragraph",
-  //       attrs: {
-  //         "data-line-number": null,
-  //         paragraphWidth: "0px",
-  //         paragraphMargin: "20px",
-  //         paragraphCase: "uppercase",
-  //         textAlign: "left",
-  //         scriptElement: "blank",
-  //         id: "new-uuid-for-blank",
-  //         class: "",
-  //         color: "black",
-  //       },
-  //     };
-
-  //     const newSluglineParagraph = {
-  //       type: "paragraph",
-  //       attrs: {
-  //         "data-line-number": null,
-  //         paragraphWidth: "0px",
-  //         paragraphMargin: "20px",
-  //         paragraphCase: "uppercase",
-  //         textAlign: "left",
-  //         scriptElement: "slugline",
-  //         id: "new-uuid-for-slugline",
-  //         class: "",
-  //         color: "black",
-  //       },
-  //       content: [
-  //         {
-  //           type: "text",
-  //           text: "INT. NEW SLUGLINE TEXT",
-  //         },
-  //       ],
-  //     };
-
-  //     const newArray = [
-  //       ...screenPlayJson,
-  //       newBlankParagraph,
-  //       newSluglineParagraph,
-  //     ];
-
-  //     setScreenPlayData(newArray);
-  //   } else {
-  //     const newSluglineParagraph = {
-  //       type: "paragraph",
-  //       attrs: {
-  //         "data-line-number": null,
-  //         paragraphWidth: "0px",
-  //         paragraphMargin: "20px",
-  //         paragraphCase: "uppercase",
-  //         textAlign: "left",
-  //         scriptElement: "slugline",
-  //         id: "new-uuid-for-slugline",
-  //         class: "",
-  //         color: "black",
-  //       },
-  //       content: [
-  //         {
-  //           type: "text",
-  //           text: "INT. NEW SLUGLINE TEXT",
-  //         },
-  //       ],
-  //     };
-
-  //     const newArray = [newSluglineParagraph];
-
-  //     setScreenPlayData(newArray);
-  //   }
-
-  //   const accessToken = localStorage.getItem("accessToken");
-  //   const screenPlayResId = screenPlayResponse.data.screenplay.screenplay_uuid;
-  //   const options = {
-  //     url: `${URL}/scriptpad2/update-scene/${screenPlayResId}`,
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: `Bearer ${accessToken}`,
-  //       "Content-Type": "application/json",
-
-  //       // Add any other headers if needed
-  //     },
-  //   };
-  //   return axios(options)
-  //     .then((response) => {
-  //       if (response) {
-  //         let existingBeatData = response.data.data;
-  //         const beatAddData = {
-  //           beat: modifiedText,
-  //           script: screenPlayResId,
-  //           scene_number: existingBeatData.length + 1,
-  //         };
-  //         updateScene(beatAddData);
-  //         toast.success("Beat successfully added to your scene", {
-  //           position: toast.POSITION.TOP_CENTER,
-  //           autoClose: 800,
-  //         });
-
-  //         if (commentObj?.reply) {
-  //           // console.log("replyyy");
-  //           const data = {
-  //             reply_id: commentObj.id,
-  //             add_to_beat_text: modifiedText,
-  //           };
-  //           addedToBeat(data);
-  //           replyRefetch();
-  //         } else {
-  //           // console.log("cmnttt");
-  //           const data = {
-  //             comment_id: commentObj.id,
-  //             add_to_beat_text: modifiedText,
-  //           };
-  //           addedToBeat(data);
-  //           commentRefetch();
-  //         }
-  //         // setBeatPostLoading(false);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       toast.error("Something went wrong!", {
-  //         position: toast.POSITION.TOP_CENTER,
-  //         autoClose: 800,
-  //       });
-  //       setBeatPostLoading(false);
-  //     });
-  // };
   const handleSubmitBeatToProject = async () => {
     setBeatPostLoading(true); // Disable loading initially
 
@@ -389,7 +226,7 @@ const BeatEditPop = ({
       return;
     }
 
-    const screenPlayJson = screenPlayResponse.data?.screenplay_data_json;
+    const screenPlayJson = screenPlayResponse?.data?.screenplay_data_json;
 
     // Create paragraphs to add to the screenplay data
     const newBlankParagraph = {
@@ -438,7 +275,7 @@ const BeatEditPop = ({
     const accessToken = localStorage.getItem("accessToken");
     const screenPlayResId = screenPlayResponse.data.screenplay.screenplay_uuid;
     const options = {
-      url: `${URL}/scriptpad2/update-scene/${screenPlayResId}`,
+      url: `${URL}/scriptpad/update-scene/${screenPlayResId}`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -473,7 +310,7 @@ const BeatEditPop = ({
       }
 
       // Proceed with adding the beat if scene update is successful
-      const fetchData = commentObj?.reply
+      const fetchData = commentObj?.replyingTo
         ? { reply_id: commentObj.id, add_to_beat_text: modifiedText }
         : { comment_id: commentObj.id, add_to_beat_text: modifiedText };
 
@@ -509,6 +346,13 @@ const BeatEditPop = ({
           position: toast.POSITION.TOP_CENTER,
           autoClose: 800,
         });
+        const creditRes = await fetchUserAccess(`SP_BeatSheet`);
+        const remainingCredits = creditRes?.remaining_credits ?? 0;
+        const creditElement = document.getElementById("creditBalance");
+        // console.log("remainingCredits", remainingCredits);
+        if (creditElement) {
+          creditElement.textContent = remainingCredits;
+        }
       } catch (refetchError) {
         toast.error("Failed to refetch data, please try again.", {
           position: toast.POSITION.TOP_CENTER,
@@ -649,9 +493,7 @@ const BeatEditPop = ({
 
     setConfirmBit(false);
     popClose();
-    window.open(
-      `${URL}/scriptpad2/#/${selectedProject?.pro_uuid}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
-    );
+    window.location.href = `${URL}/scriptpad/#/${selectedProject?.pro_uuid}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`;
   };
 
   return (
@@ -660,7 +502,7 @@ const BeatEditPop = ({
     // ) :(
     <>
       <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-screen flex  items-center bg-[#252525b0] justify-center z-[999] ">
-        {beatSuggestLoading ? (
+        {isBeatSuggLoading ? (
           <div className="h-auto w-full lg:w-[40%] xl:w-[35%]">
             <TypingLoader />
           </div>
@@ -669,7 +511,7 @@ const BeatEditPop = ({
             className={`${
               !doNotShowBox ? "h-full lg:h-[525px]" : "h-[80%] lg:h-[411px] "
             }
-          h-[100vh] lg:mt-0 xl:mt-[-40px]  w-full lg:w-[920px] md:mx-auto bg-[#fff]  lg:bg-[#fadda] md:rounded-[8px] relative    ${
+          h-[100vh] lg:mt-0  w-full lg:w-[920px] md:mx-auto bg-[#fff]  lg:bg-[#fadda] md:rounded-[8px] relative    ${
             doNotShowBox ? "h-auto pb-[10px]" : "mb-[20px] pb-[20px]"
           }`}
           >
@@ -680,27 +522,36 @@ const BeatEditPop = ({
                     isSmallDevice && "overflow-y-scroll pb-12"
                   } lg:w-[920px] mx-auto ${
                     !doNotShowBox
+                      ? " h-[calc(100vh-73px)]  lg:h-[525px]"
+                      : "h-[80%] lg:h-[411px]"
+                  } bg-white lg:bg-[#FAFAFA] mt-2`}
+                >
+                  {/* <div
+                  className={`rounded-[8px] relative ${
+                    isSmallDevice && "overflow-y-scroll pb-12"
+                  } lg:w-[920px] mx-auto ${
+                    !doNotShowBox
                       ? "h-[90vh] lg:h-[525px]"
                       : "h-[80%] lg:h-[411px]"
                   } bg-white lg:bg-[#FAFAFA] mt-14  lg:mt-0`}
-                >
+                > */}
                   {!beatPostLoading && (
                     <button
-                      className="absolute left-0 md:left-4 top-0 xl:hidden "
+                      className="absolute left-0 md:left-6 top-0 lgHidden"
                       onClick={() => {
                         popClose();
                         commentRefetch();
                       }}
                     >
-                      <MdKeyboardBackspace className="text-[#252525] ml-3 text-left text-[32px] cursor-pointer mdHidden" />
+                      <MdKeyboardBackspace className="text-[#252525] ml-3 text-left text-[32px] cursor-pointer " />
                     </button>
                   )}
-                  <div className="relative text-right hidden xl:flex justify-end h-0 ">
+                  <div className="relative text-right lgFlxVisible justify-end h-0 ">
                     {!beatPostLoading && (
                       <img
                         src={crossIcon}
                         alt="Close"
-                        className="absolute top-[-8px] right-[10px]  md:right-[-10px] w-8 h-8 z-[20] cursor-pointer "
+                        className="absolute top-[-16px] right-[-16px] w-8 h-8 z-[20] cursor-pointer "
                         onClick={() => {
                           popClose();
                           commentRefetch();
@@ -753,7 +604,7 @@ const BeatEditPop = ({
                               engagement and{" "}
                               <button
                                 onClick={() => setReadMore(true)}
-                                className="text-[#33B0CA] underline"
+                                className="text-[#00c3ff] underline"
                               >
                                 Read more
                               </button>
@@ -777,11 +628,17 @@ const BeatEditPop = ({
                         Sheet
                       </h3>
                     </div>
-                    {!beatSuggestLoading && (
+                    {isBeatSuggLoading ? (
+                      <>
+                        <TypingLoader />
+                      </>
+                    ) : (
                       <>
                         <div
                           className={`${
-                            readMore ? "max-h-[200px]" : "max-h-[250px]"
+                            readMore
+                              ? "max-h-[200px]"
+                              : " h-[calc(69vh-230px)] max-h-[285px]"
                           } overflow-y-auto`}
                         >
                           <div className="grid grid-cols-1 gap-y-[8px]">
@@ -884,11 +741,11 @@ const BeatEditPop = ({
                               : "mt-[23px] md:mt-[20px] mb-[3px] pb-[4px]"
                           } `}
                         >
-                          <div className="relative ">
+                          {/* <div className="relative ">
                             <button
                               data-te-toggle="tooltip"
                               title="Translate"
-                              className={`cursor-pointer hover:text-[#33B0CA] `}
+                              className={`cursor-pointer hover:text-[#00c3ff] `}
                               onClick={() => setTranslatedPop(!translatedPop)}
                             >
                               <img
@@ -912,9 +769,9 @@ const BeatEditPop = ({
                                           });
                                           setTranslatedPop(false);
                                         }}
-                                        className={`cursor-pointer text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] list-none pl-[8px] border-b py-1 ${
+                                        className={`cursor-pointer text-[14px] text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] list-none pl-[8px] border-b py-1 ${
                                           selectedLanguage === key
-                                            ? "bg-[#33B0CA] text-[#fafafa]"
+                                            ? "bg-[#00c3ff] text-[#fafafa]"
                                             : ""
                                         }`}
                                       >
@@ -925,33 +782,85 @@ const BeatEditPop = ({
                                 </ul>
                               </>
                             )}
-                            {/* {translatedPop && (
-                            <div className="border p-1 rounded-[4px] flex items-center justify-between">
+                        
+                   
+                          </div> */}
+
+                          <div className="relative">
+                            {/* ✅ Desktop dropdown */}
+                            <div className="lgFlxVisible">
                               <button
+                                data-te-toggle="tooltip"
+                                title="Translate"
+                                className="cursor-pointer hover:text-[#00c3ff]"
                                 onClick={() => setTranslatedPop(!translatedPop)}
                               >
                                 <img
                                   src={transIcon}
                                   alt=""
-                                  className="w-[29px] h-[26px]"
+                                  className="h-[30px]"
                                 />
                               </button>
+
+                              {translatedPop && (
+                                <ul className="absolute bottom-[42px] right-0 z-50 w-[135px] max-h-[27vh] overflow-y-auto border bg-[#fafafa] shadow-md">
+                                  {Object.entries(sortedLanguages).map(
+                                    ([key, name]) => (
+                                      <li
+                                        key={key}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleOptionChange({
+                                            target: { value: key },
+                                          });
+                                          setTranslatedPop(false);
+                                        }}
+                                        className={`cursor-pointer text-[14px] text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] list-none pl-[8px] border-b py-1 ${
+                                          selectedLanguage === key
+                                            ? "bg-[#00c3ff] text-[#fafafa]"
+                                            : ""
+                                        }`}
+                                      >
+                                        {name}
+                                      </li>
+                                    )
+                                  )}
+                                </ul>
+                              )}
+                            </div>
+
+                            {/* ✅ Mobile select */}
+                            <div className="lgFlxHidden relative p-1 rounded-[4px]  items-center justify-center">
+                              {/* Icon (just for visuals) */}
+                              <img
+                                data-te-toggle="tooltip"
+                                title="Translate"
+                                src={transIcon}
+                                className="h-[26px] w-[26px] pointer-events-none"
+                                alt="translate"
+                              />
+
+                              {/* Invisible full overlay select */}
                               <select
+                                className="absolute inset-0 opacity-0 cursor-pointer"
                                 value={selectedLanguage}
-                                onChange={handleOptionChange}
-                                className="bg-[#FAFAFA] border-none w-[106px] text-[14px] text-[#616161] font-[400] focus:outline-none h-7"
+                                onChange={(e) => {
+                                  handleOptionChange(e);
+                                  setTranslatedPop(false);
+                                }}
                               >
+                                <option value="" disabled></option>
                                 {Object.entries(sortedLanguages).map(
                                   ([key, name]) => (
                                     <option key={key} value={key}>
-                                      <p className="bg-[#33B0CA]">{name}</p>
+                                      {name}
                                     </option>
                                   )
                                 )}
                               </select>
                             </div>
-                          )} */}
                           </div>
+
                           {!showKeyboard && (
                             <button
                               data-te-toggle="tooltip"
@@ -995,7 +904,7 @@ const BeatEditPop = ({
                                         setSourcesLanguage(name);
                                         setTranslatedPop(null);
                                       }}
-                                      className="cursor-pointer  text-[14px] text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] list-none pl-[8px] border-b"
+                                      className="cursor-pointer  text-[14px] text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] list-none pl-[8px] border-b"
                                       key={code}
                                       value={code}
                                     >
@@ -1011,7 +920,7 @@ const BeatEditPop = ({
                             className={`${
                               beatPostLoading || transLoading
                                 ? "bg-[#ACDDE7]"
-                                : "bg-[#33B0CA] border-[#33B0CA]"
+                                : " bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
                             }  text-[#FAFAFA] border  text-[14px] font-[600]  rounded-[8px] min-w-[74px] min-h-[32px] px-[8px] hover:shadow-md shadow-[#252525]  `}
                             onClick={() => handleSubmitBeatToProject()}
                           >

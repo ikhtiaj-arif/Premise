@@ -17,17 +17,14 @@ import CharacterEditablePop from "../../Premisepool/Character/CharacterEditableP
 import SingleCharacterAddNewTab from "../../Premisepool/Character/SingleCharacterAddNewTab";
 import SingleCharacterEdit from "../../Premisepool/Character/SingleCharacterEdit";
 import ConfirmationModal from "../../Premisepool/Comments/ConfirmationModal";
-import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
-import DeletePremise from "../../Premisepool/DeletePremise";
+// import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
+// import DeletePremise from "../../Premisepool/DeletePremise";
 import Keyboard from "../../Premisepool/Keyboard";
+import NoAccessCreditPopupUpdate from "../../PricingModel/NoAccessCreditPopupUpdate";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
-import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
-import AskIda from "../../SharedVersion/AskIda";
-import NewTabTextArea from "../../SharedVersion/NewTabTextArea";
-import { baseURL } from "../../utils";
-import MonetizePreferencePop from "../Popups/MonetizePreferencePop";
-import TransInOtherLang from "../Popups/TransInOtherLang.pop";
-import ViewTranslationPop from "../Popups/ViewTranslation.pop";
+// import MonetizePreferencePop from "../Popups/MonetizePreferencePop";
+// import TransInOtherLang from "../Popups/TransInOtherLang.pop";
+
 import PremiseTopHeaderUpdate from "./PremiseTopHeaderUpdate";
 
 const LeftSideBarUpdate = ({
@@ -47,9 +44,12 @@ const LeftSideBarUpdate = ({
   isCharLoading,
   characterRefetch,
   handleSearch,
+
+  handleClear,
   currentCommentRef,
   handleOpenAllReplies,
   setSearchTerm,
+  searchTerm,
   commentField,
   setCommentField,
 }) => {
@@ -115,7 +115,6 @@ const LeftSideBarUpdate = ({
   const [openViewTranslationsPop, setOpenViewTranslationsPop] = useState(false);
   const [viewTransactionPId, setViewTransactionPId] = useState("");
   const [isDelete, setIsDelete] = useState(false);
-  console.log(isDelete);
 
   const [characterLoading, setCharacterLoading] = useState(true);
 
@@ -233,6 +232,7 @@ const LeftSideBarUpdate = ({
     setCharacterArray(updatedCharacters);
     characterRefetch();
   };
+
   const handleSaveEditedCharacter = (updatedCharacter, index) => {
     const updatedCharacters = characterArray.map((char, i) =>
       i === index ? updatedCharacter : char
@@ -241,6 +241,7 @@ const LeftSideBarUpdate = ({
     characterRefetch();
     setEditPopupOpen(false);
   };
+
   const handleAddNewCharacter = (newCharacter) => {
     const updatedCharacters = [...characterArray, newCharacter];
     // console.log("After Adding New Character:", updatedCharacters);
@@ -248,6 +249,8 @@ const LeftSideBarUpdate = ({
     characterRefetch();
   };
   const handleUpdateSavedChar = async () => {
+    setCharacterLoading(true);
+
     try {
       characterArray.forEach((character) => {
         if (character.is_ai_generated === undefined) {
@@ -266,12 +269,16 @@ const LeftSideBarUpdate = ({
 
       if (response) {
         setOpenCharacterChart(false);
+        setCharacterLoading(false);
       }
       return response;
-    } catch (error) {}
+    } catch (error) {
+      setCharacterLoading(false);
+    }
   };
 
   const handleSaveAsDraft = async () => {
+    setCharacterLoading(true);
     try {
       characterArray.forEach((character) => {
         if (character.is_ai_generated === undefined) {
@@ -290,20 +297,24 @@ const LeftSideBarUpdate = ({
 
       if (response) {
         setOpenCharacterChart(false);
+        setCharacterLoading(false);
       }
       return response;
-    } catch (error) {}
+    } catch (error) {
+      setCharacterLoading(false);
+    }
   };
 
   const handleAddNewChar = async () => {
     setCharactersPopupMobile(false);
-    const res = await fetchUserAccess(`${currentUser?.id}/PP_AddCharacters`);
+    // const res = await fetchUserAccess(`PP_AddCharacters`);
 
-    if (res?.access === "No") {
-      setAddNewCharacter(res);
-    } else {
-      setAddNewCharacter("Yes");
-    }
+    // if (res?.has_access === false) {
+    //   setAddNewCharacter(res);
+    // } else {
+    //   setAddNewCharacter("Yes");
+    // }
+    setAddNewCharacter("Yes");
   };
 
   const handleVisibility = async () => {
@@ -354,12 +365,10 @@ const LeftSideBarUpdate = ({
 
   const handleOpenSp = () => {
     // console.log("object", p);
-    if (isProjectLocked) {
-      window.open(`${baseURL}/scriptpad2/#/generated-scripts`);
-    }
-    window.open(
-      `${baseURL}/scriptpad2/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
-    );
+    // if (isProjectLocked) {
+    //   window.location.href(`${URL}/scriptpad/#/generated-scripts`);
+    // }
+    window.location.href = `${URL}/scriptpad/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`;
   };
 
   const handleUserMail = async () => {
@@ -385,63 +394,65 @@ const LeftSideBarUpdate = ({
 
   return (
     <>
-      <div className="fixed bg-[#fff] top-[100%] z-[1] w-[96%] mx-auto lg:hidden">
-        <NewTabTextArea
-          fromNew
-          premiseId={id}
-          className="ls-textarea"
-          className2="ls-textareainput"
-          {...{
-            premiseOwner,
-            user,
-            commentRefetch,
-            setOpenAllReplies,
-            setOpenReplyFieldID,
-            lastCommentRef,
-            commentField,
-            setCommentField,
-            setReplyField,
-            replyField,
-            replyRef,
-            isLoading,
-            setIsLoading,
-            selectedLanguage,
-            setSelectedLanguage,
-            keyboardVisible,
-            setKeyboardVisible,
-            newComment,
-            setNewComment,
-            inputRef,
-          }}
-        />
-
-        <div className="flex gap-1 items-center w-[182px] mt-[2px] mx-auto">
-          <h3 className="text-[12px]">or,</h3>
-          <AskIda
+      <div className="fixed w-[100%] sm:w-[90%] mx-auto bottom-0 z-[1] inset-x-0 flex flex-col items-center ">
+        {/* <div className=" flex-col w-full lgFlxHidden z-[1]  border bg-white px-3 pb-4 shadow-md">
+          <NewTabTextArea
+            fromNew
+            premiseId={id}
+            className="ls-textarea"
+            className2="ls-textareainput"
             {...{
-              id,
-              source_language,
-              user,
               premiseOwner,
+              user,
               commentRefetch,
               setOpenAllReplies,
               setOpenReplyFieldID,
               lastCommentRef,
+              commentField,
+              setCommentField,
+              setReplyField,
+              replyField,
+              replyRef,
               isLoading,
               setIsLoading,
-              setNoAccessPopup,
-              setService,
+              selectedLanguage,
+              setSelectedLanguage,
+              keyboardVisible,
+              setKeyboardVisible,
+              newComment,
+              setNewComment,
+              inputRef,
             }}
           />
-        </div>
+
+          <div className="flex gap-1 items-center w-[182px] mt-[2px] mx-auto">
+            <h3 className="text-[12px]">or,</h3>
+            <AskIda
+              {...{
+                id,
+                source_language,
+                user,
+                premiseOwner,
+                commentRefetch,
+                setOpenAllReplies,
+                setOpenReplyFieldID,
+                lastCommentRef,
+                isLoading,
+                setIsLoading,
+                setNoAccessPopup,
+                setService,
+              }}
+            />
+          </div>
+        </div> */}
       </div>
-      <div className="xl:w-[368px] w-full relative h-full shadow-md  rounded-md">
+      <div className="md:w-[368px] w-full relative h-full shadow-md  rounded-md">
         {/* main div */}
         <div className="h-full lg:h-[80vh]  relative flex flex-col">
           <div className="flex-none px-3">
             {/* header */}
             <PremiseTopHeaderUpdate
-              {...{ handleSearch, id, setSearchTerm }}
+              {...{ handleSearch, handleClear, id, setSearchTerm, searchTerm }}
               owner={{ user, userFirstName, userLastName }}
               // index={index}
               refetch={premiseRefetch}
@@ -533,7 +544,7 @@ const LeftSideBarUpdate = ({
             </div>
           </div>
           {/* Details scroll div */}
-          <div className="flex-1 lg:pb-24 overflow-y-auto flex flex-col ">
+          <div className="flex-1 lg:pb-24 overflow-y-hidden flex flex-col ">
             {
               <div className="bg-[#fff] px-3">
                 <div>
@@ -577,7 +588,7 @@ const LeftSideBarUpdate = ({
 
                 {/* characters */}
                 {premiseOwner?.id === user && (
-                  <div className="mt-4">
+                  <div className="mt-1">
                     <div className="  w-full flex justify-between items-center">
                       <p className="text-[#616161] font-[700] text-[16px] leading-6">
                         Characters
@@ -591,34 +602,38 @@ const LeftSideBarUpdate = ({
                           onClick={() => {
                             setOpenCharacterChart(project_id);
                           }}
-                          className="text-[#33B0CA] cursor-pointer"
+                          className="text-[#00c3ff] cursor-pointer"
                         />
                       </div>
                     </div>
-                    <div className="bg-[#eaeaea] rounded-[6px] p-3 w-full h-auto max-h-[248px] lg:max-h-[313px] overflow-y-auto">
-                      {finalCharacters?.map((character, index) => (
-                        <CharacterShowCard
-                          {...{
-                            character,
-                            index,
-                            setEditData,
-                            setEditIdx,
-                            setDeleteIdx,
-                            setEditPopupOpen,
-                            setDeleteChar,
-                            onlyAdd,
-                            deleteCharacterFun,
-                            source_language,
-                          }}
-                        />
-                      ))}
+                    <div className="p-[1px] text-center h-[calc(81vh-230px)] xxs:h-[calc(87h-230px)] lg:h-[calc(91vh-230px)] mt-4 bg-[linear-gradient(30deg,#741CFF_0%,#00C3FF_70%)] rounded-[8px]">
+                      <div className="bg-[#FAFAFA] h-full  rounded-[8px] w-full   ">
+                        <div className=" h-full  p-3 overflow-y-auto">
+                          {finalCharacters?.map((character, index) => (
+                            <CharacterShowCard
+                              {...{
+                                character,
+                                index,
+                                setEditData,
+                                setEditIdx,
+                                setDeleteIdx,
+                                setEditPopupOpen,
+                                setDeleteChar,
+                                onlyAdd,
+                                deleteCharacterFun,
+                                source_language,
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
               </div>
             }
             {/* ask ida desk */}
-            <div className="hidden lg:block px-3  w-full  mt-4">
+            {/* <div className=" lgVisible px-3  w-full  mt-4">
               <NewTabTextArea
                 fromNew
                 premiseId={id}
@@ -648,7 +663,7 @@ const LeftSideBarUpdate = ({
                 }}
               />
 
-              <div className="flex gap-1 items-center w-3/5 mt-[-18px] mx-auto">
+              <div className="flex gap-1 items-center w-[64%] mt-[-18px] mx-auto">
                 <h3>or,</h3>
                 <AskIda
                   {...{
@@ -667,55 +682,25 @@ const LeftSideBarUpdate = ({
                   }}
                 />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
 
-      {openHidePop?.msg === "ShowBecomePrivilege" ? (
-        <NoAccessPopUp
-          noAccessPopup={openHidePop}
-          setNoAccessPopup={setOpenHidePop}
-        />
-      ) : openHidePop?.msg === "LB" ||
-        openHidePop?.msg === "ShowBuyPackage_and_Allacarte" ? (
-        <NoAccessLbPopUp
-          noAccessLbPopup={openHidePop}
-          setNoAccessPopup={setOpenHidePop}
-          service="PP_Private"
-        />
-      ) : (
-        openHidePop === "Yes" && (
-          <HideOptionPop
-            {...{
-              setOpenHidePop,
-              id,
-              user,
-              filter_flag,
-              comment_filter_flag,
-              visible_to,
-            }}
-            refetch={premiseRefetch}
-          />
-        )
-      )}
-
       {editPopupOpen && (
         <SingleCharacterEdit
-          {...{
-            setEditPopupOpen,
-            editData,
-            handleSaveEditedCharacter,
-            characterArray,
-            editIdx,
-            editPopupOpen,
-            source_language,
-            onlyAdd,
-          }}
+          setEditPopupOpen={setEditPopupOpen}
+          editData={editData}
+          editIdx={editIdx}
+          onSave={handleSaveEditedCharacter}
+          characterArray={characterArray}
+          onlyAdd={onlyAdd}
+          isEditPopupOpen={editPopupOpen}
+          source_language={source_language}
         />
       )}
       {addNewCharacter?.msg === "ShowBecomePrivilege" && (
-        <NoAccessPopUp
+        <NoAccessCreditPopupUpdate
           noAccessPopup={addNewCharacter}
           setNoAccessPopup={setAddNewCharacter}
         />
@@ -755,11 +740,12 @@ const LeftSideBarUpdate = ({
           characterLoading={isCharLoading}
           project_id={project_id}
           source_language={source_language}
+          fromNew={true}
         />
       )}
-
+      {/* 
       {noAccessPopup?.msg === "ShowBecomePrivilege" ? (
-        <NoAccessPopUp
+        <NoAccessCreditPopupUpdate
           noAccessPopup={noAccessPopup}
           setNoAccessPopup={setNoAccessPopup}
         />
@@ -776,6 +762,16 @@ const LeftSideBarUpdate = ({
             }
           />
         )
+      )} */}
+
+      {noAccessPopup?.has_access === false && (
+        <NoAccessCreditPopupUpdate
+          noAccessPopup={noAccessPopup}
+          setNoAccessPopup={setNoAccessPopup}
+          service={"Brainstorming"}
+          credit_rate={noAccessPopup?.credit_rate}
+          remaining_credits={noAccessPopup?.remaining_credits}
+        />
       )}
 
       {selectedLanguage && keyboardVisible && (
@@ -851,11 +847,11 @@ const LeftSideBarUpdate = ({
 
                 <MdOutlineEdit
                   onClick={handleVisibility}
-                  className="text-[#33B0CA] cursor-pointer"
+                  className="text-[#00c3ff] cursor-pointer"
                 />
               </div>
               <div className="w-[96% mx-auto] bg-[#eaeaea] h-[1px] mt-1" />
-              <p className="text-[#33B0CA] text-[16px] font-[500] leading-6 capitalize">
+              <p className="text-[#00c3ff] text-[16px] font-[500] leading-6 capitalize">
                 {filter_flag === 0
                   ? "All Buddies"
                   : filter_flag === 1
@@ -891,7 +887,7 @@ const LeftSideBarUpdate = ({
                       setOpenCharacterChart(project_id);
                       setCharactersPopupMobile(false);
                     }}
-                    className="text-[#33B0CA] cursor-pointer"
+                    className="text-[#00c3ff] cursor-pointer"
                   />
                 </div>
               </div>
@@ -917,7 +913,7 @@ const LeftSideBarUpdate = ({
           )}
         </div>
       )}
-      {openTransOtherPop && (
+      {/* {openTransOtherPop && (
         <TransInOtherLang
           refetch={premiseRefetch}
           popClose={setOpenTransOtherPop}
@@ -925,11 +921,12 @@ const LeftSideBarUpdate = ({
           user={user}
           source_language={source_language}
           project_id={project_id}
+          fromNew={true}
         />
-      )}
+      )} */}
 
       {openMonetizingPreferencesPop?.msg === "ShowBecomePrivilege" ? (
-        <NoAccessPopUp
+        <NoAccessCreditPopupUpdate
           noAccessPopup={openMonetizingPreferencesPop}
           setNoAccessPopup={setOpenMonetizingPreferencesPop}
         />
@@ -941,31 +938,10 @@ const LeftSideBarUpdate = ({
           service="PP_Monitizes"
         />
       ) : (
-        openMonetizingPreferencesPop === "Yes" && (
-          <MonetizePreferencePop
-            popClose={setOpenMonetizingPreferencesPop}
-            id={id}
-            user={user}
-          />
-        )
+        <></>
       )}
-      {openViewTranslationsPop && (
-        <ViewTranslationPop
-          popClose={setOpenViewTranslationsPop}
-          premiseId={viewTransactionPId}
-          popupData
-          refetch={premiseRefetch}
-          popCloseCmnt={() => setOpenPop(false)}
-          {...{
-            handleVisibility,
-            handleMonetizing,
-            // setIsLiked,
 
-            viewText,
-          }}
-        />
-      )}
-      {isDelete && (
+      {/* {isDelete && (
         <DeletePremise
           setIsDelete={setIsDelete}
           refetch={premiseRefetch}
@@ -976,7 +952,7 @@ const LeftSideBarUpdate = ({
           projectName={currentProjectName?.slice(0, 20)}
           isDelete={isDelete}
         />
-      )}
+      )} */}
     </>
   );
 };

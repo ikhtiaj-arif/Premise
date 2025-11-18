@@ -7,8 +7,7 @@ import { fetchUserAccess, MyContext } from "../../App";
 import { useCommentPremiseMutation } from "../../app/EndPoints/premisePoolApi";
 import BtnLoading from "../../shared/BtnLoading";
 import LanguageSelector from "../Premisepool/LanguageSelector";
-import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
-import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
+import NoAccessCreditPopupUpdate from "../PricingModel/NoAccessCreditPopupUpdate";
 import { baseURL } from "../utils";
 
 const NewTabTextArea = ({
@@ -93,29 +92,140 @@ const NewTabTextArea = ({
     "Content-Type": "application/json",
   };
 
+  // const handleButtonClick = async () => {
+  //   setIsLoading(true);
+  //   if (premiseOwner?.id === currentUser?.id) {
+  //     checkAllowance("PP_AllowBrainstoming");
+  //   } else {
+  //     checkAllowance("PP_AllowInteraction");
+  //   }
+  //   setIsLoading(false);
+  // };
+
+  // const checkAllowance = async (flag) => {
+  //   const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);
+  //   console.log(`${flag} res`, res);
+  //   if (res?.access === "No") {
+  //     setNoAccessPopup(res);
+  //     setService(flag);
+  //   } else {
+  //     handleSubmitComment();
+  //   }
+  // };
   const handleButtonClick = async () => {
     setIsLoading(true);
     if (premiseOwner?.id === currentUser?.id) {
-      checkAllowance("PP_AllowBrainstoming");
+      await checkAllowance("PP_AllowBrainstoming");
     } else {
-      checkAllowance("PP_AllowInteraction");
+      await checkAllowance("PP_AllowInteraction");
     }
     setIsLoading(false);
   };
 
   const checkAllowance = async (flag) => {
-    const res = await fetchUserAccess(`${currentUser?.id}/${flag}`);
-    console.log(`${flag} res`, res);
-    if (res?.access === "No") {
+    const res = await fetchUserAccess(`${flag}`);
+    if (res?.has_access === false) {
       setNoAccessPopup(res);
       setService(flag);
+      return false; // ❌ no access
     } else {
-      handleSubmitComment();
+      await handleSubmitComment(); // ✅ wait for comment submission
+      return true;
     }
   };
 
+  // const handleSubmitComment = async () => {
+  //   if (newComment.length === 0) {
+  //     alert("You can't send an empty comment!");
+  //     return;
+  //   }
+
+  //   setIsLoading(true);
+
+  //   try {
+  //     // Fetch the existing comment data
+  //     const response = await axios.get(
+  //       `${baseURL}/brainstorm/GetCommentAPInew/${premiseId}`,
+  //       {
+  //         headers: header,
+  //       }
+  //     );
+
+  //     const brainstormData = localStorage.getItem("BrainstormData");
+  //     const sceneData = JSON.parse(brainstormData);
+
+  //     const updatedPremiseId = sceneData?.premiseId;
+  //     const lastSceneNumber = sceneData?.lastSceneNumber;
+
+  //     let c_value = response?.data?.counts + 1;
+
+  //     if (response) {
+  //       const body = {
+  //         premise: premiseId,
+  //         text: newComment,
+  //         user: user,
+  //         C: c_value, // Update the comment count
+  //         ...(updatedPremiseId === premiseId && lastSceneNumber
+  //           ? { C_from_scriptpad: lastSceneNumber }
+  //           : {}),
+  //         is_question: isCommentQuestion,
+  //       };
+
+  //       // Post the new comment
+  //       const res = await postComment(body);
+
+  //       // if (res?.error) {
+  //       //   toast.error("Failed to add comment. Please try again.", {
+  //       //     position: toast.POSITION.TOP_CENTER,
+  //       //     autoClose: 800,
+  //       //   });
+  //       //   setNewComment("");
+
+  //       //   setIsLoading(false);
+  //       //   setTextCount(0);
+  //       // } else {
+  //       setNewComment("");
+  //       if (updatedPremiseId === premiseId) {
+  //         localStorage.removeItem("BrainstormData");
+  //       }
+  //       setIsLoading(false);
+  //       setTextCount(0);
+
+  //       // here scroll all the way down to a div using ref
+  //       setTimeout(() => {
+  //         commentRefetch(); // Refetch the comments after adding the new one
+  //         setOpenAllReplies(true);
+  //         setOpenReplyFieldID(res?.data?.id);
+  //       }, 1000);
+
+  //       setTimeout(() => {
+  //         console.log(lastCommentRef.current);
+  //         if (lastCommentRef.current) {
+  //           lastCommentRef.current.scrollTo({
+  //             top: lastCommentRef.current.scrollHeight,
+  //             behavior: "smooth",
+  //           });
+  //         }
+  //         toast.success("Comment added!", {
+  //           position: toast.POSITION.TOP_CENTER,
+  //           autoClose: 1600,
+  //         });
+  //       }, 1100);
+  //       // }
+  //     }
+  //   } catch (error) {
+  //     toast.error("Failed to add comment. Please try again.", {
+  //       position: toast.POSITION.TOP_CENTER,
+  //       autoClose: 1600,
+  //     });
+  //     setNewComment("");
+  //     localStorage.removeItem("BrainstormData");
+  //     setIsLoading(false);
+  //     setTextCount(0);
+  //   }
+  // };
   const handleSubmitComment = async () => {
-    if (newComment.length === 0) {
+    if (newComment.trim().length === 0) {
       alert("You can't send an empty comment!");
       return;
     }
@@ -123,72 +233,77 @@ const NewTabTextArea = ({
     setIsLoading(true);
 
     try {
-      // Fetch the existing comment data
       const response = await axios.get(
-        `${baseURL}/ideamall/GetCommentAPI/${premiseId}`,
-        {
-          headers: header,
-        }
+        `${baseURL}/brainstorm/GetCommentAPInew/${premiseId}`,
+        { headers: header }
       );
 
-      if (response) {
-        const body = {
-          premise: premiseId,
-          text: newComment,
-          user: user,
-          C: response?.data?.counts + 1, // Update the comment count
-          is_question: isCommentQuestion,
-        };
+      const brainstormData = localStorage.getItem("BrainstormData");
+      const sceneData = JSON.parse(brainstormData);
 
-        // Post the new comment
-        const res = await postComment(body);
+      const updatedPremiseId = sceneData?.premiseId;
+      const lastSceneNumber = sceneData?.lastSceneNumber;
 
-        // if (res?.error) {
-        //   toast.error("Failed to add comment. Please try again.", {
-        //     position: toast.POSITION.TOP_CENTER,
-        //     autoClose: 800,
-        //   });
-        //   setNewComment("");
+      let c_value = response?.data?.counts + 1;
 
-        //   setIsLoading(false);
-        //   setTextCount(0);
-        // } else {
-        setNewComment("");
+      const body = {
+        premise: premiseId,
+        text: newComment,
+        user: user,
+        C: c_value,
+        ...(updatedPremiseId === premiseId && lastSceneNumber
+          ? { C_from_scriptpad: lastSceneNumber }
+          : {}),
+        is_question: isCommentQuestion,
+      };
 
-        setIsLoading(false);
-        setTextCount(0);
+      const res = await postComment(body);
 
-        // here scroll all the way down to a div using ref
-        setTimeout(() => {
-          commentRefetch(); // Refetch the comments after adding the new one
-          setOpenAllReplies(true);
-          setOpenReplyFieldID(res?.data?.id);
-        }, 1000);
+      if (updatedPremiseId === premiseId) {
+        localStorage.removeItem("BrainstormData");
+      }
 
-        setTimeout(() => {
-          console.log(lastCommentRef.current);
-          if (lastCommentRef.current) {
-            lastCommentRef.current.scrollTo({
-              top: lastCommentRef.current.scrollHeight,
-              behavior: "smooth",
-            });
-          }
-          toast.success("Comment added!", {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 1600,
+      // ✅ Clear textarea right after success
+      setNewComment("");
+      setTextCount(0);
+      if (updatedPremiseId === premiseId) {
+        localStorage.removeItem("BrainstormData");
+      }
+      // other UI updates...
+      setTimeout(() => {
+        commentRefetch();
+        setOpenAllReplies(true);
+        setOpenReplyFieldID(res?.data?.id);
+      }, 1000);
+
+      setTimeout(() => {
+        if (lastCommentRef.current) {
+          lastCommentRef.current.scrollTo({
+            top: lastCommentRef.current.scrollHeight,
+            behavior: "smooth",
           });
-        }, 1100);
-        // }
+        }
+        toast.success("Comment added!", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 1600,
+        });
+      }, 1100);
+      const crdRes = await fetchUserAccess(`PP_AllowBrainstoming`);
+      const remainingCredits = crdRes?.remaining_credits ?? 0;
+      const creditElement = document.getElementById("creditBalance");
+      if (creditElement) {
+        creditElement.textContent = remainingCredits;
       }
     } catch (error) {
       toast.error("Failed to add comment. Please try again.", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 1600,
       });
+    } finally {
+      // ✅ always reset
       setNewComment("");
-
-      setIsLoading(false);
       setTextCount(0);
+      setIsLoading(false);
     }
   };
 
@@ -235,7 +350,7 @@ const NewTabTextArea = ({
             id=""
             className={`${
               className ? "bg-[#fff]" : "bg-[#f8f8f8]"
-            } resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[108px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:font-[500] placeholder:text-[#33B0CA]`}
+            } resize-none leading-[21px] rounded-[8px] w-[100%] h-[49.27px] lg:h-[108px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:font-[500] placeholder:text-[#00c3ff]`}
             placeholder="Share an action taken by any character in pursuit of its want OR describe a situation in which the chosen characters interact OR write anything you have in mind. "
             value={newComment}
             required
@@ -255,8 +370,8 @@ const NewTabTextArea = ({
               data-te-toggle="tooltip"
               title={`${!keyboardVisible ? "View Keyboard" : "Hide Keyboard"}`}
               className={`w-6 h-6 ${
-                keyboardVisible && "text-[#33B0CA]"
-              } cursor-pointer hover:text-[#33B0CA]`}
+                keyboardVisible && "text-[#00c3ff]"
+              } cursor-pointer hover:text-[#00c3ff]`}
               onClick={onClickKeyboard}
             />
             <LanguageSelector
@@ -272,7 +387,7 @@ const NewTabTextArea = ({
             </div>
           ) : (
             <button className="md:w-[21px]" onClick={handleButtonClick}>
-              <IoMdSend className="text-[#33B0CA] w-6 h-6" />
+              <IoMdSend className="text-[#00c3ff] w-6 h-6" />
               {/* <img
                             src={forwardIcon}
                             alt=""
@@ -333,24 +448,14 @@ const NewTabTextArea = ({
         )}
       </> */}
 
-      {noAccessPopup?.msg === "ShowBecomePrivilege" ? (
-        <NoAccessPopUp
+      {noAccessPopup?.has_access === false && (
+        <NoAccessCreditPopupUpdate
           noAccessPopup={noAccessPopup}
           setNoAccessPopup={setNoAccessPopup}
+          service={"Brainstorming"}
+          credit_rate={noAccessPopup?.credit_rate}
+          remaining_credits={noAccessPopup?.remaining_credits}
         />
-      ) : (
-        (noAccessPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
-          noAccessPopup?.msg === "LB") && (
-          <NoAccessLbPopUp
-            noAccessLbPopup={noAccessPopup}
-            setNoAccessPopup={setNoAccessPopup}
-            service={
-              service === "PP_AllowBrainstoming"
-                ? "PP_Brainstrom"
-                : "PP_interactions"
-            }
-          />
-        )
       )}
     </div>
   );

@@ -1,15 +1,14 @@
 import { useState } from "react";
+import { FaArrowLeft } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import newTabDoodle from "../../../img/new-tab-doodle.webp";
-import LikePremise from "../../Premisepool/LikePremise";
+import LikePopup from "../../Premisepool/LikePopup";
 import TranslatePremiseNewTab from "../../Premisepool/TranslatePremiseNewTab";
 import PopupComment from "../../SharedVersion/PopupComment";
 import {
   getLanguageName,
   getTextFromValue,
 } from "../utilityFuncitons/functions";
-import PremiseTopAccess from "./PremiseTopAccess";
-import LikePopup from "../../Premisepool/LikePopup";
 
 const ProjectInfoUpdate = ({
   premiseData,
@@ -18,6 +17,7 @@ const ProjectInfoUpdate = ({
   commentsData,
   commentField,
   setCommentField,
+  handleOpenSp,
 }) => {
   const {
     id,
@@ -48,8 +48,14 @@ const ProjectInfoUpdate = ({
 
   return (
     <div>
-      <div className="flex items-center gap-2 lg:pl-6 my-3">
-        <div>
+      <div className="flex items-center gap-2  mt-3">
+        <button
+          className="text-[#000] lgVisible bg-[#F3F4F6] rounded-lg px-3 h-10 w-10 text-[16px] font-semibold"
+          onClick={handleOpenSp}
+        >
+          <FaArrowLeft />
+        </button>
+        <div className="hidden md:block">
           <div className="mr-4 w-[61px] md:w-[102px]">
             <img
               src={newTabDoodle}
@@ -59,7 +65,7 @@ const ProjectInfoUpdate = ({
           </div>
         </div>
         <div className="lg:flex items-center justify-between gap-12">
-          <h3 className="text-[12px] leading-4 xl:text-[14px]  text-[#252525] xl:leading-[21px] font-normal w-[100%] md:w-[70%] lg:w-[67%]">
+          <h3 className="text-[14px] px-2 leading-4 xl:text-[14px]  text-[#252525] xl:leading-[21px] font-normal w-full md:w-[70%] lg:w-[63%] xl:w-[67%] break-words">
             <span
               className="text-[#252525] font-bold notranslate"
               data-te-toggle="tooltip"
@@ -78,12 +84,13 @@ const ProjectInfoUpdate = ({
             <span className="font-bold">{viewText}</span>
           </h3>
           <div>
-            <div className="hidden lg:flex justify-between items-center mt-[14px] rounded-b-[8px] pl-1 pr-4 pb-2 pt-1 lg:w-[300px]">
+            <div className=" lgVisible lg:flex justify-between items-center mt-[14px] rounded-b-[8px] pl-1 pr-4 pb-2 pt-1 lg:w-full ">
               {/* 1st div */}
               <div className="flex gap-1 space-x-4 items-center">
                 {/* like */}
                 {/* <PopupLike {...{ user, id, premiseRefetch, premiseData }} /> */}
-                <LikePremise
+                {/* this feature is commented out for the new design */}
+                {/* <LikePremise
                   data={{
                     user,
                     ...premiseData,
@@ -91,7 +98,7 @@ const ProjectInfoUpdate = ({
                     setLikePopup,
                   }}
                   refetch={premiseRefetch}
-                />
+                /> */}
                 {/* comment */}
                 <PopupComment
                   {...{
@@ -122,27 +129,15 @@ const ProjectInfoUpdate = ({
                 />
               </div>
             </div>
-            <div className="pr-3 ">
-              <PremiseTopAccess
-                {...{
-                  premiseOwner,
-                  user,
-                  id,
-                  project_id,
-                  premiseData,
-                  premiseRefetch,
-                }}
-              />
-            </div>
           </div>
         </div>
       </div>
-      <div className="flex lg:hidden justify-between items-center mt-[-12px] md:mt-[14px] rounded-b-[8px] px-[4px] pb-[8px] pt-[4px] lg:w-[300px]">
+      <div className="flex hidden justify-between items-center md:mt-[14px] rounded-b-[8px] px-[4px] pb-[8px] pt-[4px] lg:w-[300px]">
         {/* 1st div */}
         <div className="flex gap-1 space-x-4 items-center">
           {/* like */}
           {/* <PopupLike {...{ user, id, premiseRefetch, premiseData }} /> */}
-          <LikePremise
+          {/* <LikePremise
             data={{
               user,
               ...premiseData,
@@ -150,7 +145,7 @@ const ProjectInfoUpdate = ({
               setLikePopup,
             }}
             refetch={premiseRefetch}
-          />
+          /> */}
           {/* comment */}
           <PopupComment
             {...{
@@ -181,7 +176,7 @@ const ProjectInfoUpdate = ({
           />
         </div>
       </div>
-      
+
       {likePopup && <LikePopup setLikePopup={setLikePopup} id={id} />}
     </div>
   );

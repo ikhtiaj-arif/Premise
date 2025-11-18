@@ -1,46 +1,203 @@
-# Getting Started with Create React App and Redux
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+# PremisePool
 
-## Available Scripts
+A brief description of what this project does and who it's for
 
-In the project directory, you can run:
+# 💡 PremisePool
 
-### `npm start`
+**IdeaMall** (also called **PremisePool**) is a modern web app built with React and Redux Toolkit that lets users create, share, and interact with “premises” (ideas, posts, or scripts). It’s designed for collaborative content generation with comment threads, payments, and multilingual input options.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🚀 Overview
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+IdeaMall is a feature-rich idea-sharing platform where users can:
 
-### `npm test`
+- Create and edit **premises** or projects
+- Add and reply to **comments**
+- Like or react to discussions
+- Use **virtual multilingual keyboards** for typing in multiple languages
+- Manage **user authentication and access control**
+- Handle **payments** for premium actions or credits
+- Enjoy **interactive UI animations** with smooth experience
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The app focuses on real-time collaboration, user engagement, and accessibility for creators across languages.
 
-### `npm run build`
+## 🧠 Core Logic & Functionality
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 🏗 1. Premise Management
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Located in `Components/Premisepool/` and API handlers under `app/EndPoints/premisePoolApi.js`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Create, edit, and manage ideas (“premises”).
+- Use Redux slices like `premiseSlice.js` to manage global premise states.
+- Fetch and mutate premise data via custom API endpoints.
+- Includes filtering, pagination, and draft management logic.
 
-### `npm run eject`
+### 💬 2. Comment & Reply System
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Files:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- `AllComments.js`, `AllCommentsBackup.js`, `commentApi.js`, `reply.js`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Features:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Nested comments and replies with like buttons and reactions.
+- Uses Redux Toolkit queries to fetch and update comment threads.
+- Comment like popups and inline reply logic for better UX.
 
-## Learn More
+### 💳 3. Payment System
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Files under `Components/Payment/`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Handles user credit packages and invoices.
+- Displays payable amounts and integrates with the app’s purchase flow.
+- Includes `LimitPaymentPage.jsx`, `PaymentInvoicePopup.jsx`, etc.
+
+### 🌍 4. Multilingual Input Keyboard
+
+Folder: `Components/Keyboard/`
+
+- Includes prebuilt layouts for **Arabic**, **Bengali**, **Farsi**, **Chinese**, and more.
+- Uses `react-simple-keyboard` for custom typing interfaces.
+- Enables seamless multilingual premise and comment creation.
+
+### 👥 5. User Authentication & State
+
+Slices:
+
+- `authSlice.js` — handles login, token storage, and logout.
+- `userSlice.js` — stores user profile and access info.
+
+Cookies and localStorage (via `js-cookie`) are used for maintaining sessions.
+
+### ⚙️ 6. Global Hooks & API Integration
+
+- All APIs managed under `app/EndPoints/` using a modular structure.
+- `faseBaseQuery.js` handles base API logic (axios instance, headers, etc.).
+- `Global.js` hook provides shared states or utility logic across components.
+
+---
+
+## 🧩 Folder Structure
+
+```
+src/
+│
+├── app/
+│   ├── store.js              # Redux store configuration
+│   ├── EndPoints/            # All API endpoints (Premise, Comments, Payment)
+│   ├── Hooks/                # Reusable hooks
+│   └── Slices/               # Redux slices for each feature
+│
+├── Components/
+│   ├── Premisepool/          # Main feature (Premise creation, comments, etc.)
+│   ├── Payment/              # Handles payment & package logic
+│   ├── Keyboard/             # Multilingual input keyboards
+│   └── utils.js              # Common reusable utilities
+│
+├── App.js                    # Root component
+├── index.js                  # Entry point
+└── index.css, App.css        # Global styles
+```
+
+## 🛠️ Tech Stack
+
+| Category         | Tools Used                                       |
+| ---------------- | ------------------------------------------------ | ---------- |
+| Frontend         | React 18, Redux Toolkit                          |
+| Routing          | React Router DOM                                 |
+| UI/UX            | Framer Motion, DaisyUI, Tailwind CSS             |
+| API              | Axios                                            |
+| Auth             | js-cookie                                        |
+| State Management | Redux Toolkit Slices                             | ContextAPi |
+| Rich Text        | Draft.js, React Quill                            |
+| Notifications    | React Toastify                                   |
+| Utility          | react-draggable, react-infinite-scroll-component |
+| Testing          | Jest, React Testing Library                      |
+
+## ⚙️ Installation & Setup
+
+### 1. Clone the repository
+
+```bash
+git clone "URL"
+cd ideamall
+```
+
+### 2. Install dependencies
+
+```bash
+npm install -f
+```
+
+### 3. Run in development mode
+
+```bash
+npm start
+```
+
+App runs on **http://localhost:3000**
+
+### 4. Build for production
+
+```bash
+npm run build
+```
+
+## 🔑 Environment Variables
+
+Create a `.env` file in the root and add:
+
+```env
+REACT_APP_BASE_URL=https://your-backend-api.com
+REACT_APP_STRIPE_KEY=your_public_key_if_any
+```
+
+(You may add any API keys or URLs used by your endpoints.)
+
+## ✨ Key Features
+
+- 🧱 **Modular API architecture**
+- 🧩 **Redux slices for clean state separation**
+- 💬 **Nested comments and reactions**
+- 💳 **Integrated payment system**
+- 🌐 **Multilingual input keyboard**
+- 🚀 **Performance optimized UI**
+- 🔁 **Auto-refresh logic with RTK Query**
+- 🧭 **Guided tours via `react-joyride`**
+
+## 👨‍💻 Contributing
+
+1. Fork the repository
+2. Create your feature branch:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. Commit your changes:
+   ```bash
+   git commit -m "Add your feature"
+   ```
+4. Push to the branch:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+5. Create a Pull Request ✅
+
+## 🐛 Troubleshooting
+
+| Issue                    | Possible Fix                                      |
+| ------------------------ | ------------------------------------------------- |
+| App not starting         | Run `npm install` again, check Node version ≥ 16  |
+| API not working          | Check your `.env` base URL                        |
+| Redux state not updating | Ensure correct slice import & store configuration |
+| Keyboard not appearing   | Confirm `react-simple-keyboard` is installed      |
+
+## 🧾 License
+
+This project is licensed under **MNF**.
+
+## 🧠 Author
+
+**MD. Ikhtiaj Arif**  
+Full Stack Developer — React, Next.js, Express, PostgreSQL, MongoDB, TypeScript
+
+> 💬 _“Great ideas start with small premises.”_

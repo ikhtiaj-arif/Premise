@@ -1,4 +1,3 @@
-import React from "react";
 import ReactLoading from "react-loading";
 
 const Loading = () => {
@@ -8,7 +7,7 @@ const Loading = () => {
       <h1 className="flex justify-center items-center z-[1]">
         <ReactLoading
           type={"spinningBubbles"}
-          color={"#33B0CA"}
+          color={"#00c3ff"}
           height={100}
           width={100}
         />

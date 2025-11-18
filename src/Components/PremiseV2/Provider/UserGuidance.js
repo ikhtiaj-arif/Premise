@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { stepSets } from "./joyrideSteps";
-import Joyride from "react-joyride";
 function CustomTooltip({
   step,
   index,
@@ -58,7 +57,7 @@ function CustomTooltip({
           </button>
           <button
             {...skipProps}
-            className="px-3 py-1 rounded text-white bg-[#33b0ca] hover:text-gray-700"
+            className="px-3 py-1 rounded text-white bg-[#00c3ff] hover:text-gray-700"
             aria-label="Skip Step"
           >
             Skip

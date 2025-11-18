@@ -19,7 +19,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
         const available_for_sale = query?.sale;
   
 
-        let url = `ideamall/premise?page=${pn}&page_size=${ps}&current_user=${user_id}&shared=${shared}`;
+        let url = `brainstorm/premise?page=${pn}&page_size=${ps}&current_user=${user_id}&shared=${shared}`;
 
 
         if (text) {
@@ -75,10 +75,29 @@ export const premiseSlice = apiSlice.injectEndpoints({
     // get hidden premise
     // getHiddenPremiseCount: builder.query({
     //   query: () => ({
-    //     url: `ideamall/hidden_premise`,
+    //     url: `brainstorm/hidden_premise`,
     //     method: "GET",
     //   }), providesTags: ["premise-hidden-count"],
     // }),
+
+
+       getCommentByPremiseId: builder.query({
+      query: (query) => {
+        const id = query?.id
+        const ps = query?.ps
+        const pn = query?.pn
+        const text = query?.text
+
+        let url = `brainstorm/GetCommentAPInew/${id}?page=${pn}&page_size=${ps}&search_text=${text}`
+
+    
+        
+        return ({
+        url: url,
+        method: "GET",
+      })},
+      providesTags: ["premise-comment"],
+    }),
 
     //hidden count according to filters
 
@@ -91,7 +110,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
         const user_id = query?.user_id;
         const shared = query?.shared;
 
-        let url = `ideamall/hidden_premise?current_user=${user_id}&shared=${shared}`;
+        let url = `brainstorm/hidden_premise?current_user=${user_id}&shared=${shared}`;
 
         if (text) {
           url = `${url}&text=${text}`;
@@ -126,7 +145,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     //get premise
     getOnePremise: builder.query({
       query: (id) => ({
-        url: `ideamall/api/v2/premise/${id}`,
+        url: `brainstorm/api/v2/premise/${id}`,
         method: "GET",
       }),
       providesTags: ["premise"],
@@ -134,7 +153,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     //get latest premise
     getLatestPremise: builder.query({
       query: (id) => ({
-        url: `ideamall/get_latest_premise/`,
+        url: `brainstorm/get_latest_premise/`,
         method: "GET",
       }),
       providesTags: ["premise"],
@@ -142,7 +161,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     //get premise revenue
     getPremiseRevenue: builder.query({
       query: (id) => ({
-        url: `ideamall/premise/revenue${id}`,
+        url: `brainstorm/premise/revenue${id}`,
         method: "GET",
       }),
       providesTags: ["premise"],
@@ -152,7 +171,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     //
     deletePremise: builder.mutation({
       query: (id) => ({
-        url: `ideamall/api/v2/premise/${id}/`,
+        url: `brainstorm/api/v2/premise/${id}/`,
         method: "DELETE",
       }),
       invalidatesTags: ["premise"],
@@ -161,7 +180,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     // post premise
     postPremise: builder.mutation({
       query: (data) => ({
-        url: `ideamall/api/v2/premise/`,
+        url: `brainstorm/api/v2/premise/`,
         method: "POST",
         body: data,
       }),
@@ -171,7 +190,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     // get premise details
     getPremiseDetails: builder.query({
       query: () => ({
-        url: `ideamall/api/v2/premise-detail/`,
+        url: `brainstorm/api/v2/premise-detail/`,
         method: "GET",
       }),
       providesTags: ["premise"],
@@ -180,7 +199,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     // get premise like
     getLikePremise: builder.query({
       query: () => ({
-        url: `ideamall/api/v2/premise-like/`,
+        url: `brainstorm/api/v2/premise-like/`,
         method: "GET",
       }),
       providesTags: ["premise-like"],
@@ -188,25 +207,18 @@ export const premiseSlice = apiSlice.injectEndpoints({
     // get all comments
     getCommentPremise: builder.query({
       query: () => ({
-        url: `ideamall/api/v2/premise-comment/`,
+        url: `brainstorm/api/v2/premise-comment/`,
         method: "GET",
       }),
       providesTags: ["premise"],
     }),
-    // http://115.245.192.138/ideamall/commentApi/
-    // ideamall/commentApi?premise_id=6c81ed44-c0cc-4814-8ae1-ae35b48a6062
+    // http://115.245.192.138/brainstorm/commentApi/
+    // brainstorm/commentApi?premise_id=6c81ed44-c0cc-4814-8ae1-ae35b48a6062
     // get comments by premise id
-    // ideamall/commentApi?premise_id=${id}
-    // http://115.245.192.138/ideamall/GetCommentAPI/7e178f2b-6edb-48cc-84ea-a42c0fa75a9e
+    // brainstorm/commentApi?premise_id=${id}
+    // http://115.245.192.138/brainstorm/GetCommentAPInew/7e178f2b-6edb-48cc-84ea-a42c0fa75a9e
 
-    getCommentByPremiseId: builder.query({
-      query: (id) => ({
-        url: `ideamall/GetCommentAPI/${id}`,
-        method: "GET",
-      }),
-      providesTags: ["premise-comment"],
-    }),
-
+ 
     // is comment liked
     isCommentLiked: builder.mutation({
       query: (data) => ({
@@ -221,7 +233,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     LikeComment: builder.mutation({
       query: (data) => {
         return {
-          url: `/ideamall/commentLike`,
+          url: `/brainstorm/commentLike`,
           method: "POST",
           body: data,
         };
@@ -232,7 +244,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     RemoveLikeComment: builder.mutation({
       query: (data) => {
         return {
-          url: `/ideamall/commentLike`,
+          url: `/brainstorm/commentLike`,
           method: "PUT",
           body: data,
         };
@@ -252,7 +264,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     commentPremise: builder.mutation({
       query: (data) => {
         return {
-          url: `ideamall/api/v2/premise-comment/`,
+          url: `brainstorm/api/v2/premise-comment/`,
           method: "POST",
           body: data,
         };
@@ -260,11 +272,11 @@ export const premiseSlice = apiSlice.injectEndpoints({
       invalidatesTags: ["premise-comment"],
     }),
     //comment Delete
-    // http://115.245.192.138/ideamall/commentDelete/4ac6de52-c51f-4fda-97e6-a977c130c092
+    // http://115.245.192.138/brainstorm/commentDelete/4ac6de52-c51f-4fda-97e6-a977c130c092
     deleteComment: builder.mutation({
       query: (id) => {
         return {
-          url: `ideamall/commentDelete/${id}`,
+          url: `brainstorm/commentDelete/${id}`,
           method: "DELETE",
         };
       },
@@ -273,7 +285,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     // get all likes by premise id
     getLikesByPremiseId: builder.query({
       query: (id) => ({
-        url: `/ideamall/premiseLike?premise_id=${id}`,
+        url: `/brainstorm/premiseLike?premise_id=${id}`,
         method: "GET",
       }),
       providesTags: ["premise-like"],
@@ -282,7 +294,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     // post is premise liked
     isLikePremise: builder.mutation({
       query: (data) => ({
-        url: `ideamall/userLike`,
+        url: `brainstorm/userLike`,
         method: "POST",
         body: data,
       }),
@@ -293,7 +305,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     LikePremise: builder.mutation({
       query: (data) => {
         return {
-          url: `ideamall/api/v2/premise-like/`,
+          url: `brainstorm/api/v2/premise-like/`,
           method: "POST",
           body: data,
         };
@@ -305,7 +317,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     broadcastPremise: builder.mutation({
       query: (body) => {
         return {
-          url: `/ideamall/get-room`,
+          url: `/brainstorm/get-room`,
           method: "POST",
           body: body,
         };
@@ -315,7 +327,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     // get messages by broadcast id
     getMessageByPremiseId: builder.query({
       query: (broadcastId) => ({
-        url: `/ideamall/messages?broadcast_id=${broadcastId}`,
+        url: `/brainstorm/messages?broadcast_id=${broadcastId}`,
         method: "GET",
       }),
       providesTags: ["premise-msg"],
@@ -323,7 +335,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     // get messages from user by broadcast id for owner
     allUserBroadcast: builder.query({
       query: (id) => ({
-        url: `/ideamall/get-rooms?premise=${id}`,
+        url: `/brainstorm/get-rooms?premise=${id}`,
         method: "GET",
       }),
       providesTags: ["premise"],
@@ -332,7 +344,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     sendMsgPremise: builder.mutation({
       query: (data) => {
         return {
-          url: `/ideamall/api/v2/premise-broadcastcontent/`,
+          url: `/brainstorm/api/v2/premise-broadcastcontent/`,
           method: "POST",
           body: data,
         };
@@ -344,7 +356,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     translatePremise: builder.mutation({
       query: (data) => {
         return {
-          url: `ideamall/premise/translate`,
+          url: `brainstorm/premise/translate`,
           method: "POST",
           body: data,
         };
@@ -355,7 +367,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     // delete like
     deleteLike: builder.mutation({
       query: (data) => ({
-        url: `ideamall/deletePremiseLike`,
+        url: `brainstorm/deletePremiseLike`,
         method: "POST",
         body: data,
       }),
@@ -368,7 +380,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
         const id = data.id;
         const body = data.body;
         return {
-          url: `ideamall/api/v2/premise/${id}/`,
+          url: `brainstorm/api/v2/premise/${id}/`,
           method: "PATCH",
           body: body,
         };
@@ -382,7 +394,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     //     const id = data.id;
     //     const body = data.body;
     //     return {
-    //       url: `ideamall/api/v2/premise-user/${id}/`,
+    //       url: `brainstorm/api/v2/premise-user/${id}/`,
     //       // url: `/memberpage/centraldatabaseapi/${id}/`,
     //       method: "PUT",
     //       body: body,
@@ -396,7 +408,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
         const id = data.id;
         const body = data.body;
         return {
-          // url: `ideamall/api/v2/premise-user/${id}/`,
+          // url: `brainstorm/api/v2/premise-user/${id}/`,
           url: `/memberpage/centraldatabaseapi/${id}`,
           method: "PATCH",
           body: body,
@@ -408,7 +420,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     // premise user
     getPremiseUser: builder.query({
       query: () => ({
-        url: `ideamall/current-user`,
+        url: `brainstorm/current-user`,
         method: "GET",
       }),
       providesTags: ["premise, premise_user"],
@@ -432,7 +444,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
 
     getFilteredLang: builder.query({
       query: () => ({
-        url: `ideamall/languages`,
+        url: `brainstorm/languages`,
         method: "GET",
       }),
       providesTags: ["filterLang"],
@@ -440,7 +452,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
 
     getHideUnhidePremise: builder.query({
       query: (id) => ({
-        url: `ideamall/hide-premise/${id}`,
+        url: `brainstorm/hide-premise/${id}`,
         method: "GET",
       }),
       providesTags: ["premise"],
@@ -456,7 +468,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     //get premise
     getPremiseBeatsData: builder.query({
       query: (id) => ({
-        url: `ideamall/premise/beats/${id}`,
+        url: `brainstorm/premise/beats/${id}`,
         method: "GET",
       }),
       providesTags: ["premise"],
@@ -464,14 +476,14 @@ export const premiseSlice = apiSlice.injectEndpoints({
     //get premise
     getPremiseEngagementsData: builder.query({
       query: (id) => ({
-        url: `ideamall/premise/engagement/${id}`,
+        url: `brainstorm/premise/engagement/${id}`,
         method: "GET",
       }),
       providesTags: ["premise"],
     }),
     getPremiseBrainstormsData: builder.query({
       query: (id) => ({
-        url: `ideamall/premise/brainstorm/${id}`,
+        url: `brainstorm/premise/brainstorm/${id}`,
         method: "GET",
       }),
       providesTags: ["premise"],
@@ -482,7 +494,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
 
     requestForSaleOrTranslate: builder.mutation({
       query: (data) => ({
-        url: `ideamall/premise/request`,
+        url: `brainstorm/premise/request`,
         method: "POST",
         body: data,
       }),
@@ -491,7 +503,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
 
     updateRequestForSaleOrTranslate: builder.mutation({
       query: (data) => ({
-        url: `ideamall/premise/request`,
+        url: `brainstorm/premise/request`,
         method: "PATCH",
         body: data,
       }),
@@ -510,7 +522,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     
     translatePremiseV2: builder.mutation({
       query: (data) => ({
-        url: `ideamall/premise/translation`,
+        url: `brainstorm/premise/translation`,
         method: "POST",
         body: data,
       }),
@@ -523,7 +535,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
         const body = data.body;
 
         return {
-          url: `ideamall/premise/sale`,
+          url: `brainstorm/premise/sale`,
           method: "POST",
           body: body,
         };
@@ -534,14 +546,14 @@ export const premiseSlice = apiSlice.injectEndpoints({
     
     getPremiseTransaction: builder.query({
       query: (id) => ({
-        url: `ideamall/premise/translation/${id}`,
+        url: `brainstorm/premise/translation/${id}`,
         method: "GET",
       }),
     }),
 
     getSaleTranslationRequest: builder.query({
       query: (data) => ({
-        url: `ideamall/premise/request/${data.id}/${data.type}`,
+        url: `brainstorm/premise/request/${data.id}/${data.type}`,
         method: "GET",
       }),
     }),
@@ -550,7 +562,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     paymentData: builder.mutation({
       query: (data) => {
         return {
-          url: `/ideamall/paymentinvoice/`,
+          url: `/brainstorm/paymentinvoice/`,
           method: "POST",
           body: data,
         };
@@ -560,7 +572,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     paymentSend: builder.mutation({
       query: (data) => {
         return {
-          url: `/ideamall/paymentview/`,
+          url: `/brainstorm/paymentview/`,
           method: "POST",
           body: data,
         };
@@ -570,7 +582,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     paymentSucess: builder.mutation({
       query: (data) => {
         return {
-          url: `/ideamall/callbackview/`,
+          url: `/brainstorm/callbackview/`,
           method: "POST",
           body: data,
         };
@@ -591,7 +603,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     getBankDetails: builder.query({
       query: (id) => {
           return {
-              url: `/ideamall/get_bank_details/${id}`,
+              url: `/brainstorm/get_bank_details/${id}`,
               method: "GET",
           };
       },
@@ -607,10 +619,11 @@ export const premiseSlice = apiSlice.injectEndpoints({
       },
     }),
 
-    payNowPackage: builder.mutation({
+   payNowPackage: builder.mutation({
       query: (data) => {
         return {
-          url: `/pay/make_payment/`,
+          // url: /pay/make_payment/,
+          url: `/pay/topup-indent/`,
           method: "POST",
           body: data,
         };
@@ -620,7 +633,8 @@ export const premiseSlice = apiSlice.injectEndpoints({
     callbackPackage: builder.mutation({
       query: (data) => {
         return {
-          url: `/pay/custom_callback/`,
+          url: `/pay/wallet/topup/`,
+          // url: /pay/custom_callback/,
           method: "POST",
           body: data,
         };
@@ -638,7 +652,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     deleteMessage: builder.mutation({
       query: (id) => {
         return {
-          url: `/ideamall/api/v2/premise-broadcastcontent/${id}/`,
+          url: `/brainstorm/api/v2/premise-broadcastcontent/${id}/`,
           method: "DELETE",
         };
       },
@@ -648,7 +662,7 @@ export const premiseSlice = apiSlice.injectEndpoints({
     dislikeComment: builder.mutation({
       query: (data) => {
         return {
-          url: `/ideamall/commentDislike`,
+          url: `/brainstorm/commentDislike`,
           method: "POST",
           body: data,
         };
@@ -657,12 +671,36 @@ export const premiseSlice = apiSlice.injectEndpoints({
 
     dislikeCommentReply: builder.mutation({
       query: (id) => ({
-        url: `/ideamall/premise-Reply-dislike/${id}`,
+        url: `/brainstorm/premise-Reply-dislike/${id}`,
         method: "PATCH",
       }),   
       providesTags: ["reply-comment"],
     }),
 
+      creditToUsd: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/pay/credits/estimate/`,
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
+
+    topPayDetails: builder.mutation({
+      query: (data) => {
+        return {
+          url: `pay/top-user-pay-details/`,
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
+
+
+
+
+    
   }),
 });
 
@@ -720,5 +758,7 @@ export const {
   useDislikeCommentMutation,
   useDislikeCommentReplyMutation,
   useGetBankDetailsQuery,
-  useGetLatestPremiseQuery
+  useGetLatestPremiseQuery,
+  useCreditToUsdMutation,
+  useTopPayDetailsMutation
 } = premiseSlice;

@@ -47,7 +47,7 @@ const NoAccessLbPopUp = ({
       setSelectedOption(
         noAccessLbPopup?.ShowFreeTrialActavation === "Yes"
           ? "activate"
-          : service === "PP_Brainstrom"
+          : service === "PP_Brainstrom" || service === "PP_Beats"
           ? "generate"
           : "nextPackage"
       );
@@ -112,8 +112,8 @@ const NoAccessLbPopUp = ({
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-[#252525b0] z-[2]">
-      <div className=" bg-white rounded-[8px] w-[100%] lg:w-[623px]">
+    <div className="fixed top-0 left-0   w-full h-screen flex items-end sm:items-center justify-center bg-[#252525b0] z-[2]">
+      <div className=" bg-white rounded-[8px] w-[100%] md:w-[623px] pb-20 sm:pb-6">
         <div className="relative">
           <div className="absolute right-[45%] top-[-60px] lg:top-[-12px] lg:right-[-12px]">
             <img
@@ -127,31 +127,46 @@ const NoAccessLbPopUp = ({
           </div>
 
           <div className="px-[20px] py-[10px]">
-            <img
-              src={
-                noAccessLbPopup?.ShowFreeTrialActavation === "Yes"
-                  ? welcomeImg
-                  : service !== "PP_Brainstrom" &&
-                    noAccessLbPopup?.ShowFreeTrialActavation !== "Yes"
-                  ? oopsImg
-                  : congratsImg
-              }
-              className={`${
-                service !== "PP_Brainstrom" &&
-                noAccessLbPopup?.ShowFreeTrialActavation !== "Yes"
-                  ? "w-[160px] h-[150px]"
-                  : "w-[160px] h-[150px]"
-              }  mx-auto`}
-              alt=""
-            />
-            {service === "PP_Brainstrom" && (
+            {(service === "PP_Brainstrom" || service === "PP_Beats") &&
+            noAccessLbPopup?.ShowFreeTrialActavation !== "Yes" ? (
+              <img
+                src={congratsImg}
+                className={`${
+                  (service !== "PP_Brainstrom" || service !== "PP_Beats") &&
+                  noAccessLbPopup?.ShowFreeTrialActavation !== "Yes"
+                    ? "w-[160px] h-[150px]"
+                    : "w-[160px] h-[150px]"
+                }  mx-auto`}
+                alt=""
+              />
+            ) : (
+              <img
+                src={
+                  noAccessLbPopup?.ShowFreeTrialActavation === "Yes"
+                    ? welcomeImg
+                    : (service !== "PP_Brainstrom" || service !== "PP_Beats") &&
+                      noAccessLbPopup?.ShowFreeTrialActavation !== "Yes"
+                    ? oopsImg
+                    : congratsImg
+                }
+                className={`${
+                  (service !== "PP_Brainstrom" || service !== "PP_Beats") &&
+                  noAccessLbPopup?.ShowFreeTrialActavation !== "Yes"
+                    ? "w-[160px] h-[150px]"
+                    : "w-[160px] h-[150px]"
+                }  mx-auto`}
+                alt=""
+              />
+            )}
+
+            {(service === "PP_Brainstrom" || service === "PP_Beats") && (
               <h1 className=" text-[#252525] text-[16px] font-[600] leading-6">
                 You have
-                {service === "PP_Brainstrom" ? " Completed " : " Generated "}
+                {service === "PP_Brainstrom" ? " Completed " : " Added "}
                 {PpData?.current_usage}{" "}
                 {service === "PP_Brainstrom"
                   ? " Brainstormings with Ida "
-                  : " Premises "}{" "}
+                  : " beat suggestions "}{" "}
                 in {PpData?.day_passed} days! That’s commendable!!
               </h1>
             )}
@@ -174,7 +189,7 @@ const NoAccessLbPopUp = ({
                     <span
                       className={`${
                         selectedOption === "activate"
-                          ? "text-[#33B0CA] flex-1 cursor-pointer"
+                          ? "text-[#00c3ff] flex-1 cursor-pointer"
                           : "text-[#252525] flex-1 cursor-pointer"
                       }`}
                     >
@@ -185,7 +200,7 @@ const NoAccessLbPopUp = ({
                 </div>
               )}
               {/* 1st option */}
-              {service === "PP_Brainstrom" && (
+              {(service === "PP_Brainstrom" || service === "PP_Beats") && (
                 <div className="">
                   <label className="flex items-start gap-2 ">
                     <input
@@ -198,11 +213,11 @@ const NoAccessLbPopUp = ({
                     <span
                       className={`flex-1 ${
                         selectedOption === "generate"
-                          ? "text-[#33B0CA] flex-1 cursor-pointer"
+                          ? "text-[#00c3ff] flex-1 cursor-pointer"
                           : "text-[#252525] flex-1 cursor-pointer"
                       }`}
                     >
-                      {"Commit to "}
+                      {"Add more beat suggestions "}
                       <input
                         type="text"
                         placeholder="0"
@@ -223,8 +238,7 @@ const NoAccessLbPopUp = ({
                         className="w-[58px] h-[26px] border border-[#EAEAEA] rounded-[4px] p-1 mx-2 text-center focus:outline-none"
                         disabled={selectedOption !== "generate"}
                       />{" "}
-                      {" more Brainstormings "} for USD{" "}
-                      {(sceneCount * PpData?.uint_value).toFixed(2)}
+                      for USD {(sceneCount * PpData?.uint_value).toFixed(2)}
                     </span>
                   </label>
                 </div>
@@ -233,7 +247,8 @@ const NoAccessLbPopUp = ({
               <div>
                 <label className="flex items-start gap-2 mt-2">
                   {(noAccessLbPopup?.ShowFreeTrialActavation === "Yes" ||
-                    service === "PP_Brainstrom") && (
+                    service === "PP_Brainstrom" ||
+                    service === "PP_Beats") && (
                     <input
                       type="radio"
                       value="nextPackage"
@@ -245,7 +260,7 @@ const NoAccessLbPopUp = ({
                   <span
                     className={`${
                       selectedOption === "nextPackage"
-                        ? "text-[#33B0CA] flex-1 cursor-pointer"
+                        ? "text-[#00c3ff] flex-1 cursor-pointer"
                         : "text-[#252525] flex-1 cursor-pointer"
                     }`}
                   >
@@ -260,7 +275,7 @@ const NoAccessLbPopUp = ({
             {/* button */}
             <div className="text-center">
               <button
-                className="bg-[#33b0ca] w-[98px] h-[42px] text-center text-[#fafafa] font-semibold text-[16px] rounded-[4px] mt-4 mb-2 py-1 px-4"
+                className="bg-[#00c3ff] w-[98px] h-[42px] text-center text-[#fafafa] font-semibold text-[16px] rounded-[4px] mt-4 mb-2 py-1 px-4"
                 onClick={handleGoClick}
               >
                 Go

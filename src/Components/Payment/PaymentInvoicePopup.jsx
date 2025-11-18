@@ -26,6 +26,7 @@ const PaymentInvoicePopup = ({
   setPayment,
   premise_id,
   popClose,
+  fromNew,
 }) => {
   const { currentUser, projectRefetch } = useContext(MyContext);
   const [paymentData, { isLoading: isPLoading }] = usePaymentDataMutation();
@@ -160,7 +161,7 @@ const PaymentInvoicePopup = ({
           address: "None",
         },
         theme: {
-          color: "#33b0ca",
+          color: "#00c3ff",
         },
         image: "https://uidemos.s3.ap-south-1.amazonaws.com/mnf_logo.png",
         credit_to_debit,
@@ -226,10 +227,14 @@ const PaymentInvoicePopup = ({
   };
 
   return (
-    <div className="fixed top-0 lg:top-12 xl:top-[40px] left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
-      <div className="h-[90vh] lg:static lg:mt-0 absolute bottom-0 bg-white md::rounded-[12px] w-[100%] sm:w-[90%] rounded-md lg:w-[1140px]">
+    <div className="fixed top-0  left-0 w-full h-screen flex items-center justify-center bg-[#252525b0] z-[2]">
+      <div
+        className={`h-[91vh] xxs:h-[93vh] md:h-[94vh] lg:h-[81vh]  ${
+          fromNew ? "bottom-20 lg:bottom-24" : "lg:bottom-6"
+        } absolute bottom-0 bg-white md:rounded-[12px] w-[100%]  rounded-md lg:w-[1140px]`}
+      >
         <div className="relative">
-          <div className="hidden xl:block absolute right-[45%] top-[-60px] md:top-[-62px] md:right-[-12px]">
+          <div className="lgVisible absolute right-[45%] top-[-60px] md:top-[-62px] md:right-[-12px]">
             <img
               src={crossIcon}
               alt=""
@@ -239,8 +244,8 @@ const PaymentInvoicePopup = ({
               }}
             />
           </div>
-       
-          <div className="xl:hidden absolute top-[-38px] left-[-18px] ml-4 sm:ml-0 sm:right-[-15px]">
+
+          <div className="lgHidden absolute top-0 left-[-18px] ml-4 sm:ml-0 sm:right-[-15px]">
             <MdKeyboardBackspace
               alt=""
               className="text-[#252525] ml-[20px] text-left text-[32px] z-[1] absolute cursor-pointer "
@@ -250,7 +255,7 @@ const PaymentInvoicePopup = ({
             />
           </div>
 
-          <div className="w-[100%] lg:h-[80vh] h-[65vh] overflow-y-auto bottom-1 mx-auto my-12">
+          <div className="w-[100%] lg:h-[72vh] h-[calc(100vh-218px)] overflow-y-auto bottom-1 mx-auto md:my-12">
             {isPLoading ? (
               // <Loader />
               <div className="h-full">
@@ -267,7 +272,7 @@ const PaymentInvoicePopup = ({
                   />
                   {/* right */}
                   <div className=" text-right">
-                    <h2 className="text-[#33B0CA] text-light-blue font-bold text-sm sm:text-lg md:text-2xl py-2">
+                    <h2 className="text-[#00c3ff] text-light-blue font-bold text-sm sm:text-lg md:text-2xl py-2">
                       My Next Film Pvt. Ltd.
                     </h2>
                     <p className="text-[12px]  sm:text-[14px]">
@@ -280,7 +285,7 @@ const PaymentInvoicePopup = ({
                 </div>
 
                 <div className="md:mx-12 md:my-2 m-4">
-                  <div className=" grid grid-cols-2 md:grid-cols-[40%_minmax(40%,_1fr)_20%] text-[#33B0CA] text-[16px] md:text-[28px] font-bold md:mb-6">
+                  <div className=" grid grid-cols-2 md:grid-cols-[40%_minmax(40%,_1fr)_20%] text-[#00c3ff] text-[16px] md:text-[28px] font-bold md:mb-6">
                     <h2>
                       Order Summary{" "}
                       {/* <span className="text-[16px] md:text-[24px]">{`2025/001`}</span>
@@ -325,12 +330,23 @@ const PaymentInvoicePopup = ({
                   </section>
 
                   {/* pay button */}
-                  <div className=" text-center">
+                  <div className="fixed bottom-6 md:bottom-8 lgHidden left-0 w-full  text-center ">
                     <button
                       disabled={paymentCondition}
                       onClick={handleClick}
                       className={`${
-                        paymentCondition ? "bg-[#ACDDE7]" : "bg-[#33b0ca] "
+                        paymentCondition ? "bg-[#ACDDE7]" : "bg-[#00c3ff] "
+                      } w-32 h-[32px] text-[16px] text-white  rounded-lg font-semibold`}
+                    >
+                      {paymentCondition ? "Processing" : "Pay Now"}
+                    </button>
+                  </div>
+                  <div className=" lgVisible left-0 w-full  text-center ">
+                    <button
+                      disabled={paymentCondition}
+                      onClick={handleClick}
+                      className={`${
+                        paymentCondition ? "bg-[#ACDDE7]" : "bg-[#00c3ff] "
                       } w-32 my-8 h-[32px] text-[16px] text-white  rounded-lg font-semibold`}
                     >
                       {paymentCondition ? "Processing" : "Pay Now"}

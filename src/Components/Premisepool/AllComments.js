@@ -1,3 +1,91 @@
+// AllComments Component
+//
+// This component renders all comments under a premise and manages everything related to them:
+// displaying, liking, replying, translating, deleting, and adding to beat sheets.
+//
+// ------------------------------------------------------------
+// Overview
+// ------------------------------------------------------------
+// - Displays each comment with user info, time, text, and actions.
+// - Handles replies, likes, suggestions, deletions, and translations in one place.
+// - Integrates with multiple backend endpoints for comment, reply, and beat management.
+// - Manages “Add as Beat” and “Suggestion” permissions using access checks.
+// - Provides animated rendering for replies using Framer Motion.
+//
+// ------------------------------------------------------------
+// Core Logic
+// ------------------------------------------------------------
+//
+// 1. **Comment Display & User Info**
+//    - Each comment shows author details, timestamp, and optional role badge (`UserType`).
+//    - Fetches profile pictures via `useGetPremiseUserPictureQuery`.
+//    - Auto-links user names and avatars to their public profile pages.
+//
+// 2. **Replies Management**
+//    - Handles nested replies with `ReplyToComments`.
+//    - Opens reply input dynamically for the selected comment using `replyToCommentID`.
+//    - Supports keyboard “Enter” submission for quick replies.
+//    //! Important: Reply posting and fetching are handled asynchronously and tied to commentRefetch / replyRefetch to stay in sync.
+//
+// 3. **Suggestions & Brainstorming**
+//    - Certain comments (usually AI prompts with “?”) allow the premise owner to request a suggestion.
+//    - Checks access rights via `fetchUserAccess` before calling `useCreateSuggestedReplyMutation`.
+//    - Displays a temporary “Suggesting…” state while waiting for backend response.
+//    //! Important: Restricts suggestion use to authorized or premium users only.
+//
+// 4. **Add to Beat**
+//    - Lets premise owners turn a comment into a “beat” (a story plot point).
+//    - Access control through `fetchUserAccess` ensures only eligible users can use it.
+//    - Uses `useBeatSuggestionMutation` to fetch and preview generated beat ideas.
+//    - Opens `BeatEditPop` modal for editing and confirming beats.
+//
+// 5. **Likes & Interaction**
+//    - Integrates `CommentLike` and `CommentLikePopup` for reacting to comments.
+//    - Displays like count and provides both desktop and mobile versions.
+//
+// 6. **Comment Deletion**
+//    - Uses `useDeleteCommentMutation` for deleting comments.
+//    - Shows confirmation via `ConfirmationModal` before final action.
+//    - Displays toast feedback for success or failure.
+//    //! Important: Only comment owners or premise owners can delete comments.
+//
+// 7. **Translation**
+//    - Integrates `CommentTranslator` to translate comments dynamically.
+//    - Updates local comment text after translation.
+//
+// 8. **Access Control & Popups**
+//    - Displays `NoAccessPopUp` or `NoAccessLbPopUp` when a user lacks privileges for certain actions (suggestion, beat creation, etc.).
+//    - Uses localStorage flags to show tutorials or onboarding popups once per user.
+//
+// 9. **UI / UX**
+//    - Groups comments into phases (“Setup”, “Conflict”, “Resolution”) based on index thresholds.
+//    - Includes responsive layout for mobile and desktop.
+//    - Uses Framer Motion for fade/slide animations in replies.
+//    - Handles multiple disable states (for reply, delete, suggestion) to prevent duplicate actions.
+//
+// ------------------------------------------------------------
+// Props Overview
+// ------------------------------------------------------------
+// - comments, commentIdx: The main comment object and its position.
+// - data, premiseData: Premise details for access and ownership logic.
+// - refetch, commentRefetch, replyRefetch: Used to refresh comment and reply data.
+// - replyToCommentID, replyField, setReplyField: Controls open reply state.
+// - setReplyText, setReplyTextCount: Manages reply input values and character count.
+// - handleOpenAllReplies, openAllReplies, setOpenAllReplies: Toggles reply visibility.
+// - project_id, actOneThreshold, actTwoEnd: Used for phase labeling and beat association.
+// - fromNew: Determines context (new premise vs existing one).
+// - addBeatTutorialPop / setAddBeatTutorialPop: Controls first-time beat feature tutorial popups.
+//
+// ------------------------------------------------------------
+// Summary
+// ------------------------------------------------------------
+// AllComments is the central comment interaction layer of the premise system.
+// It connects user actions (like, reply, delete, suggest, add-to-beat) to their respective APIs,
+// ensures permission-aware flows, and keeps the UI responsive and consistent.
+//
+// //! Key takeaway: This component ties together all comment-based interactions —
+//    it’s the heart of collaboration, feedback, and brainstorming around a premise.
+
 import { motion } from "framer-motion";
 import { useContext, useEffect, useRef, useState } from "react";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
@@ -23,15 +111,12 @@ import userIcon from "../../img/Icons/userImg.png";
 import BtnLoading from "../../shared/BtnLoading";
 import CommentTranslator from "../PremiseV2/components/CommentTranslator";
 import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
-import NoAccessLbPopUp from "../PricingModel/NoAccessLbPopUp";
-import NoAccessPopUp from "../PricingModel/NoAccessPopUp";
-import CommentLike from "../SharedVersion/CommentLike";
+import NoAccessCreditPopupUpdate from "../PricingModel/NoAccessCreditPopupUpdate";
 import { URL } from "../utils";
 import BeatEditPop from "./AddToBeat/BeatEditPop";
 import CommentLikePopup from "./CommentLikePopup";
 import ConfirmationModal from "./Comments/ConfirmationModal";
 import ReplyToComments from "./Comments/ReplyToComments";
-import UserType from "./UserType";
 
 const AllComments = ({
   commentIdx,
@@ -271,10 +356,7 @@ const AllComments = ({
 
   const checkSuggestAllowance = async (text) => {
     setSuggestDisable(true);
-    const res = await fetchUserAccess(
-      `${currentUser?.id}/PP_AllowBrainstoming`
-    );
-    // console.log(`PP_AllowBrainstoming res`, res);
+    const res = await fetchUserAccess(`PP_AllowBrainstoming`);
     if (res?.access === "No") {
       setSuggestDisable(false);
       setNoAccessLbPopup(res);
@@ -309,6 +391,12 @@ const AllComments = ({
 
         // After both refetches, re-enable suggestions
         setSuggestDisable(false);
+        const creditRes = await fetchUserAccess(`PP_AllowBrainstoming`);
+        const remainingCredits = creditRes?.remaining_credits ?? 0;
+        const creditElement = document.getElementById("creditBalance");
+        if (creditElement) {
+          creditElement.textContent = remainingCredits;
+        }
       }
     } catch (error) {
       console.error("Error during the suggestion process:", error);
@@ -385,9 +473,9 @@ const AllComments = ({
     ) {
       setAddBeatTutorialPop(true);
     }
-    const res = await fetchUserAccess(`${currentUser?.id}/PP_BeatSheet`);
+    const res = await fetchUserAccess(`SP_BeatSheet`);
     // console.log("add to beat res", res);
-    if (res?.access === "No") {
+    if (res?.has_access === false) {
       setNoAccessLbPopup(res);
       setService("PP_Beats");
     } else {
@@ -469,7 +557,7 @@ const AllComments = ({
     //   currentUser?.id !== data?.premiseOwner?.id &&
     //   (c?.user?.id === 1 || c?.user?.id === 79)
     // ) {
-    const res = await fetchUserAccess(`${currentUser?.id}/PP_ReplyAI`);
+    const res = await fetchUserAccess(`PP_ReplyAI`);
     // console.log("reply brainstorm res", res);
     if (res?.access === "No") {
       setNoAccessLbPopup(res);
@@ -519,7 +607,7 @@ const AllComments = ({
 
   return (
     <div className=" flex flex-col justify-end w-full relative ">
-      <div className="md:ml-10">
+      <div className="md:ml-2 xxl:ml-10">
         {!loading && actOneThreshold && actTwoEnd && (
           <>
             {commentIdx === 1 && (
@@ -544,18 +632,19 @@ const AllComments = ({
         <div>
           <div
             className={` mt-[10px] w-[97%] ${
-              fromNew ? "lg:w-[98%] xl:w-[97%]" : "lg:w-[654px] xl:w-[704px]"
+              fromNew ? "lg:w-[98%] xl:w-[97%]" : "lg:w-[650px] xl:w-[704px]"
             }  mx-auto  rounded-sm flex gap-1`}
           >
             {/* comment like */}
 
             <div className=" w-full relative">
               {/* <div className="flex flex-row-reverse"></div> */}
-              <div className="flex  gap-[8px]">
+              <div className="flex gap-[8px]">
+                {/* ✅ Clickable image only */}
                 <a
                   data-reply
-                  className="h-[31.9px] w-[32px]  mt-[6px]"
-                  target="_blank"
+                  className="h-[31.9px] w-[32px] mt-[6px]"
+                  // target="_blank"
                   rel="noreferrer"
                   href={
                     comments?.user?.id === user
@@ -566,80 +655,121 @@ const AllComments = ({
                   {profileImg?.[0]?.profile_photo ? (
                     <img
                       src={proImgUrl}
-                      className="h-[31.9px] w-[32px] rounded-full object-cover border border-[#eaeaea]"
+                      className="h-[31.9px] w-[32px] rounded-full object-cover border border-[#eaeaea] cursor-pointer"
                       alt=""
                     />
                   ) : (
                     <img
                       src={userIcon}
-                      className="h-[31.9px] w-[36px] "
+                      className="h-[31.9px] w-[36px] cursor-pointer"
                       alt=""
                     />
                   )}
                 </a>
 
-                <div
-                  data-reply
-                  className="border w-full md:w-[86%] lg:w-[85.8%]  mr-auto bg-[#f8f8f8] border-[#EAEAEA]  rounded-[8px] p-1 "
-                >
-                  <div className="flex justify-between my-1 relative">
-                    <div
-                      className={`${
-                        comments?.is_deleted
-                          ? "text-[#a4a4a4]"
-                          : "text-[#1E1E1E]"
-                      } text-[#1E1E1E]  pl-[4px] pr-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center`}
-                    >
-                      <a
-                        target="_blank"
-                        rel="noreferrer"
-                        href={
-                          comments?.user?.id === user
-                            ? `${URL}/memberpage/#/personaldetails`
-                            : `${URL}/memberpage/#/user/${comments?.user?.id}/personaldetails`
-                        }
+                <div className="flex w-full gap-2">
+                  <div
+                    data-reply
+                    className="border w-full md:w-[90.8%] bg-[#f8f8f8] border-[#EAEAEA] rounded-[8px] p-1"
+                  >
+                    <div className="flex justify-between my-1 relative">
+                      <div
+                        className={`${
+                          comments?.is_deleted
+                            ? "text-[#a4a4a4]"
+                            : "text-[#1E1E1E]"
+                        } text-[#1E1E1E] pl-[4px] pr-[4px] pt-[4px] h-[15px] flex gap-1 lg:gap-2 items-center`}
                       >
-                        <div className="flex items-center">
-                          <p className="notranslate text-[14px] leading-[17px] font-[500] hover:text-[#33B0CA]">
+                        {/* ✅ Only the name is clickable */}
+                        <a
+                          // target="_blank"
+                          rel="noreferrer"
+                          href={
+                            comments?.user?.id === user
+                              ? `${URL}/memberpage/#/personaldetails`
+                              : `${URL}/memberpage/#/user/${comments?.user?.id}/personaldetails`
+                          }
+                        >
+                          <p className="notranslate text-[14px] leading-[17px] font-[500] hover:text-[#00c3ff] cursor-pointer">
                             {comments?.c_value}. {commenterName}
                           </p>
-                          {comments?.user?.id === 1 ||
-                          comments?.user?.id === 79 ? (
-                            <></>
-                          ) : (
-                            <UserType
-                              type={comments?.user?.centraldatabase?.type}
-                              user_type={
-                                comments?.user?.centraldatabase?.user_type
-                              }
-                            />
-                          )}
-                        </div>
-                      </a>
+                        </a>
+
+                        {/* UserType badge stays outside link */}
+                        {/* {comments?.user?.id === 1 ||
+                        comments?.user?.id === 79 ? null : (
+                          <UserType
+                            type={comments?.user?.centraldatabase?.type}
+                            user_type={
+                              comments?.user?.centraldatabase?.user_type
+                            }
+                          />
+                        )} */}
+                      </div>
+
+                      {!comments?.is_deleted && (
+                        <p className="text-[14px] h-[15px] text-[#616161] font-[400] leading-5 absolute top-[-9px] right-0">
+                          <TimeAgo timestamp={createdTime} />
+                        </p>
+                      )}
                     </div>
 
-                    {!comments?.is_deleted && (
-                      <p className="text-[12px]  h-[15px] text-[#616161] font-[400]  leading-5  absolute top-[-9px] right-0">
-                        {" "}
-                        <TimeAgo timestamp={createdTime} />
-                      </p>
-                    )}
-                  </div>
-                  {comments?.is_deleted ? (
-                    <div>
-                      <p className="text-[#a4a4a4] text-[12px] italic lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
+                    {comments?.is_deleted ? (
+                      <p className="text-[#a4a4a4] text-[14px] italic lg:text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
                         Deleted
                       </p>
-                    </div>
-                  ) : (
-                    <div>
+                    ) : (
                       <p className="notranslate text-[#252525] text-[14px] font-[400] pl-[6px] pb-[4px] pr-[2px] leading-5 overflow-hidden break-words">
                         {commentText}
                       </p>
+                    )}
+                  </div>
+
+                  {/* Actions / Translator */}
+                  {!comments?.is_deleted && (
+                    <div
+                      className={`hidden lg:flex flex-col md:flex-row gap-[0.15rem] xl:gap-2 items-center ${
+                        fromNew
+                          ? "right-[8.5px] sm:right-0 xl:right-[38.5px]"
+                          : "right-0"
+                      } top-[18%] md:top-[28%]`}
+                    >
+                      <CommentTranslator
+                        key={comments.id}
+                        comment={comments}
+                        translateComment={translateComment}
+                        commentRefetch={commentRefetch}
+                        setCommentText={setCommentText}
+                      />
+
+                      {(owner === user || comments?.user?.id === user) &&
+                      comments?.user?.id !== 1 &&
+                      comments?.user?.id !== 79 ? (
+                        <div className="flex gap-2 items-center pl-[2px]">
+                          <button
+                            data-reply
+                            disabled={disableD}
+                            onClick={() => {
+                              setIdToDlt(comments?.id);
+                              setOpenDltPop(true);
+                            }}
+                            className={
+                              disableD ? "cursor-default" : "cursor-pointer"
+                            }
+                          >
+                            <FaRegTrashAlt className="h-5 w-5 text-[#909090]" />
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="px-3 cursor-default">
+                          <div />
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
               </div>
+
               {comments?.is_deleted ? (
                 <div className="mb-[4px]" />
               ) : (
@@ -661,12 +791,12 @@ const AllComments = ({
                               className={`text-[16px] font-[500] cursor-pointer text-[#252525]`}
                             />
                             <p
-                              className={`text-[12px] flex gap-[4px] ${
+                              className={`text-[14px] flex gap-[4px] ${
                                 openAllReplies &&
                                 openReplyFieldID === comments?.id
-                                  ? "text-[#33B0CA]"
+                                  ? "text-[#00c3ff]"
                                   : "text-[#252525]"
-                              } font-[400] leading-[14.52px] `}
+                              } font-[400] leading-[16.52px] `}
                             >
                               {comments?.replies_count}{" "}
                               <span className="hidden lg:block">
@@ -687,8 +817,8 @@ const AllComments = ({
                             }}
                             className="flex items-center gap-[2px]"
                           >
-                            <BiPlusCircle className="text-[16px] font-[500] cursor-pointer text-[#252525]" />
-                            <p className="text-[12px] text-[#616161] font-[400] leading-[14.52px] flex items-center gap-[4px]">
+                            <BiPlusCircle className="text-[18px] font-[500] cursor-pointer text-[#252525]" />
+                            <p className="text-[14px] text-[#616161] font-[500] leading-[16.52px] flex items-center gap-[4px] mt-[2px] lg:mt-0">
                               {comments?.replies_count}{" "}
                               <span className="hidden lg:block">
                                 {comments?.replies_count > 1
@@ -715,18 +845,18 @@ const AllComments = ({
                           className="flex items-center gap-1"
                         >
                           <IoIosUndo
-                            className={`${
+                            className={`h-4 w-4 ${
                               replyToCommentID === comments?.id && replyField
-                                ? "text-[#33B0CA]"
+                                ? "text-[#00c3ff]"
                                 : "text-[#252525]"
                             }`}
                           />
                           <p
-                            className={`text-[12px] hidden lg:block ${
+                            className={`text-[14px] hidden lg:block ${
                               replyToCommentID === comments?.id && replyField
-                                ? "text-[#33B0CA]"
+                                ? "text-[#00c3ff]"
                                 : "text-[#252525]"
-                            }  hidden md:block font-[400] leading-[14.52px] cursor-pointer`}
+                            }  hidden md:block font-[400] leading-[16.52px] cursor-pointer`}
                           >
                             Reply
                           </p>
@@ -745,9 +875,9 @@ const AllComments = ({
                                       {comments?.suggested ? (
                                         <button
                                           disabled={suggestDisable}
-                                          className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[#616161]"
+                                          className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[linear-gradient(30deg,#b38bff,#99e6ff)]"
                                         >
-                                          <p className="text-[12px] text-[#fafafa]  font-[400] leading-[14.52px] ">
+                                          <p className="text-[14px] text-[#fafafa]  font-[400] leading-[16.52px] ">
                                             Suggested
                                           </p>
                                         </button>
@@ -759,14 +889,14 @@ const AllComments = ({
                                               comments?.text
                                             );
                                           }}
-                                          className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
+                                          className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
                                         >
                                           {suggestDisable ? (
-                                            <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                                            <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                               Suggesting...
                                             </p>
                                           ) : (
-                                            <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                                            <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                               Suggestion
                                             </p>
                                           )}
@@ -778,9 +908,9 @@ const AllComments = ({
                                       {comments?.suggested ? (
                                         <button
                                           disabled={suggestDisable}
-                                          className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[#616161]"
+                                          className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[linear-gradient(30deg,#b38bff,#99e6ff)]"
                                         >
-                                          <p className="text-[12px] text-[#fafafa]  font-[400] leading-[14.52px] ">
+                                          <p className="text-[14px] text-[#fafafa]  font-[400] leading-[16.52px] ">
                                             Suggested
                                           </p>
                                         </button>
@@ -795,9 +925,9 @@ const AllComments = ({
                                   {comments?.suggested ? (
                                     <button
                                       disabled={suggestDisable}
-                                      className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[#616161]"
+                                      className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[linear-gradient(30deg,#b38bff,#99e6ff)]"
                                     >
-                                      <p className="text-[12px] text-[#fafafa]  font-[400] leading-[14.52px] ">
+                                      <p className="text-[14px] text-[#fafafa]  font-[400] leading-[16.52px] ">
                                         Suggested
                                       </p>
                                     </button>
@@ -807,14 +937,14 @@ const AllComments = ({
                                       onClick={() => {
                                         checkSuggestAllowance(comments?.text);
                                       }}
-                                      className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
+                                      className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
                                     >
                                       {suggestDisable ? (
-                                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                                        <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                           Suggesting...
                                         </p>
                                       ) : (
-                                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                                        <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                           Suggestion
                                         </p>
                                       )}
@@ -839,18 +969,18 @@ const AllComments = ({
                             className="flex items-center gap-1"
                           >
                             <IoIosUndo
-                              className={`${
+                              className={`h-4 w-4 ${
                                 replyToCommentID === comments?.id && replyField
-                                  ? "text-[#33B0CA]"
+                                  ? "text-[#00c3ff]"
                                   : "text-[#252525]"
                               }`}
                             />
                             <p
-                              className={`text-[12px] hidden lg:block ${
+                              className={`text-[14px] hidden lg:block ${
                                 replyToCommentID === comments?.id && replyField
-                                  ? "text-[#33B0CA]"
+                                  ? "text-[#00c3ff]"
                                   : "text-[#252525]"
-                              }  hidden md:block font-[400] leading-[14.52px] cursor-pointer`}
+                              }  hidden md:block font-[400] leading-[16.52px] cursor-pointer`}
                             >
                               Reply
                             </p>
@@ -870,14 +1000,14 @@ const AllComments = ({
                                       onClick={() => {
                                         checkSuggestAllowance(comments?.text);
                                       }}
-                                      className="px-2  rounded-[4px]  pt-[2px] pb-[4px] bg-[#33B0CA]"
+                                      className="px-2  rounded-[4px]  pt-[2px] pb-[4px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
                                     >
                                       {suggestDisable ? (
-                                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                                        <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                           Suggesting...
                                         </p>
                                       ) : (
-                                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                                        <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                           Suggestion
                                         </p>
                                       )}
@@ -890,9 +1020,9 @@ const AllComments = ({
                                   {comments?.suggested ? (
                                     <button
                                       disabled={suggestDisable}
-                                      className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[#616161]"
+                                      className="px-2 cursor-auto rounded-[4px] pt-[2px] pb-[3px] bg-[linear-gradient(30deg,#b38bff,#99e6ff)]"
                                     >
-                                      <p className="text-[12px] text-[#fafafa]  font-[400] leading-[14.52px] ">
+                                      <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                         Suggested
                                       </p>
                                     </button>
@@ -902,14 +1032,14 @@ const AllComments = ({
                                       onClick={() => {
                                         checkSuggestAllowance(comments?.text);
                                       }}
-                                      className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[#33B0CA]"
+                                      className="px-2  rounded-[4px]  pt-[2px] pb-[3px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)]"
                                     >
                                       {suggestDisable ? (
-                                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                                        <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                           Suggesting...
                                         </p>
                                       ) : (
-                                        <p className="text-[12px] text-[#fafafa] font-[400] leading-[14.52px] ">
+                                        <p className="text-[14px] text-[#fafafa] font-[400] leading-[16.52px] ">
                                           Suggestion
                                         </p>
                                       )}
@@ -921,7 +1051,7 @@ const AllComments = ({
                           )}
                       </div>
                     )}
-                    <div className="hidden lg:block">
+                    {/* <div className="hidden lg:block">
                       <CommentLike
                         {...{
                           disable,
@@ -932,10 +1062,10 @@ const AllComments = ({
                           setDisable,
                         }}
                       />
-                    </div>
+                    </div> */}
                   </div>
                   <div className="flex gap-[12px] items-center ">
-                    <div className="lg:hidden">
+                    {/* <div className="lg:hidden">
                       <CommentLike
                         {...{
                           disable,
@@ -946,11 +1076,12 @@ const AllComments = ({
                           setDisable,
                         }}
                       />
-                    </div>
+                    </div> */}
 
                     {!(
                       comments?.text?.includes("?") ||
-                      comments?.text?.includes("؟")
+                      comments?.text?.includes("؟") ||
+                      comments?.ask_ida
                     ) && (
                       <>
                         {data?.premiseOwner?.id === user &&
@@ -959,7 +1090,7 @@ const AllComments = ({
                             <button className="cursor-auto text-right">
                               <p
                                 // onClick={() => handleAddToBeat(comments)}
-                                className=" text-[12px] text-[#33B0CA] italic  font-[400] leading-[14.52px] "
+                                className=" text-[14px] text-[#00c3ff] italic  font-[400] leading-[16.52px] "
                               >
                                 Added as Beat
                               </p>
@@ -975,7 +1106,7 @@ const AllComments = ({
                                 ![1, 2, 3].includes(commentIdx) && (
                                   <p
                                     onClick={() => handleAddToBeat(comments)}
-                                    className={` text-[12px] text-[#252525] hover:text-[#33B0CA] font-[400] leading-[14.52px] `}
+                                    className={` text-[14px] text-[#008000] hover:text-[#00c3ff] font-[400] leading-[16.52px] `}
                                   >
                                     Add as Beat
                                   </p>
@@ -1028,9 +1159,7 @@ const AllComments = ({
                                 </button>
                               </div>
                             ) : (
-                              <div className={`px-3 'cursor-default'}`}>
-                                <div className="" />
-                              </div>
+                              <></>
                             )}
                           </>
                         )}
@@ -1039,55 +1168,6 @@ const AllComments = ({
                   </div>
                 </div>
               )}
-
-              <div
-                className={`hidden lg:absolute lg:flex flex-col md:flex-row gap-[0.15rem] xl:gap-2 items-center ${
-                  fromNew
-                    ? "right-[8.5px] sm:right-0 xl:right-[38.5px]"
-                    : "right-0"
-                }  top-[18%] md:top-[28%]`}
-              >
-                <CommentTranslator
-                  key={comments.id}
-                  comment={comments}
-                  translateComment={translateComment}
-                  commentRefetch={commentRefetch}
-                  setCommentText={setCommentText}
-                />
-
-                <>
-                  {" "}
-                  {comments?.is_deleted ? (
-                    <div />
-                  ) : (
-                    <>
-                      {(owner === user || comments?.user?.id === user) &&
-                      comments?.user?.id !== 1 &&
-                      comments?.user?.id !== 79 ? (
-                        <div className="flex gap-2 items-center pl-[2px]">
-                          <button
-                            data-reply
-                            disabled={disableD}
-                            onClick={() => {
-                              setIdToDlt(comments?.id);
-                              setOpenDltPop(true);
-                            }}
-                            className={` ${
-                              disableD ? "cursor-default" : "cursor-pointer"
-                            }`}
-                          >
-                            <FaRegTrashAlt className="h-5 w-5 text-[#909090] " />
-                          </button>
-                        </div>
-                      ) : (
-                        <div className={`px-3 'cursor-default'}`}>
-                          <div className="" />
-                        </div>
-                      )}
-                    </>
-                  )}
-                </>
-              </div>
             </div>
             {likePopup && (
               <CommentLikePopup
@@ -1173,18 +1253,18 @@ const AllComments = ({
                         disabled={disableD}
                         type="submit"
                       >
-                        <IoMdSend className="text-[#33B0CA] w-6 h-6" />
+                        <IoMdSend className="text-[#00c3ff] w-6 h-6" />
                       </button>
                     )}
                   </form>
                 </motion.div>
                 <div className=" text-right">
                   {owner === user ? (
-                    <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
+                    <p className="text-[14px] font-[400] leading-[14px]  text-[#616161]">
                       {replyTextCount}/250
                     </p>
                   ) : (
-                    <p className="text-[12px] font-[400] leading-[14px]  text-[#616161]">
+                    <p className="text-[14px] font-[400] leading-[14px]  text-[#616161]">
                       {replyTextCount}/150
                     </p>
                   )}
@@ -1270,6 +1350,7 @@ const AllComments = ({
           beatSuggestLoading={beatSuggestLoading}
           selectedProject={selectedProject}
           setAddToBeatDisable={setAddToBeatDisable}
+          fromNew={fromNew}
           // currentPremiseProject={currentPremiseProject}
         />
       )}
@@ -1288,20 +1369,14 @@ const AllComments = ({
         />
       )} */}
 
-      {noAccessLbPopup?.msg === "ShowBecomePrivilege" ? (
-        <NoAccessPopUp
+      {noAccessLbPopup?.has_access === false && (
+        <NoAccessCreditPopupUpdate
           noAccessLbPopup={noAccessLbPopup}
           setNoAccessPopup={setNoAccessLbPopup}
+          service={"Generating from Brainstorm"}
+          credit_rate={noAccessLbPopup?.credit_rate}
+          remaining_credits={noAccessLbPopup?.remaining_credits}
         />
-      ) : (
-        (noAccessLbPopup?.msg === "ShowBuyPackage_and_Allacarte" ||
-          noAccessLbPopup?.msg === "LB") && (
-          <NoAccessLbPopUp
-            noAccessLbPopup={noAccessLbPopup}
-            setNoAccessPopup={setNoAccessLbPopup}
-            service={service}
-          />
-        )
       )}
       <div className="h-[1px] w-[88%] mx-auto bg-[#eaeaea] mb-[4px]" />
       {openDltPop && (

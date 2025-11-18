@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaThumbsDown, FaThumbsUp } from "react-icons/fa";
+import { MyContext } from "../../App";
 import {
   useDislikeCommentMutation,
   useLikeCommentMutation,
   useRemoveLikeCommentMutation,
 } from "../../app/EndPoints/premisePoolApi";
-import { MyContext } from "../../App";
 
 const CommentLike = ({
   disable,
@@ -65,12 +65,12 @@ const CommentLike = ({
     }
   };
   return (
-    <div className=" flex gap-2 items-center">
+    <div className=" flex gap-1 items-center">
       {/* like */}
       <div>
         <button
           disabled={disable || isLLoading || isRLoading || isDLoading}
-          className="flex gap-[4px] items-center text-[12px] leading-[14.52px]"
+          className="flex gap-[2px] items-center text-[12px] leading-[14.52px]"
         >
           <FaThumbsUp
             onClick={() =>
@@ -78,8 +78,8 @@ const CommentLike = ({
                 ? handleLikeDislike(comments?.id, "removeLike")
                 : handleLikeDislike(comments?.id, "like")
             }
-            className={`w-3 h-3 ${
-              isLiked ? "text-[#33B0CA]" : "text-[#252525]"
+            className={`w-6 h-5  ${
+              isLiked ? "text-[#00c3ff]" : "text-[#252525]"
             }  ${
               disable || isLLoading || isRLoading || isDLoading
                 ? " cursor-default"
@@ -107,12 +107,12 @@ const CommentLike = ({
           disabled={disable || isLLoading || isRLoading || isDLoading}
           className={` ${
             isLiked ? " hidden" : "flex"
-          }  gap-[4px] items-center text-[12px] leading-[14.52px]`}
+          }  gap-[2px] items-center text-[12px] leading-[14.52px]`}
         >
           <FaThumbsDown
             onClick={() => handleLikeDislike(comments?.id, "dislike")}
-            className={`w-3 h-3 ${
-              isDisLiked ? "text-[#33B0CA]" : "text-[#252525]"
+            className={`w-6 h-5 ${
+              isDisLiked ? "text-[#00c3ff]" : "text-[#252525]"
             }  ${
               disable || isLLoading || isRLoading || isDLoading
                 ? " cursor-default"

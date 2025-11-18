@@ -390,7 +390,7 @@ const SingleCharacterAdd = ({
             onClick={() => setEditPopupOpen(false)}
             className="block md:hidden text-[#252525] cursor-pointer h-[38px] w-[38px]"
           />
-          <span className="text-[18px] md:text-[14px]">{`${
+          <span className="text-[16px] ">{`${
             isDisabled ? "View Character" : "Edit Character"
           }`}</span>
         </h3>
@@ -404,7 +404,7 @@ const SingleCharacterAdd = ({
                       onClick={handleUndo}
                       disabled={!isUndoEnabled}
                       className={`text-[14px] font-[600] text-white px-3 h-[32px]  rounded-[8px] ${
-                        !isUndoEnabled ? "bg-[#ACDDE7]  " : "bg-[#33B0CA] "
+                        !isUndoEnabled ? "bg-[#ACDDE7]  " : "bg-[#00c3ff] "
                       }`}
                     >
                       Undo
@@ -421,8 +421,8 @@ const SingleCharacterAdd = ({
                             : "Select Keyboard"
                         }`}
                         className={`w-7 h-7 ${
-                          keyboardVisible && "text-[#33B0CA]"
-                        } cursor-pointer hover:text-[#33B0CA] w-full `}
+                          keyboardVisible && "text-[#00c3ff]"
+                        } cursor-pointer hover:text-[#00c3ff] w-full `}
                       />
                     </button>
                   </div>
@@ -435,7 +435,7 @@ const SingleCharacterAdd = ({
             >
               <div className="block mb-0 md:mb-[12px] md:flex gap-[18px] ">
                 <div className="relative w-full md:w-[171px]">
-                  <label className="absolute left-2 top-[-12px] lg:top-[-10px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all z-[2]">
+                  <label className="absolute left-2 top-[-12px] lg:top-[-8px] leading-4 text-sm bg-[#FAFAFA] px-1  text-[#252525] font-[500] transition-all z-[2]">
                     Role
                   </label>
 
@@ -448,7 +448,7 @@ const SingleCharacterAdd = ({
                 </div>
                 <div className="relative w-full mt-[4px] md:mt-0  md:w-[171px]">
                   <label
-                    className={`absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all `}
+                    className={`absolute left-2 top-[-12px] lg:top-[-8px] leading-4 bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all `}
                   >
                     Name
                   </label>
@@ -468,15 +468,15 @@ const SingleCharacterAdd = ({
                       isDisabled
                         ? `${`capitalize ${
                             !editData?.is_ai_generated
-                              ? "text-[#33B0CA]"
+                              ? "text-[#00c3ff]"
                               : "text-[#7a7a7a]"
                           }`}`
                         : `${`capitalize ${
                             !editData?.is_ai_generated
-                              ? "text-[#33B0CA]"
+                              ? "text-[#00c3ff]"
                               : "text-[#616161]"
                           }`}`
-                    }  px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[208px] h-[44px]   `}
+                    }  px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none  w-full md:w-[208px] h-[44px]   `}
                     disabled={isDisabled || editIdx === 0}
                   />
                 </div>
@@ -493,12 +493,12 @@ const SingleCharacterAdd = ({
                     onChange={(e) => setCustomRole(e.target.value)}
                     type="text"
                     placeholder="Describe the role"
-                    className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  mt-[5px] mb-[15px] rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-[44px] "
+                    className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  mt-[5px] mb-[15px] rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[398px] h-[44px] "
                   />
                 )}
               </div>
 
-              <div className="flex flex-col mb-0 md:mb-[12px] md:flex-row mt-[8px] md:mt-[24px] gap-[14px]">
+              {/* <div className="flex flex-col mb-0 md:mb-[12px] md:flex-row mt-[8px] md:mt-[24px] gap-[14px]">
                 <div
                   className={`relative w-full ${
                     gender === inanimateObjectOptions(sourceLanguageName)
@@ -506,7 +506,7 @@ const SingleCharacterAdd = ({
                       : "md:w-[97px]"
                   }`}
                 >
-                  <label className="absolute left-2 top-[0px] md:top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[0px] md:top-[-12px] lg:top-[-8px] leading-4 bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Gender
                   </label>
 
@@ -517,7 +517,7 @@ const SingleCharacterAdd = ({
                       isDisabled || editIdx === 0
                         ? "cursor-default"
                         : "cursor-pointer"
-                    } bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] mb-[22px] mt-[12px] md:my-0 h-[41px] w-full indent-1 ${
+                    } bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] mb-[22px] mt-[12px] md:my-0 h-[44px] w-full indent-1 ${
                       gender === inanimateObjectOptions(sourceLanguageName)
                         ? "md:w-[172px]"
                         : "md:w-[97px]"
@@ -525,13 +525,15 @@ const SingleCharacterAdd = ({
                     disabled={isDisabled || editIdx === 0}
                   >
                     {gender || "Gender"}
-                    <div className="absolute inset-y-5  md:inset-y-2 right-[2px] bg-[#fafafa] flex items-center h-[25px] px-2 pointer-events-none">
-                      {genderDropdownOpen && role !== "Protagonist" ? (
-                        <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[15px] " />
-                      ) : (
-                        <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px] " />
-                      )}
-                    </div>
+                    {!isDisabled && editIdx !== 0 && (
+                      <div className="absolute inset-y-5  md:inset-y-2 right-[2px] bg-[#fafafa] flex items-center h-[32px] px-2 pointer-events-none">
+                        {genderDropdownOpen && role !== "Protagonist" ? (
+                          <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[15px] " />
+                        ) : (
+                          <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px] " />
+                        )}
+                      </div>
+                    )}
                   </button>
 
                   {genderDropdownOpen && !isDisabled && (
@@ -540,7 +542,7 @@ const SingleCharacterAdd = ({
                         (option, index) => (
                           <li
                             key={index}
-                            className="cursor-pointer text-[14px] leading-5 text-[#252525] hover:bg-[#33B0CA] hover:text-[#fafafa] px-2 py-2"
+                            className="cursor-pointer text-[14px] leading-5 text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] px-2 py-2"
                             onClick={() => {
                               setGender(option.props.value); // `option` is a JSX element, like <option value="Male">Male</option>
                               setGenderDropdownOpen(false);
@@ -556,7 +558,7 @@ const SingleCharacterAdd = ({
 
                 {gender !== inanimateObjectOptions(sourceLanguageName) && (
                   <div className="relative w-full md:w-[49px]">
-                    <label className="absolute left-2 top-[-12px] z-[2] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
+                    <label className="absolute left-2 top-[-12px] lg:top-[-8px] leading-4 z-[2] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                       Age
                     </label>
                     <input
@@ -566,7 +568,7 @@ const SingleCharacterAdd = ({
                       id="protaAge"
                       min="0"
                       maxLength={5}
-                      className={`h-[44px] relative text-[12px] md:!text-[14px] leading-tight w-full px-[8px]  md:w-[64px] bg-[#fafafa] rounded-[8px] border-[2px] focus:outline-none ${
+                      className={`h-[44px] relative text-[12px] md:!text-[14px] leading-tight w-full px-[8px] pt-1 md:w-[64px] bg-[#fafafa] rounded-[8px] border-[2px] focus:outline-none ${
                         isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                       }`}
                       // className="text-[14px] bg-[#FAFAFA] px-3 py-[12px] outline-[#EAEAEA]  rounded-[8px] border-2   w-full md:w-[208px] h-[44px]"
@@ -578,7 +580,7 @@ const SingleCharacterAdd = ({
                 )}
 
                 <div className="relative w-full md:w-[206px] md:left-5 ">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-12px] lg:top-[-8px] leading-4 bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Occupation
                   </label>
                   <textarea
@@ -595,15 +597,144 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="occupation"
                     ref={occupationRef}
-                    className={`text-[14px] bg-[#FAFAFA] mb-[12px] leading-[20px] md:mb-0 px-3 pt-[12px] pb-[12px] outline-[#EAEAEA]  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[208px] h-[44px]    overflow-y-auto text-[#616161] resize-none "
+                    className={`text-[14px] bg-[#FAFAFA] mb-[12px] leading-[20px] md:mb-0 px-3 pt-[15px] pb-[12px] outline-[#EAEAEA]  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none  w-full md:w-[208px] h-[44px]    overflow-y-auto text-[#616161] resize-none "
                        `}
+                  />
+                </div>
+              </div> */}
+
+              <div className="flex flex-col mb-0 md:mb-[12px] md:flex-row mt-[8px] md:mt-[24px] gap-[14px]">
+                {/* ✅ Gender (Desktop + Mobile versions) */}
+                <div
+                  className={`relative w-full ${
+                    gender === inanimateObjectOptions(sourceLanguageName)
+                      ? "md:w-[155px]"
+                      : "md:w-[97px]"
+                  }`}
+                >
+                  <label className="absolute left-2 top-[0px] md:top-[-12px] lg:top-[-8px] leading-4 bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                    Gender
+                  </label>
+
+                  {/* ✅ Desktop Custom Dropdown */}
+                  <div className="lgVisible">
+                    <button
+                      type="button"
+                      onClick={() => setGenderDropdownOpen(!genderDropdownOpen)}
+                      className={`text-left px-2 pt-[6px] text-[14px] ${
+                        isDisabled || editIdx === 0
+                          ? "cursor-default"
+                          : "cursor-pointer"
+                      } bg-[#FAFAFA] border-[2px] text-[#616161] outline-[#EAEAEA] rounded-[8px] mb-[22px] mt-[12px] md:my-0 h-[44px] w-full indent-1 ${
+                        gender === inanimateObjectOptions(sourceLanguageName)
+                          ? "md:w-[172px]"
+                          : "md:w-[97px]"
+                      }`}
+                      disabled={isDisabled || editIdx === 0}
+                    >
+                      {gender || "Gender"}
+                      {!isDisabled && editIdx !== 0 && (
+                        <div className="absolute inset-y-5 md:inset-y-2 right-[2px] bg-[#fafafa] flex items-center h-[32px] px-2 pointer-events-none">
+                          {genderDropdownOpen && role !== "Protagonist" ? (
+                            <IoIosArrowUp className="text-[14px] w-[14px] md:text-[20px] md:w-[15px]" />
+                          ) : (
+                            <IoIosArrowDown className="text-[14px] w-[14px] md:text-[20px] md:w-[16px]" />
+                          )}
+                        </div>
+                      )}
+                    </button>
+
+                    {genderDropdownOpen && !isDisabled && (
+                      <ul className="absolute z-10 mt-0 w-full border bg-[#fafafa] max-h-[27vh] md:max-h-[20vh] overflow-y-auto rounded-md shadow-sm">
+                        {getGenderOptions(sourceLanguageName).map(
+                          (option, index) => (
+                            <li
+                              key={index}
+                              className="cursor-pointer text-[14px] leading-5 text-[#252525] hover:bg-[#00c3ff] hover:text-[#fafafa] px-2 py-2"
+                              onClick={() => {
+                                setGender(option.props.value);
+                                setGenderDropdownOpen(false);
+                              }}
+                            >
+                              {option.props.children}
+                            </li>
+                          )
+                        )}
+                      </ul>
+                    )}
+                  </div>
+
+                  {/* ✅ Mobile / Tablet → Native Select */}
+                  <div className="lgHidden mt-[12px]">
+                    <select
+                      value={gender || ""}
+                      onChange={(e) => {
+                        setGender(e.target.value);
+                      }}
+                      disabled={isDisabled || editIdx === 0}
+                      className="w-full h-[44px] bg-[#FAFAFA] border-[2px] border-[#EAEAEA] text-[14px] text-[#616161] rounded-[8px] px-2 focus:border-[#00c3ff] focus:outline-none"
+                    >
+                      <option value="" disabled>
+                        Select Gender
+                      </option>
+                      {getGenderOptions(sourceLanguageName).map(
+                        (option, index) => (
+                          <option key={index} value={option.props.value}>
+                            {option.props.children}
+                          </option>
+                        )
+                      )}
+                    </select>
+                  </div>
+                </div>
+
+                {gender !== inanimateObjectOptions(sourceLanguageName) && (
+                  <div className="relative w-full md:w-[49px]">
+                    <label className="absolute left-2 top-[-12px] lg:top-[-8px] leading-4 z-[2] bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                      Age
+                    </label>
+                    <input
+                      type="text"
+                      value={age}
+                      onChange={handleAgeChange}
+                      id="protaAge"
+                      min="0"
+                      maxLength={5}
+                      className={`h-[44px] relative text-[12px] md:!text-[14px] leading-tight w-full px-[8px] pt-1 md:w-[64px] bg-[#fafafa] rounded-[8px] border-[2px] focus:outline-none ${
+                        isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
+                      }`}
+                      placeholder="age"
+                      required
+                      disabled={isDisabled || editIdx === 0}
+                    />
+                  </div>
+                )}
+
+                <div className="relative w-full md:w-[206px] md:left-5">
+                  <label className="absolute left-2 top-[-12px] lg:top-[-8px] leading-4 bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
+                    Occupation
+                  </label>
+                  <textarea
+                    disabled={onlyAdd && isDisabled}
+                    autoComplete="off"
+                    required
+                    onChange={(e) => handleInputChange(e, setOccupation)}
+                    onFocus={() => setFocusedFieldName("occupation")}
+                    value={occupation}
+                    type="text"
+                    maxLength={50}
+                    name="occupation"
+                    translate="no"
+                    placeholder="occupation"
+                    ref={occupationRef}
+                    className={`text-[14px] bg-[#FAFAFA] mb-[12px] leading-[20px] md:mb-0 px-3 pt-[15px] pb-[12px] outline-[#EAEAEA] rounded-[8px] border-2 border-[#EAEAEA] focus:border-[#00c3ff] focus:outline-none w-full md:w-[208px] h-[44px] overflow-y-auto text-[#616161] resize-none`}
                   />
                 </div>
               </div>
 
               <div className="mb-[12px] mt-6">
                 <div className="relative w-full md:w-[171px]">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-12px] lg:top-[-8px] leading-4 bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Background
                   </label>
                   <textarea
@@ -619,7 +750,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Background"
                     ref={backgroundRef}
-                    className={`text-[14px] bg-[#FAFAFA]  px-3 pt-[12px] pb-[12px] leading-[17px] outline-[#EAEAEA]  rounded-[8px] overflow-y-hidden border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px]
+                    className={`text-[14px] bg-[#FAFAFA]  px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA]  rounded-[8px] overflow-y-hidden border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[398px]
                     h-auto resize-none ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     } h-auto resize-none leading-[20px]`}
@@ -628,7 +759,7 @@ const SingleCharacterAdd = ({
               </div>
               <div className="mb-[12px] mt-6">
                 <div className="relative w-full md:w-[171px]">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-12px] lg:top-[-8px] leading-4 bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Personality
                   </label>
                   <textarea
@@ -644,7 +775,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Personality"
                     ref={personalityRef}
-                    className={`text-[14px] bg-[#FAFAFA]  px-3 pt-[10px] pb-[12px] leading-[20px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none   ${
+                    className={`text-[14px] bg-[#FAFAFA]  px-3 pt-[10px] pb-[12px] leading-[22px] outline-[#EAEAEA]  overflow-y-hidden rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[398px] h-auto resize-none   ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     } `}
                   />
@@ -652,7 +783,7 @@ const SingleCharacterAdd = ({
               </div>
               <div className="mb-[12px] mt-6">
                 <div className="relative w-full md:w-[171px]">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-12px] lg:top-[-8px] leading-4 bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Individual&nbsp;want
                   </label>
                   <textarea
@@ -668,7 +799,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Individual want"
                     ref={individualWantRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[12px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px] h-auto resize-none  ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none  w-full md:w-[398px] h-auto resize-none  ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     }  `}
                   />
@@ -676,7 +807,7 @@ const SingleCharacterAdd = ({
               </div>
               <div className="mb-[12px] mt-6">
                 <div className="relative w-full md:w-[171px]">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-12px] lg:top-[-8px] leading-4 bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Character's&nbsp;journey
                   </label>
 
@@ -693,7 +824,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Character's journey"
                     ref={characterJourneyRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[12px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none  w-full md:w-[398px] h-auto resize-none   ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2 border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none  w-full md:w-[398px] h-auto resize-none   ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     } `}
                   />
@@ -701,7 +832,7 @@ const SingleCharacterAdd = ({
               </div>
               <div className="mb-[12px] mt-6">
                 <div className="relative w-full md:w-[171px]">
-                  <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
+                  <label className="absolute left-2 top-[-12px] lg:top-[-8px] leading-4 bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                     Blood&nbsp;relationship
                   </label>
                   <textarea
@@ -717,14 +848,14 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Blood relationship"
                     ref={bloodRelationshipRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[12px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none    ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[398px] h-auto resize-none    ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     }`}
                   />
                 </div>
               </div>
               <div className="relative w-full md:w-[171px] mt-6">
-                <label className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all">
+                <label className="absolute left-2 top-[-12px] lg:top-[-8px] leading-4 bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all">
                   Family&nbsp;relationship
                 </label>
                 <div className="mb-[12px]">
@@ -743,7 +874,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Family relationship"
                     ref={familyRelationshipRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[12px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none     ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[398px] h-auto resize-none     ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     }`}
                   />
@@ -754,7 +885,7 @@ const SingleCharacterAdd = ({
                 <div className="relative w-full md:w-[171px]">
                   <label
                     htmlFor="professional_relationship_input"
-                    className="absolute left-2 top-[-12px] bg-[#FAFAFA] px-1 text-[16px] text-[#252525] font-[500] transition-all"
+                    className="absolute left-2 top-[-12px] lg:top-[-8px] leading-4 bg-[#FAFAFA] px-1 text-sm text-[#252525] font-[500] transition-all"
                   >
                     Professional&nbsp;relationship
                   </label>
@@ -776,7 +907,7 @@ const SingleCharacterAdd = ({
                     translate="no"
                     placeholder="Professional relationship"
                     ref={professionalRelationshipRef}
-                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[12px] pb-[12px] leading-[17px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#33b0ca] focus:outline-none w-full md:w-[398px] h-auto resize-none   ${
+                    className={`text-[14px] bg-[#FAFAFA] px-3 pt-[15px] pb-[12px] leading-[22px] outline-[#EAEAEA] overflow-y-hidden  rounded-[8px] border-2  border-[#EAEAEA]  focus:border-[#00c3ff] focus:outline-none w-full md:w-[398px] h-auto resize-none   ${
                       isDisabled ? "text-[#7a7a7a]" : "text-[#616161]"
                     }`}
                   />
@@ -786,20 +917,20 @@ const SingleCharacterAdd = ({
           </div>
 
           <div className="absolute bottom-0 left-0 right-0 bg-[#FAFAFA] py-4 px-8 flex justify-end gap-[18px]  rounded-[8px]">
+            {/* <div className="p-[1px] rounded-[8px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] inline-block"></div> */}
             <button
               onClick={() => setEditPopupOpen(false)}
-              className="bg-[#fafafa] flex items-center gap-[14px] justify-center text-[14px] text-[#33B0CA] border border-[#33B0CA] h-[32px]  rounded-[8px]  px-3"
+              className=" flex items-center gap-[14px] justify-center h-[32px]  py-[4px] px-3 rounded-[8px] bg-white font-[500] text-[#00c3ff]  border border-[#00c3ff]  text-[14px] shadow-[#252525] hover:shadow-md"
             >
               Cancel
             </button>
-
             <button
               onClick={handleAddClick}
-              className={`text-[14px] font-[600] text-white px-3 h-[32px]  rounded-[8px] ${
+              className={`text-[14px] font-[600]  px-3 h-[32px]  rounded-[8px] ${
                 isSaveDisabled || disabledEdit
-                  ? "bg-[#ACDDE7]  "
-                  : "bg-[#33B0CA] "
-              }`}
+                  ? "bg-[#99e6ff] text-[#0F0E1380]"
+                  : "bg-[#00c3ff] text-[##0F0E13]"
+              } text-[14px] font-[500]  px-3 h-[32px] rounded-[8px]`}
               disabled={isSaveDisabled || disabledEdit}
             >
               Save Character

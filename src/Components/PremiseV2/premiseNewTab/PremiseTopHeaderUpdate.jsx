@@ -1,27 +1,73 @@
+// PremiseTopHeader Component
+//
+// Provides the main interactive header section for the Premise New Tab view.
+// Includes quick-access icons for sharing, engagements, brainstorming, and beats,
+// along with a lightweight search input and responsive character toggle.
+//
+// ------------------------------------------------------------
+// Overview
+// ------------------------------------------------------------
+// - Displays a compact top toolbar with 4 action buttons + search input.
+// - Handles modals for "Share", "Engagements", "Brainstorms", and "Beats".
+// - Integrates with Global Context to toggle the character sidebar (mobile).
+//
+// ------------------------------------------------------------
+// Core Functionalities
+// ------------------------------------------------------------
+//
+// 1. **Share Popup**
+//    - Opens `SharePopup` when clicking the Share (PiShareFat) icon.
+//    - Used for sharing premise links or collaboration access.
+//
+// 2. **Engagements / Brainstorms**
+//    - Both use `BrainstormEngagementsPop` popup.
+//    - `commonPopup` state determines which mode is active.
+//    //! Important: `commonPopup` is reused for both engagement and brainstorm actions.
+//
+// 3. **Beats Management**
+//    - Opens `BeatsPop` for managing story beats associated with the current premise.
+//    - Controlled by `beatsPopup` boolean state.
+//
+// 4. **Search Input**
+//    - Text input for filtering or locating comments, characters, or sections.
+//    - Controlled by `setSearchTerm` and submitted via `handleSearch()` callback.
+//
+// 5. **Responsive Character Toggle**
+//    - Shows `GridIcon` (visible only on mobile).
+//    - Toggles character sidebar using `toggleCharactersPopup` from GlobalContext.
+//
+// ------------------------------------------------------------
+// Props Overview
+// ------------------------------------------------------------
+// - `handleSearch`: Form submit handler for search queries.
+// - `setSearchTerm`: Updates parent search term state.
+// - `id`: Premise identifier used for popups (Beats, Engagements, Brainstorms).
+//
+// ------------------------------------------------------------
+// Summary
+// ------------------------------------------------------------
+// `PremiseTopHeader` serves as the action hub at the top of the Premise tab.
+// It kee
+
 import { useContext, useState } from "react";
 import { FiSearch } from "react-icons/fi";
-import { PiShareFat } from "react-icons/pi";
+import { IoMdClose } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { fetchUserAccess, MyContext } from "../../../App";
 import { useGetPremiseUserQuery } from "../../../app/EndPoints/premisePoolApi";
 import { GlobalContext } from "../../../app/Hooks/Global";
-import admin from "../../../img/Icons/Admin.png";
-import engagementImg from "../../../img/Icons/Engagements.png";
 import beatsImg from "../../../img/Icons/beats.png";
 import brainImg from "../../../img/Icons/brainstorme.png";
-import msgIcon from "../../../img/Icons/msgIcon.png";
-import HideOptionPop from "../../Premisepool/Components/HideOptionPop";
-import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
-import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
-import { URL } from "../../utils";
 import BeatsPop from "../Popups/newTab/BeatsPop";
 import BrainstormEngagementsPop from "../Popups/newTab/BrainstormEngagementsPop";
 import SharePopup from "../Popups/newTab/SharePopup";
 
 const PremiseTopHeaderUpdate = ({
   handleSearch,
+  handleClear,
   id,
   setSearchTerm,
+  searchTerm,
   refetch,
   setViewTransactionPId,
   openTransOtherPop,
@@ -123,16 +169,6 @@ const PremiseTopHeaderUpdate = ({
     setOpenDotMenu(null);
   };
 
-  const handleOpenSp = () => {
-    // console.log("object", p);
-    if (isProjectLocked) {
-      window.open(`${URL}/scriptpad2/#/generated-scripts`);
-    }
-    window.open(
-      `${URL}/scriptpad2/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`
-    );
-  };
-
   const handleUserMail = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_MessageOwner`);
     console.log("message rs", res);
@@ -169,17 +205,19 @@ const PremiseTopHeaderUpdate = ({
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <div className="w-3/5 flex items-center gap-2">
-        <div
+    <div className="hidden lg:flex items-center gap-2 justify-between">
+      <div className="w-2/6 flex items-center gap-2">
+        {/* this section is commented out due to the new design changes*/}
+        {/* <div
           data-te-toggle="tooltip"
           title="Share"
           onClick={() => setShowSharePopup(true)}
-          className={`h-[32px] w-[32px] rounded-full cursor-pointer relative border border-[#33b0ca]`}
+          className={`h-[32px] w-[32px] rounded-full cursor-pointer relative border border-[#00c3ff]`}
         >
-          <PiShareFat className="h-[26px] w-[21px] pt-1 mx-auto text-[#33b0ca]" />
-        </div>
-        <div
+          <PiShareFat className="h-[26px] w-[21px] pt-1 mx-auto text-[#00c3ff]" />
+        </div> */}
+        {/*  */}
+        {/* <div
           data-te-toggle="tooltip"
           title="Engagements"
           onClick={() => {
@@ -193,7 +231,7 @@ const PremiseTopHeaderUpdate = ({
             alt=""
             className="h-[26px] w-[26px] mx-auto mt-[2px]"
           />
-        </div>
+        </div> */}
         <div
           data-te-toggle="tooltip"
           title="Brainstorms"
@@ -223,166 +261,10 @@ const PremiseTopHeaderUpdate = ({
 
         {/* Updated Code */}
 
-        <div>
-          {" "}
-          {premiseOwner?.id === user ? (
-            <div
-              className={`h-[32px] w-[32px] rounded-full cursor-pointer relative  border border-[#eaeaea]`}
-            >
-              <img
-                src={admin}
-                alt=""
-                className="h-[21px] w-[21px] mx-auto  mt-[6px] ml-[7px]"
-                onMouseDown={(e) => {
-                  e.stopPropagation();
-                  setOpenDotMenu((prevId) => (prevId === id ? null : id));
-                }}
-                // className="w-5 h-5 cursor-pointer"
-              />
-              {openDotMenu === id && (
-                <div
-                  ref={dotPopupRef}
-                  className="absolute flex flex-col w-[197px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[25px] right-[-20px] py-[8px] z-10"
-                >
-                  <button
-                    disabled={is_read_only}
-                    onClick={handleVisibility}
-                    className={`${
-                      is_read_only ? "cursor-default" : "cursor-pointer "
-                    } w-full`}
-                  >
-                    <p
-                      className={`text-[14px] w-full font-[500] break-none text-left ${
-                        is_read_only
-                          ? "text-[#818181]"
-                          : "hover:text-[#33B0CA] text-[#252525]"
-                      }  `}
-                    >
-                      {" "}
-                      Visibility Settings
-                    </p>{" "}
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setOpenTransOtherPop(!openTransOtherPop);
-                      setOpenDotMenu(null);
-                    }}
-                    className="cursor-pointer  w-full"
-                  >
-                    <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
-                      {" "}
-                      Copy in new Language
-                    </p>{" "}
-                  </button>
-
-                  <button
-                    onClick={handleMonetizing}
-                    className="cursor-pointer  w-full"
-                  >
-                    <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
-                      {" "}
-                      Monetizing Preferences
-                    </p>{" "}
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleViewTransaction(id);
-                    }}
-                    className="cursor-pointer  w-full"
-                  >
-                    <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#33B0CA] text-[#252525]">
-                      {" "}
-                      View Translations
-                    </p>{" "}
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      handleDelete(id);
-                      setOpenDotMenu(null);
-                    }}
-                    className="cursor-pointer  w-full"
-                  >
-                    <p className="text-[14px] w-full font-[500] text-left hover:text-[#33B0CA] break-none text-[#252525]">
-                      {" "}
-                      Delete Premise
-                    </p>{" "}
-                  </button>
-                  <button
-                    onClick={() => {
-                      setOpenCharacterChart(project_id);
-                      setOpenDotMenu(null);
-                    }}
-                    className="cursor-pointer  w-full"
-                  >
-                    <p className="text-[14px] w-full font-[500] text-left hover:text-[#33B0CA] break-none text-[#252525]">
-                      {" "}
-                      Characters and Roles
-                    </p>{" "}
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleOpenSp();
-                      setOpenDotMenu(null);
-                    }}
-                    className="cursor-pointer  w-full"
-                  >
-                    <p className="text-[14px] w-full font-[500] text-left hover:text-[#33B0CA] break-none text-[#252525]">
-                      {" "}
-                      Open <span className="scriptpad-m">Script Pad</span>
-                    </p>{" "}
-                  </button>
-
-                  {/* */}
-                </div>
-              )}
-              {/* <FaEllipsisV
-                onClick={() => setOpenHidePop(!openHidePop)}
-                className="w-5 h-5 cursor-pointer"
-              /> */}
-              {openHidePop?.msg === "ShowBecomePrivilege" ? (
-                <NoAccessPopUp
-                  noAccessPopup={openHidePop}
-                  setNoAccessPopup={setOpenHidePop}
-                />
-              ) : openHidePop?.msg === "LB" ||
-                openHidePop?.msg === "ShowBuyPackage_and_Allacarte" ? (
-                <NoAccessLbPopUp
-                  noAccessLbPopup={openHidePop}
-                  setNoAccessPopup={setOpenHidePop}
-                  service="PP_Private"
-                />
-              ) : (
-                openHidePop === "Yes" && (
-                  <HideOptionPop
-                    setOpenHidePop={setOpenHidePop}
-                    id={id}
-                    refetch={refetch}
-                    user={user}
-                    filter_flag={filter_flag}
-                    comment_filter_flag={comment_filter_flag}
-                    visible_to={visible_to}
-                  />
-                )
-              )}
-            </div>
-          ) : (
-            <div className="flex gap-[3px] items-center  mr-[2px] relative ">
-              <img
-                data-te-toggle="tooltip"
-                title="Send Message"
-                src={msgIcon}
-                className="w-8 h-8  cursor-pointer"
-                alt=""
-                onClick={handleUserMail}
-              />
-            </div>
-          )}
-        </div>
+      
       </div>
       <div
-        className={` border w-[110px] md:w-[146px] border-[#B4B4B4] mx-auto px-[14px] h-[32px] my-2 rounded-full`}
+        className={` border w-[224px] md:w-[206px] border-[#B4B4B4] lg:mx-auto px-[14px] h-[32px] my-2 rounded-full`}
       >
         <form className="flex items-center" onSubmit={handleSearch}>
           <input
@@ -392,12 +274,25 @@ const PremiseTopHeaderUpdate = ({
             id=""
             maxLength="30"
             placeholder="Search"
+            value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
           />
 
-          <button type="submit" className="ml-2">
-            <FiSearch className="h-[20px] w-[20px]" />
-          </button>
+          {searchTerm ? (
+            <button
+              type="button"
+              onClick={() => {
+                handleClear();
+              }}
+              className="ml-2"
+            >
+              <IoMdClose className="h-[20px] w-[20px] text-gray-600 hover:text-red-500 transition" />
+            </button>
+          ) : (
+            <button type="submit" className="ml-2">
+              <FiSearch className="h-[20px] w-[20px] text-gray-600 hover:text-blue-500 transition" />
+            </button>
+          )}
         </form>
       </div>
 
