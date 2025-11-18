@@ -9,23 +9,23 @@ function ConfirmationModal({ isOpen, onClose, onConfirm, title, content }) {
                 {title}
               </p>
               <div className="h-[93px] pb-[14px] flex items-center gap-10 justify-center px-[40px]">
-                <div className="p-[1px] rounded-[8px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] inline-block">
-                  <button
-                    onClick={() => {
-                      onClose();
-                    }}
-                    className="rounded-[8px] w-[99px] bg-white font-[500] text-[#741CFF]  hover:text-white h-[32px] px-[21px] hover:bg-[linear-gradient(30deg,#741CFF,#00c3ff)] text-[14px] shadow-[#252525] hover:shadow-md"
-                  >
-                    No
-                  </button>
-                </div>
+                {/* <div className="p-[1px] rounded-[8px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] inline-block">
+                </div> */}
+                <button
+                  onClick={() => {
+                    onClose();
+                  }}
+                  className=" flex items-center gap-[14px] w-[99px] justify-center h-[32px]  py-[4px] px-3 rounded-[8px] bg-white font-[500] text-[#00c3ff]  border border-[#00c3ff]  text-[14px] shadow-[#252525] hover:shadow-md"
+                >
+                  No
+                </button>
 
                 <button
                   onClick={() => {
                     onConfirm();
                     onClose();
                   }}
-                  className="bg-[linear-gradient(30deg,#741CFF,#00c3ff)]  font-[500] text-white h-[34px] w-[99px] text-[14px] rounded-[8px] "
+                  className="bg-[#00c3ff] w-[99px] text-[##0F0E13] text-[14px] font-[500]  px-3 h-[32px] rounded-[8px]"
                 >
                   Yes
                 </button>

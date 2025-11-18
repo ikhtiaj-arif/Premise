@@ -392,7 +392,7 @@ const SingleCharacterAdd = ({
                     </button>
 
                     {roleDropdownOpen && (
-                      <ul className="absolute z-10 w-full border bg-[#fafafa] max-h-[27vh] overflow-y-auto rounded-md shadow-sm">
+                      <ul className="absolute z-20 w-full border bg-[#fafafa] max-h-[27vh] overflow-y-auto rounded-md shadow-sm">
                         {filteredRoleOptions?.map((roleOption) => (
                           <li
                             key={roleOption}
@@ -869,7 +869,7 @@ const SingleCharacterAdd = ({
           </div> */}
           <button
             onClick={() => setAddNewCharacter(false)}
-            className=" flex items-center gap-[14px] justify-center h-[32px]  py-[4px] px-3 rounded-[8px] w-[99px] bg-white font-[500] text-[#00c3ff]   text-[14px] shadow-[#252525] hover:shadow-md"
+            className=" flex items-center gap-[14px] justify-center h-[32px]  py-[4px] px-3 rounded-[8px] bg-white font-[500] text-[#00c3ff]  border border-[#00c3ff]  text-[14px] shadow-[#252525] hover:shadow-md"
           >
             Cancel
           </button>
@@ -878,9 +878,9 @@ const SingleCharacterAdd = ({
             disabled={isSaveDisabled}
             className={`${
               isSaveDisabled
-                ? "bg-[linear-gradient(30deg,#b38bff,#99e6ff)] "
-                : "bg-[linear-gradient(30deg,#741CFF,#00c3ff)] "
-            } text-[14px] font-[600] text-white px-3 h-[32px] rounded-[8px]`}
+                ? "bg-[#99e6ff] text-[#0F0E1380]"
+                : "bg-[#00c3ff] text-[##0F0E13]"
+            } text-[14px] font-[500]  px-3 h-[32px] rounded-[8px]`}
           >
             Save Character
           </button>

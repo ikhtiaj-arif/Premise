@@ -77,8 +77,9 @@
 
 import { useContext, useEffect, useRef, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
+import { FiSearch } from "react-icons/fi";
+import { IoMdClose } from "react-icons/io";
 import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
 import { MyContext } from "../../../App";
 import { useGetSavedCharactersQuery } from "../../../app/EndPoints/Characters/Characters";
 import { useCreateReplyMutation } from "../../../app/EndPoints/commentReply/reply";
@@ -102,128 +103,19 @@ const PremiseNewTab = ({
   premiseRefetch,
   isPremiseLoading,
 }) => {
-  // const { id } = useParams(); // Extract the ID from the route
   const { state } = useLocation();
   const currentCommentRef = useRef({});
 
-  // const params = state || {};
-  // const { project_id } = params;
-  // console.log("project_id", project_id);
   const { setCurrentlyOpenedCommentID } = useContext(MyContext);
-  // const {
-  //   data: premiseData,
-  //   isPremiseLoading,
-  //   refetch: premiseRefetch,
-  // } = useGetOnePremiseQuery(id);
 
   const {
     data: profileImg,
     profileImgLoading,
     refetch: profileRefetch,
   } = useGetPremiseUserPictureQuery(premiseData?.premiseOwner?.id);
-
-  // const user = useSelector((state) => state?.user?.id);
-
-  const [premiseDataR, setPremiseDataR] = useState(null);
-
-  useEffect(() => {
-    if (!premiseData) return; // wait until data is available
-
-    if (premiseData?.premiseOwner?.id === user) {
-      setPremiseDataR(premiseData);
-    } else {
-      setPremiseDataR(null);
-    }
-  }, [premiseData, user]);
-
-  //get comments pagination
-  const [hasMore, setHasMore] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsToShow, setItemsToShow] = useState(6);
-  const [viewData, setViewData] = useState(null);
-  const [dataCount, setDataCount] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-  const [query, setQuery] = useState({
-    pn: currentPage,
-    ps: itemsToShow,
-    id,
-  });
-
-  const {
-    data: commentsData,
-    isCommentLoading,
-    refetch: commentRefetch,
-  } = useGetCommentByPremiseIdQuery(query);
-
-  // const handleShow = () => {
-  //   let newItemsToShow = itemsToShow + 6;
-  //   console.log(newItemsToShow, commentsData?.count);
-  //   // Ensure newItemsToShow does not exceed the total count
-  //   if (newItemsToShow >= commentsData?.count) {
-  //     newItemsToShow = commentsData?.count;
-  //     setHasMore(false);
-  //   } else {
-  //     //  setHasMore(true)
-  //     setItemsToShow(newItemsToShow);
-  //     setQuery({
-  //       pn: currentPage,
-  //       ps: newItemsToShow,
-  //       id,
-  //     });
-  //   }
-  // };
-const scrollContainerRef = useRef(null)
-  const handleShow = () => {
-    const totalCount = commentsData?.count || 0;
-    let newItemsToShow = itemsToShow + 6;
-
-    // If the next batch exceeds total count, cap it to the total
-    if (newItemsToShow >= totalCount) {
-      newItemsToShow = totalCount;
-      setHasMore(false);
-    }
-
-    // Update itemsToShow state
-    setItemsToShow(newItemsToShow);
-
-    // Always update the query with the correct page size (ps)
-    setQuery({
-      pn: currentPage,
-      ps: newItemsToShow,
-      id,
-    });
-
-    console.log("Updated page size:", newItemsToShow, "of total:", totalCount);
-      setTimeout(() => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }
-  }, 300);
-  };
-
-  useEffect(() => {
-    if (commentsData) {
-      let filterPremiseData = commentsData?.results;
-      setDataCount(filterPremiseData?.length);
-      setViewData(filterPremiseData);
-      setTotalPages(Math.ceil(commentsData?.count / itemsToShow));
-
-      // Determine if there's more data to load
-      if (itemsToShow >= commentsData.count) {
-        setHasMore(false);
-      } else {
-        setHasMore(true);
-      }
-      commentRefetch();
-    }
-  }, [commentsData, itemsToShow]);
-
   const {
     data: characters,
-    isCharLoading,
+    isLoading: isCharLoading,
     isError,
     refetch: characterRefetch,
   } = useGetSavedCharactersQuery(premiseData?.project_id);
@@ -253,45 +145,119 @@ const scrollContainerRef = useRef(null)
   const [searchTerm, setSearchTerm] = useState("");
   const [commentField, setCommentField] = useState(true);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (!searchTerm && commentsData) {
-      setFilteredCommentsData(commentsData); // Set initial data if no search
-    }
-  }, [commentsData, searchTerm]);
-
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    const data = {
-      search_text: searchTerm,
-      premise_id: id,
-    };
-
-    // Avoid multiple concurrent requests
-    if (loading) return;
-
-    setLoading(true); // Start loading state
-
-    try {
-      const res = await findComments(data); // API call
-      console.log(res);
-
-      if (res?.data) {
-        // If search results are returned, update filtered comments
-        setFilteredCommentsData(res.data);
-      } else {
-        console.error("No data returned from API");
-      }
-    } catch (error) {
-      console.error("Error during API call:", error);
-    } finally {
-      setLoading(false); // End loading state
-    }
-  };
-
   const [actOneThreshold, setActOneThreshold] = useState(null);
   const [actTwoEnd, setActTwoEnd] = useState(null);
 
+  const [premiseDataR, setPremiseDataR] = useState(null);
+
+  useEffect(() => {
+    if (!premiseData) return; // wait until data is available
+
+    if (premiseData?.premiseOwner?.id === user) {
+      setPremiseDataR(premiseData);
+    } else {
+      setPremiseDataR(null);
+    }
+  }, [premiseData, user]);
+
+  //get comments pagination
+  const [hasMore, setHasMore] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsToShow, setItemsToShow] = useState(10);
+  const [searchText, setSearchText] = useState("");
+
+  const [query, setQuery] = useState({
+    pn: currentPage,
+    ps: itemsToShow,
+    id,
+    text: searchText,
+  });
+
+  const {
+    data: commentsData,
+    isLoading: isCommentLoading,
+    refetch: commentRefetch,
+  } = useGetCommentByPremiseIdQuery(query);
+
+  const scrollContainerRef = useRef(null);
+  const handleShow = () => {
+    const totalCount = commentsData?.count || 0;
+    let newItemsToShow = Math.min(itemsToShow + 10, totalCount);
+
+    setItemsToShow(newItemsToShow);
+    setHasMore(newItemsToShow < totalCount);
+
+    setQuery((prev) => ({
+      ...prev,
+      ps: newItemsToShow,
+    }));
+
+    setTimeout(() => {
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+    }, 300);
+  };
+
+  useEffect(() => {
+    if (commentsData) {
+      const totalCount = commentsData?.count || 0;
+
+      // Update hasMore correctly
+      setHasMore(itemsToShow < totalCount);
+    }
+  }, [commentsData, itemsToShow]);
+
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      if (searchTerm.trim()) {
+        setQuery((prev) => ({
+          ...prev,
+          text: searchTerm.trim(),
+          pn: 1,
+        }));
+      } else {
+        // reset query when searchTerm is empty
+        setQuery({
+          pn: currentPage,
+          ps: itemsToShow,
+          id,
+          text: "",
+        });
+      }
+    }, 500);
+
+    return () => clearTimeout(delayDebounce);
+  }, [searchTerm, currentPage, itemsToShow, id]);
+
+  // 🔍 Handle form submit (optional)
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    if (searchTerm.trim()) {
+      setQuery((prev) => ({
+        ...prev,
+        text: searchTerm.trim(),
+        pn: 1,
+      }));
+    } else {
+      handleClear();
+    }
+  };
+
+  //  Clear function
+  const handleClear = () => {
+    setSearchTerm("");
+    setQuery({
+      pn: currentPage,
+      ps: itemsToShow,
+      id,
+      text: "",
+    });
+  };
   useEffect(() => {
     if (!isPremiseLoading && premiseData?.setC) {
       // Step 1: Log premiseData.setC to verify it
@@ -330,31 +296,6 @@ const scrollContainerRef = useRef(null)
   const [openNewTabTutorialPopOtherUser, setOpenNewTabTutorialPopOtherUser] =
     useState(false);
 
-  // useEffect(() => {
-  //   if (
-  //     (!newTabTutorialPop || newTabTutorialPop === "false") &&
-  //     premiseData?.premiseOwner?.id === user &&
-  //     !openNewTabTutorialPop
-  //   ) {
-  //     setOpenNewTabTutorialPop(true);
-  //   }
-  // }, [newTabTutorialPop, user, premiseData]);
-
-  // const [openNewTabTutorialPopOtherUser, setOpenNewTabTutorialPopOtherUser] =
-  //   useState(false);
-  // const newTabTutorialOtherUser = localStorage.getItem(
-  //   "newTabTutorialPopOtherUser"
-  // );
-  // useEffect(() => {
-  //   if (
-  //     (!newTabTutorialOtherUser || newTabTutorialOtherUser === "false") &&
-  //     premiseData?.premiseOwner?.id !== user &&
-  //     !openNewTabTutorialPopOtherUser
-  //   ) {
-  //     setOpenNewTabTutorialPopOtherUser(true);
-  //   }
-  // }, [newTabTutorialOtherUser, user, premiseData]);
-
   useEffect(() => {
     const newTabTutorialPop = localStorage.getItem("newTabTutorialPop");
     if (
@@ -367,36 +308,6 @@ const scrollContainerRef = useRef(null)
   }, [user]);
 
   const replyRef = useRef(null);
-
-  const handlePostReplyToComment = async (e) => {
-    e.preventDefault();
-    setReplyLoading(true);
-    const data = {
-      reply: replyToCommentID,
-      text: replyText,
-    };
-    const response = await createReplyMutation(data);
-    if (response) {
-      // refetch();
-      // setOpenReplyField(null);
-      e.target.reset();
-      setReplyText("");
-      commentRefetch();
-      toast.success("Reply added!", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 800,
-      });
-      setReplyLoading(false);
-    }
-  };
-
-  const handleReplyTextChange = (event) => {
-    const reply = event.target.value.replace(/^\s+|\s+(?=\s)/g, "");
-    setReplyTextCount(reply.length);
-    setReplyText(reply);
-  };
-
-  const [focusedCValue, setFocusedCValue] = useState(null);
 
   const handleOpenSp = () => {
     window.location.href = `${baseURL}/scriptpad/#/${premiseData?.project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`;
@@ -437,19 +348,58 @@ const scrollContainerRef = useRef(null)
         commentsData ? (
           <div className="w-full lg:w-[95%] max-w-[1445px] mx-auto ">
             {/* FOr mobile */}
-            <div className="lg:hidden">
+            <div className="lgHidden ">
               {/* header */}
               <div className="bg-[#741CFF33] px-2 h-12 flex items-center justify-between">
-                <button
-                  className="text-[#000] bg-[#F3F4F6] rounded-lg px-3 h-10 w-10 text-[16px] font-semibold"
-                  onClick={() => {
-                    handleOpenSp();
-                    // setOpenDotMenu(null);
-                  }}
+                {!newTabTextFieldMob ? (
+                  <button
+                    className="text-[#000] bg-[#F3F4F6] rounded-lg px-3 h-10 w-10 text-[16px] font-semibold"
+                    onClick={() => {
+                      handleOpenSp();
+                      // setOpenDotMenu(null);
+                    }}
+                  >
+                    <FaArrowLeft />
+                  </button>
+                ) : (
+                  <button
+                    className="text-[#000] bg-[#F3F4F6] rounded-lg px-3 h-10 w-10 text-[16px] font-semibold"
+                    onClick={() => {
+                      setNewTabTextFieldMob(false);
+                      // setOpenDotMenu(null);
+                    }}
+                  >
+                    <FaArrowLeft />
+                  </button>
+                )}
+                <div
+                  className={` border w-[224px] md:w-[206px] border-[#B4B4B4] bg-[#F3F4F6] lg:mx-auto px-[14px] h-[32px] my-2 rounded-full`}
                 >
-                  <FaArrowLeft />
-                </button>
+                  <form className="flex items-center" onSubmit={handleSearch}>
+                    <input
+                      type="text"
+                      className="w-full flex-1 px-2 h-[28px] text-[14px] bg-[#F3F4F6] focus:outline-none rounded"
+                      placeholder="Search"
+                      maxLength={30}
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
 
+                    {searchTerm ? (
+                      <button
+                        type="button"
+                        onClick={handleClear}
+                        className="ml-2"
+                      >
+                        <IoMdClose className="h-[20px] w-[20px] text-gray-600 hover:text-red-500 transition" />
+                      </button>
+                    ) : (
+                      <button type="submit" className="ml-2">
+                        <FiSearch className="h-[20px] w-[20px] text-gray-600 hover:text-blue-500 transition" />
+                      </button>
+                    )}
+                  </form>
+                </div>
                 <div className="p-[1px] text-center h-10 w-10 bg-[linear-gradient(30deg,#741CFF_0%,#00C3FF_70%)] rounded-[8px]">
                   <button
                     onClick={handleToggleCharComment}
@@ -478,6 +428,7 @@ const scrollContainerRef = useRef(null)
                     handleShow={handleShow}
                     hasMore={hasMore}
                     scrollContainerRef={scrollContainerRef}
+                    isCommentLoading={isCommentLoading}
                   />
                 </div>
               ) : (
@@ -510,9 +461,11 @@ const scrollContainerRef = useRef(null)
                       characterRefetch,
                       isCharLoading,
                       handleSearch,
+                      handleClear,
                       currentCommentRef,
                       handleOpenAllReplies,
                       setSearchTerm,
+                      searchTerm,
                       commentField,
                       setCommentField,
                     }}
@@ -522,7 +475,7 @@ const scrollContainerRef = useRef(null)
             </div>
 
             {/* <ProjectInfo {...{ premiseData }} /> */}
-            <div className="hidden lg:block">
+            <div className="lgVisible">
               <ProjectInfoUpdate
                 {...{
                   premiseData,
@@ -548,7 +501,7 @@ const scrollContainerRef = useRef(null)
               </div> */}
             </div>
             <div className=" pb-6 lg:pb-0 overflow-x-hidden   ">
-              <div className="w-full hidden lg:flex lg:flex-row relative">
+              <div className="w-full lgFlxVisible  relative">
                 <ChatArea
                   rawBackendData={commentsData?.results}
                   premiseOwner={premiseData?.premiseOwner}
@@ -558,11 +511,12 @@ const scrollContainerRef = useRef(null)
                   premiseData={premiseData}
                   handleShow={handleShow}
                   hasMore={hasMore}
-                   scrollContainerRef={scrollContainerRef}
+                  scrollContainerRef={scrollContainerRef}
+                  isCommentLoading={isCommentLoading}
                 />
                 {/* Left Sidebar */}
-                <div className=" bg-[#fff] lg:w-[500px] w-full pr-0 flex ">
-                  <div className="hidden lg:block">
+                <div className=" bg-[#fff] max-w-[500px] w-2/4 pr-0 flex ">
+                  <div className="lgVisible">
                     <VerticalBar
                       replyRef={replyRef}
                       comments={filteredCommentsData?.comments}
@@ -591,9 +545,11 @@ const scrollContainerRef = useRef(null)
                       characterRefetch,
                       isCharLoading,
                       handleSearch,
+                      handleClear,
                       currentCommentRef,
                       handleOpenAllReplies,
                       setSearchTerm,
+                      searchTerm,
                       commentField,
                       setCommentField,
                     }}

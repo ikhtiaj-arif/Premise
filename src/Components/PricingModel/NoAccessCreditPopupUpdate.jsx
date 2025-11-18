@@ -75,7 +75,7 @@ const NoAccessCreditPopupUpdate = ({
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-[#252525b0] z-[2]">
-      <div className=" md:static md:mt-0 absolute bottom-0 bg-white rounded-[12px] w-[100%] md:w-[550px]">
+      <div className=" md:static pb-20 md:pb-0 md:mt-0 absolute bottom-0 bg-white rounded-[12px] w-[100%] md:w-[550px]">
         <div className="relative">
           <div className="absolute right-[45%] top-[-60px] md:top-[-10px] md:right-[-10px]">
             <img
@@ -169,7 +169,11 @@ const NoAccessCreditPopupUpdate = ({
             <div className="text-center">
               <button
                 disabled={isALoading}
-                className="bg-[linear-gradient(30deg,#741CFF,#00c3ff)] hover:shadow-md shadow-[#252525]  w-[220px] h-[32px] text-center text-[#fafafa] font-semibold text-[16px] rounded-[8px] mt-5 mb-3 py-1 px-4"
+                className={`${
+                  isALoading
+                    ? "bg-[#99e6ff] text-[#0F0E1380]"
+                    : "bg-[#00c3ff] text-[##0F0E13]"
+                }  px-3 h-[32px] text-[14px] w-2/4 mt-1 font-[500] rounded-[8px]`}
                 onClick={handleGoClick}
               >
                 Go

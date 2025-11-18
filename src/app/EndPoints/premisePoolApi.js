@@ -86,8 +86,9 @@ export const premiseSlice = apiSlice.injectEndpoints({
         const id = query?.id
         const ps = query?.ps
         const pn = query?.pn
+        const text = query?.text
 
-        let url = `brainstorm/GetCommentAPInew/${id}?page=${pn}&page_size=${ps}`
+        let url = `brainstorm/GetCommentAPInew/${id}?page=${pn}&page_size=${ps}&search_text=${text}`
 
     
         

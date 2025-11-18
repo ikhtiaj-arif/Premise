@@ -60,7 +60,7 @@ const BeatEditPop = ({
   const [modifiedText, setModifiedText] = useState(commentText?.text);
   const [projectData, setProjectData] = useState([]);
   const [confirmBit, setConfirmBit] = useState(false);
-  // console.log("passed Project", modifiedText);
+
   // const [selectedProject, setSelectedProject] = useState(null);
   // console.log("selectedProject", selectedProject);
   const [selectedOption, setSelectedOption] = useState("");
@@ -195,7 +195,6 @@ const BeatEditPop = ({
   const [screenPlayData, setScreenPlayData] = useState();
   const [beatPostLoading, setBeatPostLoading] = useState(false);
   const [projectNotFound, setProjectNotFound] = useState(false);
-
 
   const handleSubmitBeatToProject = async () => {
     setBeatPostLoading(true); // Disable loading initially
@@ -503,7 +502,7 @@ const BeatEditPop = ({
     // ) :(
     <>
       <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-screen flex  items-center bg-[#252525b0] justify-center z-[999] ">
-        {beatSuggestLoading ? (
+        {isBeatSuggLoading ? (
           <div className="h-auto w-full lg:w-[40%] xl:w-[35%]">
             <TypingLoader />
           </div>
@@ -552,7 +551,7 @@ const BeatEditPop = ({
                       <img
                         src={crossIcon}
                         alt="Close"
-                        className="absolute top-[-8px] right-[10px]  md:right-[-10px] w-8 h-8 z-[20] cursor-pointer "
+                        className="absolute top-[-16px] right-[-16px] w-8 h-8 z-[20] cursor-pointer "
                         onClick={() => {
                           popClose();
                           commentRefetch();
@@ -629,7 +628,11 @@ const BeatEditPop = ({
                         Sheet
                       </h3>
                     </div>
-                    {!beatSuggestLoading && (
+                    {isBeatSuggLoading ? (
+                      <>
+                        <TypingLoader />
+                      </>
+                    ) : (
                       <>
                         <div
                           className={`${

@@ -35,7 +35,7 @@ const BeatsPop = ({ popClose, id }) => {
   );
 
   return (
-    <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-screen flex items-center bg-[#252525b0] justify-center z-[21]">
+    <div className="fixed top-0 lg:top-[-10px] bottom-0 right-0 left-0 w-full h-screen flex items-center bg-[#252525b0] justify-center z-[21]">
       {/* <ToastContainer /> */}
       <div className="h-[550px] px-[12px] md:px-[32px] w-full bg-[#fff] md:w-[700px] lg:w-[1052px] lg:max-w-[90%] md:mx-auto relative md:rounded-[8px]">
         {/* close popup */}
@@ -71,7 +71,7 @@ const BeatsPop = ({ popClose, id }) => {
                   onClick={() => setActiveTab("all")}
                   className={`px-[12px] py-[2px] text-[12px] md:text-[16px] rounded-[4px] md:rounded-[8px] ${
                     activeTab === "all"
-                      ? "border-none bg-[#00c3ff] text-[#fafafa] "
+                      ? "border-none bg-[#00c3ff] text-[#0F0E13] "
                       : "border border-[#616161] text-[#616161] bg-white"
                   } `}
                 >
@@ -85,7 +85,7 @@ const BeatsPop = ({ popClose, id }) => {
                   onClick={() => setActiveTab("setup")}
                   className={`px-[12px] py-[2px] text-[12px] md:text-[16px] rounded-[4px] md:rounded-[8px] ${
                     activeTab === "setup"
-                      ? "border-none bg-[#00c3ff] text-[#fafafa] "
+                      ? "border-none bg-[#00c3ff] text-[#0F0E13] "
                       : "border border-[#616161] text-[#616161] bg-white"
                   } `}
                 >
@@ -95,7 +95,7 @@ const BeatsPop = ({ popClose, id }) => {
                   onClick={() => setActiveTab("conflict")}
                   className={`px-[12px] py-[2px] text-[12px] md:text-[16px] rounded-[4px] md:rounded-[8px] ${
                     activeTab === "conflict"
-                      ? "border-none bg-[#00c3ff] text-[#fafafa] "
+                      ? "border-none bg-[#00c3ff] text-[#0F0E13] "
                       : "border border-[#616161] text-[#616161] bg-white"
                   } `}
                 >
@@ -105,7 +105,7 @@ const BeatsPop = ({ popClose, id }) => {
                   onClick={() => setActiveTab("resolution")}
                   className={`px-[12px] py-[2px] text-[12px] md:text-[16px] rounded-[4px] md:rounded-[8px] ${
                     activeTab === "resolution"
-                      ? "border-none bg-[#00c3ff] text-[#fafafa] "
+                      ? "border-none bg-[#00c3ff] text-[#0F0E13] "
                       : "border border-[#616161] text-[#616161] bg-white"
                   } `}
                 >

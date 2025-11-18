@@ -124,7 +124,7 @@ const SingleCharacterAddNewTab = ({
       setAddNewCharacter(null);
       setIsSaveLoading(false);
     } else {
-      setIsSaveLoading(true);
+      setIsSaveLoading(false);
     }
 
     // console.log(response, "response");
@@ -873,9 +873,9 @@ const SingleCharacterAddNewTab = ({
           </button>
           <button
             onClick={handleAddClick}
-            disabled={isSaveDisabled}
+            disabled={isSaveDisabled || isSaveLoading}
             className={`${
-              isSaveDisabled
+              isSaveDisabled || isSaveLoading
                 ? "bg-[#99e6ff] text-[#0F0E1380]"
                 : "bg-[#00c3ff] text-[##0F0E13]"
             } text-[14px] font-[500]  px-3 h-[32px] rounded-[8px]`}

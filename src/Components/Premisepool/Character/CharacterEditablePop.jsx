@@ -542,9 +542,9 @@ const CharacterEditablePop = ({
                 // setOpenCharacterChart(false);
               }}
               className={`${
-                !characterLoading
+                characterLoading
                   ? "bg-[#99e6ff] text-[#0F0E1380]"
-                  : "bg-[#00c3ff] text-[##0F0E13]"
+                  : "bg-[#00c3ff] text-[#0F0E13]"
               }  px-3 h-[32px] text-[14px] font-[500] rounded-[8px]`}
             >
               Save Character

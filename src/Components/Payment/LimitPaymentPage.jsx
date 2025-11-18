@@ -7,13 +7,11 @@ import {
   usePayNowPackageMutation,
   useTopPayDetailsMutation,
 } from "../../app/EndPoints/premisePoolApi";
-import Valid from "../../img/valid_upto.webp";
-import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 import TypingLoader from "../TypingLoader";
 import { CreditAmount } from "./CreditAmount";
 import { CreditHeader } from "./CreditHeader";
 import { CreditPackage } from "./CreditPackege";
-import { HeaderOptions } from "./HeaderOptions";
+import ShowAlertPop from "./ShowAlertPop";
 
 const LimitPaymentPage = () => {
   const { counts, setCounts, currentUser, scriptId } = useContext(MyContext);
@@ -238,93 +236,64 @@ const LimitPaymentPage = () => {
         </div>
       ) : (
         <section className="border-2 border-[#eaeaea] w-full  max-w-[1130px] mx-auto ">
-          <div className=" flex justify-between py-1 sm:py-2 px-6 items-center md:border-none border-b-2">
-            {/* left */}
-            <img
-              src={`https://taj4o.mynextfilm.in/static/pricingnew/MNF_Beta_Dark.webp`}
-              alt="brand logo"
-              className="logo max-w-[186px] bg-white"
+          <CreditHeader
+            limitBridgePaymentData={paymentData}
+            currentUser={currentUser}
+          />
+
+          <div className="p-4 border-b border-t border-b-[#0000001A] border-t-[#0000001A]">
+            {/* Package Details Section */}
+            <CreditPackage
+              credit={paymentData?.conversion_info?.credits_to_add}
             />
-            {/* right */}
-            <div className=" text-right">
-              <h2 className="sub-heading text-light-blue font-bold text-sm sm:text-lg md:text-2xl py-2">
-                My Next Film Pvt. Ltd.
-              </h2>
-              <p className="text-[12px]  sm:text-[14px]">
-                CIN - U92419DL2021PTC381570
-              </p>
-              <a className="text-[12px]  sm:text-[14px]" href="https://mnf.ai/">
-                www.mnf.ai
-              </a>
+
+            {/* Amount Payable Section */}
+            <CreditAmount
+              data={paymentData?.pricing_details}
+              creditData={paymentData}
+              {...{ isAgreementChecked, setAgreementChecked }}
+            />
+          </div>
+
+          <div className=" m-4">
+            <div className=" text-left flex gap-1 items-center">
+              <input
+                checked={isAgreementChecked}
+                onChange={() => setAgreementChecked(!isAgreementChecked)}
+                type="checkbox"
+                id="terms"
+              />
+              <label htmlFor="terms" className=" text-[12px] md:text-[16px]">
+                I Agree with the{" "}
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href={`https://www.mnf.ai/terms-and-conditions`}
+                  className="text-secondary "
+                >
+                  Terms of Payment
+                </a>
+              </label>
             </div>
           </div>
-          <hr />
 
-          <div className="md:mx-12 md:my-2 m-4">
-            <div className=" grid grid-cols-2 md:grid-cols-[40%_minmax(40%,_1fr)_20%] text-[#00c3ff] text-[16px] md:text-[28px] font-bold md:mb-6">
-              <h2>
-                Order Summary{" "}
-                {/* <span className="text-[16px] md:text-[24px]">{`2425/001`}</span>
-                <p
-                  id="date"
-                  className="border-b-2 border-t-2 sm:text-lg border-[#ccc]  px-4 py-2 w-28 hidden md:block"
-                ></p> */}
-              </h2>
-              <p className=" hidden md:flex"></p>
-              <div className="flex  md:hidden w-[36px] h-[47px] ml-auto ">
-                <img src={Valid} className="w-full h-full ml-auto" alt="" />
-              </div>
-            </div>
-
-            <div className=" grid grid-cols-1 md:grid-cols-[40%_minmax(40%,_1fr)_20%] items-start gap-2">
-              <HeaderOptions mnf />
-              {/* <HeaderOptions
-                currentUser={user}
-                limitBridgePaymentData={paymentData?.user_details}
-              /> */}
-              <CreditHeader
-                limitBridgePaymentData={paymentData}
-                currentUser={currentUser}
-              />
-              <div className=" hidden md:flex w-[100px] h-[150px] ml-auto mr-4">
-                <img src={Valid} className="w-full h-full ml-auto" alt="" />
-              </div>
-            </div>
-
-            <section className="flex flex-col lg:flex-row justify-between lg:gap-[5rem] gap-[20px] h-full">
-              <CreditPackage
-                credit={paymentData?.conversion_info?.credits_to_add}
-              />
-              {/* <Package limitBridgePaymentData={paymentData?.services} /> */}
-
-              <CreditAmount
-                data={paymentData?.pricing_details}
-                creditData={paymentData}
-                {...{ isAgreementChecked, setAgreementChecked }}
-              />
-              {/* <Amount
-                limitBridgePaymentData={paymentData}
-                {...{ isAgreementChecked, setAgreementChecked }}
-              /> */}
-            </section>
-
-            {/* pay button */}
-            <div className=" text-center">
-              <button
-                disabled={paymentCondition}
-                onClick={handleClick}
-                className="w-32 my-8 h-[32px] bg-[linear-gradient(30deg,#741CFF,#00c3ff)] hover:shadow-md shadow-[#252525]  text-white rounded-lg font-semibold"
-              >
-                Pay Now
-              </button>
-            </div>
+          {/* pay button */}
+          <div className=" text-center m-4">
+            <button
+              disabled={paymentCondition}
+              onClick={handleClick}
+              className=" my-8 h-[46px] text-white bg-gradient-to-r from-[#741CFF] to-[#00c3ff] w-full font-[500] text-[16px] hover:shadow-md transition rounded-lg "
+            >
+              Pay Now
+            </button>
           </div>
         </section>
       )}
+
       {paymentConditionPop && (
-        <SameNamePop
+        <ShowAlertPop
           title={paymentConditionPop}
-          popClose={setPaymentConditionPop}
+          setPaymentConditionPop={setPaymentConditionPop}
         />
       )}
     </div>

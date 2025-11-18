@@ -39,12 +39,14 @@ const ChatArea = ({
   handleShow,
   hasMore,
   scrollContainerRef,
+  isCommentLoading,
 }) => {
   //! Mutations & Queries
   const [postComment, { isLoading: isPostLoading }] =
     useCommentPremiseMutation();
-  const [beatSuggestions, isBeatSuggRes, isBeatSuggLoading] =
+  const [beatSuggestions, { data: beatSuggRes, isLoading: isBeatSuggLoading }] =
     useBeatSuggestionMutation();
+
   const {
     data: allspProjectJSON,
     isLoading: isSpProjectLoading,
@@ -115,7 +117,7 @@ const ChatArea = ({
   const [sggestDisable, setSuggestDisable] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isCommentQuestion, setIsCommentQuestion] = useState(false);
-  const [noAccessPopup, setNoAccessPopup] = useState(false);
+
   const [addBeatTutorialPop, setAddBeatTutorialPop] = useState(false);
   const [noAccessLbPopup, setNoAccessLbPopup] = useState(false);
   const [beatSuggLoading, setBeatSuggLoading] = useState(false);
@@ -129,7 +131,7 @@ const ChatArea = ({
   const [openDltPop, setOpenDltPop] = useState(false);
   const [disableDelete, setDisableDelete] = useState(false);
   const [idToDlt, setIdToDlt] = useState({});
-
+  console.log("noAccessPopup", noAccessLbPopup);
   const {
     data: profileImg,
     profileImgLoading,
@@ -146,6 +148,7 @@ const ChatArea = ({
 
   //! Refs
   const messagesEndRef = useRef(null);
+  const textareaRef = useRef(null);
   const messageRefs = useRef({});
 
   //! SideEffects
@@ -250,6 +253,7 @@ const ChatArea = ({
 
   const handleReply = (message) => {
     setReplyingTo(message);
+    textareaRef.current.focus();
   };
 
   const handleScrollToOriginal = (messageId) => {
@@ -268,50 +272,40 @@ const ChatArea = ({
       block: "end",
     });
 
-    const res = await fetchUserAccess(`PP_AllowBrainstoming`);
-    if (res?.access === "No") {
-      setSuggestDisable(false);
-      setNoAccessLbPopup(res);
+    setSuggestDisable(true); // Disable suggestion initially
+    let data;
+    if (message.type === "reply") {
+      data = {
+        reply: message?.replyingTo,
+        parent: message?.id,
+        ques_text: message.plainText,
+        C: message?.c_value,
+      };
     } else {
-      setSuggestDisable(true); // Disable suggestion initially
-      let data;
-      if (message.type === "reply") {
-        data = {
-          reply: message?.replyingTo,
-          parent: message?.id,
-          ques_text: message.plainText,
-          C: message?.c_value,
-        };
-      } else {
-        data = {
-          reply: message?.id,
-          ques_text: message.plainText,
-          C: message?.c_value,
-        };
-      }
+      data = {
+        // parent: message?.id,
+        reply: message?.id,
+        ques_text: message.plainText,
+        C: message?.c_value,
+      };
+    }
 
-      try {
-        // Make the suggestion request
-        const res = await suggestion(data);
-        if (res) {
-          await Promise.all([commentRefetch()]);
-
-          // After both refetches, re-enable suggestions
-          setSuggestDisable(false);
-          setIsLoading(false);
-          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-          const creditRes = await fetchUserAccess(`PP_AllowBrainstoming`);
-          const remainingCredits = creditRes?.remaining_credits ?? 0;
-          const creditElement = document.getElementById("creditBalance");
-          if (creditElement) {
-            creditElement.textContent = remainingCredits;
-          }
-        }
-      } catch (error) {
-        console.error("Error during the suggestion process:", error);
-        setSuggestDisable(false); // Ensure to re-enable if there's an error
+    try {
+      // Make the suggestion request
+      const res = await suggestion(data);
+      if (res) {
+        // After both refetches, re-enable suggestions
+        commentRefetch();
+        setSuggestDisable(false);
         setIsLoading(false);
+        setTimeout(() => {
+          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        }, 200);
       }
+    } catch (error) {
+      console.error("Error during the suggestion process:", error);
+      setSuggestDisable(false); // Ensure to re-enable if there's an error
+      setIsLoading(false);
     }
   };
 
@@ -333,11 +327,8 @@ const ChatArea = ({
     try {
       const res = await fetchUserAccess(`${flag}`);
       if (res?.has_access === false) {
-        setNoAccessPopup(res);
+        setNoAccessLbPopup(res);
         return false;
-      } else {
-        await handleSubmitComment();
-        return true;
       }
     } catch (error) {
       console.error("Error checking allowance:", error);
@@ -401,6 +392,15 @@ const ChatArea = ({
         }
       } else {
         // 🟩 Fetch current comment count
+        const flag = "PP_AllowBrainstoming";
+        const limitRes = await fetchUserAccess(`${flag}`);
+        if (limitRes?.has_access === false) {
+          setNoAccessLbPopup(limitRes);
+         
+          return 
+        }
+
+        
         const { data: commentData } = await axios.get(
           `${baseURL}/brainstorm/GetCommentAPInew/${premiseId}`,
           { headers }
@@ -459,11 +459,7 @@ const ChatArea = ({
   const handleButtonClick = async () => {
     setIsLoading(true);
     try {
-      if (premiseOwner?.id === user) {
-        await checkAllowance("PP_AllowBrainstoming");
-      } else {
-        await checkAllowance("PP_AllowInteraction");
-      }
+      await handleSubmitComment();
     } catch (error) {
       console.error("Error in button click:", error);
     } finally {
@@ -495,7 +491,7 @@ const ChatArea = ({
     const data = {
       owner: user,
       premise_id: premiseId,
-      user_beat: comment?.text,
+      user_beat: comment?.plainText,
       project_name: premiseData?.project_name,
     };
 
@@ -506,7 +502,7 @@ const ChatArea = ({
         const beats = Object.values(res?.data?.beats);
         //console.log('beats',beats);
         const beatData = {
-          one: comment?.text,
+          one: comment?.plainText,
           two: beats[0],
           three: beats[1],
           four: beats[2],
@@ -518,7 +514,7 @@ const ChatArea = ({
       } else {
         // Handle case where no beats are returned
         setSuggestedBeats({
-          one: comment.text,
+          one: comment?.plainText,
           two: "",
           three: "",
           four: "",
@@ -604,21 +600,31 @@ const ChatArea = ({
   // console.log(rawBackendData);
   return (
     <div className="bg-[#F0F2F5] h-screen flex flex-col w-full rounded-lg">
-      {hasMore && (
-        <button className="text-[14px] text-[#4A5565]" onClick={handleShow}>
-          Show more...
-        </button>
-      )}
-
       {/* Messages Container */}
       <div
         ref={scrollContainerRef}
-        className="p-3 h-[calc(100vh-300px)]  lg:h-[calc(95vh-300px)] overflow-y-auto space-y-4"
+        className={`${
+          hasMore ? "pt-0" : "pt-4"
+        } px-3 h-[calc(100vh-300px)]  lg:h-[calc(95vh-300px)] overflow-y-auto space-y-4`}
       >
+        {hasMore && (
+          <button
+            className="text-[14px] mx-auto flex justify-center text-[#4A5565]"
+            onClick={handleShow}
+          >
+            Show more...
+          </button>
+        )}
+        {messages?.length === 0 && (
+          <div className="flex justify-center items-center text-[#0F0E13] text-[14px] h-[calc(80vh-300px)] ">
+            No comments found
+          </div>
+        )}
         {messages?.map((message) => {
-          const repliedToMessage = message.replyParent
-            ? getReplyingToMessage(message.replyParent)
-            : null;
+          const repliedToMessage =
+            message.replyParent || message.replyingTo
+              ? getReplyingToMessage(message.replyParent || message.replyingTo)
+              : null;
 
           // const displayText =
           //   translatedMessageId === message.id && translatedText
@@ -836,15 +842,20 @@ const ChatArea = ({
                         >
                           <MdReply className="text-black text-[15px]" />
                         </button>
-                        <button
-                          onClick={() => {
-                            setIdToDlt(message.id);
-                            setOpenDltPop(true);
-                          }}
-                          className="w-5 h-5 rounded-full bg-[#741CFF2A] flex items-center justify-center gap-1"
-                        >
-                          <FaRegTrashAlt className="text-[#4A5565] text-[12px]" />
-                        </button>
+
+                        {((message?.type === "comment" &&
+                          message?.c_value > 4) ||
+                          message?.type === "reply") && (
+                          <button
+                            onClick={() => {
+                              setIdToDlt(message.id);
+                              setOpenDltPop(true);
+                            }}
+                            className="w-5 h-5 rounded-full bg-[#741CFF2A] flex items-center justify-center gap-1"
+                          >
+                            <FaRegTrashAlt className="text-[#4A5565] text-[12px]" />
+                          </button>
+                        )}
                       </div>
                       {message.suggested ? (
                         <button
@@ -878,40 +889,59 @@ const ChatArea = ({
                         message.sender === "user" ? "hidden" : "flex-row"
                       }`}
                     >
-                      <button
-                        onClick={() => handleReply(message)}
-                        className="w-4 h-4 rounded-full bg-[#00C3FF] flex items-center justify-center gap-1"
-                      >
-                        <MdReply className="text-black text-[15px]" />
-                      </button>
-                      <>
-                        {message?.addToBeat ? (
+                      <div className="flex gap-2 items-center">
+                        <button
+                          onClick={() => handleReply(message)}
+                          className="w-4 h-4 rounded-full bg-[#00C3FF] flex items-center justify-center gap-1"
+                        >
+                          <MdReply className="text-black text-[15px]" />
+                        </button>
+
+                        {((message?.type === "comment" &&
+                          message?.c_value > 4) ||
+                          message?.type === "reply") && (
                           <button
-                            // onClick={() => handleAddToBeat(message)}
-                            disabled
-                            className="text-[#9810FA] italic text-sm"
+                            onClick={() => {
+                              setIdToDlt(message.id);
+                              setOpenDltPop(true);
+                            }}
+                            className="w-5 h-5 rounded-full bg-[#741CFF2A] flex items-center justify-center gap-1"
                           >
-                            Added as Beat
+                            <FaRegTrashAlt className="text-[#4A5565] text-[12px]" />
                           </button>
-                        ) : (
-                          <div className="flex items-center gap-3 text-sm">
-                            <button
-                              onClick={() => handleAddToBeat(message)}
-                              className="text-[#9810FA]"
-                            >
-                              + Add as Beat
-                            </button>
-                            <button
-                              onClick={() => {
-                                handleReject(message.id);
-                              }}
-                              className="text-[#FB2C36]"
-                            >
-                              Reject
-                            </button>
-                          </div>
                         )}
-                      </>
+                      </div>
+
+                      {message?.c_value > 3 && (
+                        <>
+                          {message?.addToBeat ? (
+                            <button
+                              // onClick={() => handleAddToBeat(message)}
+                              disabled
+                              className="text-[#9810FA] italic text-sm"
+                            >
+                              Added as Beat
+                            </button>
+                          ) : (
+                            <div className="flex items-center gap-3 text-sm">
+                              <button
+                                onClick={() => handleAddToBeat(message)}
+                                className="text-[#9810FA]"
+                              >
+                                + Add as Beat
+                              </button>
+                              <button
+                                onClick={() => {
+                                  handleReject(message.id);
+                                }}
+                                className="text-[#FB2C36]"
+                              >
+                                Reject
+                              </button>
+                            </div>
+                          )}
+                        </>
+                      )}
                       {/* <button>
                    
                     </button> */}
@@ -924,9 +954,9 @@ const ChatArea = ({
         })}
 
         {/* Typing Indicator */}
-        <div ref={messagesEndRef}>
+        <div className="h-24" ref={messagesEndRef}>
           {isLoading && (
-            <div className="flex justify-start group h-24">
+            <div className="flex justify-start group ">
               <div className="flex gap-2 flex-row max-w-[681px]">
                 {/* Avatar */}
                 {typingSimulatedUser.avatar ? (
@@ -1000,6 +1030,7 @@ const ChatArea = ({
               )}
               <div className={`${replyingTo ? "flex" : "flex-col"} px-3 pt-1`}>
                 <textarea
+                  ref={textareaRef}
                   value={textValue}
                   onChange={(e) =>
                     setTextValue(e.target.value.slice(0, maxChars))
@@ -1035,7 +1066,7 @@ const ChatArea = ({
                         commentRefetch,
                         isLoading,
                         setIsLoading,
-                        setNoAccessPopup,
+                        setNoAccessLbPopup,
                         messagesEndRef,
                       }}
                     />
@@ -1085,13 +1116,13 @@ const ChatArea = ({
           animation: highlight 2s ease-out;
         }
       `}</style>
-      {noAccessPopup?.has_access === false && (
+      {noAccessLbPopup?.has_access === false && (
         <NoAccessCreditPopupUpdate
-          noAccessPopup={noAccessPopup}
-          setNoAccessPopup={setNoAccessPopup}
+          noAccessPopup={noAccessLbPopup}
+          setNoAccessPopup={setNoAccessLbPopup}
           service={"Brainstorming"}
-          credit_rate={noAccessPopup?.credit_rate}
-          remaining_credits={noAccessPopup?.remaining_credits}
+          credit_rate={noAccessLbPopup?.credit_rate}
+          remaining_credits={noAccessLbPopup?.remaining_credits}
         />
       )}
       {/* BeatEditPop Component */}

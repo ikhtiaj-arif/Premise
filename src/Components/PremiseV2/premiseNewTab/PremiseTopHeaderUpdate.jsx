@@ -51,6 +51,7 @@
 
 import { useContext, useState } from "react";
 import { FiSearch } from "react-icons/fi";
+import { IoMdClose } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { fetchUserAccess, MyContext } from "../../../App";
 import { useGetPremiseUserQuery } from "../../../app/EndPoints/premisePoolApi";
@@ -63,8 +64,10 @@ import SharePopup from "../Popups/newTab/SharePopup";
 
 const PremiseTopHeaderUpdate = ({
   handleSearch,
+  handleClear,
   id,
   setSearchTerm,
+  searchTerm,
   refetch,
   setViewTransactionPId,
   openTransOtherPop,
@@ -258,163 +261,7 @@ const PremiseTopHeaderUpdate = ({
 
         {/* Updated Code */}
 
-        {/* 
-        <div>
-          {" "}
-          {premiseOwner?.id === user ? (
-            <div
-              className={`h-[32px] w-[32px] rounded-full cursor-pointer relative  border border-[#eaeaea]`}
-            >
-              <img
-                src={admin}
-                alt=""
-                className="h-[21px] w-[21px] mx-auto  mt-[6px] ml-[7px]"
-                onMouseDown={(e) => {
-                  e.stopPropagation();
-                  setOpenDotMenu((prevId) => (prevId === id ? null : id));
-                }}
-                // className="w-5 h-5 cursor-pointer"
-              />
-              {openDotMenu === id && (
-                <div
-                  ref={dotPopupRef}
-                  className="absolute flex flex-col w-[197px] font-[400] text-[#616161] px-3 bg-[#fafafa] rounded-[8px] shadow-md border border-[#eaeaea] top-[32px] left-[0px] py-[8px] z-10"
-                >
-                  <button
-                    disabled={is_read_only}
-                    onClick={handleVisibility}
-                    className={`${
-                      is_read_only ? "cursor-default" : "cursor-pointer "
-                    } w-full`}
-                  >
-                    <p
-                      className={`text-[14px] w-full font-[500] break-none text-left ${
-                        is_read_only
-                          ? "text-[#818181]"
-                          : "hover:text-[#00c3ff] text-[#252525]"
-                      }  `}
-                    >
-                      {" "}
-                      Visibility Settings
-                    </p>{" "}
-                  </button>
-
-                   <button
-                    onClick={() => {
-                      setOpenTransOtherPop(!openTransOtherPop);
-                      setOpenDotMenu(null);
-                    }}
-                    className="cursor-pointer  w-full"
-                  >
-                    <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#00c3ff] text-[#252525]">
-                      {" "}
-                      Copy in new Language
-                    </p>{" "}
-                  </button> 
-
-                <button
-                    onClick={handleMonetizing}
-                    className="cursor-pointer  w-full"
-                  >
-                    <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#00c3ff] text-[#252525]">
-                      {" "}
-                      Monetizing Preferences
-                    </p>{" "}
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      handleViewTransaction(id);
-                    }}
-                    className="cursor-pointer  w-full"
-                  >
-                    <p className="text-[14px] w-full font-[500] break-none text-left hover:text-[#00c3ff] text-[#252525]">
-                      {" "}
-                      View Translations
-                    </p>{" "}
-                  </button> 
-
-                  <button
-                    onClick={() => {
-                      setOpenCharacterChart(project_id);
-                      setOpenDotMenu(null);
-                    }}
-                    className="cursor-pointer  w-full"
-                  >
-                    <p className="text-[14px] w-full font-[500] text-left hover:text-[#00c3ff] break-none text-[#252525]">
-                      {" "}
-                      Characters and Roles
-                    </p>{" "}
-                  </button> 
-                  <button
-                    onClick={() => {
-                      handleOpenSp();
-                      setOpenDotMenu(null);
-                    }}
-                    className="cursor-pointer  w-full"
-                  >
-                    <p className="text-[14px] w-full font-[500] text-left hover:text-[#00c3ff] break-none text-[#252525]">
-                      {" "}
-                      Open <span className="scriptpad-m">Script Pad</span>
-                    </p>{" "}
-                  </button> 
-
-                   <button
-                    onClick={() => {
-                      handleDelete(id);
-                      setOpenDotMenu(null);
-                    }}
-                    className="cursor-pointer  w-full"
-                  >
-                    <p className="text-[14px] w-full font-[500] text-left hover:text-[#00c3ff] break-none text-[#252525]">
-                      {" "}
-                      Delete Premise
-                    </p>{" "}
-                  </button> 
-
-                
-                </div>
-              )}
-           
-              {openHidePop?.msg === "ShowBecomePrivilege" ? (
-                <NoAccessCreditPopupUpdate
-                  noAccessPopup={openHidePop}
-                  setNoAccessPopup={setOpenHidePop}
-                />
-              ) : openHidePop?.msg === "LB" ||
-                openHidePop?.msg === "ShowBuyPackage_and_Allacarte" ? (
-                <NoAccessLbPopUp
-                  noAccessLbPopup={openHidePop}
-                  setNoAccessPopup={setOpenHidePop}
-                  service="PP_Private"
-                />
-              ) : (
-                openHidePop === "Yes" && (
-                  <HideOptionPop
-                    setOpenHidePop={setOpenHidePop}
-                    id={id}
-                    refetch={refetch}
-                    user={user}
-                    filter_flag={filter_flag}
-                    comment_filter_flag={comment_filter_flag}
-                    visible_to={visible_to}
-                  />
-                )
-              )}
-            </div>
-          ) : (
-            <div className="flex gap-[3px] items-center  mr-[2px] relative ">
-              <img
-                data-te-toggle="tooltip"
-                title="Send Message"
-                src={msgIcon}
-                className="w-8 h-8  cursor-pointer"
-                alt=""
-                onClick={handleUserMail}
-              />
-            </div>
-          )}
-        </div> */}
+      
       </div>
       <div
         className={` border w-[224px] md:w-[206px] border-[#B4B4B4] lg:mx-auto px-[14px] h-[32px] my-2 rounded-full`}
@@ -427,12 +274,25 @@ const PremiseTopHeaderUpdate = ({
             id=""
             maxLength="30"
             placeholder="Search"
+            value={searchTerm}
             onChange={(event) => setSearchTerm(event.target.value)}
           />
 
-          <button type="submit" className="ml-2">
-            <FiSearch className="h-[20px] w-[20px]" />
-          </button>
+          {searchTerm ? (
+            <button
+              type="button"
+              onClick={() => {
+                handleClear();
+              }}
+              className="ml-2"
+            >
+              <IoMdClose className="h-[20px] w-[20px] text-gray-600 hover:text-red-500 transition" />
+            </button>
+          ) : (
+            <button type="submit" className="ml-2">
+              <FiSearch className="h-[20px] w-[20px] text-gray-600 hover:text-blue-500 transition" />
+            </button>
+          )}
         </form>
       </div>
 

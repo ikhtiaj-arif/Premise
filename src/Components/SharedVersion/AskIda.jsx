@@ -17,7 +17,7 @@ const AskIda = ({
   premiseOwner,
   isLoading,
   setIsLoading,
-  setNoAccessPopup,
+  setNoAccessLbPopup,
   setService,
   messagesEndRef,
 }) => {
@@ -47,8 +47,8 @@ const AskIda = ({
     const res = await fetchUserAccess(`${flag}`);
 
     if (res?.has_access === false) {
-      setNoAccessPopup(res);
-      setService(flag);
+      setNoAccessLbPopup(res);
+     
       setIsLoading(false);
     } else {
       handleSubmitComment();
@@ -182,10 +182,8 @@ const AskIda = ({
         <button
           disabled={isLoading}
           onClick={handleButtonClick}
-          className={` border-none rounded-[8px] px-4 h-[34px] text-[#741CFF] text-[14px]  font-[500] leading-[21px] ${
-            isLoading
-              ? "bg-[linear-gradient(30deg,#b38bff,#99e6ff)] cursor-default"
-              : "bg-[#fff]"
+          className={` border-none rounded-[8px] px-4 h-[34px] shadow-md text-[#741CFF] text-[14px]  font-[500] leading-[21px] ${
+            isLoading ? "bg-[#fff] cursor-default" : "bg-[#fff]"
           } flex items-center justify-center`}
         >
           <img

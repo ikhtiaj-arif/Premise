@@ -19,7 +19,7 @@ export const handlePremiseOpenNewTab = (id) => {
 
   const options = {
     "Short film": [
-      { text: "2 Minutes", value: "Upto 2 Minutes" },
+    { text: "2 Minutes", value: "Upto 2 Minutes" },
       { text: "5 Minutes", value: "2 to 4 Minutes" },
       { text: "15 Minutes", value: "5 to 14 Minutes" },
       { text: "25 Minutes", value: "15 to 29 Minutes" },

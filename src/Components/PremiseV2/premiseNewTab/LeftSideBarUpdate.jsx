@@ -44,9 +44,12 @@ const LeftSideBarUpdate = ({
   isCharLoading,
   characterRefetch,
   handleSearch,
+
+  handleClear,
   currentCommentRef,
   handleOpenAllReplies,
   setSearchTerm,
+  searchTerm,
   commentField,
   setCommentField,
 }) => {
@@ -246,6 +249,8 @@ const LeftSideBarUpdate = ({
     characterRefetch();
   };
   const handleUpdateSavedChar = async () => {
+    setCharacterLoading(true);
+
     try {
       characterArray.forEach((character) => {
         if (character.is_ai_generated === undefined) {
@@ -264,12 +269,16 @@ const LeftSideBarUpdate = ({
 
       if (response) {
         setOpenCharacterChart(false);
+        setCharacterLoading(false);
       }
       return response;
-    } catch (error) {}
+    } catch (error) {
+      setCharacterLoading(false);
+    }
   };
 
   const handleSaveAsDraft = async () => {
+    setCharacterLoading(true);
     try {
       characterArray.forEach((character) => {
         if (character.is_ai_generated === undefined) {
@@ -288,9 +297,12 @@ const LeftSideBarUpdate = ({
 
       if (response) {
         setOpenCharacterChart(false);
+        setCharacterLoading(false);
       }
       return response;
-    } catch (error) {}
+    } catch (error) {
+      setCharacterLoading(false);
+    }
   };
 
   const handleAddNewChar = async () => {
@@ -434,13 +446,13 @@ const LeftSideBarUpdate = ({
           </div>
         </div> */}
       </div>
-      <div className="xl:w-[368px] w-full relative h-full shadow-md  rounded-md">
+      <div className="md:w-[368px] w-full relative h-full shadow-md  rounded-md">
         {/* main div */}
         <div className="h-full lg:h-[80vh]  relative flex flex-col">
           <div className="flex-none px-3">
             {/* header */}
             <PremiseTopHeaderUpdate
-              {...{ handleSearch, id, setSearchTerm }}
+              {...{ handleSearch, handleClear, id, setSearchTerm, searchTerm }}
               owner={{ user, userFirstName, userLastName }}
               // index={index}
               refetch={premiseRefetch}
@@ -577,7 +589,7 @@ const LeftSideBarUpdate = ({
                 {/* characters */}
                 {premiseOwner?.id === user && (
                   <div className="mt-1">
-                    <div className="  w-full hidden lg:flex justify-between items-center">
+                    <div className="  w-full flex justify-between items-center">
                       <p className="text-[#616161] font-[700] text-[16px] leading-6">
                         Characters
                       </p>
@@ -594,9 +606,9 @@ const LeftSideBarUpdate = ({
                         />
                       </div>
                     </div>
-                    <div className="p-[1px] text-center h-[calc(91vh-230px)] mt-4 bg-[linear-gradient(30deg,#741CFF_0%,#00C3FF_70%)] rounded-[8px]">
-                      <div className="bg-[#FAFAFA] h-full  rounded-[8px] p-3 w-full   ">
-                        <div className=" h-full overflow-y-auto">
+                    <div className="p-[1px] text-center h-[calc(81vh-230px)] xxs:h-[calc(87h-230px)] lg:h-[calc(91vh-230px)] mt-4 bg-[linear-gradient(30deg,#741CFF_0%,#00C3FF_70%)] rounded-[8px]">
+                      <div className="bg-[#FAFAFA] h-full  rounded-[8px] w-full   ">
+                        <div className=" h-full  p-3 overflow-y-auto">
                           {finalCharacters?.map((character, index) => (
                             <CharacterShowCard
                               {...{

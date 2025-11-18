@@ -50,7 +50,7 @@ const ProjectInfoUpdate = ({
     <div>
       <div className="flex items-center gap-2  mt-3">
         <button
-          className="text-[#000] bg-[#F3F4F6] rounded-lg px-3 h-10 w-10 text-[16px] font-semibold"
+          className="text-[#000] lgVisible bg-[#F3F4F6] rounded-lg px-3 h-10 w-10 text-[16px] font-semibold"
           onClick={handleOpenSp}
         >
           <FaArrowLeft />
@@ -84,7 +84,7 @@ const ProjectInfoUpdate = ({
             <span className="font-bold">{viewText}</span>
           </h3>
           <div>
-            <div className="hidden lgVisible lg:flex justify-between items-center mt-[14px] rounded-b-[8px] pl-1 pr-4 pb-2 pt-1 lg:w-full ">
+            <div className=" lgVisible lg:flex justify-between items-center mt-[14px] rounded-b-[8px] pl-1 pr-4 pb-2 pt-1 lg:w-full ">
               {/* 1st div */}
               <div className="flex gap-1 space-x-4 items-center">
                 {/* like */}

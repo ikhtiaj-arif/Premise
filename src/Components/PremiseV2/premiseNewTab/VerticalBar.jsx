@@ -18,8 +18,8 @@ const VerticalBar = ({ comments, currentCommentRef, handleOpenAllReplies }) => {
     }
   };
   return (
-    <div className=" bg-[#eaeaea] w-[44px] hidden lg:block h-full lg:h-[80vh] overflow-y-auto overflow-x-hidden">
-      {[...(comments || [])]
+    <div className=" bg-[#eaeaea] w-[44px] lgVisible h-full lg:h-[80vh] overflow-y-auto overflow-x-hidden">
+      {/* {[...(comments || [])]
         .sort((a, b) => a.c_value - b.c_value)
         .map((comment, index) => (
           <div
@@ -38,7 +38,7 @@ const VerticalBar = ({ comments, currentCommentRef, handleOpenAllReplies }) => {
               {comment.c_value}
             </button>
           </div>
-        ))}
+        ))} */}
     </div>
   );
 };
