@@ -22,7 +22,7 @@ import crossIcon from "../../../img/Icons/crossIcon.png";
 import transIcon from "../../../img/Icons/transIcon.png";
 import "../../Premisepool/Premise.css";
 import TypingLoader from "../../TypingLoader";
-import { URL } from "../../utils";
+import { baseURL } from "../../utils";
 import ConfirmationModal from "../Comments/ConfirmationModal";
 import KeyboardB from "../KeyboardB";
 import { sortedLanguages } from "../Languages";
@@ -275,7 +275,7 @@ const BeatEditPop = ({
     const accessToken = localStorage.getItem("accessToken");
     const screenPlayResId = screenPlayResponse.data.screenplay.screenplay_uuid;
     const options = {
-      url: `${URL}/scriptpad/update-scene/${screenPlayResId}`,
+      url: `${baseURL}/scriptpad/update-scene/${screenPlayResId}`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -493,7 +493,7 @@ const BeatEditPop = ({
 
     setConfirmBit(false);
     popClose();
-    window.location.href = `${URL}/scriptpad/#/${selectedProject?.pro_uuid}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`;
+    window.location.href = `${baseURL}/scriptpad/#/${selectedProject?.pro_uuid}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`;
   };
 
   return (

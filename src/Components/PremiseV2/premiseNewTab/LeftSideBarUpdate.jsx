@@ -57,6 +57,7 @@ const LeftSideBarUpdate = ({
     bg_img,
     bg_color,
     text,
+    updated_at,
     last_worked_on,
     created_at,
     id,
@@ -210,11 +211,22 @@ const LeftSideBarUpdate = ({
   // const [commonPopup, setCommonPopup] = useState(""); // For "Brainstorms" and "Engagements"
   // const [beatsPopup, setBeatsPopup] = useState(false); // For "Beats"
 
-  const formatDate = (date) => {
-    const d = new Date(date);
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const year = String(d.getFullYear()).slice(-2);
+  // const formatDate = (date ) => {
+  //   const d = new Date(date);
+  //   const day = String(d.getDate()).padStart(2, "0");
+  //   const month = String(d.getMonth() + 1).padStart(2, "0");
+  //   const year = String(d.getFullYear()).slice(-2);
+  //   return `${day}-${month}-${year}`;
+  // };
+  const formatDate = (date, updated_at) => {
+    const finalDate = date ? new Date(date) : new Date(updated_at);
+
+    if (isNaN(finalDate)) return ""; 
+
+    const day = String(finalDate.getDate()).padStart(2, "0");
+    const month = String(finalDate.getMonth() + 1).padStart(2, "0");
+    const year = String(finalDate.getFullYear()).slice(-2);
+
     return `${day}-${month}-${year}`;
   };
 
@@ -363,13 +375,13 @@ const LeftSideBarUpdate = ({
     setIsDelete(id);
   };
 
-  const handleOpenSp = () => {
-    // console.log("object", p);
-    // if (isProjectLocked) {
-    //   window.location.href(`${URL}/scriptpad/#/generated-scripts`);
-    // }
-    window.location.href = `${URL}/scriptpad/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`;
-  };
+  // const handleOpenSp = () => {
+  //   // console.log("object", p);
+  //   // if (isProjectLocked) {
+  //   //   window.location.href(`${URL}/scriptpad/#/generated-scripts`);
+  //   // }
+  //   window.location.href = `${URL}/scriptpad/#/${project_id}/0x0d2a90b8da670ddad09e2d7b719779a41687515aa196cb35568f20659b204de6/premise`;
+  // };
 
   const handleUserMail = async () => {
     const res = await fetchUserAccess(`${currentUser?.id}/PP_MessageOwner`);
@@ -571,7 +583,7 @@ const LeftSideBarUpdate = ({
                       Last Worked On
                     </h2>
                     <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
-                      : {formatDate(last_worked_on)}
+                      : {formatDate(last_worked_on, updated_at)}
                     </p>
                   </div>
                 </div>
@@ -589,7 +601,7 @@ const LeftSideBarUpdate = ({
                 {/* characters */}
                 {premiseOwner?.id === user && (
                   <div className="mt-1">
-                    <div className="  w-full flex justify-between items-center">
+                    <div className="  w-full flex justify-between items-center my-2">
                       <p className="text-[#616161] font-[700] text-[16px] leading-6">
                         Characters
                       </p>
@@ -606,7 +618,7 @@ const LeftSideBarUpdate = ({
                         />
                       </div>
                     </div>
-                    <div className="p-[1px] text-center h-[calc(81vh-230px)] xxs:h-[calc(87h-230px)] lg:h-[calc(91vh-230px)] mt-4 bg-[linear-gradient(30deg,#741CFF_0%,#00C3FF_70%)] rounded-[8px]">
+                    <div className="p-[1px] text-center h-[calc(81vh-230px)] xxs:h-[calc(87h-230px)] lg:h-[calc(91vh-230px)] bg-[linear-gradient(30deg,#741CFF_0%,#00C3FF_70%)] rounded-[8px]">
                       <div className="bg-[#FAFAFA] h-full  rounded-[8px] w-full   ">
                         <div className=" h-full  p-3 overflow-y-auto">
                           {finalCharacters?.map((character, index) => (
@@ -832,11 +844,10 @@ const LeftSideBarUpdate = ({
                 Last Worked On
               </h2>
               <p className="text-[#616161] text-[14px] leading-[20px] font-[400] pl-1">
-                : {formatDate(last_worked_on)}
+                : {formatDate(last_worked_on, updated_at)}
               </p>
             </div>
           </div>
-
           {/* visible to  */}
           {premiseOwner?.id === user && (
             <div className="mt-1">
@@ -873,7 +884,7 @@ const LeftSideBarUpdate = ({
           {/* characters */}
           {premiseOwner?.id === user && (
             <div className="mt-1">
-              <div className="  w-full flex justify-between items-center">
+              <div className="  w-full flex justify-between items-center ">
                 <p className="text-[#616161] font-[700] text-[16px] leading-6">
                   Characters
                 </p>

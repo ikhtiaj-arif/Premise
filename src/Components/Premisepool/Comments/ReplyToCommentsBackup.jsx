@@ -12,7 +12,7 @@ import TimeAgo from "../../../features/TimeAgo";
 import forwardIcon from "../../../img/Icons/forwardIcon.png";
 import userIcon from "../../../img/Icons/userImg.png";
 import BtnLoading from "../../../shared/BtnLoading";
-import { URL } from "../../utils";
+import { baseURL, URL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply from "./ReplyToReply";
@@ -59,7 +59,7 @@ const ReplyToComments = ({
     profileImgLoading,
     refetch: profileRefetch,
   } = useGetPremiseUserPictureQuery(reply?.user?.id);
-  const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
+  const proImgUrl = baseURL.concat(profileImg?.[0]?.profile_photo);
 
   useEffect(() => {
     if (childReplyField && replyRef.current) {
@@ -210,12 +210,12 @@ const ReplyToComments = ({
               <a
                 target="_blank"
                 rel="noreferrer"
-                // href={`${URL}/memberpage/#/user/${created_by?.id}`}
+                // href={`${baseURL}/memberpage/#/user/${created_by?.id}`}
 
                 href={
                   reply?.id === user
-                    ? `${URL}/memberpage/#/personaldetails`
-                    : `${URL}/memberpage/#/user/${reply?.id}/personaldetails`
+                    ? `${baseURL}/memberpage/#/personaldetails`
+                    : `${baseURL}/memberpage/#/user/${reply?.id}/personaldetails`
                 }
               >
                 {" "}
@@ -251,8 +251,8 @@ const ReplyToComments = ({
                         rel="noreferrer"
                         href={
                           reply?.id === user
-                            ? `${URL}/memberpage/#/personaldetails`
-                            : `${URL}/memberpage/#/user/${reply?.user?.id}/personaldetails`
+                            ? `${baseURL}/memberpage/#/personaldetails`
+                            : `${baseURL}/memberpage/#/user/${reply?.user?.id}/personaldetails`
                         }
                       >
                         <p className="text-[14px] font-[500] hover:text-[#00c3ff] ">
@@ -273,8 +273,8 @@ const ReplyToComments = ({
                         rel="noreferrer"
                         href={
                           reply?.id === user
-                            ? `${URL}/memberpage/#/personaldetails`
-                            : `${URL}/memberpage/#/user/${reply?.user?.id}/personaldetails`
+                            ? `${baseURL}/memberpage/#/personaldetails`
+                            : `${baseURL}/memberpage/#/user/${reply?.user?.id}/personaldetails`
                         }
                       >
                         <p className="text-[14px] font-[500] hover:text-[#00c3ff] ">

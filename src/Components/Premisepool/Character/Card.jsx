@@ -71,11 +71,15 @@ const CharacterShowCard = ({
   };
 
   return (
-    <div className="flex text-[#252525] h-auto max-h-[36px]  py-1 gap-[3px] justify-between items-center my-1 w-full">
+    <div className="flex  text-[#252525] h-auto max-h-[36px]  py-1 gap-[3px] justify-between items-center my-1 w-full">
       <div className="">
-        <p className="text-[12px] text-left leading-[16.26px] font-[400]">
+        <p className="text-[12px] text-left leading-[16.26px] font-[400] ">
           {character?.role}:{" "}
-          <span className={`capitalize ${isAddedByMe ? "text-[#00c3ff]" : ""}`}>
+          <span
+            className={`capitalize break-all max-w-full inline-block  ${
+              isAddedByMe ? "text-[#00c3ff]" : ""
+            }`}
+          >
             {character?.name}
           </span>
           , {character?.gender}

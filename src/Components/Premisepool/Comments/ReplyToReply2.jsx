@@ -19,7 +19,7 @@ import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
 import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
 import NoAccessCreditPopupUpdate from "../../PricingModel/NoAccessCreditPopupUpdate";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
-import { URL } from "../../utils";
+import { baseURL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 import ConfirmationModal from "./ConfirmationModal";
 import ReplyToReply3 from "./ReplyToReply3";
@@ -82,7 +82,7 @@ const ReplyToReply2 = ({
     refetch: profileRefetch,
   } = useGetPremiseUserPictureQuery(replyBy?.id);
 
-  const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
+  const proImgUrl = baseURL.concat(profileImg?.[0]?.profile_photo);
 
   const handleDeleteReply = async (id) => {
     const deleteData = {
@@ -304,8 +304,8 @@ const ReplyToReply2 = ({
 
               href={
                 replyBy?.id === user
-                  ? `${URL}/memberpage/#/personaldetails`
-                  : `${URL}/memberpage/#/user/${replyBy?.id}/personaldetails`
+                  ? `${baseURL}/memberpage/#/personaldetails`
+                  : `${baseURL}/memberpage/#/user/${replyBy?.id}/personaldetails`
               }
             >
               <div>
@@ -336,8 +336,8 @@ const ReplyToReply2 = ({
 
                   href={
                     replyBy?.id === user
-                      ? `${URL}/memberpage/#/personaldetails`
-                      : `${URL}/memberpage/#/user/${replyBy?.id}/personaldetails`
+                      ? `${baseURL}/memberpage/#/personaldetails`
+                      : `${baseURL}/memberpage/#/user/${replyBy?.id}/personaldetails`
                   }
                   className="flex items-center"
                 >

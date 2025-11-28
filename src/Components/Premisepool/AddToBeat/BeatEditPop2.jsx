@@ -20,7 +20,7 @@ import transIcon from "../../../img/Icons/transIcon.png";
 import Loading from "../../../shared/Loading";
 import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
 import "../../Premisepool/Premise.css";
-import { URL } from "../../utils";
+import { baseURL } from "../../utils";
 import KeyboardB from "../KeyboardB";
 import { keyboardOptions } from "../KeyboardOption";
 import { sortedLanguages } from "../Languages";
@@ -343,7 +343,7 @@ const BeatEditPop = ({
     const accessToken = localStorage.getItem("accessToken");
     const screenPlayResId = screenPlayResponse.data.screenplay.screenplay_uuid;
     const options = {
-      url: `${URL}/scriptpad/update-scene/${screenPlayResId}`,
+      url: `${baseURL}/scriptpad/update-scene/${screenPlayResId}`,
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,

@@ -88,6 +88,7 @@ import {
   useGetCommentByPremiseIdQuery,
   useGetPremiseUserPictureQuery,
 } from "../../../app/EndPoints/premisePoolApi";
+import useIntro from "../../../app/Hooks/useIntro";
 import human from "../../../img/Icons/human_icon.png";
 import { baseURL } from "../../utils";
 import NewTabTutorialPop from "../sequalPopup/NewTabTutorialPop";
@@ -105,6 +106,51 @@ const PremiseNewTab = ({
 }) => {
   const { state } = useLocation();
   const currentCommentRef = useRef({});
+
+  const { startIntro } = useIntro();
+
+  // Example tour steps — selectors match edits above
+  const premiseTourSteps = [
+    {
+      intro:
+        "Welcome to the Premise workspace! I'll walk you through the main parts.",
+    },
+    {
+      element: ".premise-search-input",
+      intro: "Search comments here (type text and press search).",
+      position: "bottom",
+    },
+    {
+      element: "#toggle-char-btn",
+      intro: "Open character/comment quick access here on mobile.",
+      position: "left",
+    },
+    {
+      element: '[data-intro-target="chat-area"]',
+      intro: "This is the comment workspace — read, reply, and add notes.",
+      position: "left",
+    },
+    {
+      intro:
+        "That's the quick tour. You can re-open it any time from the header.",
+    },
+  ];
+
+  // Prepare UI before starting (important if some targets are hidden by responsive UI)
+  const ensureUIVisibleForTour = async () => {
+    // Example: ensure main content (desktop view) is visible
+    // If you need to open mobile view or modal, set state here (e.g., setNewTabTextFieldMob(false))
+    try {
+      // force desktop layout or open panels so targets exist
+      if (typeof setNewTabTextFieldMob === "function") {
+        setNewTabTextFieldMob(false); // ensure chat area visible on mobile
+      }
+      // Wait a tick for DOM to update (useful when opening panels)
+      await new Promise((r) => setTimeout(r, 120));
+    } catch (err) {
+      // ignore
+    }
+  };
 
   const { setCurrentlyOpenedCommentID } = useContext(MyContext);
 
@@ -341,7 +387,22 @@ const PremiseNewTab = ({
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      <div className="fixed top-[80px] left-1/2 -translate-x-1/2 w-full  h-[calc(100vh-80px)]">
+      {/* Start tour button (small, unobtrusive) */}
+      <div className="ml-2">
+        <button
+          onClick={() =>
+            startIntro(
+              premiseTourSteps,
+              { showProgress: true },
+              ensureUIVisibleForTour
+            )
+          }
+          className="px-3 py-1 rounded-md text-sm bg-gradient-to-r from-[#741CFF] to-[#00C3FF] text-white"
+        >
+          Show tour
+        </button>
+      </div>
+      <div className="fixed top-[70px] left-1/2 -translate-x-1/2 w-full  h-[calc(100vh-80px)]">
         {!isPremiseLoading &&
         !isCommentLoading &&
         premiseDataR &&
@@ -378,7 +439,7 @@ const PremiseNewTab = ({
                   <form className="flex items-center" onSubmit={handleSearch}>
                     <input
                       type="text"
-                      className="w-full flex-1 px-2 h-[28px] text-[14px] bg-[#F3F4F6] focus:outline-none rounded"
+                      className="w-full flex-1 px-2 h-[28px] text-[14px] bg-[#F3F4F6] focus:outline-none rounded premise-search-input"
                       placeholder="Search"
                       maxLength={30}
                       value={searchTerm}
@@ -402,6 +463,7 @@ const PremiseNewTab = ({
                 </div>
                 <div className="p-[1px] text-center h-10 w-10 bg-[linear-gradient(30deg,#741CFF_0%,#00C3FF_70%)] rounded-[8px]">
                   <button
+                    id="toggle-char-btn"
                     onClick={handleToggleCharComment}
                     className="bg-[#F3F4F6] h-[38px] w-[38px] rounded-[8px] flex justify-center items-center"
                   >
@@ -416,7 +478,7 @@ const PremiseNewTab = ({
                 </div>
               </div>
               {!newTabTextFieldMob ? (
-                <div>
+                <div className="chat-area-wrapper">
                   {" "}
                   <ChatArea
                     rawBackendData={commentsData?.results}
@@ -501,7 +563,7 @@ const PremiseNewTab = ({
               </div> */}
             </div>
             <div className=" pb-6 lg:pb-0 overflow-x-hidden   ">
-              <div className="w-full lgFlxVisible  relative">
+              <div className="w-full lgFlxVisible  relative chat-area-wrapper">
                 <ChatArea
                   rawBackendData={commentsData?.results}
                   premiseOwner={premiseData?.premiseOwner}

@@ -1,8 +1,7 @@
 import { useSelector } from "react-redux";
 import { useGetPremiseUserPictureQuery } from "../../app/EndPoints/premisePoolApi";
 import userIcon from "../../img/Icons/userImg.png";
-import { URL } from "../utils";
-
+import { baseURL } from "../utils";
 
 const LikeCount = ({ like }) => {
   // console.log(like?.user);
@@ -20,7 +19,7 @@ const LikeCount = ({ like }) => {
     refetch: profileRefetch,
   } = useGetPremiseUserPictureQuery(likedUser);
 
-  const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
+  const proImgUrl = baseURL.concat(profileImg?.[0]?.profile_photo);
 
   return (
     <div>
@@ -31,8 +30,8 @@ const LikeCount = ({ like }) => {
 
         href={
           likedUser === user
-            ? `${URL}/memberpage/#/personaldetails`
-            : `${URL}/memberpage/#/user/${likedUser}/personaldetails`
+            ? `${baseURL}/memberpage/#/personaldetails`
+            : `${baseURL}/memberpage/#/user/${likedUser}/personaldetails`
         }
       >
         <div className="flex gap-[16px] items-center my-[8px]">

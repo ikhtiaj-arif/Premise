@@ -112,7 +112,7 @@ const ChatArea = ({
     transformBackendData(rawBackendData)
   );
   const [textValue, setTextValue] = useState("");
-  const [replyingTo, setReplyingTo] = useState(null);
+  const [isReplyingTo, setReplyingTo] = useState(null);
   const [suggestingId, setSuggestingId] = useState(null);
   const [sggestDisable, setSuggestDisable] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -131,7 +131,7 @@ const ChatArea = ({
   const [openDltPop, setOpenDltPop] = useState(false);
   const [disableDelete, setDisableDelete] = useState(false);
   const [idToDlt, setIdToDlt] = useState({});
-  console.log("noAccessPopup", noAccessLbPopup);
+
   const {
     data: profileImg,
     profileImgLoading,
@@ -363,13 +363,30 @@ const ChatArea = ({
       };
 
       // 🟩 Handle reply separately
-      if (replyingTo) {
-        const replyData = {
-          reply: replyingTo?.replyingTo,
-          parent: replyingTo?.id,
-          text: trimmedText,
-          C: replyingTo?.c_value,
-        };
+      if (isReplyingTo) {
+        // const replyData = {
+        //   reply: replyingTo?.replyingTo,
+        //   parent: replyingTo?.id,
+        //   text: trimmedText,
+        //   C: replyingTo?.c_value,
+        // };
+
+        let replyData;
+        if (isReplyingTo.type === "reply") {
+          replyData = {
+            reply: isReplyingTo?.replyingTo,
+            parent: isReplyingTo?.id,
+            text: trimmedText,
+            C: isReplyingTo?.c_value,
+          };
+        } else {
+          replyData = {
+            // parent: message?.id,
+            reply: isReplyingTo?.id,
+            text: trimmedText,
+            C: isReplyingTo?.c_value,
+          };
+        }
 
         const res = await createReplyMutation(replyData);
         // Reset states after replying
@@ -396,11 +413,10 @@ const ChatArea = ({
         const limitRes = await fetchUserAccess(`${flag}`);
         if (limitRes?.has_access === false) {
           setNoAccessLbPopup(limitRes);
-         
-          return 
+
+          return;
         }
 
-        
         const { data: commentData } = await axios.get(
           `${baseURL}/brainstorm/GetCommentAPInew/${premiseId}`,
           { headers }
@@ -597,7 +613,8 @@ const ChatArea = ({
     }
   };
 
-  // console.log(rawBackendData);
+ 
+   
   return (
     <div className="bg-[#F0F2F5] h-screen flex flex-col w-full rounded-lg">
       {/* Messages Container */}
@@ -605,7 +622,7 @@ const ChatArea = ({
         ref={scrollContainerRef}
         className={`${
           hasMore ? "pt-0" : "pt-4"
-        } px-3 h-[calc(100vh-300px)]  lg:h-[calc(95vh-300px)] overflow-y-auto space-y-4`}
+        } px-3 h-[calc(97vh-300px)]  lg:h-[calc(95vh-300px)] overflow-y-auto space-y-4`}
       >
         {hasMore && (
           <button
@@ -625,6 +642,8 @@ const ChatArea = ({
             message.replyParent || message.replyingTo
               ? getReplyingToMessage(message.replyParent || message.replyingTo)
               : null;
+           
+              
 
           // const displayText =
           //   translatedMessageId === message.id && translatedText
@@ -792,7 +811,7 @@ const ChatArea = ({
                   {/* Main Message */}
                   {!repliedToMessage && (
                     <div
-                      className={`p-3   relative ${
+                      className={`p-3  relative ${
                         message.sender === "user"
                           ? "text-white rounded-tr-[6px] rounded-tl-[16px] rounded-b-[16px]  bg-[linear-gradient(30deg,#741CFF_10%,#00C3FF)]"
                           : "bg-[#EFF6FF] text-[#0F0E13] text-[16px] border shadow-lg rounded-tl-[6px] rounded-tr-[16px] rounded-b-[16px]"
@@ -1013,11 +1032,11 @@ const ChatArea = ({
          relative  rounded-[8px] h-[132px] `}
             >
               {/* Reply Preview */}
-              {replyingTo && (
+              {isReplyingTo && (
                 <div className="mb-2 h-[52px] overflow-y-auto p-2 bg-[linear-gradient(30deg,#b48bff62,#99e6ff5e)] rounded-lg rounded-b-none flex items-start justify-between">
                   <div className="flex-1 border-l-4 border-[#741CFF]">
                     <p className="text-sm text-gray-600 line-clamp-1 px-3">
-                      {replyingTo.text}
+                      {isReplyingTo.text}
                     </p>
                   </div>
                   <button
@@ -1028,7 +1047,9 @@ const ChatArea = ({
                   </button>
                 </div>
               )}
-              <div className={`${replyingTo ? "flex" : "flex-col"} px-3 pt-1`}>
+              <div
+                className={`${isReplyingTo ? "flex" : "flex-col"} px-3 pt-1`}
+              >
                 <textarea
                   ref={textareaRef}
                   value={textValue}
@@ -1044,19 +1065,19 @@ const ChatArea = ({
                   maxLength={maxChars}
                   disabled={isLoading}
                   className={`bg-[#fff] resize-none leading-[21px] rounded-[8px] ${
-                    !replyingTo ? "w-[100%]" : "w-[100%]"
+                    !isReplyingTo ? "w-[100%]" : "w-[100%]"
                   } h-[62.27px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:text-[#7B809A] placeholder:italic`}
                   placeholder="Share an action taken by any character in pursuit of its want OR describe a situation in which the chosen characters interact OR write anything you have in mind."
                 />
 
                 <div
                   className={`flex ${
-                    !replyingTo
+                    !isReplyingTo
                       ? "justify-between w-full items-center"
                       : "justify-end items-end w-[15%]"
                   } bottom-[2px] gap-3 pb-1`}
                 >
-                  {!replyingTo && (
+                  {!isReplyingTo && (
                     <AskIda
                       {...{
                         id: premiseData?.id,

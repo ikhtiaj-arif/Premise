@@ -12,7 +12,7 @@ import {
   usePaymentSucessMutation,
 } from "../../app/EndPoints/premisePoolApi";
 import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
-import { URL } from "../utils";
+import { baseURL } from "../utils";
 import { Amount } from "./Amount";
 import { HeaderOptions } from "./HeaderOptions";
 import { Package } from "./Package";
@@ -235,7 +235,7 @@ const PaymentPage = ({
                 My Next Film Pvt. Ltd.
               </h2>
               <p>CIN - U92419DL2021PTC381570</p>
-              <a href={`${URL}`}>www.mnf.ai</a>
+              <a href={`${baseURL}`}>www.mnf.ai</a>
             </div>
           </div>
 
