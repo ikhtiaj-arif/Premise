@@ -1,5 +1,3 @@
-"use client";
-
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -36,11 +34,13 @@ const ChatArea = ({
   premiseId,
   commentRefetch,
   premiseData,
-  handleShow,
+  // handleShow,
   hasMore,
   scrollContainerRef,
   isCommentLoading,
+  last_c_value,
 }) => {
+ 
   //! Mutations & Queries
   const [postComment, { isLoading: isPostLoading }] =
     useCommentPremiseMutation();
@@ -71,10 +71,12 @@ const ChatArea = ({
    * Transforms the backend data into a format that can be
    * used by the chat area component.
    */
+  const scrollRef = useRef(null);
   const [translatedText, setTranslatedText] = useState("");
   const [commentPrefix, setCommentPrefix] = useState("");
   const [translatedMessageId, setTranslatedMessageId] = useState(null);
-  const [isTyping, setIsTyping] = useState(false);
+  const batchSize = 10;
+  const [visibleCount, setVisibleCount] = useState(batchSize);
 
   const transformBackendData = (data) => {
     if (!isUserLoading) {
@@ -131,6 +133,11 @@ const ChatArea = ({
   const [openDltPop, setOpenDltPop] = useState(false);
   const [disableDelete, setDisableDelete] = useState(false);
   const [idToDlt, setIdToDlt] = useState({});
+  // Assuming messages are in chronological order
+  const visibleMessages = messages.slice(-visibleCount);
+  const handleShowMore = () => {
+    setVisibleCount((prev) => Math.min(prev + batchSize, messages.length));
+  };
 
   const {
     data: profileImg,
@@ -152,6 +159,11 @@ const ChatArea = ({
   const messageRefs = useRef({});
 
   //! SideEffects
+  useEffect(() => {
+    // After messages load, scroll to bottom once
+    scrollRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   // Update message list with translated text
   useEffect(() => {
     if (translatedText && translatedMessageId) {
@@ -173,14 +185,14 @@ const ChatArea = ({
       setMessages(transformed);
 
       // Find max c_value safely
-      const maxCValue = Math.max(
-        0,
-        ...transformed.map((item) => item.c_value || 0)
-      );
+      // const maxCValue = Math.max(
+      //   0,
+      //   ...transformed.map((item) => item.c_value || 0)
+      // );
 
-      setLastCValue(maxCValue + 1);
+      setLastCValue(last_c_value + 1);
     }
-  }, [rawBackendData, isUserLoading, user]);
+  }, [rawBackendData, isUserLoading, user, last_c_value]);
 
   // useEffect(() => {
   //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -431,12 +443,14 @@ const ChatArea = ({
           premise: premiseId,
           text: trimmedText,
           user,
-          C: lastCValue,
+          C: last_c_value + 1 || 1,
           ...(storedPremiseId === premiseId && lastSceneNumber
             ? { C_from_scriptpad: lastSceneNumber }
             : {}),
           is_question: isCommentQuestion,
         };
+
+    
 
         const res = await postComment(body);
 
@@ -613,37 +627,37 @@ const ChatArea = ({
     }
   };
 
- 
-   
   return (
-    <div className="bg-[#F0F2F5] h-screen flex flex-col w-full rounded-lg">
+    <div className="bg-[#F0F2F5]  flex flex-col w-full rounded-lg">
       {/* Messages Container */}
       <div
         ref={scrollContainerRef}
         className={`${
           hasMore ? "pt-0" : "pt-4"
-        } px-3 h-[calc(97vh-300px)]  lg:h-[calc(95vh-300px)] overflow-y-auto space-y-4`}
+        } px-3 h-[calc(97vh-300px)]  lg:h-[calc(92vh-300px)] overflow-y-auto space-y-4`}
       >
-        {hasMore && (
+        {visibleCount < messages.length && (
           <button
             className="text-[14px] mx-auto flex justify-center text-[#4A5565]"
-            onClick={handleShow}
+            onClick={handleShowMore}
           >
             Show more...
           </button>
         )}
         {messages?.length === 0 && (
-          <div className="flex justify-center items-center text-[#0F0E13] text-[14px] h-[calc(80vh-300px)] ">
-            No comments found
+          <div className="flex flex-col justify-center items-center text-[#4A5565] text-[14px] h-[calc(80vh-300px)] ">
+            <p className="">Your next big script starts here.</p>
+            <p>
+              No conversations yet? Let's fix that. Break the silence and start
+              brainstorming with Ida to get the cameras rolling.
+            </p>
           </div>
         )}
-        {messages?.map((message) => {
+        {visibleMessages?.map((message) => {
           const repliedToMessage =
             message.replyParent || message.replyingTo
               ? getReplyingToMessage(message.replyParent || message.replyingTo)
               : null;
-           
-              
 
           // const displayText =
           //   translatedMessageId === message.id && translatedText
@@ -931,7 +945,7 @@ const ChatArea = ({
                         )}
                       </div>
 
-                      {message?.c_value > 3 && (
+                      {
                         <>
                           {message?.addToBeat ? (
                             <button
@@ -960,7 +974,7 @@ const ChatArea = ({
                             </div>
                           )}
                         </>
-                      )}
+                      }
                       {/* <button>
                    
                     </button> */}
@@ -973,7 +987,7 @@ const ChatArea = ({
         })}
 
         {/* Typing Indicator */}
-        <div className="h-24" ref={messagesEndRef}>
+        <div className="h-18" ref={messagesEndRef}>
           {isLoading && (
             <div className="flex justify-start group ">
               <div className="flex gap-2 flex-row max-w-[681px]">
@@ -1017,6 +1031,7 @@ const ChatArea = ({
             </div>
           )}
         </div>
+        <div ref={scrollRef} />
       </div>
 
       {/* Input Area */}
@@ -1078,19 +1093,22 @@ const ChatArea = ({
                   } bottom-[2px] gap-3 pb-1`}
                 >
                   {!isReplyingTo && (
-                    <AskIda
-                      {...{
-                        id: premiseData?.id,
-                        source_language: premiseData?.source_language,
-                        user,
-                        premiseOwner,
-                        commentRefetch,
-                        isLoading,
-                        setIsLoading,
-                        setNoAccessLbPopup,
-                        messagesEndRef,
-                      }}
-                    />
+                    <div className="flex gap-2 items-center">
+                      <h3 className="text-[14px] text-[#741CFF] italic">Or,</h3>
+                      <AskIda
+                        {...{
+                          id: premiseData?.id,
+                          source_language: premiseData?.source_language,
+                          user,
+                          premiseOwner,
+                          commentRefetch,
+                          isLoading,
+                          setIsLoading,
+                          setNoAccessLbPopup,
+                          messagesEndRef,
+                        }}
+                      />
+                    </div>
                   )}
                   <div className="flex items-center gap-2">
                     <button
