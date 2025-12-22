@@ -569,9 +569,9 @@ const PremiseNewTab = ({
           </div>
         )}
       </div>
-      {openNewTabTutorialPop && !openNewTabTutorialPopOtherUser && (
+      {/* {openNewTabTutorialPop && !openNewTabTutorialPopOtherUser && (
         <NewTabTutorialPop popClose={() => setOpenNewTabTutorialPop(false)} />
-      )}
+      )} */}
 
       {<></>}
     </div>
