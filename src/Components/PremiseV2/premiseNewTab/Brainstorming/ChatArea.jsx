@@ -32,6 +32,7 @@ const ChatArea = ({
   rawBackendData,
   premiseOwner,
   premiseId,
+  sceneNumber,
   commentRefetch,
   premiseData,
   // handleShow,
@@ -40,7 +41,6 @@ const ChatArea = ({
   isCommentLoading,
   last_c_value,
 }) => {
- 
   //! Mutations & Queries
   const [postComment, { isLoading: isPostLoading }] =
     useCommentPremiseMutation();
@@ -111,7 +111,7 @@ const ChatArea = ({
   //! States
 
   const [messages, setMessages] = useState(
-    transformBackendData(rawBackendData)
+    transformBackendData(rawBackendData),
   );
   const [textValue, setTextValue] = useState("");
   const [isReplyingTo, setReplyingTo] = useState(null);
@@ -171,8 +171,8 @@ const ChatArea = ({
         prevMessages.map((msg) =>
           msg.id === translatedMessageId
             ? { ...msg, translated: translatedText }
-            : msg
-        )
+            : msg,
+        ),
       );
     }
   }, [translatedText, translatedMessageId]);
@@ -202,7 +202,7 @@ const ChatArea = ({
     const allProject = allspProjectJSON?.projects;
     projectRefetch();
     const currentPremiseProject = allProject?.find(
-      (p) => p?.pro_uuid === premiseData?.project_id
+      (p) => p?.pro_uuid === premiseData?.project_id,
     );
 
     setSelectedProject(currentPremiseProject);
@@ -233,7 +233,7 @@ const ChatArea = ({
             `${baseURL}/memberpage/profilepicture/${userId}`,
             {
               headers: header,
-            }
+            },
           );
           const profilePhoto = res?.data?.[0]?.profile_photo; // Adjust according to your API response
 
@@ -245,8 +245,8 @@ const ChatArea = ({
           // Update messages with avatar
           setMessages((prev) =>
             prev.map((msg) =>
-              msg.userId === userId ? { ...msg, avatar: avatarUrl } : msg
-            )
+              msg.userId === userId ? { ...msg, avatar: avatarUrl } : msg,
+            ),
           );
         } catch (error) {
           console.error(`Error fetching profile for user ${userId}:`, error);
@@ -431,7 +431,7 @@ const ChatArea = ({
 
         const { data: commentData } = await axios.get(
           `${baseURL}/brainstorm/GetCommentAPInew/${premiseId}`,
-          { headers }
+          { headers },
         );
 
         const brainstormData = localStorage.getItem("BrainstormData");
@@ -449,8 +449,6 @@ const ChatArea = ({
             : {}),
           is_question: isCommentQuestion,
         };
-
-    
 
         const res = await postComment(body);
 
@@ -557,7 +555,7 @@ const ChatArea = ({
           {
             position: toast.POSITION.TOP_CENTER,
             autoClose: 1600,
-          }
+          },
         );
       }
     } catch (error) {
@@ -567,7 +565,7 @@ const ChatArea = ({
         {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 1600,
-        }
+        },
       );
       setBeatSuggLoading(false);
       setProjectBeatOpen(false);
@@ -1168,6 +1166,7 @@ const ChatArea = ({
       {projectBeatOpen && (
         <BeatEditPop
           project_id={premiseData?.project_id}
+          sceneNumber={sceneNumber}
           popClose={() => setProjectBeatOpen(false)}
           commentText={commentObj?.textcomments?.replace(/^\s*\d+\.\s*/)}
           commentObj={commentObj}

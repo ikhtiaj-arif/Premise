@@ -98,6 +98,7 @@ import VerticalBar from "./VerticalBar";
 
 const PremiseNewTab = ({
   id,
+  sceneNumber,
   user,
   premiseData,
   premiseRefetch,
@@ -423,6 +424,7 @@ const PremiseNewTab = ({
                     last_c_value={commentsData?.last_c_value}
                     premiseOwner={premiseData?.premiseOwner}
                     premiseId={id}
+                    sceneNumber={sceneNumber}
                     user={user}
                     commentRefetch={commentRefetch}
                     premiseData={premiseData}
@@ -508,6 +510,7 @@ const PremiseNewTab = ({
                    last_c_value={commentsData?.last_c_value}
                   premiseOwner={premiseData?.premiseOwner}
                   premiseId={id}
+                  sceneNumber={sceneNumber}
                   user={user}
                   commentRefetch={commentRefetch}
                   premiseData={premiseData}

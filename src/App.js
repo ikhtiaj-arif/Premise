@@ -284,7 +284,7 @@ function App() {
         >
           <UserGuidance>
             <Routes>
-              <Route path="/:id" element={<PremiseNewTabAccessChecker />} />
+              <Route path="/:id/:sceneNumber?" element={<PremiseNewTabAccessChecker />} />
               <Route path="/payment/:id" element={<LimitPaymentPage />} />
 
               {/*

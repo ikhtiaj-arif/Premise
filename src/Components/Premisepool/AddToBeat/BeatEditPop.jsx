@@ -29,6 +29,7 @@ import { sortedLanguages } from "../Languages";
 import ProjectNotfound from "./ProjectNotfound";
 const BeatEditPop = ({
   project_id,
+  sceneNumber,
   popClose,
   commentText,
   commentObj,
@@ -50,7 +51,7 @@ const BeatEditPop = ({
     allspProjectJSON,
   } = useContext(MyContext);
   const currentProjectData = allspProjectJSON?.projects?.find(
-    (item) => item.pro_uuid === project_id
+    (item) => item.pro_uuid === project_id,
   );
 
   const isProjectLocked = currentProjectData?.locked;
@@ -294,7 +295,7 @@ const BeatEditPop = ({
       const beatAddData = {
         beat: modifiedText,
         script: screenPlayResId,
-        scene_number: existingBeatData.length + 1,
+        scene_number: sceneNumber ? sceneNumber : existingBeatData.length + 1,
       };
 
       // Attempt to update the scene
@@ -369,20 +370,22 @@ const BeatEditPop = ({
       setBeatPostLoading(false); // Ensure loading is disabled in case of error
     }
   };
-
   useEffect(() => {
-    if (updateBeatRes) {
-      if (updateBeatRes.isSuccess) {
-        // console.log(screenPlayData);
-        const data = {
-          name: selectedProject?.name,
-          version: selectedProject?.total_versions,
-          body: screenPlayData,
-        };
-        saveScreenPlay(data);
+    if (updateBeatRes?.isSuccess) {
+      // 🚫 Skip when sceneNumber is present
+      if (sceneNumber) {
+        setConfirmBit(true);
+        return;
       }
+      const data = {
+        name: selectedProject?.name,
+        version: selectedProject?.total_versions,
+        body: screenPlayData,
+      };
+
+      saveScreenPlay(data);
     }
-  }, [updateBeatRes, screenPlayData]);
+  }, [updateBeatRes, screenPlayData, sceneNumber]);
 
   useEffect(() => {
     if (resSaveScreenPlay) {
@@ -823,7 +826,7 @@ const BeatEditPop = ({
                                       >
                                         {name}
                                       </li>
-                                    )
+                                    ),
                                   )}
                                 </ul>
                               )}
@@ -855,7 +858,7 @@ const BeatEditPop = ({
                                     <option key={key} value={key}>
                                       {name}
                                     </option>
-                                  )
+                                  ),
                                 )}
                               </select>
                             </div>

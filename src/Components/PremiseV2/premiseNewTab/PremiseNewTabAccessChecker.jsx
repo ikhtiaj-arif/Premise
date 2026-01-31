@@ -60,7 +60,9 @@ const PremiseNewTabAccessChecker = () => {
   const [isCheckingAccess, setIsCheckingAccess] = useState(true);
 
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id,sceneNumber } = useParams();
+
+  console.log("sceneNumber",sceneNumber);
 
   // Fetch premise
   const {
@@ -132,6 +134,7 @@ const PremiseNewTabAccessChecker = () => {
     return (
       <PremiseNewTab
         id={id}
+        sceneNumber={sceneNumber}
         user={userQuery?.id}
         premiseData={premiseDataState}
         isPremiseLoading={isPremiseLoading}
