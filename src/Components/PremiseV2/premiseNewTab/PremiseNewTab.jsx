@@ -98,6 +98,7 @@ import VerticalBar from "./VerticalBar";
 
 const PremiseNewTab = ({
   id,
+  sceneNumber,
   user,
   premiseData,
   premiseRefetch,
@@ -341,7 +342,7 @@ const PremiseNewTab = ({
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      <div className="fixed top-[80px] left-1/2 -translate-x-1/2 w-full  h-[calc(100vh-80px)]">
+      <div className="mt-[70px]   w-full  h-[calc(100vh-80px)] overflow-y-hidden">
         {!isPremiseLoading &&
         !isCommentLoading &&
         premiseDataR &&
@@ -420,8 +421,10 @@ const PremiseNewTab = ({
                   {" "}
                   <ChatArea
                     rawBackendData={commentsData?.results}
+                    last_c_value={commentsData?.last_c_value}
                     premiseOwner={premiseData?.premiseOwner}
                     premiseId={id}
+                    sceneNumber={sceneNumber}
                     user={user}
                     commentRefetch={commentRefetch}
                     premiseData={premiseData}
@@ -504,8 +507,10 @@ const PremiseNewTab = ({
               <div className="w-full lgFlxVisible  relative">
                 <ChatArea
                   rawBackendData={commentsData?.results}
+                   last_c_value={commentsData?.last_c_value}
                   premiseOwner={premiseData?.premiseOwner}
                   premiseId={id}
+                  sceneNumber={sceneNumber}
                   user={user}
                   commentRefetch={commentRefetch}
                   premiseData={premiseData}
@@ -567,9 +572,9 @@ const PremiseNewTab = ({
           </div>
         )}
       </div>
-      {openNewTabTutorialPop && !openNewTabTutorialPopOtherUser && (
+      {/* {openNewTabTutorialPop && !openNewTabTutorialPopOtherUser && (
         <NewTabTutorialPop popClose={() => setOpenNewTabTutorialPop(false)} />
-      )}
+      )} */}
 
       {<></>}
     </div>

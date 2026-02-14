@@ -1,7 +1,7 @@
 export const stepSets = {
     addPremiseButton: [
       {
-        target: "#addNewPremise",
+        target: "#id0121",
         title: "Click here to create your premise", 
         disableBeacon: true,
       },

@@ -48,7 +48,7 @@ const AskIda = ({
 
     if (res?.has_access === false) {
       setNoAccessLbPopup(res);
-     
+
       setIsLoading(false);
     } else {
       handleSubmitComment();
@@ -105,7 +105,10 @@ const AskIda = ({
         const updatedPremiseId = sceneData?.premiseId;
         const lastSceneNumber = sceneData?.lastSceneNumber;
 
-        let c_value = response?.data?.count + 1;
+        let c_value = response?.data?.last_c_value + 1;
+        console.log("ida c_value", c_value);
+        // console.log("ida commentPosition", lastCommentPosition);
+        // return;
 
         const body = {
           premise: id,

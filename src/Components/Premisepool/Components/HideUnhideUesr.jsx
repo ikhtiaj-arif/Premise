@@ -1,6 +1,6 @@
 import { useGetPremiseUserPictureQuery } from "../../../app/EndPoints/premisePoolApi";
 import userImg from "../../../img/Icons/userImg.png";
-import { URL } from "../../utils";
+import { baseURL } from "../../utils";
 
 const HideUnhideUesr = ({ user, handleToggleCheck, selectedUserIds }) => {
   const {
@@ -8,7 +8,7 @@ const HideUnhideUesr = ({ user, handleToggleCheck, selectedUserIds }) => {
     profileImgLoading,
     refetch: profileRefetch,
   } = useGetPremiseUserPictureQuery(user?.user_id);
-  const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
+  const proImgUrl = baseURL.concat(profileImg?.[0]?.profile_photo);
   // console.log("proImgUrl", proImgUrl);
 
   return (

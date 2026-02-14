@@ -4,7 +4,7 @@ import {
   useGetUserByUserIdQuery,
 } from "../../app/EndPoints/premisePoolApi";
 import userIcon from "../../img/Icons/userImg.png";
-import { URL } from "../utils";
+import { baseURL } from "../utils";
 
 const ReplyLikeEachPop = ({ like }) => {
   //   const likedUser = like?.id;
@@ -21,7 +21,7 @@ const ReplyLikeEachPop = ({ like }) => {
     profileImgLoading,
     refetch: profileRefetch,
   } = useGetPremiseUserPictureQuery(like);
-  const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
+  const proImgUrl = baseURL.concat(profileImg?.[0]?.profile_photo);
 
   return (
     <div>
@@ -32,8 +32,8 @@ const ReplyLikeEachPop = ({ like }) => {
 
         href={
           userData?.user_id === user
-            ? `${URL}/memberpage/#/personaldetails`
-            : `${URL}/memberpage/#/user/${userData?.user_id}/personaldetails`
+            ? `${baseURL}/memberpage/#/personaldetails`
+            : `${baseURL}/memberpage/#/user/${userData?.user_id}/personaldetails`
         }
       >
         <div className="flex gap-[16px] items-center mb-1">

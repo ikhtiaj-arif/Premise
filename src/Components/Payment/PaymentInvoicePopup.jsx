@@ -14,7 +14,7 @@ import logo from "../../img/MNF_Logo_Final.webp";
 import Valid from "../../img/valid_upto.webp";
 import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 import TypingLoader from "../TypingLoader";
-import { URL } from "../utils";
+import { baseURL } from "../utils";
 import { Amount } from "./Amount";
 import { HeaderOptions } from "./HeaderOptions";
 import { Package } from "./Package";
@@ -278,7 +278,10 @@ const PaymentInvoicePopup = ({
                     <p className="text-[12px]  sm:text-[14px]">
                       CIN - U92419DL2021PTC381570
                     </p>
-                    <a className="text-[12px]  sm:text-[14px]" href={`${URL}`}>
+                    <a
+                      className="text-[12px]  sm:text-[14px]"
+                      href={`${baseURL}`}
+                    >
                       www.mnf.ai
                     </a>
                   </div>

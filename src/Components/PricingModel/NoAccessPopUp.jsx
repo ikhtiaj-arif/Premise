@@ -6,7 +6,7 @@ import { useActivateFreeMutation } from "../../app/EndPoints/premisePoolApi";
 import crossIcon from "../../img/croos_icon.png";
 import oopsImg from "../../img/oopsImg.webp";
 import welcomeImg from "../../img/welcome.webp";
-import { URL } from "../utils";
+import { baseURL } from "../utils";
 
 const NoAccessPopUp = ({ setNoAccessPopup, noAccessPopup }) => {
   const navigate = useNavigate();
@@ -32,9 +32,9 @@ const NoAccessPopUp = ({ setNoAccessPopup, noAccessPopup }) => {
 
   const handleGoClick = async () => {
     if (selectedOption === "privileged") {
-      window.location.href = URL + "/pay/pricing/#privileges";
+      window.location.href = baseURL + "/pay/pricing/#privileges";
     } else if (selectedOption === "nextPackage") {
-      window.location.href = URL + "/pay/pricing";
+      window.location.href = baseURL + "/pay/pricing";
     } else if (selectedOption === "activate") {
       const data = {
         user: currentUser?.id,

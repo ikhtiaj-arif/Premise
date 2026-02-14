@@ -284,7 +284,7 @@ function App() {
         >
           <UserGuidance>
             <Routes>
-              <Route path="/:id" element={<PremiseNewTabAccessChecker />} />
+              <Route path="/:id/:sceneNumber?" element={<PremiseNewTabAccessChecker />} />
               <Route path="/payment/:id" element={<LimitPaymentPage />} />
 
               {/*
@@ -310,7 +310,7 @@ export default App;
 export const fetchUserAccess = async (flag) => {
   try {
     const response = await fetch(`${baseURL}/pay/user-product-access/?checkfunctionality=${flag}`, {
-    // const response = await fetch(`${URL}/pay/checkuseraccess/${flag}`, {
+
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

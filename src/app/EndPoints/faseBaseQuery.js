@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import axios from "axios";
-import { URL } from "../../Components/utils";
+import { baseURL } from "../../Components/utils";
 import { logOut, setCredentials } from "../Slices/authSlice";
 
 const baseApi = fetchBaseQuery({
-  baseUrl: URL,
+  baseUrl: baseURL,
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.accessToken;
 
@@ -21,7 +21,7 @@ const baseApiWithRefresh = async (args, api, extraOptions) => {
     const refreshToken = api.getState().auth.refreshToken;
     const data = { refreshToken: refreshToken };
     const refreshResult = await axios.post(
-      `${URL}users/api/auth/refresh/`,
+      `${baseURL}users/api/auth/refresh/`,
       data
     );
     if (refreshResult?.data) {

@@ -228,31 +228,22 @@ const LimitPaymentPage = () => {
   };
 
   return (
-    <div className="w-[95%] xl:w-[1140px] bottom-1 mx-auto my-12">
+    <div className="w-[100%] xl:w-[1140px] bottom-1 mx-auto lg:my-12">
       {isPLoading ? (
         // <Loader />
         <div className="h-[500px]">
           <TypingLoader />
         </div>
       ) : (
-        <section className="border-2 border-[#eaeaea] w-full  max-w-[1130px] mx-auto ">
-          <CreditHeader
-            limitBridgePaymentData={paymentData}
-            currentUser={currentUser}
-          />
+        <section className="lg:border-2 lg:border-[#eaeaea] w-full  max-w-[1130px] mx-auto ">
+          <CreditHeader paymentData={paymentData} />
 
-          <div className="p-4 border-b border-t border-b-[#0000001A] border-t-[#0000001A]">
+          <div className="p-4 md:border-b md:border-t border-b-[#0000001A] border-t-[#0000001A]">
             {/* Package Details Section */}
-            <CreditPackage
-              credit={paymentData?.conversion_info?.credits_to_add}
-            />
+            <CreditPackage paymentData={paymentData} />
 
             {/* Amount Payable Section */}
-            <CreditAmount
-              data={paymentData?.pricing_details}
-              creditData={paymentData}
-              {...{ isAgreementChecked, setAgreementChecked }}
-            />
+            <CreditAmount paymentData={paymentData} />
           </div>
 
           <div className=" m-4">
@@ -263,7 +254,7 @@ const LimitPaymentPage = () => {
                 type="checkbox"
                 id="terms"
               />
-              <label htmlFor="terms" className=" text-[12px] md:text-[16px]">
+              <label htmlFor="terms" className=" text-[16px] font-[400]">
                 I Agree with the{" "}
                 <a
                   target="_blank"
@@ -277,19 +268,19 @@ const LimitPaymentPage = () => {
             </div>
           </div>
 
-          {/* pay button */}
-          <div className=" text-center m-4">
-            <button
-              disabled={paymentCondition}
-              onClick={handleClick}
-              className=" my-8 h-[46px] text-white bg-gradient-to-r from-[#741CFF] to-[#00c3ff] w-full font-[500] text-[16px] hover:shadow-md transition rounded-lg "
-            >
-              Pay Now
-            </button>
-          </div>
+
+            {/* pay button */}
+            <div className=" text-center m-4">
+              <button
+                disabled={paymentCondition}
+                onClick={handleClick}
+                className=" my-8 h-[46px] text-white bg-gradient-to-r from-[#741CFF] to-[#00c3ff] w-full font-[500] text-[14px] hover:shadow-md transition rounded-lg "
+              >
+                Pay Now
+              </button>
+            </div>
         </section>
       )}
-
       {paymentConditionPop && (
         <ShowAlertPop
           title={paymentConditionPop}

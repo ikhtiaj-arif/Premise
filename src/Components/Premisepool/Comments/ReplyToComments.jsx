@@ -89,7 +89,7 @@ import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
 import SameNamePop from "../../PremiseV2/Popups/alerts/SameNamePop";
 import NoAccessCreditPopupUpdate from "../../PricingModel/NoAccessCreditPopupUpdate";
 import NoAccessLbPopUp from "../../PricingModel/NoAccessLbPopUp";
-import { URL } from "../../utils";
+import { baseURL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 
 import ConfirmationModal from "./ConfirmationModal";
@@ -146,7 +146,7 @@ const ReplyToComments = ({
     profileImgLoading,
     refetch: profileRefetch,
   } = useGetPremiseUserPictureQuery(reply?.user?.id);
-  const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
+  const proImgUrl = baseURL.concat(profileImg?.[0]?.profile_photo);
 
   useEffect(() => {
     if (childReplyField && replyRef.current) {
@@ -352,8 +352,8 @@ const ReplyToComments = ({
 
               href={
                 reply?.id === user
-                  ? `${URL}/memberpage/#/personaldetails`
-                  : `${URL}/memberpage/#/user/${reply?.id}/personaldetails`
+                  ? `${baseURL}/memberpage/#/personaldetails`
+                  : `${baseURL}/memberpage/#/user/${reply?.id}/personaldetails`
               }
             >
               {" "}
@@ -382,8 +382,8 @@ const ReplyToComments = ({
                     rel="noreferrer"
                     href={
                       reply?.id === user
-                        ? `${URL}/memberpage/#/personaldetails`
-                        : `${URL}/memberpage/#/user/${reply?.user?.id}/personaldetails`
+                        ? `${baseURL}/memberpage/#/personaldetails`
+                        : `${baseURL}/memberpage/#/user/${reply?.user?.id}/personaldetails`
                     }
                     className="flex items-center"
                   >
@@ -396,11 +396,7 @@ const ReplyToComments = ({
                         {reply?.user?.email.split("@")[0]}
                       </p>
                     )}
-                    {reply?.user?.id === 1 ? (
-                      <></>
-                    ) : (
-                  <></>
-                    )}
+                    {reply?.user?.id === 1 ? <></> : <></>}
                   </a>
                 </div>
 

@@ -71,7 +71,7 @@ const ProjectInfoUpdate = ({
               data-te-toggle="tooltip"
               title={`${`${project_name} `}`}
             >
-              {project_name.slice(0, 15)}{" "}
+              {project_name}{" "}
             </span>
             of {}
             <span className="text-[#252525] font-bold">

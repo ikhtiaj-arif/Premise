@@ -324,7 +324,7 @@ const CharacterEditablePop = ({
       <div
         className={`relative ${
           fromNew ? "mt-[-30px]" : "mt-16 "
-        } bg-[#fafafa] py-8 md:rounded-lg shadow-lg w-full md:w-[87%] mx-auto lg:w-[950px] h-[91vh] md:h-[500px] `}
+        } bg-[#fafafa] py-8 md:rounded-lg shadow-lg w-full md:w-[87%] mx-auto lg:w-[950px] h-[97vh] md:h-[500px] `}
       >
         <button
           onClick={handleClosePopup}

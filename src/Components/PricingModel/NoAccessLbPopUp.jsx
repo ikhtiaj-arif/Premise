@@ -10,7 +10,7 @@ import congratsImg from "../../img/congratulations.webp";
 import crossIcon from "../../img/croos_icon.png";
 import oopsImg from "../../img/oopsImg.webp";
 import welcomeImg from "../../img/welcome.webp";
-import { URL } from "../utils";
+import { baseURL } from "../utils";
 
 const NoAccessLbPopUp = ({
   setNoAccessPopup,
@@ -93,7 +93,7 @@ const NoAccessLbPopUp = ({
         setShowMinText(true);
       }
     } else if (selectedOption === "nextPackage") {
-      window.location.href = URL + "/pay/pricing";
+      window.location.href = baseURL + "/pay/pricing";
     } else if (selectedOption === "activate") {
       const data = {
         user: currentUser?.id,

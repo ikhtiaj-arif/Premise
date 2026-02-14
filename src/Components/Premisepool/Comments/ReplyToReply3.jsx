@@ -14,7 +14,7 @@ import TimeAgo from "../../../features/TimeAgo";
 import userIcon from "../../../img/Icons/userImg.png";
 import BtnLoading from "../../../shared/BtnLoading";
 import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
-import { URL } from "../../utils";
+import { baseURL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 import ConfirmationModal from "./ConfirmationModal";
 
@@ -70,7 +70,7 @@ const ReplyToReply3 = ({
     refetch: profileRefetch,
   } = useGetPremiseUserPictureQuery(replyBy?.id);
 
-  const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
+  const proImgUrl = baseURL.concat(profileImg?.[0]?.profile_photo);
 
   const handleLikeUnlikeReply = async (id) => {
     const res = await likeReply(id);
@@ -185,8 +185,8 @@ const ReplyToReply3 = ({
 
               href={
                 replyBy?.id === user
-                  ? `${URL}/memberpage/#/personaldetails`
-                  : `${URL}/memberpage/#/user/${replyBy?.id}/personaldetails`
+                  ? `${baseURL}/memberpage/#/personaldetails`
+                  : `${baseURL}/memberpage/#/user/${replyBy?.id}/personaldetails`
               }
             >
               <div>
@@ -217,8 +217,8 @@ const ReplyToReply3 = ({
 
                   href={
                     replyBy?.id === user
-                      ? `${URL}/memberpage/#/personaldetails`
-                      : `${URL}/memberpage/#/user/${replyBy?.id}/personaldetails`
+                      ? `${baseURL}/memberpage/#/personaldetails`
+                      : `${baseURL}/memberpage/#/user/${replyBy?.id}/personaldetails`
                   }
                   className="flex items-center"
                 >

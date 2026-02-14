@@ -112,7 +112,7 @@ import BtnLoading from "../../shared/BtnLoading";
 import CommentTranslator from "../PremiseV2/components/CommentTranslator";
 import SameNamePop from "../PremiseV2/Popups/alerts/SameNamePop";
 import NoAccessCreditPopupUpdate from "../PricingModel/NoAccessCreditPopupUpdate";
-import { URL } from "../utils";
+import { baseURL } from "../utils";
 import BeatEditPop from "./AddToBeat/BeatEditPop";
 import CommentLikePopup from "./CommentLikePopup";
 import ConfirmationModal from "./Comments/ConfirmationModal";
@@ -285,7 +285,7 @@ const AllComments = ({
     refetch: profileRefetch,
   } = useGetPremiseUserPictureQuery(comments?.user?.id);
 
-  const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
+  const proImgUrl = baseURL.concat(profileImg?.[0]?.profile_photo);
 
   const [deleteComment, deleteCommentRes] = useDeleteCommentMutation();
 
@@ -648,8 +648,8 @@ const AllComments = ({
                   rel="noreferrer"
                   href={
                     comments?.user?.id === user
-                      ? `${URL}/memberpage/#/personaldetails`
-                      : `${URL}/memberpage/#/user/${comments?.user?.id}/personaldetails`
+                      ? `${baseURL}/memberpage/#/personaldetails`
+                      : `${baseURL}/memberpage/#/user/${comments?.user?.id}/personaldetails`
                   }
                 >
                   {profileImg?.[0]?.profile_photo ? (
@@ -686,8 +686,8 @@ const AllComments = ({
                           rel="noreferrer"
                           href={
                             comments?.user?.id === user
-                              ? `${URL}/memberpage/#/personaldetails`
-                              : `${URL}/memberpage/#/user/${comments?.user?.id}/personaldetails`
+                              ? `${baseURL}/memberpage/#/personaldetails`
+                              : `${baseURL}/memberpage/#/user/${comments?.user?.id}/personaldetails`
                           }
                         >
                           <p className="notranslate text-[14px] leading-[17px] font-[500] hover:text-[#00c3ff] cursor-pointer">

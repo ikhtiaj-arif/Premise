@@ -1,5 +1,3 @@
-"use client";
-
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -34,12 +32,14 @@ const ChatArea = ({
   rawBackendData,
   premiseOwner,
   premiseId,
+  sceneNumber,
   commentRefetch,
   premiseData,
-  handleShow,
+  // handleShow,
   hasMore,
   scrollContainerRef,
   isCommentLoading,
+  last_c_value,
 }) => {
   //! Mutations & Queries
   const [postComment, { isLoading: isPostLoading }] =
@@ -71,10 +71,12 @@ const ChatArea = ({
    * Transforms the backend data into a format that can be
    * used by the chat area component.
    */
+  const scrollRef = useRef(null);
   const [translatedText, setTranslatedText] = useState("");
   const [commentPrefix, setCommentPrefix] = useState("");
   const [translatedMessageId, setTranslatedMessageId] = useState(null);
-  const [isTyping, setIsTyping] = useState(false);
+  const batchSize = 10;
+  const [visibleCount, setVisibleCount] = useState(batchSize);
 
   const transformBackendData = (data) => {
     if (!isUserLoading) {
@@ -109,10 +111,10 @@ const ChatArea = ({
   //! States
 
   const [messages, setMessages] = useState(
-    transformBackendData(rawBackendData)
+    transformBackendData(rawBackendData),
   );
   const [textValue, setTextValue] = useState("");
-  const [replyingTo, setReplyingTo] = useState(null);
+  const [isReplyingTo, setReplyingTo] = useState(null);
   const [suggestingId, setSuggestingId] = useState(null);
   const [sggestDisable, setSuggestDisable] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -131,7 +133,12 @@ const ChatArea = ({
   const [openDltPop, setOpenDltPop] = useState(false);
   const [disableDelete, setDisableDelete] = useState(false);
   const [idToDlt, setIdToDlt] = useState({});
-  console.log("noAccessPopup", noAccessLbPopup);
+  // Assuming messages are in chronological order
+  const visibleMessages = messages.slice(-visibleCount);
+  const handleShowMore = () => {
+    setVisibleCount((prev) => Math.min(prev + batchSize, messages.length));
+  };
+
   const {
     data: profileImg,
     profileImgLoading,
@@ -152,6 +159,11 @@ const ChatArea = ({
   const messageRefs = useRef({});
 
   //! SideEffects
+  useEffect(() => {
+    // After messages load, scroll to bottom once
+    scrollRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   // Update message list with translated text
   useEffect(() => {
     if (translatedText && translatedMessageId) {
@@ -159,8 +171,8 @@ const ChatArea = ({
         prevMessages.map((msg) =>
           msg.id === translatedMessageId
             ? { ...msg, translated: translatedText }
-            : msg
-        )
+            : msg,
+        ),
       );
     }
   }, [translatedText, translatedMessageId]);
@@ -173,14 +185,14 @@ const ChatArea = ({
       setMessages(transformed);
 
       // Find max c_value safely
-      const maxCValue = Math.max(
-        0,
-        ...transformed.map((item) => item.c_value || 0)
-      );
+      // const maxCValue = Math.max(
+      //   0,
+      //   ...transformed.map((item) => item.c_value || 0)
+      // );
 
-      setLastCValue(maxCValue + 1);
+      setLastCValue(last_c_value + 1);
     }
-  }, [rawBackendData, isUserLoading, user]);
+  }, [rawBackendData, isUserLoading, user, last_c_value]);
 
   // useEffect(() => {
   //   messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -190,7 +202,7 @@ const ChatArea = ({
     const allProject = allspProjectJSON?.projects;
     projectRefetch();
     const currentPremiseProject = allProject?.find(
-      (p) => p?.pro_uuid === premiseData?.project_id
+      (p) => p?.pro_uuid === premiseData?.project_id,
     );
 
     setSelectedProject(currentPremiseProject);
@@ -221,7 +233,7 @@ const ChatArea = ({
             `${baseURL}/memberpage/profilepicture/${userId}`,
             {
               headers: header,
-            }
+            },
           );
           const profilePhoto = res?.data?.[0]?.profile_photo; // Adjust according to your API response
 
@@ -233,8 +245,8 @@ const ChatArea = ({
           // Update messages with avatar
           setMessages((prev) =>
             prev.map((msg) =>
-              msg.userId === userId ? { ...msg, avatar: avatarUrl } : msg
-            )
+              msg.userId === userId ? { ...msg, avatar: avatarUrl } : msg,
+            ),
           );
         } catch (error) {
           console.error(`Error fetching profile for user ${userId}:`, error);
@@ -363,13 +375,30 @@ const ChatArea = ({
       };
 
       // 🟩 Handle reply separately
-      if (replyingTo) {
-        const replyData = {
-          reply: replyingTo?.replyingTo,
-          parent: replyingTo?.id,
-          text: trimmedText,
-          C: replyingTo?.c_value,
-        };
+      if (isReplyingTo) {
+        // const replyData = {
+        //   reply: replyingTo?.replyingTo,
+        //   parent: replyingTo?.id,
+        //   text: trimmedText,
+        //   C: replyingTo?.c_value,
+        // };
+
+        let replyData;
+        if (isReplyingTo.type === "reply") {
+          replyData = {
+            reply: isReplyingTo?.replyingTo,
+            parent: isReplyingTo?.id,
+            text: trimmedText,
+            C: isReplyingTo?.c_value,
+          };
+        } else {
+          replyData = {
+            // parent: message?.id,
+            reply: isReplyingTo?.id,
+            text: trimmedText,
+            C: isReplyingTo?.c_value,
+          };
+        }
 
         const res = await createReplyMutation(replyData);
         // Reset states after replying
@@ -396,14 +425,13 @@ const ChatArea = ({
         const limitRes = await fetchUserAccess(`${flag}`);
         if (limitRes?.has_access === false) {
           setNoAccessLbPopup(limitRes);
-         
-          return 
+
+          return;
         }
 
-        
         const { data: commentData } = await axios.get(
           `${baseURL}/brainstorm/GetCommentAPInew/${premiseId}`,
-          { headers }
+          { headers },
         );
 
         const brainstormData = localStorage.getItem("BrainstormData");
@@ -415,7 +443,7 @@ const ChatArea = ({
           premise: premiseId,
           text: trimmedText,
           user,
-          C: lastCValue,
+          C: last_c_value + 1 || 1,
           ...(storedPremiseId === premiseId && lastSceneNumber
             ? { C_from_scriptpad: lastSceneNumber }
             : {}),
@@ -527,7 +555,7 @@ const ChatArea = ({
           {
             position: toast.POSITION.TOP_CENTER,
             autoClose: 1600,
-          }
+          },
         );
       }
     } catch (error) {
@@ -537,7 +565,7 @@ const ChatArea = ({
         {
           position: toast.POSITION.TOP_CENTER,
           autoClose: 1600,
-        }
+        },
       );
       setBeatSuggLoading(false);
       setProjectBeatOpen(false);
@@ -597,30 +625,33 @@ const ChatArea = ({
     }
   };
 
-  // console.log(rawBackendData);
   return (
-    <div className="bg-[#F0F2F5] h-screen flex flex-col w-full rounded-lg">
+    <div className="bg-[#F0F2F5]  flex flex-col w-full rounded-lg">
       {/* Messages Container */}
       <div
         ref={scrollContainerRef}
         className={`${
           hasMore ? "pt-0" : "pt-4"
-        } px-3 h-[calc(100vh-300px)]  lg:h-[calc(95vh-300px)] overflow-y-auto space-y-4`}
+        } px-3 h-[calc(97vh-300px)]  lg:h-[calc(92vh-300px)] overflow-y-auto space-y-4`}
       >
-        {hasMore && (
+        {visibleCount < messages.length && (
           <button
             className="text-[14px] mx-auto flex justify-center text-[#4A5565]"
-            onClick={handleShow}
+            onClick={handleShowMore}
           >
             Show more...
           </button>
         )}
         {messages?.length === 0 && (
-          <div className="flex justify-center items-center text-[#0F0E13] text-[14px] h-[calc(80vh-300px)] ">
-            No comments found
+          <div className="flex flex-col justify-center items-center text-[#4A5565] text-[14px] h-[calc(80vh-300px)] ">
+            <p className="">Your next big script starts here.</p>
+            <p>
+              No conversations yet? Let's fix that. Break the silence and start
+              brainstorming with Ida to get the cameras rolling.
+            </p>
           </div>
         )}
-        {messages?.map((message) => {
+        {visibleMessages?.map((message) => {
           const repliedToMessage =
             message.replyParent || message.replyingTo
               ? getReplyingToMessage(message.replyParent || message.replyingTo)
@@ -792,7 +823,7 @@ const ChatArea = ({
                   {/* Main Message */}
                   {!repliedToMessage && (
                     <div
-                      className={`p-3   relative ${
+                      className={`p-3  relative ${
                         message.sender === "user"
                           ? "text-white rounded-tr-[6px] rounded-tl-[16px] rounded-b-[16px]  bg-[linear-gradient(30deg,#741CFF_10%,#00C3FF)]"
                           : "bg-[#EFF6FF] text-[#0F0E13] text-[16px] border shadow-lg rounded-tl-[6px] rounded-tr-[16px] rounded-b-[16px]"
@@ -912,7 +943,7 @@ const ChatArea = ({
                         )}
                       </div>
 
-                      {message?.c_value > 3 && (
+                      {
                         <>
                           {message?.addToBeat ? (
                             <button
@@ -941,7 +972,7 @@ const ChatArea = ({
                             </div>
                           )}
                         </>
-                      )}
+                      }
                       {/* <button>
                    
                     </button> */}
@@ -954,7 +985,7 @@ const ChatArea = ({
         })}
 
         {/* Typing Indicator */}
-        <div className="h-24" ref={messagesEndRef}>
+        <div className="h-18" ref={messagesEndRef}>
           {isLoading && (
             <div className="flex justify-start group ">
               <div className="flex gap-2 flex-row max-w-[681px]">
@@ -998,6 +1029,7 @@ const ChatArea = ({
             </div>
           )}
         </div>
+        <div ref={scrollRef} />
       </div>
 
       {/* Input Area */}
@@ -1013,11 +1045,11 @@ const ChatArea = ({
          relative  rounded-[8px] h-[132px] `}
             >
               {/* Reply Preview */}
-              {replyingTo && (
+              {isReplyingTo && (
                 <div className="mb-2 h-[52px] overflow-y-auto p-2 bg-[linear-gradient(30deg,#b48bff62,#99e6ff5e)] rounded-lg rounded-b-none flex items-start justify-between">
                   <div className="flex-1 border-l-4 border-[#741CFF]">
                     <p className="text-sm text-gray-600 line-clamp-1 px-3">
-                      {replyingTo.text}
+                      {isReplyingTo.text}
                     </p>
                   </div>
                   <button
@@ -1028,7 +1060,9 @@ const ChatArea = ({
                   </button>
                 </div>
               )}
-              <div className={`${replyingTo ? "flex" : "flex-col"} px-3 pt-1`}>
+              <div
+                className={`${isReplyingTo ? "flex" : "flex-col"} px-3 pt-1`}
+              >
                 <textarea
                   ref={textareaRef}
                   value={textValue}
@@ -1044,32 +1078,35 @@ const ChatArea = ({
                   maxLength={maxChars}
                   disabled={isLoading}
                   className={`bg-[#fff] resize-none leading-[21px] rounded-[8px] ${
-                    !replyingTo ? "w-[100%]" : "w-[100%]"
+                    !isReplyingTo ? "w-[100%]" : "w-[100%]"
                   } h-[62.27px] focus:border-none focus:outline-none text-[14px] py-[2px] pr-[12px] font-[400] placeholder:text-[#7B809A] placeholder:italic`}
                   placeholder="Share an action taken by any character in pursuit of its want OR describe a situation in which the chosen characters interact OR write anything you have in mind."
                 />
 
                 <div
                   className={`flex ${
-                    !replyingTo
+                    !isReplyingTo
                       ? "justify-between w-full items-center"
                       : "justify-end items-end w-[15%]"
                   } bottom-[2px] gap-3 pb-1`}
                 >
-                  {!replyingTo && (
-                    <AskIda
-                      {...{
-                        id: premiseData?.id,
-                        source_language: premiseData?.source_language,
-                        user,
-                        premiseOwner,
-                        commentRefetch,
-                        isLoading,
-                        setIsLoading,
-                        setNoAccessLbPopup,
-                        messagesEndRef,
-                      }}
-                    />
+                  {!isReplyingTo && (
+                    <div className="flex gap-2 items-center">
+                      <h3 className="text-[14px] text-[#741CFF] italic">Or,</h3>
+                      <AskIda
+                        {...{
+                          id: premiseData?.id,
+                          source_language: premiseData?.source_language,
+                          user,
+                          premiseOwner,
+                          commentRefetch,
+                          isLoading,
+                          setIsLoading,
+                          setNoAccessLbPopup,
+                          messagesEndRef,
+                        }}
+                      />
+                    </div>
                   )}
                   <div className="flex items-center gap-2">
                     <button
@@ -1129,6 +1166,7 @@ const ChatArea = ({
       {projectBeatOpen && (
         <BeatEditPop
           project_id={premiseData?.project_id}
+          sceneNumber={sceneNumber}
           popClose={() => setProjectBeatOpen(false)}
           commentText={commentObj?.textcomments?.replace(/^\s*\d+\.\s*/)}
           commentObj={commentObj}

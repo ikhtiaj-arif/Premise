@@ -4,7 +4,7 @@ import {
   useGetUserByUserIdQuery,
 } from "../../app/EndPoints/premisePoolApi";
 import userIcon from "../../img/Icons/userImg.png";
-import { URL } from "../utils";
+import { baseURL } from "../utils";
 
 const CommentLikePopEach = ({ like }) => {
   const likedUser = like;
@@ -25,7 +25,7 @@ const CommentLikePopEach = ({ like }) => {
   // console.log(userData);
   // console.log(like);
 
-  const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
+  const proImgUrl = baseURL.concat(profileImg?.[0]?.profile_photo);
   // const email = userData?.email;
   // const username = email.split("@")[0];
 
@@ -40,8 +40,8 @@ const CommentLikePopEach = ({ like }) => {
 
             href={
               likedUser === user
-                ? `${URL}/memberpage/#/personaldetails`
-                : `${URL}/memberpage/#/user/${likedUser}/personaldetails`
+                ? `${baseURL}/memberpage/#/personaldetails`
+                : `${baseURL}/memberpage/#/user/${likedUser}/personaldetails`
             }
           >
             <div className="flex gap-[16px] items-center mb-1">

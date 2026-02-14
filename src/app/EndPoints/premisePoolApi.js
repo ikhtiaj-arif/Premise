@@ -697,7 +697,15 @@ export const premiseSlice = apiSlice.injectEndpoints({
       },
     }),
 
-
+  creditToUsdBalance: builder.mutation({
+      query: (data) => {
+        return {
+          url: `/pay/credits/estimate/`,
+          method: "POST",
+          body: data,
+        };
+      },
+    }),
 
 
     
@@ -760,5 +768,5 @@ export const {
   useGetBankDetailsQuery,
   useGetLatestPremiseQuery,
   useCreditToUsdMutation,
-  useTopPayDetailsMutation
+  useTopPayDetailsMutation, useCreditToUsdBalanceMutation
 } = premiseSlice;

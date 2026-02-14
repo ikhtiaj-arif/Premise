@@ -18,7 +18,7 @@ import userIcon from "../../../img/Icons/userImg.png";
 import BtnLoading from "../../../shared/BtnLoading";
 import CommentTranslator from "../../PremiseV2/components/CommentTranslator";
 import NoAccessPopUp from "../../PricingModel/NoAccessPopUp";
-import { URL } from "../../utils";
+import { baseURL } from "../../utils";
 import ReplyLikeUsersPop from "../ReplyLikeUsersPop";
 
 import ReplyToReply2 from "./ReplyToReply2";
@@ -82,7 +82,7 @@ const ReplyToReply = ({
     refetch: profileRefetch,
   } = useGetPremiseUserPictureQuery(replyBy?.id);
 
-  const proImgUrl = URL.concat(profileImg?.[0]?.profile_photo);
+  const proImgUrl = baseURL.concat(profileImg?.[0]?.profile_photo);
 
   const handleDeleteReply = async (id) => {
     setDisableBtn(true);
@@ -296,8 +296,8 @@ const ReplyToReply = ({
               rel="noreferrer"
               href={
                 replyBy?.id === user
-                  ? `${URL}/memberpage/#/personaldetails`
-                  : `${URL}/memberpage/#/user/${replyBy?.id}/personaldetails`
+                  ? `${baseURL}/memberpage/#/personaldetails`
+                  : `${baseURL}/memberpage/#/user/${replyBy?.id}/personaldetails`
               }
             >
               <div>
@@ -325,8 +325,8 @@ const ReplyToReply = ({
                   rel="noreferrer"
                   href={
                     replyBy?.id === user
-                      ? `${URL}/memberpage/#/personaldetails`
-                      : `${URL}/memberpage/#/user/${replyBy?.id}/personaldetails`
+                      ? `${baseURL}/memberpage/#/personaldetails`
+                      : `${baseURL}/memberpage/#/user/${replyBy?.id}/personaldetails`
                   }
                   className="flex items-center"
                 >
